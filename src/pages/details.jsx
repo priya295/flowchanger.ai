@@ -2,8 +2,9 @@ import React from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import photo from "../Images/photo.png";
-import refresh from '../Images/refresh.png'
-import app_menu from '../Images/menu-fill.png'
+import refresh from "../Images/refresh.png";
+import app_menu from "../Images/app-menu.png";
+import three_dot from "../Images/dots-three-outline.png";
 
 const userDetails = () => {
   return (
@@ -529,9 +530,7 @@ const userDetails = () => {
         </div>
 
         <div className="ml-[2.1rem]">
-          <h1 className="text-[18px] font-medium mt-7">
-            Subscription list
-          </h1>
+          <h1 className="text-[18px] font-medium mt-7">Subscription list</h1>
           <div class="flex items-center justify-between p-4">
             {/*-- Left side: Dropdown and Filter button --*/}
             <div class="flex items-center space-x-10 ml-[-1rem]">
@@ -566,7 +565,7 @@ const userDetails = () => {
             </div>
 
             {/*-- Right side: Icon buttons --*/}
-            <div class="flex space-x-2">
+            <div class="flex space-x-4 mr-[-16px]">
               {/*-- Refresh icon --*/}
               <div className=" flex mt-1">
                 <button className="  h-[46px] w-[58px] bg-[#DADDE1] rounded-s">
@@ -578,26 +577,127 @@ const userDetails = () => {
                   <img className="px-5 py-3" src={app_menu} alt="app-menu" />
                 </button>
               </div>
-
-              {/*-- Grid icon --*/}
-              <button class="flex items-center justify-center w-10 h-10 bg-gray-200 rounded-lg hover:bg-gray-300">
-                <svg
-                  class="w-6 h-6 text-gray-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 3h4v4H3V3zm0 8h4v4H3v-4zm0 8h4v4H3v-4zm8-16h4v4h-4V3zm0 8h4v4h-4v-4zm0 8h4v4h-4v-4zm8-16h4v4h-4V3zm0 8h4v4h-4v-4zm0 8h4v4h-4v-4z"
-                  ></path>
-                </svg>
-              </button>
             </div>
           </div>
+        </div>
+
+        <div className="overflow-hidden mx-9 mt-10 border-[#DBDBDB] rounded-t-lg">
+          <table class=" w-full bg-white">
+            <thead class="w-full bg-[#511992] text-white text-center text-[15px]">
+              <tr className="text-[15px]">
+                <th class="w-1/6 px-4 py-2">User Name</th>
+                <th class="w-1/6 px-4 py-2">Package</th>
+                <th class="w-1/6 px-4 py-2">Type</th>
+                <th class="w-1/6 px-4 py-2">Start Day</th>
+                <th class="w-1/6 px-4 py-2">End Day</th>
+                <th class="w-1/6 px-4 py-2">Tenure</th>
+                <th class="w-1/6 px-4 py-2">Months</th>
+                <th class="w-1/6 px-4 py-2">Amount</th>
+                <th class="w-1/6 px-4 py-2">Payment Method</th>
+                <th class="w-1/6 px-4 py-2">Purchase date</th>
+                <th class="w-1/6 px-4 py-2">Action</th>
+              </tr>
+            </thead>
+            <tbody className="text-[#89868D] text-[13px] font-normal">
+              <tr class="bg-gray-100 border-b text-center">
+                <td class="px-4 py-2  border  ">Admin</td>
+
+                <div className="border-r text-start p-3">
+                  <td class="px-4 py-2 ">Enterprise Plan</td>
+                  <span class="bg-[#FFC107] text-white rounded-full px-2 py-1 ml-3 text-[10.22px]">
+                    Upcoming plan
+                  </span>
+                </div>
+                <td class="px-4 py-2">
+                  <span class="bg-[#FC544B] text-white rounded-full px-2 py-1 text-xs ml-1">
+                    Paid
+                  </span>
+                </td>
+                <td class="px-4 py-2 border">2025-03-24 00:00:00</td>
+                <td class="px-4 py-2 border">2025-03-24 00:00:00</td>
+                <td class="px-4 py-2 border">quarterly</td>
+                <td class="px-4 py-2 border">4</td>
+                <td class="px-4 py-2 border">₹ 8000</td>
+                <td class="px-4 py-2 border">Razorpay</td>
+                <td class="px-4 py-2 border">2024-05-18 21:55:42</td>
+                <td class="px-4 py-2 border">
+                  <button class="text-gray-500 hover:text-gray-900">
+                    <img src={three_dot} alt="" />
+                  </button>
+                </td>
+              </tr>
+              <tr class="bg-gray-50 text-center">
+                <td class="px-4 py-2 border">Admin</td>
+                <div className="text-start p-3 border-b">
+                  <td class="px-4 py-2">Enterprise Plan</td>
+                  <span class="bg-[#63ED7A] text-white rounded-full px-2 py-1 ml-3 text-[10.22px]">
+                    Active
+                  </span>
+                </div>
+                <td class="px-4 py-2 border">
+                  <span class="bg-[#FC544B] text-white rounded-full px-2 py-1 text-xs ml-1">
+                    Paid
+                  </span>
+                </td>
+                <td class="px-4 py-2 border">2025-03-24 00:00:00</td>
+                <td class="px-4 py-2 border">2025-03-24 00:00:00</td>
+                <td class="px-4 py-2 border">Yearly</td>
+                <td class="px-4 py-2 border">12</td>
+                <td class="px-4 py-2 border">₹ 20000</td>
+                <td class="px-4 py-2 border">Razorpay</td>
+                <td class="px-4 py-2 border">2024-05-18 21:55:42</td>
+                <td class="px-4 py-2 border">
+                  <button class="text-gray-500">
+                    <img src={three_dot} alt="" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h1 className="m-[2.2rem] text-[#89868D] text-[16px]">
+          Showing 1 to 2 of 2 rows
+        </h1>
+
+        <div className="flex justify-between place-items-start">
+          <h1 className="text[16px] font-semibold ml-9">Transaction list</h1>
+          <div>
+            <button className="  h-[46px] w-[58px] bg-[#DADDE1] rounded-s">
+              {" "}
+              <img className="px-5 py-3" src={refresh} alt="refresh" />
+            </button>
+            <button className="  h-[46px] w-[58px] bg-[#CDD0D4] mr-9 rounded-e">
+              {" "}
+              <img className="px-5 py-3" src={app_menu} alt="app-menu" />
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-hidden mx-9 mt-10 border border-[#DBDBDB] rounded-t-lg">
+          <table class="w-full bg-[#FAFAFA]">
+            <thead>
+              <tr class="w-full bg-[#511992] text-white text-center text-[15px]">
+                <th class="py-2 px-12">User Name</th>
+                <th class="py-2 px-12">Package</th>
+                <th class="py-2 px-12">Type</th>
+                <th class="py-2 px-12">Transaction id</th>
+                <th class="py-2 px-12">Amount</th>
+                <th class="py-2 px-12">Currency</th>
+                <th class="py-2 px-12">Message</th>
+                <th class="py-2 px-12">Status</th>
+                <th class="py-2 px-12">Date Created</th>
+                <th class="py-2 px-12">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="py-4 px-6 text-center" colspan="10">
+                  No matching records found
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

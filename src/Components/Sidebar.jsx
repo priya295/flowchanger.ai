@@ -1,4 +1,3 @@
-import React from 'react'
 import icon from "../Images/icon.png"
 import dashBoard from '../Images/Dashboard.png'
 import packags from '../Images/Package.png'
@@ -6,9 +5,11 @@ import setting from '../Images/setting.png'
 import subscription from '../Images/subscriptions.png'
 import users from '../Images/users.png'
 
+
 const Sidebar = () => {
+
   return (
-    <div className='bg-[#363740] flex flex-col w-[240px] h-screen'>
+    <div className='bg-[#363740] flex flex-col w-[240px] min-h-screen'>
       <img className='ml-8 mt-8 w-[155px]' src={icon} alt="flowchangerAI" />
 
       <div className='ml-[2.4rem] flex flex-col gap-8 mt-[3rem] '>
@@ -37,7 +38,6 @@ const Sidebar = () => {
             <span className='text-[#A4A6B3]' >Settings</span>
           </div>
         </div>
-
     </div>
   )
 }
