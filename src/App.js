@@ -4,6 +4,7 @@ import Front from "./pages/create_users";
 import Users  from './pages/users';
 import Details from './pages/details'
 import Filter from './pages/filter_selected'
+import Admin from './Admin/Pages/overView'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
           <Route path='/users' element = {<Users/>}/>   
           <Route path='/details' element = {<Details/>}/>
           <Route path='/filter' element = {<Filter/>}/>
+          <Route path= '/admin/' element = {<Admin/>}/>
           
         </Routes>
     </BrowserRouter>
