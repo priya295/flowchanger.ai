@@ -14,8 +14,14 @@ import { MdLocalActivity } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import Over from "./View";
+import Task from './Task'
+import Files from './Files'
+import Discussion from "./Discussion";
+import Tickets from './Tickets'
+import Notes from './Nots'
 
 const MainPage = () => {
+
   const [activeTab, setactiveTab] = useState("Overview");
 
   const handleActiveClick = (tab) => {
@@ -27,17 +33,17 @@ const MainPage = () => {
       case "Overview":
         return <div><Over/></div>;
       case "Task":
-        return <div>Task Content</div>;
+        return <div><Task/></div>;
       case "Files":
-        return <div>Files Content</div>;
+        return <div><Files/></div>;
       case "Discussions":
-        return <div>Discussions Content</div>;
+        return <div><Discussion/></div>;
       case "Gantt":
         return <div>Gantt Content</div>;
       case "Tickets":
-        return <div>Tickets Content</div>;
+        return <div><Tickets/></div>;
       case "Notes":
-        return <div>Notes Content</div>;
+        return <div><Notes/></div>;
       case "Activity":
         return <div>Activity Content</div>;
       case "Calendar":
