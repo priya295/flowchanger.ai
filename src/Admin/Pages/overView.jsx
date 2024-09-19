@@ -19,8 +19,11 @@ import Files from './Files'
 import Discussion from "./Discussion";
 import Tickets from './Tickets'
 import Notes from './Nots'
+import Activity from "./Activity";
+import Calender from "./Calender";
+import People from './People'
 
-const MainPage = () => {
+const Projects = () => {
 
   const [activeTab, setactiveTab] = useState("Overview");
 
@@ -45,11 +48,11 @@ const MainPage = () => {
       case "Notes":
         return <div><Notes/></div>;
       case "Activity":
-        return <div>Activity Content</div>;
+        return <div><Activity/></div>;
       case "Calendar":
-        return <div>Calendar Content</div>;
+        return <div><Calender/></div>;
       case "People":
-        return <div>People Content</div>;
+        return <div><People/></div>;
       default:
         return <div>Overview Content</div>;
     }
@@ -228,4 +231,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default Projects;
