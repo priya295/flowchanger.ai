@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "../Images/image.png";
+import AddNewTask from "./AddNewTask";
 
 const Task = () => {
+  const [tasks, setTasks] = useState([]);
+  const [addNewTask, setAddNewTask] = useState(false);
+
+  const handleAddNewTasks = () => {
+    setAddNewTask(true);
+  };
+
+  const handleCloseNewTasks = () => {
+    setAddNewTask(false);
+  };
+
+  const handleSaveTask = (taskData) => {
+    setTasks((prev) => [...prev, taskData]); // Add new task to the state
+  };
+
   return (
     <div>
       <div className="border shadow h-[32rem] p-7 rounded-xl">
         <div className="flex items-center space-x-7">
           {/*-- Add new button --*/}
-          <button className="bg-[#511992] text-white px-3 py-1 font-light rounded-full hover:bg-purple-700">
+          <button
+            onClick={handleAddNewTasks}
+            className="bg-[#511992] text-white px-3 py-1 font-light rounded-full hover:bg-purple-700"
+          >
             + Add new
           </button>
+
+          {addNewTask && (
+            <div className="fixed inset-0 bg-black bg-opacity-30 z-40"></div>
+          )}
+
+          {addNewTask && (
+            <AddNewTask onClose={handleCloseNewTasks} onSave={handleSaveTask} />
+          )}
 
           {/*-- Search input --*/}
           <div className="relative">
@@ -59,7 +86,9 @@ const Task = () => {
           <table className="w-full border-none bg-white border">
             <thead>
               <tr className="text-[#B1B1B1] font-light ">
-                <th className="text-left font-normal px-4 py-2  border">Status</th>
+                <th className="text-left font-normal px-4 py-2  border">
+                  Status
+                </th>
                 <th className="text-left font-normal text-[16px] px-4 py-2 border">
                   #
                 </th>
@@ -87,85 +116,33 @@ const Task = () => {
               </tr>
             </thead>
             <tbody className="text-[13px]">
-              <tr className="border-t">
-                <td className="text-green-600 px-4 py-8">Complete</td>
-                <td className="px-4 py-2 text-[#2568EC]">10</td>
-                <td className="px-4 py-2 text-blue-600">soul relation intro</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">13-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">17-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">19-10-2024</td>
-                <td className="px-4 py-2">
-                  <div className="flex space-x-2">
-                    <img src={Image} alt="user1" className="w-8 h-8 rounded-full" />
-                  </div>
-                </td>
-                <td className="px-4 py-2">
-                  <span className="px-3 py-1 text-xs font-medium border-[#B1B1B1] border rounded">
-                    Ads
-                  </span>
-                </td>
-                <td className="text-red-600 px-4 py-2">High</td>
-              </tr>
-
-              <tr className="border-t">
-                <td className="text-green-600 px-4 py-8">Complete</td>
-                <td className="px-4 py-2 text-[#2568EC]">10</td>
-                <td className="px-4 py-2 text-blue-600">soul relation intro</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">13-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">17-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">19-10-2024</td>
-                <td className="px-4 py-2">
-                  <div className="flex space-x-2">
-                    <img src={Image} alt="user1" className="w-8 h-8 rounded-full" />
-                  </div>
-                </td>
-                <td className="px-4 py-2">
-                  <span className="px-3 py-1 text-xs font-medium border-[#B1B1B1] border rounded">
-                    Ads
-                  </span>
-                </td>
-                <td className="text-red-600 px-4 py-2">High</td>
-              </tr>
-
-              <tr className="border-t">
-                <td className="text-green-600 px-4 py-8">Complete</td>
-                <td className="px-4 py-2 text-[#2568EC]">10</td>
-                <td className="px-4 py-2 text-blue-600">soul relation intro</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">13-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">17-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">19-10-2024</td>
-                <td className="px-4 py-2">
-                  <div className="flex space-x-2">
-                    <img src={Image} alt="user1" className="w-8 h-8 rounded-full" />
-                  </div>
-                </td>
-                <td className="px-4 py-2">
-                  <span className="px-3 py-1 text-xs font-medium border-[#B1B1B1] border rounded">
-                    Ads
-                  </span>
-                </td>
-                <td className="text-red-600 px-4 py-2">High</td>
-              </tr>
-
-              <tr className="border-t">
-                <td className="text-green-600 px-4 py-8">Complete</td>
-                <td className="px-4 py-2 text-[#2568EC]">10</td>
-                <td className="px-4 py-2 text-blue-600">soul relation intro</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">13-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">17-08-2024</td>
-                <td className="px-4 py-2 text-[#B1B1B1]">19-10-2024</td>
-                <td className="px-4 py-2">
-                  <div className="flex space-x-2">
-                    <img src={Image} alt="user1" className="w-8 h-8 rounded-full" />
-                  </div>
-                </td>
-                <td className="px-4 py-2">
-                  <span className="px-3 py-1 text-xs font-medium border-[#B1B1B1] border rounded">
-                    Ads
-                  </span>
-                </td>
-                <td className="text-red-600 px-4 py-2">High</td>
-              </tr>
+              {tasks.map((task, index) => (
+                <tr key={index} className="border-t">
+                  <td className="text-green-600 px-4 py-8">{task.taskStatus}</td>
+                  <td className="px-4 py-2 text-[#2568EC]">{task.taskTag}</td>
+                  <td className="px-4 py-2 text-blue-600">
+                    {task.taskName}
+                  </td>
+                  <td className="px-4 py-2 text-[#B1B1B1]">{task.startDate}</td>
+                  <td className="px-4 py-2 text-[#B1B1B1]">{task.dueDate}</td>
+                  <td className="px-4 py-2 text-[#B1B1B1]">{task.endDate}</td>
+                  <td className="px-4 py-2">
+                    <div className="flex space-x-2">
+                      <img
+                        src={task.attachFile}
+                        alt="user1"
+                        className="w-8 h-8 rounded-full"
+                      />
+                    </div>
+                  </td>
+                  <td className="px-4 py-2">
+                    <span className="px-3 py-1 text-xs font-medium border-[#B1B1B1] border rounded">
+                      {task.taskTag}
+                    </span>
+                  </td>
+                  <td className="text-red-600 px-4 py-2">{task.taskPriority}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

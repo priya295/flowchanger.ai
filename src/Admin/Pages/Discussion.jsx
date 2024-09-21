@@ -70,7 +70,7 @@ const Discussion = () => {
                   type="text"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full  border-[#B1B1B1] rounded p-2"
+                  className="w-full border  border-[#B1B1B1] rounded p-2"
                 />
               </div>
               <div className="mb-4">
@@ -149,16 +149,16 @@ const Discussion = () => {
               {discussions.length > 0 ? (
                 discussions.map((discussion, index) => (
                   <tr key={index}>
-                    <td className="px-4 py-4 text-start border border-[#DBDBDB]">
+                    <td className="px-4 py-4 text-center border text-[15px]   border-[#DBDBDB]">
                       {discussion.subject}
                     </td>
-                    <td className="px-4 py-4 text-center border border-[#DBDBDB]">
+                    <td className="px-4 py-4 text-center border text-[15px]  border-[#DBDBDB]">
                       {discussion.lastActivity}
                     </td>
-                    <td className="px-4 py-4 text-center border border-[#DBDBDB]">
+                    <td className="px-4 py-4 text-center border text-[15px]   border-[#DBDBDB]">
                       {discussion.totalComments}
                     </td>
-                    <td className="px-4 py-4 text-center border border-[#DBDBDB]">
+                    <td className="px-4 py-4 text-center border text-[15px]   border-[#DBDBDB]">
                       {discussion.visibleToCustomer}
                     </td>
                   </tr>
