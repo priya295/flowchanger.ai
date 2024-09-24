@@ -5,6 +5,7 @@ import Users  from './pages/users';
 import Details from './pages/details'
 import Filter from './pages/filter_selected'
 import Admin from './Admin/Pages/overView'
+import Staff from './Admin/Staff/Staff';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route path='/details' element = {<Details/>}/>
           <Route path='/filter' element = {<Filter/>}/>
           <Route path= '/admin/' element = {<Admin/>}/>
+          <Route path='/admin/staff' element = {<Staff/>}/>
           
         </Routes>
     </BrowserRouter>

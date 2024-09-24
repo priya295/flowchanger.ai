@@ -137,7 +137,7 @@ const Task = () => {
                   </td>
                   <td className="px-4 py-2">
                     <span className="px-3 py-1 text-xs font-medium border-[#B1B1B1] border rounded">
-                      {task.taskTag}
+                      tag
                     </span>
                   </td>
                   <td className="text-red-600 px-4 py-2">{task.taskPriority}</td>
