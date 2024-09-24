@@ -7,8 +7,9 @@ const Attendance = () => {
     updateTime: false,
     selectShift: false,
     addShift: false,
-  })
+  });
 
+  const selectOptions = Array(7).fill("");
 
   const toggleModal = (modalName, isOpen) => {
     settoggleButton((prev) => ({
@@ -50,7 +51,7 @@ const Attendance = () => {
         <h1 className="text-[14px]">More Filter</h1>
 
         <button
-          onClick={() => toggleModal('updateTime', true)}
+          onClick={() => toggleModal("updateTime", true)}
           className="px-4 py-2 text-white bg-[#511992] rounded font-medium hover:bg-purple-700 absolute right-[30px]"
         >
           Update Work Timings
@@ -124,74 +125,22 @@ const Attendance = () => {
                   </div>
 
                   <div className="flex flex-col gap-[14px]">
-                    <select
-                      onClick={() => toggleModal('selectShift', true)}
-                      className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
-                      name=""
-                      id=""
-                    >
-                      <option value="">Select Shift</option>
-                    </select>
-
-                    <select
-                      onClick={() => toggleModal('selectShift', true)}
-                      className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
-                      name=""
-                      id=""
-                    >
-                      <option value="">Select Shift</option>
-                    </select>
-
-                    <select
-                      onClick={() => toggleModal('selectShift', true)}
-                      className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
-                      name=""
-                      id=""
-                    >
-                      <option value="">Select Shift</option>
-                    </select>
-
-                    <select
-                      onClick={() => toggleModal('selectShift', true)}
-                      className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
-                      name=""
-                      id=""
-                    >
-                      <option value="">Select Shift</option>
-                    </select>
-
-                    <select
-                      onClick={() => toggleModal('selectShift', true)}
-                      className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
-                      name=""
-                      id=""
-                    >
-                      <option value="">Select Shift</option>
-                    </select>
-
-                    <select
-                      onClick={() => toggleModal('selectShift', true)}
-                      className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
-                      name=""
-                      id=""
-                    >
-                      <option value="">Select Shift</option>
-                    </select>
-
-                    <select
-                      onClick={() => toggleModal('selectShift', true)}
-                      className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
-                      name=""
-                      id=""
-                    ></select>
-                    {/* Other select options */}
+                    {selectOptions.map((_, index) => (
+                      <select
+                        key={index}
+                        onClick={() => toggleModal("selectShift", true)}
+                        className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
+                      >
+                        <option value="">Select Shift</option>
+                      </select>
+                    ))}
                   </div>
                 </div>
               </div>
 
               <div className="flex justify-end mt-6 border-t border-[#B1B1B1] space-x-4">
                 <button
-                  onClick={() => toggleModal('updateTime', false)}
+                  onClick={() => toggleModal("updateTime", false)}
                   className="border border-[#511992] mt-6 text-[#511992] text-[14px] py-2 px-4 rounded"
                 >
                   Cancel
@@ -210,7 +159,7 @@ const Attendance = () => {
         <div className="fixed inset-0 bg-black bg-opacity-30 z-50"></div>
       )}
 
-      {toggleButton.selectShift&& (
+      {toggleButton.selectShift && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -225,7 +174,7 @@ const Attendance = () => {
             </p>
 
             <button
-              onClick={() => toggleModal('addShift', true)}
+              onClick={() => toggleModal("addShift", true)}
               className="text-[16px] font-semibold mt-4 text-[#511992]"
             >
               + Add Shift
@@ -233,7 +182,7 @@ const Attendance = () => {
 
             <div className="flex justify-end space-x-4 mt-6">
               <button
-                onClick={() => toggleModal('selectShift', false)}
+                onClick={() => toggleModal("selectShift", false)}
                 className=" bg-[#511992] text-white border border-[#511992] text-[14px] py-2 px-6 rounded-md"
               >
                 Okay
@@ -344,16 +293,16 @@ const Attendance = () => {
             </div>
 
             <div className="flex justify-end mt-6 space-x-4">
-                <button
-                  onClick={() => toggleModal('addShift', false)}
-                  className="border border-[#511992] mt-6 text-[#511992] text-[14px] py-2 px-4 rounded"
-                >
-                  Cancel
-                </button>
-                <button className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
+              <button
+                onClick={() => toggleModal("addShift", false)}
+                className="border border-[#511992] mt-6 text-[#511992] text-[14px] py-2 px-4 rounded"
+              >
+                Cancel
+              </button>
+              <button className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
                 Add Shift
-                </button>
-              </div>
+              </button>
+            </div>
           </div>
         </motion.div>
       )}
