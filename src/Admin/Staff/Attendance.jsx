@@ -12,13 +12,20 @@ const Attendance = () => {
   const [selectedType, setSelectedType] = useState(null);
   const [punchInOption, setPunchInOption] = useState(null);
   const [punchOutOption, setPunchOutOption] = useState(null);
- 
   const [selectedHour, setSelectedHour] = useState(0);
   const [selectedMinute, setSelectedMinute] = useState(0);
   const [selectedPeriod, setSelectedPeriod] = useState("AM");
+
+  const [hour, setHour] = useState('12');
+  const [minute, setMinute] = useState('00');
+  const [period, setPeriod] = useState('AM');
+  const [selectedTime, setSelectedTime] = useState('');
+  
   const hoursArray = Array.from({ length: 12 }, (_, i) => i);
   const minutesArray = Array.from({ length: 60 }, (_, i) => i);
   const periodArray = ["AM", "PM"];
+
+
 
   const selectOptions = Array(7).fill("");
 
@@ -39,16 +46,18 @@ const Attendance = () => {
     setPunchInOption(option);
     if (option === "AnyTime") {
       toggleModal("AnyTime", true);
-    } 
+    }
   };
 
   const handlePunchOutChange = (option) => {
     setPunchOutOption(option);
     if (option === "AddLimit") {
-      toggleModal("newShiftModal", true);
+      toggleModal("AddLimit", true);
     }
-  
+  };
 
+  const handleConfirm = () => {
+    setSelectedTime(`${hour}:${minute} ${period}`);
   };
 
   return (
@@ -269,8 +278,118 @@ const Attendance = () => {
                     Shift Start Time*
                     <input
                       className="border border-[#DBDCDE] h-[42px] w-[480px] rounded-md"
+                      onClick={handlePunchInChange}
                       type="text"
+
+                      
                     />
+
+                    {punchInOption && (
+                      <>
+                        <div className="fixed inset-0 bg-black bg-opacity-30 z-[60]"></div>
+                        <motion.div
+                          initial={{ opacity: 0, y: -20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                          className="fixed inset-0 z-[110] flex justify-center items-center"
+                        >
+                          <div className="w-[600px] h-[30rem] bg-white border border-[#B1B1B1] rounded-lg shadow-lg">
+                            <h2 class="text-lg font-medium p-6 border-b border-[#DBDBDB] text-black mb-4">
+                              Add New Shift
+                            </h2>
+
+                            <div>
+                              <div class="grid grid-cols-3 gap-2 pt-6 p-8">
+                                <div class="relative">
+                                  <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
+                                    {hoursArray.map((hour) => (
+                                      <li
+                                        key={hour}
+                                        className={`py-2 font-semibold cursor-pointer ${
+                                          selectedHour === hour
+                                            ? "bg-purple-200"
+                                            : ""
+                                        }`}
+                                        onClick={() => setSelectedHour(hour)}
+                                      >
+                                        {hour === 0
+                                          ? 12
+                                          : hour.toString().padStart(2, "0")}
+                                      </li>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div className="relative">
+                                  <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
+                                    {minutesArray.map((minute) => (
+                                      <li
+                                        key={minute}
+                                        className={`py-2 font-semibold cursor-pointer ${
+                                          selectedMinute === minute
+                                            ? "bg-purple-200"
+                                            : ""
+                                        }`}
+                                        onClick={() =>
+                                          setSelectedMinute(minute)
+                                        }
+                                      >
+                                        {minute.toString().padStart(2, "0")}
+                                      </li>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div className="relative">
+                                  <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
+                                    <ul className="pt-2  font-semibold">
+                                      {periodArray.map((period) => (
+                                        <li
+                                          key={period}
+                                          className={`py-2 cursor-pointer ${
+                                            selectedPeriod === period
+                                              ? "bg-purple-200"
+                                              : ""
+                                          }`}
+                                          onClick={() =>
+                                            setSelectedPeriod(period)
+                                          }
+                                        >
+                                          {period}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <h2 className="text-center font-semibold">
+                                Selected Time:{" "}
+                                {formatTime(
+                                  selectedHour,
+                                  selectedMinute,
+                                  selectedPeriod
+                                )}
+                              </h2>
+
+                              <div className="flex justify-end mt-6 pr-9 border-t border-[#DBDBDB] space-x-4">
+                                <button
+                                  onClick={() => setPunchInOption(false)}
+                                  className="border border-[#511992] mt-6 text-[#511992] text-[14px] py-2 px-4 rounded"
+                                >
+                                  Cancel
+                                </button>
+                                <button onClick={handleConfirm} className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
+                                  
+                                  Confirm
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
                   </label>
                 </div>
 
@@ -285,115 +404,8 @@ const Attendance = () => {
                       <input
                         className=" h-[24px] w-[24px] rounded-md"
                         type="radio"
-                        onClick={handlePunchInChange}
                       />
                       <h1>Anytime</h1>
-
-                      {punchInOption && (
-                        <>
-                          <div className="fixed inset-0 bg-black bg-opacity-30 z-[60]"></div>
-                          <motion.div
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className="fixed inset-0 z-[110] flex justify-center items-center"
-                          >
-                            <div className="w-[600px] h-[30rem] bg-white border border-[#B1B1B1] rounded-lg shadow-lg">
-                              <h2 class="text-lg font-medium p-6 border-b border-[#DBDBDB] text-black mb-4">
-                                Add New Shift
-                              </h2>
-
-                              <div>
-                                <div class="grid grid-cols-3 gap-2 pt-6 p-8">
-                                  <div class="relative">
-                                    <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
-                                      {hoursArray.map((hour) => (
-                                        <li
-                                          key={hour}
-                                          className={`py-2 font-semibold cursor-pointer ${
-                                            selectedHour === hour
-                                              ? "bg-purple-200"
-                                              : ""
-                                          }`}
-                                          onClick={() => setSelectedHour(hour)}
-                                        >
-                                          {hour === 0
-                                            ? 12
-                                            : hour.toString().padStart(2, "0")}
-                                        </li>
-                                      ))}
-                                    </div>
-                                  </div>
-
-                                  <div className="relative">
-                                    <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
-                                      {minutesArray.map((minute) => (
-                                        <li
-                                          key={minute}
-                                          className={`py-2 font-semibold cursor-pointer ${
-                                            selectedMinute === minute
-                                              ? "bg-purple-200"
-                                              : ""
-                                          }`}
-                                          onClick={() =>
-                                            setSelectedMinute(minute)
-                                          }
-                                        >
-                                          {minute.toString().padStart(2, "0")}
-                                        </li>
-                                      ))}
-                                    </div>
-                                  </div>
-
-                                  <div className="relative">
-                                    <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
-                                      <ul className="pt-2  font-semibold">
-                                        {periodArray.map((period) => (
-                                          <li
-                                            key={period}
-                                            className={`py-2 cursor-pointer ${
-                                              selectedPeriod === period
-                                                ? "bg-purple-200"
-                                                : ""
-                                            }`}
-                                            onClick={() =>
-                                              setSelectedPeriod(period)
-                                            }
-                                          >
-                                            {period}
-                                          </li>
-                                        ))}
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                <h2 className="text-center font-semibold">
-                                  Selected Time:{" "}
-                                  {formatTime(
-                                    selectedHour,
-                                    selectedMinute,
-                                    selectedPeriod
-                                  )}
-                                </h2>
-
-                                <div className="flex justify-end mt-6 pr-9 border-t border-[#DBDBDB] space-x-4">
-                                  <button
-                                    onClick={() => setPunchInOption(false)}  
-                                    className="border border-[#511992] mt-6 text-[#511992] text-[14px] py-2 px-4 rounded"
-                                  >
-                                    Cancel
-                                  </button>
-                                  <button className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
-                                    Confirm
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </motion.div>
-                        </>
-                      )}
                     </div>
                   </label>
 
@@ -416,7 +428,113 @@ const Attendance = () => {
                     <input
                       className="border border-[#DBDCDE] h-[42px] w-[230px] rounded-md"
                       type="text"
+                      onClick={handlePunchOutChange}
                     />
+                    {punchOutOption && (
+                      <>
+                        <div className="fixed inset-0 bg-black bg-opacity-30 z-[60]"></div>
+                        <motion.div
+                          initial={{ opacity: 0, y: -20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                          className="fixed inset-0 z-[110] flex justify-center items-center"
+                        >
+                          <div className="w-[600px] h-[30rem] bg-white border border-[#B1B1B1] rounded-lg shadow-lg">
+                            <h2 class="text-lg font-medium p-6 border-b border-[#DBDBDB] text-black mb-4">
+                              Add New Shift
+                            </h2>
+
+                            <div>
+                              <div class="grid grid-cols-3 gap-2 pt-6 p-8">
+                                <div class="relative">
+                                  <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
+                                    {hoursArray.map((hour) => (
+                                      <li
+                                        key={hour}
+                                        className={`py-2 font-semibold cursor-pointer ${
+                                          selectedHour === hour
+                                            ? "bg-purple-200"
+                                            : ""
+                                        }`}
+                                        onClick={() => setSelectedHour(hour)}
+                                      >
+                                        {hour === 0
+                                          ? 12
+                                          : hour.toString().padStart(2, "0")}
+                                      </li>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div className="relative">
+                                  <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
+                                    {minutesArray.map((minute) => (
+                                      <li
+                                        key={minute}
+                                        className={`py-2 font-semibold cursor-pointer ${
+                                          selectedMinute === minute
+                                            ? "bg-purple-200"
+                                            : ""
+                                        }`}
+                                        onClick={() =>
+                                          setSelectedMinute(minute)
+                                        }
+                                      >
+                                        {minute.toString().padStart(2, "0")}
+                                      </li>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                <div className="relative">
+                                  <div class="h-[200px] overflow-y-scroll border-t border-b border-[#DBDBDB] text-center">
+                                    <ul className="pt-2  font-semibold">
+                                      {periodArray.map((period) => (
+                                        <li
+                                          key={period}
+                                          className={`py-2 cursor-pointer ${
+                                            selectedPeriod === period
+                                              ? "bg-purple-200"
+                                              : ""
+                                          }`}
+                                          onClick={() =>
+                                            setSelectedPeriod(period)
+                                          }
+                                        >
+                                          {period}
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <h2 className="text-center font-semibold">
+                                Selected Time:{" "}
+                                {formatTime(
+                                  selectedHour,
+                                  selectedMinute,
+                                  selectedPeriod
+                                )}
+                              </h2>
+
+                              <div className="flex justify-end mt-6 pr-9 border-t border-[#DBDBDB] space-x-4">
+                                <button
+                                  onClick={() => setPunchOutOption(false)}
+                                  className="border border-[#511992] mt-6 text-[#511992] text-[14px] py-2 px-4 rounded"
+                                >
+                                  Cancel
+                                </button>
+                                <button onClick={handleConfirm} className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
+                                  Confirm
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
                   </label>
                 </div>
 
