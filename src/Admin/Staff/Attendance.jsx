@@ -12,10 +12,10 @@ const Attendance = () => {
   const [selectedType, setSelectedType] = useState(null);
   const [punchInOption, setPunchInOption] = useState(null);
   const [punchOutOption, setPunchOutOption] = useState(null);
+ 
   const [selectedHour, setSelectedHour] = useState(0);
   const [selectedMinute, setSelectedMinute] = useState(0);
   const [selectedPeriod, setSelectedPeriod] = useState("AM");
-
   const hoursArray = Array.from({ length: 12 }, (_, i) => i);
   const minutesArray = Array.from({ length: 60 }, (_, i) => i);
   const periodArray = ["AM", "PM"];
@@ -380,10 +380,9 @@ const Attendance = () => {
 
                                 <div className="flex justify-end mt-6 pr-9 border-t border-[#DBDBDB] space-x-4">
                                   <button
-                                    onClick={() => setPunchInOption("AnyTime", false)}
+                                    onClick={() => setPunchInOption(false)}  
                                     className="border border-[#511992] mt-6 text-[#511992] text-[14px] py-2 px-4 rounded"
                                   >
-
                                     Cancel
                                   </button>
                                   <button className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
