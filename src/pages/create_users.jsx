@@ -8,10 +8,8 @@ const create_users = () => {
     <div>
       <style></style>
 
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1">
-          <Navbar />
+      <div className="absolute top-[95px] left-[240px]">
+      
 
           <div>
             <div class=" bg-white rounded-lg ">
@@ -238,8 +236,7 @@ const create_users = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+     </div>
   );
 };
 
