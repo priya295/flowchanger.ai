@@ -10,7 +10,7 @@ import ring from "../Images/ring.png";
 
 const NavBar = () => {
   return (
-    <div className="h-[67px]  flex items-center justify-between border-b shadow-sm">
+    <div className="h-[67px] w-[100%]  flex items-center justify-between border-b shadow-sm">
       <div className="flex items-center gap-4 relative">
         <img className="ml-6" src={menu} alt="menu" />
         <input

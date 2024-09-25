@@ -59,10 +59,8 @@ const Projects = () => {
   };
 
   return (
-    <div className="flex">
-      <SideBar />
-      <div className="flex-1">
-        <NavBar />
+    <div className='absolute top-[95px] left-[240px]'>
+     
 
         <div>
           <div className="m-8">
@@ -226,7 +224,7 @@ const Projects = () => {
 
           <div></div>
         </div>
-      </div>
+      
     </div>
   );
 };

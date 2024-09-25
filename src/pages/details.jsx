@@ -8,10 +8,8 @@ import three_dot from "../Images/dots-three-outline.png";
 
 const userDetails = () => {
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Navbar />
+    <div className='absolute top-[95px] left-[240px]'>
+      
 
         <div>
           <div className="flex justify-between items-center">
@@ -699,7 +697,7 @@ const userDetails = () => {
             </tbody>
           </table>
         </div>
-      </div>
+     
     </div>
   );
 };

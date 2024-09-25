@@ -38,11 +38,7 @@ const Staff = () => {
     }
   };
   return (
-    <div className="flex">
-      <SideBar />
-      <div className="flex-1">
-        <NavBar />
-
+    <div className='absolute top-[95px] left-[240px]'>
         <div className="m-8">
           <div>
             <span className="text-black  text-[30px] font-medium">
@@ -142,8 +138,7 @@ const Staff = () => {
 
           <div className="mt-6">{renderTabContent()}</div>
         </div>
-      </div>
-    </div>
+     </div>
   );
 };
 
