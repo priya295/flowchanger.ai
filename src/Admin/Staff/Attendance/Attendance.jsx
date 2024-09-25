@@ -15,17 +15,9 @@ const Attendance = () => {
   const [selectedHour, setSelectedHour] = useState(0);
   const [selectedMinute, setSelectedMinute] = useState(0);
   const [selectedPeriod, setSelectedPeriod] = useState("AM");
-
-  const [hour, setHour] = useState('12');
-  const [minute, setMinute] = useState('00');
-  const [period, setPeriod] = useState('AM');
-  const [selectedTime, setSelectedTime] = useState('');
-  
   const hoursArray = Array.from({ length: 12 }, (_, i) => i);
   const minutesArray = Array.from({ length: 60 }, (_, i) => i);
   const periodArray = ["AM", "PM"];
-
-
 
   const selectOptions = Array(7).fill("");
 
@@ -54,10 +46,6 @@ const Attendance = () => {
     if (option === "AddLimit") {
       toggleModal("AddLimit", true);
     }
-  };
-
-  const handleConfirm = () => {
-    setSelectedTime(`${hour}:${minute} ${period}`);
   };
 
   return (
@@ -188,7 +176,54 @@ const Attendance = () => {
 
                 {selectedType === "Flexible" && (
                   <>
-                    <h2>My name is Sanjay</h2>
+                    <div className="flex items-center justify-center gap-4 py-7" >
+                      <h2>*Select Month</h2>
+                      <input
+                        className="border border-[#DBDCDE] pl-2 bg-[#F4F5F9] h-[35px] w-[344px] rounded-md"
+                        type="date"
+                      />
+                    </div>
+                    <div className="flex text-[16px] gap-14 border-b border-[#B1B1B1] pb-6 font-semibold">
+                      <p>Day</p>
+                      <p>Weekoff</p>
+                      <p>Shifts</p>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-7 items-center justify-between pt-6">
+                      <div className="flex gap-[5rem] items-center">
+                        <div className="flex flex-col gap-5">
+                          <label htmlFor="">Mon</label>
+                          <label htmlFor="">Tue</label>
+                          <label htmlFor="">Wed</label>
+                          <label htmlFor="">Thu</label>
+                          <label htmlFor="">Fri</label>
+                          <label htmlFor="">Sat</label>
+                          <label htmlFor="">Sun</label>
+                        </div>
+
+                        <div className="flex flex-col gap-[30px]">
+                          <input type="checkbox" />
+                          <input type="checkbox" />
+                          <input type="checkbox" />
+                          <input type="checkbox" />
+                          <input type="checkbox" />
+                          <input type="checkbox" />
+                          <input type="checkbox" />
+                        </div>
+
+                        <div className="flex flex-col gap-[14px]">
+                          {selectOptions.map((_, index) => (
+                            <select
+                              key={index}
+                              onClick={() => toggleModal("selectShift", true)}
+                              className="px-2 py-1 pr-[10.5rem] text-[13px] rounded-md border border-[#DBDCDE] bg-[#F4F5F9] text-[#B1B1B1]"
+                            >
+                              <option value="">Select Shift</option>
+                            </select>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
                   </>
                 )}
 
@@ -280,10 +315,7 @@ const Attendance = () => {
                       className="border border-[#DBDCDE] h-[42px] w-[480px] rounded-md"
                       onClick={handlePunchInChange}
                       type="text"
-
-                      
                     />
-
                     {punchInOption && (
                       <>
                         <div className="fixed inset-0 bg-black bg-opacity-30 z-[60]"></div>
@@ -380,8 +412,7 @@ const Attendance = () => {
                                 >
                                   Cancel
                                 </button>
-                                <button onClick={handleConfirm} className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
-                                  
+                                <button className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
                                   Confirm
                                 </button>
                               </div>
@@ -526,7 +557,7 @@ const Attendance = () => {
                                 >
                                   Cancel
                                 </button>
-                                <button onClick={handleConfirm} className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
+                                <button className="bg-[#511992] border border-[#511992] mt-6 text-white text-[14px] py-2 px-4 rounded">
                                   Confirm
                                 </button>
                               </div>
