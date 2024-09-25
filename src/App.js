@@ -74,9 +74,7 @@ const  App =() => {
             } 
             />
           </Routes>
-          
         </main>
-        
         </div>
       </div>
     </Router>
