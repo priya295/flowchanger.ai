@@ -13,12 +13,9 @@ const users = () => {
 
   return (
     <>
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1">
-          <Navbar />
+      
 
-          <div>
+          <div className='absolute top-[95px] left-[240px]'>
             {/*--------- User name and create user button ------------ --*/}
             <div className="flex justify-between items-center">
               <h1 class="text-2xl p-8">Users</h1>
@@ -131,8 +128,7 @@ const users = () => {
                
             </div>
           </div>
-        </div>
-      </div>
+        
     </>
   );
 };

@@ -4,6 +4,7 @@ import packags from '../Images/Package.png'
 import setting from '../Images/setting.png'
 import subscription from '../Images/subscriptions.png'
 import users from '../Images/users.png'
+import { Link } from "react-router-dom"
 
 
 const Sidebar = () => {
@@ -37,6 +38,11 @@ const Sidebar = () => {
             <img src= {users} alt="users" />
             <span className='text-[#A4A6B3]' >Settings</span>
           </div>
+
+          <Link to="/admin/role" className=' users flex items-center gap-5 cursor-pointer'>
+            <img src= {users} alt="users" />
+            <span className='text-[#A4A6B3]' >Roles</span>
+          </Link>
         </div>
     </div>
   )

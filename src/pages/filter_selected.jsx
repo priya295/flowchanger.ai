@@ -23,10 +23,8 @@ const Filter_selected = () => {
   }
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Navbar />
+    <div className='absolute top-[95px] left-[240px]'>
+     
         <div>
           <div className="flex justify-between items-center">
             <h1 class=" font-medium text-2xl p-8">Subscriptions</h1>
@@ -210,8 +208,7 @@ const Filter_selected = () => {
             </table>
           </div>
         </div>
-      </div>
-    </div>
+     </div>
   );
 };
 
