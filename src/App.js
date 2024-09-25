@@ -4,7 +4,7 @@ import Front from "./pages/create_users";
 import Users  from './pages/users';
 import Details from './pages/details'
 import Filter from './pages/filter_selected'
-import Admin from './Admin/Pages/overView'
+import Admin from './Admin/Projects/overView'
 import Staff from './Admin/Staff/Staff';
 
 const App = () => {
