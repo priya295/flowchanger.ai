@@ -1,83 +1,113 @@
+// import React from 'react'
+// import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+// import Front from "./pages/create_users";
+// import Users from './pages/users';
+// import Details from './pages/details'
+// import Filter from './pages/filter_selected'
+// import Admin from './Admin/Projects/overView'
+// import Staff from './Admin/Staff/Staff';
+// import Role from './Admin/roles/RoleDetails';
+// import NavBar from './Admin/Components/NavBar';
+// import SideBar from './Admin/Components/SideBar';
+// import EditForm from './components/editForm';
+// import MyStaff from './components/mystaff';
 
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavBar from './components/navbar';
-import SideBar from './components/sidebar';
-import MyStaff from './components/mystaff';
-import Form from './components/form';
-import EditForm from './components/editForm';
-import ProjectSummary from './components/ProjectSummary';
-import AddProject from './components/addProject';
-import ProjectSettings from './components/ProjectSettings';
 
-const initialData = [
-  {
-    name: "Rohan",
-    jobtitle: "HR",
-    id: "0001",
-    EmployeeType: "Full-Time",
-    DateOfJoining: "11-10-2023",
-    DateOfBirth: "05-09-2002"
-  },
-  {
-    name: "mahesh",
-    jobtitle: "HR",
-    id: "0002",
-    EmployeeType: "Full-Time",
-    DateOfJoining: "11-10-2023",
-    DateOfBirth: "07-03-2000"
-  },
-  
-];
+// const App = () => {
 
-const  App =() => {
-  const [toggleSideBar, setToggleSideBar] = useState(false);
-  const [employeeData, setEmployeeData] = useState(initialData);
-  
+//   function AdminLayout() {
+//     return (
+//       <>
+//         <div  className='main-layout relative flex'>
+//           <div className='set-layout flex '>
+//             <SideBar />
+//             <NavBar />
+//           </div>
+//           <Outlet className="w-full"/>
+//         </div>
 
-  const handleToggleSideBar = () => {
-    setToggleSideBar(!toggleSideBar);
-  };
+//       </>
 
-  return (
-    <Router>
-      <div className="App flex flex-col min-h-screen">
-        <NavBar handleToggleSideBar={handleToggleSideBar} toggleSideBar = {toggleSideBar}/>
-        <div className='flex flex-row'>
-        {toggleSideBar && <SideBar toggleSideBar = {toggleSideBar}/>}
-        <main className={`flex-1 p-4 ${toggleSideBar ? 'ml-64' : ''} `}>
-          <Routes>
-            <Route 
-              path="/" 
-              element={
-              <MyStaff employeeData={employeeData}/>} 
-            />
-            <Route 
-              path="/add" 
-              element={<Form />} 
-            />
-            <Route 
-              path="/projectsummary" 
-              element={<ProjectSummary/>} 
-            />
-            <Route 
-              path="/projectsettings" 
-              element={<ProjectSettings/>} 
-            />
-            <Route 
-              path="/addProject" 
-              element={<AddProject/>} 
-            />
-            <Route 
-              path="/edit/:id" 
-              element={<EditForm/>
-            } 
-            />
-          </Routes>
-        </main>
+//     )
+//   }
+
+//   return (
+//     <BrowserRouter>
+//       <Routes>
+//         <Route element={<AdminLayout />}>
+//         <Route path="/" element= {<Front/>} />  
+//           <Route path='/users' element = {<Users/>}/>   
+//           <Route path='/details' element = {<Details/>}/>
+//           <Route path='/filter' element = {<Filter/>}/>
+//           <Route path= '/admin' element = {<Admin/>}/>
+//           <Route path='/admin/staff' element = {<Staff/>}/>
+//           <Route path='/admin/role' element={<Role />} />
+//           <Route path='/editForm' element={<EditForm/>}/>
+//           <Route path='/mystaff' element={<MyStaff/>}/>
+//       </Route>
+//       </Routes>
+
+
+
+
+
+
+
+
+//     </BrowserRouter>
+//   )
+// }
+
+
+import React from 'react';
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import Front from "./pages/create_users";
+import Users from './pages/users';
+import Details from './pages/details';
+import Filter from './pages/filter_selected';
+import Admin from './Admin/Projects/overView';
+import Staff from './Admin/Components/Staff';
+import Role from './Admin/roles/RoleDetails';
+import NavBar from './Admin/Components/NavBar';
+import SideBar from './Admin/Components/SideBar';
+import EditForm from './Admin/Components/editForm';
+import MyStaff from './Admin/Components/mystaff';
+
+const App = () => {
+  function AdminLayout() {
+    return (
+      <div className="flex h-screen overflow-hidden">
+        <div className="hidden md:flex md:flex-shrink-0 ">
+          <SideBar />
+        </div>
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <NavBar />
+          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <Outlet />
+            </div>
+          </main>
         </div>
       </div>
-    </Router>
+    );
+  }
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AdminLayout />}>
+          <Route path="/" element={<Front />} />
+          <Route path='/users' element={<Users />} />
+          <Route path='/details' element={<Details />} />
+          <Route path='/filter' element={<Filter />} />
+          <Route path='/admin' element={<Admin />} />
+          <Route path='/admin/staff' element={<Staff />} />
+          <Route path='/admin/role' element={<Role />} />
+          <Route path='/editForm' element={<EditForm />} />
+          <Route path='/mystaff' element={<MyStaff />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
