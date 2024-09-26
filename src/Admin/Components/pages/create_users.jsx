@@ -1,17 +1,13 @@
 import React from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import photo from "../Images/photo.png";
+import photo from "../../../Assets/Images/photo.png";
 
 const create_users = () => {
   return (
     <div>
       <style></style>
 
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1">
-          <Navbar />
+      <div className="absolute top-[95px] left-[240px]">
+      
 
           <div>
             <div class=" bg-white rounded-lg ">
@@ -238,9 +234,9 @@ const create_users = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+     </div>
   );
+  
 };
 
 export default create_users;

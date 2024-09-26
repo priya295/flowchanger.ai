@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import refresh from "../Images/refresh.png";
-import app_menu from "../Images/app-menu.png";
-import three_dot from "../Images/dots-three-outline.png";
-import deleteIcon from "../Images/delete.png";
+import refresh from "../../../Assets/Images/refresh.png";
+import app_menu from "../../../Assets/Images/app-menu.png";
+import three_dot from "../../../Assets/Images/dots-three-outline.png";
+import deleteIcon from "../../../Assets/Images/delete.png";
 
 const Filter_selected = () => {
   const [isOpen, setisOpen] = useState(false);
@@ -23,10 +21,8 @@ const Filter_selected = () => {
   }
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Navbar />
+    <div className='absolute top-[95px] left-[240px]'>
+     
         <div>
           <div className="flex justify-between items-center">
             <h1 class=" font-medium text-2xl p-8">Subscriptions</h1>
@@ -210,8 +206,7 @@ const Filter_selected = () => {
             </table>
           </div>
         </div>
-      </div>
-    </div>
+     </div>
   );
 };
 

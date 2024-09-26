@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SideBar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
-import details from "../Images/Details.png";
-import arrowbtn from "../Images/arrowbtn.png";
+ import SideBar from "../../Components/SideBar";
+import NavBar from "../../Components/NavBar";
+import details from "../../../Assets/Images/Details.png";
+import arrowbtn from "../../../Assets/Images/arrowbtn.png";
 import { MdManageSearch } from "react-icons/md";
 import { FaTasks } from "react-icons/fa";
 import { PiFiles } from "react-icons/pi";
@@ -22,6 +22,7 @@ import Notes from './Nots'
 import Activity from "./Activity";
 import Calender from "./Calender";
 import People from './People'
+
 
 const Projects = () => {
 
@@ -59,14 +60,10 @@ const Projects = () => {
   };
 
   return (
-    <div className="flex">
-      <SideBar />
-      <div className="flex-1">
-        <NavBar />
-
+    <div className=' absolute top-[95px] pl-[240px] w-[100%]'>
         <div>
-          <div className="m-8">
-            <span className="text-[#9A93B3]  text-[20px] font-medium">
+          <div>
+            <span className="text-[#9A93B3] text-[20px] font-medium">
               Projects / Addodle
             </span>
             <div className="flex mt-3 items-center gap-3">
@@ -96,8 +93,8 @@ const Projects = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center space-x-4 border mx-7 h-[58px] shadow-md rounded-xl ">
-            <div className="flex items-center space-x-[4.7rem] text-[20px]">
+          <div className="flex items-center justify-center mt-8 mr-[30px] border h-[58px] shadow-md rounded-xl ">
+            <div className="flex items-center gap-10 text-[20px]">
               <button
                 onClick={() => handleActiveClick("Overview")}
                 className={`flex items-center space-x-3 ${
@@ -222,11 +219,11 @@ const Projects = () => {
 
           </div>
 
-          <div className="m-8">{renderTabContent()}</div>
+          <div className="mt-10">{renderTabContent()}</div>
 
           <div></div>
         </div>
-      </div>
+      
     </div>
   );
 };

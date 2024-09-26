@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "../Images/image.png";
+import Image from "../../../Assets/Images/image.png";
 import AddNewTask from "./AddNewTask";
 
 const Task = () => {

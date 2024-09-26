@@ -1,21 +1,15 @@
 import React from "react";
-import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar";
-import photo from "../Images/photo.png";
-import refresh from "../Images/refresh.png";
-import app_menu from "../Images/app-menu.png";
-import three_dot from "../Images/dots-three-outline.png";
+import photo from "../../../Assets/Images/photo.png";
+import refresh from "../../../Assets/Images/refresh.png";
+import app_menu from "../../../Assets/Images/app-menu.png";
+import three_dot from "../../../Assets/Images/dots-three-outline.png";
 
 const userDetails = () => {
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Navbar />
-
+  <div className=' absolute top-[95px] pl-[240px] w-[100%]'>
         <div>
           <div className="flex justify-between items-center">
-            <h1 class="text-2xl p-8">User Detail</h1>
+            <h1 class="text-2xl p-8 2xl: ">User Detail</h1>
             <button className="mr-9 bg-[#511992] text-white h-[37px] w-[115px] rounded">
               Create User
             </button>
@@ -699,7 +693,7 @@ const userDetails = () => {
             </tbody>
           </table>
         </div>
-      </div>
+     
     </div>
   );
 };

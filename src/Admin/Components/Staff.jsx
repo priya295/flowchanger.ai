@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import SideBar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { CiBank } from "react-icons/ci";
@@ -8,7 +6,7 @@ import { FaHandHoldingDollar } from "react-icons/fa6";
 import { BsDoorOpenFill } from "react-icons/bs";
 import { MdOutlinePermIdentity } from "react-icons/md";
 import { FaBusinessTime } from "react-icons/fa6";
-import Attendance from "./Attendance";
+import Attendance from "../Components/Attendance/Attendance";
 
 const Staff = () => {
   const [activeTab, setactiveTab] = useState("Staff");
@@ -38,11 +36,7 @@ const Staff = () => {
     }
   };
   return (
-    <div className="flex">
-      <SideBar />
-      <div className="flex-1">
-        <NavBar />
-
+    <div className='absolute top-[95px] left-[240px]'>
         <div className="m-8">
           <div>
             <span className="text-black  text-[30px] font-medium">
@@ -142,8 +136,7 @@ const Staff = () => {
 
           <div className="mt-6">{renderTabContent()}</div>
         </div>
-      </div>
-    </div>
+     </div>
   );
 };
 
