@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import SideBar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { CiBank } from "react-icons/ci";

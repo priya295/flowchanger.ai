@@ -13,8 +13,7 @@ const users = () => {
 
   return (
     <>
-      
-
+    
           <div className='absolute top-[95px] left-[240px]'>
             {/*--------- User name and create user button ------------ --*/}
             <div className="flex justify-between items-center">

@@ -8,12 +8,10 @@ import three_dot from "../Images/dots-three-outline.png";
 
 const userDetails = () => {
   return (
-    <div className='absolute top-[95px] left-[240px]'>
-      
-
+  <div className=' absolute top-[95px] pl-[240px] w-[100%]'>
         <div>
           <div className="flex justify-between items-center">
-            <h1 class="text-2xl p-8">User Detail</h1>
+            <h1 class="text-2xl p-8 2xl: ">User Detail</h1>
             <button className="mr-9 bg-[#511992] text-white h-[37px] w-[115px] rounded">
               Create User
             </button>

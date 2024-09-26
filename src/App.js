@@ -4,11 +4,13 @@ import Front from "./pages/create_users";
 import Users from './pages/users';
 import Details from './pages/details'
 import Filter from './pages/filter_selected'
-import Admin from './Admin/Projects/overView'
-import Staff from './Admin/Staff/Staff';
-import Role from './Admin/roles/RoleDetails'
- import NavBar from './Admin/Components/NavBar';
-import Sidebar from './Components/Sidebar';
+
+import NavBar from './Admin/Components/NavBar';
+import Sidebar from './Admin/Components/SideBar';
+import Admin_Projects from './Admin/Pages/Projects/overView'
+import Admin_Staff from './Admin/Pages/Staff/Staff';
+import Admin_Role from './Admin/Pages/Roles/RoleDetails';
+
 
 const App = () => {
 
@@ -36,25 +38,14 @@ const App = () => {
           <Route path='/users' element = {<Users/>}/>   
           <Route path='/details' element = {<Details/>}/>
           <Route path='/filter' element = {<Filter/>}/>
-          <Route path= '/admin' element = {<Admin/>}/>
-          <Route path='/admin/staff' element = {<Staff/>}/>
 
 
-          <Route path='/admin/role' element={<Role />} />
-
-
-
+          <Route path= '/admin/project' element = {<Admin_Projects/>}/>
+          <Route path='/admin/staff' element = {<Admin_Staff/>}/>
+          <Route path='/admin/role' element={<Admin_Role />} />
 
         </Route>
       </Routes>
-
-
-
-
-
-
-
-
     </BrowserRouter>
   )
 }
