@@ -27,7 +27,6 @@ import Notes from './Nots'
 import Activity from "./Activity";
 import Calender from "./Calender";
 import People from './People'
-import '../../Pages/Css/Common.css'
 
 const Projects = () => {
 
@@ -99,8 +98,8 @@ const Projects = () => {
           </div>
 
           <div className="flex items-center justify-center mt-8 mr-[30px] border h-[58px] shadow-md rounded-xl ">
-            <div className="flex items-center gap-[4vw] text-[20px]">
-              <div
+            <div className="flex items-center gap-10 text-[20px]">
+              <button
                 onClick={() => handleActiveClick("Overview")}
                 className={`flex items-center space-x-3 ${
                   activeTab === "Overview"
@@ -110,9 +109,9 @@ const Projects = () => {
               >
                 <MdManageSearch />
                 <span className="text-sm font-medium">Overview</span>
-              </div>
+              </button>
 
-              <div
+              <button
                 onClick={() => handleActiveClick("Task")}
                 className={`flex items-center space-x-3 ${
                   activeTab === "Task"
@@ -122,9 +121,9 @@ const Projects = () => {
               >
                 <FaTasks />
                 <span className="text-sm font-medium">Task</span>
-              </div>
+              </button>
 
-              <div
+              <button
                 onClick={() => handleActiveClick("Files")}
                 className={`flex items-center space-x-3 ${
                   activeTab === "Files"
@@ -134,7 +133,7 @@ const Projects = () => {
               >
                 <PiFiles />
                 <span className="text-sm font-medium">Files</span>
-              </div>
+              </button>
 
               <button
                 onClick={() => handleActiveClick("Discussions")}
