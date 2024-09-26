@@ -117,7 +117,7 @@ const Projects = () => {
                 <span className="text-sm font-medium">Task</span>
               </div>
 
-              <button
+              <div
                 onClick={() => handleActiveClick("Files")}
                 className={`flex items-center space-x-3 ${
                   activeTab === "Files"
@@ -127,7 +127,7 @@ const Projects = () => {
               >
                 <PiFiles />
                 <span className="text-sm font-medium">Files</span>
-              </button>
+              </div>
 
               <button
                 onClick={() => handleActiveClick("Discussions")}
