@@ -1,9 +1,5 @@
 import React from "react";
-<<<<<<<< HEAD:src/Admin/Components/Projects/Activity.jsx
 import photo from "../../../Assets/Images/photo.png";
-========
-import photo from "../../Images/photo.png";
->>>>>>>> 0f3779cf5b2609acb98cb63f6b92db8dbcf13d19:src/Admin/Pages/Projects/Activity.jsx
 
 const Activity = () => {
   return (

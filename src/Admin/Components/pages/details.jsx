@@ -1,10 +1,8 @@
 import React from "react";
-import Navbar from "../Components/Navbar";
-import Sidebar from "../Components/Sidebar";
-import photo from "../Images/photo.png";
-import refresh from "../Images/refresh.png";
-import app_menu from "../Images/app-menu.png";
-import three_dot from "../Images/dots-three-outline.png";
+import photo from "../../../Assets/Images/photo.png";
+import refresh from "../../../Assets/Images/refresh.png";
+import app_menu from "../../../Assets/Images/app-menu.png";
+import three_dot from "../../../Assets/Images/dots-three-outline.png";
 
 const userDetails = () => {
   return (

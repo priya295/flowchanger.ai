@@ -1,12 +1,10 @@
 import React from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
-import refresh from "../Images/refresh.png";
-import app_menu from "../Images/app-menu.png";
-import photo from "../Images/photo.png";
-import eye from "../Images/eye.png";
-import edit_outline from "../Images/edit-outline.png";
-import three_dot from "../Images/dots-three-outline.png";
+import refresh from "../../../Assets/Images/refresh.png";
+import app_menu from "../../../Assets/Images/app-menu.png";
+import photo from "../../../Assets/Images/photo.png";
+import eye from "../../../Assets/Images/eye.png";
+import edit_outline from "../../../Assets/Images/edit-outline.png";
+import three_dot from "../../../Assets/Images/dots-three-outline.png";
 
 
 const users = () => {

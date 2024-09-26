@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-<<<<<<<< HEAD:src/Admin/Components/Projects/Task.jsx
 import Image from "../../../Assets/Images/image.png";
-========
-import Image from "../../Images/image.png";
->>>>>>>> 0f3779cf5b2609acb98cb63f6b92db8dbcf13d19:src/Admin/Pages/Projects/Task.jsx
 import AddNewTask from "./AddNewTask";
 
 const Task = () => {

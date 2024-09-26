@@ -1,13 +1,13 @@
-import React from "react";
-import logo from "../Images/logo.png";
-import home from "../Images/home.png";
-import project from "../Images/project.png";
-import task from "../Images/task.png";
-import client from "../Images/client.png";
-import report from "../Images/report.png";
-import staff from "../Images/staff.png";
-import setting from "../Images/setting.png";
-import { Link } from "react-router-dom";
+import React from 'react'
+import logo from '../../Assets/Images/logo.png'
+import home from '../../Assets/Images/home.png'
+import project from '../../Assets/Images/project.png'
+import task from '../../Assets/Images/task.png'
+import client from '../../Assets/Images/client.png'
+import report from '../../Assets/Images/report.png'
+import staff from '../../Assets/Images/staff.png'
+import setting from '../../Assets/Images/setting.png'
+import { Link } from 'react-router-dom'
 
 const SideBar = () => {
   return (

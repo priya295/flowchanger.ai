@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-<<<<<<<< HEAD:src/Admin/Components/Projects/overView.jsx
-import SideBar from "../../Components/SideBar";
+ import SideBar from "../../Components/SideBar";
 import NavBar from "../../Components/NavBar";
 import details from "../../../Assets/Images/Details.png";
 import arrowbtn from "../../../Assets/Images/arrowbtn.png";
-========
-import details from "../../Images/Details.png";
-import arrowbtn from "../../Images/arrowbtn.png";
->>>>>>>> 0f3779cf5b2609acb98cb63f6b92db8dbcf13d19:src/Admin/Pages/Projects/overView.jsx
 import { MdManageSearch } from "react-icons/md";
 import { FaTasks } from "react-icons/fa";
 import { PiFiles } from "react-icons/pi";
@@ -27,7 +22,7 @@ import Notes from './Nots'
 import Activity from "./Activity";
 import Calender from "./Calender";
 import People from './People'
-import '../../Pages/Css/Common.css'
+
 
 const Projects = () => {
 
@@ -99,8 +94,8 @@ const Projects = () => {
           </div>
 
           <div className="flex items-center justify-center mt-8 mr-[30px] border h-[58px] shadow-md rounded-xl ">
-            <div className="flex items-center gap-[4vw] text-[20px]">
-              <div
+            <div className="flex items-center gap-10 text-[20px]">
+              <button
                 onClick={() => handleActiveClick("Overview")}
                 className={`flex items-center space-x-3 ${
                   activeTab === "Overview"
@@ -110,9 +105,9 @@ const Projects = () => {
               >
                 <MdManageSearch />
                 <span className="text-sm font-medium">Overview</span>
-              </div>
+              </button>
 
-              <div
+              <button
                 onClick={() => handleActiveClick("Task")}
                 className={`flex items-center space-x-3 ${
                   activeTab === "Task"
@@ -122,9 +117,9 @@ const Projects = () => {
               >
                 <FaTasks />
                 <span className="text-sm font-medium">Task</span>
-              </div>
+              </button>
 
-              <div
+              <button
                 onClick={() => handleActiveClick("Files")}
                 className={`flex items-center space-x-3 ${
                   activeTab === "Files"
@@ -134,7 +129,7 @@ const Projects = () => {
               >
                 <PiFiles />
                 <span className="text-sm font-medium">Files</span>
-              </div>
+              </button>
 
               <button
                 onClick={() => handleActiveClick("Discussions")}
