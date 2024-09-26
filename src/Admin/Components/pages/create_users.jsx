@@ -1,5 +1,9 @@
 import React from "react";
+<<<<<<< HEAD:src/pages/create_users.jsx
 import photo from "../pages/Admin/components/Images/photo.png";
+=======
+import photo from "../../../Assets/Images/photo.png";
+>>>>>>> 83860159d9306304f1c52fcfb231c9510ae32319:src/Admin/Components/pages/create_users.jsx
 
 const create_users = () => {
   return (

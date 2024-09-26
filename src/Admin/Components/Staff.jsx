@@ -6,7 +6,7 @@ import { FaHandHoldingDollar } from "react-icons/fa6";
 import { BsDoorOpenFill } from "react-icons/bs";
 import { MdOutlinePermIdentity } from "react-icons/md";
 import { FaBusinessTime } from "react-icons/fa6";
-import Attendance from "../Staff/Attendance/Attendance";
+import Attendance from "../Components/Attendance/Attendance";
 
 const Staff = () => {
   const [activeTab, setactiveTab] = useState("Staff");

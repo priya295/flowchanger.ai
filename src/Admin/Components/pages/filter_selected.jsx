@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import refresh from "../Images/refresh.png";
-import app_menu from "../Images/app-menu.png";
-import three_dot from "../Images/dots-three-outline.png";
-import deleteIcon from "../Images/delete.png";
+import refresh from "../../../Assets/Images/refresh.png";
+import app_menu from "../../../Assets/Images/app-menu.png";
+import three_dot from "../../../Assets/Images/dots-three-outline.png";
+import deleteIcon from "../../../Assets/Images/delete.png";
 
 const Filter_selected = () => {
   const [isOpen, setisOpen] = useState(false);

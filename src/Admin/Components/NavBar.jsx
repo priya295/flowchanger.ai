@@ -1,12 +1,12 @@
 import React from "react";
-import menu from "../Images/menu-fill.png";
-import search from "../Images/search.png";
-import addBtn from "../Images/addBtn.png";
-import share from "../Images/share.png";
-import check from "../Images/check.png";
-import photo from "../Images/photo.png";
-import watch from "../Images/watch.png";
-import ring from "../Images/ring.png";
+import menu from "../../Assets/Images/menu-fill.png";
+import search from "../../Assets/Images/search.png";
+import addBtn from "../../Assets/Images/addBtn.png";
+import share from "../../Assets/Images/share.png";
+import check from "../../Assets/Images/check.png";
+import photo from "../../Assets/Images/photo.png";
+import watch from "../../Assets/Images/watch.png";
+import ring from "../../Assets/Images/ring.png";
 
 const NavBar = () => {
   return (

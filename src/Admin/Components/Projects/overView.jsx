@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import SideBar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
-import details from "../Images/Details.png";
-import arrowbtn from "../Images/arrowbtn.png";
+import SideBar from "../../Components/SideBar";
+import NavBar from "../../Components/NavBar";
+import details from "../../../Assets/Images/Details.png";
+import arrowbtn from "../../../Assets/Images/arrowbtn.png";
 import { MdManageSearch } from "react-icons/md";
 import { FaTasks } from "react-icons/fa";
 import { PiFiles } from "react-icons/pi";
