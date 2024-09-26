@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import SideBar from "../Components/SideBar";
-import NavBar from "../Components/NavBar";
 import { MdOutlinePeopleAlt } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { CiBank } from "react-icons/ci";
@@ -8,7 +6,7 @@ import { FaHandHoldingDollar } from "react-icons/fa6";
 import { BsDoorOpenFill } from "react-icons/bs";
 import { MdOutlinePermIdentity } from "react-icons/md";
 import { FaBusinessTime } from "react-icons/fa6";
-import Attendance from "./Attendance/Attendance";
+import Attendance from "../Staff/Attendance/Attendance";
 
 const Staff = () => {
   const [activeTab, setactiveTab] = useState("Staff");

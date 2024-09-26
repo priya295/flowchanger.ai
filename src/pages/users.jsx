@@ -1,6 +1,4 @@
 import React from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
 import refresh from "../Images/refresh.png";
 import app_menu from "../Images/app-menu.png";
 import photo from "../Images/photo.png";

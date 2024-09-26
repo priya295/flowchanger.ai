@@ -1,6 +1,4 @@
 import React from "react";
-import Sidebar from "../Components/Sidebar";
-import Navbar from "../Components/Navbar";
 import photo from "../Images/photo.png";
 
 const create_users = () => {
