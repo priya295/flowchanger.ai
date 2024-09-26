@@ -13,19 +13,28 @@ import NavBar from './Admin/Components/NavBar';
 import SideBar from './Admin/Components/SideBar';
 import EditForm from './Admin/Components/editForm';
 import MyStaff from './Admin/Components/mystaff';
+import Form from './Admin/Components/form';
+import ProjectSettings from './Admin/Components/ProjectSettings';
+import ProjectSummary from './Admin/Components/ProjectSummary';
+import AddProject from './Admin/Components/addProject';
 
 const App = () => {
        function AdminLayout() {
             return (
               <>
-                <div  className='main-layout relative flex'>
-                  <div className='set-layout flex '>
-                    <SideBar />
-                    <NavBar />
-                  </div>
-                  <Outlet />
-                </div>
-        
+              <div className="flex min-h-screen overflow-hidden">
+         <div className="hidden md:flex md:flex-shrink-0 w-64">
+           <SideBar />
+         </div>
+         <div className="flex flex-col flex-1 overflow-hidden">
+           <NavBar />
+           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <Outlet />
+             </div>
+          </main>
+         </div>
+       </div>
               </>
         
             )
@@ -45,9 +54,11 @@ const App = () => {
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
 
-          <Route path='/editForm' element={<EditForm />} />
+          <Route path='/addproject' element={<AddProject />} />
           <Route path='/mystaff' element={<MyStaff />} />
-
+          <Route path='/projectsettings' element={<ProjectSettings />} />
+          <Route path='/projectsummary' element={<ProjectSummary />} />
+          <Route path='/form' element={<Form />} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -55,3 +66,6 @@ const App = () => {
 }
 
 export default App;
+
+
+

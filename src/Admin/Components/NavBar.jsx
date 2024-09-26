@@ -10,7 +10,7 @@ import ring from "../../Assets/Images/ring.png";
 
 const NavBar = () => {
   return (
-    <div className="min-h-screen w-[100%]  flex items-center justify-between border-b shadow-sm">
+    <div className="w-[100%] h-auto md:h-[60px] md:flex  items-center justify-between border-b shadow-sm">
       <div className="flex items-center gap-4 relative">
         <img className="ml-6" src={menu} alt="menu" />
         <input
@@ -24,7 +24,7 @@ const NavBar = () => {
         </div>
       </div>
 
-      <div className="flex items-center gap-4 mr-7">
+      <div className=" items-center gap-4 mr-7 flex ml-3">
         <img src={share} alt="" />
         <img src={check} alt="" />
         <img src={photo} alt="" />

@@ -1,19 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CgProfile } from "react-icons/cg";
 import { FaArrowLeft } from "react-icons/fa";
 
 const Form = () => {
-  // const navigate = useNavigate();
-  // const [formData, setFormData] = useState({
-  //   name: '',
-  //   jobtitle: '',
-  //   EmployeeType: '',
-  //   DateOfJoining: '',
-  //   DateOfBirth: ''
-  // });
-
- 
 
   return (
     <div className="container mx-auto px-4 max-w-5xl">
@@ -58,7 +46,6 @@ const Form = () => {
                 id={`field-${index}`}
                 type={field.type}
                 name={field.name}
-                // value={formData[field.name]}
                 required
               />
             </div>
