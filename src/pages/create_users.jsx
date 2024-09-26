@@ -1,15 +1,11 @@
 import React from "react";
-import photo from "../Images/photo.png";
+import photo from "../pages/Admin/components/Images/photo.png";
 
 const create_users = () => {
   return (
     <div>
-      <style></style>
-
-      <div className="absolute top-[95px] left-[240px]">
-      
-
-          <div>
+     <div className="absolute top-[95px] left-[240px]">
+      <div>
             <div class=" bg-white rounded-lg ">
               <h1 class="text-2xl p-8">Create User</h1>
 

@@ -10,7 +10,7 @@ import setting from '../Images/setting.png'
 
 const SideBar = () => {
   return (
-    <div className='min-h-screen bg-[#2B2A2D] w-[13%] lg:min-h-screen' >
+    <div className='min-h-screen bg-[#2B2A2D]  lg:min-h-screen w-full' >
       <img className='p-7' src= {logo} alt="" />
 
       <div className='mt-5 cursor-pointer'>
