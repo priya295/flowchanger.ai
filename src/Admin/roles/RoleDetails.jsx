@@ -1,14 +1,11 @@
 import React from 'react'
-import SideBar from '../Components/SideBar'
-import Navbar from '../../Components/Navbar'
 import { Link } from 'react-router-dom'
-import { IoIosAdd } from "react-icons/io";
-
+import AddIcon from '@mui/icons-material/Add';
 
 const Main = () => {
   return (
     <div className='absolute top-[95px] pl-[240px] w-[100%]'>
-      <Link to="/"><IoIosAdd />      New Role</Link>
+      <Link to="/" className='bg-indigo-500  p-2'> <AddIcon/> New Role</Link>
     </div>
   )
 }
