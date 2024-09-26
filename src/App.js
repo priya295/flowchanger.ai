@@ -38,8 +38,6 @@ const App = () => {
           <Route path='/filter' element = {<Filter/>}/>
           <Route path= '/admin' element = {<Admin/>}/>
           <Route path='/admin/staff' element = {<Staff/>}/>
-
-
           <Route path='/admin/role' element={<Role />} />
 
 
