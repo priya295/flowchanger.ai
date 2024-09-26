@@ -7,6 +7,7 @@ import client from '../../Assets/Images/client.png'
 import report from '../../Assets/Images/report.png'
 import staff from '../../Assets/Images/staff.png'
 import setting from '../../Assets/Images/setting.png'
+import { Link } from 'react-router-dom'
 
 const SideBar = () => {
   return (

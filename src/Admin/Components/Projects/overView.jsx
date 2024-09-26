@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-<<<<<<<< HEAD:src/Admin/Components/Projects/overView.jsx
-import SideBar from "../../Components/SideBar";
+ import SideBar from "../../Components/SideBar";
 import NavBar from "../../Components/NavBar";
 import details from "../../../Assets/Images/Details.png";
 import arrowbtn from "../../../Assets/Images/arrowbtn.png";
-========
-import details from "../../Images/Details.png";
-import arrowbtn from "../../Images/arrowbtn.png";
->>>>>>>> 0f3779cf5b2609acb98cb63f6b92db8dbcf13d19:src/Admin/Pages/Projects/overView.jsx
 import { MdManageSearch } from "react-icons/md";
 import { FaTasks } from "react-icons/fa";
 import { PiFiles } from "react-icons/pi";
