@@ -22,7 +22,6 @@ const MyStaff = () => {
     }
   ];
   const tabItems = ['Staff', 'Attendance', 'Bank Details', 'Salary Details', 'Leave Balances & Policy', 'Penalty & Overtime', 'Permissions'];
-  const navigate = useNavigate();
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6">

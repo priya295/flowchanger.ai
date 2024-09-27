@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Front from "./Admin/Components/pages/create_users";
 import Users from './Admin/Components/pages/users';
@@ -14,21 +14,31 @@ import SideBar from './Admin/Components/headers/SideBar';
 import EditForm from './Admin/Components/editForm';
 import MyStaff from './Admin/Components/mystaff';
 import Form from './Admin/Components/form';
-import ProjectSettings from './Admin/Components/ProjectSettings';
 import ProjectSummary from './Admin/Components/ProjectSummary';
+import ProjectSettings from './Admin/Components/ProjectSettings';
 import AddProject from './Admin/Components/addProject';
 
 const App = () => {
+
+   const [toggleSideBar , setToggleSideBar] = useState(false);
+
+   const handleToggleSideBar = () =>{
+      setToggleSideBar(!toggleSideBar)
+   }
+
+  //  function to create layout of the page
        function AdminLayout() {
             return (
               <>
-              <div className="flex min-h-screen overflow-hidden">
-         <div className="hidden md:flex md:flex-shrink-0 w-64">
-           <SideBar />
-         </div>
-         <div className="flex flex-col flex-1 overflow-hidden">
-           <NavBar />
-           <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+              <div className="flex  overflow-hidden min-h-screen">
+                
+            {toggleSideBar && <SideBar toggleSideBar = {toggleSideBar}/>}
+                  
+       
+         {/* container for navbar and outlet */}
+         <div className={`flex flex-col flex-grow overflow-hidden`}>
+           <NavBar handleToggleSideBar={handleToggleSideBar} toggleSideBar={toggleSideBar}/>
+           <main className={`flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 `}>
              <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <Outlet />
              </div>
