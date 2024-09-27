@@ -1,0 +1,24 @@
+.search-icon{
+    font-size: 13px !important;
+    top: 16px;
+}
+.refresh{
+    padding: 9px;
+    font-size: 42px !important;
+} 
+
+.table-body-set label{
+    position: relative;
+    top: -2px;
+}
+
+.table-body-set input{
+    padding: 3px;
+    height: 12px;
+    width: 12px;
+}
+@media screen and (max-width:576px){
+    .search-icon{
+        top: 15px;
+    }
+}
