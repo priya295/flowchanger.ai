@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 
 const SideBar = () => {
   return (
-    <div className="min-h-screen bg-[#2B2A2D] w-[13%] lg:min-h-screen">
+    <div className="h-[100vh] bg-[#2B2A2D] w-[10%]">
       <img className="p-7" src={logo} alt="" />
 
       <div className="mt-5 cursor-pointer">

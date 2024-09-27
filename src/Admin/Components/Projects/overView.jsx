@@ -1,5 +1,5 @@
 import React, { useState } from "react";
- import SideBar from "../../Components/SideBar";
+import SideBar from "../../Components/SideBar";
 import NavBar from "../../Components/NavBar";
 import details from "../../../Assets/Images/Details.png";
 import arrowbtn from "../../../Assets/Images/arrowbtn.png";
@@ -14,216 +14,161 @@ import { MdLocalActivity } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import Over from "./View";
-import Task from './Task'
-import Files from './Files'
+import Task from "./Task";
+import Files from "./Files";
 import Discussion from "./Discussion";
-import Tickets from './Tickets'
-import Notes from './Nots'
+import Tickets from "./Tickets";
+import Notes from "./Nots";
 import Activity from "./Activity";
 import Calender from "./Calender";
-import People from './People'
-
+import People from "./People";
 
 const Projects = () => {
-
   const [activeTab, setactiveTab] = useState("Overview");
 
   const handleActiveClick = (tab) => {
     setactiveTab(tab);
   };
 
+  const tabIcons = {
+    Overview: <MdManageSearch />,
+    Task: <FaTasks />,
+    Files: <PiFiles />,
+    Discussions: <GoCommentDiscussion />,
+    Gantt: <FaChartGantt />,
+    Tickets: <IoTicketSharp />,
+    Notes: <FaNoteSticky />,
+    Activity: <MdLocalActivity />,
+    Calendar: <FaCalendarAlt />,
+    People: <IoIosPeople />,
+  };
+
   const renderTabContent = () => {
     switch (activeTab) {
       case "Overview":
-        return <div><Over/></div>;
+        return (
+          <div>
+            <Over />
+          </div>
+        );
       case "Task":
-        return <div><Task/></div>;
+        return (
+          <div>
+            <Task />
+          </div>
+        );
       case "Files":
-        return <div><Files/></div>;
+        return (
+          <div>
+            <Files />
+          </div>
+        );
       case "Discussions":
-        return <div><Discussion/></div>;
+        return (
+          <div>
+            <Discussion />
+          </div>
+        );
       case "Gantt":
         return <div>Gantt Content</div>;
       case "Tickets":
-        return <div><Tickets/></div>;
+        return (
+          <div>
+            <Tickets />
+          </div>
+        );
       case "Notes":
-        return <div><Notes/></div>;
+        return (
+          <div>
+            <Notes />
+          </div>
+        );
       case "Activity":
-        return <div><Activity/></div>;
+        return (
+          <div>
+            <Activity />
+          </div>
+        );
       case "Calendar":
-        return <div><Calender/></div>;
+        return (
+          <div>
+            <Calender />
+          </div>
+        );
       case "People":
-        return <div><People/></div>;
+        return (
+          <div>
+            <People />
+          </div>
+        );
       default:
         return <div>Overview Content</div>;
     }
   };
 
   return (
-    <div className=' absolute top-[95px] pl-[240px] w-[100%]'>
-        <div>
-          <div>
-            <span className="text-[#9A93B3] text-[20px] font-medium">
-              Projects / Addodle
+    <div className=" absolute top-[95px] pl-[220px] w-[100%]">
+      <div>
+        <span className="text-[#9A93B3] text-[20px] font-medium ">
+          Projects / Addodle
+        </span>
+        <div className="flex mt-3 items-center gap-3">
+          <div className="flex items-center gap-2">
+            <span className="text-black text-[30px] font-medium">
+              Addodle
             </span>
-            <div className="flex mt-3 items-center gap-3">
-              <div className="flex items-center gap-2">
-                <span className="text-black  text-[30px] font-medium">
-                  Addodle
-                </span>
-                {/*- Profile Pictures -*/}
-                <div className="flex items-center space-x-2">
-                  <img
-                    className="rounded-full border-2 border-white"
-                    src={details}
-                    alt="Profile 1"
-                  />
-                </div>
-              </div>
-              {/*-- Status Badge -*/}
-              <div className="bg-green-100 w-[115px] h-[38px] text-[#4BA665] rounded-xl px-3 py-1 text-sm flex items-center justify-center">
-                Finished
-              </div>
-              {/*-- More Dropdown --*/}
-
-              <button className="ml-2 flex items-center h-[38px] w-[82px] justify-center rounded-md border-[#B1B1B1] gap-1 absolute right-12 border">
-                <img src={arrowbtn} alt="" />
-                More
-              </button>
+            {/*- Profile Pictures -*/}
+            <div className="flex items-center space-x-2">
+              <img
+                className="rounded-full border-2 border-white"
+                src={details}
+                alt="Profile 1"
+              />
             </div>
           </div>
-
-          <div className="flex items-center justify-center mt-8 mr-[30px] border h-[58px] shadow-md rounded-xl ">
-            <div className="flex items-center gap-10 text-[20px]">
-              <button
-                onClick={() => handleActiveClick("Overview")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Overview"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <MdManageSearch />
-                <span className="text-sm font-medium">Overview</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Task")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Task"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <FaTasks />
-                <span className="text-sm font-medium">Task</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Files")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Files"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <PiFiles />
-                <span className="text-sm font-medium">Files</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Discussions")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Discussions"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <GoCommentDiscussion />
-                <span className="text-sm font-medium">Discussions</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Gantt")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Gantt"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <FaChartGantt />
-                <span className="text-sm font-medium">Gantt</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Tickets")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Tickets"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <IoTicketSharp />
-                <span className="text-sm font-medium">Tickets</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Notes")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Notes"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <FaNoteSticky />
-                <span className="text-sm font-medium">Notes</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Activity")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Activity"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <MdLocalActivity />
-                <span className="text-sm font-medium">Activity</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("Calendar")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "Calendar"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <FaCalendarAlt />
-                <span className="text-sm font-medium">Calendar</span>
-              </button>
-
-              <button
-                onClick={() => handleActiveClick("People")}
-                className={`flex items-center space-x-3 ${
-                  activeTab === "People"
-                    ? "text-black border-b-2 border-[#511992]"
-                    : "text-gray-400"
-                } hover:border-b-2 pb-2 cursor-pointer`}
-              >
-                <IoIosPeople />
-                <span className="text-sm font-medium">People</span>
-              </button>
-            </div>
-            <div></div>
-
+          {/*-- Status Badge -*/}
+          <div className="bg-green-100 w-[115px] h-[38px] text-[#4BA665] rounded-xl  flex items-center justify-center">
+            Finished
           </div>
+          {/*-- More Dropdown --*/}
 
-          <div className="mt-10">{renderTabContent()}</div>
-
-          <div></div>
+          <button className="ml-2 flex items-center h-[38px] w-[82px] xjustify-center rounded-md border-[#B1B1B1] gap-1 absolute right-12 border">
+            <img src={arrowbtn} alt="" />
+            More
+          </button>
         </div>
-      
+      </div>
+
+      <div className="flex items-center mt-8 border h-[58px] shadow-md rounded-xl pl-11 overflow-x-auto gap-20 mr-10  whitespace-wrap">
+          {[
+            "Overview",
+            "Task",
+            "Files",
+            "Discussions",
+            "Gantt",
+            "Tickets",
+            "Notes",
+            "Activity",
+            "Calendar",
+            "People",
+          ].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => handleActiveClick(tab)}
+              className={`flex items-center space-x-2 sm:space-x-3 ${
+                activeTab === tab
+                  ? "text-black border-b-2 border-[#511992] text-base sm:text-lg lg:text-xl"
+                  : "text-gray-400 text-sm sm:text-base"
+              } hover:border-b-2 pb-2 cursor-pointer`}
+            >
+              {tabIcons[tab]} {/* Render the corresponding icon */}
+              <span className="text-sm sm:text-base">{tab}</span>
+            </button>
+          ))}
+        </div>
+      <div className="mt-10">{renderTabContent()}</div>
+
+      <div></div>
     </div>
   );
 };
