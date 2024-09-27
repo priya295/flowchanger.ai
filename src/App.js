@@ -13,6 +13,8 @@ import NavBar from './Admin/Components/NavBar';
 import SideBar from './Admin/Components/SideBar';
 import EditForm from './Admin/Components/editForm';
 import MyStaff from './Admin/Components/mystaff';
+import Newactivity from './Admin/Components/Projects/Newactivity';
+import NewTask from './Admin/Components/Task_deatail/NewTask';
 
 const App = () => {
        function AdminLayout() {
@@ -20,8 +22,8 @@ const App = () => {
               <>
                 <div  className='main-layout relative flex'>
                   <div className='set-layout flex '>
-                    <SideBar />
-                    <NavBar />
+                    {/* <SideBar />
+                    <NavBar /> */}
                   </div>
                   <Outlet />
                 </div>
@@ -43,9 +45,11 @@ const App = () => {
           <Route path='/admin/role' element={<Role />} />
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
-
+          <Route path='/newactivity' element={<Newactivity />} />
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
+          <Route path='/newtask' element={<NewTask />} />
+          
 
         </Route>
       </Routes>
