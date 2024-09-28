@@ -93,15 +93,9 @@ const NewTask = () => {
                     <td className="flex p-[0]">
 
 <td className="w-[40px] p-[10px]"><input type="checkbox" /></td>
-
 <td className="text-[12px] w-[40px] font-medium p-[8px] text-[#2563eb] hover:text-blue-950">140</td>
 <td className="w-[80px]"></td>
-
-
 <td className="flex flex-col w-[250px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">URBAN KHALSA REEL</Link> <Link className="text-[9px] text-[#000]" to="/">#8 - URBAN KHALSA - URBAN KHALSA</Link></td>
-
-
-
 <td className="p-[8px]"><Link className="text-[9px] p-[4px]   text-[#47cc00] rounded-md border border-3 border-[#47cc00]" to="/">Complete</Link></td>
 <td className="w-[30px]"></td>
 <td className="text-[12px] p-[8px] pl-[12px] w-[100px] whitespace-nowrap	">13-08-2024</td>
