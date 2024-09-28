@@ -10,7 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const DepartmentDetail = () => {
     return (
         <div className='absolute top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
-          <Link to="/admin/adddepartment" className='bg-[#511992]  p-2 pr-3 rounded-lg text-white hover:bg-[#7526d1]'> <AddIcon /> New Department</Link>
+          <Link to="/adddepartment" className='bg-[#511992]  p-2 pr-3 rounded-lg text-white hover:bg-[#7526d1]'> <AddIcon /> New Department</Link>
     
           <div className='table-section mt-5 bg-white shadow p-4 pl-0 rounded-sm pr-0'>
     
@@ -58,7 +58,9 @@ const DepartmentDetail = () => {
                     <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
                   </td>
                   <td className='flex pt-4 gap-2'>
+                    <Link to="/editdepartment">
                     <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
+                    </Link>
                     <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
                   </td>
                 </tr>
@@ -69,8 +71,10 @@ const DepartmentDetail = () => {
                     <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
                   </td>
                   <td className='flex pt-4 gap-2'>
+                    <Link to="/editdepartment">
                     <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                    <DeleteOutlineIcon className='text-red-500  font-light cursor-pointer text-[10px]]' />
+                    </Link>
+                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
                   </td>
                 </tr>
                 <tr className='border-b pb-2 border-[#f1f5f9]'>
@@ -79,8 +83,10 @@ const DepartmentDetail = () => {
                     <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
                   </td>
                   <td className='flex pt-4 gap-2'>
+                    <Link to="/editdepartment">
                     <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                    <DeleteOutlineIcon className='text-red-500  font-light cursor-pointer text-[10px]]' />
+                    </Link>
+                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
                   </td>
                 </tr>
                 <tr className='border-b pb-2 border-[#f1f5f9]'>
@@ -89,8 +95,10 @@ const DepartmentDetail = () => {
                     <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
                   </td>
                   <td className='flex pt-4 gap-2'>
+                    <Link to="/editdepartment">
                     <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                    <DeleteOutlineIcon className='text-red-500  font-light cursor-pointer text-[10px]]' />
+                    </Link>
+                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
                   </td>
                 </tr>
     
