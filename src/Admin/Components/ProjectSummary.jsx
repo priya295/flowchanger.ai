@@ -18,7 +18,7 @@ const ProjectSummary = () =>{
      return (
       // container for all content
         <div className="container">
-        <div className="flex justify-evenly items-center w-1/4 bg-blue-700  p-0 ">
+        <div className="flex justify-evenly items-center w-1/4   p-0 ">
          <button className="bg-purple-800 p-2.5 rounded mx-0.5 flex justify-between items-center px-8 text-white">
          <IoMdAdd className=" mr-3 text-2xl font-bold"/>
          New Project
@@ -33,10 +33,10 @@ const ProjectSummary = () =>{
               <GoProjectRoadmap className="ml-3 text-3xl"/>
                <h1 className="font-bold text-2xl leading-16">Project Summary</h1>
              </div>
-             <div className="flex justify-between items-center w-[100%] md:w-[47%]  mt-3 ">
+             <div className="flex justify-between items-center w-[100%] md:w-[46%]  mt-3 ">
               <button className="bg-purple-700 p-3 rounded-full w-[40%]"><span></span>Add New</button>
               <div className="relative">
-              <IoSearchOutline className="absolute inset-y-0 right-2 top-2 text-3xl flex items-center"/>
+              <IoSearchOutline className="absolute inset-y-0 right-2 top-1.5 text-3xl flex items-center"/>
               <input type="text" placeholder = "search..." className="p-2 rounded-full  focus:outline-grey-500 mr-2 pr-10 border border-gray-400 shadow-sm"/>
               
               </div>

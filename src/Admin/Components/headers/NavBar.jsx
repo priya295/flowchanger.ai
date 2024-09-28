@@ -13,7 +13,9 @@ const NavBar = ({handleToggleSideBar,toggleSideBar}) => {
     return (
     <div className={`w-[100%] h-auto md:h-[60px] md:flex  items-center justify-between border-b shadow-sm `}>
       <div className="flex items-center gap-4 relative">
-        <img className="ml-6" src={menu} alt="menu" onClick={handleToggleSideBar}/>
+        <button onClick={handleToggleSideBar}>
+        <img className="ml-6" src={menu} alt="menu" />
+        </button>
         <input
           className="h-[42px] w-[370px] pl-3 bg-[#F4F5F9] rounded-md border-[#DBDCDE] border"
           type="text"

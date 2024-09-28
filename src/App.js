@@ -30,15 +30,15 @@ const App = () => {
        function AdminLayout() {
             return (
               <>
-              <div className="flex  overflow-hidden min-h-screen">
-                
+              <div className="flex">
+              <div className="">
             {toggleSideBar && <SideBar toggleSideBar = {toggleSideBar}/>}
-                  
+            </div> 
        
          {/* container for navbar and outlet */}
          <div className={`flex flex-col flex-grow overflow-hidden`}>
            <NavBar handleToggleSideBar={handleToggleSideBar} toggleSideBar={toggleSideBar}/>
-           <main className={`flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 `}>
+           <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
              <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <Outlet />
              </div>

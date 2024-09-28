@@ -6,16 +6,16 @@ const Form = () => {
   return (
     <div className="container mx-auto px-4 max-w-4xl">
       <div className="flex flex-col space-y-6">
-        <div className=' flex  h-10  mr- float-left items-center xs:w-[30%] md:w-[15%] '>
-        <FaArrowLeft/><span className='font-bold ml-4'>Add staff</span>
+        <div className=' flex  h-10  mr- float-left items-center xs:w-[30%] md:w-[21%] '>
+        <FaArrowLeft/><span className='font-medium text-3xl ml-4'>Add staff</span>
         </div>
-        <hr/>
-        <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 shadow-md rounded-lg">
+        <hr />
+        <div className="flex flex-col sm:flex-row justify-between items-center bg-white p-4 shadow-md rounded-lg border border-gray-200 border-t-none">
           <div className="flex flex-col justify-center items-center font-bold">
           <div className="w-20 h-20 rounded-full bg-slate-200 p-5 flex justify-center items-center mb-4 sm:mb-0">
             <CgProfile className="h-10 w-10" />
           </div>
-          <div>Add Staff</div>
+          <div className="font-medium">Add Staff</div>
           </div>
           <button className="bg-purple-700 text-white p-3 w-full sm:w-auto rounded">
             Save
@@ -37,12 +37,12 @@ const Form = () => {
             { label: "Branch", type: "text", name: "Branch"},
             { label: "Department", type: "text", name: "Department"},
           ].map((field, index) => (
-            <div key={index} className="mb-6 flex-col md:flex justify-evenly w-screen mx-auto">
-              <label className="block text-gray-500 font-bold mb-2 w-[30%]" htmlFor={`field-${index}`}>
+            <div key={index} className="mb-6 flex  justify-center  mx-auto ">
+              <label className="block text-black-500 font-normal  mb-2 w-[20%]" htmlFor={`field-${index}`}>
                 {field.label}
               </label>
               <input
-                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-[90%] py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-[60%] py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500 "
                 id={`field-${index}`}
                 type={field.type}
                 name={field.name}
