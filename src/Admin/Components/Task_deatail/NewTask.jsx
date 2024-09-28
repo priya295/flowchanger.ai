@@ -22,35 +22,36 @@ const NewTask = () => {
                     <table className="w-full">
                         <tr>
                             <th className="w-[10px]" ></th>
-                            <th className="border-r p-[8px] w-[40px]"><input type="checkbox" /></th>
+                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
 
 
                             <th className="text-[12px] border-r w-[40px]  font-medium p-[8px] ">#</th>
 
-                            <th className="w-[80px]"></th>
-                            <th className="text-[12px] w-[250px] border-r font-medium whitespace-nowrap">Name</th>
+                            
+                            <th className="text-[12px] w-[250px] p-[10px] border-r font-medium whitespace-nowrap">Task Name</th>
 
-                            <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap">Status</th>
-
-
+                           
 
 
-                            <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Start Date</th>
 
 
-                            <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Due Date</th>
+                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">Start Date</th>
 
 
-                            <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Assigned to</th>
+                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">Due Date</th>
+                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">End Date</th>
 
 
-                            <th className="text-[12px] w-[100px] font-medium p-[8px] border-r whitespace-nowrap	">Tags</th>
+                            <th className="text-[12px] font-medium p-[10px] w-[120px] border-r whitespace-nowrap	">Assigned to</th>
 
 
-                            <th className="text-[12px] w=[90px] font-medium p-[8px] border-r whitespace-nowrap	">Priority</th>
+                            <th className="text-[12px] w-[100px] font-medium p-[10px] border-r whitespace-nowrap	">Tags</th>
 
 
-                            <th className="text-[12px] p-[8px] font-medium   whitespace-nowrap	">Posting Date</th>
+                            <th className="text-[12px] w=[90px] font-medium p-[10px] border-r whitespace-nowrap	">Priority</th>
+
+
+                            
 
                         </tr>
                     </table>
@@ -61,27 +62,27 @@ const NewTask = () => {
                     <tr>
                         <td className="flex p-[0]">
 
-                            <td className="w-[40px] p-[10px] "><input type="checkbox" /></td>
+                        <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
-                            <td className="text-[12px] w-[40px] font-medium p-[8px] text-[#2563eb] hover:text-blue-950">43</td>
-                            <td className="w-[80px]"></td>
-
-
-                            <td className="flex flex-col w-[250px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
+                            <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">43</td>
+                           
 
 
+                            <td className="flex flex-col w-[250px] p-[10px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
 
-                            <td className="p-[8px]"><Link className="text-[9px] p-[4px]   text-[#47cc00] rounded-md border border-3 border-[#47cc00]" to="/">Complete</Link></td>
-                            <td className="w-[30px]"></td>
-                            <td className="text-[12px] p-[8px] pl-[12px] w-[100px] whitespace-nowrap	">13-08-2024</td>
 
-                            <td className="text-[12px] p-[8px] pl-[12px] w-[100px]   whitespace-nowrap	">13-08-2024</td>
+
+                          
+                            <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">13-08-2024</td>
+
+                            <td className="text-[12px] p-[10px]  w-[100px]   whitespace-nowrap	">13-08-2024</td>
+                            <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">19-08-2024</td>
 
                             <td className="w-[120px]"></td>
 
-                            <td className="p-[8px] w-[100px] pl-[12px]"><Link className="text-[12px] pl-[7px] pr-[7px] pb-[5px] pt-[5px] text-[#000] rounded-md border border-3 border-[#e2e8f0]" to="/">Reel</Link></td>
+                            <td className="p-[10px] w-[100px]"><Link className="text-[12px] pl-[7px] pr-[7px] pb-[5px] pt-[5px] text-[#000] rounded-md border border-3 border-[#e2e8f0]" to="/">Ads</Link></td>
 
-                            <td className="text-[#ff6f00] p-[8px] w-[100px] pl-[12px] text-[12px] whitespace-nowrap	">High</td>
+                            <td className="text-[#ff6f00] p-[10px] w-[100px]  text-[12px] whitespace-nowrap	">High</td>
 
 
 
@@ -89,29 +90,40 @@ const NewTask = () => {
 
 
                     </tr>
+
                     <tr>
-                    <td className="flex p-[0]">
+                        <td className="flex p-[0]">
 
-<td className="w-[40px] p-[10px]"><input type="checkbox" /></td>
-<td className="text-[12px] w-[40px] font-medium p-[8px] text-[#2563eb] hover:text-blue-950">140</td>
-<td className="w-[80px]"></td>
-<td className="flex flex-col w-[250px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">URBAN KHALSA REEL</Link> <Link className="text-[9px] text-[#000]" to="/">#8 - URBAN KHALSA - URBAN KHALSA</Link></td>
-<td className="p-[8px]"><Link className="text-[9px] p-[4px]   text-[#47cc00] rounded-md border border-3 border-[#47cc00]" to="/">Complete</Link></td>
-<td className="w-[30px]"></td>
-<td className="text-[12px] p-[8px] pl-[12px] w-[100px] whitespace-nowrap	">13-08-2024</td>
+                        <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
-<td className="text-[12px] p-[8px] pl-[12px] w-[100px]   whitespace-nowrap	">13-08-2024</td>
+                            <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">143</td>
+                           
 
-<td className="w-[120px]"></td>
 
-<td className="p-[8px] w-[100px] pl-[12px]"><Link className="text-[12px] pl-[7px] pr-[7px] pb-[5px] pt-[5px] text-[#000] rounded-md border border-3 border-[#e2e8f0]" to="/">Reel</Link></td>
-<td className="text-[#03a9f4] p-[8px] w-[100px] pl-[12px] text-[12px] whitespace-nowrap	">Medium</td>
+                            <td className="flex flex-col w-[250px] p-[10px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">URBAN KHALSA REEL</Link> <Link className="text-[9px] text-[#000]" to="/">#8 - URBAN KHALSA - URBAN KHALSA</Link></td>
 
 
 
-</td>
-                    
+                          
+                            <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">16-08-2024</td>
+
+                            <td className="text-[12px] p-[10px]  w-[100px]   whitespace-nowrap	">18-08-2024</td>
+                            <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">20-08-2024</td>
+
+                            <td className="w-[120px]"></td>
+
+                            <td className="p-[10px] w-[100px]"><Link className="text-[12px] pl-[7px] pr-[7px] pb-[5px] pt-[5px] text-[#000] rounded-md border border-3 border-[#e2e8f0]" to="/">Ads</Link></td>
+
+                            <td className="text-[#2563eb] p-[10px] w-[100px]  text-[12px] whitespace-nowrap	">Medium</td>
+
+
+
+                        </td>
+
+
                     </tr>
+
+                
 
                 </table>
 
