@@ -21,7 +21,7 @@ const Task = () => {
   return (
     <div>
       <div className="border shadow h-[32rem] p-7 rounded-xl">
-        <div className="flex items-center space-x-7">
+        <div className="flex items-center space-x-7 max-[1024px]:grid">
           {/*-- Add new button --*/}
           <button
             onClick={handleAddNewTasks}
@@ -43,7 +43,7 @@ const Task = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="border border-[#B1B1B1] text-[#B1B1B1]  rounded-full px-3 py-1 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="border border-[#B1B1B1] text-[#B1B1B1]  rounded-full px-3 py-1 max-[1024px]:mt-[10px] max-[1024px]:ml-[-25px]"
             />
             <span className="absolute inset-y-0 right-3 flex items-center">
               <svg
@@ -58,13 +58,13 @@ const Task = () => {
 
           {/*-- Group by dropdown --*/}
           <div className="relative">
-            <select className="border border-[#B1B1B1] bg-white text-[#B1B1B1] rounded-full px-3 py-1 focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <select className="border border-[#B1B1B1] bg-white text-[#B1B1B1] rounded-full px-3 py-1 max-[1024px]:mt-[10px] max-[1024px]:mb-[10px] max-[1024px]:ml-[-25px]">
               <option>Group by : Priority</option>
             </select>
           </div>
 
           {/*-- Filter icon -*/}
-          <button className="text-gray-500 border hover:text-gray-700 px-3 py-1 rounded-full border-[#B1B1B1]">
+          <button className="text-gray-500 border hover:text-gray-700 px-3 py-1 rounded-full border-[#B1B1B1] max-[1024px]:w-[50px]">
             <svg
               className="w-6 h-6"
               fill="none"

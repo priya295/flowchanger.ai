@@ -3,8 +3,8 @@ import React from "react";
 const View = () => {
   return (
     <div>
-      <div className="flex w-[100%] gap-[5rem] ">
-        <div className="w-[50%] bg-white shadow rounded-lg p-6 ">
+      <div className="flex w-[100%] gap-[5rem] max-[900px]:inline-grid">
+        <div className=" bg-white  w-[50%] shadow rounded-lg p-6 max-[900px]:w-[100%] ">
           {/*-- Progress Bar -*/}
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
@@ -97,10 +97,10 @@ const View = () => {
           </div>
         </div>
 
-        <div>
-          <div className="flex gap-[3rem]  ">
+        <div className="w-[50%]">
+          <div className="flex w-[100%] gap-[3rem] max-[1100px]:inline-grid">
             {/*-- Open Tasks Card --*/}
-            <div className="h-[95px] w-[48%]  bg-white shadow rounded-lg p-4 max-[1200px]:w-[10rem] max-[1400px]:w-[18rem]">
+            <div className="h-[95px] w-[50%] bg-white shadow rounded-lg p-4 max-[1100px]:w-[100%] max-[900px]:w-[200%] ">
               <div className=" flex items-center text-sm font-medium text-gray-600">
                 0 / 0 Open Tasks
               </div>
@@ -112,7 +112,7 @@ const View = () => {
             </div>
 
             {/*- Days Left Card --*/}
-            <div className=" h-[95px] w-[60%]   bg-white shadow rounded-lg p-4 max-[1400px]:w-[18rem] max-[1200px]:w-[10rem]">
+            <div className=" h-[95px] w-[50%] bg-white shadow rounded-lg p-4 max-[1100px]:w-[100%] max-[900px]:w-[200%]">
               <div className=" text-sm font-medium text-gray-600">
                 0 / 17 Days Left
               </div>
@@ -124,7 +124,7 @@ const View = () => {
             </div>
           </div>
 
-          <div class=" mt-12 h-[25rem]  bg-white shadow rounded-lg p-4 ">
+          <div class=" mt-12 h-[25rem]  bg-white shadow rounded-lg p-4 max-[900px]:w-[200%] ">
             <div class="flex justify-between items-center mb-4">
               <div></div>
               <div class="text-purple-500 font-semibold">This week</div>

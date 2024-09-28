@@ -6,6 +6,7 @@ import Project from './Admin/pages/Projects/Project_Data';
 import Task from './Admin/pages/Tasks/Task_Data';
 import Role from './Admin/pages/Roles/RoleDetails';
 import Department from './Admin/pages/Department/DepartmentDetails';
+import Project_overView from './Admin/pages/Projects/overView'
 
 const App = () => {
 
@@ -44,6 +45,7 @@ const App = () => {
       <Routes>
         <Route element={<AdminLayout />}>
           <Route path='/Project' element = {<Project/>}/>   
+          <Route path='/Project/overView' element = {<Project_overView/>}/>   
           <Route path='/task' element = {<Task/>}/>   
           <Route path='/role' element = {<Role/>}/>  
           <Route path='/department' element = {<Department/>}/>  
