@@ -3,12 +3,12 @@ import React from "react";
 const View = () => {
   return (
     <div>
-      <div className="flex gap-[8rem]">
-        <div className="w-[40%] bg-white shadow rounded-lg p-6">
+      <div className="flex w-[100%] gap-[5rem] ">
+        <div className="w-[50%] bg-white shadow rounded-lg p-6 ">
           {/*-- Progress Bar -*/}
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold text-gray-700">
+              <span className="font-semibold text-gray-700 max-[1400px]:text-[14px]">
                 Project Progress 100%
               </span>
             </div>
@@ -18,11 +18,11 @@ const View = () => {
           </div>
 
           {/*-- Overview Section -*/}
-          <div className="text-gray-600 space-y-2">
-            <span className="block font-semibold text-gray-700">Overview</span>
-            <div className="grid grid-cols-2 gap-6">
+          <div className="text-gray-600 space-y-2 max-[1400px]:text-[14px]">
+            <span className="block font-semibold text-gray-700 ">Overview</span>
+            <div className="grid grid-cols-2 gap-6 ">
               <div>
-                <span className="block font-semibold text-gray-700">
+                <span className="block font-semibold text-gray-700 ">
                   Project #
                 </span>
                 <span classNameName="text-[#B1B1B1]">29</span>
@@ -98,9 +98,9 @@ const View = () => {
         </div>
 
         <div>
-          <div className="flex space-x-12">
+          <div className="flex gap-[3rem]  ">
             {/*-- Open Tasks Card --*/}
-            <div className="w-[25rem] h-[95px] bg-white shadow rounded-lg p-4 flex flex-col">
+            <div className="h-[95px] w-[48%]  bg-white shadow rounded-lg p-4 max-[1200px]:w-[10rem] max-[1400px]:w-[18rem]">
               <div className=" flex items-center text-sm font-medium text-gray-600">
                 0 / 0 Open Tasks
               </div>
@@ -112,7 +112,7 @@ const View = () => {
             </div>
 
             {/*- Days Left Card --*/}
-            <div className="w-[25rem] h-[95px] bg-white shadow rounded-lg p-4 flex flex-col">
+            <div className=" h-[95px] w-[60%]   bg-white shadow rounded-lg p-4 max-[1400px]:w-[18rem] max-[1200px]:w-[10rem]">
               <div className=" text-sm font-medium text-gray-600">
                 0 / 17 Days Left
               </div>
@@ -124,7 +124,7 @@ const View = () => {
             </div>
           </div>
 
-          <div class="w-full mt-12 h-[25rem] bg-white shadow rounded-lg p-4">
+          <div class=" mt-12 h-[25rem]  bg-white shadow rounded-lg p-4 ">
             <div class="flex justify-between items-center mb-4">
               <div></div>
               <div class="text-purple-500 font-semibold">This week</div>
@@ -189,7 +189,7 @@ const View = () => {
               </div>
             </div>
 
-            <div class="flex justify-evenly  mt-4 text-black text-sm">
+            <div class="flex justify-evenly mt-4 text-black text-sm">
               <div>Sun</div>
               <div>Mon</div>
               <div>Tue</div>
