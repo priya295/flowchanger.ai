@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 
 import React,{useState} from 'react';
@@ -42,10 +43,37 @@ const App = () => {
         
             )
           }
+=======
+import React from "react";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import Admin from "./Admin/Components/Projects/overView";
+import Staff from "./Admin/Components/Staff";
+import Role from "./Admin/Components/roles/RoleDetails";
+import NavBar from "./Admin/Components/NavBar";
+import SideBar from "./Admin/Components/SideBar";
+import EditForm from "./Admin/Components/editForm";
+import MyStaff from "./Admin/Components/mystaff";
+
+const App = () => {
+  function AdminLayout() {
+    return (
+      <>
+        <div className="main-layout relative flex">
+          <div className="set-layout flex ">
+            {/* <SideBar />
+            <NavBar /> */}
+          </div>
+          <Outlet />
+        </div>
+      </>
+    );
+  }
+>>>>>>> e49abc6c4d35d7c0b9154c41377d6b3e209c7cc8
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayout />}>
+<<<<<<< HEAD
         <Route path="/" element= {<Front/>} />  
           <Route path='/users' element = {<Users/>}/>   
           {/* <Route path='/details' element = {<Details/>}/> */}
@@ -63,14 +91,26 @@ const App = () => {
           <Route path='/newtask' element={<NewTask/>} />
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
+=======
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/staff" element={<Staff />} />
+          <Route path="/admin/role" element={<Role />} />
+          <Route path="/editForm" element={<EditForm />} />
+          <Route path="/mystaff" element={<MyStaff />} />
+>>>>>>> e49abc6c4d35d7c0b9154c41377d6b3e209c7cc8
 
+          <Route path="/editForm" element={<EditForm />} />
+          <Route path="/mystaff" element={<MyStaff />} />
         </Route>
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> e49abc6c4d35d7c0b9154c41377d6b3e209c7cc8
