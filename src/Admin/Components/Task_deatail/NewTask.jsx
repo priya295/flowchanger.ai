@@ -138,7 +138,11 @@ const NewTask = () => {
         <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
 
             <div className="bg-[#e1ebff] p-[10px]">
-                <button type="button" class="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  > < AddIcon className="addicon" /> Default</button>
+                <div className="mb-[14px]">
+                
+                <Link to="/" className="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> 
+                <AddIcon/> Default</Link>
+                </div>
                 {accordionItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-200">
                         {/* Accordion Header */}
