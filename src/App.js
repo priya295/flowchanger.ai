@@ -7,6 +7,7 @@ import Task from './Admin/pages/Tasks/Task_Data';
 import Role from './Admin/pages/Roles/RoleDetails';
 import Department from './Admin/pages/Department/DepartmentDetails';
 import AddNewCustomer from './Admin/pages/Clients/AddNewCustomer';
+import ProjectSettings from './Admin/pages/Projects/Project_Setting';
 
 const App = () => {
 
@@ -49,6 +50,7 @@ const App = () => {
           <Route path='/task' element = {<Task/>}/>   
           <Route path='/role' element = {<Role/>}/>  
           <Route path='/department' element = {<Department/>}/>  
+          <Route path='/projectsettings' element = {<ProjectSettings/>}/>  
         </Route>
       </Routes>
     </BrowserRouter>
