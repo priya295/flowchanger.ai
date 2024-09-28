@@ -44,7 +44,6 @@ const DepartmentDetail = () => {
     ]'/>
               </div>
             </div>
-    
             <table class="table-auto w-[100%]">
               <thead className='bg-[#f1f5f9] '>
                 <tr>
