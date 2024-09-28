@@ -58,8 +58,6 @@ const App = () => {
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
           <Route path='/newtask' element={<NewTask />} />
-          
-
         </Route>
       </Routes>
     </BrowserRouter>
