@@ -1,7 +1,6 @@
 
 
 import React from 'react';
-import './Assets/css/roledetail.css'
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Front from "./Admin/Components/pages/create_users";
 import Users from './Admin/Components/pages/users';
@@ -10,24 +9,27 @@ import Filter from './Admin/Components/pages/filter_selected';
 import Admin from './Admin/Components/Projects/overView';
 import Staff from './Admin/Components/Staff';
 import Role from './Admin/Components/roles/RoleDetails';
-import NavBar from './Admin/Components/NavBar';
-import SideBar from './Admin/Components/SideBar';
+import NavBar from './Admin/Components/headers/NavBar';
+import SideBar from './Admin/Components/headers/SideBar';
 import EditForm from './Admin/Components/editForm';
 import MyStaff from './Admin/Components/mystaff';
-import AddNewRole from './Admin/Components/roles/AddNewRole';
-import DepartmentDetail from './Admin/Components/Department/DepartmentDetail';
-import AddDepartment from './Admin/Components/Department/AddDepartment';
-import Newactivity from './Admin/Components/Projects/Newactivity';
-import NewTask from './Admin/Components/Task_deatail/NewTask';
 
 const App = () => {
+
+   const [toggleSideBar , setToggleSideBar] = useState(false);
+
+   const handleToggleSideBar = () =>{
+      setToggleSideBar(!toggleSideBar)
+   }
+
+  //  function to create layout of the page
        function AdminLayout() {
             return (
               <>
                 <div  className='main-layout relative flex'>
                   <div className='set-layout flex '>
-                    {/* <SideBar />
-                    <NavBar /> */}
+                    <SideBar />
+                    <NavBar />
                   </div>
                   <Outlet />
                 </div>
@@ -54,10 +56,10 @@ const App = () => {
 
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
-          <Route path='/newactivity' element={<Newactivity />} />
+
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
-          <Route path='/newtask' element={<NewTask />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
@@ -65,3 +67,6 @@ const App = () => {
 }
 
 export default App;
+
+
+

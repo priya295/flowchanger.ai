@@ -4,7 +4,7 @@ import React from 'react';
 const EditForm = () => {
   // Helper function to create form fields
   const FormField = ({ label, id, name, type = "text" }) => (
-    <div className="items-center w-[33%] mx-auto">
+    <div className="items-center md:w-[33%] w-[100%] mx-auto">
       <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={id}>
         {label}
       </label>
@@ -19,7 +19,7 @@ const EditForm = () => {
   );
 
   return (
-    <form className="bg-white rounded-lg shadow-lg p-6 h-screen">
+    <form className="bg-white rounded-lg shadow-lg p-6 min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Edit Employee</h2>
 
       {/* Form fields */}
