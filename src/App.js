@@ -1,6 +1,6 @@
 
 
-import React from 'react';
+import React,{useState} from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Front from "./Admin/Components/pages/create_users";
 import Users from './Admin/Components/pages/users';
@@ -13,6 +13,10 @@ import NavBar from './Admin/Components/headers/NavBar';
 import SideBar from './Admin/Components/headers/SideBar';
 import EditForm from './Admin/Components/editForm';
 import MyStaff from './Admin/Components/mystaff';
+import AddNewRole from '../src/Admin/Components/roles/AddNewRole' 
+import DepartmentDetail from '../src/Admin/Components/Department/DepartmentDetail' 
+import AddDepartment from '../src/Admin/Components/Department/AddDepartment' 
+import NewTask from '../src/Admin/Components/Task_deatail/NewTask';
 
 const App = () => {
 
@@ -56,7 +60,7 @@ const App = () => {
 
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
-
+          <Route path='/newtask' element={<NewTask/>} />
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
 
