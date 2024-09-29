@@ -1,108 +1,116 @@
 
-import { div } from 'framer-motion/client';
-import React from 'react';
-import { HiOutlineQuestionMarkCircle } from "react-icons/hi2";
-// import { useNavigate, useParams } from 'react-router-dom;
+const AddNewCustomer = () =>{
+  return(
+<div class="bg-gray-100 flex justify-center items-center min-h-screen">
 
-const AddNewCustomer = () => {
-  // Helper function to create form fields
-  const FormField = ({ label, id, name,placeholder, type = "text" ,icon}) => (
-    <div className="items-center w-[100%] md:w-[60%]  mx-auto">
-      {icon ? 
-      <div className='flex justify-start items-center mb-2'><span>{icon}</span>
-       <label className="block text-gray-700 text-sm font-normal " htmlFor={id}>
-        {label}
-      </label>
-      </div>: <label className="block text-gray-700 text-sm font-normal mb-2" htmlFor={id}>
-        {label}
-      </label>
-      }
-     
-      <input
-        type={type}
-        id={id}
-        name={name || id}
-        placeholder= {placeholder}
-        className="shadow appearance-none border rounded py-2 px-3 w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:outline-black font-normal"
-        required
-      />
-    </div>
-  );
-
-  return (<>
-    <div className='flex w-[50%] justify-between mx-15'>
-    <div>Customer Details</div>
-    <div>Billing and Shipping</div>
-    <hr />
+<div class="w-full max-w-3xl bg-white shadow-md rounded-lg p-6">
+  <div class="mb-6">
+    {/* <!-- Tabs for form sections --> */}
+    <nav class="flex space-x-4 border-b">
+      <a href="#" class=" py-2 hover:border-b-2 hover:border-blue-600 text-sm font-medium">Customer Details</a>
+      <a href="#" class="text-gray-600 py-2 text-sm font-medium hover:border-b-2 hover:border-blue-600">Billing & Shipping</a>
+    </nav>
   </div>
-    <form className="bg-white rounded-lg shadow-lg p-6 min-h-screen font-medium">
-      {/* Form fields */}
-      <div key={Date.now()} className="mb-4">
-      
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="Company"  id="name" className="w-full" />
-        </div>
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="VAT Number" id="name" />
-        </div>
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="phone" id="name" />
-        </div>
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="website" id="name" />
-        </div>
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="Groups" id="Department" />
+
+  {/* <!-- Form starts --> */}
+  <form>
+    <div class="grid grid-cols-1 gap-6">
+      {/* <!-- Company --> */}
+      <div>
+        <label for="company" class="block text-sm font-medium text-gray-700">Company *</label>
+        <input type="text" id="company" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required />
+      </div>
+
+      {/* <!-- VAT Number --> */}
+      <div>
+        <label for="vat" class="block text-sm font-medium text-gray-700">VAT Number</label>
+        <input type="text" id="vat" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      </div>
+
+      {/* <!-- Phone --> */}
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+        <input type="tel" id="phone" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      </div>
+
+      {/* <!-- Website --> */}
+      <div>
+        <label for="website" class="block text-sm font-medium text-gray-700">Website</label>
+        <input type="url" id="website" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      </div>
+
+      {/* <!-- Groups --> */}
+      <div>
+        <label for="groups" class="block text-sm font-medium text-gray-700">Groups</label>
+        <input type="text" id="groups" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Nothing selected" />
+      </div>
+
+      {/* <!-- Currency and Default Language in one row --> */}
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {/* <!-- Currency --> */}
+        <div>
+          <label for="currency" class="block text-sm font-medium text-gray-700">Currency</label>
+          <select id="currency" class="mt-1 block w-full border border-gray-300 bg-white rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <option value="default">System Default</option>
+            <option value="usd">USD $</option>
+            <option value="inr">INR ₹</option>
+          </select>
         </div>
 
-        <div className='flex flex-wrap justify-between my-10 mx-auto w-[100%] ml-0 md:ml-20'>
-          <div className="flex w-[80%]">
-            <div className="w-1/2 pr-2">
-              <FormField label="Currency" id="currency" icon = {<HiOutlineQuestionMarkCircle />} placeholder="currency"/>
-            </div>
-            <div className="w-1/2 pl-2">
-              <FormField label="Default Language" id="defaultLanguage" placeholder="Default Language"/>
-            </div>
-          </div>
-        </div>
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <div className = "w-[100%] md:w-[60%]  mx-auto">
-        <label htmlFor="" className='mt-2 font-normal'>Address</label>
-         <textarea name="" id="" className='w-[100%] border border-gray-400'></textarea>
-         </div>
-        </div>
-
-      
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="City" id="City" />
-        </div>
-
-        
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="State" id="State" name="State" />
-        </div>
-        <div className='flex flex-wrap justify-evenly my-10 w-[100%] h-[30%]'>
-          <FormField label="Zip Code" id="Zip Code" name="Zip Code" />
+        {/* <!-- Default Language --> */}
+        <div>
+          <label for="language" class="block text-sm font-medium text-gray-700">Default Language</label>
+          <select id="language" class="mt-1 block w-full border border-gray-300 bg-white rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            <option value="default">System Default</option>
+            {/* <!-- Add other language options if needed --> */}
+          </select>
         </div>
       </div>
 
-      {/* Form buttons */}
-      <div className="flex justify-end">
-        <button
-          type="button"
-          className="text-black hover:bg-gray-700 border border-gray-300  font-normal py-2 px-4 rounded mr-2"
-        >
-          save and create contact
-        </button>
-        <button
-          type="submit"
-          className="bg-purple-500 hover:bg-purple-700 text-white font-normal py-2 px-4 rounded"
-        >
-          Save 
-        </button>
+      {/* <!-- Address --> */}
+      <div>
+        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+        <input type="text" id="address" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
       </div>
-    </form>
-    </>);
-};
+
+      {/* <!-- City --> */}
+      <div>
+        <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+        <input type="text" id="city" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      </div>
+
+      {/* <!-- State --> */}
+      <div>
+        <label for="state" class="block text-sm font-medium text-gray-700">State</label>
+        <input type="text" id="state" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      </div>
+
+      {/* <!-- Zip Code --> */}
+      <div>
+        <label for="zip" class="block text-sm font-medium text-gray-700">Zip Code</label>
+        <input type="text" id="zip" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      </div>
+
+      {/* <!-- Country --> */}
+      <div>
+        <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+        <input type="text" id="country" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+      </div>
+    </div>
+
+    {/* <!-- Submit Button --> */}
+    <div class="mt-6  w-full md:w-[40%] flex p-2 justify-around  md:float-right">
+      <button type="submit" class="   p-2 text-gray-400 border border-gray-400 rounded-md shadow-sm h focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 ">save and create contact</button>
+      <button type="submit" class=" bg-blue-600 text-white p-2 px-3 rounded-md shadow-sm hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">save</button>
+    </div>
+  </form>
+  {/* <!-- Form ends --> */}
+</div>
+
+</div>
+  );
+}
 
 export default AddNewCustomer;
+
+
