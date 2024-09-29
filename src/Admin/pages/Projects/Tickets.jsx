@@ -9,7 +9,7 @@ const Tickets = () => {
 
       <div>
         <div className="p-4 shadow mt-8 rounded-xl">
-          <div className="flex  justify-between items-center mb-4">
+          <div className="flex  justify-between items-center mb-4 max-[500px]:block">
             <div className="flex space-x-2 text-[#B1B1B1]">
               <select className="border w-[4.5rem] border-[#B1B1B1] rounded p-2 bg-white">
                 <option>25</option>
@@ -22,7 +22,7 @@ const Tickets = () => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="border border-gray-300 rounded p-2 w-64"
+                className="border border-gray-300 rounded p-2 w-64 max-[500px]:mt-4"
               />
             </div>
           </div>
