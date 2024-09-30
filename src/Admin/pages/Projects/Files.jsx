@@ -19,7 +19,7 @@ const Files = () => {
       </div>
 
       <div className="flex items-center space-x-6 space-y-2 justify-between mt-8">
-        <div classNameName="space-y-3">
+        <div className="space-y-3">
           <label for="visibility-toggle" className="text-gray-500 text-sm">
             Visible to Customer
           </label>

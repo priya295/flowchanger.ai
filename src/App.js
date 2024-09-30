@@ -7,6 +7,8 @@ import Task from './Admin/pages/Tasks/Task_Data';
 import Role from './Admin/pages/Roles/RoleDetails';
 import Department from './Admin/pages/Department/DepartmentDetails';
 import Project_overView from './Admin/pages/Projects/overView'
+import NewTicketPage from './Admin/pages/Projects/NewTicketForm'
+import Salary_Details from './Admin/pages/StaffSection/Salary_Details';
 
 const App = () => {
 
@@ -26,10 +28,10 @@ const App = () => {
             </div> 
        
          {/* container for navbar and outlet */}
-         <div className={`flex flex-col flex-grow overflow-hidden`}>
+         <div className={`flex flex-col flex-grow overflow-hidden w-[100%]`}>
            <NavBar handleToggleSideBar={handleToggleSideBar} toggleSideBar={toggleSideBar}/>
-           <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
-             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+           <main className={`flex-1 overflow-x-hidden overflow-y-auto w-[100%]`}>
+             <div className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <Outlet />
              </div>
           </main>
@@ -49,6 +51,8 @@ const App = () => {
           <Route path='/task' element = {<Task/>}/>   
           <Route path='/role' element = {<Role/>}/>  
           <Route path='/department' element = {<Department/>}/>  
+          <Route path="/new-ticket" element={<NewTicketPage />} />
+          <Route path="mystaff/salary-details" element={<Salary_Details/>} />
         </Route>
       </Routes>
     </BrowserRouter>
