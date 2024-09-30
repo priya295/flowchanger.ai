@@ -18,6 +18,20 @@ const Task = () => {
     setTasks((prev) => [...prev, taskData]); // Add new task to the state
   };
 
+  const Accordion = () => {
+    const [openIndex, setOpenIndex] = useState(null);
+  
+    // Function to handle accordion toggling
+    const handleToggle = (index) => {
+      if (openIndex === index) {
+        setOpenIndex(null); // Close the accordion if clicked again
+      } else {
+        setOpenIndex(index); // Open the accordion
+      }
+    };
+
+  
+
   return (
     <div>
       <div className="border shadow h-[32rem] p-7 rounded-xl">
@@ -145,6 +159,8 @@ const Task = () => {
               ))}
             </tbody>
           </table>
+            
+          
         </div>
       </div>
 
@@ -163,5 +179,6 @@ const Task = () => {
     </div>
   );
 };
+}
 
 export default Task;
