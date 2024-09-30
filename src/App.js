@@ -8,6 +8,8 @@ import Role from './Admin/pages/Roles/RoleDetails';
 import Department from './Admin/pages/Department/DepartmentDetails';
 import AddNewCustomer from './Admin/pages/Clients/AddNewCustomer';
 import ProjectSettings from './Admin/pages/Projects/Project_Setting';
+import ProjectSummary from './Admin/pages/Projects/Project_Data';
+import MultiStepForm from './Admin/multistepform';
 
 const App = () => {
 
@@ -21,16 +23,16 @@ const App = () => {
        function AdminLayout() {
             return (
               <>
-              <div className="flex">
-              <div>
-            {toggleSideBar && <SideBar toggleSideBar = {toggleSideBar}/>}
-            </div> 
-       
-         {/* container for navbar and outlet */}
-         <div className={`flex flex-col flex-grow overflow-hidden`}>
+              <div className="flex  min-h-screen relative">
+                {/* container for sidebar */}
+            <div className={`absolute md:relative mt-20 md:mt-0  $flex-shrink-0 ${toggleSideBar ? "left-0" : "-left-64"} transition-all duration-300 z-50 h-full`}>
+             {toggleSideBar &&<SideBar toggleSideBar = {toggleSideBar}/>}
+            </div>
+            {/* container for navbar and outlet */}
+             <div className={`flex flex-col flex-grow overflow-hidden`}>
            <NavBar handleToggleSideBar={handleToggleSideBar} toggleSideBar={toggleSideBar}/>
            <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
-             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen">
               <Outlet />
              </div>
           </main>
@@ -40,6 +42,14 @@ const App = () => {
         
             )
           }
+
+       function LoginLayout() {
+          return (
+            <>
+            <Outlet/>
+            </>
+          )
+       }   
           
   return (
     <BrowserRouter>
@@ -51,8 +61,14 @@ const App = () => {
           <Route path='/role' element = {<Role/>}/>  
           <Route path='/department' element = {<Department/>}/>  
           <Route path='/projectsettings' element = {<ProjectSettings/>}/>  
+          <Route path='/addnewcustomer' element = {<AddNewCustomer/>}/>  
+          <Route path='/projectdata' element = {<ProjectSummary/>}/>   
+        </Route>
+        <Route element={<LoginLayout />}>
+        <Route path="/authentication" element={<MultiStepForm/>}/>
         </Route>
       </Routes>
+      
     </BrowserRouter>
   );
 }

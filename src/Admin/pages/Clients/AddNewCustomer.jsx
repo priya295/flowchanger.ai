@@ -1,14 +1,14 @@
 
 const AddNewCustomer = () =>{
   return(
-<div class="bg-gray-100 flex justify-center items-center min-h-screen">
+<div class=" flex justify-center items-center min-h-screen">
 
 <div class="w-full max-w-3xl bg-white shadow-md rounded-lg p-6">
   <div class="mb-6">
     {/* <!-- Tabs for form sections --> */}
     <nav class="flex space-x-4 border-b">
-      <a href="#" class=" py-2 hover:border-b-2 hover:border-blue-600 text-sm font-medium">Customer Details</a>
-      <a href="#" class="text-gray-600 py-2 text-sm font-medium hover:border-b-2 hover:border-blue-600">Billing & Shipping</a>
+      <a href="#" class=" py-2 hover:border-b-2 hover:text-blue-600 hover:border-blue-600 text-sm font-medium">Customer Details</a>
+      <a href="#" class="text-gray-600 hover:text-blue-600 py-2 text-sm font-medium hover:border-b-2 hover:border-blue-600">Billing & Shipping</a>
     </nav>
   </div>
 
@@ -18,7 +18,7 @@ const AddNewCustomer = () =>{
       {/* <!-- Company --> */}
       <div>
         <label for="company" class="block text-sm font-medium text-gray-700">Company *</label>
-        <input type="text" id="company" class="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required />
+        <input type="text" id="company"  className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required />
       </div>
 
       {/* <!-- VAT Number --> */}
@@ -100,8 +100,8 @@ const AddNewCustomer = () =>{
 
     {/* <!-- Submit Button --> */}
     <div class="mt-6  w-full md:w-[40%] flex p-2 justify-around  md:float-right">
-      <button type="submit" class="   p-2 text-gray-400 border border-gray-400 rounded-md shadow-sm h focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 ">save and create contact</button>
-      <button type="submit" class=" bg-blue-600 text-white p-2 px-3 rounded-md shadow-sm hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">save</button>
+      <button type="submit" class=" p-1  text-gray-400 border border-gray-400 rounded-md shadow-sm h focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 ">save and create contact</button>
+      <button type="submit" class=" bg-blue-600 text-white p-1 px-3 rounded-md shadow-sm hover:bg-blue-700 focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">save</button>
     </div>
   </form>
   {/* <!-- Form ends --> */}
