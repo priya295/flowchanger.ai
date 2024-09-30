@@ -8,6 +8,7 @@ import leave from '../../../Assets/Images/leave.svg'
 import penalty from '../../../Assets/Images/penalty.svg'
 import permission from '../../../Assets/Images/permission.svg'
 import StaffTab from './StaffTab';
+import AttendanceTab from './AttendanceTab';
 
 
 const StaffMenu = () => {
@@ -18,7 +19,7 @@ const StaffMenu = () => {
 
             <div className='tab-section mt-[30px]'>
                 <Tabs>
-                    <TabList className="flex   w-[1000px] overflow-x-scroll gap-[22px] bg-[#FFFFFF]  rounded-[12px]  p-[14px]  shadow ">
+                    <TabList className="flex   w-[100%] overflow-x-scroll gap-[22px] bg-[#FFFFFF]  rounded-[12px]  p-[14px] pb-[4px]  shadow ">
                         <Tab>
                             <div className='flex items-center  whitespace-nowrap mr-[20px]'>
                                 <img src={group}/>
@@ -68,7 +69,7 @@ const StaffMenu = () => {
                        <StaffTab/>
                     </TabPanel>
                     <TabPanel>
-                        <h2>Any content 2</h2>
+                       <AttendanceTab/>
                     </TabPanel>
                 </Tabs>
             </div>
