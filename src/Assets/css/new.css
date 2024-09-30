@@ -1,0 +1,31 @@
+
+.icon-filter{
+    font-size: 16px !important;
+}
+.warning-icon{
+    font-size: 14px !important;
+}
+.review-btn{
+    padding: 6px 10px !important;
+
+}
+.total-staff{
+    border-right: 1px solid black !important;
+}
+.search-staff::placeholder{
+    font-size: 14px;
+}
+.search-staff:focus-visible{
+    outline: none !important;
+}
+.four{
+    width: 32px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 4px 9px;
+}
+.btns{
+    padding: 7px 20px !important;
+}
+

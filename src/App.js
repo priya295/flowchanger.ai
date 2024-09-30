@@ -10,11 +10,13 @@ import Admin from './Admin/Components/Projects/overView';
 import Staff from './Admin/Components/Staff';
 import Role from './Admin/Components/roles/RoleDetails';
 import NavBar from './Admin/Components/NavBar';
+import '../src/Assets/css/new.css';
 import SideBar from './Admin/Components/SideBar';
 import EditForm from './Admin/Components/editForm';
 import MyStaff from './Admin/Components/mystaff';
 import Newactivity from './Admin/Components/Projects/Newactivity';
 import NewTask from './Admin/Components/Task_deatail/NewTask';
+import Attendence_summary from './Admin/Components/Attendance/Attendence_summary';
 
 const App = () => {
        function AdminLayout() {
@@ -49,6 +51,7 @@ const App = () => {
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
           <Route path='/newtask' element={<NewTask />} />
+          <Route path='/attendence_summary' element={<Attendence_summary />} />
         </Route>
       </Routes>
     </BrowserRouter>
