@@ -9,7 +9,8 @@ import Department from './Admin/pages/Department/DepartmentDetails';
 import AddNewCustomer from './Admin/pages/Clients/AddNewCustomer';
 import ProjectSettings from './Admin/pages/Projects/Project_Setting';
 import ProjectSummary from './Admin/pages/Projects/Project_Data';
-import MultiStepForm from './Admin/multistepform';
+import MultiStepForm from './Admin/pages/multistepform';
+
 
 const App = () => {
 

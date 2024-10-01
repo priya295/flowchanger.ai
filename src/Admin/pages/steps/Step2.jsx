@@ -1,13 +1,18 @@
 import React from 'react';
+import { FormContext } from '../../../store/store';
+import { useContext } from 'react';
 
-const Step2 = ({ nextStep, goToRequestPassword }) => {
+const Step2 = () => {
+  const {  nextStep } = useContext(FormContext);
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
+        {/* Logo section */}
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img src="./images/Flowchangers.ai 4.png" alt="Flowchangers Logo" className="bg-black"/>
+          <img className='h-[150px]' src="./images/flowchangerAI.jpg" alt="Flowchangers Logo"  />
         </div>
         <div className='p-4 shadow-2xl border border-gray-100'>
+          {/* user Details Form */}
           <form className='mt-4'>
             <div className="mb-4">
               <input
@@ -42,7 +47,7 @@ const Step2 = ({ nextStep, goToRequestPassword }) => {
               />
             </div>
             <div className="mb-6 flex  items-center">
-               
+               {/* checkbox for privacy policy */}
               <input
                 type="checkbox"
                 id="checkbox"
@@ -51,6 +56,7 @@ const Step2 = ({ nextStep, goToRequestPassword }) => {
               />
                <label htmlFor="checkbox">I agree With Terms and privacy policy</label>
             </div>
+            {/* next step button */}
             <button
               type="submit"
               className="w-full bg-purple-600 text-white py-4 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
