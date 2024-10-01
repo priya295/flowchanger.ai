@@ -2,7 +2,7 @@ import React from 'react'
 
 const AddNewRole = () => {
     return (
-        <div className='addnewrole absolute top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
+        <div className='addnewrole  pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
             <h2>Add New Role</h2>
 
             <div className='bg-[#f1f5f9] p-3 lg:w-[50%] w-[100%] mt-2 rounded-md'>

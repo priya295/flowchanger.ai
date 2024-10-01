@@ -1,9 +1,6 @@
-
-
-=======
->>>>>>> 4381c854366468c1e23f4b99ece2fe23fe2822ec
+<<<<<<<<< Temporary merge branch 1
 # crm-frontend
-=======
+=========
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -74,4 +71,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> bcd87aea42e1a63eb6e1dea872b3587fa50d6656
+>>>>>>>>> Temporary merge branch 2

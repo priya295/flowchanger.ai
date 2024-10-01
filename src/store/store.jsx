@@ -18,9 +18,7 @@ export const FormProvider = ({ children }) => {
     setFormData(prev => ({ ...prev, ...data }));
   };
 
-  const handleSignUp = () =>{
-    
-  }
+
 
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
