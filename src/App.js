@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from './Admin/Components/NavBar';
 import SideBar from './Admin/Components/SideBar';
 import Project from './Admin/pages/Projects/Project_Data';
-import AddProject from './Admin/pages/Projects/Add_Projects';
+// import AddProject from './Admin/pages/Projects/Add_Projects';
 import Task from './Admin/pages/Tasks/Task_Data';
 import Role from './Admin/pages/Roles/RoleDetails';
 import Department from './Admin/pages/Department/DepartmentDetails';
@@ -53,7 +53,7 @@ const App = () => {
       <Routes>
         <Route element={<AdminLayout />}>
           <Route path='/Project' element = {<Project/>}/> 
-          <Route path='/Add_Project' element = {<AddProject/>}/>   
+          {/* <Route path='/Add_Project' element = {<AddProject/>}/>    */}
           <Route path='/task' element = {<Task/>}/>   
           
           <Route path='/addrole' element = {<AddRole/>}/>  
