@@ -70,9 +70,9 @@ function Attendence_summary() {
 
             </div>
             <div className='bg-[#f1f1f1] p-[20px] rounded-md mt-[24px] flex gap-[10px]'>
-                <Link to="/" className='total-staff w-[12%] text-[14px] font-medium'>Daily Work Entry</Link>
-                <Link to="/" className='total-staff w-[4%] text-[14px] font-medium'>Fine</Link>
-                <Link to="/" className=' w-[12%] text-[14px] font-medium'>Overtime</Link>
+                <Link to="/" className='total-staff text-[blue] w-[12%] text-[14px] font-medium'>Daily Work Entry</Link>
+                <Link to="/" className='total-staff text-[blue] w-[4%] text-[14px] font-medium'>Fine</Link>
+                <Link to="/" className=' w-[12%] text-[blue] text-[14px] font-medium'>Overtime</Link>
             </div>
             <div className="relative">
                 <SearchIcon className='absolute top-[34px] right-[7px]' />
@@ -119,12 +119,6 @@ function Attendence_summary() {
                         <button className='btns bg-[#fff] rounded-md text-[14px] font-medium' type='submit'>OT I Overtime</button>
                         <button className='btns bg-[#fff] rounded-md text-[14px] font-medium' type='submit'>L I Paid Leave</button>
                         <button className='btns bg-[red] text-[#fff] rounded-md text-[14px] font-medium' type='submit'>A I Absent</button>
-     
-
-                      
-
-
-
                     </div>
                 </div>
                 <p className='text-[blue] text-[14px] mt-[40px]'>Add Note - Login</p>

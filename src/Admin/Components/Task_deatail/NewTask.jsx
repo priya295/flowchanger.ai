@@ -27,10 +27,10 @@ const NewTask = () => {
 
                             <th className="text-[12px] border-r w-[40px]  font-medium p-[8px] ">#</th>
 
-                            
+
                             <th className="text-[12px] w-[250px] p-[10px] border-r font-medium whitespace-nowrap">Task Name</th>
 
-                           
+
 
 
 
@@ -51,7 +51,7 @@ const NewTask = () => {
                             <th className="text-[12px] w=[90px] font-medium p-[10px] border-r whitespace-nowrap	">Priority</th>
 
 
-                            
+
 
                         </tr>
                     </table>
@@ -62,17 +62,17 @@ const NewTask = () => {
                     <tr>
                         <td className="flex p-[0]">
 
-                        <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
+                            <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
                             <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">43</td>
-                           
+
 
 
                             <td className="flex flex-col w-[250px] p-[10px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
 
 
 
-                          
+
                             <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">13-08-2024</td>
 
                             <td className="text-[12px] p-[10px]  w-[100px]   whitespace-nowrap	">13-08-2024</td>
@@ -94,17 +94,17 @@ const NewTask = () => {
                     <tr>
                         <td className="flex p-[0]">
 
-                        <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
+                            <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
                             <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">143</td>
-                           
+
 
 
                             <td className="flex flex-col w-[250px] p-[10px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">URBAN KHALSA REEL</Link> <Link className="text-[9px] text-[#000]" to="/">#8 - URBAN KHALSA - URBAN KHALSA</Link></td>
 
 
 
-                          
+
                             <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">16-08-2024</td>
 
                             <td className="text-[12px] p-[10px]  w-[100px]   whitespace-nowrap	">18-08-2024</td>
@@ -123,7 +123,7 @@ const NewTask = () => {
 
                     </tr>
 
-                
+
 
                 </table>
 
@@ -139,9 +139,9 @@ const NewTask = () => {
 
             <div className="bg-[#e1ebff] p-[10px]">
                 <div className="mb-[14px]">
-                
-                <Link to="/" className="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> 
-                <AddIcon/> Default</Link>
+
+                    <Link to="/" className="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <AddIcon /> Default</Link>
                 </div>
                 {accordionItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-200">
