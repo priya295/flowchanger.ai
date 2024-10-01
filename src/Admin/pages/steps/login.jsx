@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LoginPage = ({ nextStep, goToRequestPassword }) => {
+const LoginPage = ({ nextStep}) => {
   return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -47,7 +47,7 @@ const LoginPage = ({ nextStep, goToRequestPassword }) => {
           <div className="text-center mt-4 flex flex-col justify-center gap-y-3">
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Forgot password?</span> 
-              <button onClick={goToRequestPassword}>Reset</button>
+              <button >Reset</button>
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Don't have an account?</span> 
