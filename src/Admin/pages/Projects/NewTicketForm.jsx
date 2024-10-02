@@ -3,7 +3,7 @@ import SellIcon from "@mui/icons-material/Sell";
 
 const NewTicketForm = () => {
   return (
-    <form>
+    <form className="overflow-x-auto">
       {/* -- Header Name --*/}
       <h1 className="text-[25px] font-medium">Ticket Information</h1>
 
@@ -33,50 +33,50 @@ const NewTicketForm = () => {
             ></input>
           </div>
 
-          <div className="flex mt-4 gap-[4.5rem]">
-            <div>
+          <div className="flex w-[100%] gap-10 mt-4 max-[1000px]:block max-[1000px]:w-[100%]  ">
+            <div className="w-[50%] max-[1000px]:w-[100%]">
               <label htmlFor="text" className="text-[14.22px] font-normal flex">
                 Name
               </label>
               <input
-                className="h-[46px] w-[110%] text-[14.22px] pl-4 text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
+                className="h-[46px] w-[100%]  text-[14.22px] pl-4 text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
                 name=""
                 id=""
               ></input>
             </div>
 
-            <div>
+            <div className="max-[1000px]:mt-5 w-[50%] max-[1000px]:w-[100%]">
               <label htmlFor="text" className="text-[14.22px] font-normal flex">
                 Email Address
               </label>
               <input
-                className="h-[46px] w-[110%] text-[14.22px] pl-4 text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
+                className="h-[46px] w-[100%] text-[14.22px] pl-4 text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
                 name=""
                 id=""
               ></input>
             </div>
           </div>
 
-          <div className="flex items-center mt-4 gap-[2.8rem]">
-            <div>
+          <div className="flex w-[100%] items-center mt-4 gap-10 max-[1000px]:block max-[1000px]:mt-5 max-[1000px]:w-[100%] ">
+            <div className="w-[50%] max-[1000px]:w-[100%]">
               <label htmlFor="text" className="text-[14.22px] font-normal flex">
                 Department
               </label>
               <select
                 name=""
                 id=""
-                className="h-[46px] w-[306px] pl-4 text-[14.22px] text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
+                className="h-[46px] w-[100%] pl-4 text-[14.22px] text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1 max-[1000px]:w-[100%]"
               >
                 <option value="">Nothing selected</option>
               </select>
             </div>
 
-            <div>
+            <div className="max-[1000px]:mt-5 w-[50%] max-[1000px]:w-[100%]">
               <label htmlFor="text" className="text-[14.22px] font-normal flex">
                 CC
               </label>
               <input
-                className="h-[46px] w-[110%] text-[14.22px] pl-4 text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
+                className="h-[46px] w-[100%] text-[14.22px] pl-4 text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1 max-[1000px]:w-[100%]"
                 name=""
                 id=""
               ></input>
@@ -104,21 +104,21 @@ const NewTicketForm = () => {
             </select>
           </div>
 
-          <div className="flex w-[100%] mt-[17px]">
-            <div className="w-[95%]">
+          <div className="flex w-[100%] gap-10 mt-[17px] max-[1000px]:block">
+            <div className="w-[50%] max-[1000px]:w-[43vw]">
               <label htmlFor="text" className="text-[14.22px] font-normal flex">
                 Priority
               </label>
               <select
                 name=""
                 id=""
-                className="h-[46px] w-[90%] pl-4 text-[14.22px] text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
+                className="h-[46px] w-[100%] pl-4 text-[14.22px] text-[#2B2A2D] bg-[#F4F5F9] border border-[#DBDCDE] rounded-md mt-1"
               >
                 <option value="">Medium</option>
               </select>
             </div>
 
-            <div className="w-[95%]">
+            <div className="w-[50%] max-[1000px]:w-[100%]">
               <label htmlFor="text" className="text-[14.22px] font-normal flex">
                 Service
               </label>
@@ -188,7 +188,7 @@ const NewTicketForm = () => {
           <li>Table</li>
         </ul>
         <div className="mt-8 border  border-[#E1E1E2]">
-          <div class="p-2 flex gap-5 border-b border-[#E1E1E2]  items-center bg-white">
+          <div class="p-2 flex gap-5 border-b border-[#E1E1E2]  items-center bg-white overflow-auto">
             <button class="p-2 hover:bg-gray-100 rounded">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +272,7 @@ const NewTicketForm = () => {
         </div>
       </div>
 
-      <div className="w-[50%] absolute right-[-4%] mt-4">
+      <div className="w-[50%] absolute right-[-4%] mt-4 ">
         <label htmlFor="file" className="text-[14.22px] font-normal flex">
           Insert knowledge base link
         </label>
