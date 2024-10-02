@@ -8,8 +8,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const Main = () => {
   return (
-    <div className='absolute top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
-      <Link to="/admin/addnewrole" className='bg-[#511992]  p-2 pr-3 rounded-lg text-white hover:bg-[#7526d1]'> <AddIcon /> New Role</Link>
+    <div className=' pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
+      <Link to="/addrole" className='bg-[#511992]  p-2 pr-3 rounded-lg text-white hover:bg-[#7526d1]'> <AddIcon /> New Role</Link>
 
       <div className='table-section mt-5 bg-white shadow p-4 pl-0 rounded-sm pr-0'>
 
@@ -58,7 +58,9 @@ const Main = () => {
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
               <td className='flex pt-4 gap-2'>
+                <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
+                </Link>
                 <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
               </td>
             </tr>
@@ -69,7 +71,9 @@ const Main = () => {
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
               <td className='flex pt-4 gap-2'>
+              <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
+                </Link>
                 <DeleteOutlineIcon className='text-red-500  font-light cursor-pointer text-[10px]]' />
               </td>
             </tr>
@@ -79,7 +83,9 @@ const Main = () => {
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
               <td className='flex pt-4 gap-2'>
+              <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
+                </Link>
                 <DeleteOutlineIcon className='text-red-500  font-light cursor-pointer text-[10px]]' />
               </td>
             </tr>
@@ -89,7 +95,9 @@ const Main = () => {
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
               <td className='flex pt-4 gap-2'>
+              <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
+                </Link>
                 <DeleteOutlineIcon className='text-red-500  font-light cursor-pointer text-[10px]]' />
               </td>
             </tr>
