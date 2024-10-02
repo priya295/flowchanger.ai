@@ -17,6 +17,10 @@ import MyStaff from './Admin/Components/mystaff';
 import Newactivity from './Admin/Components/Projects/Newactivity';
 import NewTask from './Admin/Components/Task_deatail/NewTask';
 import Attendence_summary from './Admin/Components/Attendance/Attendence_summary';
+import Worktime from './Admin/Components/Attendance/Worktime';
+import Reviewfine from './Admin/Components/Attendance/Reviewfine';
+import Overtime from './Admin/Components/Attendance/Overtime';
+
 
 const App = () => {
        function AdminLayout() {
@@ -52,6 +56,10 @@ const App = () => {
           <Route path='/mystaff' element={<MyStaff />} />
           <Route path='/newtask' element={<NewTask />} />
           <Route path='/attendence_summary' element={<Attendence_summary />} />
+          <Route path='/worktime' element={<Worktime />} />
+          <Route path='/reviewfine' element={<Reviewfine />} />
+          <Route path='/overtime' element={<Overtime />} />
+          
         </Route>
       </Routes>
     </BrowserRouter>
@@ -59,3 +67,6 @@ const App = () => {
 }
 
 export default App;
+
+
+
