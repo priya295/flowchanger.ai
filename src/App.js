@@ -27,6 +27,15 @@ const App = () => {
       setToggleSideBar(!toggleSideBar)
    }
 
+  //  function to create Authentication Layout
+   function AuthLayout() {
+    return (
+      <>
+      <Outlet/>
+      </>
+    )
+   }
+
   //  function to create layout of the page
        function AdminLayout() {
             return (
@@ -65,8 +74,10 @@ const App = () => {
           <Route path='/add-one-staff' element = {<AddOneStaff/>}/>  
           <Route path='/department' element = {<Department/>}/>  
           <Route path='/adddepartment' element = {<AddDepartment/>}/>  
-          
-        </Route>
+          </Route>
+          <Route element = {<AuthLayout/>}>
+           <Route path = "/authentication" element={<MultiStepForm/>}/>
+            </Route>
       </Routes>
       
     </BrowserRouter>

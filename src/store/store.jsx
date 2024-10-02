@@ -11,7 +11,6 @@ export const FormProvider = ({ children }) => {
     companyName: '',
     password: '',
     agreeToTerms: false,
-    verificationCode: ['', '', '', '']
   });
 
   const updateFormData = (data) => {
