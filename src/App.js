@@ -2,7 +2,16 @@ import React, { useState } from 'react';
 import './Assets/css/roledetail.css';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from './Admin/Components/NavBar';
+import '../src/Assets/css/new.css';
 import SideBar from './Admin/Components/SideBar';
+import EditForm from '';
+import MyStaff from './Admin/Components/mystaff';
+import Newactivity from './Admin/Components/Projects/Newactivity';
+import NewTask from './Admin/Components/Task_deatail/NewTask';
+import Attendence_summary from './Admin/Components/Attendance/Attendence_summary';
+import Worktime from './Admin/Components/Attendance/Worktime';
+import Reviewfine from './Admin/Components/Attendance/Reviewfine';
+import Overtime from './Admin/Components/Attendance/Overtime';
 import Project from './Admin/pages/Projects/Project_Data';
 // import AddProject from './Admin/pages/Projects/Add_Projects';
 import Task from './Admin/pages/Tasks/Task_Data';
@@ -55,19 +64,14 @@ const App = () => {
           <Route path='/Project' element = {<Project/>}/> 
           {/* <Route path='/Add_Project' element = {<AddProject/>}/>    */}
           <Route path='/task' element = {<Task/>}/>   
-          
           <Route path='/addrole' element = {<AddRole/>}/>  
           <Route path='/role' element = {<Role/>}/>  
           <Route path='/editrole' element = {<EditRole/>}/>  
           <Route path='/editdepartment' element = {<EditDepartment/>}/>  
           <Route path='/staff-menu' element = {<StaffMenu/>}/>  
           <Route path='/add-one-staff' element = {<AddOneStaff/>}/>  
-
-
-
           <Route path='/department' element = {<Department/>}/>  
           <Route path='/adddepartment' element = {<AddDepartment/>}/>  
-          
         </Route>
       </Routes>
     </BrowserRouter>
@@ -75,3 +79,6 @@ const App = () => {
 }
 
 export default App;
+
+
+

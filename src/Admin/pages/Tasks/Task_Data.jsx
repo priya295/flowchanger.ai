@@ -35,6 +35,25 @@ const NewTask = () => {
 
 
 
+
+
+                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">Start Date</th>
+
+
+                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">Due Date</th>
+                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">End Date</th>
+
+
+                            <th className="text-[12px] font-medium p-[10px] w-[120px] border-r whitespace-nowrap	">Assigned to</th>
+
+
+                            <th className="text-[12px] w-[100px] font-medium p-[10px] border-r whitespace-nowrap	">Tags</th>
+
+
+                            <th className="text-[12px] w=[90px] font-medium p-[10px] border-r whitespace-nowrap	">Priority</th>
+
+
+
                             <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">Start Date</th>
 
 
@@ -138,7 +157,11 @@ const NewTask = () => {
         <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
 
             <div className="bg-[#e1ebff] p-[10px]">
-                <button type="button" class="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  > < AddIcon className="addicon" /> Default</button>
+                <div className="mb-[14px]">
+
+                    <Link to="/" className="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <AddIcon /> Default</Link>
+                </div>
                 {accordionItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-200">
                         {/* Accordion Header */}
