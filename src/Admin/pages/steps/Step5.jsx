@@ -1,50 +1,85 @@
+import React, { useContext } from 'react';
 import { FormContext } from '../../../store/store';
-import React from 'react';
-import { useContext } from 'react';
-import { CiImageOn } from "react-icons/ci";
 
-const Step5 = () => {
-  const { nextStep } = useContext(FormContext);
-
+const Step6 = () => {
+  const {nextStep} = useContext(FormContext);
   return (
-
-    // create the profile page
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
-      
-      <div className="w-full max-w-md">
-        {/* Logo container */}
+    <div className="min-h-screen  flex flex-col items-center justify-center">
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img src="./images/flowchangerAI.jpg" alt="Flowchangers Logo" className="bg-black h-[150px]"/>
+          <img className='h-[150px]' src="./images/flowchangerAI.jpg" alt="Flowchangers Logo"  />
         </div>
+      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
+        <h1 className="text-2xl font-semibold text-center mb-6">Set up your account</h1>
         
-        <div className="bg-white rounded-lg p-8 border border-gray-300 shadow-2xl">
-          <div className="flex flex-col justify-center items-center gap-y-0">
-            <h2 className="text-3xl font-medium mb-3 text-center mt-5">upload your profile picture</h2>
+        <div className="space-y-6">
+          {/* Time zone */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Time zone</label>
+            <select className="w-full p-2 border rounded-md bg-gray-50">
+              <option>(GMT+05:30) India Standard Time</option>
+            </select>
           </div>
-          <div className='flex items-center justify-center'>
-          <div class="flex items-center justify-center h-[80px] w-[80px] bg-gray-200 rounded-full mb-4 ">
-          <h1 class= "left-5 text-3xl text-black font-medium">k</h1>
-         </div>
-         </div>
-         {/* options to choose image */}
-         <div className="flex justify-center items-center">
-            <button
-            onClick={nextStep}
-              type="submit"
-              className="w-[80%] bg-purple-600 text-white py-3 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
-            >
-              Choose Image
-            </button>
+
+          {/* Time format */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Time format</label>
+            <div className="flex gap-4">
+              <button 
+                className="flex-1 py-2 px-4 rounded-md"
+                
+              >
+                12 hours: 9:00 PM
+              </button>
+              <button 
+                className="flex-1 py-2 px-4 rounded-md bg-purple-500"
+              >
+                24 hours: 21:00
+              </button>
             </div>
-              <div className='mt-4'>
-              <p className='flex justify-center items-center'><span><CiImageOn /></span>or drop the file here</p>
-             <div className='flex justify-center items-center'><p>skip the step</p></div>
-             </div>
-          
+          </div>
+
+          {/* Date format */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Date format</label>
+            <div className="flex gap-4">
+              <button 
+                className="flex-1 py-2 px-4 rounded-md bg-purple-500" 
+              >
+                31 December 2022
+              </button>
+              <button 
+                className="flex-1 py-2 px-4 rounded-md" 
+              >
+                December 31, 2022
+              </button>
+            </div>
+          </div>
+
+          {/* Week format */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Week format</label>
+            <div className="flex gap-4 mb-4">
+              <button 
+                className="flex-1 py-2 px-4 rounded-md" 
+              >
+                Monday
+              </button>
+              <button 
+                className="flex-1 py-2 px-4 rounded-md bg-purple-500"
+              >
+                Sunday
+              </button>
+            </div>
+          </div>
+
+          {/* Continue button */}
+          <button onClick={nextStep} className="w-full bg-purple-500 text-white py-3 rounded-md hover:bg-purple-600 transition-colors">
+            Continue
+          </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
-export default Step5;
+export default Step6;

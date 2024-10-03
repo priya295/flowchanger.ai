@@ -1,80 +1,51 @@
-import React from 'react';
+import { FaGraduationCap, FaTasks, FaBriefcase } from 'react-icons/fa';
+import { MdDone } from "react-icons/md";
 
-const Step6 = () => {
-
+function Step6() {
   return (
-    <div className="min-h-screen  flex flex-col items-center justify-center">
-        <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img className='h-[150px]' src="./images/flowchangerAI.jpg" alt="Flowchangers Logo"  />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-900">
+      <h1 className="text-white text-3xl mb-6">Tell us who you are to customize your Bordio workspace</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
+        {/* student card */}
+        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <FaGraduationCap className="text-purple-500 text-4xl mb-4" />
+          <h2 className="text-xl font-semibold mb-2">I'm a student</h2>
+          <p className="text-gray-500 mb-4">For education purposes only</p>
+          <ul className="list-none text-left space-y-2">
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Schedule your classes</li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Prepare for exams with structured study plans</li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Set reminders for assignments and tests</li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/>Track your daily progress</li>
+          </ul>
+          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600">Choose</button>
         </div>
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
-        <h1 className="text-2xl font-semibold text-center mb-6">Set up your account</h1>
-        
-        <div className="space-y-6">
-          {/* Time zone */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Time zone</label>
-            <select className="w-full p-2 border rounded-md bg-gray-50">
-              <option>(GMT+05:30) India Standard Time</option>
-            </select>
-          </div>
 
-          {/* Time format */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Time format</label>
-            <div className="flex gap-4">
-              <button 
-                className="flex-1 py-2 px-4 rounded-md"
-                
-              >
-                12 hours: 9:00 PM
-              </button>
-              <button 
-                className="flex-1 py-2 px-4 rounded-md bg-purple-500"
-              >
-                24 hours: 21:00
-              </button>
-            </div>
-          </div>
+        {/* personal Tasks Card */}
+        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <FaTasks className="text-purple-500 text-4xl mb-4" />
+          <h2 className="text-xl font-semibold mb-2">I will use Bordio for organizing personal tasks</h2>
+          <p className="text-gray-500 mb-4">Non-commercial use only</p>
+          <ul className="list-none text-left space-y-2">
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> <span>Organize your personal tasks</span></li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> <span>Plan personal events, like birthdays or vacations</span> </li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> <span>Set repeats for recurring activities</span></li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> <span>Organize personal projects</span></li>
+          </ul>
+          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600">Choose</button>
+        </div>
 
-          {/* Date format */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Date format</label>
-            <div className="flex gap-4">
-              <button 
-                className="flex-1 py-2 px-4 rounded-md bg-purple-500" 
-              >
-                31 December 2022
-              </button>
-              <button 
-                className="flex-1 py-2 px-4 rounded-md" 
-              >
-                December 31, 2022
-              </button>
-            </div>
-          </div>
-
-          {/* Week format */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Week format</label>
-            <div className="flex gap-4 mb-4">
-              <button 
-                className="flex-1 py-2 px-4 rounded-md" 
-              >
-                Monday
-              </button>
-              <button 
-                className="flex-1 py-2 px-4 rounded-md bg-purple-500"
-              >
-                Sunday
-              </button>
-            </div>
-          </div>
-
-          {/* Continue button */}
-          <button className="w-full bg-purple-500 text-white py-3 rounded-md hover:bg-purple-600 transition-colors">
-            Continue
-          </button>
+        {/* Bussiness card */}
+        <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
+          <FaBriefcase className="text-purple-500 text-4xl mb-4" />
+          <h2 className="text-xl font-semibold mb-2">I represent a business or organization</h2>
+          <p className="text-gray-500 mb-4">Free 14 days trial</p>
+          <ul className="list-none text-left space-y-2">
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Invite colleagues to the teams and projects</li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Assign tasks to your teammates, set deadlines and track the progress</li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Switch between views: Calendar planner, Kanban board, Task list</li>
+            <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Discuss tasks in real-time chat</li>
+          </ul>
+          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600">Choose</button>
         </div>
       </div>
     </div>

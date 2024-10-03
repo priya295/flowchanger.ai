@@ -6,6 +6,7 @@ import Step3 from './steps/Step3';
 import Step4 from './steps/Step4';
 import Step5 from './steps/Step5';
 import Step6 from './steps/Step6';
+import Step7 from './steps/Step6';
 
 
 const FormSteps = () => {
@@ -26,6 +27,8 @@ const FormSteps = () => {
       return <Step5 />;
     case 6:
       return <Step6 />;
+    case 7:
+      return <Step7 />;
     default:
       return <Step1 />; 
   }

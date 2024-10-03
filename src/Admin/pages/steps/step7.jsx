@@ -3,7 +3,7 @@ import React from 'react';
 import { useContext } from 'react';
 import { CiImageOn } from "react-icons/ci";
 
-const Step5 = () => {
+const Step7 = () => {
   const { nextStep } = useContext(FormContext);
 
   return (
@@ -19,7 +19,7 @@ const Step5 = () => {
         
         <div className="bg-white rounded-lg p-8 border border-gray-300 shadow-2xl">
           <div className="flex flex-col justify-center items-center gap-y-0">
-            <h2 className="text-3xl font-medium mb-3 text-center mt-5">upload your profile picture</h2>
+            <h2 className="text-3xl font-medium mb-3 text-center mt-5">upload your orgnization Logo</h2>
           </div>
           <div className='flex items-center justify-center'>
           <div class="flex items-center justify-center h-[80px] w-[80px] bg-gray-200 rounded-full mb-4 ">
@@ -47,4 +47,4 @@ const Step5 = () => {
   );
 };
 
-export default Step5;
+export default Step7;
