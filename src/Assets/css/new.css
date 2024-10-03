@@ -78,6 +78,19 @@
 .new-arrow2{
     margin-left: 0 !important;
 }
+.personal-det{
+    border-left: 3px solid #4800f2;
+}
+.summary-border{
+    border: 1px solid #dbdbdb;
+
+}
+.newadd{
+    font-size: 14px !important;
+}
+.newadd2{
+    font-size: 16px !important;
+}
 @media(max-width:640px){
     .late-main{
         padding: 2px;

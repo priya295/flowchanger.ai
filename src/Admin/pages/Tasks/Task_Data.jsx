@@ -20,6 +20,7 @@ const NewTask = () => {
             title:
                 <div>
                     <table className="w-full">
+                        <thead>
                         <tr>
                             <th className="w-[10px]" ></th>
                             <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
@@ -54,29 +55,17 @@ const NewTask = () => {
 
 
 
-                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">Start Date</th>
-
-
-                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">Due Date</th>
-                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">End Date</th>
-
-
-                            <th className="text-[12px] font-medium p-[10px] w-[120px] border-r whitespace-nowrap	">Assigned to</th>
-
-
-                            <th className="text-[12px] w-[100px] font-medium p-[10px] border-r whitespace-nowrap	">Tags</th>
-
-
-                            <th className="text-[12px] w=[90px] font-medium p-[10px] border-r whitespace-nowrap	">Priority</th>
-
+                           
 
                             
 
                         </tr>
+                        </thead>
                     </table>
                 </div>,
             content: (
                 <table className="w-full" >
+                    <tbody>
 
                     <tr>
                         <td className="flex p-[0]">
@@ -109,6 +98,7 @@ const NewTask = () => {
 
 
                     </tr>
+                    </tbody>
 
                     <tr>
                         <td className="flex p-[0]">
