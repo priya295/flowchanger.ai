@@ -18,6 +18,7 @@ const AttendanceTab = () => {
             transform: 'translate(-50%, -50%)',
             width: "40%",
             padding:"0",
+            borderRadius:'10px'
         },
     };
 
