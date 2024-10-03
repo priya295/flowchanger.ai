@@ -9,14 +9,13 @@ import penalty from "../../../Assets/Images/penalty.svg";
 import permission from "../../../Assets/Images/permission.svg";
 import StaffTab from "./StaffTab";
 import AttendanceTab from "./AttendanceTab";
-import Early_Leaving_Policy from './Penalty & Overtime/Early_Leaving_Policy';
+import Penalty_Overtime from "./Penalty & Overtime/Penalty_Overtime";
 
 const StaffMenu = () => {
   return (
     <div className="staff-menu">
       <h3
-        className="text-[20px]  font-[Nunito
-]"
+        className="text-[20px]  font-[Nunito]"
       >
         My Staff
       </h3>
@@ -92,7 +91,7 @@ const StaffMenu = () => {
             <TabPanel></TabPanel>
 
           <TabPanel>
-            <Early_Leaving_Policy/>
+            <Penalty_Overtime/>
           </TabPanel>
 
         </Tabs>

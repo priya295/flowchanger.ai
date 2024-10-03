@@ -13,6 +13,7 @@ import EditRole from './Admin/pages/Roles/EditRole'
 import EditDepartment from './Admin/pages/Department/EditDepartment'
 import StaffMenu from './Admin/pages/StaffSection/StaffMenu'
 import AddOneStaff from './Admin/pages/StaffSection/AddOneStaff'
+import Salary_Details from './Admin/pages/StaffSection/Salary_Details'
 
 
 const App = () => {
@@ -61,6 +62,7 @@ const App = () => {
           <Route path='/staff-menu' element = {<StaffMenu/>}/>  
           <Route path='/add-one-staff' element = {<AddOneStaff/>}/>  
           <Route path='/department' element = {<Department/>}/>  
+          <Route path='/Salary_Details' element = {<Salary_Details/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

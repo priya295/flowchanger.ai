@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import Search from "../../../../Assets/Images/search.png";
 import Filter from "../../../../Assets/Images/filter.svg";
+import file from "../../../../Assets/Images/file.png";
 import CloseIcon from "@mui/icons-material/Close";
-import file from '../../../../Assets/Images/file.png'
 
-const Early_Leaving_Policy = () => {
+const OverTime_Pay_Policy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileUpldoad, setFileUpldoad] = useState(false);
-
 
   return (
     <div className="Early-Leaving-Policy mt-[20px]">
@@ -46,7 +45,7 @@ const Early_Leaving_Policy = () => {
                   aria-expanded="true"
                   aria-haspopup="true"
                 >
-                  Update Early Leaving Policy
+                  Update Overtime Pay Policy
                 </button>
 
                 {isOpen && (
@@ -54,7 +53,7 @@ const Early_Leaving_Policy = () => {
                     <div className="bg-white 2xl:w-[40%] xl:w-[55%] lg:w-[65%] md:w-[84%] sm:w-[100%] rounded-lg border border-[#B1B1B1]">
                       <div className="flex items-center justify-around h-[75px] shadow bg-[#F0F6FE]">
                         <h1 className="text-[25px] text-[#0E2040] font-medium">
-                          Import Early Leaving Policy for all Staff
+                        Import Overtime Policy for all Staff
                         </h1>
                         <button onClick={() => setIsOpen(false)}>
                           <CloseIcon />
@@ -64,7 +63,7 @@ const Early_Leaving_Policy = () => {
                       <div className="space-y-7 mx-10 my-6">
                         <div className="flex items-center justify-between">
                           <h1 className="font-medium">
-                            Step 1. Download Early Leaving Policy template
+                          Step 1. Download Overtime Policy template
                           </h1>
                           <button className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
                             Download Template
@@ -73,8 +72,7 @@ const Early_Leaving_Policy = () => {
 
                         <div className="flex items-center justify-between ">
                           <h1 className="font-medium">
-                            Step 2. Edit downloaded file and add Early Leaving
-                            Policy details
+                          Step 2. Edit downloaded file and add Overtime Policy details
                           </h1>
                         </div>
 
@@ -86,7 +84,7 @@ const Early_Leaving_Policy = () => {
                             onClick={() => setFileUpldoad(true)}
                             className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]"
                           >
-                            Update Early Leaving Policy
+                            Update Overtime policy
                           </button>
                         </div>
 
@@ -95,7 +93,7 @@ const Early_Leaving_Policy = () => {
                             <div className="bg-white 2xl:w-[40%] xl:w-[55%] lg:w-[65%] md:w-[84%] sm:w-[100%] rounded-lg border border-[#B1B1B1]">
                               <div className="flex items-center justify-around h-[75px] shadow bg-[#F0F6FE]">
                                 <h1 className="text-[25px] text-[#0E2040] font-medium">
-                                  Import Early Leaving Policy for all Staff
+                                Import Overtime Policy for all Staff
                                 </h1>
                                 <button onClick={() => setFileUpldoad(false)}>
                                   <CloseIcon />
@@ -158,4 +156,4 @@ const Early_Leaving_Policy = () => {
   );
 };
 
-export default Early_Leaving_Policy;
+export default OverTime_Pay_Policy;
