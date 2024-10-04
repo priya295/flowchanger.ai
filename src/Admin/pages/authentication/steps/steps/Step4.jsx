@@ -1,4 +1,4 @@
-import { FormContext } from '../../../store/store';
+import { FormContext } from '../../../../../store/store';
 import React from 'react';
 import { useContext } from 'react';
 import { CiImageOn } from "react-icons/ci";
@@ -9,12 +9,12 @@ const Step5 = () => {
   return (
 
     // create the profile page
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative bg-purple-500">
       
       <div className="w-full max-w-md">
         {/* Logo container */}
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img src="./images/flowchangerAI.jpg" alt="Flowchangers Logo" className="bg-black h-[150px]"/>
+          <img src="./images/flowchangerLogo.png" alt="Flowchangers Logo" className="h-[150px]"/>
         </div>
         
         <div className="bg-white rounded-lg p-8 border border-gray-300 shadow-2xl">

@@ -10,7 +10,7 @@ import Department from './Admin/pages/Department/DepartmentDetails';
 import AddNewCustomer from './Admin/pages/Clients/AddNewCustomer';
 import ProjectSettings from './Admin/pages/Projects/Project_Setting';
 import ProjectSummary from './Admin/pages/Projects/Project_Data';
-import MultiStepForm from './Admin/pages/multistepform';
+import MultiStepForm from './Admin/pages/authentication/steps/steps/multistepform';
 import AddRole from './Admin/pages/Roles/Add_Role';
 import AddDepartment from './Admin/pages/Department/AddDepartment'
 import EditRole from './Admin/pages/Roles/EditRole';

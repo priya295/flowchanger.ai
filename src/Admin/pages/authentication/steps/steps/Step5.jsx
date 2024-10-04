@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { FormContext } from '../../../store/store';
+import { FormContext } from '../../../../../store/store';
 
-const Step6 = () => {
+const Step5 = () => {
   const {nextStep} = useContext(FormContext);
   return (
-    <div className="min-h-screen  flex flex-col items-center justify-center">
+    <div className="min-h-screen  flex flex-col items-center justify-center bg-purple-500">
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img className='h-[150px]' src="./images/flowchangerAI.jpg" alt="Flowchangers Logo"  />
+          <img className='h-[150px]' src="./images/flowchangerLogo.png" alt="Flowchangers Logo"  />
         </div>
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <h1 className="text-2xl font-semibold text-center mb-6">Set up your account</h1>
@@ -25,13 +25,13 @@ const Step6 = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">Time format</label>
             <div className="flex gap-4">
               <button 
-                className="flex-1 py-2 px-4 rounded-md"
+                className="flex-1 py-2 px-4 rounded-md bg-gray-100"
                 
               >
                 12 hours: 9:00 PM
               </button>
               <button 
-                className="flex-1 py-2 px-4 rounded-md bg-purple-500"
+                className="flex-1 py-2 px-4 rounded-md bg-purple-500 text-white"
               >
                 24 hours: 21:00
               </button>
@@ -43,12 +43,12 @@ const Step6 = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">Date format</label>
             <div className="flex gap-4">
               <button 
-                className="flex-1 py-2 px-4 rounded-md bg-purple-500" 
+                className="flex-1 py-2 px-4 rounded-md bg-purple-500 text-white" 
               >
                 31 December 2022
               </button>
               <button 
-                className="flex-1 py-2 px-4 rounded-md" 
+                className="flex-1 py-2 px-4 rounded-md bg-gray-100" 
               >
                 December 31, 2022
               </button>
@@ -60,12 +60,12 @@ const Step6 = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">Week format</label>
             <div className="flex gap-4 mb-4">
               <button 
-                className="flex-1 py-2 px-4 rounded-md" 
+                className="flex-1 py-2 px-4 rounded-md bg-gray-100" 
               >
                 Monday
               </button>
               <button 
-                className="flex-1 py-2 px-4 rounded-md bg-purple-500"
+                className="flex-1 py-2 px-4 rounded-md bg-purple-500 text-white"
               >
                 Sunday
               </button>
@@ -82,4 +82,4 @@ const Step6 = () => {
   );
 }
 
-export default Step6;
+export default Step5;

@@ -1,10 +1,13 @@
 import { FaGraduationCap, FaTasks, FaBriefcase } from 'react-icons/fa';
 import { MdDone } from "react-icons/md";
+import { useContext} from 'react';
+import { FormContext } from '../../../../../store/store';
 
 function Step6() {
+  const {nextStep} = useContext(FormContext);
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-900">
-      <h1 className="text-white text-3xl mb-6">Tell us who you are to customize your Bordio workspace</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-purple-500">
+      <h1 className="text-white text-3xl mb-6">Tell us who you are to customize your Flowchanger Workspace</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl">
         {/* student card */}
         <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
@@ -17,7 +20,7 @@ function Step6() {
             <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Set reminders for assignments and tests</li>
             <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/>Track your daily progress</li>
           </ul>
-          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600">Choose</button>
+          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600 w-[100%]">Choose</button>
         </div>
 
         {/* personal Tasks Card */}
@@ -31,7 +34,7 @@ function Step6() {
             <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> <span>Set repeats for recurring activities</span></li>
             <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> <span>Organize personal projects</span></li>
           </ul>
-          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600">Choose</button>
+          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600 w-[100%]">Choose</button>
         </div>
 
         {/* Bussiness card */}
@@ -45,7 +48,7 @@ function Step6() {
             <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Switch between views: Calendar planner, Kanban board, Task list</li>
             <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/> Discuss tasks in real-time chat</li>
           </ul>
-          <button className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600">Choose</button>
+          <button onClick={nextStep} className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600 w-[100%]">Choose</button>
         </div>
       </div>
     </div>

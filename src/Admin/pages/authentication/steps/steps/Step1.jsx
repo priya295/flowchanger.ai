@@ -1,18 +1,19 @@
-import { FormContext } from '../../../store/store';
+
 import React, { useContext } from 'react';
+import { FormContext } from '../../../../../store/store';
 
 const Step1 = () => {
   const { nextStep } = useContext(FormContext);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative bg-purple-500">
 
       {/* Login link and button */}
       <div className="absolute top-4 right-4 flex items-center space-x-4">
-        <a href="/login" className="text-black-500 hover:underline">
+        <a href="/login" className="text-white hover:underline">
           Already have an account?
         </a>
-        <button className="bg-purple-500 text-black py-2 px-4 rounded-full hover:bg-purple-400 transition duration-300">
+        <button className="bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-400 transition duration-300">
           Login
         </button>
       </div>
@@ -21,7 +22,7 @@ const Step1 = () => {
         
         {/* Logo section */}
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img src="./images/flowchangerAI.jpg" alt="Flowchangers Logo" className="bg-black h-[150px]" />
+          <img src="./images/flowchangerLogo.png" alt="Flowchangers Logo" className=" h-[150px]" />
         </div>
 
         {/* Sign-up form container */}
@@ -29,7 +30,7 @@ const Step1 = () => {
           
           {/* Header */}
           <div className="flex flex-col justify-center items-center gap-y-0">
-            <h2 className="text-3xl font-medium mb-3 text-center mt-5">Try Bordio for free</h2>
+            <h2 className="text-3xl font-medium mb-3 text-center mt-5">Try FlowChanger for free</h2>
             <p className="mb-5 text-gray-400 text-lg">No credit card required</p>
           </div>
 

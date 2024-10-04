@@ -1,5 +1,5 @@
 import React, { useState ,useContext} from 'react';
-import { FormContext } from '../../../store/store';
+import { FormContext } from '../../../../../store/store';
 
 const Step3 = () => {
   const {nextStep} = useContext(FormContext);
@@ -17,9 +17,9 @@ const Step3 = () => {
   };
 
   return (
-    <div className="min-h-screen  flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen  flex flex-col items-center justify-center p-4 bg-purple-500">
       <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img className='h-[150px]' src="./images/flowchangerAI.jpg" alt="Flowchangers Logo"  />
+          <img className='h-[150px]' src="./images/flowchangerLogo.png" alt="Flowchangers Logo"  />
         </div>
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4 text-center">Verify your Email</h2>
@@ -42,7 +42,7 @@ const Step3 = () => {
         
         <p className="text-gray-600 text-center mb-6">Enter a 4-digit confirmation code below</p>
         
-        <button className="w-full bg-purple-600 text-white py-3 px-4 rounded-full hover:bg-blue-500 transition duration-300 mb-4" onClick={nextStep}>
+        <button className="w-full bg-purple-600 text-white py-3 px-4 rounded-full hover:bg-purple-500 transition duration-300 mb-4" onClick={nextStep}>
           Verify
         </button>
         
