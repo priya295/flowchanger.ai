@@ -107,14 +107,14 @@ const Projects = () => {
   };
 
   return (
-    <div className=" absolute top-[95px] pl-[220px] w-[100%]">
+    <div className="">
       <div>
-        <span className="text-[#9A93B3] text-[20px] font-medium ">
+        <span className="text-[#9A93B3] text-[20px] font-medium max-[600px]:text-[15px]">
           Projects / Addodle
         </span>
         <div className="flex mt-3 items-center gap-3">
           <div className="flex items-center gap-2">
-            <span className="text-black text-[30px] font-medium">
+            <span className="text-black text-[30px] font-medium max-[600px]:text-[25px]">
               Addodle
             </span>
             {/*- Profile Pictures -*/}
@@ -132,14 +132,14 @@ const Projects = () => {
           </div>
           {/*-- More Dropdown --*/}
 
-          <button className="ml-2 flex items-center h-[38px] w-[82px] xjustify-center rounded-md border-[#B1B1B1] gap-1 absolute right-12 border">
+          <button className="ml-2 flex items-center h-[38px] w-[82px] xjustify-center rounded-md border-[#B1B1B1] gap-1 absolute right-12 border max-[720px]:mb-[6rem]">
             <img src={arrowbtn} alt="" />
             More
           </button>
         </div>
       </div>
 
-      <div className="flex items-center mt-8 border h-[58px] shadow-md rounded-xl pl-11 overflow-x-auto gap-20 mr-10  whitespace-wrap">
+      <div className="flex items-center mt-8 border h-[58px] shadow-md rounded-xl overflow-x-auto  whitespace-wrap gap-[4rem] pl-[20px]">
           {[
             "Overview",
             "Task",

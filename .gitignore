@@ -123,3 +123,5 @@ dist
 .DS_Store
 
 key.json
+
+node_modules
