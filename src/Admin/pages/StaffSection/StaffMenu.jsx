@@ -10,16 +10,15 @@ import permission from "../../../Assets/Images/permission.svg";
 import StaffTab from "./StaffTab";
 import AttendanceTab from "./AttendanceTab";
 import Penalty_Overtime from "./Penalty & Overtime/Penalty_Overtime";
-
+import BankDetails from "./BankDetails";
+import SalaryDetails from "./SalaryDetails";
+import LeaveBalance from "../StaffSection/LeaveBalance";
+import Permission from "./Permisson";
 
 const StaffMenu = () => {
   return (
     <div className="staff-menu">
-      <h3
-        className="text-[20px]  font-[Nunito]"
-      >
-        My Staff
-      </h3>
+      <h3 className="text-[20px]  font-[Nunito]">My Staff</h3>
 
       <div className="tab-section mt-[30px]">
         <Tabs>
@@ -87,14 +86,24 @@ const StaffMenu = () => {
           <TabPanel>
             <AttendanceTab />
           </TabPanel>
-            <TabPanel></TabPanel>
-            <TabPanel></TabPanel>
-            <TabPanel></TabPanel>
-
           <TabPanel>
-            <Penalty_Overtime/>
+            <BankDetails/>
+          </TabPanel>
+          <TabPanel>
+            <SalaryDetails/>
+          </TabPanel>
+          <TabPanel>
+            <LeaveBalance/>
           </TabPanel>
 
+          <TabPanel>
+            <Penalty_Overtime />
+          </TabPanel>
+        
+          
+          <TabPanel>
+            <Permission />
+          </TabPanel>
         </Tabs>
       </div>
     </div>
