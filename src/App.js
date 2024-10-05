@@ -38,6 +38,8 @@ import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Clients from "./Admin/pages/Clients/Clients";
 import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
+import EditSalaryDetails from "./Admin/pages/editstaff/EditSalaryDetails";
+import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -130,6 +132,10 @@ const App = () => {
           <Route path="/user-permission" element={<UserPermission />} />
           <Route path="/leavepolicy-detail" element={<EditLeavePolicies />} />
           <Route path="/custom-detail" element={<CustomDetail />} />
+          <Route path="/salary-details-edit" element={<EditSalaryDetails />} />
+          <Route path="/edit-penalty" element={<EditPenalty />} />
+
+
           <Route
             path="/background-verification"
             element={<BackgroundVerification />}
