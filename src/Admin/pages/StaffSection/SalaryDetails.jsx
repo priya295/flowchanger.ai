@@ -127,7 +127,7 @@ const SalaryDetails = () => {
                 <button onClick={closeModal9} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
 
-                    <p className='p-[10px] pl-[14px] pr-[14px] text-[12px] text-center'>You need to setup your  Salary Details Import Settings.  Only Earnings and Deductions set from Settings section can be updated through file upload.</p>
+                    <p className='p-[10px] pl-[14px] pr-[14px] text-[12px] text-center'>You need to setup your <Link to="/salary_Details" className='text-[#8A25B0]'> Salary Details Import Settings. </Link> Only Earnings and Deductions set from Settings section can be updated through file upload.</p>
 
                     <div className='flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
                         <div className='flex gap-[0px] items-center '>
