@@ -36,7 +36,7 @@ const Projects = () => {
             title:
                 <div>
                     <table className="w-full">
-                        <thead>
+                        <thead className="tablehead">
                             <tr>
 
                                 <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
@@ -75,23 +75,23 @@ const Projects = () => {
                     <tbody>
 
                         <tr>
-                            <td className="flex p-[0]">
+                            <td className="flex p-[0] border-b border text-[#e5e7eb]">
 
                                 <td className="p-[10px] w-[100px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
-                                <td className="text-[12px] w-[90px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">43</td>
+                                <td className="text-[12px] w-[90px] font-medium p-[10px] text-[#8a25b0]">43</td>
 
 
 
-                                <td className="flex flex-col w-[226px] p-[10px] break-words"><Link className="text-[11px] text-[#2563eb]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
+                                <td className="flex flex-col w-[226px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
 
 
 
 
-                                <td className="text-[12px] p-[10px] w-[182px] whitespace-nowrap	">13-08-2024</td>
+                                <td className="text-[12px] p-[10px] text-[black] w-[182px] whitespace-nowrap	">13-08-2024</td>
 
-                                <td className="text-[12px] p-[10px]  w-[180px]   whitespace-nowrap	">13-08-2024</td>
-                                <td className="text-[12px] p-[10px] w-[180px] whitespace-nowrap	">19-08-2024</td>
+                                <td className="text-[12px] p-[10px]  w-[180px] text-[black]   whitespace-nowrap	">13-08-2024</td>
+                                <td className="text-[12px] p-[10px] w-[180px] whitespace-nowrap text-[black]	">19-08-2024</td>
 
 
 
@@ -191,7 +191,7 @@ const Projects = () => {
               
 
                 {accordionItems.map((item, index) => (
-                    <div key={index} className="border-b border-gray-200">
+                    <div key={index} className="">
                         {/* Accordion Header */}
                         <button
                             onClick={() => handleToggle(index)}
