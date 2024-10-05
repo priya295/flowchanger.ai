@@ -11,6 +11,7 @@ import StaffTab from "./StaffTab";
 import AttendanceTab from "./AttendanceTab";
 import Penalty_Overtime from "./Penalty & Overtime/Penalty_Overtime";
 
+
 const StaffMenu = () => {
   return (
     <div className="staff-menu">
