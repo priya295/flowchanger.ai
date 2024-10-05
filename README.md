@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 <<<<<<<<< Temporary merge branch 1
 # crm-frontend
 =========
+=======
+<<<<<<< HEAD
+# crm-frontend
+=======
+>>>>>>> 28ce7936109530c3130352837de1036a6895762d
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

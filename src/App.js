@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./Assets/css/roledetail.css";
+import '../src/Assets/css/new.css';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import NavBar from "./Admin/Components/NavBar";
+ import NavBar from "./Admin/Components/NavBar";
 import SideBar from "./Admin/Components/SideBar";
 import Project from "./Admin/pages/Projects/Project_Data";
-import Task from "./Admin/pages/Tasks/Task_Data";
+import Task from "../src/Admin/pages/Tasks/Task_Data";
 import Role from "./Admin/pages/Roles/RoleDetails";
 import Department from "./Admin/pages/Department/DepartmentDetails";
 import AddRole from "./Admin/pages/Roles/Add_Role";
@@ -27,45 +28,64 @@ import SidebarEditStaff from '../src/Admin/pages/editstaff/SidebarEditStaff'
 import Project_overView from '../src/Admin/pages/Projects/overView'
 import Salary_Details from '../src/Admin/pages/StaffSection/Salary_Details'
 import MultiStepForm from '../src/Admin/pages/authentication/steps/steps/multistepform'
-const App = () => {
+import Attendence_summary from './Admin/Components/Attendance/Attendence_summary';
+import Worktime from './Admin/Components/Attendance/Worktime';
+import Reviewfine from './Admin/Components/Attendance/Reviewfine';
+import Overtime from './Admin/Components/Attendance/Overtime';
+ import Project_Summary from './Admin/pages/Projects/Project_Summary';
+import Projects from "../src/Admin/pages/Projects/overView";
+
+
+
+ const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
   const handleToggleSideBar = () => {
     setToggleSideBar(!toggleSideBar);
   };
-  function AuthLayout() {
-    return (
-      <>
-      <Outlet/>
-      </>
-    )
-   }
-  //  function to create layout of the page
-  function AdminLayout() {
-    return (
-      <>
-        <div className="flex">
-          <div className="">
-            {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} />}
-          </div>
+          function AuthLayout() {
+            return (
+              <>
+              <Outlet/>
+              </>
+            )
+           }
+ 
+ 
 
-          {/* container for navbar and outlet */}
-          <div className={`flex flex-col flex-grow overflow-hidden`}>
-            <NavBar
-              handleToggleSideBar={handleToggleSideBar}
-              toggleSideBar={toggleSideBar}
-            />
-            <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
-              <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 ">
-                <Outlet />
-              </div>
-            </main>
-          </div>
-        </div>
-      </>
-    );
-  }
-  function Editstaff() {
+ 
+  //  function to create layout of the page
+            function AdminLayout() {
+              return (
+                <>
+                  <div className="flex">
+                    <div className="">
+                      {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} />}
+                    </div>
+
+                    {/* container for navbar and outlet */}
+                    <div className={`flex flex-col flex-grow overflow-hidden`}>
+                      <NavBar
+                        handleToggleSideBar={handleToggleSideBar}
+                        toggleSideBar={toggleSideBar}
+                      />
+                      <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
+                        <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 ">
+                      <NavBar handleToggleSideBar={handleToggleSideBar} toggleSideBar={toggleSideBar} />
+                      <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
+                        <div className="container mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 ">
+                          <Outlet />
+                        </div>
+                      </main> 
+                      </div>
+
+                      </main>
+                    </div>
+                  </div>
+                </>
+              );
+            }
+            function Editstaff() {
     return (
       <>
         <div className=''>
@@ -77,12 +97,15 @@ const App = () => {
         </div>
       </>
     )
-  }
-  return (
+             }
+ 
+   
+
+   return (
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayout />}>
-          <Route path="/Project" element={<Project />} />
+          <Route path="/Project" element={<Projects />} />
           <Route path="/Project/overView" element={<Project_overView />} />
           <Route path="/task" element={<Task />} />
           <Route path="/addrole" element={<AddRole />} />
@@ -93,7 +116,16 @@ const App = () => {
           <Route path="/add-one-staff" element={<AddOneStaff />} />
           <Route path="/department" element={<Department />} />
           <Route path="/Salary_Details" element={<Salary_Details />} />
-        </Route>
+          <Route path='/Project' element={<Project />} />
+          <Route path='/task' element={<Task />} />
+          <Route path='/ovetime' element={<Overtime />} />
+          <Route path='/reviewfine' element={<Reviewfine />} />
+          <Route path='/worktime' element={<Worktime />} />
+          <Route path='/attendence_summary' element={<Attendence_summary />} />
+          <Route path='/taskdata' element={<Task />} />
+          <Route path='/project_summary' element={<Project_Summary />} />
+          <Route path='/overtime' element={<Overtime />} />
+         </Route>
         <Route element={<Editstaff />}>
         <Route path='/personal-detail' element={<PersonalDetail />} />
         <Route path='/bank-detail' element={<BankDetails />} />
@@ -105,10 +137,20 @@ const App = () => {
         <Route path='/background-verification' element={<BackgroundVerification />} />
         <Route path='/verify-aadhar' element={<VerifyAadhaar />} />
       </Route> 
-<Route element = {<AuthLayout/>}>
-           <Route path = "/authentication" element={<MultiStepForm/>}/>
-            </Route>
-      </Routes>
+        <Route element = {<AuthLayout/>}>
+                  <Route path = "/authentication" element={<MultiStepForm/>}/>
+                    </Route>
+
+          
+
+ 
+
+
+
+  
+
+
+       </Routes>
     </BrowserRouter>
   );
 };

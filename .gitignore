@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 api-prod-secret.yaml
 .idea/
 package-lock.json
@@ -124,4 +125,6 @@ dist
 
 key.json
 
+=======
+>>>>>>> 28ce7936109530c3130352837de1036a6895762d
 node_modules

@@ -20,6 +20,7 @@ const NewTask = () => {
             title:
                 <div>
                     <table className="w-full">
+                        <thead>
                         <tr>
                             <th className="w-[10px]" ></th>
                             <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
@@ -31,6 +32,8 @@ const NewTask = () => {
                             <th className="text-[12px] w-[250px] p-[10px] border-r font-medium whitespace-nowrap">Task Name</th>
 
                            
+
+
 
 
 
@@ -51,13 +54,18 @@ const NewTask = () => {
                             <th className="text-[12px] w=[90px] font-medium p-[10px] border-r whitespace-nowrap	">Priority</th>
 
 
+
+                           
+
                             
 
                         </tr>
+                        </thead>
                     </table>
                 </div>,
             content: (
                 <table className="w-full" >
+                    <tbody>
 
                     <tr>
                         <td className="flex p-[0]">
@@ -90,6 +98,7 @@ const NewTask = () => {
 
 
                     </tr>
+                    </tbody>
 
                     <tr>
                         <td className="flex p-[0]">
@@ -138,7 +147,11 @@ const NewTask = () => {
         <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
 
             <div className="bg-[#e1ebff] p-[10px]">
-                <button type="button" class="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  > < AddIcon className="addicon" /> Default</button>
+                <div className="mb-[14px]">
+
+                    <Link to="/" className="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <AddIcon /> Default</Link>
+                </div>
                 {accordionItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-200">
                         {/* Accordion Header */}
