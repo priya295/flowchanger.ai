@@ -88,7 +88,6 @@ const App = () => {
           <Route path="/department" element={<Department />} />
           <Route path="/Salary_Details" element={<Salary_Details />} />
         </Route>
-
         <Route element={<Editstaff />}>
         <Route path='/personal-detail' element={<PersonalDetail />} />
         <Route path='/bank-detail' element={<BankDetails />} />
@@ -99,11 +98,6 @@ const App = () => {
         <Route path='/custom-detail' element={<CustomDetail />} />
         <Route path='/background-verification' element={<BackgroundVerification />} />
         <Route path='/verify-aadhar' element={<VerifyAadhaar />} />
-
-
-
-
-
       </Route> 
       </Routes>
     </BrowserRouter>
