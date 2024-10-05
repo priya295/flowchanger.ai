@@ -7,6 +7,10 @@ import Project from './Admin/pages/Projects/Project_Data';
 import Task from './Admin/pages/Tasks/Task_Data';
 import Role from './Admin/pages/Roles/RoleDetails';
 import Department from './Admin/pages/Department/DepartmentDetails';
+import AddNewCustomer from './Admin/pages/Clients/AddNewCustomer';
+import ProjectSettings from './Admin/pages/Projects/Project_Setting';
+import ProjectSummary from './Admin/pages/Projects/Project_Data';
+import MultiStepForm from './Admin/pages/authentication/steps/steps/multistepform';
 import AddRole from './Admin/pages/Roles/Add_Role';
 import AddDepartment from './Admin/pages/Department/AddDepartment'
 import EditRole from './Admin/pages/Roles/EditRole';
@@ -21,6 +25,15 @@ const App = () => {
 
    const handleToggleSideBar = () =>{
       setToggleSideBar(!toggleSideBar)
+   }
+
+  //  function to create Authentication Layout
+   function AuthLayout() {
+    return (
+      <>
+      <Outlet/>
+      </>
+    )
    }
 
   //  function to create layout of the page
@@ -52,21 +65,20 @@ const App = () => {
         <Route element={<AdminLayout />}>
           <Route path='/Project' element = {<Project/>}/>   
           <Route path='/task' element = {<Task/>}/>   
-          
-          <Route path='/addrole' element = {<AddRole/>}/>  
+           <Route path='/addrole' element = {<AddRole/>}/>  
           <Route path='/role' element = {<Role/>}/>  
           <Route path='/editrole' element = {<EditRole/>}/>  
           <Route path='/editdepartment' element = {<EditDepartment/>}/>  
           <Route path='/staff-menu' element = {<StaffMenu/>}/>  
           <Route path='/add-one-staff' element = {<AddOneStaff/>}/>  
-
-
-
           <Route path='/department' element = {<Department/>}/>  
           <Route path='/adddepartment' element = {<AddDepartment/>}/>  
-          
-        </Route>
+          </Route>
+          <Route element = {<AuthLayout/>}>
+           <Route path = "/authentication" element={<MultiStepForm/>}/>
+            </Route>
       </Routes>
+      
     </BrowserRouter>
   );
 }
