@@ -85,11 +85,31 @@
     border: 1px solid #dbdbdb;
 
 }
+.newadd3{
+    font-size: 18px !important;
+
+}
+.container{
+    padding: 0;
+}
+.view-btns{
+    transition: all 0.5s linear;
+}
+.repeat-task{
+    border-bottom: 1px solid #ebf1f5;
+    padding-bottom:30px;
+}
 .newadd{
     font-size: 14px !important;
 }
 .newadd2{
     font-size: 16px !important;
+}
+.five-hour{
+    color: #0094ff;
+}
+.five-hour1{
+    color: #000;
 }
 @media(max-width:640px){
     .late-main{

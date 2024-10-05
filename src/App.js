@@ -24,6 +24,10 @@ import EditDepartment from './Admin/pages/Department/EditDepartment';
 import AddOneStaff from './Admin/pages/StaffSection/AddOneStaff';
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Project_Summary from './Admin/pages/Projects/Project_Summary';
+import Taskview from './Admin/pages/Tasks/Taskview';
+import Projects from './Admin/pages/Projects/Projects';
+import TaskForm from './Admin/pages/Tasks/TaskForm';
+import Clients from './Admin/pages/Clients/Clients';
 
 
 
@@ -85,6 +89,10 @@ const App = () => {
           <Route path='/taskdata' element={<Task_Data />} />
           <Route path='/project_summary' element={<Project_Summary />} />
           <Route path='/overtime' element={<Overtime />} />
+          <Route path='/taskview' element={<Taskview />} />
+          <Route path='/projects' element={<Projects />} />
+          <Route path='/clients' element={<Clients />} />
+          <Route path='/tasform' element={<TaskForm />} />
 
         </Route>
 
