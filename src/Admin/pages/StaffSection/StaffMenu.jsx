@@ -9,7 +9,10 @@ import penalty from '../../../Assets/Images/penalty.svg'
 import permission from '../../../Assets/Images/permission.svg'
 import StaffTab from './StaffTab';
 import AttendanceTab from './AttendanceTab';
-
+import BankDetails from './BankDetails';
+import SalaryDetails from './SalaryDetails';
+import LeaveBalance from '../StaffSection/LeaveBalance'
+import Permission from './Permisson';
 
 const StaffMenu = () => {
     return (
@@ -70,6 +73,18 @@ const StaffMenu = () => {
                     </TabPanel>
                     <TabPanel>
                        <AttendanceTab/>
+                    </TabPanel>
+                    <TabPanel>
+                       <BankDetails/>
+                    </TabPanel>
+                    <TabPanel>
+                       <SalaryDetails/>
+                    </TabPanel>
+                    <TabPanel>
+                       <LeaveBalance/>
+                    </TabPanel>
+                    <TabPanel>
+                       <Permission/>
                     </TabPanel>
                 </Tabs>
             </div>
