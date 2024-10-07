@@ -1,0 +1,272 @@
+.search-icon{
+    font-size: 17px !important;
+    top: 16px;
+    position: absolute
+    ;
+}
+.refresh{
+    padding: 9px;
+    font-size: 42px !important;
+} 
+
+.table-section{
+    /* width: 1030px;
+    overflow: scroll; */
+}
+.table-section tbody td{
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0px;
+}
+.table-section thead th{
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 300;
+    padding: 10px 24px;
+    border-right: 1px solid #DBDBDB;
+}
+
+
+
+.table-body-set label{
+    position: relative;
+    top: -2px;
+}
+
+.table-body-set input{
+    padding: 3px;
+    height: 12px;
+    width: 12px;
+}
+
+.first-btn{
+    border-radius: 10px;
+    border: 1px solid #8A25B0;
+    height: 44px;
+    padding: 0px 20px;
+    color: #8A25B0;
+    transition: all 0.3s linear;
+}
+.first-btn:hover{
+    background: #8A25B0;
+    color: white;
+}
+.second-btn{
+    border-radius: 10px;
+    background:  #8A25B0;
+    padding: 0px 20px;
+    color: white;
+    height: 44px;
+    transition: all 0.3s linear;
+    border: 1px solid #8A25B0;
+    white-space: nowrap;
+
+    
+}
+.second-btn:hover{
+    background: none;
+    border: 1px solid #8A25B0;
+    color: #8A25B0;;
+
+}
+
+*{
+    font-family: 'Poppins';}
+
+
+    
+.tab-section .react-tabs .react-tabs__tab--selected{
+    border-bottom: 1px solid #511992 !important;
+
+}
+
+    
+.tab-section .react-tabs{
+    cursor: pointer;
+}
+.tab-section .react-tabs .react-tabs__tab--selected:focus-visible{
+    outline: none;
+    border-bottom: 1px solid #511992;
+    padding-bottom: 10px;
+}
+.tab-section .react-tabs .react-tabs__tab{
+    border-bottom: 1px solid transparent;
+    padding-bottom: 10px;
+
+}
+.tab-section .react-tabs ::-webkit-scrollbar {
+    width: 2px;
+    height: 4px;
+    display: none;
+}
+    
+.table-timing tbody tr::-webkit-scrollbar {
+    width: 4px;
+    height: 10px;
+  }
+/* 
+  .table-timing tbody tr:hover td{
+    background: red;
+  } */
+
+ .table-timing tbody tr::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+    
+
+.tab-section .react-tabs ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+                    
+.tab-section .react-tabs ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+
+@media screen and (max-width:576px){
+    .search-icon{
+        top: 15px;
+    }
+}
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=radio]{
+        accent-color: #8A25B0;
+   }
+
+
+.table-timing tbody tr td{
+    padding: 5px 0px;
+    font-size: 13px;
+   }
+
+   .modal-field{
+    height: 400px;
+    overflow: scroll;
+   }
+
+   /* .fixed-tab-section .react-tabs__tab--selected input{
+        accent-color: red;
+   } */
+   
+.tabs-attendance .react-tabs .react-tabs__tab--selected{
+    border-radius: 10px;
+     padding: 0px 20px;
+    color: white;
+    height: 44px;
+    transition: all 0.3s linear;
+    border: 1px solid #8A25B0;
+    white-space: nowrap;
+    display: flex;
+    background: white !important;
+    color: #8A25B0 !important;
+}
+
+.tabs-attendance .react-tabs .react-tabs__tab{
+    border-radius: 10px;
+    background: #8A25B0;
+    padding: 0px 20px;
+    color: white;
+    height: 44px;
+    transition: all 0.3s linear;
+    border: 1px solid #8A25B0;
+    white-space: nowrap;
+    display: flex;
+}
+.add-icon{
+    /* font-size: 16px !important; */
+}
+
+.arrow-icon{
+    font-weight: 500;
+}
+.field-modal{
+    height: 100% !important;
+}
+.sidelinks .active{
+    background-color: #f0f8fd;
+    border-radius: 10px;
+    color: #8a25b0;
+}
+
+.edit-sidebar{
+    transition: all 0.3s linear;
+}
+.toggle-btn-side{
+    display: none;
+}
+.close-icon{
+    display: none !important; 
+    transition: all 0.3s linear;
+}
+.editsidebar .close-icon{
+    display: block !important;
+}
+.editsidebar .menu-icon{
+    display: none;
+    transition: all 0.3s linear;
+}
+
+@media screen and (max-width:1280px){
+    .edit-sidebar{
+        left: -300px;
+        
+    }
+    .toggle-btn-side{
+        display: block;
+    }
+
+    .editsidebar .edit-sidebar{
+        left: 0px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   @media(max-width:576px){
+    .first-btn{
+        height: 35px;
+        padding: 0px 10px;
+        font-size: 10px;
+    }
+    .second-btn{
+        height: 35px;
+        padding: 0px 10px;
+        font-size: 10px;
+    }
+   }
