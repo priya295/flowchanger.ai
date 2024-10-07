@@ -37,7 +37,10 @@ import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
 import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Clients from "./Admin/pages/Clients/Clients";
-import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
+import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";  
+import Editprofile from "../src/Admin/pages/profile/Editprofile";
+import Task_Status from "./Admin/pages/Projects/Task_Status";
+import Edit_Task_Status from "./Admin/pages/Projects/Edit_Task_Status";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -109,8 +112,7 @@ const App = () => {
           <Route path="/add-one-staff" element={<AddOneStaff />} />
           <Route path="/department" element={<Department />} />
           <Route path="/salary_Details" element={<Salary_Details />} />
-          <Route path="/task" element={<Task />} />
-          <Route path="/ovetime" element={<Overtime />} />
+          <Route path="/overtime" element={<Overtime />} />
           <Route path="/reviewfine" element={<Reviewfine />} />
           <Route path="/worktime" element={<Worktime />} />
           <Route path="/attendence_summary" element={<Attendence_summary />} />
@@ -120,6 +122,9 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
+          <Route path="/editprofile" element={<Editprofile />} />
+          <Route path="/taskstatus" element={<Task_Status />} />
+          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
         </Route>
 
         <Route element={<Editstaff />}>
