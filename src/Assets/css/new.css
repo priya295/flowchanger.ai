@@ -10,7 +10,8 @@
 
 }
 .total-staff{
-    border-right: 1px solid black !important;
+    border-right: 1px solid #cec6c6 !important;
+    padding-right: 15px;
 }
 .search-staff::placeholder{
     font-size: 14px;

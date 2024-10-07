@@ -40,6 +40,8 @@ import Clients from "./Admin/pages/Clients/Clients";
 import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
 import EditSalaryDetails from "./Admin/pages/editstaff/EditSalaryDetails";
 import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
+import SalaryOverview from "./Admin/pages/editstaff/SalaryOverview";
+import StaffSalarySummry from "./Admin/pages/editstaff/StaffSalarySummry";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -122,6 +124,7 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
+          <Route path="/add-department" element={<AddDepartment/>}/>
         </Route>
 
         <Route element={<Editstaff />}>
@@ -134,6 +137,9 @@ const App = () => {
           <Route path="/custom-detail" element={<CustomDetail />} />
           <Route path="/salary-details-edit" element={<EditSalaryDetails />} />
           <Route path="/edit-penalty" element={<EditPenalty />} />
+          <Route path="/salary-overview" element={<SalaryOverview />} />
+          <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
+
 
 
           <Route
