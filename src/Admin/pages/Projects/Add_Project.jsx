@@ -9,7 +9,7 @@ const AddProject = () =>{
 
     <div className="min-h-screen  flex items-center justify-center p-4">
       <div className="w-full max-w-2xl bg-white rounded-lg shadow-md p-6 space-y-6">
-        <div className="flex xs:w-[100%] md:w-[42%]  justify-between font-thin h-10 ">
+        <div className="flex xs:w-[100%] md:w-[50%]  justify-between font-thin h-10 ">
         <h2 className="text-2xl font-normal text-gray-800 hover:text-blue-400 ">Project</h2>
         <Link to = "/projectsettings"><h2 className="text-2xl font-normal text-gray-800 hover:text-blue-400">Project Settings</h2></Link>
         </div>
@@ -19,7 +19,6 @@ const AddProject = () =>{
             <label htmlFor="projectName" className="block text-sm font-medium text-gray-700">Project Name</label>
             <input type="text" id="projectName" className="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
           </div>
-
           <div>
             <label htmlFor="customer" className="block text-sm font-medium text-gray-700">Customer</label>
             <div className="mt-1 relative">

@@ -1,42 +1,53 @@
-
-
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Front from "./Admin/Components/pages/create_users";
-import Users from './Admin/Components/pages/users';
-import Details from './Admin/Components/pages/details';
-import Filter from './Admin/Components/pages/filter_selected';
-import Admin from './Admin/Components/Projects/overView';
-import Staff from './Admin/Components/Staff';
-import Role from './Admin/Components/roles/RoleDetails';
 import NavBar from './Admin/Components/NavBar';
 import SideBar from './Admin/Components/SideBar';
 import EditForm from './Admin/Components/editForm';
 import MyStaff from './Admin/Components/mystaff';
 import Newactivity from './Admin/Components/Projects/Newactivity';
 import NewTask from './Admin/Components/Task_deatail/NewTask';
+import Project from './Admin/pages/Projects/Project_Data';
+import Task from './Admin/pages/Tasks/Task_Data';
+import Role from './Admin/pages/Roles/RoleDetails';
+import Department from './Admin/pages/Department/DepartmentDetails';
 
 const App = () => {
+
+   const [toggleSideBar , setToggleSideBar] = useState(true);
+
+   const handleToggleSideBar = () =>{
+      setToggleSideBar(!toggleSideBar)
+   }
+
+  //  function to create layout of the page
        function AdminLayout() {
             return (
               <>
-                <div  className='main-layout relative flex'>
-                  <div className='set-layout flex '>
-                    {/* <SideBar />
-                    <NavBar /> */}
-                  </div>
-                  <Outlet />
-                </div>
-        
+              <div className="flex">
+              <div className="">
+            {toggleSideBar && <SideBar toggleSideBar = {toggleSideBar}/>}
+            </div> 
+       
+         {/* container for navbar and outlet */}
+         <div className={`flex flex-col flex-grow overflow-hidden`}>
+           <NavBar handleToggleSideBar={handleToggleSideBar} toggleSideBar={toggleSideBar}/>
+           <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
+             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              <Outlet />
+             </div>
+          </main>
+         </div>
+       </div>
               </>
         
             )
           }
+          
   return (
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayout />}>
-        <Route path="/" element= {<Front/>} />  
+         <Route path="/" element= {<Front/>} />  
           <Route path='/users' element = {<Users/>}/>   
           {/* <Route path='/details' element = {<Details/>}/> */}
           <Route path='/filter' element = {<Filter/>}/>
@@ -49,7 +60,11 @@ const App = () => {
           <Route path='/editForm' element={<EditForm />} />
           <Route path='/mystaff' element={<MyStaff />} />
           <Route path='/newtask' element={<NewTask />} />
-        </Route>
+          <Route path='/Project' element = {<Project/>}/>   
+          <Route path='/task' element = {<Task/>}/>   
+          <Route path='/role' element = {<Role/>}/>  
+          <Route path='/department' element = {<Department/>}/>  
+         </Route>
       </Routes>
     </BrowserRouter>
   );

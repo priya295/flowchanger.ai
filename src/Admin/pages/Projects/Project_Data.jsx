@@ -16,9 +16,10 @@ const ProjectSummary = () =>{
         ]
 
      return (
+      // container for all content
         <div className="container">
         <div className="flex justify-evenly items-center w-1/4   p-0 ">
-         <button className="bg-purple-800 p-3 rounded mx-0.5 flex justify-between items-center px-9 text-white">
+         <button className="bg-purple-800 p-2.5 rounded mx-0.5 flex justify-between items-center px-8 text-white">
          <IoMdAdd className=" mr-3 text-2xl font-bold"/>
          New Project
          </button>
@@ -26,17 +27,18 @@ const ProjectSummary = () =>{
          <BsGraphUpArrow  className="text-4xl "/>
          </div>
         </div>
-        <div className="container border border-gray-100 shadow-xl mt-4 py-4 rounded">
+        <div className="container border border-gray-100 shadow-xl mt-4 py-1 rounded">
             <div className="flex flex-col">
-             <div className="flex flex-row ml-4 justify-between items-center w-[20%] ">
+             <div className="flex flex-row ml-4 justify-between items-center w-[28%] ">
               <GoProjectRoadmap className="ml-3 text-3xl"/>
                <h1 className="font-bold text-2xl leading-16">Project Summary</h1>
              </div>
-             <div className="flex justify-between items-center w-[350px]  mt-3">
+             <div className="flex justify-between items-center w-[100%] md:w-[46%]  mt-3 ">
               <button className="bg-purple-700 p-3 rounded-full w-[40%]"><span></span>Add New</button>
               <div className="relative">
-              <input type="text" placeholder = "search..." className=" p-2 rounded-full outline  focus:outline-grey-500"/>
-              <IoSearchOutline/>
+              <IoSearchOutline className="absolute inset-y-0 right-2 top-1.5 text-3xl flex items-center"/>
+              <input type="text" placeholder = "search..." className="p-2 rounded-full  focus:outline-grey-500 mr-2 pr-10 border border-gray-400 shadow-sm"/>
+              
               </div>
              </div>
              <div className="flex justify-between items-center   mt-3 ">
@@ -59,9 +61,11 @@ const ProjectSummary = () =>{
                   <IoSearchOutline className="absolute inset-y-3 inset-x-4 left-0 flex items-center  text-gray-500 w-10 text-2xl "/>
                  </div>
                 </div>
-             <div className="flex justify-between items-center ">
+              {/* project summary container */}
+             <div className="flex justify-between items-center overflow-x-auto whitespace-nowrap">
                 <table className="w-[100%] mt-5">
-                    <thead >
+                  {/* table header */}
+                    <thead className="overflow-x-auto whitespace-nowrap">
                     <th className="border px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                        status(01) 
                     </th>
@@ -81,24 +85,26 @@ const ProjectSummary = () =>{
                      members
                     </th>
                     </thead>
+                    {/* project summary table */}
                     <tbody className = "bg-white divide-y divide-gray-200">
                         {
                             ProfileData.map(profile =>{
                                 return(
                                 <tr className="h-14">
-                                <td className="text-green-500">{profile.status}</td>
-                                <td className="text-blue-700">{profile.series}</td>
-                                <td className="flex flex-col">
+                                <td className="text-green-500 px-6 py-3">{profile.status}</td>
+                                <td className="text-blue-700 px-6 py-3">{profile.series}</td>
+                                <td className="flex flex-col px-6 py-3">
                                 <span className="text-blue-500">{profile.projectName}</span>
                                 <span>{profile.projectContent}</span>
                                 </td>
-                                <td>{profile.startDate}</td>
-                                <td>{profile.DeadLine}</td>
-                                <td className="flex justify-center items-center">
-                                    <img src={profile.ProficSrc} alt="" />
-                                    <img src={profile.ProficSrc} alt="" />
-                                
-                                </td>
+                                <td className="px-6 py-3 ">{profile.startDate}</td>
+                                <td className="px-6 py-3 ">{profile.DeadLine}</td>
+                                <td className="px-6 py-3 ">
+                             <div className="flex justify-center items-center h-full">
+                             <img src={profile.ProficSrc} alt="" className="w-8 h-8 rounded-full mr-1" />
+                            <img src={profile.ProficSrc} alt="" className="w-8 h-8 rounded-full" />
+                          </div>
+                        </td>
                                 
                             </tr>
                                 )
@@ -110,6 +116,7 @@ const ProjectSummary = () =>{
              </div>
             </div>
          </div>
+         {/* previous next buttons */}
          <div className="flex  justify-between items-center w-[90%] mx-auto h-15 mt-5">
            <p>
             showing 1 to 2 of 2 enteries
@@ -130,3 +137,25 @@ const ProjectSummary = () =>{
 
 export default ProjectSummary;
 
+// import React from 'react';
+
+// const TableRow = ({ profile }) => (
+//   <tr className="h-14">
+//     <td className="text-green-500 px-6 py-3 align-middle">{profile.status}</td>
+//     <td className="text-blue-700 px-6 py-3 align-middle">{profile.series}</td>
+//     <td className="px-6 py-3 align-middle">
+//       <span className="text-blue-500 block">{profile.projectName}</span>
+//       <span className="block">{profile.projectContent}</span>
+//     </td>
+//     <td className="px-6 py-3 bg-gray-600 align-middle">{profile.startDate}</td>
+//     <td className="px-6 py-3 bg-blue-600 align-middle">{profile.DeadLine}</td>
+//     <td className="px-6 py-3 bg-blue-600 align-middle">
+//       <div className="flex justify-center items-center h-full">
+//         <img src={profile.ProficSrc} alt="" className="mr-2" />
+//         <img src={profile.ProficSrc} alt="" />
+//       </div>
+//     </td>
+//   </tr>
+// );
+
+// export default TableRow;
