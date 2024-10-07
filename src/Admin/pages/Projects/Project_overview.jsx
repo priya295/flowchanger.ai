@@ -14,7 +14,6 @@ import { MdLocalActivity } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import Over from "./View";
-import Task from "./Task";
 import Files from "./Files";
 import Discussion from "./Discussion";
 import Tickets from "./Tickets";
@@ -22,6 +21,7 @@ import Notes from "./Nots";
 import Activity from "./Activity";
 import Calender from "./Calender";
 import People from "./People";
+import Task from './Task'
 
 const Projects = () => {
   const [activeTab, setactiveTab] = useState("Overview");
@@ -48,13 +48,13 @@ const Projects = () => {
       case "Overview":
         return (
           <div>
-            <Over />
+            <Over/>
           </div>
         );
       case "Task":
         return (
           <div>
-            <Task />
+            <Task/>
           </div>
         );
       case "Files":
@@ -167,8 +167,6 @@ const Projects = () => {
           ))}
         </div>
       <div className="mt-10">{renderTabContent()}</div>
-
-      <div></div>
     </div>
   );
 };

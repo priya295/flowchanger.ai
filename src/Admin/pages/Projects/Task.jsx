@@ -18,17 +18,17 @@ const Task = () => {
     setTasks((prev) => [...prev, taskData]); // Add new task to the state
   };
 
-  const Accordion = () => {
-    const [openIndex, setOpenIndex] = useState(null);
+  // const Accordion = () => {
+  //   const [openIndex, setOpenIndex] = useState(null);
   
-    // Function to handle accordion toggling
-    const handleToggle = (index) => {
-      if (openIndex === index) {
-        setOpenIndex(null); // Close the accordion if clicked again
-      } else {
-        setOpenIndex(index); // Open the accordion
-      }
-    };
+  //   // Function to handle accordion toggling
+  //   const handleToggle = (index) => {
+  //     if (openIndex === index) {
+  //       setOpenIndex(null); // Close the accordion if clicked again
+  //     } else {
+  //       setOpenIndex(index); // Open the accordion
+  //     }
+  //   };
 
   
 
@@ -179,6 +179,5 @@ const Task = () => {
     </div>
   );
 };
-}
 
 export default Task;

@@ -25,7 +25,6 @@ import BackgroundVerification from "./Admin/pages/editstaff/BackgroundVerificati
 import VerifyAadhaar from "./Admin/pages/editstaff/VerifyAadhaar";
 import UpperHeader from "./Admin/pages/editstaff/UpperHeader";
 import SidebarEditStaff from "../src/Admin/pages/editstaff/SidebarEditStaff";
-import Project_overView from "../src/Admin/pages/Projects/Project_overview";
 import Salary_Details from "../src/Admin/pages/StaffSection/Salary_Details";
 import MultiStepForm from "../src/Admin/pages/authentication/steps/steps/multistepform";
 import Attendence_summary from "./Admin/Components/Attendance/Attendence_summary";
@@ -38,6 +37,9 @@ import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Clients from "./Admin/pages/Clients/Clients";
 import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
+import Add_Project from '../src/Admin/pages/Projects/Add_Project'
+import Customer_Navbar from './Customer Panel/Components/Customer_Navbar'
+import Customer_Footer from './Customer Panel/Components/Customer_Footer'
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -45,11 +47,11 @@ const App = () => {
   const handleToggleSideBar = () => {
     setToggleSideBar(!toggleSideBar);
   };
+
   function AuthLayout() {
     return (
       <>
         <Outlet />
-          
       </>
     );
   }
@@ -79,6 +81,7 @@ const App = () => {
       </>
     );
   }
+
   function Editstaff() {
     return (
       <>
@@ -89,9 +92,19 @@ const App = () => {
             <Outlet />
           </div>
         </div>
-      
       </>
     );
+  }
+
+
+  function CustomerPanel() {
+    return (
+      <>
+      <Customer_Navbar/>
+      <Outlet/>
+      <Customer_Footer/>
+      </>
+    )
   }
 
   return (
@@ -120,6 +133,7 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
+          <Route path="/create-new-project" element={<Add_Project/>}></Route>
         </Route>
 
         <Route element={<Editstaff />}>
@@ -135,12 +149,16 @@ const App = () => {
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
-                
         </Route>
+
         <Route element={<AuthLayout />}>
           <Route path="/authentication" element={<MultiStepForm />} />
-                  
         </Route>
+
+        <Route element={<CustomerPanel/>}>
+          <Route path="/customer-panel"></Route>
+        </Route>
+
       </Routes>
     </BrowserRouter>
   );
