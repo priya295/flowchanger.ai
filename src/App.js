@@ -40,6 +40,10 @@ import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
 import Add_Project from '../src/Admin/pages/Projects/Add_Project'
 import Customer_Navbar from './Customer Panel/Components/Customer_Navbar'
 import Customer_Footer from './Customer Panel/Components/Customer_Footer'
+import EditSalaryDetails from "./Admin/pages/editstaff/EditSalaryDetails";
+import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
+import SalaryOverview from "./Admin/pages/editstaff/SalaryOverview";
+import StaffSalarySummry from "./Admin/pages/editstaff/StaffSalarySummry";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -133,8 +137,10 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
-          <Route path="/create-new-project" element={<Add_Project/>}></Route>
-        </Route>
+ 
+           <Route path="/create-new-project" element={<Add_Project/>}></Route>
+          <Route path="/add-department" element={<AddDepartment/>}/>
+         </Route>
 
         <Route element={<Editstaff />}>
           <Route path="/personal-detail" element={<PersonalDetail />} />
@@ -144,6 +150,13 @@ const App = () => {
           <Route path="/user-permission" element={<UserPermission />} />
           <Route path="/leavepolicy-detail" element={<EditLeavePolicies />} />
           <Route path="/custom-detail" element={<CustomDetail />} />
+          <Route path="/salary-details-edit" element={<EditSalaryDetails />} />
+          <Route path="/edit-penalty" element={<EditPenalty />} />
+          <Route path="/salary-overview" element={<SalaryOverview />} />
+          <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
+
+
+
           <Route
             path="/background-verification"
             element={<BackgroundVerification />}

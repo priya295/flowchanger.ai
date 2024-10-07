@@ -220,6 +220,25 @@ input[type=radio]{
     display: none;
     transition: all 0.3s linear;
 }
+/* .ReactModal__Content {
+    transform:rotateY(75deg);
+    transition: all 0.3s linear;
+}
+.ReactModal__Body--open .ReactModal__Content{
+    transform:rotateY(0deg);
+} */
+.calender-icon{
+    color: #8A25B0;
+    background: #f1efef;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 29px !important;
+}
+
+.arrow-icon-back{
+    color: #8A25B0;
+    cursor: pointer;
+}
 
 @media screen and (max-width:1280px){
     .edit-sidebar{
@@ -253,9 +272,18 @@ input[type=radio]{
 
 
 
+.total-staff-salary{
+    border-right: 1px solid #cec6c6 !important;
+     padding-right: 15px;
 
+ }
 
-
+@media screen and (max-width:768px){
+    .total-staff-salary{
+        border-right: none !important;
+        padding-right: 0;
+    }
+}
 
 
    @media(max-width:576px){

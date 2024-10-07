@@ -10,18 +10,20 @@ const Penalty_Overtime = () => {
 
 
   return (
-    <div className="Penalty-Overtime-Tab mt-[20px]">
+    <div className="Penalty-Overtime-Tab mt-[20px] ">
+      <div className="tabs-attendance">
         <Tabs> 
         <TabList className="flex text-center flex-col gap-[10px] xl:flex-row lg:flex-row mb-[20px]">       
-            <Tab className="first-btn flex items-center">Early Leaving Policy</Tab>
-            <Tab className="second-btn flex items-center">Late Coming Policy</Tab>
-            <Tab className="second-btn flex items-center">Overtime Pay Policy</Tab>
+            <Tab><button>Early Leaving Policy</button></Tab>
+            <Tab><button>Late Coming Policy</button></Tab>
+            <Tab><button>Overtime Pay Policy</button></Tab>
         </TabList>
 
         <TabPanel><Early_Leaving_Policy/></TabPanel>
         <TabPanel><Late_Coming_Policy/></TabPanel>
         <TabPanel><OverTime_Pay_Policy/></TabPanel>
       </Tabs>
+      </div>
     </div>
   )
 }
