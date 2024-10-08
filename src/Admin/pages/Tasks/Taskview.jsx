@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const Taskview = () => {
 
@@ -58,8 +59,8 @@ const Taskview = () => {
 
     return (
         <>
-            <div className="w-[100%] flex p[0] container-p[0]">
-                <div className="w-[60%] p-[20px] ">
+            <div className="w-[100%] flex p[0] view-not">
+                <div className="w-[60%] p-[20px] h-[100%] overflow-scroll ">
                     <div className="flex justify-between mb-[20px]">
                         <p className="text-[#8c939f]">Karan / Human Resources</p>
                         <div className="relative  flex justify-end items-center">
@@ -99,41 +100,37 @@ const Taskview = () => {
                         <p className="font-medium text-[22px] flex items-center gap-[10px]"> <MovieIcon />Watch a short demo video</p>
                     </div>
                     <div className="mb-[20px]">
-                        <div className="w-[60%] mb-[16px] flex justify-between items-center" >
+                        <div className="w-[60%] mb-[10px] flex justify-between items-center" >
                             <p className="text-[#8c939f] text-[16px]">Task Status</p>
-                            <p className="text-[#8c939f] text-[16px]">Task Type</p>
+                            <button className="text-[#000] text-[14px] p-[8px] rounded-lg hover:bg-[#f2f6f8]">New Task</button>
                           
                         </div>
-                        <div className="w-[60%] mb-[16px] flex justify-between items-center" >
+                        <div className="w-[60%] mb-[10px] flex justify-between items-center" >
                             <p className="text-[#8c939f] text-[16px]">Start Date</p>
-                            <p className="text-[#8c939f] text-[16px]">Due Date</p>
+                            <p className="text-[#000] p-[8px] rounded-lg hover:bg-[#f2f6f8] text-[14px]">No Due Date</p>
                           
                         </div>
-                        <div className="w-[60%] mb-[16px] flex justify-between items-center" >
-                            <p className="text-[#8c939f] text-[16px]">Select Project</p>
-                            <p className="text-[#8c939f] text-[16px]">Select Department</p>
+                        <div className="w-[60%] mb-[10px] flex justify-between items-center" >
+                            <p className="text-[#8c939f] text-[16px]">Type</p>
+                            <p className="text-[#000] flex hover:bg-[#f2f6f8] p-[8px] rounded-lg items-center gap-[8px] bg text-[14px]"><span className="operational"></span>Operational</p>
                           
                         </div>
-                        <div className="w-[60%] mb-[16px] flex justify-between items-center" >
+                        <div className="w-[60%] mb-[10px] flex justify-between items-center" >
                             <p className="text-[#8c939f] text-[16px]">Assignee</p>
-                            <p className="text-[#8c939f] text-[16px]">Task Discription</p>
+                            <p className="text-[#000] hover:bg-[#f2f6f8] p-[8px] rounded-lg  text-[16px]">Member</p>
                           
                         </div>
-                        <div className="w-[60%] mb-[16px] flex justify-between items-center" >
-                            <p className="text-[#8c939f] text-[16px]">Task Start Timer</p>
-                            <p className="text-[#8c939f] text-[16px]">Task Activity</p>
-                          
-                        </div>
-                        <div className="w-[60%] mb-[16px] flex justify-between items-center" >
-                            <p className="text-[#8c939f] text-[16px]">Attach File</p>
-                            <p className="text-[#8c939f] text-[16px]">Task Tag</p>
-                          
-                        </div>
-                        <div className="w-[60%] mb-[16px] flex justify-between items-center" >
+                      
+                     
+                        <div className="w-[60%] mb-[10px] flex justify-between items-center" >
                             <p className="text-[#8c939f] text-[16px]">Task Priority</p>
-                            <p className="text-[#8c939f] text-[16px]">Task Reminder</p>
+                            <p className="text-[#000] flex hover:bg-[#f2f6f8] p-[8px] rounded-lg items-center gap-[8px] bg text-[14px]"><span className="operational"></span>Operational</p>
                           
                         </div>
+
+                      
+                       
+                      
                      
                     </div>
                     <div className="flex gap-[10px]  repeat-task">
@@ -141,6 +138,7 @@ const Taskview = () => {
                         <button className="rounded-md view-btns bg-[#f2f6f8] hover:text-[blue] flex gap-[5px] items-center p-[6px] text-[14px] text-[#8c939f]" type="submit"><LinkIcon className="newadd3" />Attach file</button>
                         <button className="rounded-md view-btns bg-[#f2f6f8] hover:text-[blue] flex gap-[5px] items-center p-[6px] text-[14px] text-[#8c939f]" type="submit"><ChatBubbleOutlineIcon className="newadd3" />Add tag</button>
                         <button className="rounded-md view-btns bg-[#f2f6f8] hover:text-[blue] flex gap-[5px] items-center p-[6px] text-[14px] text-[#8c939f]" type="submit"><FlipCameraAndroidIcon className="newadd3" />Repeat task</button>
+                        <button className="rounded-md view-btns bg-[#f2f6f8] hover:text-[blue] flex gap-[5px] items-center p-[6px] text-[14px] text-[#8c939f]" type="submit"><AccessTimeIcon className="newadd3" />Start timer</button>
                     </div>
 
                     <div className="pb-[10px] pt-[20px] flex items-center gap-[6px]">
@@ -187,12 +185,12 @@ const Taskview = () => {
                     </div>
 
                 </div>
-                <div className="w-[40%] bg-[#f5f8fa] p-[20px]">
+                <div className="w-[40%] bg-[#f5f8fa] fixed right-[-68px] h-[530px] p-[20px]">
                     <div className="pb-[30px] border-b border-[#ebf1f5]">
                         <button className="rounded-2xl view-btns bg-[#e0e6eb] hover:text-[blue]  flex gap-[5px] items-center p-[6px] text-[14px] text-[#8c939f]" type="submit"><NotificationsIcon className="newadd3" />Following <span className="h-[22px] w-[1px] bg-[#8c939f]"></span> <span>1 Follower</span></button>
 
                     </div>
-                    <div className="flex justify-end h-[280px] flex-col ">
+                    <div className="flex justify-end flex-col h-[400px] ">
                         <div className="flex justify-center">
                             <button className="rounded-2xl view-btns bg-[#e0e6eb] hover:text-[blue] w-[70px] justify-center  flex gap-[5px] items-center p-[6px] text-[14px] text-[#8c939f]" type="submit">25 Sep</button>
                         </div>
@@ -216,7 +214,7 @@ const Taskview = () => {
                                 </button>
                             </div>
 
-                            <input className="bg-[#fff] border border-text-[#e0e6eb] focus-visible:outline-none p-[10px] w-[100%] rounded-md" type="text" />
+                            <input className="bg-[#fff] border border-text-[#e0e6eb] focus-visible:outline-none p-[10px] w-[400px] rounded-md" type="text" />
                             <ArrowForwardIosIcon className="absolute bg-[#8a25b0] text-[white] rounded-2xl p-[3px] right-[10px] top-[10px]" />
                         </div>
                     </div>
