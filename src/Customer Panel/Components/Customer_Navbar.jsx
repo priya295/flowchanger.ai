@@ -3,8 +3,7 @@ import logo from "../../Assets/Images/logo_black.png";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
-import '../../../src/Assets/css/'
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Customer_NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,15 +20,15 @@ const Customer_NavBar = () => {
         <img className="h-20 max-[1220px]:h-[45px]" src={logo} alt="logo" />
 
         {/* Menu toggle button (shown only on mobile) */}
-        <button className="max-[1000px]:block hidden" onClick={handleToggle}>
+        <button className="max-[1080px]:block hidden" onClick={handleToggle}>
           {isOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
 
         {/* Menu items (visible on desktop, toggleable on mobile) */}
         <ul
-          className={`flex gap-6 max-[1220px]:text-[13px] max-[1000px]:${
+          className={`flex gap-6 max-[1220px]:text-[13px] max-[1080px]:${
             isOpen ? "block" : "hidden"
-          } .edit-menu`}
+          } ${isOpen ? "absolute editmenu" : "hidden"} lg:flex lg:static lg:w-auto`}
         >
           <li>
             <NavLink to="/knowledge-base">Knowledge Base</NavLink>

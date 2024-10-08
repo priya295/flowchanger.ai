@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Assets/css/roledetail.css";
 import "../src/Assets/css/new.css";
+import "../src/Assets/css/customer.css";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "./Admin/Components/NavBar";
 import SideBar from "./Admin/Components/SideBar";
@@ -36,7 +37,7 @@ import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
 import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Clients from "./Admin/pages/Clients/Clients";
- import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
+import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
 import Add_Project from "../src/Admin/pages/Projects/Add_Project";
 import Customer_Navbar from "./Customer Panel/Components/Customer_Navbar";
 import Customer_Footer from "./Customer Panel/Components/Customer_Footer";
@@ -44,11 +45,11 @@ import EditSalaryDetails from "./Admin/pages/editstaff/EditSalaryDetails";
 import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
 import SalaryOverview from "./Admin/pages/editstaff/SalaryOverview";
 import StaffSalarySummry from "./Admin/pages/editstaff/StaffSalarySummry";
-
- import Editprofile from "../src/Admin/pages/profile/Editprofile";
+import Editprofile from "../src/Admin/pages/profile/Editprofile";
 import Task_Status from "./Admin/pages/Projects/Task_Status";
 import Edit_Task_Status from "./Admin/pages/Projects/Edit_Task_Status";
- 
+import Edit_Project from "./Admin/pages/Projects/Edit_Project";
+
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
@@ -139,12 +140,13 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
-           <Route path="/create-new-project" element={<Add_Project />}></Route>
+          <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/add-department" element={<AddDepartment />} />
-           <Route path="/editprofile" element={<Editprofile />} />
+          <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
-         </Route>
+          <Route path="/edit-project" element={<Edit_Project/>} />
+        </Route>
 
         <Route element={<Editstaff />}>
           <Route path="/personal-detail" element={<PersonalDetail />} />

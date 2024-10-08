@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const NewTask = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const [showButtons, setShowButtons] = useState(false);
+  const navigate = useNavigate();
 
   // Function to handle accordion toggling
   const handleToggle = (index) => {
@@ -14,6 +16,10 @@ const NewTask = () => {
       setOpenIndex(index); // Open the accordion
     }
   };
+
+  const handleEditForm = () => {
+    navigate("/edit-project")
+  }
 
   // Array of accordion items
   const accordionItems = [
@@ -66,13 +72,38 @@ const NewTask = () => {
                   43
                 </td>
 
-                <td className="flex flex-col w-[250px] p-[10px] break-words">
+                <td
+                  onMouseEnter={() => setShowButtons(true)} // Show buttons when mouse enters
+                  onMouseLeave={() => setShowButtons(false)}
+                  className="flex flex-col w-[250px] p-[10px] break-words"
+                >
                   <Link className="text-[11px] text-[#2563eb]" to="/">
                     soul relation intro
                   </Link>{" "}
-                  <Link className="text-[9px] text-[#000]" to="/">
+                  <Link className="text-[12px] text-[#000]" to="/">
                     #12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING
                   </Link>
+                  {showButtons && (
+                    <div
+                      onMouseOver={() => setShowButtons(true)}
+                      onMouseLeave={() => setShowButtons(false)}
+                      className=" relative text-[12px] font-medium flex gap-3 mt-2"
+                    >
+                      <button className="text-[#2563eb] hover:text-blue-900 ">
+                        View
+                      </button>
+                      <button className="text-[#2563eb] hover:text-blue-900 border-x border-black px-2">
+                        Copy Project
+                      </button>
+
+                      <button onClick={handleEditForm} className="text-[#2563eb] hover:text-blue-900 border-r border-black pr-2">
+                        Edit
+                      </button>
+                      <button className="text-red-700 hover:text-red-800">
+                        Delete
+                      </button>
+                    </div>
+                  )}
                 </td>
 
                 <td className="text-[12px] p-[10px] w-[200px] whitespace-nowrap	">
