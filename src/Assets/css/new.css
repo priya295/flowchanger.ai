@@ -112,6 +112,9 @@
 .five-hour1{
     color: #000;
 }
+.newone-btn{
+    padding: 6px 13px;
+}
 @media(max-width:640px){
     .late-main{
         padding: 2px;

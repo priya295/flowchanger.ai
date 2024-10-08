@@ -27,16 +27,16 @@ import UpperHeader from "./Admin/pages/editstaff/UpperHeader";
 import SidebarEditStaff from "../src/Admin/pages/editstaff/SidebarEditStaff";
 import Salary_Details from "../src/Admin/pages/StaffSection/Salary_Details";
 import MultiStepForm from "../src/Admin/pages/authentication/steps/steps/multistepform";
-import Attendence_summary from "./Admin/Components/Attendance/Attendence_summary";
-import Worktime from "./Admin/Components/Attendance/Worktime";
-import Reviewfine from "./Admin/Components/Attendance/Reviewfine";
-import Overtime from "./Admin/Components/Attendance/Overtime";
+import Attendence_summary from "./Admin/pages/StaffSection/Attendance/Attendence_summary";
+import Worktime from "./Admin/pages/StaffSection/Attendance/Worktime";
+import Reviewfine from "./Admin/pages/StaffSection/Attendance/Reviewfine";
+import Overtime from "./Admin/pages/StaffSection/Attendance/Overtime";
 import Project_Summary from "./Admin/pages/Projects/Project_Summary";
 import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
 import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Clients from "./Admin/pages/Clients/Clients";
-import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
+ import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
 import Add_Project from "../src/Admin/pages/Projects/Add_Project";
 import Customer_Navbar from "./Customer Panel/Components/Customer_Navbar";
 import Customer_Footer from "./Customer Panel/Components/Customer_Footer";
@@ -45,6 +45,10 @@ import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
 import SalaryOverview from "./Admin/pages/editstaff/SalaryOverview";
 import StaffSalarySummry from "./Admin/pages/editstaff/StaffSalarySummry";
 
+ import Editprofile from "../src/Admin/pages/profile/Editprofile";
+import Task_Status from "./Admin/pages/Projects/Task_Status";
+import Edit_Task_Status from "./Admin/pages/Projects/Edit_Task_Status";
+ 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
@@ -125,8 +129,7 @@ const App = () => {
           <Route path="/add-one-staff" element={<AddOneStaff />} />
           <Route path="/department" element={<Department />} />
           <Route path="/salary_Details" element={<Salary_Details />} />
-          <Route path="/task" element={<Task />} />
-          <Route path="/ovetime" element={<Overtime />} />
+          <Route path="/overtime" element={<Overtime />} />
           <Route path="/reviewfine" element={<Reviewfine />} />
           <Route path="/worktime" element={<Worktime />} />
           <Route path="/attendence_summary" element={<Attendence_summary />} />
@@ -136,9 +139,12 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
-          <Route path="/create-new-project" element={<Add_Project />}></Route>
+           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/add-department" element={<AddDepartment />} />
-        </Route>
+           <Route path="/editprofile" element={<Editprofile />} />
+          <Route path="/taskstatus" element={<Task_Status />} />
+          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
+         </Route>
 
         <Route element={<Editstaff />}>
           <Route path="/personal-detail" element={<PersonalDetail />} />
