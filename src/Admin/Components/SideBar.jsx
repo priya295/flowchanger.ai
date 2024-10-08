@@ -18,7 +18,7 @@ const SideBar = ({toggleSideBar}) => {
       <div className='mt-5 cursor-pointer flex-grow'>
         <ul className='ml-9 text-[#B1B1B1] space-y-7'>
           <li className='flex gap-5 items-center' > <img src= {home} alt="" /> Dashboard</li>
-          <li className='flex gap-5 items-center' > <img src= {project} alt="" /> <Link to="/project"> Project </Link></li>
+          <li className='flex gap-5 items-center' > <img src= {project} alt="" /> <Link to="/projectdata"> Project </Link></li>
           <li className='flex gap-5 items-center' > <img src= {task} alt="" /> <Link to="/task">Task</Link> </li>
           <li className='flex gap-5 items-center' > <img src= {client} alt="" /><Link to="/client">Client</Link></li>
           <li className='flex gap-5 items-center' > <img src= {report} alt="" /><Link to="/report">Report</Link> </li>
