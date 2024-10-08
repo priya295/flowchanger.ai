@@ -37,9 +37,9 @@ import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Clients from "./Admin/pages/Clients/Clients";
 import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
-import Add_Project from '../src/Admin/pages/Projects/Add_Project'
-import Customer_Navbar from './Customer Panel/Components/Customer_Navbar'
-import Customer_Footer from './Customer Panel/Components/Customer_Footer'
+import Add_Project from "../src/Admin/pages/Projects/Add_Project";
+import Customer_Navbar from "./Customer Panel/Components/Customer_Navbar";
+import Customer_Footer from "./Customer Panel/Components/Customer_Footer";
 import EditSalaryDetails from "./Admin/pages/editstaff/EditSalaryDetails";
 import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
 import SalaryOverview from "./Admin/pages/editstaff/SalaryOverview";
@@ -100,15 +100,14 @@ const App = () => {
     );
   }
 
-
   function CustomerPanel() {
     return (
       <>
-      <Customer_Navbar/>
-      <Outlet/>
-      <Customer_Footer/>
+        <Customer_Navbar />
+        <Outlet />
+        <Customer_Footer />
       </>
-    )
+    );
   }
 
   return (
@@ -137,10 +136,9 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
- 
-           <Route path="/create-new-project" element={<Add_Project/>}></Route>
-          <Route path="/add-department" element={<AddDepartment/>}/>
-         </Route>
+          <Route path="/create-new-project" element={<Add_Project />}></Route>
+          <Route path="/add-department" element={<AddDepartment />} />
+        </Route>
 
         <Route element={<Editstaff />}>
           <Route path="/personal-detail" element={<PersonalDetail />} />
@@ -155,8 +153,6 @@ const App = () => {
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
 
-
-
           <Route
             path="/background-verification"
             element={<BackgroundVerification />}
@@ -168,10 +164,9 @@ const App = () => {
           <Route path="/authentication" element={<MultiStepForm />} />
         </Route>
 
-        <Route element={<CustomerPanel/>}>
+        <Route element={<CustomerPanel />}>
           <Route path="/customer-panel"></Route>
         </Route>
-
       </Routes>
     </BrowserRouter>
   );
