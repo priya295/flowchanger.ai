@@ -42,7 +42,8 @@ import EditSalaryDetails from "./Admin/pages/editstaff/EditSalaryDetails";
 import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
 import SalaryOverview from "./Admin/pages/editstaff/SalaryOverview";
 import StaffSalarySummry from "./Admin/pages/editstaff/StaffSalarySummry";
-
+import Calender from "./Admin/pages/Calender/Calender";
+ 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
@@ -125,6 +126,8 @@ const App = () => {
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
           <Route path="/add-department" element={<AddDepartment/>}/>
+          <Route path="/calender" element={<Calender/>}/>
+
         </Route>
 
         <Route element={<Editstaff />}>

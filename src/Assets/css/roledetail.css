@@ -278,6 +278,88 @@ input[type=radio]{
 
  }
 
+
+ .calender-div table thead button {
+        width: 155px;
+        text-align: center; 
+        border-right: 1px solid #eae8e8;
+        padding: 30px ;
+        align-items: center;
+       
+ }
+
+ .calender-div table tbody button {
+    width: 155px;
+    text-align: center; 
+    border-right: 1px solid #eae8e8;
+    padding: 30px ;
+    align-items: center;
+   
+}
+
+.calender-div table tbody button p{
+    font-size: 12px;
+}
+.calender-div table tbody td{
+    padding: 0;
+    border-top: 1px solid #dddddd;
+}
+
+ .calender-div table thead button:last-child {
+    border-right: none;
+}
+
+
+.calender-div table tbody td:last-child button {
+    border-right: none;
+}
+.calender-div table thead button th{
+    font-weight: 500;
+    color: grey;
+    font-size: 13px;
+}
+
+
+.calender-div table thead a td{
+    font-size: 12px;
+}
+.calender-icon-tab{
+    color: #8A25B0;
+}
+.calender .react-tabs .react-tabs__tab--selected svg{
+        background: #dddddd;
+        border-radius: 3px;
+        padding: 3px;
+}
+.event-modal .react-tabs .react-tabs__tab{
+    padding: 5px 20px;
+    border: 1px solid #8A25B0;
+    color: #8A25B0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.sell-icon{
+    font-size: 17px !important;
+}
+.tag-input{
+    border-left: 1px dashed black;
+    padding-left: 4px;
+}
+
+.plus-icon{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.event-modal .react-tabs .react-tabs__tab--selected{
+    background: #8A25B0;
+    color: white;
+}
+
+
+
+
 @media screen and (max-width:768px){
     .total-staff-salary{
         border-right: none !important;
