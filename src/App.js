@@ -73,6 +73,7 @@ const App = () => {
           <Route path='/add-one-staff' element = {<AddOneStaff/>}/>  
           <Route path='/department' element = {<Department/>}/>  
           <Route path='/adddepartment' element = {<AddDepartment/>}/>  
+          <Route path='/projectsettings' element = {<ProjectSettings/>}/>  
           </Route>
           <Route element = {<AuthLayout/>}>
            <Route path = "/authentication" element={<MultiStepForm/>}/>
