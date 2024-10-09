@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import "./Assets/css/roledetail.css";
 import "../src/Assets/css/new.css";
 import "../src/Assets/css/customer.css";
+import "../src/Assets/css/subscribe.css";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "./Admin/Components/NavBar";
 import SideBar from "./Admin/Components/SideBar";
 import Project from "./Admin/pages/Projects/Project_Data";
-
 import Role from "./Admin/pages/Roles/RoleDetails";
 import Department from "./Admin/pages/Department/DepartmentDetails";
 import AddRole from "./Admin/pages/Roles/Add_Role";
@@ -61,6 +61,7 @@ import ExpensePage from "../src/Admin/Expenses/Expense";
 import AddNewClient from "./Admin/pages/Clients/AddNewClient";
 import EditClient from "./Admin/pages/Clients/EditClient";
 
+import Subscription from './Admin/pages/Subscription Plan/Subscription'
 
 
 
@@ -95,8 +96,8 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
-              <div className=" mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
+            <main className={`flex-1 overflow-x-hidden overflow-y-auto  m-[30px]   `}>
+              <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
             </main>
@@ -138,7 +139,8 @@ const App = () => {
           <Route path="/new-ticket" element={<NewTicket />} />
           <Route path="/addnewclient" element={<AddNewClient />} />
           <Route path="/editclient" element={<EditClient />} />
-          <Route path="/addrole" element={<AddRole />} />
+          <Route path="/project-overview" element={<ProjectsOverview />} />
+           <Route path="/addrole" element={<AddRole />} />
           <Route path="/role" element={<Role />} />
           <Route path="/editrole" element={<EditRole />} />
           <Route path="/editdepartment" element={<EditDepartment />} />
@@ -169,8 +171,7 @@ const App = () => {
           <Route path="/add-department" element={<AddDepartment />} />
            <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
-          <Route path="/edit-project" element={<Edit_Project/>} />
- 
+          <Route path="/edit-project" element={<Edit_Project/>} /> 
           <Route path="/task" element={<Task />} />
           <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/taskstatus" element={<Task_Status />} />
@@ -181,6 +182,7 @@ const App = () => {
           <Route path="/expensepage" element={<ExpensePage />} />
         
 
+          <Route path="/subscription-plan" element={<Subscription/>}/>
         </Route>
 
         <Route element={<Editstaff />}>
