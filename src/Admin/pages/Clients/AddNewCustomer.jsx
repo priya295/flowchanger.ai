@@ -1,5 +1,8 @@
+import { useState } from "react";
 
 const AddNewCustomer = () =>{
+
+  const [defaultLanguages , setDefaultLanguages] = useState(["portuguese","German","indonesia","catlan" , "Spanish" , "Turkish" , "Slovak" , "Vitnamese" , "Swedish" , "Portguese_br"])
   return(
 <div class=" flex justify-center items-center min-h-screen">
 
@@ -61,7 +64,11 @@ const AddNewCustomer = () =>{
         <div>
           <label for="language" class="block text-sm font-medium text-gray-700">Default Language</label>
           <select id="language" class="mt-1 block w-full border border-gray-300 bg-white rounded-md py-2 px-3 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-            <option value="default">System Default</option>
+            {defaultLanguages.map(option=>{
+              return <>
+               <option>{option}</option>
+              </>
+            })}
           </select>
         </div>
       </div>

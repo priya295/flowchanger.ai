@@ -76,6 +76,8 @@ const App = () => {
           <Route path='/adddepartment' element = {<AddDepartment/>}/>  
           <Route path='/projectsettings' element = {<ProjectSettings/>}/>  
           <Route path='/projectdata' element = {<ProjectData/>}/>  
+          <Route path='/projectdata' element = {<ProjectData/>}/> 
+          <Route path = '/addnewcustomer' element = {<AddNewCustomer/>}/> 
           <Route path='/editcustomer' element = {<EditCustomer/>}/>  
           </Route>
           <Route element = {<AuthLayout/>}>
