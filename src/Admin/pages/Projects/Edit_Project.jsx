@@ -1,35 +1,19 @@
-import React, {useState} from "react";
+import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Project_Setting from "./Project_Setting";
-import SellIcon from "@mui/icons-material/Sell";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import SellIcon from "@mui/icons-material/Sell";
+
 import PrintIcon from '@mui/icons-material/Print';
-import { FaGalacticSenate } from "react-icons/fa6";
 import { useNavigate } from "react-router";
 
-const Add_Project = () => {
+const Edit_Project = () => {
 
-  const navigate = useNavigate()
-  const [formData, setformData] = useState({
-    projectName: "",
-    customer: "",
-    calculateProgress: false,
-    billingType: "",
-    status: "",
-    totalRate: "",
-    startDate: "",
-    deadline: "",
-    members: "",
-    tags: "",
-    description: "",
-    sendEmail: false,
-  })
-
-  function handleCloseForm() {
-    navigate("/project_summary")
-  }
-
+    const navigate = useNavigate()
+    function handleCloseForm() {
+        navigate("/project_summary")
+      }
   return (
     <Tabs className="m-5 shadow rounded-lg">
       <TabList className="flex p-7 gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer">
@@ -42,7 +26,7 @@ const Add_Project = () => {
       </TabList>
 
       <TabPanel className="m-5">
-       <div className="w-[100%] space-y-5">
+        <div className="w-[100%] space-y-5">
           <div className="space-y-2">
             <h1 className="font-medium">* Project Name</h1>
             <input
@@ -150,9 +134,15 @@ const Add_Project = () => {
 
             <div className=" border  border-[#E1E1E2]">
               <div class="p-2 flex gap-3 border-b border-[#E1E1E2]  items-center bg-white overflow-auto">
-                <button class="p-2 hover:bg-gray-100 rounded"><ArrowBackIcon/></button>
-                <button class="p-2 hover:bg-gray-100 rounded"><ArrowForwardIcon/></button>
-                <button class="p-2 hover:bg-gray-100 rounded"><PrintIcon/></button>
+                <button class="p-2 hover:bg-gray-100 rounded">
+                  <ArrowBackIcon />
+                </button>
+                <button class="p-2 hover:bg-gray-100 rounded">
+                  <ArrowForwardIcon />
+                </button>
+                <button class="p-2 hover:bg-gray-100 rounded">
+                  <PrintIcon />
+                </button>
 
                 <select class="border border-gray-300 rounded p-[2px]">
                   <option>Arial</option>
@@ -207,17 +197,24 @@ const Add_Project = () => {
           </div>
 
           <div className="flex justify-end gap-5 pb-10">
-            <button onClick={handleCloseForm} className="bg-white text-[#511992] border border-[#511992] h-10 w-20 rounded-md">Cancel</button>
-            <button className="bg-[#511992] text-white h-10 w-20 rounded-md">Save</button>
+            <button
+              onClick={handleCloseForm}
+              className="bg-white text-[#511992] border border-[#511992] h-10 w-20 rounded-md"
+            >
+              Cancel
+            </button>
+            <button className="bg-[#511992] text-white h-10 w-20 rounded-md">
+              Save
+            </button>
           </div>
         </div>
       </TabPanel>
 
       <TabPanel className="m-5">
-        <Project_Setting closeform = {handleCloseForm} />
+        <Project_Setting closeform={handleCloseForm} />
       </TabPanel>
     </Tabs>
   );
 };
 
-export default Add_Project;
+export default Edit_Project;

@@ -317,7 +317,7 @@ const Salary_Details = () => {
 
                 {toggleButton.addAllowances2 && (
                   <>
-                    <div className="w-[330px] h-[500px] border border-[#B1B1B1] absolute bg-white top-[89vh] left-[5vw] rounded-md">
+                    <div className="w-[330px] h-[500px] border border-[#B1B1B1] absolute bg-white top-[89vh] left-[290px] rounded-md">
                       <input
                         type="text"
                         className="w-[320px] h-[30px] text-[12px] border border-[#D9D9D9] rounded-sm m-1 pl-2"

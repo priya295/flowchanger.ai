@@ -82,6 +82,7 @@ const StaffTab = () => {
             <th>Guardian Name</th>
             <th>Emergency Contact Name</th>
 
+
           </thead>
           <tbody>
             <td><input type='checkbox' className='border border-1 rounded-md '/></td>

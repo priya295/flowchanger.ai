@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Assets/css/roledetail.css";
 import "../src/Assets/css/new.css";
+import "../src/Assets/css/customer.css";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "./Admin/Components/NavBar";
 import SideBar from "./Admin/Components/SideBar";
@@ -25,36 +26,42 @@ import BackgroundVerification from "./Admin/pages/editstaff/BackgroundVerificati
 import VerifyAadhaar from "./Admin/pages/editstaff/VerifyAadhaar";
 import UpperHeader from "./Admin/pages/editstaff/UpperHeader";
 import SidebarEditStaff from "../src/Admin/pages/editstaff/SidebarEditStaff";
-import Project_overView from "../src/Admin/pages/Projects/Project_overview";
 import Salary_Details from "../src/Admin/pages/StaffSection/Salary_Details";
 import MultiStepForm from "../src/Admin/pages/authentication/steps/steps/multistepform";
-import Attendence_summary from "./Admin/Components/Attendance/Attendence_summary";
-import Worktime from "./Admin/Components/Attendance/Worktime";
-import Reviewfine from "./Admin/Components/Attendance/Reviewfine";
-import Overtime from "./Admin/Components/Attendance/Overtime";
+import Attendence_summary from "./Admin/pages/StaffSection/Attendance/Attendence_summary";
+import Worktime from "./Admin/pages/StaffSection/Attendance/Worktime";
+import Reviewfine from "./Admin/pages/StaffSection/Attendance/Reviewfine";
+import Overtime from "./Admin/pages/StaffSection/Attendance/Overtime";
 import Project_Summary from "./Admin/pages/Projects/Project_Summary";
 import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
 import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task_Data from "./Admin/pages/Tasks/Task_Data";
 import Clients from "./Admin/pages/Clients/Clients";
 import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
+import Add_Project from "../src/Admin/pages/Projects/Add_Project";
+import Customer_Navbar from "./Customer Panel/Components/Customer_Navbar";
+import Customer_Footer from "./Customer Panel/Components/Customer_Footer";
 import EditSalaryDetails from "./Admin/pages/editstaff/EditSalaryDetails";
 import EditPenalty from "./Admin/pages/editstaff/EditPenalty";
 import SalaryOverview from "./Admin/pages/editstaff/SalaryOverview";
 import StaffSalarySummry from "./Admin/pages/editstaff/StaffSalarySummry";
 import Calender from "./Admin/pages/Calender/Calender";
- 
+import Editprofile from "../src/Admin/pages/profile/Editprofile";
+import Task_Status from "./Admin/pages/Projects/Task_Status";
+import Edit_Task_Status from "./Admin/pages/Projects/Edit_Task_Status";
+import Edit_Project from "./Admin/pages/Projects/Edit_Project";
+
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
   const handleToggleSideBar = () => {
     setToggleSideBar(!toggleSideBar);
   };
+
   function AuthLayout() {
     return (
       <>
         <Outlet />
-          
       </>
     );
   }
@@ -84,6 +91,7 @@ const App = () => {
       </>
     );
   }
+
   function Editstaff() {
     return (
       <>
@@ -94,7 +102,16 @@ const App = () => {
             <Outlet />
           </div>
         </div>
-      
+      </>
+    );
+  }
+
+  function CustomerPanel() {
+    return (
+      <>
+        <Customer_Navbar />
+        <Outlet />
+        <Customer_Footer />
       </>
     );
   }
@@ -114,8 +131,7 @@ const App = () => {
           <Route path="/add-one-staff" element={<AddOneStaff />} />
           <Route path="/department" element={<Department />} />
           <Route path="/salary_Details" element={<Salary_Details />} />
-          <Route path="/task" element={<Task />} />
-          <Route path="/ovetime" element={<Overtime />} />
+          <Route path="/overtime" element={<Overtime />} />
           <Route path="/reviewfine" element={<Reviewfine />} />
           <Route path="/worktime" element={<Worktime />} />
           <Route path="/attendence_summary" element={<Attendence_summary />} />
@@ -125,9 +141,17 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           <Route path="/taskdata" element={<Task_Data />} />
-          <Route path="/add-department" element={<AddDepartment/>}/>
+           <Route path="/add-department" element={<AddDepartment/>}/>
           <Route path="/calender" element={<Calender/>}/>
 
+ 
+          <Route path="/create-new-project" element={<Add_Project />}></Route>
+          <Route path="/add-department" element={<AddDepartment />} />
+          <Route path="/editprofile" element={<Editprofile />} />
+          <Route path="/taskstatus" element={<Task_Status />} />
+          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
+          <Route path="/edit-project" element={<Edit_Project/>} />
+ 
         </Route>
 
         <Route element={<Editstaff />}>
@@ -143,18 +167,19 @@ const App = () => {
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
 
-
-
           <Route
             path="/background-verification"
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
-                
         </Route>
+
         <Route element={<AuthLayout />}>
           <Route path="/authentication" element={<MultiStepForm />} />
-                  
+        </Route>
+
+        <Route element={<CustomerPanel />}>
+          <Route path="/customer-panel"></Route>
         </Route>
       </Routes>
     </BrowserRouter>
