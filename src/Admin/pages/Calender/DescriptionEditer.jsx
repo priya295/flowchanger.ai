@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
+
 const DescriptionEditer = () => {
     const [content, setContent] = useState('A modified <strong>Edit</strong> menu.');
 

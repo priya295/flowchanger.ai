@@ -46,7 +46,12 @@ const Calender = () => {
 
     const [value, setValue] = useState('');
 
-    
+    const [toggleDrop, setToggleDrop] = useState(false);
+
+    function handledrop() {
+        setToggleDrop(!toggleDrop)
+    }
+
 
     return (
         <div className='calender'>
@@ -65,7 +70,33 @@ const Calender = () => {
                     </div>
                     <div className='flex gap-[20px] items-center'>
 
+                        
+
+
+                        <select>
+                            <option>
+                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-0">Day</Link>
+
+                            </option>
+                            <option>
+                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">Week</Link>
+
+                            </option>
+                            <option>
+                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">Month</Link>
+
+                            </option>
+                            <option>
+                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">Yearly</Link>
+
+                            </option>
+                            <option>
+                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">4 Days</Link>
+                            </option>
+                        </select>
+
                         <TabList className="flex border border-[#dddddd] gap-[10px] p-[7px] rounded-md">
+
                             <Tab className="calender-icon-tab border-r pr-[10px] cursor-pointer focus:outline-none"><CalendarMonthIcon /></Tab>
                             <Tab className="calender-icon-tab cursor-pointer focus:outline-none"><TaskAltIcon /></Tab>
                         </TabList>
@@ -297,8 +328,8 @@ const Calender = () => {
                                     </select>
                                 </div> */}
 
-                                 
-                                <DescriptionEditer/>
+
+                                <DescriptionEditer />
 
                                 <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                                     <button className='first-btn' onClick={closeModal15}>More Options</button>
