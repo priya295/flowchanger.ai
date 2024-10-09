@@ -239,7 +239,56 @@ input[type=radio]{
     color: #8A25B0;
     cursor: pointer;
 }
-
+.react-datepicker-wrapper{
+    width: 100%;
+}
+.user-img img{
+    background-color: white;
+    box-shadow: 0px 0px 5px grey;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.user-img img:hover{
+    transform: translateY(-4px);
+    box-shadow: 0px 0px 5px #6b6868;
+    
+}
+.day-table{
+    /* border: 1px solid red; */
+}
+.day-table thead th{
+    font-weight: 400; 
+     padding: 10px 0px;
+    color: rgb(22, 21, 21);;
+    padding-right: 10px;
+    padding-bottom: 0;
+    white-space: nowrap;
+}
+.day-table thead th:last-child{
+    border-bottom: none;
+}
+.day-table thead{
+    display: flex;
+    flex-direction: column;
+     border-right: 1px solid #dfd1d1;
+}
+.day-table tbody tr{
+    border-bottom: 1px solid #dfd1d1;
+    width: 100%;
+}
+.day-table tbody tr {
+    height: 35px;
+}
+.day-table tbody tr td {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding-left: -5px;
+}
+.day-table tbody tr td a{
+    display: block;
+    height: 100%;
+}
 @media screen and (max-width:1280px){
     .edit-sidebar{
         left: -300px;

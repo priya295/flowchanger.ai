@@ -33,7 +33,7 @@ import Worktime from "./Admin/pages/StaffSection/Attendance/Worktime";
 import Reviewfine from "./Admin/pages/StaffSection/Attendance/Reviewfine";
 import Overtime from "./Admin/pages/StaffSection/Attendance/Overtime";
 import Project_Summary from "./Admin/pages/Projects/Project_Summary";
-import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
+// import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
 import Projects from '../src/Admin/pages/Projects/Projects';
 import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task from "./Admin/pages/Tasks/Task";
@@ -53,6 +53,9 @@ import Client_Project from "../src/Clients/Client_Project";
 import Edit_Task_Status from "./Admin/pages/Projects/Edit_Task_Status";
 import Edit_Project from "./Admin/pages/Projects/Edit_Project";
 import Project_Progress from "../src/Clients/Project_Progress";
+import Meeting from "./Admin/pages/Calender/Meeting";
+import CalenderDay from "./Admin/pages/Calender/CalenderDay";
+import CalenderYear from "./Admin/pages/Calender/CalenderYear";
 
 
 
@@ -126,7 +129,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayout />}>
-          <Route path="/project-overview" element={<ProjectsOverview />} />
+          {/* <Route path="/project-overview" element={<ProjectsOverview />} /> */}
           <Route path="/new-ticket" element={<NewTicket />} />
           
           <Route path="/addrole" element={<AddRole />} />
@@ -146,9 +149,13 @@ const App = () => {
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
-          <Route path="/taskdata" element={<Task_Data />} />
+          {/* <Route path="/taskdata" element={<Task_Data />} /> */}
            <Route path="/add-department" element={<AddDepartment/>}/>
           <Route path="/calender" element={<Calender/>}/>
+          <Route path="/meeting" element={<Meeting/>}/>
+          <Route path="/day-wise" element={<CalenderDay/>}/>
+          <Route path="/year-wise" element={<CalenderYear/>}/>
+
 
  
           <Route path="/create-new-project" element={<Add_Project />}></Route>

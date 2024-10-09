@@ -4,13 +4,14 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import TaskAltIcon from '@mui/icons-material/TaskAlt';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import SellIcon from '@mui/icons-material/Sell';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DescriptionEditer from './DescriptionEditer';
+import CalenderYear from './CalenderYear';
 
 
 
@@ -56,7 +57,7 @@ const Calender = () => {
     return (
         <div className='calender'>
             <Tabs>
-                <div className='header-calender flex justify-between'>
+                <div className='header-calender flex justify-between p-[10px]'>
                     <div className='flex gap-[20px] items-center'>
                         <button className='first-btn'>Today</button>
                         <button className='bg-[#8a25b0]  text-white rounded-md p-[7px]'>
@@ -70,36 +71,39 @@ const Calender = () => {
                     </div>
                     <div className='flex gap-[20px] items-center'>
 
-                        
 
 
-                        <select>
-                            <option>
-                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-0">Day</Link>
 
-                            </option>
-                            <option>
-                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">Week</Link>
+                        <div className="relative inline-block text-left">
+                            <div>
+                                <button type="button" onClick={handledrop} className="inline-flex items-center w-full justify-center gap-x-1.5 rounded-md second-btn  text-sm  text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                    Filter
+                                    <svg className="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
+                            {
+                                toggleDrop &&
 
-                            </option>
-                            <option>
-                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">Month</Link>
+                                <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                    <div className="py-1" role="none">
+                                        <NavLink to="/" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">Day</NavLink>
+                                        <NavLink to="#" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Month</NavLink>
+                                        <NavLink to="#" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Weekly</NavLink>
+                                        <NavLink to="#" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-1">Yearly</NavLink>
+                                        
+                                    </div>
 
-                            </option>
-                            <option>
-                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">Yearly</Link>
-
-                            </option>
-                            <option>
-                            <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f1f1f1]" role="menuitem" tabindex="-1" id="menu-item-1">4 Days</Link>
-                            </option>
-                        </select>
+                                </div>
+                            }
+                        </div>
 
                         <TabList className="flex border border-[#dddddd] gap-[10px] p-[7px] rounded-md">
 
-                            <Tab className="calender-icon-tab border-r pr-[10px] cursor-pointer focus:outline-none"><CalendarMonthIcon /></Tab>
-                            <Tab className="calender-icon-tab cursor-pointer focus:outline-none"><TaskAltIcon /></Tab>
-                        </TabList>
+                            <Tab className="calender-icon-tab  cursor-pointer focus:outline-none"><CalendarMonthIcon /></Tab>
+                         </TabList>
+
 
 
 
@@ -185,7 +189,6 @@ const Calender = () => {
                     <h2>Any content 2</h2>
                 </TabPanel>
             </Tabs>
-
 
 
             <Modal
