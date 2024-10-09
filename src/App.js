@@ -58,6 +58,8 @@ import CalenderDay from "./Admin/pages/Calender/CalenderDay";
 import CalenderYear from "./Admin/pages/Calender/CalenderYear";
 import Note from "../src/Notes/Note";
 import ExpensePage from "../src/Admin/Expenses/Expense";
+import AddNewClient from "./Admin/pages/Clients/AddNewClient";
+import EditClient from "./Admin/pages/Clients/EditClient";
 
 
 
@@ -134,7 +136,8 @@ const App = () => {
         <Route element={<AdminLayout />}>
           {/* <Route path="/project-overview" element={<ProjectsOverview />} /> */}
           <Route path="/new-ticket" element={<NewTicket />} />
-          
+          <Route path="/addnewclient" element={<AddNewClient />} />
+          <Route path="/editclient" element={<EditClient />} />
           <Route path="/addrole" element={<AddRole />} />
           <Route path="/role" element={<Role />} />
           <Route path="/editrole" element={<EditRole />} />
@@ -159,8 +162,9 @@ const App = () => {
           <Route path="/day-wise" element={<CalenderDay/>}/>
           <Route path="/year-wise" element={<CalenderYear/>}/>
 
+          
+          
 
- 
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/add-department" element={<AddDepartment />} />
            <Route path="/taskstatus" element={<Task_Status />} />

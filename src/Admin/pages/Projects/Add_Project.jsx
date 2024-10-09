@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import Project_Setting from "./Project_Setting";
+// import Project_Setting from "./Project_Setting";
 import SellIcon from "@mui/icons-material/Sell";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -214,7 +214,7 @@ const Add_Project = () => {
       </TabPanel>
 
       <TabPanel className="m-5">
-        <Project_Setting closeform = {handleCloseForm} />
+        {/* <Project_Setting closeform = {handleCloseForm} /> */}
       </TabPanel>
     </Tabs>
   );

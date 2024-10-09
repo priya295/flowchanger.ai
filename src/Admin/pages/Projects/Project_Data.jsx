@@ -5,7 +5,7 @@ import { SlReload } from "react-icons/sl";
 import { GoProjectRoadmap } from "react-icons/go";
 import { IoMdAdd } from "react-icons/io";
 import { IoSearchOutline } from "react-icons/io5";
-const ProjectSummary = () =>{
+const ProjectData = () =>{
 
     const ProfileData = [
         {status:"complete" , series:10 , projectName : "soul relation intro" , projectContent : "#12-DEVINE healing Augest-2024 - DEVINE healing" ,startDate:"19-10-12", DeadLine:"25-10-12", ProficSrc:"./images/profile.png"},
@@ -136,6 +136,6 @@ const ProjectSummary = () =>{
 
 }
 
-export default ProjectSummary;
+export default ProjectData;
 
 
