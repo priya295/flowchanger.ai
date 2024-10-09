@@ -146,11 +146,11 @@ const Task = () => {
     return (
         <div className=" w-full absolute pl-[140px] top-[95px] right-[5px] ">
 
-            <div className="bg-[#fff] p-[10px]">
+            <div className="bg-[#fff] p-[10px] pl-[100px]">
                 <div className="mb-[14px]">
 
-                    <Link to="/" className="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <AddIcon /> Default</Link>
+                    <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <AddIcon /> New Task</Link>
                 </div>
                 {accordionItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-200">
@@ -160,7 +160,7 @@ const Task = () => {
                             className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
                         >
                             <span>{item.title}</span>
-                            <span>{openIndex === index ? "-" : "+"}</span>
+                            <span>{openIndex === index ? "" : ""}</span>
                         </button>
 
                         {/* Accordion Content */}

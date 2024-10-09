@@ -44,6 +44,9 @@ import Task_Status from "./Admin/pages/Projects/Task_Status";
 import Client_Project from "../src/Clients/Client_Project";
 import Edit_Task_Status from "./Admin/pages/Projects/Edit_Task_Status";
 import Project_Progress from "../src/Clients/Project_Progress";
+import Note from "../src/Notes/Note";
+import ExpensePage from "../src/Admin/Expenses/Expense";
+
 
 
 
@@ -132,6 +135,8 @@ const App = () => {
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/clientproject" element={<Client_Project />} />
           <Route path="/projectprogress" element={<Project_Progress />} />
+          <Route path="/note" element={<Note />} />
+          <Route path="/expensepage" element={<ExpensePage />} />
         
 
         </Route>
