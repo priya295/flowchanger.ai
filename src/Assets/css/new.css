@@ -112,6 +112,20 @@
 .five-hour1{
     color: #000;
 }
+.view-not{
+    padding: 0;
+}
+.customer-adoble{
+    margin-bottom: 30px !important;
+}
+.operational{
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    background: #8a25b099;
+    border: 1px solid #8a25b0;
+    border-radius: 6px;
+}
 .newone-btn{
     padding: 6px 13px;
 }

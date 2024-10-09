@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Image from "../../../Assets/Images/image.png";
-import AddNewTask from "./AddNewTask";
 
-const Task = () => {
+
+const All_Task = () => {
   const [tasks, setTasks] = useState([]);
   const [addNewTask, setAddNewTask] = useState(false);
 
@@ -49,7 +49,7 @@ const Task = () => {
           )}
 
           {addNewTask && (
-            <AddNewTask onClose={handleCloseNewTasks} onSave={handleSaveTask} />
+            <Add onClose={handleCloseNewTasks} onSave={handleSaveTask} />
           )}
 
           {/*-- Search input --*/}
@@ -180,4 +180,4 @@ const Task = () => {
   );
 };
 
-export default Task;
+export default All_Task;

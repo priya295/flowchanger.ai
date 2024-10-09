@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "./Admin/Components/NavBar";
 import SideBar from "./Admin/Components/SideBar";
 import Project from "./Admin/pages/Projects/Project_Data";
-import Task from "../src/Admin/pages/Tasks/Task_Data";
+
 import Role from "./Admin/pages/Roles/RoleDetails";
 import Department from "./Admin/pages/Department/DepartmentDetails";
 import AddRole from "./Admin/pages/Roles/Add_Role";
@@ -34,8 +34,9 @@ import Reviewfine from "./Admin/pages/StaffSection/Attendance/Reviewfine";
 import Overtime from "./Admin/pages/StaffSection/Attendance/Overtime";
 import Project_Summary from "./Admin/pages/Projects/Project_Summary";
 import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
+import Projects from '../src/Admin/pages/Projects/Projects';
 import Taskview from "./Admin/pages/Tasks/Taskview";
-import Task_Data from "./Admin/pages/Tasks/Task_Data";
+import Task from "./Admin/pages/Tasks/Task";
 import Clients from "./Admin/pages/Clients/Clients";
 import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
 import Add_Project from "../src/Admin/pages/Projects/Add_Project";
@@ -48,8 +49,12 @@ import StaffSalarySummry from "./Admin/pages/editstaff/StaffSalarySummry";
 import Calender from "./Admin/pages/Calender/Calender";
 import Editprofile from "../src/Admin/pages/profile/Editprofile";
 import Task_Status from "./Admin/pages/Projects/Task_Status";
+import Client_Project from "../src/Clients/Client_Project";
 import Edit_Task_Status from "./Admin/pages/Projects/Edit_Task_Status";
 import Edit_Project from "./Admin/pages/Projects/Edit_Project";
+import Project_Progress from "../src/Clients/Project_Progress";
+
+
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -62,6 +67,7 @@ const App = () => {
     return (
       <>
         <Outlet />
+      
       </>
     );
   }
@@ -82,7 +88,7 @@ const App = () => {
               toggleSideBar={toggleSideBar}
             />
             <main className={`flex-1 overflow-x-hidden overflow-y-auto  `}>
-              <div className=" mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 ">
+              <div className=" mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
             </main>
@@ -122,7 +128,7 @@ const App = () => {
         <Route element={<AdminLayout />}>
           <Route path="/project-overview" element={<ProjectsOverview />} />
           <Route path="/new-ticket" element={<NewTicket />} />
-          <Route path="/task" element={<Task />} />
+          
           <Route path="/addrole" element={<AddRole />} />
           <Route path="/role" element={<Role />} />
           <Route path="/editrole" element={<EditRole />} />
@@ -135,8 +141,8 @@ const App = () => {
           <Route path="/reviewfine" element={<Reviewfine />} />
           <Route path="/worktime" element={<Worktime />} />
           <Route path="/attendence_summary" element={<Attendence_summary />} />
-          <Route path="/taskdata" element={<Task />} />
           <Route path="/project_summary" element={<Project_Summary />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
@@ -147,11 +153,18 @@ const App = () => {
  
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/add-department" element={<AddDepartment />} />
-          <Route path="/editprofile" element={<Editprofile />} />
-          <Route path="/taskstatus" element={<Task_Status />} />
+           <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project/>} />
  
+          <Route path="/task" element={<Task />} />
+          <Route path="/editprofile" element={<Editprofile />} />
+          <Route path="/taskstatus" element={<Task_Status />} />
+          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
+          <Route path="/clientproject" element={<Client_Project />} />
+          <Route path="/projectprogress" element={<Project_Progress />} />
+        
+
         </Route>
 
         <Route element={<Editstaff />}>
@@ -172,6 +185,7 @@ const App = () => {
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
+     
         </Route>
 
         <Route element={<AuthLayout />}>
@@ -180,7 +194,11 @@ const App = () => {
 
         <Route element={<CustomerPanel />}>
           <Route path="/customer-panel"></Route>
+         
         </Route>
+      
+
+
       </Routes>
     </BrowserRouter>
   );

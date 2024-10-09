@@ -111,27 +111,11 @@ const Edit_Task_Status = () => {
                 <table className="w-full " >
                     <tbody>
                         <tr>
-
                             <td className="text-[12px] h-[12px] font-medium p-[10px] w-[50px]  whitespace-nowrap" >1</td>
-
-
-
-
-
-
-
-
                             <td className="text-[11px] w-[130px] p-[10px] font-medium whitespace-nowrap">Not Started</td>
-
-
                             <td className="text-[11px] font-medium p-[10px] w-[110px]  whitespace-nowrap">#000000</td>
                             <td className="text-[11px] font-medium p-[10px] w-[110px] whitespace-nowrap">20</td>
-
-
                             <td className="text-[11px] font-medium p-[10px] w-[150px]  whitespace-nowrap">yes</td>
-
-
-
                             <td className="text-[11px] font-medium p-[10px] w-[300px]  whitespace-nowrap"><Link className="first-btn p-[5px]" to="/">in Progress</Link></td>
                             <td className="text-[11px] flex items-center gap-[5px] font-medium p-[10px] w-[148px]  whitespace-nowrap	">
 

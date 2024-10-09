@@ -14,6 +14,7 @@ import { MdLocalActivity } from "react-icons/md";
 import { FaCalendarAlt } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import Over from "./View";
+// import Task from "./All_Task";
 import Files from "./Files";
 import Discussion from "./Discussion";
 import Tickets from "./Tickets";
@@ -55,6 +56,7 @@ const Projects = () => {
         return (
           <div>
             <Task/>
+            {/* <Task /> */}
           </div>
         );
       case "Files":

@@ -9,22 +9,25 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 const Projects = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
-  // Function to handle accordion toggling
-  const handleToggle = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(null); // Close the accordion if clicked again
-    } else {
-      setOpenIndex(index); // Open the accordion
-    }
-  };
-  //salary dropdown
-  const [isOpen1, setIsOpen1] = useState(false);
+    // Function to handle accordion toggling
+    const handleToggle = (index) => {
+        if (openIndex === index) {
+            setOpenIndex(null); // Close the accordion if clicked again
+        } else {
+            setOpenIndex(index); // Open the accordion
+        }
+    };
+    //salary dropdown
+    const [isOpen1, setIsOpen1] = useState(false);
 
-  const toggleDropdown1 = () => {
-    setIsOpen1(!isOpen1);
-  };
 
-  //salary dropdown
+
+    const toggleDropdown1 = () => {
+        setIsOpen1(!isOpen1);
+    };
+
+    //salary dropdown
+
 
   // Array of accordion items
   const accordionItems = [

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 
-const NewTask = () => {
+const Task = () => {
     const [openIndex, setOpenIndex] = useState(null);
 
     // Function to handle accordion toggling
@@ -51,7 +51,7 @@ const NewTask = () => {
                             <th className="text-[12px] w-[100px] font-medium p-[10px] border-r whitespace-nowrap	">Tags</th>
 
 
-                            <th className="text-[12px] w=[90px] font-medium p-[10px] border-r whitespace-nowrap	">Priority</th>
+                            <th className="text-[12px] w=[90px] font-medium p-[10px]  whitespace-nowrap	">Priority</th>
 
 
 
@@ -144,9 +144,9 @@ const NewTask = () => {
 
     ];
     return (
-        <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
+        <div className=" w-full absolute pl-[140px] top-[95px] right-[5px] ">
 
-            <div className="bg-[#e1ebff] p-[10px]">
+            <div className="bg-[#fff] p-[10px]">
                 <div className="mb-[14px]">
 
                     <Link to="/" className="text-[#959595] text-[14px] bg-[#f4f5f7] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -179,4 +179,4 @@ const NewTask = () => {
     );
 };
 
-export default NewTask
+export default Task
