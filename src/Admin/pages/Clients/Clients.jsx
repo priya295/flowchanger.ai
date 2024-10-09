@@ -161,7 +161,7 @@ const Clients = () => {
                 <div className="mb-[14px] flex gap-[10px] items-center">
 
                     <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <AddIcon className="newadd" /> New Customers</Link>
+                        <AddIcon className="newadd" />Client</Link>
                     <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0]   focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <AddIcon className="newadd" /> Import Customers</Link>
                     <Link to="/" className="text-[#000] text-[14px] bg-[#f4f2f2]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -169,7 +169,7 @@ const Clients = () => {
                 </div>
 
                 <div className="p-[20px] summary-border w-full">
-                    <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Customers Summary</h2>
+                    <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Clients Summary</h2>
 
                     <div className="flex items-center gap-[14px] mb-[10px]">
                         <Link to="/" className="text-[#fff]  text-[12px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-2xl p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">

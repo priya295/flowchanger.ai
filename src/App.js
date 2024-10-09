@@ -56,6 +56,9 @@ import Project_Progress from "../src/Clients/Project_Progress";
 import Meeting from "./Admin/pages/Calender/Meeting";
 import CalenderDay from "./Admin/pages/Calender/CalenderDay";
 import CalenderYear from "./Admin/pages/Calender/CalenderYear";
+import Note from "../src/Notes/Note";
+import ExpensePage from "../src/Admin/Expenses/Expense";
+
 
 
 
@@ -170,6 +173,8 @@ const App = () => {
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/clientproject" element={<Client_Project />} />
           <Route path="/projectprogress" element={<Project_Progress />} />
+          <Route path="/note" element={<Note />} />
+          <Route path="/expensepage" element={<ExpensePage />} />
         
 
         </Route>
