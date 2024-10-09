@@ -8,6 +8,7 @@ import report from "../../Assets/Images/report.png";
 import staff from "../../Assets/Images/staff.png";
 import setting from "../../Assets/Images/setting.png";
 import { Link } from "react-router-dom";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const SideBar = ({ toggleSideBar }) => {
   return (
@@ -56,6 +57,11 @@ const SideBar = ({ toggleSideBar }) => {
               {" "}
               <img src={report} alt="" />
               <Link to="/department">Department</Link>{" "}
+            </li>
+            <li className="flex gap-5 items-center">
+              {" "}
+              <AssignmentIcon/>            
+              <Link className="ml-[-3px]" to="/subscription-plan">Subscription Plan</Link>{" "}
             </li>
             <li className="flex gap-5 items-center">
               {" "}

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import SideBar from "../../Components/SideBar";
-import NavBar from "../../Components/NavBar";
 import details from "../../../Assets/Images/Details.png";
 import arrowbtn from "../../../Assets/Images/arrowbtn.png";
 import { MdManageSearch } from "react-icons/md";
@@ -56,7 +54,6 @@ const Projects = () => {
         return (
           <div>
             <Task/>
-            {/* <Task /> */}
           </div>
         );
       case "Files":
