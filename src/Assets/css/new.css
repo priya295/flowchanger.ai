@@ -164,7 +164,41 @@
     padding: 6px 13px;
 }
 
+.doublearrow{
+  
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #dbdbdb;
+}
+.arrow-new3{
+    height: 30px !important;
+    width: 30px !important;
+    padding: 6px;
 
+}
+.checkbox-3{
+    margin-top: 5px;
+}
+.error-data{
+    border: 1px solid #dbdbdb;
+}
+.todo-btn{
+    color: rgb(255, 150, 0);
+    background-color: rgba(255, 150, 0, 0.208);
+    font-weight: 500;
+    font-size: 11px;
+    border-radius: 6px;
+    padding: 6px;
+}
+.six-tasks{
+    background: #d7b5e4;
+    width: 18px;
+    text-align: center;
+    border-radius: 50px;
+    color: #000;
+    font-size: 12px;
+}
 
 @media(max-width:640px){
     .late-main{
@@ -275,3 +309,4 @@
         width: 106px !important;
     }
 }
+

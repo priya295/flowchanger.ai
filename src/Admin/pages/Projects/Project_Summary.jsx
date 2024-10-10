@@ -3,7 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link, useNavigate } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-const NewTask = () => {
+const Project_Summary = () => {
   const [openIndex, setOpenIndex] = useState(null);
   const [showButtons, setShowButtons] = useState(false);
   const navigate = useNavigate();
@@ -130,12 +130,7 @@ const NewTask = () => {
     <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
       <div className="bg-[#fff] p-[10px] ml-[140px]">
         <div className="mb-[14px]">
-          <Link
-            to="/create-new-project"
-            className="text-[#fff] text-[14px] bg-[#511992] mb-[10px] font-medium rounded-lg p-[8px] px-7 text-center"
-          >
-            <AddIcon className="newadd" /> New Project
-          </Link>
+        
         </div>
 
         <div className="p-[20px] summary-border w-full">
@@ -144,7 +139,7 @@ const NewTask = () => {
           <div className="flex items-center gap-[14px] mb-[10px]">
             <Link
               to="/"
-              className="text-[#fff] text-[12px] bg-[#511992] font-medium rounded-2xl p-[8px] text-center "
+              className="text-[#fff] text-[12px] bg-[#8a25b0] font-medium rounded-2xl p-[8px] text-center "
             >
               <AddIcon className="newadd" /> Add New
             </Link>
@@ -196,4 +191,4 @@ const NewTask = () => {
   );
 };
 
-export default NewTask;
+export default Project_Summary;

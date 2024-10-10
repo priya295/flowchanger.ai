@@ -172,8 +172,7 @@ const Clients = () => {
                     <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Clients Summary</h2>
 
                     <div className="flex items-center gap-[14px] mb-[10px]">
-                        <Link to="/" className="text-[#fff]  text-[12px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-2xl p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <AddIcon className="newadd" /> Add New</Link>
+                        
                         <input className="p-[6px] rounded-2xl summary-border text-[13px] w-[140px]" type="text" placeholder="Search......." />
 
                     </div>
