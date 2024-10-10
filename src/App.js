@@ -62,6 +62,8 @@ import AddNewClient from "./Admin/pages/Clients/AddNewClient";
 import EditClient from "./Admin/pages/Clients/EditClient";
 
 import Subscription from './Admin/pages/Subscription Plan/Subscription'
+import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
+import CalenderWeekly from "./Admin/pages/Calender/CalenderWeekly";
 
 
 
@@ -76,7 +78,7 @@ const App = () => {
     return (
       <>
         <Outlet />
-      
+
       </>
     );
   }
@@ -96,7 +98,7 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 overflow-x-hidden overflow-y-auto  m-[30px]   `}>
+            <main className={`flex-1 overflow-x-hidden overflow-y-auto  m-[15px] xl:m-[30px]   `}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
@@ -121,6 +123,34 @@ const App = () => {
     );
   }
 
+  function CalenderLayout() {
+    return (
+      <>
+        <div className="flex">
+          <div className="">
+            {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} />}
+          </div>
+
+          {/* container for navbar and outlet */}
+          <div className={`flex flex-col flex-grow overflow-hidden`}>
+            <NavBar
+              handleToggleSideBar={handleToggleSideBar}
+              toggleSideBar={toggleSideBar}
+            />
+            <main className={`flex-1 overflow-x-hidden overflow-y-auto  xl:m-[30px] lg:m-[30px]  md:m-[30px] m-[10px]    `}>
+              <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
+                <CalenderHeader/>
+                <Outlet />
+              </div>
+            </main>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+
+
   function CustomerPanel() {
     return (
       <>
@@ -140,7 +170,7 @@ const App = () => {
           <Route path="/addnewclient" element={<AddNewClient />} />
           <Route path="/editclient" element={<EditClient />} />
           {/* <Route path="/project-overview" element={<ProjectsOverview />} /> */}
-           <Route path="/addrole" element={<AddRole />} />
+          <Route path="/addrole" element={<AddRole />} />
           <Route path="/role" element={<Role />} />
           <Route path="/editrole" element={<EditRole />} />
           <Route path="/editdepartment" element={<EditDepartment />} />
@@ -158,20 +188,16 @@ const App = () => {
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
-           <Route path="/add-department" element={<AddDepartment/>}/>
-          <Route path="/calender" element={<Calender/>}/>
-          <Route path="/meeting" element={<Meeting/>}/>
-          <Route path="/day-wise" element={<CalenderDay/>}/>
-          <Route path="/year-wise" element={<CalenderYear/>}/>
+          <Route path="/add-department" element={<AddDepartment />} />
 
-          
-          
+
+
 
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/add-department" element={<AddDepartment />} />
-           <Route path="/taskstatus" element={<Task_Status />} />
+          <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
-          <Route path="/edit-project" element={<Edit_Project/>} /> 
+          <Route path="/edit-project" element={<Edit_Project />} />
           <Route path="/task" element={<Task />} />
           <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/taskstatus" element={<Task_Status />} />
@@ -180,9 +206,9 @@ const App = () => {
           <Route path="/projectprogress" element={<Project_Progress />} />
           <Route path="/note" element={<Note />} />
           <Route path="/expensepage" element={<ExpensePage />} />
-        
 
-          <Route path="/subscription-plan" element={<Subscription/>}/>
+
+          <Route path="/subscription-plan" element={<Subscription />} />
         </Route>
 
         <Route element={<Editstaff />}>
@@ -203,7 +229,17 @@ const App = () => {
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
-     
+
+        </Route>
+
+        <Route element={<CalenderLayout />}>
+          <Route path="/calender" element={<Calender />} />
+          <Route path="/meeting" element={<Meeting />} />
+          <Route path="/day-wise" element={<CalenderDay />} />
+          <Route path="/year-wise" element={<CalenderYear />} />
+          <Route path="/week-wise" element={<CalenderWeekly />} />
+
+
         </Route>
 
         <Route element={<AuthLayout />}>
@@ -212,9 +248,9 @@ const App = () => {
 
         <Route element={<CustomerPanel />}>
           <Route path="/customer-panel"></Route>
-         
+
         </Route>
-      
+
 
 
       </Routes>

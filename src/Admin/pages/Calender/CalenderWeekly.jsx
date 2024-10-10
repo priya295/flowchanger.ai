@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Modal from 'react-modal';
@@ -8,8 +8,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DescriptionEditer from './DescriptionEditer';
 
-const CalenderDay = () => {
-
+const CalenderWeekly = () => {
     let subtitle;
     const [modalIsOpen15, setIsOpen15] = React.useState(false);
     function openModal15() {
@@ -36,16 +35,12 @@ const CalenderDay = () => {
     const removeDiv = (indexToRemove) => {
         setDivs(divs.filter((_, index) => index !== indexToRemove)); // Filter out the div with the given index
     };
-
     return (
-        <div className=' mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 '>
-            <div>
-                <p className='pl-2 font-medium'>WEd</p>
-                <h4 className='bg-[#F3E6F7] mt-[4px] w-[30px] pt-[13px] pb-[13px] pl-[20px] pr-[30px] rounded-full text-[#000] cursor-pointer'  onClick={openModal15}>9</h4>
-            </div>
+        <div className=' mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 overflow-x-auto'>
+           
 
-            <table className='day-table mt-[40px] flex '>
-                <thead>
+            <table className='day-table weekly-table mt-[100px] flex'>
+                <thead className=''>
                     <th>
                         1 AM
                     </th>
@@ -71,77 +66,194 @@ const CalenderDay = () => {
                         11 AM
                     </th>
                 </thead>
-                <tbody className='w-full'>
-                    <tr className='block'>
+                <div className='w-full'>
+                <div className='flex justify-start relative top-[-80px]'>
+                    <div className="w-[150px] text-center flex flex-col items-center">
+                        <p className='pl-2 font-medium'>WEd</p>
+                        <h4 className='bg-[#F3E6F7] mt-[4px] w-[30px] pt-[13px] pb-[13px] pl-[20px] pr-[30px] rounded-full text-[#000] cursor-pointer' onClick={openModal15}>9</h4>
+                    </div>
+                    <div className="w-[150px] text-center flex flex-col items-center">
+                        <p className='pl-2 font-medium'>WEd</p>
+                        <h4 className='bg-[#F3E6F7] mt-[4px] w-[30px] pt-[13px] pb-[13px] pl-[20px] pr-[30px] rounded-full text-[#000] cursor-pointer' onClick={openModal15}>9</h4>
+                    </div>
+                    <div className="w-[150px] text-center flex flex-col items-center">
+                        <p className='pl-2 font-medium'>WEd</p>
+                        <h4 className='bg-[#F3E6F7] mt-[4px] w-[30px] pt-[13px] pb-[13px] pl-[20px] pr-[30px] rounded-full text-[#000] cursor-pointer' onClick={openModal15}>9</h4>
+                    </div>
+                    <div className="w-[150px] text-center flex flex-col items-center">
+                        <p className='pl-2 font-medium'>WEd</p>
+                        <h4 className='bg-[#F3E6F7] mt-[4px] w-[30px] pt-[13px] pb-[13px] pl-[20px] pr-[30px] rounded-full text-[#000] cursor-pointer' onClick={openModal15}>9</h4>
+                    </div>
+                    <div className="w-[150px] text-center flex flex-col items-center">
+                        <p className='pl-2 font-medium'>WEd</p>
+                        <h4 className='bg-[#F3E6F7] mt-[4px] w-[30px] pt-[13px] pb-[13px] pl-[20px] pr-[30px] rounded-full text-[#000] cursor-pointer' onClick={openModal15}>9</h4>
+                    </div>
+                </div>
+                <tbody className='w-full relative top-[-75px] block'>
+                    <tr className='block flex'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
-                        
-                    </tr>
-                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
 
-                        </td>
-                        
                     </tr>
-                    <tr className='block'>
+                    <tr className='block flex'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
-                    </tr>
-                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
-                    </tr>
-                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
-                    </tr>
-                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
+                    
+
                     </tr>
-                    <tr className='block'>
+                    <tr className='block flex'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
-                    </tr>
-                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
-                    </tr>
-                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
-                    </tr>
-                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
-
                         </td>
-                        
+                    
+
                     </tr>
+                    <tr className='block flex'>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
+
+                    </tr>
+                    <tr className='block flex'>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
+
+                    </tr>
+                    <tr className='block flex'>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
+
+                    </tr>
+                    <tr className='block flex'>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
+
+                    </tr>
+                    <tr className='block flex'>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
+
+                    </tr>
+                    <tr className='block flex'>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
+
+                    </tr>
+                    <tr className='block flex'>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                        <td>
+                            <Link to="" onClick={openModal15}></Link>
+                        </td>
+                    
+
+                    </tr>
+                    
+                 
                 </tbody>
+                </div>
             </table>
 
 
@@ -276,14 +388,14 @@ const CalenderDay = () => {
 
                                 </div>
                                 {/* <div className='flex'>
-                                    <input type='number' placeholder='22' className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
-                                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[94%]   focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        <option>Months</option>
-                                        <option>Weekly</option>
-                                        <option>Daily</option>
-                                        <option>Hourly</option>
-                                    </select>
-                                </div> */}
+                            <input type='number' placeholder='22' className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                            <select className='border border-1 rounded-md p-[5px] mt-1 w-[94%]   focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                <option>Months</option>
+                                <option>Weekly</option>
+                                <option>Daily</option>
+                                <option>Hourly</option>
+                            </select>
+                        </div> */}
 
 
                                 <DescriptionEditer />
@@ -303,4 +415,4 @@ const CalenderDay = () => {
     )
 }
 
-export default CalenderDay
+export default CalenderWeekly

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const AddNewCustomer = () =>{
+const AddNewClient = () =>{
 
   const [defaultLanguages , setDefaultLanguages] = useState(["portuguese","German","indonesia","catlan" , "Spanish" , "Turkish" , "Slovak" , "Vitnamese" , "Swedish" , "Portguese_br"])
   return(
@@ -120,6 +120,6 @@ const AddNewCustomer = () =>{
   );
 }
 
-export default AddNewCustomer;
+export default AddNewClient;
 
 
