@@ -1,180 +1,205 @@
 import React, { useState } from "react";
-import Image from "../../../Assets/Images/image.png";
-import AddNewTask from "./AddNewTask";
+import AddIcon from "@mui/icons-material/Add";
+import { Link } from "react-router-dom";
 
 const Task = () => {
-  const [tasks, setTasks] = useState([]);
-  const [addNewTask, setAddNewTask] = useState(false);
+  const [openIndex, setOpenIndex] = useState(null);
 
-  const handleAddNewTasks = () => {
-    setAddNewTask(true);
+  // Function to handle accordion toggling
+  const handleToggle = (index) => {
+    if (openIndex === index) {
+      setOpenIndex(null); // Close the accordion if clicked again
+    } else {
+      setOpenIndex(index); // Open the accordion
+    }
   };
 
-  const handleCloseNewTasks = () => {
-    setAddNewTask(false);
-  };
-
-  const handleSaveTask = (taskData) => {
-    setTasks((prev) => [...prev, taskData]); // Add new task to the state
-  };
-
-  // const Accordion = () => {
-  //   const [openIndex, setOpenIndex] = useState(null);
-  
-  //   // Function to handle accordion toggling
-  //   const handleToggle = (index) => {
-  //     if (openIndex === index) {
-  //       setOpenIndex(null); // Close the accordion if clicked again
-  //     } else {
-  //       setOpenIndex(index); // Open the accordion
-  //     }
-  //   };
-
-  
-
-  return (
-    <div>
-      <div className="border shadow h-[32rem] p-7 rounded-xl">
-        <div className="flex items-center space-x-7 max-[1024px]:grid">
-          {/*-- Add new button --*/}
-          <button
-            onClick={handleAddNewTasks}
-            className="bg-[#511992] text-white px-3 py-1 font-light rounded-full hover:bg-purple-700"
-          >
-            + Add new
-          </button>
-
-          {addNewTask && (
-            <div className="fixed inset-0 bg-black bg-opacity-30 z-40"></div>
-          )}
-
-          {addNewTask && (
-            <AddNewTask onClose={handleCloseNewTasks} onSave={handleSaveTask} />
-          )}
-
-          {/*-- Search input --*/}
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="border border-[#B1B1B1] text-[#B1B1B1]  rounded-full px-3 py-1 max-[1024px]:mt-[10px] max-[1024px]:ml-[-25px]"
-            />
-            <span className="absolute inset-y-0 right-3 flex items-center">
-              <svg
-                className="w-5 h-5 text-[#B1B1B1] "
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M10 2a8 8 0 105.878 13.544l5.682 5.682a1 1 0 001.415-1.415l-5.682-5.682A8 8 0 0010 2zm0 2a6 6 0 110 12 6 6 0 010-12z" />
-              </svg>
-            </span>
-          </div>
-
-          {/*-- Group by dropdown --*/}
-          <div className="relative">
-            <select className="border border-[#B1B1B1] bg-white text-[#B1B1B1] rounded-full px-3 py-1 max-[1024px]:mt-[10px] max-[1024px]:mb-[10px] max-[1024px]:ml-[-25px]">
-              <option>Group by : Priority</option>
-            </select>
-          </div>
-
-          {/*-- Filter icon -*/}
-          <button className="text-gray-500 border hover:text-gray-700 px-3 py-1 rounded-full border-[#B1B1B1] max-[1024px]:w-[50px]">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707l-5.632 5.633A4 4 0 0014 14.757V19a1 1 0 01-.553.894l-4 2A1 1 0 018 21v-6.243a4 4 0 00-1.074-2.683L3.293 6.707A1 1 0 013 6V4z"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div className="overflow-x-auto mt-11">
-          <table className="w-full border-none bg-white border">
+  // Array of accordion items
+  const accordionItems = [
+    {
+      title: (
+        <div className="">
+          <table>
             <thead>
-              <tr className="text-[#B1B1B1] font-light ">
-                <th className="text-left font-normal px-4 py-2  border">
-                  Status
+              <tr>
+                <th className=""></th>
+                <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">
+                  Status(01)
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
+
+                <th className="text-[12px] border-r w-[40px]  font-medium p-[8px] ">
                   #
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
+
+                <th className="text-[12px] w-[250px] p-[10px] border-r font-medium whitespace-nowrap">
                   Task Name
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
+
+                <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">
                   Start Date
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
+
+                <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">
                   Due Date
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
+                <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap	">
                   End Date
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
-                  Assigned To
+
+                <th className="text-[12px] font-medium p-[10px] w-[120px] border-r whitespace-nowrap	">
+                  Assigned to
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
+
+                <th className="text-[12px] w-[100px] font-medium p-[10px] border-r whitespace-nowrap	">
                   Tags
                 </th>
-                <th className="text-left font-normal text-[16px] px-4 py-2 border">
+
+                <th className="text-[12px] w=[90px] font-medium p-[10px]  whitespace-nowrap	">
                   Priority
                 </th>
               </tr>
             </thead>
-            <tbody className="text-[13px]">
-              {tasks.map((task, index) => (
-                <tr key={index} className="border-t">
-                  <td className="text-green-600 px-4 py-8">{task.taskStatus}</td>
-                  <td className="px-4 py-2 text-[#2568EC]">{task.taskTag}</td>
-                  <td className="px-4 py-2 text-blue-600">
-                    {task.taskName}
-                  </td>
-                  <td className="px-4 py-2 text-[#B1B1B1]">{task.startDate}</td>
-                  <td className="px-4 py-2 text-[#B1B1B1]">{task.dueDate}</td>
-                  <td className="px-4 py-2 text-[#B1B1B1]">{task.endDate}</td>
-                  <td className="px-4 py-2">
-                    <div className="flex space-x-2">
-                      <img
-                        src={task.attachFile}
-                        alt="user1"
-                        className="w-8 h-8 rounded-full"
-                      />
-                    </div>
-                  </td>
-                  <td className="px-4 py-2">
-                    <span className="px-3 py-1 text-xs font-medium border-[#B1B1B1] border rounded">
-                      tag
-                    </span>
-                  </td>
-                  <td className="text-red-600 px-4 py-2">{task.taskPriority}</td>
-                </tr>
-              ))}
-            </tbody>
           </table>
-            
-          
         </div>
-      </div>
+      ),
+      content: (
+        <table className="w-full">
+          <tbody>
+            <tr>
+              <td className="flex p-[0]">
+                <td className="p-[10px] w-[103px]">
+                  <Link className="text-[10px]  text-[#47cc00] " to="/">
+                    Complete
+                  </Link>
+                </td>
 
-      <div className="mt-7 flex items-center justify-between text-[#B1B1B1]">
-        <h1>Showing 1 to 2 of 2 entries</h1>
-        <div className="flex">
-          <button className="px-3 py-1 border rounded-l-lg hover:text-gray-700 border-[#B1B1B1]">
-            Previous
-          </button>
-          <div className="px-3 py-1 bg-[#511992] text-white">1</div>
-          <button className="px-3 py-1 border rounded-r-lg  hover:text-gray-700  border-[#B1B1B1]">
-            Next
-          </button>
+                <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">
+                  43
+                </td>
+
+                <td className="flex flex-col w-[250px] p-[10px] break-words">
+                  <Link className="text-[11px] text-[#2563eb]" to="/">
+                    soul relation intro
+                  </Link>{" "}
+                  <Link className="text-[9px] text-[#000]" to="/">
+                    #12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING
+                  </Link>
+                </td>
+
+                <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">
+                  13-08-2024
+                </td>
+
+                <td className="text-[12px] p-[10px]  w-[100px]   whitespace-nowrap	">
+                  13-08-2024
+                </td>
+                <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">
+                  19-08-2024
+                </td>
+
+                <td className="w-[120px]"></td>
+
+                <td className="p-[10px] w-[100px]">
+                  <Link
+                    className="text-[12px] pl-[7px] pr-[7px] pb-[5px] pt-[5px] text-[#000] rounded-md border border-3 border-[#e2e8f0]"
+                    to="/"
+                  >
+                    Ads
+                  </Link>
+                </td>
+
+                <td className="text-[#ff6f00] p-[10px] w-[100px]  text-[12px] whitespace-nowrap	">
+                  High
+                </td>
+              </td>
+            </tr>
+          </tbody>
+
+          <tr>
+            <td className="flex p-[0]">
+              <td className="p-[10px] w-[103px]">
+                <Link className="text-[10px]  text-[#47cc00] " to="/">
+                  Complete
+                </Link>
+              </td>
+
+              <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">
+                143
+              </td>
+
+              <td className="flex flex-col w-[250px] p-[10px] break-words">
+                <Link className="text-[11px] text-[#2563eb]" to="/">
+                  URBAN KHALSA REEL
+                </Link>{" "}
+                <Link className="text-[9px] text-[#000]" to="/">
+                  #8 - URBAN KHALSA - URBAN KHALSA
+                </Link>
+              </td>
+
+              <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">
+                16-08-2024
+              </td>
+
+              <td className="text-[12px] p-[10px]  w-[100px]   whitespace-nowrap	">
+                18-08-2024
+              </td>
+              <td className="text-[12px] p-[10px] w-[100px] whitespace-nowrap	">
+                20-08-2024
+              </td>
+
+              <td className="w-[120px]"></td>
+
+              <td className="p-[10px] w-[100px]">
+                <Link
+                  className="text-[12px] pl-[7px] pr-[7px] pb-[5px] pt-[5px] text-[#000] rounded-md border border-3 border-[#e2e8f0]"
+                  to="/"
+                >
+                  Ads
+                </Link>
+              </td>
+
+              <td className="text-[#2563eb] p-[10px] w-[100px]  text-[12px] whitespace-nowrap	">
+                Medium
+              </td>
+            </td>
+          </tr>
+        </table>
+      ),
+    },
+
+    //   { title: "2", content: "This is the content for item 2" },
+    //     { title: "3", content: "This is the content for item 3" },
+  ];
+  return (
+    <div className=" w-full ">
+      <div className="bg-[#fff] p-[10px] pl-[100px]">
+        <div className="mb-[14px]">
+          <Link
+            to="/"
+            className="px-4 py-2 bg-[#511992] text-white rounded-lg"
+          >
+            <AddIcon /> New Task
+          </Link>
         </div>
+        {accordionItems.map((item, index) => (
+          <div key={index} className="border-b border-gray-200">
+            {/* Accordion Header */}
+            <button
+              onClick={() => handleToggle(index)}
+              className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+            >
+              <span>{item.title}</span>
+              <span>{openIndex === index ? "" : ""}</span>
+            </button>
+
+            {/* Accordion Content */}
+            {openIndex === index && (
+              <div className="p-[8px] mb-[10px] text-gray-700 bg-white">
+                {item.content}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-// import Project_Setting from "./Project_Setting";
+import Project_Setting from "./Project_Setting";
 import SellIcon from "@mui/icons-material/Sell";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -32,11 +32,11 @@ const Add_Project = () => {
 
   return (
     <Tabs className="m-5 shadow rounded-lg">
-      <TabList className="flex p-7 gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer">
-        <Tab className="hover:text-[#2568EC] hover:border-b pb-2 border-[#2568EC]">
+      <TabList className="flex p-5 pb-[10px] gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
+        <Tab className="hover:text-[#2568EC] project-tab hover:border-b pb-2 border-[#2568EC]">
           Project
         </Tab>
-        <Tab className="hover:text-[#2568EC] hover:border-b  pb-2 border-[#2568EC]">
+        <Tab className="hover:text-[#2568EC] hover:border-b pb-2 border-[#2568EC]">
           Project Settings
         </Tab>
       </TabList>
@@ -95,7 +95,7 @@ const Add_Project = () => {
           <div className="grid grid-rows-2 space-y-2">
             <div className="flex w-[100%] gap-10">
               <div className="w-[50%] space-y-2">
-                <h1>* Start Date</h1>
+                <h1>Estimated Hours</h1>
                 <input
                   className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
                   type="text"
@@ -103,7 +103,7 @@ const Add_Project = () => {
               </div>
 
               <div className="w-[50%] space-y-2">
-                <h1>Members</h1>
+                <h1>Department</h1>
                 <select className="h-[46px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5">
                   <option value="">Select Member</option>
                 </select>
@@ -214,7 +214,7 @@ const Add_Project = () => {
       </TabPanel>
 
       <TabPanel className="m-5">
-        {/* <Project_Setting closeform = {handleCloseForm} /> */}
+        <Project_Setting closeform = {handleCloseForm} />
       </TabPanel>
     </Tabs>
   );

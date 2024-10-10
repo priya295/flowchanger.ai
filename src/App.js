@@ -33,10 +33,9 @@ import Worktime from "./Admin/pages/StaffSection/Attendance/Worktime";
 import Reviewfine from "./Admin/pages/StaffSection/Attendance/Reviewfine";
 import Overtime from "./Admin/pages/StaffSection/Attendance/Overtime";
 import Project_Summary from "./Admin/pages/Projects/Project_Summary";
-// import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
+import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
 import Projects from '../src/Admin/pages/Projects/Projects';
 import Taskview from "./Admin/pages/Tasks/Taskview";
-import Task from "./Admin/pages/Tasks/Task";
 import Clients from "./Admin/pages/Clients/Clients";
 import NewTicket from "../src/Admin/pages/Projects/NewTicketForm";
 import Add_Project from "../src/Admin/pages/Projects/Add_Project";
@@ -62,6 +61,7 @@ import AddNewClient from "./Admin/pages/Clients/AddNewClient";
 import EditClient from "./Admin/pages/Clients/EditClient";
 
 import Subscription from './Admin/pages/Subscription Plan/Subscription'
+import Buy_plan from './Admin/pages/Subscription Plan/Pricing Plans/Plan'
 
 
 
@@ -135,12 +135,11 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayout />}>
-          {/* <Route path="/project-overview" element={<ProjectsOverview />} /> */}
+          <Route path="/project-overview" element= {<ProjectsOverview />} />
           <Route path="/new-ticket" element={<NewTicket />} />
           <Route path="/addnewclient" element={<AddNewClient />} />
           <Route path="/editclient" element={<EditClient />} />
-          {/* <Route path="/project-overview" element={<ProjectsOverview />} /> */}
-           <Route path="/addrole" element={<AddRole />} />
+            <Route path="/addrole" element={<AddRole />} />
           <Route path="/role" element={<Role />} />
           <Route path="/editrole" element={<EditRole />} />
           <Route path="/editdepartment" element={<EditDepartment />} />
@@ -172,7 +171,6 @@ const App = () => {
            <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project/>} /> 
-          <Route path="/task" element={<Task />} />
           <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
@@ -183,6 +181,7 @@ const App = () => {
         
 
           <Route path="/subscription-plan" element={<Subscription/>}/>
+          <Route path="/subscription-plan/buy-plan" element={<Buy_plan/>}/>
         </Route>
 
         <Route element={<Editstaff />}>
