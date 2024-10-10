@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
+import AddNewTask from "./AddNewTask";
 
 const Task = () => {
   const [openIndex, setOpenIndex] = useState(null);
+  const [addNewTask, setAddNewTask] = useState(false);
+
+  const handleAddNewTasks = () => {
+    setAddNewTask(true);
+  };
+
+  const handleCloseNewTasks = () => {
+    setAddNewTask(false);
+  };
 
   // Function to handle accordion toggling
   const handleToggle = (index) => {
@@ -174,13 +184,23 @@ const Task = () => {
     <div className=" w-full ">
       <div className="bg-[#fff] p-[10px] pl-[100px]">
         <div className="mb-[14px]">
-          <Link
-            to="/"
+
+          <button
+            onClick={handleAddNewTasks}
             className="px-4 py-2 bg-[#511992] text-white rounded-lg"
           >
             <AddIcon /> New Task
-          </Link>
+          </button>
+
+          {addNewTask && (
+            <div className="fixed inset-0 bg-black bg-opacity-30 z-40"></div>
+          )}
+
+          {addNewTask && (
+            <AddNewTask onClose={handleCloseNewTasks} />
+          )}
         </div>
+
         {accordionItems.map((item, index) => (
           <div key={index} className="border-b border-gray-200">
             {/* Accordion Header */}

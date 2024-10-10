@@ -13,7 +13,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 const SideBar = ({ toggleSideBar }) => {
   return (
     <div
-      className={`md:flex md:flex-shrink-0 absolute md:relative mt-20 md:mt-0 h-[200vh] ${
+      className={`md:flex md:flex-shrink-0 absolute md:relative mt-20 md:mt-0 ${
         toggleSideBar ? "left-[0px]" : "left-[-260px] md:left-0"
       } z-50`}
     >

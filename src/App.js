@@ -59,7 +59,6 @@ import Note from "../src/Notes/Note";
 import ExpensePage from "../src/Admin/Expenses/Expense";
 import AddNewClient from "./Admin/pages/Clients/AddNewClient";
 import EditClient from "./Admin/pages/Clients/EditClient";
-
 import Subscription from './Admin/pages/Subscription Plan/Subscription'
 import Buy_plan from './Admin/pages/Subscription Plan/Pricing Plans/Plan'
 
@@ -139,7 +138,7 @@ const App = () => {
           <Route path="/new-ticket" element={<NewTicket />} />
           <Route path="/addnewclient" element={<AddNewClient />} />
           <Route path="/editclient" element={<EditClient />} />
-            <Route path="/addrole" element={<AddRole />} />
+          <Route path="/addrole" element={<AddRole />} />
           <Route path="/role" element={<Role />} />
           <Route path="/editrole" element={<EditRole />} />
           <Route path="/editdepartment" element={<EditDepartment />} />
