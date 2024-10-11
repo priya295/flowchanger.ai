@@ -98,7 +98,7 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 overflow-x-hidden overflow-y-auto  m-[30px]   `}>
+            <main className={`flex-1 overflow-x-hidden overflow-y-auto  m-[30px]`}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
