@@ -1,7 +1,7 @@
 import { IoIosArrowDown } from "react-icons/io";
 import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
-import CustomDialog from "./DialougeBox";
+// import CustomDialog from "./DialougeBox";
 import { MdOutlineDone } from "react-icons/md";
 const EditNewClient = () =>{
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -99,10 +99,10 @@ const EditNewClient = () =>{
                   <FiPlus  className="h-4 w-4 text-gray-400"  onClick={() => setIsDialogOpen(true)}/>
                 </div>
               </div>
-              <CustomDialog 
+              {/* <CustomDialog 
         isOpen={isDialogOpen} 
         onClose={() => setIsDialogOpen(false)} 
-      />
+      /> */}
         {isOpen && (
         <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
           <div className="border-b border-gray-200">
