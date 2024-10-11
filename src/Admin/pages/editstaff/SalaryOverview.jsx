@@ -24,7 +24,7 @@ const SalaryOverview = () => {
                     <h2 className='font-medium'>र 322.00</h2>
                 </div>
                 <div className='w-full text-end xl:w-auto lg:w-auto md:w-auto'>
-                    <Link to="/staff-salary-summary" className='bg-[#8a25b0] text-white rounded-md p-[7px]'>
+                    <Link to="/staff-salary-summary" className='bg-[#27004a] text-white rounded-md p-[7px]'>
                         <KeyboardArrowRightIcon />
                     </Link>
                 </div>
@@ -43,7 +43,7 @@ const SalaryOverview = () => {
                     <h2 className='font-medium'>र 322.00</h2>
                 </div>
                 <div className='w-full text-end xl:w-auto lg:w-auto md:w-auto'>
-                    <Link to="/staff-salary-summary" className='bg-[#8a25b0] text-white rounded-md p-[7px]'>
+                    <Link to="/staff-salary-summary" className='bg-[#27004a] text-white rounded-md p-[7px]'>
                         <KeyboardArrowRightIcon />
                     </Link>
                 </div>
@@ -63,7 +63,7 @@ const SalaryOverview = () => {
                     <h2 className='font-medium'>र 322.00</h2>
                 </div>
                 <div className='w-full text-end xl:w-auto lg:w-auto md:w-auto'>
-                    <Link to="/staff-salary-summary" className='bg-[#8a25b0] text-white rounded-md p-[7px]'>
+                    <Link to="/staff-salary-summary" className='bg-[#27004a] text-white rounded-md p-[7px]'>
                         <KeyboardArrowRightIcon />
                     </Link>
                 </div>

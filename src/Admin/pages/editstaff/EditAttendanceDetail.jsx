@@ -161,6 +161,57 @@ const EditAttendanceDetail = () => {
 
     {/* when onclick update attendance modes  rule for all staff  successfull message*/ }
 
+      //  onclick auto half day button
+
+      const [modalIsOpen16, setIsOpen16] = React.useState(false);
+      function openModal16() {
+          setIsOpen16(true);
+      }
+      function afterOpenModal16() {
+          // references are now sync'd and can be accessed.
+          subtitle.style.color = '#000';
+  
+      }
+  
+      function closeModal16() {
+          setIsOpen16(false);
+      }
+         // onclick auto half day button
+  
+  
+  
+      // onclick mandatory half day button
+      const [modalIsOpen17, setIsOpen17] = React.useState(false);
+      function openModal17() {
+          setIsOpen17(true);
+      }
+      function afterOpenModal17() {
+          // references are now sync'd and can be accessed.
+          subtitle.style.color = '#000';
+  
+      }
+  
+      function closeModal17() {
+          setIsOpen17(false);
+      }
+      // onclick mandatory half day button
+  
+      // onclick mandatory full day button
+      const [modalIsOpen18, setIsOpen18] = React.useState(false);
+      function openModal18() {
+          setIsOpen18(true);
+      }
+      function afterOpenModal18() {
+          // references are now sync'd and can be accessed.
+          subtitle.style.color = '#000';
+  
+      }
+  
+      function closeModal18() {
+          setIsOpen18(false);
+      }
+      // onclick mandatory half day button
+
     return (
         <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '>
             <h2 className='bg-[#f6f9fa] pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow'>Attendance Details</h2>
@@ -187,7 +238,7 @@ const EditAttendanceDetail = () => {
                         <div className="flex items-center  ">
                             <div
                                 onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
@@ -437,7 +488,7 @@ const EditAttendanceDetail = () => {
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div>
                     <h4 className='p-4 pl-3 border border-b border-l-0 border-r-0 text-[13px] xl:text-[15px]'>No Options Available ....</h4>
-                    <Link to="" className='text-[#8A25B0] p-4 font-medium mt-3 block w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
+                    <Link to="" className='text-[#27004a] p-4 font-medium mt-3 block w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
                     <div className='text-end pr-4 pb-3'>
                         <button className='second-btn'>Okay</button>
                     </div>
@@ -651,7 +702,7 @@ const EditAttendanceDetail = () => {
                         <div className="flex items-center  ">
                             <div
                                 onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
@@ -670,7 +721,7 @@ const EditAttendanceDetail = () => {
                         <div className="flex items-center  ">
                             <div
                                 onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
@@ -689,7 +740,7 @@ const EditAttendanceDetail = () => {
                         <div className="flex items-center  ">
                             <div
                                 onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
@@ -709,7 +760,7 @@ const EditAttendanceDetail = () => {
                         <div className="flex items-center  ">
                             <div
                                 onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
@@ -740,7 +791,7 @@ const EditAttendanceDetail = () => {
                         <img src={biometric} />
                         <div>
                             <label className='text-[13px] xl:text-[14px] font-medium'>Biometric Devices</label><br />
-                            <Link to="/biometric" className='text-[13px] xl:text-[14px] text-[#8A25B0] underline decoration-1'>Manage biometric devices</Link>
+                            <Link to="/biometric" className='text-[13px] xl:text-[14px] text-[#27004a] underline decoration-1'>Manage biometric devices</Link>
                         </div>
 
                     </div>
@@ -796,7 +847,7 @@ const EditAttendanceDetail = () => {
                         <div className="flex items-center  ">
                             <div
                                 onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
@@ -815,7 +866,7 @@ const EditAttendanceDetail = () => {
                         <div className="flex items-center  ">
                             <div
                                 onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
@@ -833,7 +884,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Auto half day if late by</h4>
                         </div>
                         <div className="flex items-center  ">
-                                        <button className='first-btn'>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal16}>10 Minutes</button>
                         </div>
                     </div>
 
@@ -843,7 +894,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory half day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                                        <button className='first-btn'>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal17}>10 Minutes</button>
                         </div>
                     </div>
 
@@ -853,7 +904,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory full day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                                        <button className='first-btn'>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal18}>10 Minutes</button>
                         </div>
                     </div>
 
@@ -889,6 +940,133 @@ const EditAttendanceDetail = () => {
 
 
             {/* when onclick update attendance mods for aall staff successfull msg */}
+
+             {/* onclick autohalf day minutes  button */}
+
+             <Modal
+                isOpen={modalIsOpen16}
+                onAfterOpen={afterOpenModal16}
+                onRequestClose={closeModal16}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Auto half day if late by
+                </h2>
+                <button onClick={closeModal16} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className='pb-2 p-[12px]'>
+
+                    <label className="text-[13px] xl:text-[14px] font-medium">Select Duration</label>
+
+                    <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                        </div>
+                    </div>
+
+
+
+                    <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
+                        <button className="first-btn" onClick={closeModal16}>Turn Off</button>
+                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                    </div>
+
+                </div>
+            </Modal>
+
+
+            {/* onclick autohalf day minutes  button */}
+
+
+              {/* onclick mandatory half day minutes  button */}
+
+              <Modal
+                isOpen={modalIsOpen17}
+                onAfterOpen={afterOpenModal17}
+                onRequestClose={closeModal17}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Mandatory half day hours
+
+                </h2>
+                <button onClick={closeModal17} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className='pb-2 p-[12px]'>
+
+                    <label className="text-[13px] xl:text-[14px] font-medium">Select Duration</label>
+
+                    <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                        </div>
+                    </div>
+
+
+
+                    <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
+                        <button className="first-btn" onClick={closeModal17}>Turn Off</button>
+                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                    </div>
+
+                </div>
+            </Modal>
+
+
+            {/* onclick mandatory half day minutes  button */}
+
+
+                {/* onclick mandatory full day minutes  button */}
+
+                <Modal
+                isOpen={modalIsOpen18}
+                onAfterOpen={afterOpenModal18}
+                onRequestClose={closeModal18}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Mandatory Full day hours
+
+                </h2>
+                <button onClick={closeModal18} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className='pb-2 p-[12px]'>
+
+                    <label className="text-[13px] xl:text-[14px] font-medium">Select Duration</label>
+
+                    <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                        </div>
+                    </div>
+
+
+
+                    <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
+                        <button className="first-btn" onClick={closeModal18}>Turn Off</button>
+                        <button className="second-btn" onClick={openModal18} >Confirm</button>
+                    </div>
+
+                </div>
+            </Modal>
+
+
+            {/* onclick mandatory full day minutes  button */}
             
         </div>
     )

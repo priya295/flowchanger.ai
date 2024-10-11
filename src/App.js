@@ -174,6 +174,12 @@ const App = () => {
           <Route path="/clients" element={<Clients />} />
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
           <Route path="/add-department" element={<AddDepartment />} />
+          <Route path="/calender" element={<Calender />} />
+          <Route path="/meeting" element={<Meeting />} />
+          <Route path="/day-wise" element={<CalenderDay />} />
+          <Route path="/year-wise" element={<CalenderYear />} />
+          <Route path="/week-wise" element={<CalenderWeekly />} />
+
 
 
 
@@ -209,12 +215,7 @@ const App = () => {
           <Route path="/edit-penalty" element={<EditPenalty />} />
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
-          <Route path="/calender" element={<Calender />} />
-          <Route path="/meeting" element={<Meeting />} />
-          <Route path="/day-wise" element={<CalenderDay />} />
-          <Route path="/year-wise" element={<CalenderYear />} />
-          <Route path="/week-wise" element={<CalenderWeekly />} />
-
+          
           <Route
             path="/background-verification"
             element={<BackgroundVerification />}
