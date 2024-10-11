@@ -22,8 +22,8 @@ const Task = () => {
                     <table className="w-full">
                         <thead>
                         <tr>
-                            <th className="w-[10px]" ></th>
-                            <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
+                           
+                            <th className="text-[12px] flex items-center gap-[10px] font-medium p-[10px] w-[116px] border-r whitespace-nowrap"><span className="todo-btn">To Do</span><span className="six-tasks bg-[red]">6</span></th>
 
 
                             <th className="text-[12px] border-r w-[40px]  font-medium p-[8px] ">#</th>
@@ -60,6 +60,7 @@ const Task = () => {
                             
 
                         </tr>
+                        
                         </thead>
                     </table>
                 </div>,
@@ -70,7 +71,7 @@ const Task = () => {
                     <tr>
                         <td className="flex p-[0]">
 
-                        <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
+                        <td className="p-[10px] w-[108px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
                             <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">43</td>
                            
@@ -103,7 +104,7 @@ const Task = () => {
                     <tr>
                         <td className="flex p-[0]">
 
-                        <td className="p-[10px] w-[103px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
+                        <td className="p-[10px] w-[108px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
                             <td className="text-[12px] w-[40px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">143</td>
                            
@@ -153,11 +154,11 @@ const Task = () => {
                         <AddIcon /> New Task</Link>
                 </div>
                 {accordionItems.map((item, index) => (
-                    <div key={index} className="border-b border-gray-200">
+                    <div key={index} className="">
                         {/* Accordion Header */}
                         <button
                             onClick={() => handleToggle(index)}
-                            className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+                            className="flex justify-between items-center w-full text-left text-gray-800 shadow-lg  rounded-lg focus:outline-none"
                         >
                             <span>{item.title}</span>
                             <span>{openIndex === index ? "" : ""}</span>

@@ -33,7 +33,7 @@ import Worktime from "./Admin/pages/StaffSection/Attendance/Worktime";
 import Reviewfine from "./Admin/pages/StaffSection/Attendance/Reviewfine";
 import Overtime from "./Admin/pages/StaffSection/Attendance/Overtime";
 import Project_Summary from "./Admin/pages/Projects/Project_Summary";
-// import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
+import ProjectsOverview from "../src/Admin/pages/Projects/Project_overview";
 import Projects from '../src/Admin/pages/Projects/Projects';
 import Taskview from "./Admin/pages/Tasks/Taskview";
 import Task from "./Admin/pages/Tasks/Task";
@@ -57,13 +57,11 @@ import Meeting from "./Admin/pages/Calender/Meeting";
 import CalenderDay from "./Admin/pages/Calender/CalenderDay";
 import CalenderYear from "./Admin/pages/Calender/CalenderYear";
 import Note from "../src/Notes/Note";
-import ExpensePage from "../src/Admin/Expenses/Expense";
+import ExpenseEdit from "./Admin/ExpensesClient/ExpenseEdit";
+import ExpensePage from "./Admin/ExpensesClient/ExpensePage";
 import AddNewClient from "./Admin/pages/Clients/AddNewClient";
 import EditClient from "./Admin/pages/Clients/EditClient";
-
 import Subscription from './Admin/pages/Subscription Plan/Subscription'
-import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
-import CalenderWeekly from "./Admin/pages/Calender/CalenderWeekly";
 
 
 
@@ -123,34 +121,6 @@ const App = () => {
     );
   }
 
-  function CalenderLayout() {
-    return (
-      <>
-        <div className="flex">
-          <div className="">
-            {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} />}
-          </div>
-
-          {/* container for navbar and outlet */}
-          <div className={`flex flex-col flex-grow overflow-hidden`}>
-            <NavBar
-              handleToggleSideBar={handleToggleSideBar}
-              toggleSideBar={toggleSideBar}
-            />
-            <main className={`flex-1 overflow-x-hidden overflow-y-auto  xl:m-[30px] lg:m-[30px]  md:m-[30px] m-[10px]    `}>
-              <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
-                <CalenderHeader/>
-                <Outlet />
-              </div>
-            </main>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-
-
   function CustomerPanel() {
     return (
       <>
@@ -165,12 +135,12 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<AdminLayout />}>
-          {/* <Route path="/project-overview" element={<ProjectsOverview />} /> */}
+          <Route path="/project-overview" element={<ProjectsOverview />} />
           <Route path="/new-ticket" element={<NewTicket />} />
           <Route path="/addnewclient" element={<AddNewClient />} />
           <Route path="/editclient" element={<EditClient />} />
           {/* <Route path="/project-overview" element={<ProjectsOverview />} /> */}
-          <Route path="/addrole" element={<AddRole />} />
+           <Route path="/addrole" element={<AddRole />} />
           <Route path="/role" element={<Role />} />
           <Route path="/editrole" element={<EditRole />} />
           <Route path="/editdepartment" element={<EditDepartment />} />
@@ -205,6 +175,7 @@ const App = () => {
           <Route path="/clientproject" element={<Client_Project />} />
           <Route path="/projectprogress" element={<Project_Progress />} />
           <Route path="/note" element={<Note />} />
+          <Route path="/expenseedit" element={<ExpenseEdit />} />
           <Route path="/expensepage" element={<ExpensePage />} />
 
 
@@ -223,6 +194,18 @@ const App = () => {
           <Route path="/edit-penalty" element={<EditPenalty />} />
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
+
+          <Route
+            path="/background-verification"
+            element={<BackgroundVerification />}
+          />
+          <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
+     
+        </Route>
+        <Route element={<Client_Panel />}>
+          <Route path="/clientheader" element={<ClientHeader />} />
+          <Route path="/sidebarclient" element={<SidebarClient />} />
+
 
           <Route
             path="/background-verification"

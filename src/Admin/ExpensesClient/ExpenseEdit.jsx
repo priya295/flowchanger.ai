@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const ExpensePage = () => {
+const ExpenseEdit = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const handleOpen = () => {
@@ -77,13 +77,13 @@ const ExpensePage = () => {
                     <div className="w-[100%] flex items-center gap-[10px]">
                         <input className="p-[8px] w-[33%] border text-[12px]  rounded-lg" type="date" />
                         <div className='w-[33%]  xl:[48%]'>
-                            
+
                             <select className='border border-1 rounded-md p-[8px]  w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                                 <option>Select User</option>
                             </select>
                         </div>
                         <div className='w-[33%]  xl:[48%]'>
-                            
+
                             <select className='border border-1 rounded-md p-[8px]  w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                                 <option>Select Type</option>
                             </select>
@@ -91,33 +91,33 @@ const ExpensePage = () => {
                     </div>
 
                     <div className='w-[100%] flex rounded-md shadow  border border-1 mt-4 pl-3 pr-3'>
-        <table className='table-section mt-4'>
-          <thead className='border border-1 '>
-            <th>#</th>
-            <th>ID</th>
-            <th className="w-[200px]">TITLE</th>
-            <th>EXPENSE TYPE</th>
-            <th>USER</th>
-            <th>AMOUNT</th>
-            <th>EXPENSE DATE</th>
-            <th className="w-[166px]">ACTIONS</th>
-           
+                        <table className='table-section mt-4'>
+                            <thead className='border border-1 '>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th className="w-[200px]">TITLE</th>
+                                <th>EXPENSE TYPE</th>
+                                <th>USER</th>
+                                <th>AMOUNT</th>
+                                <th>EXPENSE DATE</th>
+                                <th className="w-[166px]">ACTIONS</th>
 
-          </thead>
-          <tbody>
-            <td><input type='checkbox' className='border border-1 rounded-md '/></td>
-            <td>3</td>
-            <td className="w-[200px]">2+6</td>
-            <td>Fuel</td>
-            <td>King Lost</td>
-            <td>₹ 100.0	</td>
-            <td>27-06-2024</td>
-            <td className="w-[166px] flex justify-center gap-[10px]"><Link><EditNoteIcon className="edit-icon2"/></Link><Link><DeleteIcon className="del-icon2"/></Link></td>
-            
 
-          </tbody>
-        </table>
-      </div>
+                            </thead>
+                            <tbody>
+                                <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                <td>3</td>
+                                <td className="w-[200px]">2+6</td>
+                                <td>Fuel</td>
+                                <td>King Lost</td>
+                                <td>₹ 100.0	</td>
+                                <td>27-06-2024</td>
+                                <td className="w-[166px] flex justify-center gap-[10px]"><Link><EditNoteIcon className="edit-icon2" /></Link><Link><DeleteIcon className="del-icon2" /></Link></td>
+
+
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
 
@@ -128,4 +128,4 @@ const ExpensePage = () => {
     )
 }
 
-export default ExpensePage
+export default ExpenseEdit
