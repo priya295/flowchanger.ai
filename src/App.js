@@ -62,8 +62,10 @@ import AddNewClient from "./Admin/pages/Clients/AddNewClient";
 import EditClient from "./Admin/pages/Clients/EditClient";
 import Subscription from './Admin/pages/Subscription Plan/Subscription'
 import Buy_plan from './Admin/pages/Subscription Plan/Pricing Plans/Plan'
-
-
+import CalenderWeekly from '../src/Admin/pages/Calender/CalenderWeekly'
+import Task from "./Admin/pages/Tasks/Task";
+import ClientHeader from "./Client_Panel/ClientHeader";
+import SidebarClient from "./Client_Panel/SidebarClient";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -131,6 +133,20 @@ const App = () => {
     );
   }
 
+  function Client_Panel() {
+    return (
+      <>
+        <div className="">
+          <ClientHeader />
+          <div className="flex">
+            <SidebarClient />
+            <Outlet />
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -193,6 +209,11 @@ const App = () => {
           <Route path="/edit-penalty" element={<EditPenalty />} />
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
+          <Route path="/calender" element={<Calender />} />
+          <Route path="/meeting" element={<Meeting />} />
+          <Route path="/day-wise" element={<CalenderDay />} />
+          <Route path="/year-wise" element={<CalenderYear />} />
+          <Route path="/week-wise" element={<CalenderWeekly />} />
 
           <Route
             path="/background-verification"
@@ -214,16 +235,11 @@ const App = () => {
 
         </Route>
 
-        <Route element={<CalenderLayout />}>
-          <Route path="/calender" element={<Calender />} />
-          <Route path="/meeting" element={<Meeting />} />
-          <Route path="/day-wise" element={<CalenderDay />} />
-          <Route path="/year-wise" element={<CalenderYear />} />
-          <Route path="/week-wise" element={<CalenderWeekly />} />
+        
+         
 
 
-        </Route>
-
+ 
         <Route element={<AuthLayout />}>
           <Route path="/authentication" element={<MultiStepForm />} />
         </Route>
