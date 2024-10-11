@@ -121,6 +121,11 @@
 .edit-icon2{
     color: red;
 }
+
+.project-tab .react-tabs__tab--selected {
+    background-color: #2568EC;
+}
+
 .customer-adoble{
     margin-bottom: 30px !important;
 }

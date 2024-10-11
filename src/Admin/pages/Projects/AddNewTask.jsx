@@ -55,15 +55,16 @@ const AddNewTask = ({ onClose, onSave }) => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-50 flex justify-center items-center"
+          className="2xl:fixed xl:fixed lg:fixed md:fixed sm:fixed inset-0 z-50 flex justify-center items-center"
         >
-          <div className="bg-white p-8 rounded-lg shadow-lg h-auto w-[80rem]">
+          
+          <div className="bg-white p-8 rounded-lg shadow-lg w-[65%] h-[70%] overflow-auto">
             <h1 className="text-[20px] font-semibold border-b border-[#B1B1B1] pb-8">
               Add New Task
             </h1>
 
             <form onSubmit={handleSubmit}>
-              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D]">
+              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
                   <label htmlFor="text">Task Name</label>
                   <input
@@ -103,7 +104,7 @@ const AddNewTask = ({ onClose, onSave }) => {
                 </div>
               </div>
 
-              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D]">
+              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
                   <label htmlFor="text">Start Date</label>
                   <input
@@ -164,7 +165,7 @@ const AddNewTask = ({ onClose, onSave }) => {
                 </div>
               </div>
 
-              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D]">
+              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
                   <label htmlFor="text">Task Timer</label>
                   <input
@@ -201,7 +202,7 @@ const AddNewTask = ({ onClose, onSave }) => {
                 </div>
               </div>
 
-              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D]">
+              <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
                   <label htmlFor="text">Task Tag</label>
                   <input
