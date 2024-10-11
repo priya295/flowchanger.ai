@@ -884,7 +884,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Auto half day if late by</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal16}>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal16}>Not Set</button>
                         </div>
                     </div>
 
@@ -894,7 +894,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory half day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal17}>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal17}>Not Set</button>
                         </div>
                     </div>
 
@@ -904,7 +904,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory full day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal18}>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal18}>Not Set</button>
                         </div>
                     </div>
 
