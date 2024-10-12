@@ -3,9 +3,10 @@ import React from 'react'
 const AddNewRole = () => {
     return (
         <div className='addnewrole  pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
-            <h2>Add New Role</h2>
+            <h2 className='xl:w-[50%] xl:m-auto'>Add New Role</h2>
 
-            <div className='bg-[#f1f5f9] p-3 lg:w-[50%] w-[100%] mt-2 rounded-md'>
+            <div className='flex justify-center'>
+            <div className='bg-[#f1f5f9] p-3 lg:w-[100%] xl:w-[50%] w-[100%] mt-2 rounded-md'>
                 <label>Role Name</label><br />
                 <input type='text' className='mt-2 border border-1 pl-3 h-[43px] pr-7
 ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'/>
@@ -136,6 +137,7 @@ const AddNewRole = () => {
                 <div className='text-end mt-3'>
                     <button className='bg-[#511992] pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>Save</button>
                 </div>
+            </div>
             </div>
         </div>
     )

@@ -8,6 +8,8 @@ import leave from "../../../Assets/Images/leave.svg";
 import penalty from "../../../Assets/Images/penalty.svg";
 import permission from "../../../Assets/Images/permission.svg";
 import PayrollSummary from "./PayrollSummary";
+import PayrollSalary from "./RunPayroll";
+import RunPayroll from "./RunPayroll";
 
 const PayrollMenu = () => {
   return (
@@ -75,6 +77,15 @@ const PayrollMenu = () => {
 
           <TabPanel>
                 <PayrollSummary/>
+          </TabPanel>
+
+          <TabPanel>
+                <RunPayroll/>
+          </TabPanel>
+
+          <TabPanel>
+
+            Hello
           </TabPanel>
 
         </Tabs>

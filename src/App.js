@@ -69,6 +69,8 @@ import SidebarClient from "./Client_Panel/SidebarClient";
 import DepartmentDetail from "./Admin/pages/Department/DepartmentDetails";
 import PayrollMenu from "./Admin/pages/payroll/PayrollMenu";
 import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
+import PayrollSalary from "./Admin/pages/payroll/RunPayroll";
+import RunPayroll from "./Admin/pages/payroll/RunPayroll";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -155,22 +157,37 @@ const App = () => {
     return (
       <>
         <div className="flex w-full">
-          <SideBar/>
+          <SideBar />
           <div className="w-full">
-            <NavBar/>
-
+            <NavBar />
             <>
-              <CalenderHeader/>
+              <CalenderHeader />
               <Outlet />
             </>
-            
+
           </div>
         </div>
       </>
     );
   }
 
+  function Payroll_Summary() {
+    return (
+      <>
+         <div className="flex w-full">
+          <SideBar />
+          <div className="w-full">
+            <NavBar />
+            <div className="p-[20px] w-full">
+              <PayrollMenu />
+              {/* <Outlet /> */}
+            </div>
 
+          </div>
+        </div>
+      </>
+     );
+  }
 
   return (
     <BrowserRouter>
@@ -183,7 +200,7 @@ const App = () => {
           <Route path="/addrole" element={<AddRole />} />
           {/* <Route path="/role" element={<Role_Details />} /> */}
           <Route path="/editrole" element={<EditRole />} />
-          <Route path="/role-detail" element={<Role_Details/>}/>
+          <Route path="/role-detail" element={<Role_Details />} />
           <Route path="/editdepartment" element={<EditDepartment />} />
           <Route path="/staff-menu" element={<StaffMenu />} />
           <Route path="/add-one-staff" element={<AddOneStaff />} />
@@ -202,8 +219,8 @@ const App = () => {
           <Route path="/adddepartment" element={<AddDepartment />} />
 
 
-           <Route path="/payroll-menu" element={<PayrollMenu />} />
-          
+
+
 
 
 
@@ -224,8 +241,8 @@ const App = () => {
           <Route path="/expenseedit" element={<ExpenseEdit />} />
           <Route path="/expensepage" element={<ExpensePage />} />
 
-          <Route path="/subscription-plan" element={<Subscription/>}/>
-          <Route path="/subscription-plan/buy-plan" element={<Buy_plan/>}/>
+          <Route path="/subscription-plan" element={<Subscription />} />
+          <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
         </Route>
 
         <Route element={<Editstaff />}>
@@ -240,13 +257,13 @@ const App = () => {
           <Route path="/edit-penalty" element={<EditPenalty />} />
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
-          
+
           <Route
             path="/background-verification"
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
-     
+
         </Route>
         <Route element={<Client_Panel />}>
           <Route path="/clientheader" element={<ClientHeader />} />
@@ -261,20 +278,26 @@ const App = () => {
 
         </Route>
 
+        <Route element={<Payroll_Summary />}>
+          <Route path="/run-payroll" element={<RunPayroll />} />
+
+        </Route>
+
+
 
         <Route element={<Calender_Layout />}>
-        <Route path="/calender" element={<Calender />} />
+          <Route path="/calender" element={<Calender />} />
           <Route path="/meeting" element={<Meeting />} />
           <Route path="/day-wise" element={<CalenderDay />} />
           <Route path="/year-wise" element={<CalenderYear />} />
           <Route path="/week-wise" element={<CalenderWeekly />} />
-         
-      </Route>
-        
-         
+
+        </Route>
 
 
- 
+
+
+
         <Route element={<AuthLayout />}>
           <Route path="/authentication" element={<MultiStepForm />} />
         </Route>
