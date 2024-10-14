@@ -204,6 +204,10 @@
     color: #000;
     font-size: 12px;
 }
+.preferences{
+    border-bottom: 1px solid #ebf1f5 !important;
+    padding: 10px !important;
+}
 
 @media(max-width:640px){
     .late-main{

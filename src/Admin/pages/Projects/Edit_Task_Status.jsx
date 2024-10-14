@@ -74,11 +74,6 @@ const Edit_Task_Status = () => {
 
 
 
-
-
-
-
-
                                 <th className="text-[11px] w-[130px] p-[10px] border-r font-medium whitespace-nowrap">Status Name</th>
 
 
@@ -91,7 +86,7 @@ const Edit_Task_Status = () => {
 
 
                                 <th className="text-[11px] font-medium p-[10px] w-[300px] border-r whitespace-nowrap	">Status can be changed to</th>
-                                <th className="text-[11px] font-medium p-[10px] w-[148px] border-r whitespace-nowrap	">Status is hidden for</th>
+                                <th className="text-[11px] font-medium p-[10px] w-[148px]  whitespace-nowrap	">Status is hidden for</th>
 
 
 
@@ -352,11 +347,11 @@ const Edit_Task_Status = () => {
 
 
                 {accordionItems.map((item, index) => (
-                    <div key={index} className="border-b border-gray-200">
+                    <div key={index} className="">
                         {/* Accordion Header */}
                         <button
                             onClick={() => handleToggle(index)}
-                            className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+                            className="flex justify-between items-center w-full text-left  bg-white rounded-lg shadow-lg focus:outline-none"
                         >
                             <span>{item.title}</span>
 

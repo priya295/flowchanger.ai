@@ -49,7 +49,7 @@ const Clients = () => {
                         <thead>
                             <tr>
 
-                                <th className="border-r"><input className="text-[12px] h-[12px] font-medium p-[10px] w-[30px]  whitespace-nowrap" type="checkbox" /></th>
+                                <th className="border-r p-[10px] w-[30px]"><input className="text-[12px] h-[12px] font-medium   whitespace-nowrap" type="checkbox" /></th>
                                
                                 
                                 
@@ -90,44 +90,32 @@ const Clients = () => {
             content: (
                 <table className="w-full " >
                     <tbody>
-                        <tr>
+                    <tr>
 
-                            <td ><input className="text-[12px] h-[12px] font-medium p-[10px] w-[30px]  whitespace-nowrap" type="checkbox" /></td>
-                         
-
-
-                            <td className="text-[11px]  w-[50px]  font-medium p-[10px] ">19</td>
-
-
-                            <td className="text-[11px] w-[180px] p-[10px]  font-medium whitespace-nowrap">ABJEETGE</td>
-
-
-                            <td className="text-[11px] font-medium p-[10px] w-[130px]  whitespace-nowrap	"></td>
-
-
-                            <td className="text-[11px] font-medium p-[10px] w-[130px]  whitespace-nowrap	"></td>
+<td className="border-r text-left p-[10px] w-[30px]"><input className="text-[12px] h-[12px] font-medium   whitespace-nowrap" type="checkbox" /></td>
 
 
 
-                            <td className="text-[11px] font-medium p-[10px] w-[80px]  whitespace-nowrap	"></td>
-                            <td className="text-[11px] font-medium p-[10px] w-[80px]  whitespace-nowrap	">
-                            <div className="flex items-center justify-center gap-[6px]">
-                    {/* Toggle Switch */}
-                    <div
-                        className={`${isOn ? 'bg-[#8a25b0]' : 'bg-gray-300'
-                            } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
-                        onClick={toggleSwitch}
-                    >
-                        <span
-                            className={`${isOn ? 'translate-x-6' : 'translate-x-0'
-                                } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
-                        />
-                    </div>
-                </div>
-                            </td>
 
-                            <td className="text-[11px] font-medium p-[10px] w-[150px]  whitespace-nowrap	"></td>
-                            <td className="text-[11px] font-medium p-[10px] w-[150px]  whitespace-nowrap	">02-08-2024 5:31 PM</td>
+
+<td className="text-[11px] text-left  w-[50px]  font-medium p-[10px] ">#</td>
+
+
+<td className="text-[11px] text-left w-[180px] p-[10px]  font-medium whitespace-nowrap">Company</td>
+
+
+<td className="text-[11px] text-left font-medium p-[10px] w-[130px]  whitespace-nowrap	">Primary Contact</td>
+
+
+<td className="text-[11px] text-left font-medium p-[10px] w-[130px]  whitespace-nowrap	">Primary Email</td>
+
+
+
+<td className="text-[11px] text-left font-medium p-[10px] w-[80px]  whitespace-nowrap	">Phone</td>
+<td className="text-[11px] text-left font-medium p-[10px] w-[80px]  whitespace-nowrap	">Active</td>
+
+<td className="text-[11px] text-left font-medium p-[10px] w-[150px]  whitespace-nowrap	">Groups</td>
+<td className="text-[11px] text-left font-medium p-[10px] w-[150px]   whitespace-nowrap	">Date Created</td>
 
 
 
@@ -138,7 +126,8 @@ const Clients = () => {
 
 
 
-                        </tr>
+</tr>
+                   
                     </tbody>
 
 
@@ -157,7 +146,7 @@ const Clients = () => {
     return (
         <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
 
-            <div className="bg-[#fff] p-[10px] ml-[140px]">
+            <div className="bg-[#fff] p-[10px] ml-[80px]">
                 <div className="mb-[14px] flex gap-[10px] items-center">
 
                     <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -232,11 +221,11 @@ const Clients = () => {
 
 
                 {accordionItems.map((item, index) => (
-                    <div key={index} className="border-b border-gray-200">
+                    <div key={index} className="">
                         {/* Accordion Header */}
                         <button
                             onClick={() => handleToggle(index)}
-                            className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+                            className="flex justify-between items-center w-full text-left bg-[white]  rounded-lg shadow-lg focus:outline-none"
                         >
                             <span>{item.title}</span>
 

@@ -103,7 +103,7 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 overflow-x-hidden overflow-y-auto  m-[15px] xl:m-[30px]   `}>
+            <main className={`flex-1 overflow-x-hidden overflow-y-auto    `}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
@@ -141,11 +141,22 @@ const App = () => {
   function Client_Panel() {
     return (
       <>
-        <div className="">
-          <ClientHeader />
-          <div className="flex">
-            <SidebarClient />
-            <Outlet />
+        <div className="flex">
+          <div className="">
+            {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} /> }
+          </div>
+
+          {/* container for navbar and outlet */}
+          <div className={`flex flex-col  flex-grow overflow-hidden`}>
+            <ClientHeader
+              handleToggleSideBar={handleToggleSideBar}
+              toggleSideBar={toggleSideBar}
+            />
+            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]   `}>
+              <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
+                <Outlet />
+              </div>
+            </main>
           </div>
         </div>
       </>
@@ -231,7 +242,7 @@ const App = () => {
           <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project />} />
-          <Route path="/task" element={<Task />} />
+          {/* <Route path="/task" element={<Task />} /> */}
           <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
@@ -266,8 +277,10 @@ const App = () => {
 
         </Route>
         <Route element={<Client_Panel />}>
-          <Route path="/clientheader" element={<ClientHeader />} />
-          <Route path="/sidebarclient" element={<SidebarClient />} />
+           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
+           <Route path="/task" element={<Task />} />
+
+
 
 
           <Route

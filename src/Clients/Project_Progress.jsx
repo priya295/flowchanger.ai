@@ -137,7 +137,7 @@ const Project_Progress = () => {
 
   
   return (
-    <div className='w-[100%]'>
+    <div className='w-[100%] pl-[13px]'>
          <h2 className='text-[20px] p-[20px] font-medium'>Projects / Addoble</h2>
         <div className='p-[20px] flex w-[34%] justify-between items-center'>
            <p>img</p>

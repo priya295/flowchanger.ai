@@ -35,7 +35,7 @@ const Projects = () => {
       title: (
         <div>
           <table className="w-full">
-            <thead>
+            <thead className="bg-white rounded-lg shadow-lg">
               <tr>
                 <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">
                   Status(01)
@@ -57,7 +57,7 @@ const Projects = () => {
                   Deadline
                 </th>
 
-                <th className="text-[12px] font-medium p-[10px] w-[200px] border-r whitespace-nowrap	">
+                <th className="text-[12px] font-medium p-[10px] w-[200px]  whitespace-nowrap	">
                   Members
                 </th>
               </tr>
@@ -111,11 +111,11 @@ const Projects = () => {
   ];
   return (
     <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
-      <div className="bg-[#fff] p-[10px] ml-[140px]">
+      <div className="bg-[#fff] p-[10px] ml-[80px]">
         <div className="mb-[14px]">
           <Link
             to="/"
-            className="text-[#fff] text-[14px] bg-[#511992] mb-[10px] "
+            className="text-[#fff] text-[14px]  p-[8px] bg-[#27004a] rounded-lg mb-[10px] "
           >
             <AddIcon className="newadd" /> New Project
           </Link>
@@ -125,21 +125,11 @@ const Projects = () => {
           <h2 className="font-medium mb-[10px] flex gap-[6px] items-center">
             {" "}
             <LibraryBooksIcon />
-            Project Summary
+            Projects
           </h2>
 
           <div className="flex items-center gap-[14px] mb-[10px]">
-            <Link
-              to="/"
-              className="text-[#fff] text-[12px] bg-[#8a25b0]  focus:outline-none focus:ring-4 font-medium rounded-2xl p-[8px] text-center"
-            >
-              <AddIcon className="newadd" /> Add New
-            </Link>
-            <input
-              className="p-[6px] rounded-2xl summary-border text-[13px] w-[140px]"
-              type="text"
-              placeholder="Search......."
-            />
+          
           </div>
           <div className="flex justify-between items-center">
             <div className="flex gap-[10px]">
@@ -204,11 +194,11 @@ const Projects = () => {
         </div>
 
         {accordionItems.map((item, index) => (
-          <div key={index} className="border-b border-gray-200">
+          <div key={index} className="">
             {/* Accordion Header */}
             <button
               onClick={() => handleToggle(index)}
-              className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+              className="flex justify-between items-center w-full rounded-lg text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
             >
               <span>{item.title}</span>
             </button>
