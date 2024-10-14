@@ -93,7 +93,7 @@ const App = () => {
     return (
       <>
         <div className="flex">
-          <div className="">
+          <div className="min-h-screen">
             {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} />}
           </div>
 
@@ -280,6 +280,8 @@ const App = () => {
 
         <Route element={<Payroll_Summary />}>
           <Route path="/run-payroll" element={<RunPayroll />} />
+          <Route path="/payroll-menu" element={<PayrollMenu />} />
+
 
         </Route>
 

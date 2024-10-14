@@ -463,7 +463,25 @@ input[type=radio]{
 .arrow-down{
     font-size: 14px !important;
 }
+.filter-icon{
+    font-weight: normal;
+    font-size: 20px !important;
+    margin-left: 10px;
+}
 
+.warning-icon{
+    animation: moveup 3s linear  infinite alternate ;
+    font-size: 36px !important;
+}
+
+@keyframes moveup {
+    0%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(1.4);
+    }
+}
 
 @media screen and (max-width:768px){
     .total-staff-salary{

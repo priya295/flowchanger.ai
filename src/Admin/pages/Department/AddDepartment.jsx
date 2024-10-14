@@ -6,7 +6,7 @@ const AddDepartment = () => {
             <h2 className='xl:w-[50%] xl:m-auto'>Add New Department</h2>
 
             <div className='flex justify-center'>
-            <div className='bg-[#f1f5f9] p-3 lg:w-[100%] xl:w-[50%] w-[100%] mt-2 rounded-md'>
+            <div className='bg-[#fff] set-shadow p-3 lg:w-[100%] xl:w-[50%] w-[100%] mt-2 rounded-md'>
                 <label>Department Name</label><br />
                 <input type='text' className='mt-2 border border-1 pl-3 h-[43px] pr-7
 ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'/>
@@ -134,8 +134,11 @@ const AddDepartment = () => {
                 </table>
 
 
-                <div className='text-end mt-3'>
-                    <button className='bg-[#511992] pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>Save</button>
+                <div className='text-end mt-3 flex gap-[10px] justify-end'>
+                <button className='first-btn pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>
+                    Cancel
+                </button>
+                    <button className='second-btn pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>Save</button>
                 </div>
             </div>
             </div>

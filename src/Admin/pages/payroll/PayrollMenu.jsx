@@ -10,6 +10,10 @@ import permission from "../../../Assets/Images/permission.svg";
 import PayrollSummary from "./PayrollSummary";
 import PayrollSalary from "./RunPayroll";
 import RunPayroll from "./RunPayroll";
+import AdvancePayroll from "./AdvancePayroll";
+import PayrollIncentives from "./PayrollIncentives";
+import PayrollReimbrusments from "./PayrollReimbrusments";
+import PaymentHistory from "./PaymentHistory";
 
 const PayrollMenu = () => {
   return (
@@ -18,57 +22,51 @@ const PayrollMenu = () => {
 
       <div className="tab-section mt-[30px]">
         <Tabs>
-          <TabList className="flex   w-[100%] overflow-x-scroll gap-[22px] bg-[#FFFFFF]  rounded-[12px]  p-[14px] pb-[4px]  set-shadow ">
+          <TabList className="flex   w-[100%] overflow-x-scroll bg-[#FFFFFF]  rounded-[12px]  p-[14px] pb-[4px]  set-shadow ">
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">Payroll Summary</h2>
+                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">Payroll Summary</h2>
               </div>
             </Tab>
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
+                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Run Payroll
                 </h2>
               </div>
             </Tab>
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
-                 Advance
+                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
+                  Advance
                 </h2>
               </div>
             </Tab>
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
+                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Incentives
                 </h2>
               </div>
             </Tab>
             <Tab>
               <div className="flex items-center whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
+                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Reimbrusments
                 </h2>
               </div>
             </Tab>
+{/*           
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
-                  Penalty & Overtime
-                </h2>
-              </div>
-            </Tab>
-            <Tab>
-              <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
+                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   TDS
                 </h2>
               </div>
-            </Tab>
+            </Tab> */}
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
+                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Payment History
                 </h2>
               </div>
@@ -76,16 +74,32 @@ const PayrollMenu = () => {
           </TabList>
 
           <TabPanel>
-                <PayrollSummary/>
+            <PayrollSummary />
           </TabPanel>
 
           <TabPanel>
-                <RunPayroll/>
+            <RunPayroll />
           </TabPanel>
 
           <TabPanel>
 
-            Hello
+            <AdvancePayroll />
+          </TabPanel>
+
+          <TabPanel>
+
+            <PayrollIncentives />
+          </TabPanel>
+
+          
+          <TabPanel>
+
+            <PayrollReimbrusments />
+          </TabPanel>
+
+          <TabPanel>
+
+            <PaymentHistory />
           </TabPanel>
 
         </Tabs>
