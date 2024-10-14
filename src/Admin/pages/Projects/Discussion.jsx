@@ -59,7 +59,7 @@ const Discussion = () => {
           transition={{ duration: 0.3 }}
           className="fixed inset-0 z-50 flex justify-center items-center"
         >
-          <div className="bg-white p-8 rounded-lg shadow-lg h-[30rem] w-[40rem]">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-[40%]  max-[850px]:w-[80%]">
             <h2 className="text-xl border-b pb-6 border-[#D9D9D9] font-semibold mb-4">
               Create a Discussion
             </h2>

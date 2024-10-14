@@ -25,14 +25,14 @@ const MonthlyCalendar = ({ year, month }) => {
 
   return (
     <div className="p-2     ">
-      <h3 className="text-[14px] font-medium text-left mb-0 pl-3 text-[#787575]">
+      <h3 className="text-[14px] font-medium text-left mb-0 pl-3 text-[#787575] mb-[5px]">
         {dayjs(`${year}-${month}-01`).format('MMMM YYYY')}
       </h3>
       
       {/* Render day labels */}
       <div className="grid grid-cols-7 text-center font-semibold text-gray-600">
         {daysOfWeek.map((day, index) => (
-          <div key={index} className="p-2">{day}</div>
+          <div key={index} className="p-2 text-[12px]">{day}</div>
         ))}
       </div>
 
@@ -42,8 +42,8 @@ const MonthlyCalendar = ({ year, month }) => {
           <div
             key={index}
             className={`p-1 rounded-lg ${
-              day.month() + 1 === month ? 'text-black' : 'text-gray-400'
-            }`}
+              day.month() + 1 === month ? 'text-black' : 'text-gray-400 ' 
+            } hover:bg-[#9a29b9] hover:text-white text-[10px]`}
           >
             {day.date()}
           </div>
@@ -58,10 +58,10 @@ const YearlyCalendar = ({ year }) => {
   const months = Array.from({ length: 12 }, (_, index) => index + 1);
 
   return (
-    <div className="p-4 bg-gray-100 w-full">
+    <div className="pt-[20px] xl:p-4 lg:p-4 md:p-4  w-full">
       {/* <h2 className="text-2xl font-bold text-center mb-6">Year {year}</h2> */}
       
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 gap-6 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3">
         {months.map((month) => (
           <MonthlyCalendar key={month} year={year} month={month} />
         ))}
@@ -72,7 +72,7 @@ const YearlyCalendar = ({ year }) => {
 
 const App = () => {
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen ">
       <YearlyCalendar year={2024} />
     </div>
   );

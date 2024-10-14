@@ -122,7 +122,7 @@ const Attendence_summary = () => {
 
             </div>
 
-            <div className='bg-[#f1f1f1] p-[20px] rounded-md mt-[24px] '>
+            <div className='bg-[#ffff] shadow-lg p-[20px] rounded-md mt-[24px] '>
 
                 <div className='flex gap-[14px] justify-between items-center  '>
                     <div className='flex '>
@@ -166,20 +166,20 @@ const Attendence_summary = () => {
 
 
             </div>
-            <div className='bg-[#f1f1f1] p-[20px] rounded-md mt-[24px] flex gap-[10px]'>
-                <Link to="/" className='total-staff text-[blue] w-[12%] text-[14px] font-medium'>Daily Work Entry</Link>
-                <Link to="/" className='total-staff text-[blue] w-[4%] text-[14px] font-medium'>Fine</Link>
-                <Link to="/" className=' w-[12%] text-[blue] text-[14px] font-medium'>Overtime</Link>
+            <div className='bg-[#ffff] shadow-lg p-[20px] rounded-md mt-[24px] flex gap-[10px]'>
+                <Link to="/" className='total-staff text-[blue]  text-[14px] font-medium'>Daily Work Entry</Link>
+                <Link to="/" className='total-staff text-[blue]  text-[14px] font-medium'>Fine</Link>
+                <Link to="/" className='  text-[blue] text-[14px] font-medium'>Overtime</Link>
             </div>
             <div className="relative">
                 <SearchIcon className='absolute top-[34px] right-[7px]' />
-                <input className='bg-[#f1f1f1] w-full pr-[38px] mt-[24px] p-[10px] rounded-md search-staff ' type="text" placeholder='Search Staff by Name , Phone Number or EmployeeID' />
+                <input className='bg-[#ffff] shadow-lg w-full pr-[38px] mt-[24px] p-[10px] rounded-md search-staff ' type="text" placeholder='Search Staff by Name , Phone Number or EmployeeID' />
             </div>
             <div className='flex gap-[10px] items-center mt-[20px]'>
                 <h1>Creative Department</h1>
                 <p className='bg-[#f1f1f1] four'>4</p>
             </div>
-            <div className='bg-[#f1f1f1] p-[20px] mt-[18px] rounded-md'>
+            <div className='bg-[#fff] shadow-lg p-[20px] mt-[18px] rounded-md'>
                 <div className='flex items-center justify-between'>
                     <div>
                         <p className='text-[16px]'>Akash</p>
@@ -190,7 +190,7 @@ const Attendence_summary = () => {
                             {/* Button to open modal */}
                             <button
                                 onClick={openModal6}
-                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none"
+                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] shadow-lg rounded-md focus:outline-none"
                             >
                                 P I Present
                             </button>
@@ -198,7 +198,7 @@ const Attendence_summary = () => {
                             {/* Modal overlay and content */}
                             {isOpen6 && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
+                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[100%] overflow-scroll p-6">
                                         <div className='flex items-center justify-between'>
                                             <div className='mb-[20px]'>
                                                 <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Present Day </h2>
@@ -293,7 +293,7 @@ const Attendence_summary = () => {
                             {/* Button to open modal */}
                             <button
                                 onClick={openModal2}
-                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none"
+                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] shadow-lg rounded-md focus:outline-none"
                             >
                                 HD I HalfDay
                             </button>
@@ -301,7 +301,7 @@ const Attendence_summary = () => {
                             {/* Modal overlay and content */}
                             {isOpen2 && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
+                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[100%] overflow-scroll p-6">
                                         <div className='flex items-center justify-between'>
                                             <div className='mb-[20px]'>
                                                 <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Half Day </h2>
@@ -395,7 +395,7 @@ const Attendence_summary = () => {
                             {/* Button to open modal */}
                             <button
                                 onClick={openModal0}
-                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none"
+                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] shadow-lg rounded-md focus:outline-none"
                             >
                                 F I Fine
                             </button>
@@ -403,7 +403,7 @@ const Attendence_summary = () => {
                             {/* Modal overlay and content */}
                             {isOpen0 && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[470px] p-6">
+                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[100%] overflow-scroll p-6">
                                         <div className=''>
                                             <div className='mb-[20px]'>
                                                 <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Fine </h2>
@@ -516,7 +516,7 @@ const Attendence_summary = () => {
                             {/* Button to open modal */}
                             <button
                                 onClick={openModal12}
-                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none"
+                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] shadow-lg rounded-md focus:outline-none"
                             >
                                 OT I Overtime
                             </button>
@@ -524,7 +524,7 @@ const Attendence_summary = () => {
                             {/* Modal overlay and content */}
                             {isOpen12 && (
                                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[470px] p-6">
+                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[100%] overflow-scroll p-6">
                                         <div className=''>
                                             <div className='mb-[20px]'>
                                                 <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Overtime Day </h2>
@@ -672,7 +672,7 @@ const Attendence_summary = () => {
                             {/* Button to open modal */}
                             <button
                                 onClick={openModal}
-                                className=" btns px-6 py-3 text-[14px] text-black bg-[white] rounded-md focus:outline-none"
+                                className=" btns px-6 py-3 text-[14px] text-black bg-[white] shadow-lg rounded-md focus:outline-none"
                             >
                                 A I Absent
                             </button>
