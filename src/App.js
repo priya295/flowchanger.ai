@@ -167,7 +167,7 @@ const App = () => {
   function Calender_Layout() {
     return (
       <>
-        <div className="flex w-full md:flex md:flex-col" >
+        <div className="flex w-full  flex-row" >
           <div className="flex min-h-screen ">
             <SideBar />
           </div>
