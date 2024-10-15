@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import group from "../../../Assets/Images/Group.svg";
 import attendance from "../../../Assets/Images/attendance.svg";
@@ -14,15 +14,17 @@ import AdvancePayroll from "./AdvancePayroll";
 import PayrollIncentives from "./PayrollIncentives";
 import PayrollReimbrusments from "./PayrollReimbrusments";
 import PaymentHistory from "./PaymentHistory";
+import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const PayrollMenu = () => {
+  const {selectedTab,setSelectedTab} = useGlobalContext()
   return (
     <div className="staff-menu">
       <h3 className="text-[20px]  font-[Nunito]">Pay Roll</h3>
 
       <div className="tab-section mt-[30px]">
-        <Tabs>
-          <TabList className="flex   w-[100%] overflow-x-scroll bg-[#FFFFFF]  rounded-[12px]  p-[14px] pb-[4px]  set-shadow ">
+      <Tabs selectedIndex={selectedTab} onSelect={(index) => setSelectedTab(index)}>
+          <TabList className="flex   w-[100%] overflow-x-scroll bg-[#FFFFFF]  rounded-[12px]  p-[4px] pb-[4px]  set-shadow ">
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">Payroll Summary</h2>
@@ -56,14 +58,7 @@ const PayrollMenu = () => {
                 </h2>
               </div>
             </Tab>
-{/*           
-            <Tab>
-              <div className="flex items-center  whitespace-nowrap mr-[20px]">
-                <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
-                  TDS
-                </h2>
-              </div>
-            </Tab> */}
+ 
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">

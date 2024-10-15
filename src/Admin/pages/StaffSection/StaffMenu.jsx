@@ -14,15 +14,17 @@ import BankDetails from "./BankDetails";
 import SalaryDetails from "./SalaryDetails";
 import LeaveBalance from "../StaffSection/LeaveBalance";
 import Permission from "./Permisson";
+import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const StaffMenu = () => {
+  const {staffTab,setStaffTab} = useGlobalContext()
   return (
-    <div className="staff-menu">
+    <div className="staff-menu p-[10px]">
       <h3 className="text-[20px]  font-[Nunito]">My Staff</h3>
 
       <div className="tab-section mt-[30px]">
-        <Tabs>
-          <TabList className="flex   w-[100%] overflow-x-scroll gap-[22px] bg-[#FFFFFF]  rounded-[12px]  p-[14px] pb-[4px]  set-shadow ">
+      <Tabs selectedIndex={staffTab} onSelect={(index) => setStaffTab(index)}>
+          <TabList className="flex   w-[100%] overflow-x-scroll gap-[22px] bg-[#FFFFFF]  rounded-[12px]  p-[4px] pb-[4px]  set-shadow ">
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <img src={group} />

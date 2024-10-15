@@ -6,8 +6,9 @@ import DownloadIcon from '@mui/icons-material/Download';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 const PayrollSummary = () => {
-
+    const {setSelectedTab,setStaffTab} = useGlobalContext()
     const [toggleDrop, setToggleDrop] = useState(false);
 
     function handledrop() {
@@ -46,16 +47,16 @@ const PayrollSummary = () => {
     };
     return (
         <div className='mt-[20px]'>
-            <div className='flex justify-between items-end flex-col xl:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
-                <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row'>
+            <div className='flex justify-between items-end flex-col xl:flex-row lg:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
+                <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row w-full'>
 
                     <div className='xl:w-[240px]'>
-                        <label htmlFor="" className='text-[14px]'>Payroll Month</label>
-                    <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' />
+                        <label htmlFor="" className='text-[14px] font-medium'>Payroll Month</label>
+                    <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal' />
                     </div>
                     <div className='xl:w-[240px]'>
-                    <label htmlFor="" className='text-[14px]'>Company Branches</label>
-                    <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'>
+                    <label htmlFor="" className='text-[14px] font-medium'>Company Branches</label>
+                    <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal'>
                         <option>All Branches</option>
                         <option>Demo Main Branchs</option>
 
@@ -63,8 +64,8 @@ const PayrollSummary = () => {
                     </div>
 
                     <div className='xl:w-[240px]'>
-                    <label htmlFor="" className='text-[14px]'>Departments</label>
-                    <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'>
+                    <label htmlFor="" className='text-[14px] font-medium'>Departments</label>
+                    <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal'>
                         <option>All Departments</option>
                         <option>Website</option>
 
@@ -78,29 +79,29 @@ const PayrollSummary = () => {
                 </div>
             </div>
 
-            <div className='justify-between flex'>
+            <div className='justify-between flex flex-col xl:flex-row'>
 
 
 
                 <div className='xl:w-[60%]'>
                     <div className='bg-white set-shadow mt-[20px] rounded-md p-[20px]'>
-                        <Link to="/payroll-salary" className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                            <p className='text-[13px] w-[300px]'>Total Payroll <InfoIcon /> </p>
+                        <button onClick={()=>{setSelectedTab(1)}}  className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center w-full'>
+                            <p className='text-[13px] xl:w-[300px] w-[107px] text-left'>Total Payroll <InfoIcon /> </p>
                             <p className='text-[13px]'>0 Staff</p>
                             <p className='text-[13px]'>₹ 0.00</p>
-                        </Link>
+                        </button>
 
-                        <Link to="/payroll-salary" className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                            <p className='text-[13px] w-[300px]'>Paid <InfoIcon /> </p>
+                        <button  onClick={()=>{setSelectedTab(1)}}  className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center w-full'>
+                            <p className='text-[13px] xl:w-[300px] w-[107px] text-left'>Paid <InfoIcon /> </p>
                             <p className='text-[13px]'>0 Staff</p>
                             <p className='text-[13px]'>₹ 0.00</p>
-                        </Link>
+                        </button>
 
-                        <Link to="/payroll-salary" className='flex  pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                            <p className='text-[13px] w-[300px]'>Pending <InfoIcon /> </p>
+                        <button  onClick={()=>{setSelectedTab(1)}}  className='flex  pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] w-full' >
+                            <p className='text-[13px] xl:w-[300px] w-[107px] text-left'>Pending <InfoIcon /> </p>
                             <p className='text-[13px]'>0 Staff</p>
                             <p className='text-[13px]'>₹ 0.00</p>
-                        </Link>
+                        </button>
 
                     </div>
 
@@ -108,34 +109,34 @@ const PayrollSummary = () => {
 
                         <h2 className='p-[20px] border-b'>Earning Details</h2>
                         <div className='p-[20px]'>
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Work Basis Payment </p>
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Work Basis Payment </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Incentives </p>
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Incentives </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Reimbursement                </p>
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Reimbursement                </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Bonus                </p>
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Bonus                </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Overtime Pay
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Overtime Pay
                                 </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
                             <div className='flex pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Other Earnings
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Other Earnings
                                 </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
@@ -159,7 +160,7 @@ const PayrollSummary = () => {
                                 {
                                     toggleDrop &&
 
-                                    <div className="absolute w-[98%] xl:w-[300px] xl:left-[-270px]  lg:w-[200px] lg:left-[-100px]  md:w-[200px] md:left-[-100px] left-[4px] right-0 z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                    <div className="absolute w-[300px] xl:w-[300px] xl:left-[-270px]  lg:w-[322px] lg:left-[-302px]  md:w-[322px] md:left-[-302px]  right-[-10px] z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                         <div className="py-1" role="none">
                                             <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Provident Fund Challan Report</NavLink>
                                             <NavLink to="/day-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> ESI Challan Report</NavLink>
@@ -173,8 +174,8 @@ const PayrollSummary = () => {
                         </div>
                         <div className='p-[20px]'>
                             <div>
-                                <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                    <p className='text-[13px] w-[300px]'>Total Provident Fund
+                                <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                    <p className='text-[13px] xl:w-[300px] w-[107px]'>Total Provident Fund
                                     </p>
                                     <p className='text-[13px] pl-[31px]'>0 Staff</p>
                                     <p className='text-[13px] flex gap-[10px] relative right-[-23px] items-center'>₹ 0.00
@@ -218,8 +219,8 @@ const PayrollSummary = () => {
                             </div>
 
                             <div>
-                                <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                    <p className='text-[13px] w-[300px]'>Total Labour Welfare Fund Tax
+                                <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                    <p className='text-[13px] xl:w-[300px] w-[107px]'>Total Labour Welfare Fund Tax
                                     </p>
                                     <p className='text-[13px] pl-[31px]'>0 Staff</p>
                                     <p className='text-[13px] flex gap-[10px] relative right-[-23px] items-center'>₹ 0.00
@@ -254,8 +255,8 @@ const PayrollSummary = () => {
                             </div>
 
                             <div>
-                                <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                    <p className='text-[13px] w-[300px]'>Total Employees' State Insurance
+                                <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                    <p className='text-[13px] xl:w-[300px] w-[107px]'>Total Employees' State Insurance
 
                                     </p>
                                     <p className='text-[13px] pl-[31px]'>0 Staff</p>
@@ -290,20 +291,20 @@ const PayrollSummary = () => {
                                 </div>
                             </div>
 
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Bonus                </p>
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Bonus                </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
 
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Total Professional Tax
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Total Professional Tax
                                 </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
                             <div className='flex pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Total Tax Deducted at Source  <InfoIcon />
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Total Tax Deducted at Source  <InfoIcon />
 
                                 </p>
                                 <p className='text-[13px]'>0 Staff</p>
@@ -323,7 +324,7 @@ const PayrollSummary = () => {
                                 {
                                     toggleDrop1 &&
 
-                                    <div className="absolute w-[98%] xl:w-[300px] xl:left-[-270px]  lg:w-[200px] lg:left-[-100px]  md:w-[200px] md:left-[-100px] left-[4px] right-0 z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                                    <div className="absolute w-[300px] xl:w-[300px] xl:left-[-270px]  lg:w-[322px] lg:left-[-302px]  md:w-[322px] md:left-[-302px]  right-[-10px] z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                         <div className="py-1" role="none">
                                             <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Loan Report</NavLink>
 
@@ -334,18 +335,18 @@ const PayrollSummary = () => {
                             </div>
                         </div>
                         <div className='p-[20px]'>
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Given </p>
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Given </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
-                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Received </p>
+                            <div className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center'>
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Received </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
                             </div>
                             <div className='flex  pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000]'>
-                                <p className='text-[13px] w-[300px]'>Pending Loan Amount
+                                <p className='text-[13px] xl:w-[300px] w-[107px]'>Pending Loan Amount
                                 </p>
                                 <p className='text-[13px]'>0 Staff</p>
                                 <p className='text-[13px]'>₹ 0.00</p>
@@ -356,10 +357,10 @@ const PayrollSummary = () => {
                     </div>
                 </div>
 
-                <div className='w-[35%]'>
+                <div className='xl:w-[35%] w-full'>
                     <div className='bg-white set-shadow rounded-md  mt-[20px]'>
                         <h2 className='p-[20px] border-b font-normal '>Pending Actions</h2>
-                        <Link to="#" className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px] flex items-center'>Verify Bank Account (1) <ArrowRightAltIcon /></Link>
+                        <Link to="/staff-menu" onClick={()=>{setStaffTab(2)}} className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px] flex items-center'>Verify Bank Account (1) <ArrowRightAltIcon /></Link>
                         <Link to="#" className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px]'>Finalize Payroll (0) </Link>
                         <Link to="#" className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px]'>Add Salary Details (0)</Link>
                         <Link to="#" className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px]'>Approve Leaves (0) </Link>

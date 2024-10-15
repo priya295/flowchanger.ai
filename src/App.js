@@ -143,7 +143,7 @@ const App = () => {
       <>
         <div className="flex">
           <div className="">
-            {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} /> }
+            {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} />}
           </div>
 
           {/* container for navbar and outlet */}
@@ -167,8 +167,10 @@ const App = () => {
   function Calender_Layout() {
     return (
       <>
-        <div className="flex w-full">
-          <SideBar />
+        <div className="flex w-full md:flex md:flex-col" >
+          <div className="flex min-h-screen ">
+            <SideBar />
+          </div>
           <div className="w-full">
             <NavBar />
             <>
@@ -185,11 +187,11 @@ const App = () => {
   function Payroll_Summary() {
     return (
       <>
-         <div className="flex w-full">
+        <div className="flex w-full">
           <SideBar />
           <div className="w-full">
             <NavBar />
-            <div className="p-[20px] w-full">
+            <div className="p-[20px] w-full h-lvh overflow-scroll">
               <PayrollMenu />
               {/* <Outlet /> */}
             </div>
@@ -197,7 +199,7 @@ const App = () => {
           </div>
         </div>
       </>
-     );
+    );
   }
 
   return (
@@ -277,8 +279,8 @@ const App = () => {
 
         </Route>
         <Route element={<Client_Panel />}>
-           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
-           <Route path="/task" element={<Task />} />
+          {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
+          <Route path="/task" element={<Task />} />
 
 
 
