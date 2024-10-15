@@ -66,6 +66,7 @@ import CalenderWeekly from '../src/Admin/pages/Calender/CalenderWeekly'
 import Task from "./Admin/pages/Tasks/Task";
 import ClientHeader from "./Client_Panel/ClientHeader";
 import SidebarClient from "./Client_Panel/SidebarClient";
+import AddNewTask from "./Admin/pages/Projects/AddNewTask";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -182,8 +183,10 @@ const App = () => {
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path = "/addnewtask" element = {<AddNewTask/>}/>
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
           <Route path="/add-department" element={<AddDepartment />} />
+          <Route path="/task" element={<Task />} />
 
 
 
@@ -224,6 +227,7 @@ const App = () => {
           <Route path="/day-wise" element={<CalenderDay />} />
           <Route path="/year-wise" element={<CalenderYear />} />
           <Route path="/week-wise" element={<CalenderWeekly />} />
+        
 
           <Route
             path="/background-verification"
@@ -234,7 +238,7 @@ const App = () => {
         </Route>
         <Route element={<Client_Panel />}>
            {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
-           <Route path="/task" element={<Task />} />
+         
 
 
 

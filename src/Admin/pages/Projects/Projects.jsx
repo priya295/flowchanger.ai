@@ -76,11 +76,11 @@ const Projects = () => {
                   </Link>
                 </td>
 
-                <td className="text-[12px] w-[90px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">
+                <td className="text-[12px] w-[96px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">
                   43
                 </td>
 
-                <td className="flex flex-col w-[226px] p-[10px] break-words">
+                <td className="flex flex-col w-[242px] p-[10px] break-words">
                   <Link className="text-[11px] text-[#2563eb]" to="/">
                     soul relation intro
                   </Link>{" "}
@@ -89,14 +89,14 @@ const Projects = () => {
                   </Link>
                 </td>
 
-                <td className="text-[12px] p-[10px] w-[182px] whitespace-nowrap	">
+                <td className="text-[12px] p-[10px] w-[192px] whitespace-nowrap	">
                   13-08-2024
                 </td>
 
-                <td className="text-[12px] p-[10px]  w-[180px]   whitespace-nowrap	">
+                <td className="text-[12px] p-[10px]  w-[192px]   whitespace-nowrap	">
                   13-08-2024
                 </td>
-                <td className="text-[12px] p-[10px] w-[180px] whitespace-nowrap	">
+                <td className="text-[12px] p-[10px] w-[192px] whitespace-nowrap	">
                   19-08-2024
                 </td>
               </td>
