@@ -56,7 +56,7 @@ const Clients = () => {
             title:
                 <div>
                     <table className="w-full">
-                        <thead>
+                        <thead className=" rounded-lg border-b border-[#e5e7eb]">
                             <tr>
 
                                 <th className="border-r p-[10px] w-[30px] font-medium   whitespace-nowrap"><input className="text-[12px] h-[12px] " type="checkbox" /></th>
@@ -224,11 +224,11 @@ const Clients = () => {
                         <PersonIcon className="newadd mr-[5px]" />Contacts</Link>
                 </div>
 
-                <div className="p-[20px] summary-border w-full">
+                <div className="p-[20px] summary-border w-full rounded-lg">
                     <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Clients</h2>
 
 
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center mb-[14px]">
                         <div className="flex gap-[10px]">
                             <div className="relative inline-block text-left">
                                 {/* Button to open/close the dropdown */}
@@ -279,16 +279,12 @@ const Clients = () => {
                         </div>
                     </div>
 
-
-                </div>
-
-
-                {accordionItems.map((item, index) => (
-                    <div key={index} className="">
+                    {accordionItems.map((item, index) => (
+                    <div key={index} className="bg-white rounded-lg shadow-lg border border-grey-300">
                         {/* Accordion Header */}
                         <button
                             onClick={() => handleToggle(index)}
-                            className=" w-full text-left bg-[white]  rounded-lg shadow-lg focus:outline-none"
+                            className=" w-full text-left  focus:outline-none"
                         >
                             <span>{item.title}</span>
 
@@ -303,6 +299,12 @@ const Clients = () => {
                         )}
                     </div>
                 ))}
+
+
+                </div>
+
+
+             
 
 
             </div>
