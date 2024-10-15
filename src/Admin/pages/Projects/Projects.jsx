@@ -35,9 +35,9 @@ const Projects = () => {
       title: (
         <div>
           <table className="w-full">
-            <thead className="bg-white rounded-lg shadow-lg">
+            <thead className=" rounded-lg border-b border-[#e5e7eb]">
               <tr>
-                <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">
+                <th className="text-[12px] font-medium p-[12px] w-[100px] border-r whitespace-nowrap">
                   Status(01)
                 </th>
 
@@ -67,8 +67,8 @@ const Projects = () => {
       ),
       content: (
         <table className="w-full ">
-          <tbody>
-            <tr>
+          <tbody className="">
+            <tr className="border-b border-[#e5e7eb]">
               <td className="flex p-[0]">
                 <td className="p-[10px] w-[100px]">
                   <Link className="text-[10px]  text-[#47cc00] " to="/">
@@ -80,7 +80,7 @@ const Projects = () => {
                   43
                 </td>
 
-                <td className="flex flex-col w-[226px] p-[10px] break-words">
+                <td className="flex flex-col w-[234px] p-[10px] whitespace-nowrap ">
                   <Link className="text-[11px] text-[#2563eb]" to="/">
                     soul relation intro
                   </Link>{" "}
@@ -93,10 +93,44 @@ const Projects = () => {
                   13-08-2024
                 </td>
 
-                <td className="text-[12px] p-[10px]  w-[180px]   whitespace-nowrap	">
+                <td className="text-[12px] p-[10px]  w-[184px]   whitespace-nowrap	">
                   13-08-2024
                 </td>
-                <td className="text-[12px] p-[10px] w-[180px] whitespace-nowrap	">
+                <td className="text-[12px] p-[10px] w-[184px] whitespace-nowrap	">
+                  19-08-2024
+                </td>
+              </td>
+            </tr>
+
+            <tr>
+              <td className="flex p-[0]">
+                <td className="p-[10px] w-[100px]">
+                  <Link className="text-[10px]  text-[#47cc00] " to="/">
+                    Complete
+                  </Link>
+                </td>
+
+                <td className="text-[12px] w-[90px] font-medium p-[10px] text-[#2563eb] hover:text-blue-950">
+                  43
+                </td>
+
+                <td className="flex flex-col w-[234px] p-[10px] whitespace-nowrap ">
+                  <Link className="text-[11px] text-[#2563eb]" to="/">
+                    soul relation intro
+                  </Link>{" "}
+                  <Link className="text-[9px] text-[#000]" to="/">
+                    #12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING
+                  </Link>
+                </td>
+
+                <td className="text-[12px] p-[10px] w-[182px] whitespace-nowrap	">
+                  13-08-2024
+                </td>
+
+                <td className="text-[12px] p-[10px]  w-[184px]   whitespace-nowrap	">
+                  13-08-2024
+                </td>
+                <td className="text-[12px] p-[10px] w-[184px] whitespace-nowrap	">
                   19-08-2024
                 </td>
               </td>
@@ -121,7 +155,7 @@ const Projects = () => {
           </Link>
         </div>
 
-        <div className="p-[20px] summary-border w-full">
+        <div className="p-[20px] summary-border w-full rounded-lg ">
           <h2 className="font-medium mb-[10px] flex gap-[6px] items-center">
             {" "}
             <LibraryBooksIcon />
@@ -131,7 +165,7 @@ const Projects = () => {
           <div className="flex items-center gap-[14px] mb-[10px]">
           
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center mb-[14px]">
             <div className="flex gap-[10px]">
               <div className="relative inline-block text-left">
                 {/* Button to open/close the dropdown */}
@@ -191,26 +225,30 @@ const Projects = () => {
               <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
             </div>
           </div>
-        </div>
-
+         
+         
         {accordionItems.map((item, index) => (
-          <div key={index} className="">
+          <div key={index} className="bg-white rounded-lg shadow-lg border border-grey-300">
             {/* Accordion Header */}
             <button
               onClick={() => handleToggle(index)}
-              className="flex justify-between items-center w-full rounded-lg text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+              className="flex justify-between items-center w-full rounded-lg text-left text-gray-800 focus:outline-none"
             >
               <span>{item.title}</span>
             </button>
 
             {/* Accordion Content */}
             {openIndex === index && (
-              <div className="mb-[10px] text-gray-700 bg-white">
+              <div className=" rounded-lg text-gray-700 bg-white">
                 {item.content}
               </div>
             )}
           </div>
         ))}
+
+
+        </div>
+
       </div>
     </div>
   );

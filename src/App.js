@@ -66,6 +66,7 @@ import CalenderWeekly from '../src/Admin/pages/Calender/CalenderWeekly'
 import Task from "./Admin/pages/Tasks/Task";
 import ClientHeader from "./Client_Panel/ClientHeader";
 import SidebarClient from "./Client_Panel/SidebarClient";
+import AddNewTask from "./Admin/pages/Projects/AddNewTask";
 import DepartmentDetail from "./Admin/pages/Department/DepartmentDetails";
 import PayrollMenu from "./Admin/pages/payroll/PayrollMenu";
 import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
@@ -228,14 +229,16 @@ const App = () => {
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path = "/addnewtask" element = {<AddNewTask/>}/>
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
-          <Route path="/adddepartment" element={<AddDepartment />} />
+           <Route path="/task" element={<Task />} />
+           <Route path="/adddepartment" element={<AddDepartment />} />
 
 
 
 
 
-
+ 
 
 
 
@@ -270,6 +273,12 @@ const App = () => {
           <Route path="/edit-penalty" element={<EditPenalty />} />
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
+          <Route path="/calender" element={<Calender />} />
+          <Route path="/meeting" element={<Meeting />} />
+          <Route path="/day-wise" element={<CalenderDay />} />
+          <Route path="/year-wise" element={<CalenderYear />} />
+          <Route path="/week-wise" element={<CalenderWeekly />} />
+        
 
           <Route
             path="/background-verification"
@@ -281,6 +290,8 @@ const App = () => {
         <Route element={<Client_Panel />}>
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
           <Route path="/task" element={<Task />} />
+           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
+         
 
 
 
