@@ -42,7 +42,7 @@ const App = () => {
             return (
               <>
               <div className="flex">
-              <div className="">
+              <div>
             {toggleSideBar && <SideBar toggleSideBar = {toggleSideBar}/>}
             </div> 
        

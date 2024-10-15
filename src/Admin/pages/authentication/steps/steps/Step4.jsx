@@ -1,6 +1,7 @@
 import { FormContext } from '../../../../../store/store';
 import React from 'react';
 import { useContext } from 'react';
+import ImageUploader from 'react-images-uploading';
 import { CiImageOn } from "react-icons/ci";
 
 const Step5 = () => {
@@ -28,13 +29,24 @@ const Step5 = () => {
          </div>
          {/* options to choose image */}
          <div className="flex justify-center items-center">
-            <button
+            {/* <button
             onClick={nextStep}
               type="submit"
               className="w-[80%] bg-purple-600 text-white py-3 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
             >
               Choose Image
-            </button>
+            </button> */}
+            {/* }; */}
+
+
+          <ImageUploader
+          withIcon={true}
+         buttonText="Choose images"
+         onChange={onChange}
+         imgExtension={['.jpg', '.gif', '.png']}
+          maxFileSize={5242880}
+         />
+
             </div>
               <div className='mt-4'>
               <p className='flex justify-center items-center'><span><CiImageOn /></span>or drop the file here</p>
