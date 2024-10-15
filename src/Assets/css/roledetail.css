@@ -83,6 +83,7 @@
     
 .tab-section .react-tabs{
     cursor: pointer;
+    padding: 1px;
 }
 .tab-section .react-tabs .react-tabs__tab--selected:focus-visible{
     outline: none;
@@ -135,17 +136,25 @@
     .custom-body-class .sidebar{
         left: 0 !important;
         z-index: 999 !important;
+
     }
 }
 
 .sidebar{
     transition: all 0.3s linear;
 }
+/* .set-z{
+    z-index:-1;
+} */
+ .ReactModal__Overlay{
+    z-index: 22;
+ }
 
 .custom-body-class .sidebar{
     left: -300px;
     z-index: -1111;
     position: absolute;
+    
 }
 
  .cancel-icon{
@@ -203,21 +212,21 @@ input[type=radio]{
     color: white;
     height: 44px;
     transition: all 0.3s linear;
-    border: 1px solid #8A25B0;
+    border: 1px solid #27004a;
     white-space: nowrap;
     display: flex;
     background: white !important;
-    color: #8A25B0 !important;
+    color: #27004a !important;
 }
 
 .tabs-attendance .react-tabs .react-tabs__tab{
     border-radius: 10px;
-    background: #8A25B0;
+    background: #27004a;
     padding: 0px 20px;
     color: white;
     height: 44px;
     transition: all 0.3s linear;
-    border: 1px solid #8A25B0;
+    border: 1px solid #27004a;
     white-space: nowrap;
     display: flex;
 }
@@ -234,7 +243,7 @@ input[type=radio]{
 .sidelinks .active{
     background-color: #f0f8fd;
     border-radius: 10px;
-    color: #8a25b0;
+    color: #27004a;
 }
 
 .edit-sidebar{
@@ -262,7 +271,7 @@ input[type=radio]{
     transform:rotateY(0deg);
 } */
 .calender-icon{
-    color: #8A25B0;
+    color: #27004a;
     background: #f1efef;
     padding: 4px;
     border-radius: 5px;
@@ -451,8 +460,28 @@ input[type=radio]{
     color: white;
 }
 
+.arrow-down{
+    font-size: 14px !important;
+}
+.filter-icon{
+    font-weight: normal;
+    font-size: 20px !important;
+    margin-left: 10px;
+}
 
+.warning-icon{
+    animation: moveup 3s linear  infinite alternate ;
+    font-size: 36px !important;
+}
 
+@keyframes moveup {
+    0%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(1.4);
+    }
+}
 
 @media screen and (max-width:768px){
     .total-staff-salary{

@@ -111,6 +111,56 @@ const AttendanceTab = () => {
     }
     // onclick end timing
 
+    //  onclick auto half day button
+
+    const [modalIsOpen16, setIsOpen16] = React.useState(false);
+    function openModal16() {
+        setIsOpen16(true);
+    }
+    function afterOpenModal16() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal16() {
+        setIsOpen16(false);
+    }
+       // onclick auto half day button
+
+
+
+    // onclick mandatory half day button
+    const [modalIsOpen17, setIsOpen17] = React.useState(false);
+    function openModal17() {
+        setIsOpen17(true);
+    }
+    function afterOpenModal17() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal17() {
+        setIsOpen17(false);
+    }
+    // onclick mandatory half day button
+
+    // onclick mandatory full day button
+    const [modalIsOpen18, setIsOpen18] = React.useState(false);
+    function openModal18() {
+        setIsOpen18(true);
+    }
+    function afterOpenModal18() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal18() {
+        setIsOpen18(false);
+    }
+    // onclick mandatory half day button
 
     // onclick update attendance 
     const [modalIsOpen5, setIsOpen5] = React.useState(false);
@@ -555,7 +605,7 @@ const AttendanceTab = () => {
                                 </tbody>
                             </table>
 
-                            <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
+                            <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button className="first-btn" onClick={closeModal}>Cancel</button><button className="second-btn">Confirm</button>
                             </div>
                         </div>
@@ -645,9 +695,9 @@ const AttendanceTab = () => {
 
                                 </tbody>
                             </table>
-                            <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
-                                <button class="first-btn" onClick={closeModal}>Cancel</button>
-                                <button class="second-btn">Update Work Timings for All Staff</button></div>
+                            <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
+                                <button className="first-btn" onClick={closeModal}>Cancel</button>
+                                <button className="second-btn">Update Work Timings for All Staff</button></div>
                         </div>
                     </TabPanel>
 
@@ -1085,7 +1135,7 @@ const AttendanceTab = () => {
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Automation Rules for All Staff</h2>
                 <button onClick={closeModal7} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
-                  
+
                     <div className='flex justify-between items-center p-[10px] border border-b border-l-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
                         <div className='flex gap-[12px] items-center '>
                             <img src={selfie} className='h-[25px] w-[25px]' />
@@ -1131,7 +1181,7 @@ const AttendanceTab = () => {
                             <h4 className='m-0'>Auto half day if late by</h4>
                         </div>
                         <div className="flex items-center  ">
-                                        <button className='first-btn'>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal16}>10 Minutes</button>
                         </div>
                     </div>
 
@@ -1141,7 +1191,7 @@ const AttendanceTab = () => {
                             <h4 className='m-0'>Mandatory half day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                                        <button className='first-btn'>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal17}>10 Minutes</button>
                         </div>
                     </div>
 
@@ -1151,11 +1201,11 @@ const AttendanceTab = () => {
                             <h4 className='m-0'>Mandatory full day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                                        <button className='first-btn'>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal18}>10 Minutes</button>
                         </div>
                     </div>
 
-                   
+
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal7}>Cancel</button>
@@ -1168,6 +1218,135 @@ const AttendanceTab = () => {
             {/* onclick update automation rules */}
 
 
+
+            {/* onclick autohalf day minutes  button */}
+
+            <Modal
+                isOpen={modalIsOpen16}
+                onAfterOpen={afterOpenModal16}
+                onRequestClose={closeModal16}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Auto half day if late by
+                </h2>
+                <button onClick={closeModal16} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className='pb-2 p-[12px]'>
+
+                    <label className="text-[13px] xl:text-[14px] font-medium">Select Duration</label>
+
+                    <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                        </div>
+                    </div>
+
+
+
+                    <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
+                        <button className="first-btn" onClick={closeModal16}>Turn Off</button>
+                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                    </div>
+
+                </div>
+            </Modal>
+
+
+            {/* onclick autohalf day minutes  button */}
+
+
+              {/* onclick mandatory half day minutes  button */}
+
+              <Modal
+                isOpen={modalIsOpen17}
+                onAfterOpen={afterOpenModal17}
+                onRequestClose={closeModal17}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Mandatory half day hours
+
+                </h2>
+                <button onClick={closeModal17} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className='pb-2 p-[12px]'>
+
+                    <label className="text-[13px] xl:text-[14px] font-medium">Select Duration</label>
+
+                    <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                        </div>
+                    </div>
+
+
+
+                    <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
+                        <button className="first-btn" onClick={closeModal17}>Turn Off</button>
+                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                    </div>
+
+                </div>
+            </Modal>
+
+
+            {/* onclick mandatory half day minutes  button */}
+
+
+                {/* onclick mandatory full day minutes  button */}
+
+                <Modal
+                isOpen={modalIsOpen18}
+                onAfterOpen={afterOpenModal18}
+                onRequestClose={closeModal18}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Mandatory Full day hours
+
+                </h2>
+                <button onClick={closeModal18} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className='pb-2 p-[12px]'>
+
+                    <label className="text-[13px] xl:text-[14px] font-medium">Select Duration</label>
+
+                    <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                        </div>
+                    </div>
+
+
+
+                    <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
+                        <button className="first-btn" onClick={closeModal18}>Turn Off</button>
+                        <button className="second-btn" onClick={openModal18} >Confirm</button>
+                    </div>
+
+                </div>
+            </Modal>
+
+
+            {/* onclick mandatory full day minutes  button */}
+
+            
 
             {/* when onclick update attendance mods for aall staff successfull msg */}
             <Modal
@@ -1189,7 +1368,7 @@ const AttendanceTab = () => {
 
 
             {/* when onclick update attendance mods for aall staff successfull msg */}
-            
+
         </div>
 
 

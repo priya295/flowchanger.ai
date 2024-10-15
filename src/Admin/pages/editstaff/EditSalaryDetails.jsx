@@ -84,7 +84,7 @@ const EditSalaryDetails = () => {
             <div className="flex items-center  justify-between relative ">
               <button
                 onClick={() => handletoggleButton("addAllowances1")}
-                className="text-[#8A25B0]"
+                className="text-[#27004a]"
               >
                 + Add Allowances
               </button>
@@ -140,7 +140,7 @@ const EditSalaryDetails = () => {
                   onClick={() => handletoggleButton("Employer_PF_Contribution")}
                   name=""
                   id=""
-                  className="h-[25px] w-[100%] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
+                  className="h-[25px] w-[100%] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
                 >
                   {" "}
                   + Add
@@ -173,7 +173,7 @@ const EditSalaryDetails = () => {
                   onClick={() => handletoggleButton("Employer_ESI_Contribution")}
                   name=""
                   id=""
-                  className="h-[25px] w-[100%] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
+                  className="h-[25px] w-[100%] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
                 >
                   {" "}
                   + Add
@@ -225,7 +225,7 @@ const EditSalaryDetails = () => {
                   onClick={() => handletoggleButton("Employer_PF_Contribution2")}
                   name=""
                   id=""
-                  className="h-[25px] w-[100%] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
+                  className="h-[25px] w-[100%] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
                 >
                   {" "}
                   + Add
@@ -257,7 +257,7 @@ const EditSalaryDetails = () => {
                   onClick={() => handletoggleButton("Employer_ESI_Contribution2")}
                   name=""
                   id=""
-                  className="h-[25px] w-[100%] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
+                  className="h-[25px] w-[100%] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm pr-[4px]"
                 >
                   {" "}
                   + Add
@@ -324,7 +324,7 @@ const EditSalaryDetails = () => {
                 </h1>
               </div>
               <div className="flex items-center justify-between relative ">
-                <button onClick={() => handletoggleButton('addAllowances2')} className="text-[#8A25B0]">+ Add Allowances</button>
+                <button onClick={() => handletoggleButton('addAllowances2')} className="text-[#27004a]">+ Add Allowances</button>
 
                 {toggleButton.addAllowances2 && (
                   <>
@@ -355,13 +355,13 @@ const EditSalaryDetails = () => {
       <div className="xl:mt-14 mt-[20px]">
         <h1 className="text-center mb-[10px]">Showing 1-1 of 1 staff</h1>
         <div className="flex justify-center items-center gap-3">
-          <button className="border border-[#8a25b0] rounded-mdtext-[#CFCFCF] p-[18px] text-center relative rounded-md  hover:bg-[#8a25b0] hover:text-white">
+          <button className="border border-[#27004a] rounded-mdtext-[#CFCFCF] p-[18px] text-center relative rounded-md  hover:bg-[#27004a] hover:text-white">
             <ArrowBackIosIcon className="absolute top-[6px] left-[10px]" />
           </button>
-          <button className="border border-[#8a25b0] bg-[#8a25b0] rounded-mdtext-[#CFCFCF] p-[18px] text-center relative rounded-md">
+          <button className="border border-[#27004a] bg-[#27004a] rounded-mdtext-[#CFCFCF] p-[18px] text-center relative rounded-md">
             <span  className="absolute top-[6px] left-[15px] text-white " >1</span>
           </button>
-          <button className="border border-[#8a25b0] rounded-mdtext-[#CFCFCF] p-[18px] text-center relative rounded-md hover:bg-[#8a25b0] hover:text-white">
+          <button className="border border-[#27004a] rounded-mdtext-[#CFCFCF] p-[18px] text-center relative rounded-md hover:bg-[#27004a] hover:text-white">
             <ArrowForwardIosIcon className="absolute top-[6px] left-[6px]"  />
           </button>
         </div>

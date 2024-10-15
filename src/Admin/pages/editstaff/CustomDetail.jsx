@@ -22,7 +22,7 @@ const CustomDetail = () => {
     }
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
+        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z'>
         <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Custom Details
@@ -31,7 +31,7 @@ const CustomDetail = () => {
             </div>
 
 
-            <button  onClick={openModal2}  className='text-[14px] flex items-center font-normal'><AddIcon className='bg-[#8A25B0] text-[10px] text-[#fff] rounded-full mr-3'/>Add Custom Field </button>
+            <button  onClick={openModal2}  className='text-[14px] flex items-center font-normal'><AddIcon className='bg-[#27004a] text-[10px] text-[#fff] rounded-full mr-3'/>Add Custom Field </button>
 
 
 

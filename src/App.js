@@ -7,8 +7,8 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "./Admin/Components/NavBar";
 import SideBar from "./Admin/Components/SideBar";
 import Project from "./Admin/pages/Projects/Project_Data";
-import Role from "./Admin/pages/Roles/RoleDetails";
-import Department from "./Admin/pages/Department/DepartmentDetails";
+import Role_Details from "./Admin/pages/Roles/RoleDetails";
+import Department_Details from "./Admin/pages/Department/DepartmentDetails";
 import AddRole from "./Admin/pages/Roles/Add_Role";
 import AddDepartment from "./Admin/pages/Department/AddDepartment";
 import EditRole from "./Admin/pages/Roles/EditRole";
@@ -67,6 +67,11 @@ import Task from "./Admin/pages/Tasks/Task";
 import ClientHeader from "./Client_Panel/ClientHeader";
 import SidebarClient from "./Client_Panel/SidebarClient";
 import AddNewTask from "./Admin/pages/Projects/AddNewTask";
+import DepartmentDetail from "./Admin/pages/Department/DepartmentDetails";
+import PayrollMenu from "./Admin/pages/payroll/PayrollMenu";
+import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
+import PayrollSalary from "./Admin/pages/payroll/RunPayroll";
+import RunPayroll from "./Admin/pages/payroll/RunPayroll";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -89,7 +94,7 @@ const App = () => {
     return (
       <>
         <div className="flex">
-          <div className="">
+          <div className="min-h-screen">
             {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} />}
           </div>
 
@@ -158,6 +163,44 @@ const App = () => {
       </>
     );
   }
+
+
+  function Calender_Layout() {
+    return (
+      <>
+        <div className="flex w-full">
+          <SideBar />
+          <div className="w-full">
+            <NavBar />
+            <>
+              <CalenderHeader />
+              <Outlet />
+            </>
+
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  function Payroll_Summary() {
+    return (
+      <>
+         <div className="flex w-full">
+          <SideBar />
+          <div className="w-full">
+            <NavBar />
+            <div className="p-[20px] w-full">
+              <PayrollMenu />
+              {/* <Outlet /> */}
+            </div>
+
+          </div>
+        </div>
+      </>
+     );
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -167,12 +210,13 @@ const App = () => {
           <Route path="/addnewclient" element={<AddNewClient />} />
           <Route path="/editclient" element={<EditClient />} />
           <Route path="/addrole" element={<AddRole />} />
-          <Route path="/role" element={<Role />} />
+          {/* <Route path="/role" element={<Role_Details />} /> */}
           <Route path="/editrole" element={<EditRole />} />
+          <Route path="/role-detail" element={<Role_Details />} />
           <Route path="/editdepartment" element={<EditDepartment />} />
           <Route path="/staff-menu" element={<StaffMenu />} />
           <Route path="/add-one-staff" element={<AddOneStaff />} />
-          <Route path="/department" element={<Department />} />
+          <Route path="/department-details" element={<DepartmentDetail />} />
           <Route path="/salary_Details" element={<Salary_Details />} />
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/reviewfine" element={<Reviewfine />} />
@@ -185,14 +229,19 @@ const App = () => {
           <Route path="/clients" element={<Clients />} />
           <Route path = "/addnewtask" element = {<AddNewTask/>}/>
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
-          <Route path="/add-department" element={<AddDepartment />} />
-          <Route path="/task" element={<Task />} />
+           <Route path="/task" element={<Task />} />
+           <Route path="/adddepartment" element={<AddDepartment />} />
 
+
+
+
+
+ 
 
 
 
           <Route path="/create-new-project" element={<Add_Project />}></Route>
-          <Route path="/add-department" element={<AddDepartment />} />
+          <Route path="/department-details" element={<Department_Details />} />
           <Route path="/taskstatus" element={<Task_Status />} />
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project />} />
@@ -206,8 +255,8 @@ const App = () => {
           <Route path="/expenseedit" element={<ExpenseEdit />} />
           <Route path="/expensepage" element={<ExpensePage />} />
 
-          <Route path="/subscription-plan" element={<Subscription/>}/>
-          <Route path="/subscription-plan/buy-plan" element={<Buy_plan/>}/>
+          <Route path="/subscription-plan" element={<Subscription />} />
+          <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
         </Route>
 
         <Route element={<Editstaff />}>
@@ -234,7 +283,7 @@ const App = () => {
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
-     
+
         </Route>
         <Route element={<Client_Panel />}>
            {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
@@ -251,11 +300,28 @@ const App = () => {
 
         </Route>
 
-        
-         
+        <Route element={<Payroll_Summary />}>
+          <Route path="/run-payroll" element={<RunPayroll />} />
+          <Route path="/payroll-menu" element={<PayrollMenu />} />
 
 
- 
+        </Route>
+
+
+
+        <Route element={<Calender_Layout />}>
+          <Route path="/calender" element={<Calender />} />
+          <Route path="/meeting" element={<Meeting />} />
+          <Route path="/day-wise" element={<CalenderDay />} />
+          <Route path="/year-wise" element={<CalenderYear />} />
+          <Route path="/week-wise" element={<CalenderWeekly />} />
+
+        </Route>
+
+
+
+
+
         <Route element={<AuthLayout />}>
           <Route path="/authentication" element={<MultiStepForm />} />
         </Route>
