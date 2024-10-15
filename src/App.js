@@ -235,9 +235,6 @@ const App = () => {
            <Route path="/adddepartment" element={<AddDepartment />} />
 
 
-
-
-
  
 
 
