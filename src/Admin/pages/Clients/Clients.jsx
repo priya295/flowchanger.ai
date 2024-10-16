@@ -311,8 +311,7 @@ const Clients = () => {
              
 
 
-            </div>
-        </div>
+         </div>
     );
 };
 export default Clients
