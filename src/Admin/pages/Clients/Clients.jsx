@@ -230,8 +230,6 @@ const Clients = () => {
 
 
                 </div>
-
-
                 {accordionItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-200">
                         {/* Accordion Header */}
