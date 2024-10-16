@@ -19,7 +19,7 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 const PayrollMenu = () => {
   const {selectedTab,setSelectedTab} = useGlobalContext()
   return (
-    <div className="staff-menu">
+    <div className="staff-menu payroll-menus">
       <h3 className="text-[20px]  font-[Nunito]">Pay Roll</h3>
 
       <div className="tab-section mt-[30px]">

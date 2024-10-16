@@ -175,7 +175,7 @@ const AdvancePayroll = () => {
                     </tbody>
 
                     <div className='w-full'>
-                        <h2 className='whitespace-nowrap p-[10px] text-center'>Grand Total</h2>
+                        <h2 className='whitespace-nowrap p-[10px]  pl-0'>Grand Total</h2>
                     </div>
 
                 </table>

@@ -89,31 +89,47 @@ const App = () => {
     );
   }
 
+  // <div className="flex w-full">
+  //         <div className="min-h-screen">
+  //           {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} className="h-full"/>}
+  //         </div>
+
+  //          <div className={`flex flex-col flex-grow overflow-hidden`}>
+  //           <NavBar
+  //             handleToggleSideBar={handleToggleSideBar}
+  //             toggleSideBar={toggleSideBar}
+  //           />
+  //           <main className={`flex-1 overflow-x-hidden overflow-y-auto  h-lvh overflow-scroll  `}>
+  //             <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
+  //               <Outlet />
+  //             </div>
+  //           </main>
+  //         </div>
+  //       </div>
+
   //  function to create layout of the page
   function AdminLayout() {
     return (
       <>
-        <div className="flex">
-          <div className="min-h-screen">
-            {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} />}
-          </div>
+      
 
-          {/* container for navbar and outlet */}
-          <div className={`flex flex-col flex-grow overflow-hidden`}>
-            <NavBar
-              handleToggleSideBar={handleToggleSideBar}
-              toggleSideBar={toggleSideBar}
-            />
-            <main className={`flex-1 overflow-x-hidden overflow-y-auto    `}>
-              <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
-                <Outlet />
-              </div>
-            </main>
+        <div className="flex ">
+          <SideBar />
+          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set ">
+            <NavBar />
+            <div className="p-[10px] w-full h-lvh ">
+               <Outlet />
+            </div>
+
           </div>
         </div>
       </>
     );
   }
+
+
+
+
 
   function Editstaff() {
     return (
@@ -229,13 +245,13 @@ const App = () => {
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
-          <Route path = "/addnewtask" element = {<AddNewTask/>}/>
+          <Route path="/addnewtask" element={<AddNewTask />} />
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
-           <Route path="/task" element={<Task />} />
-           <Route path="/adddepartment" element={<AddDepartment />} />
+          <Route path="/task" element={<Task />} />
+          <Route path="/adddepartment" element={<AddDepartment />} />
 
 
- 
+
 
 
 
@@ -270,12 +286,6 @@ const App = () => {
           <Route path="/edit-penalty" element={<EditPenalty />} />
           <Route path="/salary-overview" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
-          <Route path="/calender" element={<Calender />} />
-          <Route path="/meeting" element={<Meeting />} />
-          <Route path="/day-wise" element={<CalenderDay />} />
-          <Route path="/year-wise" element={<CalenderYear />} />
-          <Route path="/week-wise" element={<CalenderWeekly />} />
-        
 
           <Route
             path="/background-verification"
@@ -287,8 +297,8 @@ const App = () => {
         <Route element={<Client_Panel />}>
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
           <Route path="/task" element={<Task />} />
-           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
-         
+          {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
+
 
 
 
@@ -316,6 +326,8 @@ const App = () => {
           <Route path="/day-wise" element={<CalenderDay />} />
           <Route path="/year-wise" element={<CalenderYear />} />
           <Route path="/week-wise" element={<CalenderWeekly />} />
+
+
 
         </Route>
 

@@ -19,7 +19,7 @@ const NavBar = ({ handleToggleSideBar, toggleSideBar }) => {
   };
 
   return (
-    <div className="w-[100%]  pt-[10px] pb-[10px] xl:pl-[31px] lg:pl-[31px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px]">
+    <div className="w-[100%]  pt-[10px] pb-[10px] xl:pl-[31px] lg:pl-[31px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px] navbar">
       <button onClick={handleAddClass}>
 
         <MenuIcon className="menu-icon"/>

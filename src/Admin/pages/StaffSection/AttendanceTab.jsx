@@ -614,6 +614,10 @@ const AttendanceTab = () => {
 
                     <TabPanel>
                         <div className='first-panel'>
+                            <div className='flex justify-center gap-4 items-center'>
+                                <h2>Select Month</h2>
+                                <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'/>
+                            </div>
                             <table className='w-full'>
                                 <thead className='border-b border-[#000] '>
                                     <th className='p-3 text-[13px]  font-medium'>Day </th>

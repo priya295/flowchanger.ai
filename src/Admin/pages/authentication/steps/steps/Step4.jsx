@@ -42,7 +42,7 @@ const Step5 = () => {
           <ImageUploader
           withIcon={true}
          buttonText="Choose images"
-         onChange={onChange}
+        //  onChange={onChange}
          imgExtension={['.jpg', '.gif', '.png']}
           maxFileSize={5242880}
          />

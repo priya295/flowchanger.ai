@@ -122,8 +122,15 @@ const RunPayroll = () => {
     };
 
     const handleClickOutside = (event) => {
+        handleClickOutside2(event)
         if (!event.target.closest('.dropdown-container')) {
             setActiveDropdown(null);
+        }
+    };
+
+    const handleClickOutside2 = (event) => {
+        if (!event.target.closest('.pay-slip2')) {
+            setToggleDrop37(null);
         }
     };
 
@@ -161,28 +168,24 @@ const RunPayroll = () => {
                         Pay Online
                     </button>
 
-                    <div className='relative'>
+                    <div className='relative flex'>
                         <button className=' text-[14px] font-normal flex w-full items-center gap-[8px] whitespace-nowrap xl:p-[0] lg:p-[0]  xl:bg-[#fff] lg:bg-[#fff]  bg-[#f4f5f9] p-[9px] rounded-[9px]' onClick={handledrop38}>
-
                             <PrintIcon className='sheet-icon' />
                             Pay Slips</button>
-
                         {
                             toggleDrop38 &&
-
                             <div className="absolute w-[98%] xl:w-[300px] xl:left-[-270px]  lg:w-[200px] lg:left-[-100px]  md:w-[200px] md:left-[-100px] left-[4px] right-0 z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                 <div className="py-1" role="none">
                                     <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Download Pay Slip</NavLink>
                                     <NavLink to="/day-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><ShareIcon className='text-[#5173ff] font-normal text-[18px]' /> Share Pay Slip</NavLink>
 
                                 </div>
-
                             </div>
                         }
                     </div>
 
                     <div className='relative text-end '>
-                        <button className='bg-[#e5e7eb] text-[#000] p-[3px] text-[16px] font-normal rounded-md' onClick={handledrop37}><MoreVertIcon /></button>
+                        <button className='pay-slip2 bg-[#e5e7eb] text-[#000] p-[3px] text-[16px] font-normal rounded-md' onClick={handledrop37}><MoreVertIcon /></button>
 
                         {
                             toggleDrop37 &&
@@ -225,7 +228,7 @@ const RunPayroll = () => {
 
 
 
-                <div className='xl:w-[1110px] overflow-scroll flex rounded-md shadow border border-1 mt-4 pl-3 pr-3'>
+                <div className='xl:w-[1067px] overflow-scroll flex rounded-md shadow border border-1 mt-4 pl-3 pr-3'>
                     <table className='table-section mt-4'>
                         <thead className='border border-1 '>
                             <tr>

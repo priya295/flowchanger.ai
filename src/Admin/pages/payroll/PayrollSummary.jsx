@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom';
 import InfoIcon from '@mui/icons-material/Info';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -8,7 +8,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 const PayrollSummary = () => {
-    const {setSelectedTab,setStaffTab} = useGlobalContext()
+    const { setSelectedTab, setStaffTab } = useGlobalContext()
     const [toggleDrop, setToggleDrop] = useState(false);
 
     function handledrop() {
@@ -45,6 +45,28 @@ const PayrollSummary = () => {
     const toggleCollapse3 = () => {
         setIsOpen3(!isOpen3);
     };
+
+    const handleClickOutside = (event) => {
+        handleClickOutside2(event)
+        if (!event.target.closest('.three-dot')) {
+            setToggleDrop(null);
+        }
+    };
+
+    const handleClickOutside2 = (event) => {
+        if (!event.target.closest('.three-dot2')) {
+            setToggleDrop1(null);
+        }
+    };
+
+
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside);
+        return () => {
+            document.removeEventListener('click',  handleClickOutside);
+        };
+    }, []);
     return (
         <div className='mt-[20px]'>
             <div className='flex justify-between items-end flex-col xl:flex-row lg:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
@@ -52,24 +74,24 @@ const PayrollSummary = () => {
 
                     <div className='xl:w-[240px]'>
                         <label htmlFor="" className='text-[14px] font-medium'>Payroll Month</label>
-                    <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal' />
+                        <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal' />
                     </div>
                     <div className='xl:w-[240px]'>
-                    <label htmlFor="" className='text-[14px] font-medium'>Company Branches</label>
-                    <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal'>
-                        <option>All Branches</option>
-                        <option>Demo Main Branchs</option>
+                        <label htmlFor="" className='text-[14px] font-medium'>Company Branches</label>
+                        <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal'>
+                            <option>All Branches</option>
+                            <option>Demo Main Branchs</option>
 
-                    </select>
+                        </select>
                     </div>
 
                     <div className='xl:w-[240px]'>
-                    <label htmlFor="" className='text-[14px] font-medium'>Departments</label>
-                    <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal'>
-                        <option>All Departments</option>
-                        <option>Website</option>
+                        <label htmlFor="" className='text-[14px] font-medium'>Departments</label>
+                        <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-[14px] font-normal'>
+                            <option>All Departments</option>
+                            <option>Website</option>
 
-                    </select>
+                        </select>
                     </div>
 
 
@@ -85,19 +107,19 @@ const PayrollSummary = () => {
 
                 <div className='xl:w-[60%]'>
                     <div className='bg-white set-shadow mt-[20px] rounded-md p-[20px]'>
-                        <button onClick={()=>{setSelectedTab(1)}}  className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center w-full'>
+                        <button onClick={() => { setSelectedTab(1) }} className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center w-full'>
                             <p className='text-[13px] xl:w-[300px] w-[107px] text-left'>Total Payroll <InfoIcon /> </p>
                             <p className='text-[13px]'>0 Staff</p>
                             <p className='text-[13px]'>₹ 0.00</p>
                         </button>
 
-                        <button  onClick={()=>{setSelectedTab(1)}}  className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center w-full'>
+                        <button onClick={() => { setSelectedTab(1) }} className='flex border-b pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] items-center w-full'>
                             <p className='text-[13px] xl:w-[300px] w-[107px] text-left'>Paid <InfoIcon /> </p>
                             <p className='text-[13px]'>0 Staff</p>
                             <p className='text-[13px]'>₹ 0.00</p>
                         </button>
 
-                        <button  onClick={()=>{setSelectedTab(1)}}  className='flex  pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] w-full' >
+                        <button onClick={() => { setSelectedTab(1) }} className='flex  pb-[10px] p-[10px] transition justify-between hover:bg-[#f4f5f9] hover:text-[#000] w-full' >
                             <p className='text-[13px] xl:w-[300px] w-[107px] text-left'>Pending <InfoIcon /> </p>
                             <p className='text-[13px]'>0 Staff</p>
                             <p className='text-[13px]'>₹ 0.00</p>
@@ -155,7 +177,7 @@ const PayrollSummary = () => {
                         <div className='flex justify-between p-[20px] border-b items-center'>
                             <h2 className=''>Statutory Compliance Details</h2>
                             <div className='relative'>
-                                <button className='bg-[#e5e7eb] text-[#000] p-[3px] text-[16px] font-normal rounded-md' onClick={handledrop}><MoreVertIcon /></button>
+                                <button className='bg-[#e5e7eb] text-[#000] p-[3px] text-[16px] font-normal rounded-md three-dot' onClick={handledrop}><MoreVertIcon /></button>
 
                                 {
                                     toggleDrop &&
@@ -180,7 +202,7 @@ const PayrollSummary = () => {
                                     <p className='text-[13px] pl-[31px]'>0 Staff</p>
                                     <p className='text-[13px] flex gap-[10px] relative right-[-23px] items-center'>₹ 0.00
 
-                                        <KeyboardArrowDownIcon className='border rounded-full border-[#000] arrow-down' onClick={toggleCollapse} />
+                                        <KeyboardArrowDownIcon className={`get-icon ${isOpen ? "rotate-0" : "rotate-180"} border rounded-full border-[#000] arrow-down`} onClick={toggleCollapse} />
 
                                     </p>
 
@@ -224,7 +246,7 @@ const PayrollSummary = () => {
                                     </p>
                                     <p className='text-[13px] pl-[31px]'>0 Staff</p>
                                     <p className='text-[13px] flex gap-[10px] relative right-[-23px] items-center'>₹ 0.00
-                                        <KeyboardArrowDownIcon className='border rounded-full border-[#000] arrow-down' onClick={toggleCollapse2} />
+                                        <KeyboardArrowDownIcon className={`get-icon ${isOpen2 ? "rotate-0" : "rotate-180"} border rounded-full border-[#000] arrow-down`} onClick={toggleCollapse2} />
                                     </p>
 
 
@@ -261,7 +283,7 @@ const PayrollSummary = () => {
                                     </p>
                                     <p className='text-[13px] pl-[31px]'>0 Staff</p>
                                     <p className='text-[13px] flex gap-[10px] relative right-[-23px] items-center'>₹ 0.00
-                                        <KeyboardArrowDownIcon className='border rounded-full border-[#000] arrow-down' onClick={toggleCollapse1} />
+                                        <KeyboardArrowDownIcon className={`get-icon ${isOpen1 ? "rotate-0" : "rotate-180"} border rounded-full border-[#000] arrow-down`} onClick={toggleCollapse1} />
                                     </p>
 
 
@@ -319,7 +341,7 @@ const PayrollSummary = () => {
                         <div className='flex justify-between p-[20px] border-b '>
                             <h2 className=''>Total Loan Amount</h2>
                             <div className='relative'>
-                                <button className='bg-[#e5e7eb] text-[#000] p-[3px] text-[16px] font-normal rounded-md' onClick={handledrop1}><MoreVertIcon /></button>
+                                <button className='bg-[#e5e7eb] text-[#000] p-[3px] text-[16px] font-normal rounded-md three-dot2' onClick={handledrop1}><MoreVertIcon /></button>
 
                                 {
                                     toggleDrop1 &&
@@ -360,7 +382,7 @@ const PayrollSummary = () => {
                 <div className='xl:w-[35%] w-full'>
                     <div className='bg-white set-shadow rounded-md  mt-[20px]'>
                         <h2 className='p-[20px] border-b font-normal '>Pending Actions</h2>
-                        <Link to="/staff-menu" onClick={()=>{setStaffTab(2)}} className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px] flex items-center'>Verify Bank Account (1) <ArrowRightAltIcon /></Link>
+                        <Link to="/staff-menu" onClick={() => { setStaffTab(2) }} className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px] flex items-center'>Verify Bank Account (1) <ArrowRightAltIcon /></Link>
                         <Link to="#" className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px]'>Finalize Payroll (0) </Link>
                         <Link to="#" className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px]'>Add Salary Details (0)</Link>
                         <Link to="#" className='flex gap-[5px] p-[20px] pt-[10px] pb-[10px] border-b text-[12px]'>Approve Leaves (0) </Link>
@@ -369,7 +391,7 @@ const PayrollSummary = () => {
                     </div>
 
                     <div className='bg-white set-shadow rounded-md  mt-[20px]'>
-                        <h2 className='flex justify-between p-[20px] border-b font-normal ' onClick={toggleCollapse3}  >Getting Started<KeyboardArrowDownIcon className='border rounded-full border-[#000] arrow-down' />
+                        <h2 className='flex justify-between p-[20px] border-b font-normal ' onClick={toggleCollapse3}  >Getting Started<KeyboardArrowDownIcon className={` get-icon ${isOpen3 ? "rotate-0" : "rotate-180"} border rounded-full border-[#000] arrow-down`} />
                         </h2>
                         <div
                             className={`transition-all pl-[20px] pr-[20px] duration-500 ease-in-out overflow-hidden ${isOpen3 ? "max-h-screen" : "max-h-0"
@@ -377,8 +399,12 @@ const PayrollSummary = () => {
                         >
 
                             <div className=" p-[10px] flex justify-between">
-                                <Link to="#" className='text-[13px] p-[10px] hover:bg-[#f4f5f9] w-full rounded-md transitionss'>
-                                    <YouTubeIcon />    How to use SalaryBox Payroll?
+                                <Link to="#" className='text-[13px] p-[10px] hover:bg-[#f4f5f9] w-full rounded-md transitions'>
+                                    
+
+                                    <YouTubeIcon   /> 
+                                    
+                                       How to use SalaryBox Payroll?
                                 </Link>
 
                             </div>

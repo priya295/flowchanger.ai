@@ -128,7 +128,7 @@ const PaymentHistory = () => {
                     Import Reimbursements
                 </button>
             </div>
-            <div className='xl:w-[1110px] overflow-scroll flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+            <div className='xl:w-[1067px] overflow-scroll flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
                 <table className='table-section mt-4 w-full'>
                     <thead className='border border-1 '>
                         <th>
@@ -267,7 +267,7 @@ const PaymentHistory = () => {
                     </tbody>
 
                     <div className='w-full'>
-                        <h2 className='whitespace-nowrap p-[10px] text-center'>Grand Total</h2>
+                        <h2 className='whitespace-nowrap p-[10px]  pl-0'>Grand Total</h2>
                     </div>
 
                 </table>
