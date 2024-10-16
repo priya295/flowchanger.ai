@@ -164,15 +164,15 @@ const Taskview = () => {
                             <div>
                                 <div className="flex gap-[40px] items-center">
 
-                                    <p className="text-[#8c939f] flex gap-[4px] items-center text-[14px]"> <span className="h-[10px]w-[10px] p-[5px] rounded-2xl bg-[#0094ff]"></span>Spent time : <span className="five-hour">0:15h</span><span className="#8c939f">(100%)</span></p>
+                                    <p className="text-[#8c939f] flex gap-[4px] items-center text-[14px]"> <span className="h-[10px]w-[10px] p-[5px] rounded-2xl bg-[#8a25b0]"></span>Spent time : <span className="five-hour">0:15h</span><span className="#8c939f">(100%)</span></p>
                                     <div>
-                                        <p className="text-[#8c939f] flex gap-[4px] items-center  text-[14px]"><span className="h-[10px]w-[10px] p-[5px] rounded-2xl bg-[#d1ecff]"></span>Estimate time : <span className="five-hour1">0:15h</span></p>
+                                        <p className="text-[#8c939f] flex gap-[4px] items-center  text-[14px]"><span className="h-[10px]w-[10px] p-[5px] rounded-2xl bg-[#8a25b073]"></span>Estimate time : <span className="five-hour1">0:15h</span></p>
                                     </div>
 
                                 </div>
 
                                 <div className="w-[100%] mt-[20px] mb-[20px]">
-                                    <p className="w-[100%] bg-[#0094ff] h-[7px]  rounded-2xl"></p>
+                                    <p className="w-[100%] bg-[#8a25b0] h-[7px]  rounded-2xl"></p>
                                 </div>
 
 

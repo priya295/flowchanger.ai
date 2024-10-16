@@ -211,21 +211,21 @@ const Clients = () => {
 
     ];
     return (
-        <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
+        <div className=" w-full  top-[95px] right-[5px] ">
 
-            <div className="bg-[#fff] p-[10px] ml-[80px]">
+            <div className="bg-[#fff] p-[10px] ml-[140px]">
                 <div className="mb-[14px] flex gap-[10px] items-center">
 
-                    <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0] flex items-center gap-[4px] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <AddIcon className="newadd" />Client</Link>
+                    <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        <AddIcon className="newadd" /> New Customers</Link>
                     <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0]   focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <AddIcon className="newadd" /> Import Customers</Link>
+                        <AddIcon className="newadd" /> Import Clients</Link>
                     <Link to="/" className="text-[#000] text-[14px] bg-[#f4f2f2]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <PersonIcon className="newadd mr-[5px]" />Contacts</Link>
                 </div>
 
-                <div className="p-[20px] summary-border w-full rounded-lg">
-                    <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Clients</h2>
+                <div className="p-[20px] summary-border w-full">
+                    <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Customers Summary</h2>
 
 
                     <div className="flex justify-between items-center mb-[14px]">
@@ -279,8 +279,12 @@ const Clients = () => {
                         </div>
                     </div>
 
-                    {accordionItems.map((item, index) => (
-                    <div key={index} className="bg-white rounded-lg shadow-lg border border-grey-300">
+
+                </div>
+
+
+                {accordionItems.map((item, index) => (
+                    <div key={index} className="border-b border-gray-200">
                         {/* Accordion Header */}
                         <button
                             onClick={() => handleToggle(index)}

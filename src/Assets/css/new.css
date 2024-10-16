@@ -107,7 +107,7 @@
     font-size: 16px !important;
 }
 .five-hour{
-    color: #0094ff;
+    color: #8a25b0;
 }
 .five-hour1{
     color: #000;
@@ -209,6 +209,10 @@
     padding: 10px !important;
 }
 
+.tablehead{
+    border: 1px solid #e5e7eb;
+    background: white;
+}
 @media(max-width:640px){
     .late-main{
         padding: 2px;
