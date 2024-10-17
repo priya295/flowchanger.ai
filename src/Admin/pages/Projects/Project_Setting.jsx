@@ -1,71 +1,82 @@
-import React from 'react';
-import { IoIosArrowDown } from "react-icons/io";
-import { Link } from 'react-router-dom';
+import React from "react";
 
-const ProjectSettings = () => {
+const Project_Setting = ({closeform}) => {
   const permissions = [
-    
-      'Allow customer to view tasks',
-      'Allow customer to create tasks',
-      'Allow customer to edit tasks (only tasks created from contact)',
-      'Allow customer to comment on project tasks',
-      'Allow customer to view task comments',
-      'Allow customer to view task attachments',
-      'Allow customer to view task checklist items',
-      'Allow customer to upload attachments on tasks',
-      'Allow customer to view task total logged time',
-      'Allow customer to view finance overview',
-      'Allow customer to upload files',
-      'Allow customer to open discussions',
-      'Allow customer to view milestones',
-      'Allow customer to view Gantt',
-      'Allow customer to view timesheets',
-      'Allow customer to view activity log',
-      'Allow customer to view team members',
-    ]
-  
-  const Tabs =["Tasks", "Timesheets", "Milestones", "Files", "Discussions", "Gantt", "Tickets", "Notes", "Activity"]
+    { id: 1, label: "Allow customer to view tasks" },
+    { id: 2, label: "Allow customer to create tasks" },
+    {
+      id: 3,
+      label: "Allow customer to edit tasks (only tasks created from contact)",
+    },
+    { id: 4, label: "Allow customer to comment on project tasks" },
+    { id: 5, label: "Allow customer to view task comments" },
+    { id: 6, label: "Allow customer to view task attachments" },
+    { id: 7, label: "Allow customer to view task checklist items" },
+    { id: 8, label: "Allow customer to upload attachments on tasks" },
+    { id: 9, label: "Allow customer to view task total logged time" },
+    { id: 10, label: "Allow customer to view finance overview" },
+    { id: 11, label: "Allow customer to open discussions" },
+    { id: 12, label: "Allow customer to view milestones" },
+    { id: 13, label: "Allow customer to view Gantt" },
+    { id: 14, label: "Allow customer to view timesheets" },
+    { id: 15, label: "Allow customer to view activity log" },
+    { id: 16, label: "Allow customer to view team members" },
+    { id: 17, label: "Hide project tasks on main tasks table (admin area)" },
+  ];
   return (
-    <div className="bg-white p-0 md:p-6 rounded-lg shadow-sm max-w-3xl mx-auto min-h-screen border border-gray-300 ">
-      <div className="flex items-center w-[100%] md:w-[40%]  justify-between mb-6">
-       <Link to = "/addProject"> <h2 className="text-2xl font-normal text-gray-800 hover:text-blue-400 mr-2">Project</h2></Link>
-       <h2 className="text-2xl font-normal text-gray-800 hover:text-blue-400">Project Settings</h2>
-      </div>
-      <hr />
-      <div className="mb-6">
-        <h3 className="font-medium mb-2">Send contacts notifications</h3>
-        <p className="text-gray-600 text-sm mb-2">To edit contacts with notifications for projects enabled</p>
-        <div className="flex items-center justify-between border p-2 rounded">
-          <span className="text-gray-700">Select contacts</span>
-          <IoIosArrowDown className="text-gray-400" />
+    <div className="m-5">
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <h1>* Send contacts notifications</h1>
+          <select className="h-[46px] w-[100%] bg-white border text-[13px] border-[#DBDCDE] rounded-md pl-5">
+            <option value="">
+              To all contacts with notifications for projects enabled
+            </option>
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <h1>Visible Tabs</h1>
+          <select className="h-[46px] w-[100%] bg-white border text-[13px] border-[#DBDCDE] rounded-md pl-5">
+            <option value="">
+              Tasks, Timesheets, Milestones, Files, Discussions, Gantt, TIckets,
+              Notes, Activity
+            </option>
+          </select>
         </div>
       </div>
-      
-      <div className="mb-6">
-        <h3 className="font-medium mb-2">Visible Tabs</h3>
-       
-       <div className='mb-2 overflow-x-auto'>
-       {Tabs.map((tab)=>{
-         return <span className='text-gray-600 text-sm mr-2'>{tab}</span>
-       })}
-       </div>
-        <div className="flex items-center justify-between border p-2 rounded">
-          <span className="text-gray-700">Select tabs</span>
-          <IoIosArrowDown className="text-gray-400" />
-        </div>
-      </div>
-      
-      <div>
-        <h3 className="font-medium mb-4">Customer Permissions</h3>
+
+      <div className=" mt-6  border-t border-b border-[#B1B1B1]">
         {permissions.map((permission, index) => (
-          <div key={index} className="flex items-center mb-3">
-            <input type="checkbox" id={`permission-${index}`} className="mr-3" defaultChecked />
-            <label htmlFor={`permission-${index}`} className="text-sm text-gray-700">{permission}</label>
+          <div key={permission.id}>
+            <div className="space-x-2 py-3">
+              <input className="bg-[#511992]" type="checkbox" />
+              <span
+                className="text-[15px]"
+                style={{ fontSize: permission.fontSize }}
+              >
+                {permission.label}
+              </span>
+            </div>
+
+            {/* Render hr element only between items */}
+            {index < permissions.length - 1 && (
+              <hr className="text-[#B1B1B1]" />
+            )}
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-end gap-5 py-10">
+        <button onClick={closeform} className="bg-white text-[#511992] border border-[#511992] h-10 w-20 rounded-md">
+          Cancel
+        </button>
+        <button className="bg-[#511992] text-white h-10 w-20 rounded-md">
+          Save
+        </button>
       </div>
     </div>
   );
 };
 
-export default ProjectSettings;
+export default Project_Setting;

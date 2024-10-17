@@ -8,7 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const Main = () => {
   return (
-    <div className=' pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
+    <div className=' pl-[10px] w-[100%] pr-2 mb-3 pb-4 pt-[10px]'>
       <Link to="/addrole" className='bg-[#511992]  p-2 pr-3 rounded-lg text-white hover:bg-[#7526d1]'> <AddIcon /> New Role</Link>
 
       <div className='table-section mt-5 bg-white shadow p-4 pl-0 rounded-sm pr-0'>
@@ -47,8 +47,8 @@ const Main = () => {
         <table class="table-auto w-[100%]">
           <thead className='bg-[#f1f5f9] '>
             <tr>
-              <th className='text-left p-4 text-sm font-medium'>Roll Name</th>
-              <th className='text-left p-4 text-sm font-medium'>Options</th>
+              <th className='text-left p-4 text-sm font-medium text-center'>Roll Name</th>
+              <th className='text-left p-4 text-sm font-medium text-center'>Options</th>
             </tr>
           </thead>
           <tbody>
@@ -57,7 +57,7 @@ const Main = () => {
                 <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
-              <td className='flex pt-4 gap-2'>
+              <td className='flex pt-4 gap-2 justify-center'>
                 <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
                 </Link>
@@ -70,7 +70,7 @@ const Main = () => {
                 <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
-              <td className='flex pt-4 gap-2'>
+              <td className='flex pt-4 gap-2 justify-center'>
               <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
                 </Link>
@@ -82,7 +82,7 @@ const Main = () => {
                 <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
-              <td className='flex pt-4 gap-2'>
+              <td className='flex pt-4 gap-2 justify-center'>
               <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
                 </Link>
@@ -94,7 +94,7 @@ const Main = () => {
                 <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
                 <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
               </td>
-              <td className='flex pt-4 gap-2'>
+              <td className='flex pt-4 gap-2 justify-center'>
               <Link to="/editrole">
                 <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
                 </Link>

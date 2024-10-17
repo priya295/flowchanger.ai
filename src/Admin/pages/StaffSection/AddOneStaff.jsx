@@ -49,7 +49,6 @@ const AddOneStaff = () => {
                 </select>
                 </div>
 
-
             </div>
 
             <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>

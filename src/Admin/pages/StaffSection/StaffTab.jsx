@@ -82,10 +82,13 @@ const StaffTab = () => {
             <th>Guardian Name</th>
             <th>Emergency Contact Name</th>
 
+
           </thead>
           <tbody>
             <td><input type='checkbox' className='border border-1 rounded-md '/></td>
-            <td>Demo</td>
+            <td>
+              <Link to="/personal-detail" className='text-[#8A25B0] font-medium'>Staff</Link>
+            </td>
             <td>Demo</td>
             <td>Demo</td>
             <td>Demo</td>
