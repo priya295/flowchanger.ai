@@ -6,7 +6,7 @@ const Editprofile = () => {
   return (
     <>
       <div className='w-full flex gap-[5px]'>
-        <div className='w-[60%]'>
+        <div className='w-[60%] h-[100vh] overflow-scroll'>
           <form className=' w-[96%]  shadow-md  xl:p-[20px] p-[10px] border rounded-md  border-1'>
             <div className='flex xl:flex-col flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
               <h2 className='text-[20px] font-medium'>Edit Profile</h2>

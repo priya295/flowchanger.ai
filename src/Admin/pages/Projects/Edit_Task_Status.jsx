@@ -210,7 +210,7 @@ const Edit_Task_Status = () => {
     return (
         <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
 
-            <div className="bg-[#fff] p-[10px] ml-[100px]">
+            <div className="bg-[#fff] p-[10px] ml-[140px]">
 
 
                 <div className="p-[20px] summary-border w-full">
@@ -341,31 +341,31 @@ const Edit_Task_Status = () => {
                             <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
                         </div>
                     </div>
+                    {accordionItems.map((item, index) => (
+                        <div key={index} className="">
+                            {/* Accordion Header */}
+                            <button
+                                onClick={() => handleToggle(index)}
+                                className="flex justify-between items-center w-full text-left  bg-white rounded-lg shadow-lg focus:outline-none"
+                            >
+                                <span>{item.title}</span>
 
+                            </button>
+
+                            {/* Accordion Content */}
+                            {openIndex === index && (
+                                <div className="mb-[10px] text-gray-700 bg-white">
+                                    {item.content}
+
+                                </div>
+                            )}
+                        </div>
+                    ))}
 
                 </div>
 
 
-                {accordionItems.map((item, index) => (
-                    <div key={index} className="">
-                        {/* Accordion Header */}
-                        <button
-                            onClick={() => handleToggle(index)}
-                            className="flex justify-between items-center w-full text-left  bg-white rounded-lg shadow-lg focus:outline-none"
-                        >
-                            <span>{item.title}</span>
 
-                        </button>
-
-                        {/* Accordion Content */}
-                        {openIndex === index && (
-                            <div className="mb-[10px] text-gray-700 bg-white">
-                                {item.content}
-
-                            </div>
-                        )}
-                    </div>
-                ))}
 
 
             </div>

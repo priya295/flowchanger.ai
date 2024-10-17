@@ -122,7 +122,7 @@ const Attendence_summary = () => {
 
             </div>
 
-            <div className='bg-[#ffff] shadow-lg p-[20px] rounded-md mt-[24px] '>
+            <div className='bg-[#fff] shadow-lg p-[20px] rounded-md mt-[24px] '>
 
                 <div className='flex gap-[14px] justify-between items-center  '>
                     <div className='flex '>
@@ -177,9 +177,9 @@ const Attendence_summary = () => {
             </div>
             <div className='flex gap-[10px] items-center mt-[20px]'>
                 <h1>Creative Department</h1>
-                <p className='bg-[#f1f1f1] four'>4</p>
+                <p className='bg-[#fff] shadow-lg four'>4</p>
             </div>
-            <div className='bg-[#fff] shadow-lg p-[20px] mt-[18px] rounded-md'>
+            <div className='bg-[#fff] shadow-lg  p-[20px] mt-[18px] rounded-md'>
                 <div className='flex items-center justify-between'>
                     <div>
                         <p className='text-[16px]'>Akash</p>

@@ -63,10 +63,11 @@ import EditClient from "./Admin/pages/Clients/EditClient";
 import Subscription from './Admin/pages/Subscription Plan/Subscription'
 import Buy_plan from './Admin/pages/Subscription Plan/Pricing Plans/Plan'
 import CalenderWeekly from '../src/Admin/pages/Calender/CalenderWeekly'
-import Task from "./Admin/pages/Tasks/Task";
+// import Task from "./Admin/pages/Project/Task";
+import Task from "../src/Admin/pages/Projects/Task";
 import ClientHeader from "./Client_Panel/ClientHeader";
 import SidebarClient from "./Client_Panel/SidebarClient";
-import AddNewTask from "./Admin/pages/Projects/AddNewTask";
+// import AddNewTask from "./Admin/pages/Projects/AddNewTask";
 import DepartmentDetail from "./Admin/pages/Department/DepartmentDetails";
 import PayrollMenu from "./Admin/pages/payroll/PayrollMenu";
 import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
@@ -98,7 +99,7 @@ const App = () => {
           <SideBar />
           <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set ">
             <NavBar />
-            <div className="p-[10px] w-full h-lvh ">
+            <div className="p-[10px] admin-setup1 w-full h-lvh ">
                <Outlet />
             </div>
 
@@ -226,7 +227,7 @@ const App = () => {
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
-          <Route path="/addnewtask" element={<AddNewTask />} />
+          {/* <Route path="/addnewtask" element={<AddNewTask />} /> */}
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
           <Route path="/task" element={<Task />} />
           <Route path="/adddepartment" element={<AddDepartment />} />

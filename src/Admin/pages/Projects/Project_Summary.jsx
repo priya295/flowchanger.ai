@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-const NewTask = () => {
+const Project_Summary = () => {
     const [openIndex, setOpenIndex] = useState(null);
 
     // Function to handle accordion toggling
@@ -166,4 +166,4 @@ const NewTask = () => {
     );
 };
 
-export default NewTask
+export default Project_Summary
