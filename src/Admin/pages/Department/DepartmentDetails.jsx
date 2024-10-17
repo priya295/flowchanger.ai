@@ -1,13 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const DepartmentDetail = () => {
+
+  const { baseUrl,setDepId ,setName} = useGlobalContext();
+  const [departments, setDepartments] = useState([])
+
+
+
+
+  const fetchDepartments = async () => {
+    const result = await fetch(baseUrl + "department")
+
+    if (result.status == 200) {
+      const res = await result.json();
+      setDepartments(res.data)
+
+    }
+    else {
+      alert("An Error Occured")
+    }
+
+  }
+
+  const deleteDepartments = async (id) => {
+    try {
+      const result = await fetch(`${baseUrl}/department/${id}`, {
+        method: "DELETE",
+        headers: {
+          'Content-Type': "application/json", // Corrected the header spelling for consistency
+        }
+      });
+
+      if (result.ok) { // Use result.ok instead of checking the status directly
+        alert("Record deleted successfully.");
+        fetchDepartments()
+      } else {
+        alert("An error occurred while deleting the record.");
+      }
+    } catch (error) {
+      console.error("Error deleting department:", error);
+      alert("An error occurred during the delete request.");
+    }
+  };
+
+
+
+
+  useEffect(() => {
+    fetchDepartments()
+  }, [])
+
   return (
     <div className='p-[10px] top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
       <Link to="/adddepartment" className='bg-[#511992]  p-2 pr-3 rounded-lg text-white hover:bg-[#7526d1]'> <AddIcon /> New Department</Link>
@@ -52,55 +102,27 @@ const DepartmentDetail = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className='border-b pb-2 border-[#f1f5f9]'>
-              <td className='pt-4 pb-3 pl-3'>
-                <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
-                <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-              </td>
-              <td className='flex pt-4 gap-2 justify-center'>
-                <Link to="/editdepartment">
-                  <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                </Link>
-                <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
-              </td>
-            </tr>
+            {
+              departments.map((dep, index) => {
+                return <tr key={dep.id} className='border-b pb-2 border-[#f1f5f9]'>
+                  <td className='pt-4 pb-3 pl-3'>
+                    <Link to="/" className='text-[#511992] text-[14px]'>{dep.department_name}</Link>
+                    <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
+                  </td>
+                  <td className='flex pt-4 gap-2 justify-center'>
+                    <Link to="/editdepartment" onClick={()=>{
+                      setDepId(dep.id)
+                      setName(dep.department_name)
+                      }}>
+                      <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
+                    </Link>
+                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' onClick={() => { deleteDepartments(dep.id) }} />
+                  </td>
+                </tr>
 
-            <tr className='border-b pb-2 border-[#f1f5f9]'>
-              <td className='pt-4 pb-3 pl-3'>
-                <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
-                <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-              </td>
-              <td className='flex pt-4 gap-2 justify-center'>
-                <Link to="/editdepartment">
-                  <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                </Link>
-                <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
-              </td>
-            </tr>
-            <tr className='border-b pb-2 border-[#f1f5f9]'>
-              <td className='pt-4 pb-3 pl-3'>
-                <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
-                <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-              </td>
-              <td className='flex pt-4 gap-2 justify-center'>
-                <Link to="/editdepartment">
-                  <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                </Link>
-                <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
-              </td>
-            </tr>
-            <tr className='border-b pb-2 border-[#f1f5f9]'>
-              <td className='pt-4 pb-3 pl-3'>
-                <Link to="/" className='text-[#511992] text-[14px]'>Content Writer</Link>
-                <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-              </td>
-              <td className='flex pt-4 gap-2 justify-center'>
-                <Link to="/editdepartment">
-                  <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                </Link>
-                <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' />
-              </td>
-            </tr>
+              })
+            }
+
 
 
 

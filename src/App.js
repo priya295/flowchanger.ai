@@ -88,26 +88,7 @@ const App = () => {
       </>
     );
   }
-
-  // <div className="flex w-full">
-  //         <div className="min-h-screen">
-  //           {toggleSideBar && <SideBar toggleSideBar={toggleSideBar} className="h-full"/>}
-  //         </div>
-
-  //          <div className={`flex flex-col flex-grow overflow-hidden`}>
-  //           <NavBar
-  //             handleToggleSideBar={handleToggleSideBar}
-  //             toggleSideBar={toggleSideBar}
-  //           />
-  //           <main className={`flex-1 overflow-x-hidden overflow-y-auto  h-lvh overflow-scroll  `}>
-  //             <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
-  //               <Outlet />
-  //             </div>
-  //           </main>
-  //         </div>
-  //       </div>
-
-  //  function to create layout of the page
+ 
   function AdminLayout() {
     return (
       <>

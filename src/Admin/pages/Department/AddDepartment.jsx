@@ -1,6 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useGlobalContext } from '../../../Context/GlobalContext';
+
+
 
 const AddDepartment = () => {
+    const [department, setDepartment]=useState("");
+
+    const {baseUrl}=  useGlobalContext();
+
+
+    async function submitRole() {
+       
+    
+        const response = await fetch(baseUrl + "department", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({department_name:department}) // send the formatted data
+        });
+    
+        console.log(response);
+    
+        if (response.status === 200) {
+            const result = await response.json()
+            console.log(result);
+            alert("Department successfully added");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
+
     return (
         <div className='addnewrole  pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
             <h2 className='xl:w-[50%] xl:m-auto'>Add New Department</h2>
@@ -8,7 +39,7 @@ const AddDepartment = () => {
             <div className='flex justify-center'>
             <div className='bg-[#fff] set-shadow p-3 lg:w-[100%] xl:w-[50%] w-[100%] mt-2 rounded-md'>
                 <label>Department Name</label><br />
-                <input type='text' className='mt-2 border border-1 pl-3 h-[43px] pr-7
+                <input type='text' value={department} onChange={(e)=>setDepartment(e.target.value)} className='mt-2 border border-1 pl-3 h-[43px] pr-7
 ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'/>
                 <table className='border mt-5 w-[100%] border-1'>
                     <thead className='border border-1 '>
@@ -138,7 +169,7 @@ const AddDepartment = () => {
                 <button className='first-btn pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>
                     Cancel
                 </button>
-                    <button className='second-btn pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>Save</button>
+                    <button className='second-btn pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]' onClick={submitRole}>Save</button>
                 </div>
             </div>
             </div>
