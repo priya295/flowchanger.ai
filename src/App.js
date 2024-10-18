@@ -264,7 +264,6 @@ const App = () => {
           {/* <Route path="/task" element={<Task />} /> */}
           <Route path="/editprofile" element={<Editprofile />} />
           <Route path="/taskstatus" element={<Task_Status />} />
-          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/clientproject" element={<Client_Project />} />
           <Route path="/projectprogress" element={<Project_Progress />} />
           <Route path="/note" element={<Note />} />

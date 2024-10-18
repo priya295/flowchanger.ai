@@ -5,11 +5,11 @@ import { Form } from 'react-router-dom'
 const Editprofile = () => {
   return (
     <>
-      <div className='w-full flex gap-[5px]'>
-        <div className='w-[60%] h-[100vh] overflow-scroll'>
-          <form className=' w-[96%]  shadow-md  xl:p-[20px] p-[10px] border rounded-md  border-1'>
+      <div className='w-full flex gap-[5px] p-[10px] profileedit-main'>
+        <div className='w-[60%] h-[100vh] overflow-scroll form-profile'>
+          <form className=' w-[100%]  shadow-md  xl:p-[20px] p-[10px] border rounded-md  border-1'>
             <div className='flex xl:flex-col flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
-              <h2 className='text-[20px] font-medium'>Edit Profile</h2>
+              <h2 className='text-[20px] newprofile1 font-medium'>Edit Profile</h2>
               <div className='w-[100%] xl:[48%] '>
                 <label className='text-[14px]'>Profile Image</label><br />
                 <input type='file' placeholder='Enter Address' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
@@ -82,11 +82,11 @@ const Editprofile = () => {
         </div>
 
 
-        <div className='w-[40%] flex flex-col gap-[20px]'>
+        <div className='w-[40%] flex form-profile flex-col gap-[20px]'>
           <div>
             <form className=' w-[100%]  shadow-md  xl:p-[20px] p-[10px] border rounded-md  border-1'>
               <div className='flex xl:flex-col flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
-                <h2 className='text-[18px] font-medium'>Change Your Password</h2>
+                <h2 className='text-[18px] font-medium newprofile1'>Change Your Password</h2>
                 <div className='w-[100%] xl:[48%] '>
                   <label className='text-[14px]'>Old Password</label><br />
                   <input type='number' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
@@ -117,7 +117,7 @@ const Editprofile = () => {
           <div>
             <form className=' w-[100%]  shadow-md  xl:p-[20px] p-[10px] border rounded-md  border-1'>
               <div className='flex xl:flex-col flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
-                <h2 className='text-[18px] font-medium'>Two Factor Authentication</h2>
+                <h2 className='text-[18px] font-medium newprofile1'>Two Factor Authentication</h2>
                 <div className='w-[100%] xl:[48%] flex gap-[6px]'>
                   <input type="checkbox" />
                   <p className='text-[14px]'>Disabled</p>

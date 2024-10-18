@@ -39,13 +39,15 @@ const ExpensePage = () => {
     };
     return (
         <>
-            <div className='flex items-center justify-between mb-[20px]'>
-                <div className='flex items-center gap-[8px]'>
+
+        <div className='p-[26px]'>
+            <div className='flex items-center justify-between mb-[20px] page-down'>
+                <div className='flex items-center gap-[8px] new-wid'>
                     <div className="flex items-center justify-center h-[50px]">
                         {/* Button to trigger the modal */}
                         <button
                             onClick={toggleModal}
-                            className="p-[7px] flex items-center gap-[3px] rounded-lg bg-[#8a25b0] text-[14px] text-white"
+                            className="p-[7px] flex items-center gap-[3px] btn-expense rounded-lg bg-[#8a25b0] text-[14px] text-white"
                         >
                             <AddIcon className='newadd' /> Record Expense
                         </button>
@@ -185,9 +187,9 @@ const ExpensePage = () => {
                             </div>
                         )}
                     </div>
-                    <button className='p-[7px] flex items-center gap-[3px] rounded-lg bg-[#8a25b0] text-[14px] text-white'><ImportExportIcon className='newadd' />import Expense</button>
+                    <button className='p-[7px] btn-expense flex items-center gap-[3px] rounded-lg bg-[#8a25b0] text-[14px] text-white'><ImportExportIcon className='newadd' />import Expense</button>
                 </div>
-                <div className='flex items-center gap-[8px]'>
+                <div className='flex items-center gap-[8px] new-wid'>
                     <Link className='doublearrow rounded-md'><KeyboardDoubleArrowLeftIcon className='arrow-new3' /></Link>
                     <Link className='doublearrow rounded-md'><BarChartIcon className='arrow-new3' /></Link>
                     <Link className='doublearrow rounded-md'><FilterAltIcon className='arrow-new3' /></Link>
@@ -195,8 +197,8 @@ const ExpensePage = () => {
                 </div>
             </div>
             <div className='bg-white p-[16px] summary-border rounded-md'>
-                <div className="flex justify-between items-center">
-                    <div className="flex gap-[10px]">
+                <div className="flex justify-between items-center newdata-expense">
+                    <div className="flex gap-[10px] new-wid">
                         <div className="relative inline-block text-left">
                             {/* Button to open/close the dropdown */}
                             <button
@@ -237,11 +239,11 @@ const ExpensePage = () => {
                         </div>
                         <p className="  p-[7px] text-[12px] w-[55px] font-medium summary-border rounded-md  "> Export </p>
 
-                        <p className=" relative p-[7px] text-[12px] w-[116px] font-medium summary-border rounded-md  "> Bulk Actions <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" /> </p>
+                        <p className=" relative p-[7px] text-[12px] w-[116px] font-medium summary-border rounded-md bulk-action  "> Bulk Actions <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" /> </p>
 
                     </div>
-                    <div className="relative">
-                        <input className="p-[6px] rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
+                    <div className="relative new-wid"> 
+                        <input className="p-[6px] rounded-2xl new-wid  summary-border text-[13px] " type="text" placeholder=" Search......." />
                         <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
                     </div>
                 </div>
@@ -269,6 +271,7 @@ const ExpensePage = () => {
                 </div>
                 <p className='text-[14px] mt-[14px]'>No entries found</p>
 
+            </div>
             </div>
         </>
 
