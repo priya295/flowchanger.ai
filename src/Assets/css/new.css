@@ -213,10 +213,27 @@
 .email-primary{
     border: 1px solid #e5e7eb;
 }
+.textcomplete{
+    color: blue;
+}
+.highred{
+    color: red;
+}
+.highred2{
+    color: blue;
+}
+.six-north{
+    background: #461274;
+    color: white;
+    border-radius: 50px;
+    padding: 4px 8px;
+}
+
 .preferences{
     border-bottom: 1px solid #ebf1f5 !important;
     padding: 10px !important;
 }
+
 
 .tablehead{
     border: 1px solid #e5e7eb;
@@ -234,6 +251,15 @@
         width: 100%;
     }
 }
+@media(max-width:992px){
+    .lette2{
+        padding: 0;
+    }
+    .all-setup{
+        overflow: scroll;
+        width: 100%;
+    }
+}
 @media(max-width:640px){
     .late-main{
         padding: 2px;
@@ -246,6 +272,15 @@
     .save-btn{
         justify-content: center;
     }
+    .newprofile1{
+        font-size: 16px;
+    }
+    .profileedit-main{
+        flex-direction: column;
+    }
+    .form-profile{
+        width: 100%;
+    }
 }
 @media(max-width:670px){
     .main-flex{
@@ -257,6 +292,10 @@
 }
 @media(max-width:740px){
     .newsetup{
+        width: 100%;
+        overflow: scroll;
+    }
+    .keyframe1{
         width: 100%;
         overflow: scroll;
     }
@@ -275,6 +314,13 @@
         margin-top: 7px;
     }
     .status-set2{
+        width: 100%;
+    }
+    .newdata-expense{
+        flex-direction: column;
+        gap: 10px;
+    }
+    .new-wid{
         width: 100%;
     }
 
@@ -299,7 +345,16 @@
     flex-direction: column;
     gap: 20px;
    }
-  
+   .project-export{
+    flex-direction: column;
+    gap: 10px;
+   }
+   .system-project{
+    width: 100%;
+   }
+  .summ-project{
+    width: 100%;
+  }
 }
 @media(max-width:480px){
     .flowchange{
@@ -311,6 +366,10 @@
     .timeblock1{
         flex-direction: column;
         gap: 20px;
+    }
+    .page-down{
+        flex-direction: column-reverse;
+        gap: 10px;
     }
 }
 
@@ -392,5 +451,12 @@
         height: 300px;
 
     }
+    .btn-expense{
+        font-size: 12px;
+    }
+    .bulk-action{
+        width: 110px;
+    }
+
 }
 

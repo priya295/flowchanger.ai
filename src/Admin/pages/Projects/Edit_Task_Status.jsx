@@ -291,7 +291,7 @@ const Edit_Task_Status = () => {
                         </div>
 
                     </div>
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center mb-[14px]">
                         <div className="flex gap-[10px]">
                             <div className="relative inline-block text-left">
                                 {/* Button to open/close the dropdown */}
@@ -342,11 +342,11 @@ const Edit_Task_Status = () => {
                         </div>
                     </div>
                     {accordionItems.map((item, index) => (
-                        <div key={index} className="">
+                        <div key={index} className="bg-white shadow-lg rounded-lg">
                             {/* Accordion Header */}
                             <button
                                 onClick={() => handleToggle(index)}
-                                className="flex justify-between items-center w-full text-left  bg-white rounded-lg shadow-lg focus:outline-none"
+                                className="flex justify-between items-center w-full text-left border-b border-[#e5e7eb]  bg-white rounded-lg shadow-lg focus:outline-none"
                             >
                                 <span>{item.title}</span>
 

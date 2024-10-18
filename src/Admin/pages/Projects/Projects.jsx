@@ -17,18 +17,18 @@ const Projects = () => {
             setOpenIndex(index); // Open the accordion
         }
     };
-  //salary dropdown
-  const [isOpen1, setIsOpen1] = useState(false);
+    //salary dropdown
+    const [isOpen1, setIsOpen1] = useState(false);
 
 
 
-  const toggleDropdown1 = () => {
-      setIsOpen1(!isOpen1);
-  };
+    const toggleDropdown1 = () => {
+        setIsOpen1(!isOpen1);
+    };
 
-  //salary dropdown
+    //salary dropdown
 
-    
+
 
     // Array of accordion items
     const accordionItems = [
@@ -37,25 +37,25 @@ const Projects = () => {
                 <div>
                     <table className="w-full">
                         <thead className="tablehead">
-                            <tr>
+                            <tr className="rounded-lg">
 
-                                <th className="text-[12px] font-medium p-[10px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
-
-
-                                <th className="text-[12px] border-r w-[100px]  font-medium p-[10px] ">#</th>
+                                <th className="text-[12px] font-medium p-[12px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
 
 
-                                <th className="text-[12px] w-[250px] p-[10px] border-r font-medium whitespace-nowrap">Project Name</th>
+                                <th className="text-[12px] border-r w-[100px]  font-medium p-[12px] ">#</th>
 
 
-                                <th className="text-[12px] font-medium p-[10px] w-[200px] border-r whitespace-nowrap	">Start Date</th>
+                                <th className="text-[12px] w-[250px] p-[12px] border-r font-medium whitespace-nowrap">Project Name</th>
 
 
-                                <th className="text-[12px] font-medium p-[10px] w-[200px] border-r whitespace-nowrap	">Deadline</th>
+                                <th className="text-[12px] font-medium p-[12px] w-[200px] border-r whitespace-nowrap	">Start Date</th>
+
+
+                                <th className="text-[12px] font-medium p-[12px] w-[200px] border-r whitespace-nowrap	">Deadline</th>
 
 
 
-                                <th className="text-[12px] font-medium p-[10px] w-[200px] border-r whitespace-nowrap	">Members</th>
+                                <th className="text-[12px] font-medium p-[12px] w-[200px] border-r whitespace-nowrap	">Members</th>
 
 
 
@@ -74,32 +74,61 @@ const Projects = () => {
                 <table className="w-full " >
                     <tbody>
 
-                        <tr>
-                            <td className="flex p-[0] border-b border text-[#e5e7eb]">
+                        <tr className="border-b border text-[#e5e7eb]">
+                            
 
                                 <td className="p-[10px] w-[100px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
 
-                                <td className="text-[12px] w-[90px] font-medium p-[10px] text-[#8a25b0]">43</td>
+                                <td className="text-[12px] w-[80px] font-medium p-[10px] text-[#8a25b0]">43</td>
 
 
 
-                                <td className="flex flex-col w-[226px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
-
-
-
-
-                                <td className="text-[12px] p-[10px] text-[black] w-[182px] whitespace-nowrap	">13-08-2024</td>
-
-                                <td className="text-[12px] p-[10px]  w-[180px] text-[black]   whitespace-nowrap	">13-08-2024</td>
-                                <td className="text-[12px] p-[10px] w-[180px] whitespace-nowrap text-[black]	">19-08-2024</td>
+                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
 
 
 
 
+                                <td className="text-[12px] p-[10px] text-[black] w-[173px] whitespace-nowrap	">13-08-2024</td>
+
+                                <td className="text-[12px] p-[10px]  w-[173px] text-[black]   whitespace-nowrap	">13-08-2024</td>
+                                <td className="text-[12px] p-[10px] w-[173px] whitespace-nowrap text-[black]	">19-08-2024</td>
 
 
 
-                            </td>
+
+
+
+
+                 
+
+
+                        </tr>
+                        <tr className="border-b border text-[#e5e7eb]">
+                            
+
+                                <td className="p-[10px] w-[100px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
+
+                                <td className="text-[12px] w-[80px] font-medium p-[10px] text-[#8a25b0]">43</td>
+
+
+
+                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
+
+
+
+
+                                <td className="text-[12px] p-[10px] text-[black] w-[173px] whitespace-nowrap	">13-08-2024</td>
+
+                                <td className="text-[12px] p-[10px]  w-[173px] text-[black]   whitespace-nowrap	">13-08-2024</td>
+                                <td className="text-[12px] p-[10px] w-[173px] whitespace-nowrap text-[black]	">19-08-2024</td>
+
+
+
+
+
+
+
+                      
 
 
                         </tr>
@@ -119,7 +148,7 @@ const Projects = () => {
 
     ];
     return (
-        <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
+        <div className=" w-full absolute pl-[145px] lette2 top-[95px] right-[5px] ">
 
             <div className="bg-[#fff] p-[10px] ml-[140px]">
                 <div className="mb-[14px]">
@@ -128,88 +157,89 @@ const Projects = () => {
                         <AddIcon className="newadd" /> New Project</Link>
                 </div>
 
-                <div className="p-[20px] summary-border w-full">
-                    <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon/>Project Summary</h2>
+                <div className="p-[20px] summary-border rounded-lg w-full">
+                    <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Projects</h2>
 
                     <div className="flex items-center gap-[14px] mb-[10px]">
-                <Link to="/" className="text-[#fff] text-[12px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-2xl p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                <AddIcon className="newadd" /> Add New</Link>
-                <input className="p-[6px] rounded-2xl summary-border text-[13px] w-[140px]" type="text" placeholder="Search......." />
-
-                </div>
-                <div className="flex justify-between items-center">
-                <div className="flex gap-[10px]">
-                <div className="relative inline-block text-left">
-                                    {/* Button to open/close the dropdown */}
-                                    <button
-                                        className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                        onClick={toggleDropdown1}
-                                    >
-                                        25 <KeyboardArrowDownIcon className="newadd" />
-                                    </button>
-
-                                    {/* Dropdown menu */}
-                                    {isOpen1 && (
-                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                            <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                <a
-                                                    href="#"
-                                                    className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem"
-                                                >
-                                                    30
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem"
-                                                >
-                                                40
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem"
-                                                >
-                                                    50
-                                                </a>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                    <p className=" relative p-[7px] text-[12px] w-[88px] font-medium summary-border rounded-md  "> Export <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2"/> </p>
-               
-                </div>
-                <div className="relative">
-                <input  className="p-[6px] rounded-2xl  summary-border text-[13px] " type="text"    placeholder= " Search......."/> 
-                <SearchIcon className="absolute newadd2 right-[8px] top-[8px]"/>
-                </div>
-                </div>
-              
-                    
-                </div>
-              
-
-                {accordionItems.map((item, index) => (
-                    <div key={index} className="">
-                        {/* Accordion Header */}
-                        <button
-                            onClick={() => handleToggle(index)}
-                            className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
-                        >
-                            <span>{item.title}</span>
-                           
-                        </button>
-
-                        {/* Accordion Content */}
-                        {openIndex === index && (
-                            <div className="mb-[10px] text-gray-700 bg-white">
-                                {item.content}
-
-                            </div>
-                        )}
+                        <Link to="/" className="text-[#fff] text-[12px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-2xl p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                            <AddIcon className="newadd" /> Add New</Link>
                     </div>
-                ))}
+                    <div className="flex justify-between items-center mb-[10px] project-export">
+                        <div className="flex gap-[10px] system-project">
+                            <div className="relative inline-block text-left">
+                                {/* Button to open/close the dropdown */}
+                                <button
+                                    className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
+                                    onClick={toggleDropdown1}
+                                >
+                                    25 <KeyboardArrowDownIcon className="newadd" />
+                                </button>
+
+                                {/* Dropdown menu */}
+                                {isOpen1 && (
+                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                            <a
+                                                href="#"
+                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem"
+                                            >
+                                                30
+                                            </a>
+                                            <a
+                                                href="#"
+                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem"
+                                            >
+                                                40
+                                            </a>
+                                            <a
+                                                href="#"
+                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem"
+                                            >
+                                                50
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <p className=" relative p-[7px] text-[12px] w-[88px] font-medium summary-border rounded-md  "> Export <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" /> </p>
+
+                        </div>
+                        <div className="relative summ-project">
+                            <input className="p-[6px] rounded-2xl  summary-border text-[13px] summ-project " type="text" placeholder=" Search......." />
+                            <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
+                        </div>
+                    </div>
+
+
+                    {accordionItems.map((item, index) => (
+                        <div key={index} className="bg-white shadow-lg rounded-lg all-setup">
+                            {/* Accordion Header */}
+                            <button
+                                onClick={() => handleToggle(index)}
+                                className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
+                            >
+                                <span>{item.title}</span>
+
+                            </button>
+
+                            {/* Accordion Content */}
+                            {openIndex === index && (
+                                <div className="mb-[10px] text-gray-700 bg-white">
+                                    {item.content}
+
+                                </div>
+                            )}
+                        </div>
+                    ))}
+
+
+
+                </div>
+
+
 
 
             </div>
