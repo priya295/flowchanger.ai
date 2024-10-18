@@ -78,7 +78,7 @@ const EditRole = () => {
                                     <input
                                         type="checkbox"
                                         className='cursor-pointer'
-                                        checked={permissions.clients_permissions.view_global}
+                                        checked={permissions.clients_permissions.view_global}  
                                         onChange={() => handlePermissionChange('clients_permissions', 'view_global')}
                                     />
                                     <label className='ml-3 text-[13px] cursor-pointer text-[#64748b]'>View Global</label><br />

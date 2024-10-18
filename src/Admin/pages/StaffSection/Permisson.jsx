@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 
 const Permission = () => {
 
-    const [toggleDrop, setToggleDrop] = useState(false);
+  const [toggleDrop, setToggleDrop] = useState(false);
 
-    function handledrop() {
-      setToggleDrop(!toggleDrop)
-    }
+  function handledrop() {
+    setToggleDrop(!toggleDrop)
+  }
 
-    
+
   return (
     <div className='permisson-tab mt-[20px]'>
-          <div className='flex justify-between flex-col xl:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
+      <div className='flex justify-between flex-col xl:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
         <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row'>
           <div className='searching-input relative'>
             <img src={Search} className='absolute left-2 top-3' />
@@ -34,32 +34,36 @@ const Permission = () => {
         </div>
         <div className='flex gap-[15px] justify-between lg:justify-start'>
           <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Early Leaving Policy</button>
-          
+
         </div>
       </div>
 
 
-      <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-        <table className='table-section mt-4 w-full'>
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+      <div className='w-full   '>
+        <table className='table-section  w-full'>
           <thead className='border border-1 '>
             <th>#</th>
             <th>Name</th>
             <th>Job Title</th>
             <th>Role</th>
-            
+
 
           </thead>
           <tbody>
-            <td><input type='checkbox' className='border border-1 rounded-md '/></td>
+            <tr className='border'>
+            <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
             <td>Demo</td>
             <td>Demo</td>
             <td>Demo</td>
-            
+            </tr>
+
           </tbody>
         </table>
+        </div>
       </div>
     </div>
-   
+
   )
 }
 

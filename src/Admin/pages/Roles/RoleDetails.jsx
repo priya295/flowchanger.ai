@@ -9,9 +9,9 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const Main = () => {
 
-  const {baseUrl,setRoleName,setRoleId,setEditPermissions }= useGlobalContext();
-  const [roles,setRoles]=useState([])
-  
+  const { baseUrl, setRoleName, setRoleId, setEditPermissions } = useGlobalContext();
+  const [roles, setRoles] = useState([])
+
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "role")
 
@@ -25,9 +25,11 @@ const Main = () => {
 
   }
 
+  
+
 
   const deleteRole = async (id) => {
-     try {
+    try {
       const result = await fetch(`${baseUrl}/role/${id}`, {
         method: "DELETE",
         headers: {
@@ -99,30 +101,30 @@ const Main = () => {
 
 
             {
-              roles.map((role,index)=>{
-                return                 <tr className='border-b pb-2 border-[#f1f5f9]'>
-                <td className='pt-4 pb-3 pl-3'>
-                  <Link to="/" className='text-[#511992] text-[14px]'>{role.role_name}</Link>
-                  <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-                </td>
-                <td className='flex pt-4 gap-2 justify-center'>
-                  <Link to="/editrole"  onClick={()=>{
+              roles.map((role, index) => {
+                return <tr className='border-b pb-2 border-[#f1f5f9]'>
+                  <td className='pt-4 pb-3 pl-3'>
+                    <Link to="/" className='text-[#511992] text-[14px]'>{role.role_name}</Link>
+                    <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
+                  </td>
+                  <td className='flex pt-4 gap-2 justify-center'>
+                    <Link to="/editrole" onClick={() => {
                       setRoleId(role.id)
                       setRoleName(role.role_name)
                       setEditPermissions(role.permissions)
-                      }} >
-                  <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                  </Link>
-                  <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]'  onClick={() => { deleteRole(role.id) }} />
-                </td>
-              </tr>
-          
-  
+                    }} >
+                      <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
+                    </Link>
+                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' onClick={() => { deleteRole(role.id) }} />
+                  </td>
+                </tr>
+
+
               })
 
             }
-           
-            
+
+
 
 
 

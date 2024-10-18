@@ -126,7 +126,7 @@ const AttendanceTab = () => {
     function closeModal16() {
         setIsOpen16(false);
     }
-       // onclick auto half day button
+    // onclick auto half day button
 
 
 
@@ -299,26 +299,29 @@ const AttendanceTab = () => {
                             </div>
                         </div>
 
-
-                        <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                            <table className='table-section mt-4 w-full'>
-                                <thead className='border border-1 '>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Job Title</th>
-                                    <th>Schedule Type</th>
-
-
-                                </thead>
-                                <tbody>
-                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
+                        <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+                            <div className='w-full   '>
+                                <table className='table-section w-full'>
+                                    <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Job Title</th>
+                                        <th>Schedule Type</th>
 
 
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <tr className='border'>
+                                            <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                        </tr>
+                                     
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </TabPanel>
                     <TabPanel>
@@ -363,8 +366,9 @@ const AttendanceTab = () => {
                         </div>
 
 
-                        <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                            <table className='table-section mt-4 w-full'>
+                        <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+                            <div className='w-full   '>
+                            <table className='table-section  w-full'>
                                 <thead className='border border-1 '>
                                     <th>#</th>
                                     <th>Name</th>
@@ -379,6 +383,7 @@ const AttendanceTab = () => {
 
                                 </thead>
                                 <tbody className=''>
+                                    <tr className='border'>
                                     <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
                                     <td>Demo</td>
                                     <td>Demo</td>
@@ -387,10 +392,12 @@ const AttendanceTab = () => {
                                     <td>Demo</td>
                                     <td>Demo</td>
                                     <td>Demo</td>
+                                    </tr>
 
 
                                 </tbody>
                             </table>
+                            </div>
 
 
 
@@ -442,8 +449,9 @@ const AttendanceTab = () => {
                         </div>
 
 
-                        <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                            <table className='table-section mt-4 w-full'>
+                        <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+                            <div className='w-full   '>
+                            <table className='table-section  w-full'>
                                 <thead className='border border-1 '>
                                     <th>#</th>
                                     <th>Name</th>
@@ -458,6 +466,7 @@ const AttendanceTab = () => {
 
                                 </thead>
                                 <tbody className=''>
+                                    <tr className='border'> 
                                     <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
                                     <td>Demo</td>
                                     <td>Demo</td>
@@ -466,10 +475,12 @@ const AttendanceTab = () => {
                                     <td>Demo</td>
                                     <td>Demo</td>
                                     <td>Demo</td>
+                                    </tr>
 
 
                                 </tbody>
                             </table>
+                            </div>
 
 
 
@@ -616,7 +627,7 @@ const AttendanceTab = () => {
                         <div className='first-panel'>
                             <div className='flex justify-center gap-4 items-center'>
                                 <h2>Select Month</h2>
-                                <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'/>
+                                <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' />
                             </div>
                             <table className='w-full'>
                                 <thead className='border-b border-[#000] '>
@@ -1265,9 +1276,9 @@ const AttendanceTab = () => {
             {/* onclick autohalf day minutes  button */}
 
 
-              {/* onclick mandatory half day minutes  button */}
+            {/* onclick mandatory half day minutes  button */}
 
-              <Modal
+            <Modal
                 isOpen={modalIsOpen17}
                 onAfterOpen={afterOpenModal17}
                 onRequestClose={closeModal17}
@@ -1308,9 +1319,9 @@ const AttendanceTab = () => {
             {/* onclick mandatory half day minutes  button */}
 
 
-                {/* onclick mandatory full day minutes  button */}
+            {/* onclick mandatory full day minutes  button */}
 
-                <Modal
+            <Modal
                 isOpen={modalIsOpen18}
                 onAfterOpen={afterOpenModal18}
                 onRequestClose={closeModal18}
@@ -1350,7 +1361,7 @@ const AttendanceTab = () => {
 
             {/* onclick mandatory full day minutes  button */}
 
-            
+
 
             {/* when onclick update attendance mods for aall staff successfull msg */}
             <Modal

@@ -1,15 +1,39 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const StaffTab = () => {
+  const { baseUrl } = useGlobalContext();
 
   const [toggleDrop, setToggleDrop] = useState(false);
 
   function handledrop() {
     setToggleDrop(!toggleDrop)
   }
+
+  const [staffDetail, setStaffDetail] = useState();
+
+  const fetchRoles = async () => {
+    const result = await fetch(baseUrl + "staff")
+
+    console.log("reuslt", result)
+    if (result.status == 200) {
+      const res = await result.json();
+      setStaffDetail(res)
+    }
+    else {
+      alert("An Error Occured")
+    }
+
+  }
+
+
+  useEffect(() => {
+    fetchRoles()
+  }, [])
+
 
   return (
     <div className='staff-tab mt-[20px]'>
@@ -62,9 +86,10 @@ const StaffTab = () => {
       </div>
 
 
-      <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-        <table className='table-section mt-4'>
-          <thead className='border border-1 '>
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+      <div className='   '>
+        <table className='table-section '>
+          <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
             <th>#</th>
             <th>Name</th>
             <th>Job Title</th>
@@ -84,21 +109,43 @@ const StaffTab = () => {
 
 
           </thead>
-          <tbody>
-            <td><input type='checkbox' className='border border-1 rounded-md '/></td>
-            <td>
-              <Link to="/personal-detail" className='text-[#8A25B0] font-medium'>Staff</Link>
-            </td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
+          <tbody >
+            {
+              staffDetail?.map((staff, index) => {
+                return <tr key={index} className='border'>
+                  <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                  <td>
+                    <Link to="/personal-detail" className='text-[#8A25B0] font-medium'>{staff.name}</Link>
+                  </td>
+                  <td>{staff.job_title ? staff.job_title : "N/A"}</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>{staff.date_of_joining ? new Date( staff.date_of_joining).toLocaleDateString() :"N/A"}</td>
+                  <td>{staff.date_of_birth ? staff.date_of_birth :"N/A"}</td>
+                  <td>{staff.mobile}</td>
+                  <td>{staff.official_email}</td>
+                  <td>N/A</td>
+                  <td>{staff.gender ? staff.gender :"N/A"}</td>
+                  <td>{staff.current_address ? staff.current_address :"N/A"}</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>N/A</td>
+                  <td>{staff.emergency_contact_name ? staff.emergency_contact_name : "N/A"}</td>
+                  
+                  
+
+
+                  
+                </tr>
+                
+              })
+            }
+
+            
 
           </tbody>
         </table>
+      </div>
       </div>
     </div>
   )

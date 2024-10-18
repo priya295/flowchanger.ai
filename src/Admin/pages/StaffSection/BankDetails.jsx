@@ -4,7 +4,7 @@ import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
- 
+
 
 const BankDetails = () => {
 
@@ -64,37 +64,40 @@ const BankDetails = () => {
                 </div>
                 <div className='flex gap-[15px] justify-between lg:justify-start'>
                     <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn' onClick={openModal9}>Update Staff</button>
-                   
+
                 </div>
             </div>
 
 
-            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                <table className='table-section mt-4 w-full'>
-                    <thead className='border border-1 '>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Job Title</th>
-                        <th>Bank Name</th>
-                        <th>Accound Holder Name</th>
-                        <th>Bank Account Number </th>
-                        <th>Bank IFSC Code</th>
-                        <th>Bank Account Status</th>
-                        
+            <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+                <div className='w-full   '>
+                    <table className='table-section  w-full'>
+                    <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Job Title</th>
+                            <th>Bank Name</th>
+                            <th>Accound Holder Name</th>
+                            <th>Bank Account Number </th>
+                            <th>Bank IFSC Code</th>
+                            <th>Bank Account Status</th>
 
-                    </thead>
-                    <tbody>
-                        <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                        <td>Demo</td>
-                        <td>Demo</td>
-                        <td>Demo</td>
-                        <td>Demo</td>
-                        <td>Demo</td>
-                        <td>Demo</td>
-                        <td>Demo</td>
- 
-                    </tbody>
-                </table>
+
+                        </thead>
+                        <tbody>
+                            <tr className='border'>
+                            <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                            <td>Demo</td>
+                            <td>Demo</td>
+                            <td>Demo</td>
+                            <td>Demo</td>
+                            <td>Demo</td>
+                            <td>Demo</td>
+                            <td>Demo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
 
@@ -115,38 +118,38 @@ const BankDetails = () => {
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none'>Update all Staff</h2>
                 <button onClick={closeModal9} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
-                  
+
 
                     <div className='flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
                         <div className='flex gap-[0px] items-center '>
-                             <h4 className='m-0 font-medium' >Step 1. Download staff details.</h4>
+                            <h4 className='m-0 font-medium' >Step 1. Download staff details.</h4>
                         </div>
                         <div className="flex items-center  ">
-                         <Link to="#" className='whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Download Template</Link>
+                            <Link to="#" className='whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Download Template</Link>
                         </div>
                     </div>
 
-                  
+
                     <div className='flex justify-between items-center p-[10px] border border-b border-l-0 border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
                         <div className=' '>
-                             <h4 className='m-0 font-medium ' >Step 2. Edit downloaded file and update details.</h4>
-                             <p className='text-[10px] xl:text-[12px] pl-3 pt-2'>Please refer to instructions sheet in download template for formatting guide</p>
+                            <h4 className='m-0 font-medium ' >Step 2. Edit downloaded file and update details.</h4>
+                            <p className='text-[10px] xl:text-[12px] pl-3 pt-2'>Please refer to instructions sheet in download template for formatting guide</p>
 
                         </div>
-                        
+
                     </div>
-                  
+
                     <div className='flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
                         <div className='flex gap-[0px] items-center '>
-                             <h4 className='m-0 font-medium' >Step 3. Upload your file</h4>
+                            <h4 className='m-0 font-medium' >Step 3. Upload your file</h4>
                         </div>
                         <div className="flex items-center  ">
-                         <button className='outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Upload Staff List</button>
-                         {/* <input type='file' placeholder='ddjfksj'/> */}
+                            <button className='outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Upload Staff List</button>
+                            {/* <input type='file' placeholder='ddjfksj'/> */}
                         </div>
                     </div>
 
-                    
+
 
                 </div>
             </Modal>

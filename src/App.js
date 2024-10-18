@@ -71,7 +71,6 @@ import SidebarClient from "./Client_Panel/SidebarClient";
 import DepartmentDetail from "./Admin/pages/Department/DepartmentDetails";
 import PayrollMenu from "./Admin/pages/payroll/PayrollMenu";
 import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
-import PayrollSalary from "./Admin/pages/payroll/RunPayroll";
 import RunPayroll from "./Admin/pages/payroll/RunPayroll";
 
 const App = () => {
@@ -96,10 +95,10 @@ const App = () => {
       
 
         <div className="flex ">
-          <SideBar />
-          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set ">
+          <SideBar  />
+          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
             <NavBar />
-            <div className="p-[10px] admin-setup1 w-full h-lvh ">
+            <div className="p-[10px]  w-full ">
                <Outlet />
             </div>
 

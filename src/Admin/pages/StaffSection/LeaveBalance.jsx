@@ -115,28 +115,31 @@ const LeaveBalance = () => {
                         </div>
 
 
-                        <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                            <table className='table-section mt-4 w-full'>
-                                <thead className='border border-1 '>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Job Title</th>
-                                    <th>Privileged Leave Balance</th>
-                                    <th>Casual Leave Balance</th>
-                                    <th>Sick Leave Balance </th>
+                        <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+                            <div className='w-full   '>
+                                <table className='table-section w-full'>
+                                    <thead className='border border-1 '>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Job Title</th>
+                                        <th>Privileged Leave Balance</th>
+                                        <th>Casual Leave Balance</th>
+                                        <th>Sick Leave Balance </th>
 
 
-                                </thead>
-                                <tbody>
-                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <tr className="border">
+                                        <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                        <td>Demo</td>
+                                        <td>Demo</td>
+                                        <td>Demo</td>
+                                        <td>Demo</td>
+                                        <td>Demo</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </TabPanel>
 
@@ -170,8 +173,9 @@ const LeaveBalance = () => {
                         </div>
 
 
-                        <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                            <table className='table-section mt-4 w-full'>
+                        <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+                        <div className='w-full   '>
+                            <table className='table-section  w-full'>
                                 <thead className='border border-1 '>
                                     <th>#</th>
                                     <th>Name</th>
@@ -186,6 +190,7 @@ const LeaveBalance = () => {
 
                                 </thead>
                                 <tbody>
+                                    <tr className="border">
                                     <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
                                     <td>Demo</td>
                                     <td>Demo</td>
@@ -195,9 +200,11 @@ const LeaveBalance = () => {
                                     <td>Demo</td>
                                     <td>Demo</td>
                                     <td>Demo</td>
+                                    </tr>
 
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                     </TabPanel>
 
@@ -282,27 +289,27 @@ const LeaveBalance = () => {
                             </Tab>
                         </TabList>
                         <TabPanel>
-                          <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                            <table className='table-section mt-4'>
-                                <thead className='border border-1 '>
-                                    <th>Leave Type</th>
-                                    <th>Allowed Leaves (Per Month)</th>
-                                    <th>Carry-forward Leaves (On Month End)</th>
-                                    
-                                </thead>
-                                <tbody>
-                                    <td>Casual Leave</td>
-                                    <td><input type='text'/></td>
-                                    <td><input type='text'/></td>
-                                    
-                                </tbody>
-                            </table>
-                          </div>
+                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+                                <table className='table-section mt-4'>
+                                    <thead className='border border-1 '>
+                                        <th>Leave Type</th>
+                                        <th>Allowed Leaves (Per Month)</th>
+                                        <th>Carry-forward Leaves (On Month End)</th>
+
+                                    </thead>
+                                    <tbody>
+                                        <td>Casual Leave</td>
+                                        <td><input type='text' /></td>
+                                        <td><input type='text' /></td>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </TabPanel>
 
 
                         <TabPanel>
-                          
+
                         </TabPanel>
 
                     </Tabs>

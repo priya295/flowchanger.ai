@@ -77,122 +77,126 @@ const SalaryDetails = () => {
         </div>
       </div>
 
-      <div className="w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3">
-        <table className="table-section mt-4 w-full">
-          <thead className="border border-1 ">
-            <th>#</th>
-            <th>Name</th>
-            <th>Job Title</th>
-            <th>CTC</th>
-            <th>Basic</th>
-            <th>Employer PF Contribution </th>
-            <th>Employer ESI Contribution</th>
-            <th>EDLI & Admin Charges</th>
-            <th>Employer LWF Contribution</th>
-            <th>Employee PF</th>
-            <th>Employee ESI</th>
-            <th>Employee LWF</th>
-            <th>Professional Tax</th>
-          </thead>
-          <tbody>
-            <td>
-              <input type="checkbox" className="border border-1 rounded-md " />
-            </td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-          </tbody>
-        </table>
-      </div>
-
-      {/* when onclick update staff */}
-
-      <Modal
-        isOpen={modalIsOpen9}
-        onAfterOpen={afterOpenModal9}
-        onRequestClose={closeModal9}
-        // style={customStyles}
-        contentLabel="Example Modal"
-        className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
-      >
-        <h2
-          ref={(_subtitle) => (subtitle = _subtitle)}
-          className="border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none"
-        >
-          Update Multiple Staff Salary
-        </h2>
-        <button
-          onClick={closeModal9}
-          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
-        >
-          <CloseIcon className="text-white" />
-        </button>
-        <div className="pb-2">
-          <p className="p-[10px] pl-[14px] pr-[14px] text-[12px] text-center">
-            You need to setup your{" "}
-            <Link to="/salary_Details" className="text-[#8A25B0]">
-               Salary Details Import Settings. 
-            </Link>{" "}
-            Only Earnings and Deductions set from Settings section can be
-            updated through file upload.
-          </p>
-
-          <div className="flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] ">
-            <div className="flex gap-[0px] items-center ">
-              <h4 className="m-0 font-medium">
-                Step 1. Download current salary of selected employees.
-              </h4>
-            </div>
-            <div className="flex items-center  ">
-              <Link
-                to="#"
-                className="whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1"
-              >
-                Download Template
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center p-[10px] border border-b border-l-0 border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] ">
-            <div className=" ">
-              <h4 className="m-0 font-medium ">
-                Step 2. Edit staff salary details.
-              </h4>
-              <p className="text-[10px] xl:text-[12px] pl-3 pt-2">
-                Please refer to instructions sheet in download template for
-                formatting guide
-              </p>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] ">
-            <div className="flex gap-[0px] items-center ">
-              <h4 className="m-0 font-medium">
-                Step 3.  Upload new Salary details
-              </h4>
-            </div>
-            <div className="flex items-center  ">
-              <button className="outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1">
-                Upload Staff List
-              </button>
-              {/* <input type='file' placeholder='ddjfksj'/> */}
-            </div>
-          </div>
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+        <div className='w-full   '>
+          <table className="table-section  w-full">
+            <thead className="border border-1 ">
+              <th>#</th>
+              <th>Name</th>
+              <th>Job Title</th>
+              <th>CTC</th>
+              <th>Basic</th>
+              <th>Employer PF Contribution </th>
+              <th>Employer ESI Contribution</th>
+              <th>EDLI & Admin Charges</th>
+              <th>Employer LWF Contribution</th>
+              <th>Employee PF</th>
+              <th>Employee ESI</th>
+              <th>Employee LWF</th>
+              <th>Professional Tax</th>
+            </thead>
+            <tbody>
+              <tr className='border'>
+              <td>
+                <input type="checkbox" className="border border-1 rounded-md " />
+              </td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              <td>Demo</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </Modal>
-      {/* when onclick update staff
+        </div>
+
+        {/* when onclick update staff */}
+
+        <Modal
+          isOpen={modalIsOpen9}
+          onAfterOpen={afterOpenModal9}
+          onRequestClose={closeModal9}
+          // style={customStyles}
+          contentLabel="Example Modal"
+          className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+        >
+          <h2
+            ref={(_subtitle) => (subtitle = _subtitle)}
+            className="border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none"
+          >
+            Update Multiple Staff Salary
+          </h2>
+          <button
+            onClick={closeModal9}
+            className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
+          >
+            <CloseIcon className="text-white" />
+          </button>
+          <div className="pb-2">
+            <p className="p-[10px] pl-[14px] pr-[14px] text-[12px] text-center">
+              You need to setup your{" "}
+              <Link to="/salary_Details" className="text-[#8A25B0]">
+                Salary Details Import Settings.
+              </Link>{" "}
+              Only Earnings and Deductions set from Settings section can be
+              updated through file upload.
+            </p>
+
+            <div className="flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] ">
+              <div className="flex gap-[0px] items-center ">
+                <h4 className="m-0 font-medium">
+                  Step 1. Download current salary of selected employees.
+                </h4>
+              </div>
+              <div className="flex items-center  ">
+                <Link
+                  to="#"
+                  className="whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1"
+                >
+                  Download Template
+                </Link>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center p-[10px] border border-b border-l-0 border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] ">
+              <div className=" ">
+                <h4 className="m-0 font-medium ">
+                  Step 2. Edit staff salary details.
+                </h4>
+                <p className="text-[10px] xl:text-[12px] pl-3 pt-2">
+                  Please refer to instructions sheet in download template for
+                  formatting guide
+                </p>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] ">
+              <div className="flex gap-[0px] items-center ">
+                <h4 className="m-0 font-medium">
+                  Step 3.  Upload new Salary details
+                </h4>
+              </div>
+              <div className="flex items-center  ">
+                <button className="outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1">
+                  Upload Staff List
+                </button>
+                {/* <input type='file' placeholder='ddjfksj'/> */}
+              </div>
+            </div>
+          </div>
+        </Modal>
+        {/* when onclick update staff
        */}
-    </div>
-  );
+      </div>
+      );
 };
 
-export default SalaryDetails;
+      export default SalaryDetails;

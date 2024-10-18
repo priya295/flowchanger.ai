@@ -130,8 +130,9 @@ const Early_Leaving_Policy = () => {
           </div>
         </div>
       </div>
-      <div className="w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3">
-        <table className="table-section mt-4 w-full">
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+      <div className='w-full   '>
+        <table className="table-section w-full">
           <thead className="border border-1 ">
             <th>#</th>
             <th>Name</th>
@@ -142,6 +143,7 @@ const Early_Leaving_Policy = () => {
             <th>Deduction Type</th>
           </thead>
           <tbody>
+            <tr className="border">
             <td>
               <input type="checkbox" className="border border-1 rounded-md " />
             </td>
@@ -151,8 +153,10 @@ const Early_Leaving_Policy = () => {
             <td>Demo</td>
             <td>Demo</td>
             <td>Demo</td>
+            </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
