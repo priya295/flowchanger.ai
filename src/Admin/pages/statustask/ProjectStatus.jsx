@@ -10,8 +10,8 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const Edit_Task_Status = () => {
-    let subtitle;
+
+const ProjectStatus = () => {
     const [openIndex, setOpenIndex] = useState(null);
 
     // Function to handle accordion toggling
@@ -52,6 +52,7 @@ const Edit_Task_Status = () => {
     };
 
     //Modal2
+    //Modal
     // State to control the visibility of the modal
     const [isOpen3, setIsOpen3] = useState(false);
 
@@ -61,14 +62,14 @@ const Edit_Task_Status = () => {
     };
 
     //Modal2
-
     const [isOpen5, setIsOpen5] = useState(false);
 
     // Toggle the visibility of tbody
     const toggleTable = () => {
-        setIsOpen5(!isOpen5);
+      setIsOpen5(!isOpen5);
     };
-    // Array of accordion items
+    let subtitle;
+
     const [modalIsOpen6, setIsOpen6] = React.useState(false);
     function openModal6() {
         setIsOpen6(true);
@@ -82,13 +83,16 @@ const Edit_Task_Status = () => {
     function closeModal6() {
         setIsOpen6(false);
     }
+
+
+   
     return (
         <div className=" w-full  ">
 
-            <div className="bg-[#fff] p-[10px]">
+            <div className="bg-[#fff] p-[10px] ">
 
 
-                <div className="p-[20px] rounded set-shadow w-full">
+                <div className="p-[20px] rounded-md set-shadow w-full">
 
 
                     <div className="flex items-center gap-[14px] mb-[10px]">
@@ -98,32 +102,32 @@ const Edit_Task_Status = () => {
                                 onClick={toggleModal}
                                 className="px-4 py-2 second-btn bg-blue-500 text-white rounded-md"
                             >
-                                Add task status
+                                Add Project Status
                             </button>
 
                             {/* Modal (visible only when isOpen is true) */}
                             {isOpen && (
-                                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                                <div className="fixed z-[1] inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
                                     <div className="bg-white rounded-lg shadow-lg w-96">
                                         {/* Modal Header */}
                                         <div className="px-4 py-2 border-b">
-                                            <h2 className="text-lg font-semibold">Create new task status</h2>
+                                            <h2 className="text-lg font-semibold">Create New Project</h2>
                                         </div>
 
                                         {/* Modal Body */}
                                         <div className="p-4">
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Status Name</label><br />
+                                                <label className='text-[14px]'>*Project Name</label><br />
                                                 <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Status Color</label><br />
+                                                <label className='text-[14px]'>*Project  Color</label><br />
                                                 <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Status Order</label><br />
+                                                <label className='text-[14px]'>*Project Order</label><br />
                                                 <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
@@ -217,50 +221,65 @@ const Edit_Task_Status = () => {
                         </div>
                     </div>
 
-
-
                     <div className="main-table-status">
-                        <table className="table-auto w-full border border-gray-300 rounded-md table-status">
-                            <thead
-                                onClick={toggleTable}
-                                className="set-shadow  cursor-pointer"
-                            >
-                                <tr>
-                                    <th className="p-3 text-left">ID</th>
-                                    <th className="p-3 text-left">Status Name</th>
-                                    <th className="p-3 text-left">Status Color</th>
-                                    <th className="p-3 text-left">Status Order</th>
-                                    <th className="p-3 text-left">Status Defaulter Filter</th>
-                                    <th className="p-3 text-left">Status can be changed to</th>
-                                    <th className="p-3 text-left">Status in hidder for</th>
-
-                                </tr>
-                            </thead>
-                            {/* Add transition for tbody */}
-                            <tbody
-                                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
-                                style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
-                            >
-                                <tr className="border">
-                                    <td className=" ">1</td>
-                                    <td className=" ">Not Started</td>
-                                    <td className=" ">#fff</td>
-                                    <td className=" ">20</td>
-                                    <td className=" ">Yes</td>
-                                    <td className=" ">In Progress</td>
-                                    <td className=" ">
-                                        <div className="flex gap-2">
-                                            <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
-                                            <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-
-                                        </div>
-                                    </td>
-
-                                </tr>
+                    <table className="table-auto w-full border border-gray-300 rounded-md table-status">
+                        <thead
+                            onClick={toggleTable}
+                            className="set-shadow  cursor-pointer"
+                        >
+                            <tr>
+                                <th className="p-3 text-left">ID</th>
+                                <th className="p-3 text-left">Status Name</th>
+                                <th className="p-3 text-left">Status Color</th>
+                                <th className="p-3 text-left">Status Order</th>
+                                <th className="p-3 text-left">Status Defaulter Filter</th>
+                                <th className="p-3 text-left">Status can be changed to</th>
+                                <th className="p-3 text-left">Status in hidder for</th>
+                                
+                            </tr>
+                        </thead>
+                        {/* Add transition for tbody */}
+                        <tbody
+                            className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
+                            style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
+                        >
+                            <tr className="border">
+                                <td className=" ">1</td>
+                                <td className=" ">Not Started</td>
+                                <td className=" ">#fff</td>
+                                <td className=" ">20</td>
+                                <td className=" ">Yes</td>
+                                <td className=" ">In Progress</td>
+                                <td className=" ">
+                                    <div className="flex gap-2">
+                                        <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
+                                        <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                                        
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                            <tr className="border">
+                                <td className=" ">1</td>
+                                <td className=" ">Not Started</td>
+                                <td className=" ">#fff</td>
+                                <td className=" ">20</td>
+                                <td className=" ">Yes</td>
+                                <td className=" ">In Progress</td>
+                                <td className=" ">
+                                    <div className="flex gap-2">
+                                        <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
+                                        <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                                        
+                                    </div>
+                                </td>
+                                
+                            </tr>
                             
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
                     </div>
+                
 
                 </div>
 
@@ -269,7 +288,6 @@ const Edit_Task_Status = () => {
 
 
             </div>
-
 
             <Modal
                 isOpen={modalIsOpen6}
@@ -331,10 +349,7 @@ const Edit_Task_Status = () => {
 
             </Modal>
         </div>
-    );
-};
-export default Edit_Task_Status
+    )
+}
 
-
-
-
+export default ProjectStatus

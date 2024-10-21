@@ -72,8 +72,8 @@ import DepartmentDetail from "./Admin/pages/Department/DepartmentDetails";
 import PayrollMenu from "./Admin/pages/payroll/PayrollMenu";
 import CalenderHeader from "./Admin/pages/Calender/CalenderHeader";
 import RunPayroll from "./Admin/pages/payroll/RunPayroll";
-
-const App = () => {
+import StatusMainPage from "./Admin/pages/statustask/StatusMainPage";
+ const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
   const handleToggleSideBar = () => {
@@ -239,7 +239,15 @@ const App = () => {
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/department-details" element={<Department_Details />} />
           <Route path="/taskstatus" element={<Task_Status />} />
-          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
+
+          <Route path="/status-main-page" element={<StatusMainPage />} />
+
+
+           
+
+          
+
+          
           <Route path="/edit-project" element={<Edit_Project />} />
           {/* <Route path="/task" element={<Task />} /> */}
           <Route path="/editprofile" element={<Editprofile />} />
