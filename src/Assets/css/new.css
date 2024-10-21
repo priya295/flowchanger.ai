@@ -222,6 +222,21 @@
 .highred2{
     color: blue;
 }
+.page-expense-heading thead th{
+    background: white !important;
+
+}
+.shadow-cs{
+    box-shadow: 0 0 5px #cfcfcf;
+}
+.inse-grey{
+    z-index: 1;
+}
+.edittable thead th{
+    background: white !important;
+    box-shadow: 0 0 5px #cfcfcf;
+
+}
 .six-north{
     background: #461274;
     color: white;
@@ -250,6 +265,9 @@
     .main-fourty{
         width: 100%;
     }
+    .summary-bold{
+        flex-direction: column;
+    }
 }
 @media(max-width:992px){
     .lette2{
@@ -258,6 +276,12 @@
     .all-setup{
         overflow: scroll;
         width: 100%;
+    }
+    .flow-edit{
+        overflow: scroll;
+    }
+    .summary-bold1{
+        flex-direction: column;
     }
 }
 @media(max-width:640px){
@@ -290,6 +314,18 @@
         flex-basis: 100%;
     }
 }
+@media(max-width:600px){
+    .project-fear{
+        padding-left: 20px;
+        margin: 0;
+    }
+    .new-staff3{
+        width: 100%;
+    }
+    .review-summary{
+        flex-direction: column-reverse;
+    }
+}
 @media(max-width:740px){
     .newsetup{
         width: 100%;
@@ -298,6 +334,9 @@
     .keyframe1{
         width: 100%;
         overflow: scroll;
+    }
+    .summary-bold2{
+        flex-direction: column;
     }
 }
 
@@ -371,6 +410,16 @@
         flex-direction: column-reverse;
         gap: 10px;
     }
+    .satisfy-summary{
+        flex-direction: column;
+        gap: 10px;
+    }
+    .summary-bold2{
+        text-align: right;
+    }
+    .approval-new{
+        width: 100%;
+    }
 }
 
 @media screen and (max-width:430px){
@@ -397,6 +446,20 @@
     }
     .client-add{
         width: 100%;
+    }
+    .modal-create-note{
+        width: 78%;
+    }
+    .set-modal-note2{
+        justify-content: center;
+        
+    }
+    .approval-new{
+        flex-direction: column;
+    }
+    .review-btn{
+        width: 100%;
+        text-align: center;
     }
 }
 @media(max-width:400px){
@@ -457,6 +520,35 @@
     .bulk-action{
         width: 110px;
     }
-
+    .newcreated{
+        font-size: 14px;
+    }
+    .interview-heading{
+        font-size: 18px;
+    }
+    .set-modal-note2{
+        font-size: 11px;
+    }
+    .main-expense-set{
+        padding: 10px;
+    }
+    .short-video{
+        font-size: 14px;
+    }
+    .resourses{
+        font-size: 14px;
+    }
+    .work-fine{
+        padding: 6px;
+    }
+    .over-new{
+        padding: 10px;
+    }
+    .total-staff{
+        font-size: 12px;
+    }
+    .set-workd{
+        justify-content: center;
+    }
 }
 

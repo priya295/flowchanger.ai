@@ -31,7 +31,7 @@ const Note = () => {
 
           {isOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+              <div className="bg-white p-6 rounded-lg shadow-cs w-96 modal-create-note">
                 <h2 className="text-xl font-semibold mb-4">Create Note</h2>
                 <div className="mb-[24px]">
                   <div className='w-[100%] xl:[48%] mb-[10px] '>
@@ -56,7 +56,7 @@ const Note = () => {
                   </div>
 
                 </div>
-                <div className="flex gap-[6px] items-center justify-end ">
+                <div className="flex gap-[6px] items-center justify-end set-modal-note2 ">
                   <button
                     className="px-4 py-2 bg-red-500 text-white rounded-md"
                     onClick={handleClose}
@@ -72,8 +72,8 @@ const Note = () => {
 
       </div>
 
-      <div className="bg-white shadow-lg p-[26px] ">
-        <div class="grid gap-x-8 gap-y-4 grid-cols-3">
+      <div className="bg-white shadow-cs p-[26px] rounded-lg ">
+        <div class="grid gap-x-8 gap-y-4  xl:grid-cols-3 2xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2">
 
 
           <div className="bg-[#ffffcc] p-[14px] rounded-lg interview-card">
@@ -81,11 +81,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] newcreated text-[14px]">25-09-2024</span>
             </div>
           </div>
 
@@ -94,11 +94,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] newcreated text-[14px]">25-09-2024</span>
             </div>
           </div>
 
@@ -107,11 +107,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated"  >Created at :</p>
+            <span className="text-[#8a25b0] newcreated text-[14px]">25-09-2024</span>
             </div>
           </div>
 
@@ -119,12 +119,12 @@ const Note = () => {
             <div className="flex justify-end items-center gap-[5px]">
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
-            </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
-            <p className="mb-[10px]">wretwre</p>
+            </div> 
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
+            <p className="mb-[10px] ">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] text-[14px] newcreated">25-09-2024</span>
             </div>
           </div>
 
@@ -133,11 +133,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] newcreated text-[14px]">25-09-2024</span>
             </div>
           </div>
 
@@ -146,11 +146,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] text-[14px] newcreated">25-09-2024</span>
             </div>
           </div>
 
@@ -159,11 +159,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] text-[14px] newcreated">25-09-2024</span>
             </div>
           </div>
 
@@ -172,11 +172,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] newcreated text-[14px]">25-09-2024</span>
             </div>
           </div>
 
@@ -185,11 +185,11 @@ const Note = () => {
               <button className="bg-[#8a25b0] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><EditNoteIcon className="text-white edit-icon"/></button>
               <button className="bg-[red] h-[30px] flex items-center justify-center w-[30px] p-[4px] rounded-md"><DeleteIcon className="text-white edit-icon"/></button>
             </div>
-            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0]">Interview</h4>
+            <h4 className="font-medium mb-[10px] text-[20px] text-[#8a25b0] interview-heading">Interview</h4>
             <p className="mb-[10px]">wretwre</p>
           <div className="flex gap-[8px] items-center">
-            <p className="text-[16px] text-[red]" >Created at :</p>
-            <span className="text-[#8a25b0] text-[14px]">25-09-2024</span>
+            <p className="text-[16px] text-[red] newcreated" >Created at :</p>
+            <span className="text-[#8a25b0] text-[14px] newcreated">25-09-2024</span>
             </div>
           </div>
           
