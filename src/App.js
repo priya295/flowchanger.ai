@@ -24,6 +24,11 @@ import EditLeavePolicies from "../src/pages/Admin_Panel/editstaff/EditLeavePolic
 import CustomDetail from "../src/pages/Admin_Panel/editstaff/CustomDetail";
 import BackgroundVerification from "../src/pages/Admin_Panel/editstaff/BackgroundVerification";
 import VerifyAadhaar from "../src/pages/Admin_Panel/editstaff/VerifyAadhaar";
+import VerifyPan from "../src/pages/Admin_Panel/editstaff/VerifyPan";
+import DrivingLicense from "./pages/Admin_Panel/editstaff/VerifyDrivingLicense";
+import VerifyUan from "../src/pages/Admin_Panel/editstaff/VerifyUan";
+import VerifyFace from "../src/pages/Admin_Panel/editstaff/VerifyFace";
+import VerifyAddress from "./pages/Admin_Panel/editstaff/VerifyAddress";
 import UpperHeader from "../src/pages/Admin_Panel/editstaff/UpperHeader";
 import SidebarEditStaff from "../src/pages/Admin_Panel/editstaff/SidebarEditStaff";
 import Salary_Details from "./pages/Admin_Panel/StaffSection/Salary_Details";
@@ -77,9 +82,9 @@ import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
 import { useGlobalContext } from "./Context/GlobalContext";
 
- 
+
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
- const App = () => {
+const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
 
@@ -95,16 +100,16 @@ import { useGlobalContext } from "./Context/GlobalContext";
       </>
     );
   }
- 
+
   function AdminLayout() {
     return (
       <>
         <div className="flex ">
-          <SideBar  />
+          <SideBar />
           <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
             <NavBar />
             <div className="p-[10px]  w-full ">
-               <Outlet />
+              <Outlet />
             </div>
           </div>
         </div>
@@ -113,7 +118,7 @@ import { useGlobalContext } from "./Context/GlobalContext";
   }
 
   function Editstaff() {
-   
+
     return (
       <>
         <div className="">
@@ -144,7 +149,7 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <div className="">
             {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} />}
           </div>
-            
+
           {/* container for navbar and outlet */}
           <div className={`flex flex-col  flex-grow overflow-hidden`}>
             <ClientHeader
@@ -239,11 +244,11 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <Route path="/status-main-page" element={<StatusMainPage />} />
 
 
-           
 
-          
 
-          
+
+
+
           <Route path="/taskpriority" element={<Task_Priority />} />
 
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
@@ -278,6 +283,11 @@ import { useGlobalContext } from "./Context/GlobalContext";
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
+          <Route path="/verify-pan" element={<VerifyPan />} />
+          <Route path="/driving-license" element={<DrivingLicense />} />
+          <Route path="/uan" element={<VerifyUan />} />
+          <Route path="/face" element={<VerifyFace />} />
+          <Route path="/address" element={<VerifyAddress />} />
 
         </Route>
         <Route element={<Client_Panel />}>
