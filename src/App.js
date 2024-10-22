@@ -50,7 +50,6 @@ import Editprofile from "../src/pages/Admin_Panel/profile/Editprofile";
 import Task_Status from "./pages/Admin_Panel/Projects/Task_Status";
 import Client_Project from "../src/pages/Client_Panel/Client_Project";
 import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
-import Task_Priority from "../src/pages/Admin_Panel/Tasks/Task_Priority";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
 import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import Meeting from "./pages/Admin_Panel/Calender/Meeting";
@@ -244,7 +243,7 @@ import { useGlobalContext } from "./Context/GlobalContext";
           
 
           
-          <Route path="/taskpriority" element={<Task_Priority />} />
+        
 
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project />} />

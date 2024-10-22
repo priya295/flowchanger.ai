@@ -91,7 +91,7 @@ const Calender = () => {
             Next
           </button>
         </div>
-        <div className=" p-4">
+        <div className=" p-[0]">
           <table className="table-auto border-collapse border  w-full text-start ">
             <thead>
               <tr>
