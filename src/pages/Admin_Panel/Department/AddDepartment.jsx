@@ -18,7 +18,7 @@ const AddDepartment = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({department_name:department}) // send the formatted data
+            body: JSON.stringify({departmentName:department}) // send the formatted data
         });
     
         console.log(response);
