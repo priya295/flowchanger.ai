@@ -35,7 +35,7 @@ const ExpenseEdit = () => {
 
             {isOpen && (
               <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                <div className="bg-white p-6 rounded-lg shadow-cs w-96">
                   <h2 className="text-xl font-semibold mb-4">Create Note</h2>
                   <div className="mb-[24px]">
                     <div className="w-[100%] xl:[48%] mb-[10px] ">
@@ -81,7 +81,7 @@ const ExpenseEdit = () => {
                     <button className="second-btn">Create</button>
                   </div>
                 </div>
-                <div className="p-[20px] mt-[20px] bg-white shadow-lg">
+                <div className="p-[20px] mt-[20px] bg-white shadow-cs rounded-lg">
 
                     <div className="w-[100%] flex items-center gap-[10px]">
                         <input className="p-[8px] w-[33%] border text-[12px]  rounded-lg" type="date" />
@@ -99,8 +99,8 @@ const ExpenseEdit = () => {
                         </div>
                     </div>
 
-                    <div className='w-[100%] flex rounded-md shadow  border border-1 mt-4 pl-3 pr-3'>
-                        <table className='table-section mt-4'>
+                    <div className='w-[100%] flex rounded-lg shadow-cs bg-white   border border-1 mt-4 pl-3 pr-3'>
+                        <table className='table-section mt-4 edittable'>
                             <thead className='border border-1 '>
                                 <th>#</th>
                                 <th>ID</th>
@@ -135,7 +135,7 @@ const ExpenseEdit = () => {
             )}
           </div>
         </div>
-        <div className="p-[20px] mt-[20px] bg-white shadow-lg">
+        <div className="p-[20px] mt-[20px] bg-white shadow-cs">
           <div className="w-[100%] flex items-center gap-[10px]">
             <input
               className="p-[8px] w-[33%] border text-[12px]  rounded-lg"
@@ -153,8 +153,8 @@ const ExpenseEdit = () => {
             </div>
           </div>
 
-          <div className="w-[100%] flex rounded-md shadow  border border-1 mt-4 pl-3 pr-3">
-            <table className="table-section mt-4">
+          <div className="w-[100%] flow-edit flex rounded-lg shadow-cs   border border-1 mt-4 pl-3 pr-3">
+            <table className="table-section edittable mt-4">
               <thead className="border border-1 ">
                 <th>#</th>
                 <th>ID</th>

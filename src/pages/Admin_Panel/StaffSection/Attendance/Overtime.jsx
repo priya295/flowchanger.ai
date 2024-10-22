@@ -43,12 +43,6 @@ const Overtime = () => {
 
     //salary2 dropdown
 
-
-
-
-
-
-
     return (
         <div className='w-full p-[20px]'>
             <div className=''>
@@ -95,7 +89,7 @@ const Overtime = () => {
 
                     {/* Dropdown menu */}
                     {isOpen && (
-                        <div className="absolute right-0 w-[100%] z-10 mt-2 origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                        <div className="absolute right-0 w-[100%] z-10 mt-2 origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                 <a
                                     href="#"
@@ -180,7 +174,7 @@ const Overtime = () => {
 
                                     {/* Dropdown menu */}
                                     {isOpen1 && (
-                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                                 <a
                                                     href="#"

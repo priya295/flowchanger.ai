@@ -39,7 +39,7 @@ const Projects = () => {
                         <thead className="tablehead">
                             <tr className="rounded-lg">
 
-                                <th className="text-[12px] font-medium p-[12px] w-[100px] border-r whitespace-nowrap">Status(01)</th>
+                            <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
 
 
                                 <th className="text-[12px] border-r w-[100px]  font-medium p-[12px] ">#</th>
@@ -83,7 +83,7 @@ const Projects = () => {
 
 
 
-                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
+                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/project-overview">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
 
 
 
@@ -112,7 +112,7 @@ const Projects = () => {
 
 
 
-                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
+                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/project-overview">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
 
 
 
@@ -148,22 +148,19 @@ const Projects = () => {
 
     ];
     return (
-        <div className=" w-full absolute pl-[145px] lette2 top-[95px] right-[5px] ">
+        <div className="">
 
-            <div className="bg-[#fff] p-[10px] ml-[140px]">
+            <div className="bg-[#fff] p-[10px] project-fear">
                 <div className="mb-[14px]">
 
-                    <Link to="/" className="text-[#fff] text-[14px] bg-[#8a25b0] mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <Link to="/create-new-project " className="text-[#fff] text-[14px] bg-[#8a25b0] focus-visible:outline-none focus:shadow-none mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <AddIcon className="newadd" /> New Project</Link>
                 </div>
 
-                <div className="p-[20px] summary-border rounded-lg w-full">
+                <div className="p-[20px] summary-border rounded-lg w-full  bg-white shadow-cs">
                     <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Projects</h2>
 
-                    <div className="flex items-center gap-[14px] mb-[10px]">
-                        <Link to="/" className="text-[#fff] text-[12px] bg-[#8a25b0]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-2xl p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            <AddIcon className="newadd" /> Add New</Link>
-                    </div>
+                  
                     <div className="flex justify-between items-center mb-[10px] project-export">
                         <div className="flex gap-[10px] system-project">
                             <div className="relative inline-block text-left">
@@ -177,7 +174,7 @@ const Projects = () => {
 
                                 {/* Dropdown menu */}
                                 {isOpen1 && (
-                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                                         <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                             <a
                                                 href="#"
@@ -208,14 +205,14 @@ const Projects = () => {
 
                         </div>
                         <div className="relative summ-project">
-                            <input className="p-[6px] rounded-2xl  summary-border text-[13px] summ-project " type="text" placeholder=" Search......." />
+                            <input className="p-[8px] pr-[24px] rounded-2xl outline-none  summary-border text-[13px] summ-project " type="text" placeholder=" Search......." />
                             <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
                         </div>
                     </div>
 
 
                     {accordionItems.map((item, index) => (
-                        <div key={index} className="bg-white shadow-lg rounded-lg all-setup">
+                        <div key={index} className="bg-white shadow-cs rounded-lg all-setup">
                             {/* Accordion Header */}
                             <button
                                 onClick={() => handleToggle(index)}
@@ -245,5 +242,6 @@ const Projects = () => {
             </div>
         </div>
     );
+    
 };
 export default Projects

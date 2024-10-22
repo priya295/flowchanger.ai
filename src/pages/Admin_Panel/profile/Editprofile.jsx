@@ -102,7 +102,7 @@ const Editprofile = () => {
                   <input type='number' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                 </div>
-                <div className='profile-pass mt-[10px] p-[5px] rounded-md bg-[#f4f5f9] shadow-lg '>
+                <div className='profile-pass mt-[10px] p-[5px] rounded-md bg-[#f4f5f9] shadow-cs '>
                   <p className='text-[14px]'>Password Last Changed 2 Weeks ago: </p>
 
                 </div>

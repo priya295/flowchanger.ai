@@ -241,7 +241,7 @@ const Clients = () => {
 
                                 {/* Dropdown menu */}
                                 {isOpen1 && (
-                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                                         <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                             <a
                                                 href="#"

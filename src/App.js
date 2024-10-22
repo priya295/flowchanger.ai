@@ -8,6 +8,7 @@ import NavBar from "./components/Admin_Panel/NavBar";
 import SideBar from "./components/Admin_Panel/SideBar";
 import Project from "./pages/Admin_Panel/Projects/Project_Data";
 import Role_Details from "./pages/Admin_Panel/Roles/RoleDetails";
+// import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import AddRole from "./pages/Admin_Panel/Roles/Add_Role";
 import AddDepartment from "../src/pages/Admin_Panel/Department/AddDepartment";
 import EditRole from "./pages/Admin_Panel/Roles/EditRole";
@@ -34,7 +35,7 @@ import Overtime from "./pages/Admin_Panel/StaffSection/Attendance/Overtime";
 import Project_Summary from "./pages/Admin_Panel/Projects/Project_Summary";
 import ProjectsOverview from "./pages/Admin_Panel/Projects/Project_overview";
 import Projects from './pages/Admin_Panel/Projects/Projects';
-import Taskview from "../src/pages/Admin_Panel/Task/Taskview";
+import Taskview from "../src/pages/Admin_Panel/Tasks/Taskview";
 import Clients from "../src/pages/Admin_Panel/Clients/Clients";
 import NewTicket from "./pages/Admin_Panel/Projects/NewTicketForm";
 import Add_Project from "./pages/Admin_Panel/Projects/Add_Project";
@@ -47,10 +48,11 @@ import StaffSalarySummry from "../src/pages/Admin_Panel/editstaff/StaffSalarySum
 import Calender from "./pages/Admin_Panel/Calender/Calender";
 import Editprofile from "../src/pages/Admin_Panel/profile/Editprofile";
 import Task_Status from "./pages/Admin_Panel/Projects/Task_Status";
-// import Client_Project from "../src/Clients/Client_Project";
-import Edit_Task_Status from "./pages/Admin_Panel/Projects/Edit_Task_Status";
+import Client_Project from "../src/pages/Client_Panel/Client_Project";
+import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
+import Task_Priority from "../src/pages/Admin_Panel/Tasks/Task_Priority";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
-// import Project_Progress from "../src/Clients/Project_Progress";
+import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import Meeting from "./pages/Admin_Panel/Calender/Meeting";
 import CalenderDay from "./pages/Admin_Panel/Calender/CalenderDay";
 import CalenderYear from "./pages/Admin_Panel/Calender/CalenderYear";
@@ -75,8 +77,9 @@ import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
 import { useGlobalContext } from "./Context/GlobalContext";
 
+ 
+// import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
  const App = () => {
-
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
 
@@ -96,8 +99,6 @@ import { useGlobalContext } from "./Context/GlobalContext";
   function AdminLayout() {
     return (
       <>
-      
-
         <div className="flex ">
           <SideBar  />
           <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
@@ -105,16 +106,11 @@ import { useGlobalContext } from "./Context/GlobalContext";
             <div className="p-[10px]  w-full ">
                <Outlet />
             </div>
-
           </div>
         </div>
       </>
     );
   }
-
-
-
-
 
   function Editstaff() {
    
@@ -148,7 +144,7 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <div className="">
             {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} />}
           </div>
-
+            
           {/* container for navbar and outlet */}
           <div className={`flex flex-col  flex-grow overflow-hidden`}>
             <ClientHeader
@@ -194,7 +190,7 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <SideBar />
           <div className="w-full">
             <NavBar />
-            <div className="p-[20px] w-full h-lvh overflow-scroll">
+            <div className="p-[20px] pb-10 w-full h-lvh overflow-scroll">
               <PayrollMenu />
               {/* <Outlet /> */}
             </div>
@@ -231,16 +227,11 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <Route path="/overtime" element={<Overtime />} />
           <Route path="/taskview" element={<Taskview />} />
           <Route path="/clients" element={<Clients />} />
+          <Route path="/projectprogress" element={<Project_Progress />} />
           {/* <Route path="/addnewtask" element={<AddNewTask />} /> */}
           {/* <Route path="/taskdata" element={<Task_Data />} /> */}
           <Route path="/task" element={<Task />} />
           <Route path="/adddepartment" element={<AddDepartment />} />
-
-
-
-
-
-
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/department-details" element={<Department_Details />} />
           <Route path="/taskstatus" element={<Task_Status />} />
@@ -253,6 +244,9 @@ import { useGlobalContext } from "./Context/GlobalContext";
           
 
           
+          <Route path="/taskpriority" element={<Task_Priority />} />
+
+          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project />} />
           {/* <Route path="/task" element={<Task />} /> */}
           <Route path="/editprofile" element={<Editprofile />} />
@@ -262,7 +256,6 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <Route path="/note" element={<Note />} />
           <Route path="/expenseedit" element={<ExpenseEdit />} />
           <Route path="/expensepage" element={<ExpensePage />} />
-
           <Route path="/subscription-plan" element={<Subscription />} />
           <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
         </Route>
@@ -292,10 +285,6 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <Route path="/task" element={<Task />} />
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
 
-
-
-
-
           <Route
             path="/background-verification"
             element={<BackgroundVerification />}
@@ -307,27 +296,14 @@ import { useGlobalContext } from "./Context/GlobalContext";
         <Route element={<Payroll_Summary />}>
           <Route path="/run-payroll" element={<RunPayroll />} />
           <Route path="/payroll-menu" element={<PayrollMenu />} />
-
-
         </Route>
-
-
-
         <Route element={<Calender_Layout />}>
           <Route path="/calender" element={<Calender />} />
           <Route path="/meeting" element={<Meeting />} />
           <Route path="/day-wise" element={<CalenderDay />} />
           <Route path="/year-wise" element={<CalenderYear />} />
           <Route path="/week-wise" element={<CalenderWeekly />} />
-
-
-
         </Route>
-
-
-
-
-
         <Route element={<AuthLayout />}>
           <Route path="/authentication" element={<MultiStepForm />} />
         </Route>

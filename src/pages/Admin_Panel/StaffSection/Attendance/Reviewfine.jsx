@@ -90,7 +90,7 @@ const Reviewfine = () => {
 
                     {/* Dropdown menu */}
                     {isOpen && (
-                        <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                        <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                 <a
                                     href="#"
@@ -175,7 +175,7 @@ const Reviewfine = () => {
 
                                     {/* Dropdown menu */}
                                     {isOpen1 && (
-                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                                 <a
                                                     href="#"
@@ -276,7 +276,7 @@ const Reviewfine = () => {
 
                                     {/* Dropdown menu */}
                                     {isOpen2 && (
-                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                                 <a
                                                     href="#"

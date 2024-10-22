@@ -40,7 +40,7 @@ const ExpensePage = () => {
     return (
         <>
 
-        <div className='p-[26px]'>
+        <div className='p-[26px] main-expense-set'>
             <div className='flex items-center justify-between mb-[20px] page-down'>
                 <div className='flex items-center gap-[8px] new-wid'>
                     <div className="flex items-center justify-center h-[50px]">
@@ -59,7 +59,7 @@ const ExpensePage = () => {
                                 <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
 
                                 {/* Modal Content */}
-                                <div className="relative bg-white p-6 rounded-lg shadow-lg z-10 w-1/3">
+                                <div className="relative bg-white p-6 rounded-lg shadow-cs z-10 w-1/3">
                                     <h2 className='text-[16px] font-medium mb-[8px]'>Add new Expense</h2>
                                     <div className='w-[100%]'>
                                         <form className=' w-[96%]  shadow-md  xl:p-[20px] p-[10px] border rounded-md  border-1'>
@@ -108,7 +108,7 @@ const ExpensePage = () => {
                                                                 <div className="absolute inset-0 bg-gray-800 opacity-75"></div>
 
                                                                 {/* Modal Content */}
-                                                                <div className="relative bg-white p-6 rounded-lg shadow-lg z-10 w-1/3">
+                                                                <div className="relative bg-white p-6 rounded-lg shadow-cs z-10 w-1/3">
                                                                     <h2 className='text-[16px] font-medium mb-[8px]'>New Category</h2>
                                                                     <div className='w-[100%]'>
                                                                         <form className=' w-[96%]  shadow-md  xl:p-[20px] p-[10px] border rounded-md  border-1'>
@@ -196,7 +196,7 @@ const ExpensePage = () => {
 
                 </div>
             </div>
-            <div className='bg-white p-[16px] summary-border rounded-md'>
+            <div className='bg-white p-[16px] summary-border rounded-lg shadow-cs  '>
                 <div className="flex justify-between items-center newdata-expense">
                     <div className="flex gap-[10px] new-wid">
                         <div className="relative inline-block text-left">
@@ -210,7 +210,7 @@ const ExpensePage = () => {
 
                             {/* Dropdown menu */}
                             {isOpen1 && (
-                                <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
                                     <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                                         <a
                                             href="#"
@@ -249,19 +249,19 @@ const ExpensePage = () => {
                 </div>
 
                 <div className='w-[100%] overflow-scroll'>
-                    <table className='table-section mt-4'>
+                    <table className='table-section mt-4 page-expense-heading'>
                         <thead className='border border-1 '>
-                            <th><input className='checkbox-3' type="checkbox" /></th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Name</th>
-                            <th>Reciept</th>
-                            <th>Date</th>
-                            <th>Project</th>
-                            <th>Customer</th>
-                            <th>Invoice</th>
-                            <th>Refernce #</th>
-                            <th>Payment Mode</th>
+                            <th className='border-r border-[#e5e7eb]'><input className='checkbox-3' type="checkbox" /></th>
+                            <th className='border-r border-[#e5e7eb]'>Category</th>
+                            <th className='border-r border-[#e5e7eb]'>Amount</th>
+                            <th className='border-r border-[#e5e7eb]'>Name</th>
+                            <th className='border-r border-[#e5e7eb]'>Reciept</th>
+                            <th className='border-r border-[#e5e7eb]'>Date</th>
+                            <th className='border-r border-[#e5e7eb]'>Project</th>
+                            <th className='border-r border-[#e5e7eb]'>Customer</th>
+                            <th className='border-r border-[#e5e7eb]'>Invoice</th>
+                            <th className='border-r border-[#e5e7eb]'>Refernce #</th>
+                            <th className='border-r border-[#e5e7eb]'>Payment Mode</th>
 
 
                         </thead>

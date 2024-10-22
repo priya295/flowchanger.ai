@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { FormContext, FormProvider } from '../../../../store/store';
 import Step1 from './Step1';
 import Step2 from './Step2';
-import Step3 from './Step3';
+import Step3 from '../../../Admin_Panel/authentication/steps/Step3';
 import Step4  from './Step4';
-import Step5 from './Step5';
+import Step5 from '../../../Admin_Panel/authentication/steps/Step5';
 import Step6 from './Step6';
 import Step7 from './step7';
 

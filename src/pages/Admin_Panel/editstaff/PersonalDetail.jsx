@@ -179,7 +179,6 @@ const PersonalDetail = () => {
                             <option>A+</option>
                             <option>A+</option>
                             <option>A+</option>
-
                         </select>
                     </div>
                     <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>

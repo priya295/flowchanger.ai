@@ -37,7 +37,7 @@ const Task = () => {
   }
   //modal7
 
-  // Array of accordion items
+  // Array of accordion item
   const accordionItems = [
     {
       title:
@@ -92,7 +92,7 @@ const Task = () => {
               <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
 
 
-              <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link className="textcomplete">Soul relation intro</Link></td>
+              <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
 
 
               <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
@@ -125,7 +125,7 @@ const Task = () => {
 <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
 
 
-<td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link className="textcomplete">Soul relation intro</Link></td>
+<td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
 
 
 <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
@@ -180,8 +180,8 @@ const Task = () => {
 
         {/* Modal */}
         {isOpen15 && (
-          <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-800 bg-opacity-75">
-            <div className="bg-white p-6 rounded shadow-lg w-[550px] relative h-[100%] overflow-scroll">
+          <div className="fixed inset-0 flex items-center justify-center p-[14px] z-50 bg-gray-800 bg-opacity-75">
+            <div className="bg-white p-6 rounded shadow-cs w-[550px] relative h-[100%] overflow-scroll">
               <h2 className="text-lg font-semibold mb-[16px]">Add new Task</h2>
               <div className="w-[100%]">
 
@@ -331,7 +331,7 @@ const Task = () => {
       </div>
 
       {accordionItems.map((item, index) => (
-        <div key={index} className="bg-white shadow-lg rounded-lg keyframe1">
+        <div key={index} className="bg-white shadow-cs rounded-lg keyframe1">
           {/* Accordion Header */}
           <button
             onClick={() => handleToggle(index)}
@@ -350,6 +350,7 @@ const Task = () => {
           )}
         </div>
       ))}
+      
     </div>
   );
 };
