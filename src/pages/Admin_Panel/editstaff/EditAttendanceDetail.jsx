@@ -9,10 +9,52 @@ import qr from '../../../Assets/Images/qr-code.svg'
 import gps from '../../../Assets/Images/gps.svg'
 import biometric from '../../../Assets/Images/biometric.svg'
 import rightimg from '../../../Assets/Images/right.svg'
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const EditAttendanceDetail = () => {
 
+    const { baseUrl, selectedStaff } = useGlobalContext();
+    const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff.AttendenceMode.selfie_attendance || false);
+    const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff.AttendenceMode.allow_punch_in_for_mobile || false);
+    const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff.AttendenceMode.qr_attendance || false);
+    const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff.AttendenceMode.gps_attendance || false);
+    const [markLocation, setMarkLocation] = useState(selectedStaff.AttendenceMode.mark_attendance || "Office");
+
+    // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
+    console.log(selectedStaff.AttendenceMode);
+    async function updateAttendanceMode(e) {
+        e.preventDefault();
+        const data = {
+            staff_ids: [
+                selectedStaff.id
+            ],
+            attendence_mode: {
+                "selfie_attendance": toggleSelfieAttendance,
+                "qr_attendance": toggleQRAttendance,
+                "gps_attendance": toggleGPSAttendance,
+                "mark_attendance": markLocation,
+                "allow_punch_in_for_mobile": toggleAllowPunchInMobile
+            }
+        };
+
+
+        const response = await fetch(baseUrl + "attendance/mode/", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data) // send the formatted data
+        });
+        const result = await response.json();
+        if (response.status === 200) {
+            console.log(result);
+            openModal6();
+        } else {
+            console.log(result);
+            alert("An error occurred during update attendance mode staff");
+        }
+    }
     let subtitle;
     // update work timing
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -125,24 +167,24 @@ const EditAttendanceDetail = () => {
 
     {/* when onclick update attendance modes for all staff */ }
 
-       {/* when onclick update automation rule for all staff */ }
-       const [modalIsOpen7, setIsOpen7] = React.useState(false);
-       function openModal7() {
-           setIsOpen7(true);
-       }
-       function afterOpenModal7() {
-           // references are now sync'd and can be accessed.
-           subtitle.style.color = '#000';
-   
-       }
-   
-       function closeModal7() {
-           setIsOpen7(false);
-       }
-   
-       {/* when onclick update automation rule for all staff */ }
+    {/* when onclick update automation rule for all staff */ }
+    const [modalIsOpen7, setIsOpen7] = React.useState(false);
+    function openModal7() {
+        setIsOpen7(true);
+    }
+    function afterOpenModal7() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
 
-       
+    }
+
+    function closeModal7() {
+        setIsOpen7(false);
+    }
+
+    {/* when onclick update automation rule for all staff */ }
+
+
     {/* when onclick update attendance modes  rule for all staff  successfull message*/ }
 
     const [modalIsOpen8, setIsOpen8] = React.useState(false);
@@ -161,56 +203,56 @@ const EditAttendanceDetail = () => {
 
     {/* when onclick update attendance modes  rule for all staff  successfull message*/ }
 
-      //  onclick auto half day button
+    //  onclick auto half day button
 
-      const [modalIsOpen16, setIsOpen16] = React.useState(false);
-      function openModal16() {
-          setIsOpen16(true);
-      }
-      function afterOpenModal16() {
-          // references are now sync'd and can be accessed.
-          subtitle.style.color = '#000';
-  
-      }
-  
-      function closeModal16() {
-          setIsOpen16(false);
-      }
-         // onclick auto half day button
-  
-  
-  
-      // onclick mandatory half day button
-      const [modalIsOpen17, setIsOpen17] = React.useState(false);
-      function openModal17() {
-          setIsOpen17(true);
-      }
-      function afterOpenModal17() {
-          // references are now sync'd and can be accessed.
-          subtitle.style.color = '#000';
-  
-      }
-  
-      function closeModal17() {
-          setIsOpen17(false);
-      }
-      // onclick mandatory half day button
-  
-      // onclick mandatory full day button
-      const [modalIsOpen18, setIsOpen18] = React.useState(false);
-      function openModal18() {
-          setIsOpen18(true);
-      }
-      function afterOpenModal18() {
-          // references are now sync'd and can be accessed.
-          subtitle.style.color = '#000';
-  
-      }
-  
-      function closeModal18() {
-          setIsOpen18(false);
-      }
-      // onclick mandatory half day button
+    const [modalIsOpen16, setIsOpen16] = React.useState(false);
+    function openModal16() {
+        setIsOpen16(true);
+    }
+    function afterOpenModal16() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal16() {
+        setIsOpen16(false);
+    }
+    // onclick auto half day button
+
+
+
+    // onclick mandatory half day button
+    const [modalIsOpen17, setIsOpen17] = React.useState(false);
+    function openModal17() {
+        setIsOpen17(true);
+    }
+    function afterOpenModal17() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal17() {
+        setIsOpen17(false);
+    }
+    // onclick mandatory half day button
+
+    // onclick mandatory full day button
+    const [modalIsOpen18, setIsOpen18] = React.useState(false);
+    function openModal18() {
+        setIsOpen18(true);
+    }
+    function afterOpenModal18() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal18() {
+        setIsOpen18(false);
+    }
+    // onclick mandatory half day button
 
     return (
         <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '>
@@ -232,22 +274,22 @@ const EditAttendanceDetail = () => {
                 </button>
 
                 <div className='  shadow bg-white w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md flex justify-between'>
-                        <div className='flex gap-[12px] items-center '>
-                             <h4 className='m-0'>Staff Can View Own Attendance</h4>
-                        </div>
-                        <div className="flex items-center  ">
+                    <div className='flex gap-[12px] items-center '>
+                        <h4 className='m-0'>Staff Can View Own Attendance</h4>
+                    </div>
+                    <div className="flex items-center  ">
+                        <div
+                            onClick={handleToggle}
+                            className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                }`}
+                        >
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
                                     }`}
-                            >
-                                <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
-                                        }`}
-                                ></div>
-                            </div>
+                            ></div>
                         </div>
                     </div>
+                </div>
             </div>
 
 
@@ -701,12 +743,12 @@ const EditAttendanceDetail = () => {
                         <h4 className='m-0'>Allow punch in from Staff App</h4>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setToggleAllowPunchInMobile(!toggleAllowPunchInMobile)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toggleAllowPunchInMobile ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toggleAllowPunchInMobile ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -720,12 +762,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setToggleSelfieAttendance(!toggleSelfieAttendance)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toggleSelfieAttendance ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toggleSelfieAttendance ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -739,12 +781,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setToggleQRAttendance(!toggleQRAttendance)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toggleQRAttendance ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toggleQRAttendance ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -759,12 +801,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setToggleGPSAttendance(!toggleGPSAttendance)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toggleGPSAttendance ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toggleGPSAttendance ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -776,11 +818,13 @@ const EditAttendanceDetail = () => {
 
                         <div className='flex gap-[12px] pt-3'>
                             <div className='flex items-center gap-[10px] border pl-3 pt-2 pb-2 pr-3 rounded-md'>
-                                <input type="radio" id="foroffice" name="office" value="office" />
+                                <input onClick={(e) => setMarkLocation(e.target.value)}
+                                    type="radio" id="foroffice" name="office" value="Office" />
                                 <label for="foroffice" className='text-[13px] xl:text-[14px]'>Office</label><br />
                             </div>
                             <div className='flex items-center gap-[10px] border pl-3 pt-2 pb-2 pr-3 rounded-md'>
-                                <input type="radio" id="anywhere" name="office" value="anywhere" />
+                                <input onClick={(e) => setMarkLocation(e.target.value)}
+                                    type="radio" id="anywhere" name="office" value="Anywhere" />
                                 <label for="anywhere" className='text-[13px] xl:text-[14px]'>Anywhere</label><br />
                             </div>
                         </div>
@@ -797,8 +841,12 @@ const EditAttendanceDetail = () => {
                     </div>
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
-                        <button className="first-btn" onClick={closeModal5}>Cancel</button>
-                        <button className="second-btn" onClick={openModal6}>Update Attendance Modes for All Staff</button>
+                        <button className="first-btn" onClick={(e) => {
+                            closeModal5();
+                        }}>Cancel</button>
+                        <button className="second-btn" onClick={(e) => {
+                            updateAttendanceMode(e);
+                        }}>Update Attendance Modes for All Staff</button>
                     </div>
 
                 </div>
@@ -826,8 +874,8 @@ const EditAttendanceDetail = () => {
             </Modal>
 
             {/* when onclick update attendance modes for all staff */}
-              {/* onclick update automation rules */}
-              <Modal
+            {/* onclick update automation rules */}
+            <Modal
                 isOpen={modalIsOpen7}
                 onAfterOpen={afterOpenModal7}
                 onRequestClose={closeModal7}
@@ -838,7 +886,7 @@ const EditAttendanceDetail = () => {
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Automation Rules for All Staff</h2>
                 <button onClick={closeModal7} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
-                  
+
                     <div className='flex justify-between items-center p-[10px] border border-b border-l-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
                         <div className='flex gap-[12px] items-center '>
                             <img src={selfie} className='h-[25px] w-[25px]' />
@@ -908,7 +956,7 @@ const EditAttendanceDetail = () => {
                         </div>
                     </div>
 
-                   
+
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal7}>Cancel</button>
@@ -920,8 +968,8 @@ const EditAttendanceDetail = () => {
 
             {/* onclick update automation rules */}
 
-               {/* when onclick update attendance mods for aall staff successfull msg */}
-               <Modal
+            {/* when onclick update attendance mods for aall staff successfull msg */}
+            <Modal
                 isOpen={modalIsOpen8}
                 onAfterOpen={afterOpenModal8}
                 onRequestClose={closeModal8}
@@ -941,9 +989,9 @@ const EditAttendanceDetail = () => {
 
             {/* when onclick update attendance mods for aall staff successfull msg */}
 
-             {/* onclick autohalf day minutes  button */}
+            {/* onclick autohalf day minutes  button */}
 
-             <Modal
+            <Modal
                 isOpen={modalIsOpen16}
                 onAfterOpen={afterOpenModal16}
                 onRequestClose={closeModal16}
@@ -983,9 +1031,9 @@ const EditAttendanceDetail = () => {
             {/* onclick autohalf day minutes  button */}
 
 
-              {/* onclick mandatory half day minutes  button */}
+            {/* onclick mandatory half day minutes  button */}
 
-              <Modal
+            <Modal
                 isOpen={modalIsOpen17}
                 onAfterOpen={afterOpenModal17}
                 onRequestClose={closeModal17}
@@ -1026,9 +1074,9 @@ const EditAttendanceDetail = () => {
             {/* onclick mandatory half day minutes  button */}
 
 
-                {/* onclick mandatory full day minutes  button */}
+            {/* onclick mandatory full day minutes  button */}
 
-                <Modal
+            <Modal
                 isOpen={modalIsOpen18}
                 onAfterOpen={afterOpenModal18}
                 onRequestClose={closeModal18}
@@ -1067,7 +1115,7 @@ const EditAttendanceDetail = () => {
 
 
             {/* onclick mandatory full day minutes  button */}
-            
+
         </div>
     )
 }

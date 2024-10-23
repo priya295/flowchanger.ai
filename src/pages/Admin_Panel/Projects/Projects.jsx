@@ -39,33 +39,23 @@ const Projects = () => {
                         <thead className="tablehead">
                             <tr className="rounded-lg">
 
-                            <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
+                            <th className="text-[12px] font-medium p-[8px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
 
 
-                                <th className="text-[12px] border-r w-[100px]  font-medium p-[12px] ">#</th>
+                                <th className="text-[12px] border-r   font-medium p-[10px] ">#</th>
 
 
                                 <th className="text-[12px] w-[250px] p-[12px] border-r font-medium whitespace-nowrap">Project Name</th>
 
 
-                                <th className="text-[12px] font-medium p-[12px] w-[200px] border-r whitespace-nowrap	">Start Date</th>
+                                <th className="text-[12px] font-medium p-[12px]  border-r whitespace-nowrap	">Start Date</th>
 
 
-                                <th className="text-[12px] font-medium p-[12px] w-[200px] border-r whitespace-nowrap	">Deadline</th>
-
-
-
-                                <th className="text-[12px] font-medium p-[12px] w-[200px] border-r whitespace-nowrap	">Members</th>
+                                <th className="text-[12px] font-medium p-[12px]  border-r whitespace-nowrap	">Deadline</th>
 
 
 
-
-
-
-
-
-
-
+                                <th className="text-[12px] font-medium p-[12px] border-r whitespace-nowrap	">Members</th>
                             </tr>
                         </thead>
                     </table>
@@ -206,7 +196,7 @@ const Projects = () => {
                         </div>
                         <div className="relative summ-project">
                             <input className="p-[8px] pr-[24px] rounded-2xl outline-none  summary-border text-[13px] summ-project " type="text" placeholder=" Search......." />
-                            <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
+                            <SearchIcon className="absolute newadd2 right-[8px] top-[11px]" />
                         </div>
                     </div>
 
@@ -218,7 +208,7 @@ const Projects = () => {
                                 onClick={() => handleToggle(index)}
                                 className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
                             >
-                                <span>{item.title}</span>
+                                <span className="w-full">{item.title}</span>
 
                             </button>
 

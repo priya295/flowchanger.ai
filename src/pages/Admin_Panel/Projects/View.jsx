@@ -3,8 +3,8 @@ import React from "react";
 const View = () => {
   return (
     <div>
-      <div className="flex w-[100%] gap-[5rem] max-[900px]:inline-grid">
-        <div className=" bg-white  w-[50%] shadow rounded-lg p-6 max-[900px]:w-[100%] ">
+      <div className="flex w-[100%] gap-[30px] max-[900px]:inline-grid">
+        <div className=" bg-white  w-[50%] shadow-cs rounded-lg p-6 max-[900px]:w-[100%] ">
           {/*-- Progress Bar -*/}
           <div className="mb-4">
             <div className="flex justify-between items-center mb-2">
@@ -97,10 +97,10 @@ const View = () => {
           </div>
         </div>
 
-        <div className="w-[50%]">
+        <div className="w-[50%] shadow-cs rounded-lg p-[20px]">
           <div className="flex w-[100%] gap-[3rem] max-[1100px]:inline-grid">
             {/*-- Open Tasks Card --*/}
-            <div className="h-[95px] w-[50%] bg-white shadow rounded-lg p-4 max-[1100px]:w-[100%] max-[900px]:w-[200%] ">
+            <div className="h-auto w-[50%] shadow-cs bg-white  rounded-lg p-4 max-[1100px]:w-[100%] max-[900px]:w-[200%] ">
               <div className=" flex items-center text-sm font-medium text-gray-600">
                 0 / 0 Open Tasks
               </div>
@@ -112,7 +112,7 @@ const View = () => {
             </div>
 
             {/*- Days Left Card --*/}
-            <div className=" h-[95px] w-[50%] bg-white shadow rounded-lg p-4 max-[1100px]:w-[100%] max-[900px]:w-[200%]">
+            <div className=" h-auto w-[50%] bg-white shadow-cs rounded-lg p-4 max-[1100px]:w-[100%] max-[900px]:w-[200%]">
               <div className=" text-sm font-medium text-gray-600">
                 0 / 17 Days Left
               </div>
@@ -124,14 +124,14 @@ const View = () => {
             </div>
           </div>
 
-          <div className=" mt-12 h-[25rem]  bg-white shadow rounded-lg p-4 max-[900px]:w-[200%] ">
+          <div className=" mt-12 h-auto   bg-white shadow-cs rounded-lg p-4 max-[900px]:w-[200%] ">
             <div className="flex justify-between items-center mb-4">
               <div></div>
-              <div className="text-purple-500 font-semibold">This week</div>
+              <div className="text-[#27004a] font-semibold">This week</div>
               
             </div>
 
-            <div className="flex flex-col space-y-2 bg-[#D9D9D926] px-9 py-9">
+            <div className="flex flex-col space-y-2 bg-[#D9D9D926]">
               <div className="flex items-center">
                 <div className="text-sm text-black w-10">1000</div>
                 <div className="flex-grow bg-gray-200 rounded-full h-2.5 relative">

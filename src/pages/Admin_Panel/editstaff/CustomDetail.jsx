@@ -1,12 +1,13 @@
-import React from 'react'
+import React,{useState} from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const CustomDetail = () => {
     let subtitle;
-
+    const {baseUrl,selectedStaff}=useGlobalContext();
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
     function openModal2() {
         setIsOpen2(true);
@@ -20,6 +21,30 @@ const CustomDetail = () => {
     function closeModal2() {
         setIsOpen2(false);
     }
+
+    const [fieldName,setFieldName]=useState("");
+    const [description,setDescription]=useState("");
+
+    async function submitField() {
+        const response = await fetch(baseUrl + "custom-details", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({field_name:fieldName, field_value:description,staffId:selectedStaff.id}) // send the formatted data
+        });
+    
+        console.log(response);
+    
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            alert("Add Custom Field Successfully");
+        } else {
+            alert("An error occurred");
+        }
+     }
+    
 
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z'>
@@ -51,17 +76,17 @@ const CustomDetail = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Custom Field Name
                         </label><br />
-                        <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <input type='text' value={fieldName} onChange={(e)=>{setFieldName(e.target.value)}}  className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
                        
                         <label className='text-[13px] xl:text-[14px] font-medium'>Description
                         </label><br />
-                        <textarea type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <textarea type='text'  value={description} onChange={(e)=>{setDescription(e.target.value)}}  className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
                        
                        
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn'>Add Custom Field </button>
+                        <button className='second-btn' onClick={submitField}>Add Custom Field </button>
                     </div>
                 </div>
             </Modal>

@@ -24,6 +24,11 @@ import EditLeavePolicies from "../src/pages/Admin_Panel/editstaff/EditLeavePolic
 import CustomDetail from "../src/pages/Admin_Panel/editstaff/CustomDetail";
 import BackgroundVerification from "../src/pages/Admin_Panel/editstaff/BackgroundVerification";
 import VerifyAadhaar from "../src/pages/Admin_Panel/editstaff/VerifyAadhaar";
+import VerifyPan from "../src/pages/Admin_Panel/editstaff/VerifyPan";
+import DrivingLicense from "./pages/Admin_Panel/editstaff/VerifyDrivingLicense";
+import VerifyUan from "../src/pages/Admin_Panel/editstaff/VerifyUan";
+import VerifyFace from "../src/pages/Admin_Panel/editstaff/VerifyFace";
+import VerifyAddress from "./pages/Admin_Panel/editstaff/VerifyAddress";
 import UpperHeader from "../src/pages/Admin_Panel/editstaff/UpperHeader";
 import SidebarEditStaff from "../src/pages/Admin_Panel/editstaff/SidebarEditStaff";
 import Salary_Details from "./pages/Admin_Panel/StaffSection/Salary_Details";
@@ -50,7 +55,6 @@ import Editprofile from "../src/pages/Admin_Panel/profile/Editprofile";
 import Task_Status from "./pages/Admin_Panel/Projects/Task_Status";
 import Client_Project from "../src/pages/Client_Panel/Client_Project";
 import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
-import Task_Priority from "../src/pages/Admin_Panel/Tasks/Task_Priority";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
 import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import Meeting from "./pages/Admin_Panel/Calender/Meeting";
@@ -76,12 +80,17 @@ import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
 import { useGlobalContext } from "./Context/GlobalContext";
+<<<<<<< HEAD
 import AdminChatInterface from "./Pages/Admin_Panel/Chats/AdminChatInterFace";
 import StaffChatInterface from "./pages/Staff_Panel/StaffChatInterface";
 import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
  
+=======
+
+
+>>>>>>> 67de6dce3ad9a911c1c1494c42ce73dc2a7c7bd1
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
- const App = () => {
+const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
 
@@ -97,16 +106,16 @@ import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
       </>
     );
   }
- 
+
   function AdminLayout() {
     return (
       <>
         <div className="flex ">
-          <SideBar  />
+          <SideBar />
           <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
             <NavBar />
             <div className="p-[10px]  w-full ">
-               <Outlet />
+              <Outlet />
             </div>
           </div>
         </div>
@@ -115,7 +124,7 @@ import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
   }
 
   function Editstaff() {
-   
+
     return (
       <>
         <div className="">
@@ -146,7 +155,7 @@ import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
           <div className="">
             {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} />}
           </div>
-            
+
           {/* container for navbar and outlet */}
           <div className={`flex flex-col  flex-grow overflow-hidden`}>
             <ClientHeader
@@ -243,12 +252,11 @@ import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
           <Route path="/status-main-page" element={<StatusMainPage />} />
 
 
-           
 
-          
 
-          
-          <Route path="/taskpriority" element={<Task_Priority />} />
+
+
+
 
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project />} />
@@ -282,6 +290,11 @@ import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
+          <Route path="/verify-pan" element={<VerifyPan />} />
+          <Route path="/driving-license" element={<DrivingLicense />} />
+          <Route path="/uan" element={<VerifyUan />} />
+          <Route path="/face" element={<VerifyFace />} />
+          <Route path="/address" element={<VerifyAddress />} />
 
         </Route>
         <Route element={<Client_Panel />}>

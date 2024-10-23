@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from 'react';
 import { FaGoogle } from "react-icons/fa";
 
 const Files = () => {
+  const [isOn, setIsOn] = useState(false);
+
+  const toggleSwitch = () => {
+      setIsOn(!isOn);
+  }
   return (
     <div>
       <div className="flex justify-center items-center w-full">
@@ -19,21 +24,21 @@ const Files = () => {
       </div>
 
       <div className="flex items-center space-x-6 space-y-2 justify-between mt-8">
-        <div className="space-y-3">
-          <label for="visibility-toggle" className="text-gray-500 text-sm">
+        <div className="flex items-center gap-[10px]">
+          
             Visible to Customer
-          </label>
-          <input
-            type="checkbox"
-            id="visibility-toggle"
-            className="toggle-checkbox hidden"
-          />
-          <label
-            for="visibility-toggle"
-            className="toggle-label block w-10 h-6 rounded-full bg-gray-300 cursor-pointer relative"
+          
+          <div
+            className={`${isOn ? 'bg-green-500' : 'bg-[#e6e0e0]'
+              } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+            onClick={toggleSwitch}
           >
-            <span className="toggle-handle absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition transform"></span>
-          </label>
+            <span
+              className={`${isOn ? 'translate-x-6' : 'translate-x-0'
+                } inline-block w-6 h-6 bg-[#d5cdcd] rounded-full transform transition-transform duration-300 ease-in-out`}
+            />
+          </div>
+          
         </div>
 
         <button className="flex items-center px-4 py-2 gap-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-100">
@@ -64,30 +69,30 @@ const Files = () => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="border border-gray-300 rounded p-2 w-64 max-[1050px]:mt-4"
+                className="border border-gray-300 rounded-lg shadow-cs focus-visible:outline-none p-2 w-64 max-[1050px]:mt-4"
               />
             </div>
           </div>
 
           <div className="overflow-x-auto ">
-            <table className="min-w-full bg-white">
+            <table className="min-w-full bg-white border border-[#dbdbdb] shadow-cs mb-[8px]">
               <thead>
                 <tr>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border-t border-r border-[#DBDBDB]">Filename</th>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">File type</th>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">Last Activity</th>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">Total Comments</th>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border-t border-r border-[#DBDBDB]">Filename</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">File type</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">Last Activity</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">Total Comments</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">
                     Visible to Customer
                   </th>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB">Uploaded by</th>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB">Date uploaded</th>
-                  <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] text-center border-b  border-t border-l border-[#DBDBDB] ">Options</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB">Uploaded by</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB">Date uploaded</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border-t border-l border-[#DBDBDB] ">Options</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="px-4 py-4 text-start text-[#B1B1B1]" colspan="8">
+                  <td className="p-[10px] text-start text-[#B1B1B1]" colspan="8">
                     No entries found
                   </td>
                 </tr>

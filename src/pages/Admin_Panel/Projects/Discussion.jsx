@@ -111,7 +111,7 @@ const Discussion = () => {
       <div className="p-4 mt-8 shadow rounded-xl">
         <div className="flex flex-col md:flex-row justify-between items-center mb-4">
           <div className="flex space-x-2 text-[#B1B1B1] mb-4 md:mb-0">
-            <select className="border w-[4.5rem] border-[#B1B1B1] rounded p-2 bg-white">
+            <select className="border focus-visible:outline-none border-[#B1B1B1] rounded p-2 bg-white">
               <option>25</option>
             </select>
             <button className=" text-[#B1B1B1] border border-[#B1B1B1] px-4 py-2 rounded">
@@ -122,25 +122,25 @@ const Discussion = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="border border-gray-300 rounded p-2 w-full md:w-64"
+              className="border border-gray-300 rounded focus-visible:outline-none shadow-cs p-2 w-full md:w-64"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white">
+          <table className="min-w-full bg-white border border-[#dbdbdb] shadow-cs">
             <thead>
               <tr>
-                <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] border-b text-center border-t border-r border-[#DBDBDB]">
+                <th className="p-[10px] whitespace-nowrap font-normal text-[#B1B1B1] text-[14px] border-b text-center border-t border-r border-[#DBDBDB]">
                   Subject
                 </th>
-                <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] border-b text-center border border-[#DBDBDB]">
+                <th className="p-[10px] whitespace-nowrap font-normal text-[#B1B1B1] text-[14px] border-b text-center border border-[#DBDBDB]">
                   Last Activity
                 </th>
-                <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] border-b text-center border border-[#DBDBDB]">
+                <th className="p-[10px] whitespace-nowrap font-normal text-[#B1B1B1] text-[14px] border-b text-center border border-[#DBDBDB]">
                   Total Comments
                 </th>
-                <th className="px-4 py-4 font-normal text-[#B1B1B1] text-[16px] border-b text-center border border-[#DBDBDB]">
+                <th className="p-[10px] whitespace-nowrap font-normal text-[#B1B1B1] text-[14px] border-b text-center border border-[#DBDBDB]">
                   Visible to Customer
                 </th>
               </tr>
@@ -149,16 +149,16 @@ const Discussion = () => {
               {discussions.length > 0 ? (
                 discussions.map((discussion, index) => (
                   <tr key={index}>
-                    <td className="px-4 py-4 text-center border text-[15px]   border-[#DBDBDB]">
+                    <td className="p-[10px] text-center border text-[15px]   border-[#DBDBDB]">
                       {discussion.subject}
                     </td>
-                    <td className="px-4 py-4 text-center border text-[15px]  border-[#DBDBDB]">
+                    <td className="p-[10px] text-center border text-[15px]  border-[#DBDBDB]">
                       {discussion.lastActivity}
                     </td>
-                    <td className="px-4 py-4 text-center border text-[15px]   border-[#DBDBDB]">
+                    <td className="p-[10px] text-center border text-[15px]   border-[#DBDBDB]">
                       {discussion.totalComments}
                     </td>
-                    <td className="px-4 py-4 text-center border text-[15px]   border-[#DBDBDB]">
+                    <td className="p-[10px] text-center border text-[15px]   border-[#DBDBDB]">
                       {discussion.visibleToCustomer}
                     </td>
                   </tr>
@@ -166,7 +166,7 @@ const Discussion = () => {
               ) : (
                 <tr>
                   <td
-                    className="px-4 py-4 text-start text-[#B1B1B1]"
+                    className="p-[10px] text-start text-[#B1B1B1]"
                     colSpan="8"
                   >
                     No entries found
