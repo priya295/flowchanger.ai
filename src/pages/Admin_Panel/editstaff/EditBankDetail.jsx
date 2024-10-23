@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const PersonalDetail = () => {
+    const {baseUrl,selectedStaff} = useGlobalContext()
     const [isEditable, setIsEditable] = useState(false);
     const [inputValue, setInputValue] = useState("--");
 
@@ -26,7 +28,25 @@ const PersonalDetail = () => {
         // Toggle editable state
     };
 
-    const handleEditClick2 = () => {
+    const handleEditClick2 = async () => {
+        if(isEditable6){
+            const response = await fetch(baseUrl+"upi-details",{
+                method:"POST",
+                headers:{
+                    "Content-type":"application/json"
+                },
+                body:JSON.stringify({
+                    staffId:selectedStaff.id,
+                    UpiId:inputValue6
+                })
+            })
+            if(response.status == 200){
+                alert("UPI Details Added Successfully")
+            }
+            else{
+                alert("Internal Server Error")
+            }
+        }
         setIsEditable6(!isEditable6);
     }
 

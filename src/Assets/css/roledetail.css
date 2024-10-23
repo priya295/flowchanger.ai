@@ -406,6 +406,33 @@ input[type=radio]{
     overflow: scroll;
 }
 
+.stdropdown-container{
+    border: 1px solid #d9d9d9;
+    border-radius: 7px;
+    /* display: flex; */
+    font-size: 10px;
+    position: relative;
+ 
+}
+.stsearch-box{
+    display: flex;
+    padding: 5px;
+}
+.stsearch-box input:focus{
+    outline: none;
+}
+.stdropdown-menu{
+    position: absolute;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    padding: 5px;
+    width: max-content;
+    z-index: 99;
+    background: white;
+    top: 35px;
+    height: 115px;
+    overflow-y: scroll;
+}
 
 
 
