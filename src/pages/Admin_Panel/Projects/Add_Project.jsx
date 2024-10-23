@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Project_Setting from "./Project_Setting";
 import SellIcon from "@mui/icons-material/Sell";
@@ -7,10 +7,31 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import PrintIcon from '@mui/icons-material/Print';
 import { FaGalacticSenate } from "react-icons/fa6";
 import { useNavigate } from "react-router";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Quill styling
 
 const Add_Project = () => {
 
   const navigate = useNavigate()
+  const [editorData, setEditorData] = useState('');
+  const modules = {
+    toolbar: [
+      [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'align': [] }],
+      ['link', 'image', 'video'],
+      ['clean'] // Remove formatting button
+    ]
+  };
+
+  const formats = [
+    'header', 'font', 'list', 'bullet',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'script', 'align', 'link', 'image', 'video'
+  ];
+ 
   const [formData, setformData] = useState({
     projectName: "",
     customer: "",
@@ -136,69 +157,12 @@ const Add_Project = () => {
 
           <div className="space-y-2">
             <h1 className="text-[18px] font-semibold">Description</h1>
-            <div>
-              <ul className="flex gap-10 text-[#1A1A1AB2] font-medium overflow-auto">
-                <li className="cursor-pointer">File</li>
-                <li className="cursor-pointer">Edit</li>
-                <li className="cursor-pointer">View</li>
-                <li className="cursor-pointer">Insert</li>
-                <li className="cursor-pointer">Format</li>
-                <li className="cursor-pointer">Tools</li>
-                <li className="cursor-pointer">Table</li>
-              </ul>
-            </div>
-
-            <div className=" border  border-[#E1E1E2]">
-              <div class="p-2 flex gap-3 border-b border-[#E1E1E2]  items-center bg-white overflow-auto">
-                <button class="p-2 hover:bg-gray-100 rounded"><ArrowBackIcon/></button>
-                <button class="p-2 hover:bg-gray-100 rounded"><ArrowForwardIcon/></button>
-                <button class="p-2 hover:bg-gray-100 rounded"><PrintIcon/></button>
-
-                <select class="border border-gray-300 rounded p-[2px]">
-                  <option>Arial</option>
-                </select>
-
-                <div class="flex items-center space-x-3 border px-4 border-[#E1E1E2] rounded-full">
-                  <button class="hover:bg-gray-100 rounded">-</button>
-                  <span class="">00</span>
-                  <button class="hover:bg-gray-100 rounded">+</button>
-                </div>
-
-                <button class="p-2 hover:bg-gray-100 rounded font-bold">
-                  B
-                </button>
-                <button class="p-2 hover:bg-gray-100 rounded italic">I</button>
-                <button class="p-2 hover:bg-gray-100 rounded underline">
-                  U
-                </button>
-
-                <button class="p-2 hover:bg-gray-100 rounded">
-                  <div class="h-4 w-4 bg-blue-500 rounded"></div>
-                </button>
-
-                <button class="p-2 hover:bg-gray-100 rounded">A</button>
-                <button class="p-2 hover:bg-gray-100 rounded">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M5 10h14M5 6h14M7 14h10M9 18h6"
-                    />
-                  </svg>
-                </button>
-              </div>
-
-              <div class=" mt-2 p-4 bg-white h-40">
-                {/*-- This is the editable content area --*/}
-              </div>
-            </div>
+            <ReactQuill
+        value={editorData}
+        onChange={setEditorData}
+        modules={modules}
+        formats={formats}
+      />
           </div>
 
           <div className="space-x-3 border-b border-t border-[#B1B1B1] py-4">

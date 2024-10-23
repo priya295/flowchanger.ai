@@ -47,13 +47,13 @@ const Projects = () => {
       case "Overview":
         return (
           <div>
-            <Over/>
+            <Over />
           </div>
         );
       case "Task":
         return (
           <div>
-            <Task/>
+            <Task />
           </div>
         );
       case "Files":
@@ -106,65 +106,79 @@ const Projects = () => {
   };
 
   return (
-    <div className="">
+    <div className="p-[16px]">
       <div>
-        <span className="text-[#9A93B3] text-[20px] font-medium max-[600px]:text-[15px]">
-          Projects / Addodle
+        <span className=" text-[18px] font-medium max-[600px]:text-[15px]">
+          Projects / Overview
         </span>
-        <div className="flex mt-3 items-center gap-3">
+        <div className="flex mt-3 justify-between items-center gap-3">
+          <div className="flex gap-[10px]">
           <div className="flex items-center gap-2">
-            <span className="text-black text-[30px] font-medium max-[600px]:text-[25px]">
+            <span className="text-black text-[20px] font-medium max-[600px]:text-[25px]">
               Addodle
             </span>
             {/*- Profile Pictures -*/}
             <div className="flex items-center space-x-2">
               <img
-                className="rounded-full border-2 border-white"
+                className="rounded-full border-2 h-[32px] border-white"
                 src={details}
                 alt="Profile 1"
               />
             </div>
           </div>
-          {/*-- Status Badge -*/}
-          <div className="bg-green-100 w-[115px] h-[38px] text-[#4BA665] rounded-xl  flex items-center justify-center">
-            Finished
+          <div className="">
+            <button className="bg-green-100 text-[#4BA665] pt-[8px] pb-[8px] pl-[18px] pr-[18px] rounded-lg" type="submit">Finished</button>
           </div>
+          </div>
+          {/*-- Status Badge -*/}
+      
           {/*-- More Dropdown --*/}
-
-          <button className="ml-2 flex items-center h-[38px] w-[82px] xjustify-center rounded-md border-[#B1B1B1] gap-1 absolute right-12 border max-[720px]:mb-[6rem]">
-            <img src={arrowbtn} alt="" />
-            More
-          </button>
+          <div className=" mb-[26px]">
+            
+            <br />
+            <select className="border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]">
+              <option>More</option>
+              <option>Pin Project</option>
+              <option>Edit Project</option>
+              <option>Copy Project</option>
+              <option>Mark as Not Started</option>
+              <option>Mark as On Hold</option>
+              <option>Mark as Cancelled</option>
+              <option>Mark as Finished</option>
+              <option>Export Project dara</option>
+              <option>View project as customer</option>
+              <option className="del-project">Delete project</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center mt-8 border h-[58px] shadow-md rounded-xl overflow-x-auto  whitespace-wrap gap-[4rem] pl-[20px]">
-          {[
-            "Overview",
-            "Task",
-            "Files",
-            "Discussions",
-            "Gantt",
-            "Tickets",
-            "Notes",
-            "Activity",
-            "Calendar",
-            "People",
-          ].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => handleActiveClick(tab)}
-              className={`flex items-center space-x-2 sm:space-x-3 ${
-                activeTab === tab
-                  ? "text-black border-b-2 border-[#511992] text-base sm:text-lg lg:text-xl"
-                  : "text-gray-400 text-sm sm:text-base"
+      <div className="flex items-center pt-[6px] shadow-cs mt-8 border h-[58px] shadow-md rounded-xl overflow-x-auto  whitespace-wrap gap-[4rem] pl-[20px]">
+        {[
+          "Overview",
+          "Task",
+          "Files",
+          "Discussions",
+          "Gantt",
+          "Tickets",
+          "Notes",
+          "Activity",
+          "Calendar",
+          "People",
+        ].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => handleActiveClick(tab)}
+            className={`flex items-center space-x-2 sm:space-x-3 ${activeTab === tab
+                ? "text-black border-b-2 border-[#511992] text-base sm:text-lg lg:text-xl"
+                : "text-gray-400 text-sm sm:text-base"
               } hover:border-b-2 pb-2 cursor-pointer`}
-            >
-              {tabIcons[tab]} {/* Render the corresponding icon */}
-              <span className="text-sm sm:text-base">{tab}</span>
-            </button>
-          ))}
-        </div>
+          >
+            {tabIcons[tab]} {/* Render the corresponding icon */}
+            <span className="text-sm sm:text-base">{tab}</span>
+          </button>
+        ))}
+      </div>
       <div className="mt-10">{renderTabContent()}</div>
     </div>
   );

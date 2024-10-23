@@ -219,6 +219,10 @@
 .highred{
     color: red;
 }
+.quill{
+    box-shadow: 0 0 5px #cfcfcf;
+    border-radius: 10px;
+}
 .highred2{
     color: blue;
 }
@@ -228,6 +232,9 @@
 }
 .shadow-cs{
     box-shadow: 0 0 5px #cfcfcf;
+}
+.del-project{
+    color: red;
 }
 .inse-grey{
     z-index: 1;
