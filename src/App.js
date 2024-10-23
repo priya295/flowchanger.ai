@@ -76,7 +76,9 @@ import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
 import { useGlobalContext } from "./Context/GlobalContext";
-
+import AdminChatInterface from "./Pages/Admin_Panel/Chats/AdminChatInterFace";
+import StaffChatInterface from "./pages/Staff_Panel/StaffChatInterface";
+import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
  
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
  const App = () => {
@@ -235,7 +237,9 @@ import { useGlobalContext } from "./Context/GlobalContext";
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/department-details" element={<Department_Details />} />
           <Route path="/taskstatus" element={<Task_Status />} />
-
+          <Route path = "chats/admin" element = {<AdminChatInterface/>}/>
+          <Route path = "chats/client" element = {<ClientChatInterface/>}/>
+          <Route path = "chats/staff" element = {<StaffChatInterface/>}/>
           <Route path="/status-main-page" element={<StatusMainPage />} />
 
 
