@@ -248,7 +248,6 @@ const App = () => {
 
 
 
-          <Route path="/taskpriority" element={<Task_Priority />} />
 
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project />} />
