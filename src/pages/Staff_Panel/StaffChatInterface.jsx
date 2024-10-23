@@ -8,7 +8,7 @@ import { BsSendFill } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import Staff from "./ChatTabs/Staff";
-import profile from "../../Assets/Images/profile.jpeg";
+import profilePic from "../../Assets/Images/Profile.png";
 
 const StaffChatInterface = () => {
   const [ chatTab , setChatTab] = useState("staff");
@@ -31,7 +31,7 @@ const StaffChatInterface = () => {
         <div class = {`w-full ${showChatSection?"hidden" : "block"} md:w-1/3 flex flex-col border-r-2 pr-4 h-full bg-white`}>
         <div className="flex flex-row justify-start items-center space-x-3 border-b  pb-5 mb-2">
           <div className="border rounded-full border-green-500">
-          <img src={profile} alt="" className="w-9 h-9 rounded-full"/>
+          <img src={profilePic} alt="" className="w-9 h-9 rounded-full"/>
           </div>
            <p className="text-xl font-medium">Kanika Arora</p>
         </div>
@@ -70,7 +70,7 @@ const StaffChatInterface = () => {
     <div className="float-left" onClick = {()=>{setShowChatSection(false)}}><GoArrowLeft /></div>
       <div className="flex items-center justify-between mt-5 md:mt-0 mb-4 border-b pb-6">
         <div className="flex flex-row justify-start items-center w-[70%] md:w-[50%] space-x-3 relative rounded-[100%]">
-          <img src={profile} alt="profile Picture" className="w-[45px] h-[45px] rounded-[100%]" />
+          <img src={profilePic} alt="profile Picture" className="w-[45px] h-[45px] rounded-[100%]" />
         
           <div className="flex flex-col">
             <h2 className="text-md font-normal mt-2">FlowChanger Agency</h2>

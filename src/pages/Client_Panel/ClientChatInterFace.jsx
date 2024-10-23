@@ -5,7 +5,7 @@ import { BsSendFill } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import Groups from "./ChatTabs/Groups";
-import profilePic from "../../Assets/Images/profile.jpeg";
+import profilePic from "../../Assets/Images/Profile.png";
 
 const ClientChatInterface = () => {
   const [showChatSection , setShowChatSection] = useState(false);
