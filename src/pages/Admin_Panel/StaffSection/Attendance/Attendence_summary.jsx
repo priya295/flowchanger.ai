@@ -165,9 +165,9 @@ const Attendence_summary = () => {
 
             </div>
             <div className='bg-[#ffff] shadow-cs p-[20px] rounded-md mt-[24px] flex gap-[10px] over-new'>
-                <Link to="/" className='total-staff text-[blue]  text-[14px] font-medium'>Daily Work Entry</Link>
-                <Link to="/" className='total-staff text-[blue]  text-[14px] font-medium'>Fine</Link>
-                <Link to="/" className=' total-staff text-[blue] text-[14px] font-medium'>Overtime</Link>
+                <Link to="/worktime" className='total-staff text-[blue]  text-[14px] font-medium'>Daily Work Entry</Link>
+                <Link to="/reviewfine" className='total-staff text-[blue]  text-[14px] font-medium'>Fine</Link>
+                <Link to="/overtime" className=' total-staff text-[blue] text-[14px] font-medium'>Overtime</Link>
             </div>
             <div className="relative">
                 <SearchIcon className='absolute top-[34px] right-[7px]' />

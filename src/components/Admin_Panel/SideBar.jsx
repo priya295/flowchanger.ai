@@ -209,6 +209,13 @@ const SideBar = ({ toggleSideBar }) => {
                 Payroll
             </Link>
 
+            <Link to="/attendence_summary"
+              className="w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap  text-white   transition-all	rounded-md"
+            >
+              <ArrowForwardIosIcon className="arrow-icon-sidebar"/>
+                Attendance
+            </Link>
+
 
 
           </div>
