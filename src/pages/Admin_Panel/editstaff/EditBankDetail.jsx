@@ -1,30 +1,52 @@
 import React, { useState } from 'react'
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import { useParams } from 'react-router';
 
 
 const PersonalDetail = () => {
+    const {id}= useParams();
+    console.log(id)
+
     const {baseUrl,selectedStaff} = useGlobalContext()
     const [isEditable, setIsEditable] = useState(false);
-    const [inputValue, setInputValue] = useState("--");
+    const [inputValue, setInputValue] = useState(selectedStaff?.BankDetails?.bank_name);
 
-    const [inputValue1, setInputValue1] = useState("--");
+    const [inputValue1, setInputValue1] = useState(selectedStaff?.BankDetails?.ifsc_code);
 
     const [inputValue2, setInputValue2] = useState("--");
 
     const [inputValue3, setInputValue3] = useState("--");
 
-    const [inputValue4, setInputValue4] = useState("--");
+    const [inputValue4, setInputValue4] = useState(selectedStaff?.BankDetails?.account_number);
 
-    const [inputValue5, setInputValue5] = useState("--");
+    const [inputValue5, setInputValue5] = useState(selectedStaff?.BankDetails?.branch_name);
 
 
     const [isEditable6, setIsEditable6] = useState(false);
-    const [inputValue6, setInputValue6] = useState("--");
+    const [inputValue6, setInputValue6] = useState(selectedStaff?.UpiDetails?.UpiId);
 
     // Function to toggle between editable and readonly mode
-    const handleEditClick = () => {
+    const handleEditClick =async () => {
+        if(isEditable){
+            const response= await fetch(baseUrl+"bank-details/"+selectedStaff.id, {
+                method:"POST",
+                headers:{
+                    "content-type":"application/json"
+                },
+                body:JSON.stringify({bank_name:inputValue,account_number:inputValue4,branch_name:inputValue5,ifsc_code:inputValue1})
+            })
+            if(response.status==201){
+                alert("Bank Details Updated Successfully")
+            }
+            else{
+                alert("An Error Accured")
+            }
+
+
+
+        }
         setIsEditable(!isEditable);
-       
+        console.log("bank detials", selectedStaff)
         // Toggle editable state
     };
 
@@ -97,7 +119,6 @@ const PersonalDetail = () => {
 
 
 
-
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
@@ -161,7 +182,7 @@ const PersonalDetail = () => {
                     </div>
 
                     <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
-                        <label className='text-[14px]'>Name of Account Holder</label><br />
+                        <label className='text-[14px]'>Branch Name</label><br />
                         <input
                             type="text"
                             value={inputValue5}

@@ -15,12 +15,11 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 const EditAttendanceDetail = () => {
 
     const { baseUrl, selectedStaff } = useGlobalContext();
-    const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff.AttendenceMode.selfie_attendance || false);
-    const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff.AttendenceMode.allow_punch_in_for_mobile || false);
-    const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff.AttendenceMode.qr_attendance || false);
-    const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff.AttendenceMode.gps_attendance || false);
-    const [markLocation, setMarkLocation] = useState(selectedStaff.AttendenceMode.mark_attendance || "Office");
-
+    const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff?.AttendenceMode?.selfie_attendance || false);
+    const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff?.AttendenceMode?.allow_punch_in_for_mobile || false);
+    const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff?.AttendenceMode?.qr_attendance || false);
+    const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff?.AttendenceMode?.gps_attendance || false);
+    const [markLocation, setMarkLocation] = useState(selectedStaff?.AttendenceMode?.mark_attendance || "Office");
     // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
     console.log(selectedStaff.AttendenceMode);
     async function updateAttendanceMode(e) {

@@ -264,20 +264,21 @@ const App = () => {
         </Route>
 
         <Route element={<Editstaff />}>
-          <Route path="/personal-detail" element={<PersonalDetail />} />
-          <Route path="/bank-detail" element={<BankDetails />} />
-          <Route path="/attendance-detail" element={<Editattendance />} />
-          <Route path="/employee-detail" element={<EmployementDetail />} />
-          <Route path="/user-permission" element={<UserPermission />} />
-          <Route path="/leavepolicy-detail" element={<EditLeavePolicies />} />
-          <Route path="/custom-detail" element={<CustomDetail />} />
-          <Route path="/salary-details-edit" element={<EditSalaryDetails />} />
-          <Route path="/edit-penalty" element={<EditPenalty />} />
-          <Route path="/salary-overview" element={<SalaryOverview />} />
+          <Route path="/personal-detail/:id" element={<PersonalDetail />} />
+          <Route path="/bank-detail/:id" element={<BankDetails />} />
+          <Route path="/attendance-detail/:id" element={<Editattendance />} />
+          <Route path="/employee-detail/:id" element={<EmployementDetail />} />
+          <Route path="/user-permission/:id" element={<UserPermission />} />
+          <Route path="/leavepolicy-detail/:id" element={<EditLeavePolicies />} />
+          <Route path="/custom-detail/:id" element={<CustomDetail />} />
+          <Route path="/salary-details-edit/:id" element={<EditSalaryDetails />} />
+          <Route path="/edit-penalty/:id" element={<EditPenalty />} />
+          <Route path="/salary-overview/:id" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
 
           <Route
-            path="/background-verification"
+          
+            path="/background-verification/:id"
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />
