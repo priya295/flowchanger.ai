@@ -14,15 +14,88 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const EditAttendanceDetail = () => {
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
-    const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff.AttendenceMode.selfie_attendance || false);
-    const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff.AttendenceMode.allow_punch_in_for_mobile || false);
-    const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff.AttendenceMode.qr_attendance || false);
-    const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff.AttendenceMode.gps_attendance || false);
-    const [markLocation, setMarkLocation] = useState(selectedStaff.AttendenceMode.mark_attendance || "Office");
+    const { baseUrl, selectedStaff, selectedShift } = useGlobalContext();
+    const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff?.AttendenceMode?.selfie_attendance || false);
+    const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff?.AttendenceMode?.allow_punch_in_for_mobile || false);
+    const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff?.AttendenceMode?.qr_attendance || false);
+    const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff?.AttendenceMode?.gps_attendance || false);
+    const [markLocation, setMarkLocation] = useState(selectedStaff?.AttendenceMode?.mark_attendance || "Office");
+    const [weekOff, setWeekOff] = useState(false)
+    const [shiftName, setShiftName] = useState("");
+    const [shiftStartTime, setShiftStartTime] = useState("");
+    const [shiftEndTime, setShiftEndTime] = useState("");
+    const [punchInType, setPunchInType] = useState("");
+    const [punchOutType, setPunchOutType] = useState("");
+    const [allowPunchInHours, setAllowPunchInHours] = useState("");
+    const [allowPunchInMinutes, setAllowPunchInMinutes] = useState("");
+    const [allowPunchOutHours, setAllowPunchOutHours] = useState("");
+    const [allowPunchOutMinutes, setAllowPunchOutMinutes] = useState("");
+
+    async function createNewShift() {
+        const response = await fetch(baseUrl + "shift/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: allowPunchInHours, allowPunchInMinutes: allowPunchInMinutes, allowPunchOutHours: allowPunchOutHours, allowPunchOutMinutes: allowPunchOutMinutes })
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            closeModal();
+            alert("Shift successfully created");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
+    async function submitFixedShift() {
+        const response = await fetch(baseUrl + "shift/createFixedShift", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ day: weekOff, weekOff: !!weekOff, staffId: selectedStaff.id, shiftId: selectedShift.id })
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            closeModal();
+            alert("Fixed Shift successfully created");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
+    async function submitFlexibleShift() {
+        const response = await fetch(baseUrl + "shift/createFlexibleShift", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ weekOff: weekOff, staffId: selectedStaff.id })
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            closeModal();
+            alert("Flexible Shift successfully created");
+        } else {
+            alert("An error occurred");
+        }
+    }
 
     // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
-    console.log(selectedStaff.AttendenceMode);
+    // console.log(selectedStaff.AttendenceMode);
     async function updateAttendanceMode(e) {
         e.preventDefault();
         const data = {
@@ -311,7 +384,7 @@ const EditAttendanceDetail = () => {
                     <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
                         <label className='text-[14px]'>Select Type</label>
                         <Tab className="cursor-pointer flex items-center gap-[10px]">
-                            <input type="radio" id="fixed" name='fixed' className='rounded-full ' />
+                            <input type="radio" id="fixed" name='fixed' className='rounded-full ' checked />
                             <label for="fixed" className='text-[14px]'> Fixed</label><br />
                         </Tab>
                         <Tab className="cursor-pointer flex items-center gap-[10px]">
@@ -332,7 +405,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Mon</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value="Mon" checked={weekOff === "Fri"} onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
@@ -343,7 +416,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Tue</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value="Tue" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
@@ -354,7 +427,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Wed</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value="Wed" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
@@ -365,7 +438,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Thu</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value="Thu" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
@@ -376,7 +449,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Fri</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value="Fri" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
@@ -388,7 +461,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Sat</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value="Sat" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
@@ -400,7 +473,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Sun</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value="Sun" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
@@ -416,7 +489,7 @@ const EditAttendanceDetail = () => {
                             </table>
 
                             <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
-                                <button className="first-btn" onClick={closeModal}>Cancel</button><button className="second-btn">Confirm</button>
+                                <button className="first-btn" onClick={closeModal}>Cancel</button><button onClick={submitFixedShift} className="second-btn">Confirm</button>
                             </div>
                         </div>
                     </TabPanel>
@@ -445,7 +518,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Tue</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox"   />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -455,7 +528,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Wed</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox"  />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -475,7 +548,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Fri</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox"/>
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -485,7 +558,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Sat</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox"  />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -507,7 +580,7 @@ const EditAttendanceDetail = () => {
                             </table>
                             <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button class="first-btn" onClick={closeModal}>Cancel</button>
-                                <button class="second-btn">Update Work Timings for All Staff</button></div>
+                                <button class="second-btn" onClick={submitFlexibleShift}>Update Work Timings for All Staff</button></div>
                         </div>
                     </TabPanel>
 
@@ -552,11 +625,13 @@ const EditAttendanceDetail = () => {
                 <div className=''>
                     <div className='modal-field p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Shift Name</label><br />
-                        <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
-                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift Start Time</label><br />
-                        <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={shiftName} onChange={(e) => setShiftName(e.target.value)} /><br />
+                        <label className='text-[13px] xl:text-[14px] font-medium' >Shift Start Time</label><br />
+                        {/* <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <option>Please Select Time</option>
-                        </select><br />
+                        </select> */}
+                        <input className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" type="time" id="start-time" name="start-time" value={shiftStartTime} onChange={(e) => setShiftStartTime(e.target.value)} />
+                        <br />
                         <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch In</label><br />
                         <div className='flex  justify-between'>
 
@@ -565,15 +640,15 @@ const EditAttendanceDetail = () => {
                                 <TabList className="w-full flex justify-between w-full gap-[20px]">
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="anytime" name="select-timing" />
-                                            <label for="anytime" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Anytime</label><br />
+                                            <input type="radio" id="anytime" name="select-timing" onChange={(e) => setPunchInType('ANYTIME')} />
+                                            <label for="anytime" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer' >Anytime</label><br />
                                         </div>
 
                                     </Tab>
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="limit" name="select-timing" />
-                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Add Limit</label><br />
+                                            <input type="radio" id="limit" name="select-timing" onChange={(e) => setPunchInType('ADDLIMIT')} />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer' >Add Limit</label><br />
                                         </div>
                                     </Tab>
                                 </TabList>
@@ -584,14 +659,14 @@ const EditAttendanceDetail = () => {
                                     <label className='text-[13px] xl:text-[14px] font-medium'>Allow Punch In</label><br />
                                     <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchInHours} onChange={(e) => setAllowPunchInHours(e.target.value)} />
                                             <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
 
                                         </div>
 
 
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchInMinutes} onChange={(e) => setAllowPunchInMinutes(e.target.value)} />
                                             <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
 
                                         </div>
@@ -608,9 +683,12 @@ const EditAttendanceDetail = () => {
 
                         <label className='text-[13px] xl:text-[14px] font-medium'>Shift End Time</label><br />
 
-                        <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        {/* <select onClick={openModal3}  className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <option>Please Select Time</option>
-                        </select><br />
+                        </select> */}
+                        <input className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" type="time" id="start-time" name="start-time" value={shiftEndTime} onChange={(e) => setShiftEndTime(e.target.value)} />
+
+                        <br />
 
                         <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch Out</label><br />
                         <div className=''>
@@ -620,16 +698,16 @@ const EditAttendanceDetail = () => {
                                 <TabList className="w-full flex justify-between w-full gap-[20px]">
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="anytime1" name="punching-timing" />
-                                            <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1">Anytime</label><br />
+                                            <input type="radio" id="anytime1" name="punching-timing" onChange={(e) => setPunchOutType('ANYTIME')}/>
+                                            <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1" >Anytime</label><br />
                                         </div>
 
 
                                     </Tab>
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="limit1" name="punching-timing" />
-                                            <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1">Add Limit</label><br />
+                                            <input type="radio" id="limit1" name="punching-timing" onChange={(e) => setPunchOutType('ADDLIMIT')}/>
+                                            <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1" >Add Limit</label><br />
                                         </div>
                                     </Tab>
                                 </TabList>
@@ -638,18 +716,18 @@ const EditAttendanceDetail = () => {
 
                                 </TabPanel>
                                 <TabPanel>
-                                    <label className='text-[14px] font-medium'>Allow Punch In</label><br />
+                                    <label className='text-[14px] font-medium'>Allow Punch Out</label><br />
                                     <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchOutHours} onChange={(e) => setAllowPunchOutHours(e.target.value)} />
                                             <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
 
                                         </div>
 
 
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchOutMinutes} onChange={(e) => setAllowPunchOutMinutes(e.target.value)} />
+                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer' >Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
 
                                         </div>
                                     </div>
@@ -668,7 +746,7 @@ const EditAttendanceDetail = () => {
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn'>Confirm</button>
+                        <button className='second-btn' onClick={createNewShift}>Confirm</button>
                     </div>
                 </div>
             </Modal>
