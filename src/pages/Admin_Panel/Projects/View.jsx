@@ -3,7 +3,7 @@ import React from "react";
 const View = () => {
   return (
     <div>
-      <div className="flex w-[100%] gap-[30px] max-[900px]:inline-grid">
+      <div className="flex w-[100%] gap-[20px] max-[900px]:inline-grid">
         <div className=" bg-white  w-[50%] shadow-cs rounded-lg p-6 max-[900px]:w-[100%] ">
           {/*-- Progress Bar -*/}
           <div className="mb-4">
