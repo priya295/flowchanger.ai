@@ -12,7 +12,7 @@ import { BsSendFill } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import Staff from "./ChatTabs/Staff";
-import profile from "../../../Assets/Images/profile.jpeg";
+import profile from "../../../Assets/Images/profileicon.jpg";
 
 const AdminChatInterface = () => {
   const [ chatTab , setChatTab] = useState("staff");
