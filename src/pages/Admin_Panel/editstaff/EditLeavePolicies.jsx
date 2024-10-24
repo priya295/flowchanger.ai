@@ -1,10 +1,85 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const EditLeavePolicies = () => {
+
+    const { baseUrl, selectedStaff } = useGlobalContext();
+    const [selectDuration, setSelectDuration] = useState();
+    const [editingRow, setEditingRow] = useState(null);
+    const [leavePolicyType, setLeavePolicyType] = useState();
+    const [allowedLeavesPerYear, setAllowedLeavePerYear] = useState();
+    const [carryForwardLeaves, setCarryForwardLeaves] = useState();
+
+    const [updatePolicy, setUpdatePolicy] = useState({
+        allowed_leaves: 0,
+        carry_forward_leaves: 0
+    })
+
+    console.log(updatePolicy);
+
+    // console.log(selectDuration, leavePolicyType, allowedLeavesPerYear, carryForwardLeaves);
+    async function createLeavePolicy(e) {
+        e.preventDefault();
+        const data = {
+            name: leavePolicyType,
+            allowed_leaves: Number(allowedLeavesPerYear),
+            carry_forward_leaves: Number(carryForwardLeaves)
+        };
+
+
+        const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.id, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data) // send the formatted data
+        });
+        console.log(response);
+
+        const result = await response.json();
+        if (response.status === 201) {
+            console.log(result);
+            alert("Policy Create Successfully");
+        } else {
+            console.log(result);
+            alert("Error in creating Policy");
+        }
+    }
+    async function updateLeavePolicy(e) {
+        e.preventDefault();
+        const data = {
+            name: selectedStaff?.LeavePolicy?.filter(({ id }) => id === editingRow)[0]?.name,
+            allowed_leaves: Number(updatePolicy?.allowed_leaves),
+            carry_forward_leaves: Number(updatePolicy?.carry_forward_leaves)
+        };
+
+        console.log(data);
+
+
+        const response = await fetch(baseUrl + "leave-policy/" + editingRow, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data) // send the formatted data
+        });
+        console.log(response);
+
+        const result = await response.json();
+        console.log(result);
+        if (response.status === 200) {
+            console.log(result);
+            alert("Policy update Successfully");
+        } else {
+            console.log(result);
+            alert("Error in upating Policy");
+        }
+        editingRow(null);
+    }
 
     let subtitle;
     // when onclick update staff
@@ -42,7 +117,7 @@ const EditLeavePolicies = () => {
 
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
-        <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
+            <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Leave & Balance Details
                 </h3>
@@ -109,7 +184,7 @@ const EditLeavePolicies = () => {
              */}
 
 
-             
+
 
             {/* when onclick leave policies
              */}
@@ -130,42 +205,101 @@ const EditLeavePolicies = () => {
                         <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
                             <label className='text-[14px]'>Select Type</label>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input type="radio" id="fixed" name='fixed' className='rounded-full ' />
+                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
                                 <label for="fixed" className='text-[14px]'> Monthly</label><br />
                             </Tab>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input type="radio" id="flexible" name='fixed' className='rounded-full ' />
+                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
                                 <label for="flexible" className='text-[14px]'> Yearly</label><br />
                             </Tab>
                         </TabList>
                         <TabPanel>
-                          <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                            <table className='table-section mt-4'>
-                                <thead className='border border-1 '>
-                                    <th>Leave Type</th>
-                                    <th>Allowed Leaves (Per Month)</th>
-                                    <th>Carry-forward Leaves (On Month End)</th>
-                                    
-                                </thead>
-                                <tbody>
-                                    <td>Casual Leave</td>
-                                    <td><input type='text'/></td>
-                                    <td><input type='text'/></td>
-                                    
-                                </tbody>
-                            </table>
-                          </div>
+                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+                                <table className='table-section mt-4'>
+                                    <thead className='border border-1 '>
+                                        <th>Leave Type</th>
+                                        <th>Allowed Leaves (Per Month)</th>
+                                        <th>Carry-forward Leaves (On Month End)</th>
+
+                                    </thead>
+                                    <tbody>
+                                        <td>Casual Leave</td>
+                                        <td><input type='text' /></td>
+                                        <td><input type='text' /></td>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </TabPanel>
-
-
                         <TabPanel>
-                          
+                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+                                <table className='table-section mt-4'>
+                                    <thead className='border border-1 '>
+                                        <th>Leave Type</th>
+                                        <th>Allowed Leaves (Per Year)</th>
+                                        <th>Carry-forward Leaves (On Year End)</th>
+
+                                    </thead>
+                                    <tbody>
+
+                                        {
+                                            selectedStaff?.LeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
+                                                <td onClick={() => {
+                                                    setEditingRow(id);
+                                                    setUpdatePolicy({ carry_forward_leaves, allowed_leaves })
+                                                }}>{name}</td>
+                                                <td>
+                                                    {editingRow === id ? (
+                                                        <input
+                                                            className='text-center'
+                                                            type="number"
+                                                            value={updatePolicy.allowed_leaves}
+                                                            onChange={(e) => setUpdatePolicy((prev) => {
+                                                                return { ...prev, allowed_leaves: e.target.value }
+                                                            })} autoFocus
+                                                        />
+                                                    ) : (
+                                                        allowed_leaves
+                                                    )}
+                                                </td>
+
+                                                {/* Editable Carry Forward Leaves Field */}
+                                                <td>
+                                                    {editingRow === id ? (
+                                                        <input
+                                                            className='text-center'
+                                                            type="number"
+                                                            value={updatePolicy.carry_forward_leaves}
+                                                            onChange={(e) => setUpdatePolicy((prev) => {
+                                                                return { ...prev, carry_forward_leaves: e.target.value }
+                                                            })}
+                                                        />
+                                                    ) : (
+                                                        carry_forward_leaves
+                                                    )}
+                                                </td>
+                                            </tr>)}
+                                        <tr>
+                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='New Policy Type' value={leavePolicyType} onChange={(e) => setLeavePolicyType(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='Set Allowed Leaves' value={allowedLeavesPerYear} onChange={(e) => setAllowedLeavePerYear(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 w-2/3 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='Set Carry Forward Leaves' value={carryForwardLeaves} onChange={(e) => setCarryForwardLeaves(e.target.value)} type='text' /></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </TabPanel>
 
                     </Tabs>
+                    <button onClick={(e) => {
+                        if (editingRow) {
+                            updateLeavePolicy(e)
+                        } else {
+                            createLeavePolicy(e)
+                        }
+                    }} className='second-btn'>Update Details</button>
+                    <div>
 
-
-
+                    </div>
                 </div>
             </Modal>
             {/* when onclick leave policies
@@ -173,7 +307,7 @@ const EditLeavePolicies = () => {
 
 
 
-                
+
         </div>
     )
 }

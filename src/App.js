@@ -79,10 +79,10 @@ import CalenderHeader from "./pages/Admin_Panel/Calender/CalenderHeader";
 import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
+import AdminChatInterface from "./pages/Admin_Panel/Chats/AdminChatInterFace";
+import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
+import StaffChatInterface from "./pages/Staff_Panel/ChatTabs/Staff";
 import { useGlobalContext } from "./Context/GlobalContext";
-
-
-// import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
@@ -239,7 +239,9 @@ const App = () => {
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/department-details" element={<Department_Details />} />
           <Route path="/taskstatus" element={<Task_Status />} />
-
+          <Route path="chats/admin" element={<AdminChatInterface />} />
+          <Route path="chats/client" element={<ClientChatInterface />} />
+          <Route path="chats/staff" element={<StaffChatInterface />} />
           <Route path="/status-main-page" element={<StatusMainPage />} />
 
 
