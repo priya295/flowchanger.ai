@@ -223,6 +223,13 @@
     box-shadow: 0 0 5px #cfcfcf;
     border-radius: 10px;
 }
+.active-set2{
+    color: white;
+}
+.tab-span{
+    font-size: 14px;
+    margin-left: 5px !important;
+}
 .highred2{
     color: blue;
 }
