@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import Modal from 'react-modal';
-import CloseIcon from '@mui/icons-material/Close';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import selfie from '../../../Assets/Images/selfie-img.svg'
-import qr from '../../../Assets/Images/qr-code.svg'
-import gps from '../../../Assets/Images/gps.svg'
-import biometric from '../../../Assets/Images/biometric.svg'
-import rightimg from '../../../Assets/Images/right.svg'
+import CloseIcon from '@mui/icons-material/Close';
+import React, { useState } from 'react';
+import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import biometric from '../../../Assets/Images/biometric.svg';
+import gps from '../../../Assets/Images/gps.svg';
+import qr from '../../../Assets/Images/qr-code.svg';
+import rightimg from '../../../Assets/Images/right.svg';
+import selfie from '../../../Assets/Images/selfie-img.svg';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
@@ -22,22 +22,22 @@ const EditAttendanceDetail = () => {
     const [markLocation, setMarkLocation] = useState(selectedStaff?.AttendenceMode?.mark_attendance || "Office");
     // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
 
-    const [toggleAutoPresent, setToggleAutoPresent] = useState(false);
-    const [togglePresentOnPunch, setTogglePresentOnPunch] = useState(false);
-    
-    const [autoHalfDay, setAutoHalfDay] = useState({
-        hr: "",
-        min: "",
-    });
-    const [mandatoryFullDayHour, setMandatoryFullDayHour] = useState({
-        hr: "",
-        min: "",
-    });
-    const [mandatoryHalfDayHour, setMandatoryHalfDayHour] = useState({
-        hr: "",
-        min: "",
-    });
+    const parseTimeString = (timeString) => {
+        // Check if the timeString is valid and formatted correctly
+        if (!timeString || !timeString.includes(" hr : ")) {
+            return { hr: "", min: "" };
+        }
+        const [hr, min] = timeString.split(" hr : ").map((val) => val.trim());
+        return { hr, min: min.split(" ")[0] };
+    };
 
+
+    const [toggleAutoPresent, setToggleAutoPresent] = useState(selectedStaff?.attendanceAutomationRule?.auto_absent || false);
+    const [togglePresentOnPunch, setTogglePresentOnPunch] = useState(selectedStaff?.attendanceAutomationRule?.present_on_punch || false);
+
+    const [autoHalfDay, setAutoHalfDay] = useState(parseTimeString(selectedStaff?.attendanceAutomationRule?.auto_half_day));
+    const [mandatoryFullDayHour, setMandatoryFullDayHour] = useState(parseTimeString(selectedStaff?.attendanceAutomationRule?.manadatory_full_day));
+    const [mandatoryHalfDayHour, setMandatoryHalfDayHour] = useState(parseTimeString(selectedStaff?.attendanceAutomationRule?.manadatory_half_day));
     // console.log(selectedStaff);
     async function updateAttendanceMode(e) {
         e.preventDefault();
@@ -77,8 +77,8 @@ const EditAttendanceDetail = () => {
             staff_ids: [selectedStaff?.id], // Ensure staff id is present
             automation_rules: {
                 auto_absent: toggleAutoPresent,  // Ensure boolean
-                present_on_punch: toggleAllowPunchInMobile, // Ensure boolean
-                auto_half_day: `${autoHalfDay.hr} hr : ${autoHalfDay.min} min`,
+                present_on_punch: togglePresentOnPunch, // Ensure boolean
+                auto_half_day: autoHalfDay.hr && autoHalfDay.min ? `${autoHalfDay.hr} hr : ${autoHalfDay.min} min` : " Not Set",
                 mandatory_half_day: `${mandatoryHalfDayHour.hr} hr : ${mandatoryHalfDayHour.min} min`,
                 mandatory_full_day: `${mandatoryFullDayHour.hr} hr : ${mandatoryFullDayHour.min} min`,
             }
@@ -299,6 +299,7 @@ const EditAttendanceDetail = () => {
         setIsOpen18(false);
     }
     // onclick mandatory half day button
+
 
     return (
         <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '>
@@ -959,12 +960,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={() => setToggleAllowPunchInMobile(!toggleAllowPunchInMobile)}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toggleAllowPunchInMobile ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setTogglePresentOnPunch(!togglePresentOnPunch)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${togglePresentOnPunch ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toggleAllowPunchInMobile ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${togglePresentOnPunch ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -978,7 +979,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Auto half day if late by</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button disabled={(autoHalfDay.hr !== "" && autoHalfDay.min !== "")} className='first-btn' onClick={openModal16}>{(autoHalfDay.hr === "" && autoHalfDay.min === "") ? "Not Set" : autoHalfDay.hr + ":" + autoHalfDay.min}</button>
+                            <button className='first-btn' onClick={openModal16}>{(autoHalfDay.hr === "" && autoHalfDay.min === "") ? "Not Set" : autoHalfDay.hr + ":" + autoHalfDay.min}</button>
                         </div>
                     </div>
 
@@ -988,7 +989,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory half day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button disabled={(mandatoryHalfDayHour.hr !== "" && mandatoryHalfDayHour.min !== "")} className='first-btn' onClick={openModal17}>{(mandatoryHalfDayHour.hr === "" && mandatoryHalfDayHour.min === "") ? "Not Set" : mandatoryHalfDayHour.hr + ":" + mandatoryHalfDayHour.min}</button>
+                            <button className='first-btn' onClick={openModal17}>{(mandatoryHalfDayHour.hr === "" && mandatoryHalfDayHour.min === "") ? "Not Set" : mandatoryHalfDayHour.hr + ":" + mandatoryHalfDayHour.min}</button>
                         </div>
                     </div>
 
@@ -998,7 +999,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory full day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button disabled={(mandatoryFullDayHour.hr !== "" && mandatoryFullDayHour.min !== "")} className='first-btn' onClick={openModal18}>{(mandatoryFullDayHour.hr === "" && mandatoryFullDayHour.min === "") ? "Not Set" : mandatoryFullDayHour.hr + ":" + mandatoryFullDayHour.min}</button>
+                            <button className='first-btn' onClick={openModal18}>{(mandatoryFullDayHour.hr === "" && mandatoryFullDayHour.min === "") ? "Not Set" : mandatoryFullDayHour.hr + ":" + mandatoryFullDayHour.min}</button>
 
                         </div>
                     </div>
