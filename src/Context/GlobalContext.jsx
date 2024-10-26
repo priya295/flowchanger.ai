@@ -26,13 +26,13 @@ export const GlobalContext = ({ children }) => {
   const [roleName, setRoleName] = useState("");
   const [roleId, setRoleId] = useState("");
   const [selectedStaff, setSelectedStaff] = useState(null);
-  const [selectedShift, setSelectedShift] = useState(null);
+  // const [selectedShift, setSelectedShift] = useState(null);
 
 
 
 
   return (
-    <MainContext.Provider value={{ selectedTab, setSelectedTab, staffTab, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, selectedShift, setSelectedShift }}>
+    <MainContext.Provider value={{ selectedTab, setSelectedTab, staffTab, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff }}>
       {children}
     </MainContext.Provider>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const LoginPage = ({ nextStep}) => {
   return (
@@ -47,7 +48,7 @@ const LoginPage = ({ nextStep}) => {
           <div className="text-center mt-4 flex flex-col justify-center gap-y-3">
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Forgot password?</span> 
-              <button >Reset</button>
+              <Link to="/request-password">Reset</Link>
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Don't have an account?</span> 

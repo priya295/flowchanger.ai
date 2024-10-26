@@ -1,6 +1,7 @@
 
 import React, { useContext } from 'react';
 import { FormContext } from '../../../../store/store';
+import {Link} from 'react-router-dom';
 
 const Step1 = () => {
   const { nextStep } = useContext(FormContext);
@@ -13,9 +14,9 @@ const Step1 = () => {
         <a href="/login" className="text-white hover:underline">
           Already have an account?
         </a>
-        <button className="bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-400 transition duration-300">
+        <Link to="/login" className="bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-400 transition duration-300">
           Login
-        </button>
+        </Link>
       </div>
 
       <div className="w-full max-w-md">

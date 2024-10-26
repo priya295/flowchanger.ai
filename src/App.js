@@ -58,6 +58,7 @@ import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
 import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import Meeting from "./pages/Admin_Panel/Calender/Meeting";
+import RequestPassword from "./pages/Admin_Panel/authentication/RequestPassword";
 import CalenderDay from "./pages/Admin_Panel/Calender/CalenderDay";
 import CalenderYear from "./pages/Admin_Panel/Calender/CalenderYear";
 import Note from "../src/Notes/Note";
@@ -78,8 +79,10 @@ import PayrollMenu from "../src/pages/Admin_Panel/payroll/PayrollMenu";
 import CalenderHeader from "./pages/Admin_Panel/Calender/CalenderHeader";
 import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
+import Login from "../src/pages/Admin_Panel/authentication/steps/login";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
 import { useGlobalContext } from "./Context/GlobalContext";
+import ResetPassword from "./pages/Admin_Panel/authentication/steps/ResetPassword";
 
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
@@ -249,6 +252,8 @@ const App = () => {
 
 
 
+
+
           <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
           <Route path="/edit-project" element={<Edit_Project />} />
           {/* <Route path="/task" element={<Task />} /> */}
@@ -314,6 +319,9 @@ const App = () => {
         </Route>
         <Route element={<AuthLayout />}>
           <Route path="/authentication" element={<MultiStepForm />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/request-password" element={<RequestPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route element={<CustomerPanel />}>

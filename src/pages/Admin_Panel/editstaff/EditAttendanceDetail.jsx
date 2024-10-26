@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -14,7 +14,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const EditAttendanceDetail = () => {
 
-    const { baseUrl, selectedStaff, selectedShift } = useGlobalContext();
+    const { baseUrl, selectedStaff } = useGlobalContext();
     const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff?.AttendenceMode?.selfie_attendance || false);
     const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff?.AttendenceMode?.allow_punch_in_for_mobile || false);
     const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff?.AttendenceMode?.qr_attendance || false);
@@ -30,6 +30,65 @@ const EditAttendanceDetail = () => {
     const [allowPunchInMinutes, setAllowPunchInMinutes] = useState("");
     const [allowPunchOutHours, setAllowPunchOutHours] = useState("");
     const [allowPunchOutMinutes, setAllowPunchOutMinutes] = useState("");
+    const [shifts, setShifts] = useState([]);
+    const [daysChecked, setDaysChecked] = useState({
+        Mon: false,
+        Tue: false,
+        Wed: false,
+        Thu: false,
+        Fri: false,
+        Sat: false,
+        Sun: false,
+    });
+    // State to track selected shifts for each day
+    const [selectedShifts, setSelectedShifts] = useState({
+        Mon: '',
+        Tue: '',
+        Wed: '',
+        Thu: '',
+        Fri: '',
+        Sat: '',
+        Sun: '',
+    });
+
+    // Fetch available shifts from backend and store them in `shifts`
+    useEffect(() => {
+        fetchShifts();
+    }, []);
+
+    // Fetch available shifts from backend
+    async function fetchShifts() {
+        try {
+            const response = await fetch(baseUrl + "shift/");
+            const data = await response.json();
+            if (data && data.shifts) {
+                setShifts(data.shifts); // Ensure data is in the expected format
+            } else {
+                console.error("No shifts found in response", data);
+                setShifts([]); // Handle case where no shifts are returned
+            }
+        } catch (error) {
+            console.error("Error fetching shifts", error);
+            setShifts([]); // In case of an error, set an empty array to avoid undefined issues
+        } // Assuming data contains a `shifts` array with `id` and `name`
+    }
+
+    // Handle checkbox changes for week off selection
+    const handleCheckboxChange = (day) => {
+        setDaysChecked((prev) => ({
+            ...prev,
+            [day]: !prev[day],
+        }));
+    };
+
+
+    // Handle shift select changes
+    const handleShiftChange = (day, shiftId) => {
+        setSelectedShifts((prev) => ({
+            ...prev,
+            [day]: shiftId, // Save the selected shiftId for the day
+        }));
+    };
 
     async function createNewShift() {
         const response = await fetch(baseUrl + "shift/create", {
@@ -37,14 +96,24 @@ const EditAttendanceDetail = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: allowPunchInHours, allowPunchInMinutes: allowPunchInMinutes, allowPunchOutHours: allowPunchOutHours, allowPunchOutMinutes: allowPunchOutMinutes })
+            body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: Number(allowPunchInHours), allowPunchInMinutes: Number(allowPunchInMinutes), allowPunchOutHours: Number(allowPunchOutHours), allowPunchOutMinutes: Number(allowPunchOutMinutes) })
         });
 
         console.log(response);
 
         if (response.status === 201) {
-            const result = await response.json()
-            console.log(result);
+            const newShift = await response.json()
+            console.log(newShift);
+
+            // After creating the shift, fetch shifts again to update the dropdown
+            fetchShifts();
+
+            // Optionally, directly set the new shift in the corresponding `selectedShifts` state
+            setSelectedShifts((prev) => ({
+                ...prev,
+                [newShift.day]: newShift.id, // Set the newly created shift ID for the selected day
+            }));
+
             closeModal();
             alert("Shift successfully created");
         } else {
@@ -52,25 +121,41 @@ const EditAttendanceDetail = () => {
         }
     }
 
+    // Submit the fixed shifts
     async function submitFixedShift() {
-        const response = await fetch(baseUrl + "shift/createFixedShift", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ day: weekOff, weekOff: !!weekOff, staffId: selectedStaff.id, shiftId: selectedShift.id })
-        });
+        // Filter out the days where weekOff is checked
+        const weekOffDays = Object.keys(daysChecked).filter((day) => daysChecked[day]);
 
-        console.log(response);
+        // Loop through the selected weekOff days
+        for (const day of weekOffDays) {
+            const shiftId = selectedShifts[day]; // Get the selected shift ID for the current day
 
-        if (response.status === 201) {
-            const result = await response.json()
-            console.log(result);
-            closeModal();
-            alert("Fixed Shift successfully created");
-        } else {
-            alert("An error occurred");
+            const response = await fetch(baseUrl + "shift/createFixedShift", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    day, // The current day (e.g., 'Mon', 'Tue')
+                    weekOff: daysChecked[day], // Whether it's marked as a week off
+                    staffId: selectedStaff.id, // Selected staff member's ID
+                    shiftId: shiftId || null, // Pass the correct shift ID or null if no shift is selected
+                }),
+            });
+
+            // Handle the response for each day
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(`${day} shift created successfully:`, result);
+            } else {
+                console.error(`An error occurred while saving the shift for ${day}`);
+                alert(`An error occurred while saving the shift for ${day}`);
+            }
         }
+
+        // Close the modal after all requests are completed
+        closeModal();
+        alert("Fixed Shift successfully created for the selected days.");
     }
 
     async function submitFlexibleShift() {
@@ -402,89 +487,96 @@ const EditAttendanceDetail = () => {
 
                                 </thead>
                                 <tbody>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Mon</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value="Mon" checked={weekOff === "Fri"} onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Tue</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value="Tue" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Wed</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value="Wed" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Thu</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value="Thu" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Fri</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value="Fri" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
+                                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+                                        <tr className='' key={day}>
+                                            <td className='text-center text-[12px] font-normal'>{day}</td>
+                                            <td className='p-3 text-center'>
+                                                <input type="checkbox" checked={daysChecked[day]} onChange={() => handleCheckboxChange(day)} />
+                                            </td>
+                                            <td className='pr-5'>
+                                                <select onClick={openModal1} value={selectedShifts[day]} onChange={(e) => handleShiftChange(day, e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                    <option value="">Select Shift</option>
+                                                    {shifts && shifts.length > 0 ? (
+                                                    shifts.map((shift) => (
+                                                        <option key={shift.id} value={shift.id}>
+                                                            {shift.name} {/* Show shift name in the dropdown */}
+                                                        </option>
+                                                    )) ):<option disabled>No shifts available</option> }
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        // <tr className=''>
+                                        //     <td className='text-center text-[12px] font-normal'>Tue</td>
+                                        //     <td className='p-3 text-center'>
+                                        //         <input type="checkbox" value="Tue" />
+                                        //     </td>
+                                        //     <td className='pr-5'>
+                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                        //             <option>Select Shift</option>
+                                        //         </select>
+                                        //     </td>
+                                        // </tr>
+                                        // <tr className=''>
+                                        //     <td className='text-center text-[12px] font-normal'>Wed</td>
+                                        //     <td className='p-3 text-center'>
+                                        //         <input type="checkbox" value="Wed" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
+                                        //     </td>
+                                        //     <td className='pr-5'>
+                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                        //             <option>Select Shift</option>
+                                        //         </select>
+                                        //     </td>
+                                        // </tr>
+                                        // <tr className=''>
+                                        //     <td className='text-center text-[12px] font-normal'>Thu</td>
+                                        //     <td className='p-3 text-center'>
+                                        //         <input type="checkbox" value="Thu" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
+                                        //     </td>
+                                        //     <td className='pr-5'>
+                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                        //             <option>Select Shift</option>
+                                        //         </select>
+                                        //     </td>
+                                        // </tr>
+                                        // <tr className=''>
+                                        //     <td className='text-center text-[12px] font-normal'>Fri</td>
+                                        //     <td className='p-3 text-center'>
+                                        //         <input type="checkbox" value="Fri" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
+                                        //     </td>
+                                        //     <td className='pr-5'>
+                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                        //             <option>Select Shift</option>
+                                        //         </select>
+                                        //     </td>
+                                        // </tr>
 
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sat</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value="Sat" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
+                                        // <tr className=''>
+                                        //     <td className='text-center text-[12px] font-normal'>Sat</td>
+                                        //     <td className='p-3 text-center'>
+                                        //         <input type="checkbox" value="Sat" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
+                                        //     </td>
+                                        //     <td className='pr-5'>
+                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                        //             <option>Select Shift</option>
+                                        //         </select>
+                                        //     </td>
+                                        // </tr>
 
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sun</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value="Sun" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-
-
+                                        // <tr className=''>
+                                        //     <td className='text-center text-[12px] font-normal'>Sun</td>
+                                        //     <td className='p-3 text-center'>
+                                        //         <input type="checkbox" value="Sun" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
+                                        //     </td>
+                                        //     <td className='pr-5'>
+                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                        //             <option>Select Shift</option>
+                                        //         </select>
+                                        //     </td>
+                                        // </tr>
 
 
+
+                                    ))}
                                 </tbody>
                             </table>
 
@@ -518,7 +610,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Tue</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox"   />
+                                            <input type="checkbox" />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -528,7 +620,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Wed</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox"  />
+                                            <input type="checkbox" />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -548,7 +640,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Fri</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox"/>
+                                            <input type="checkbox" />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -558,7 +650,7 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Sat</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox"  />
+                                            <input type="checkbox" />
                                         </td>
                                         <td className='pr-5'>
                                             <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
@@ -698,7 +790,7 @@ const EditAttendanceDetail = () => {
                                 <TabList className="w-full flex justify-between w-full gap-[20px]">
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="anytime1" name="punching-timing" onChange={(e) => setPunchOutType('ANYTIME')}/>
+                                            <input type="radio" id="anytime1" name="punching-timing" onChange={(e) => setPunchOutType('ANYTIME')} />
                                             <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1" >Anytime</label><br />
                                         </div>
 
@@ -706,7 +798,7 @@ const EditAttendanceDetail = () => {
                                     </Tab>
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="limit1" name="punching-timing" onChange={(e) => setPunchOutType('ADDLIMIT')}/>
+                                            <input type="radio" id="limit1" name="punching-timing" onChange={(e) => setPunchOutType('ADDLIMIT')} />
                                             <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1" >Add Limit</label><br />
                                         </div>
                                     </Tab>
