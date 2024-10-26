@@ -114,7 +114,7 @@ const StaffTab = () => {
                 return <tr key={index} onClick={()=>{setSelectedStaff(staff)}} className='border'>
                   <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
                   <td>
-                    <Link to="/personal-detail" className='text-[#8A25B0] font-medium'>{staff.name}</Link>
+                    <Link to={`/personal-detail/${staff.id}`} className='text-[#8A25B0] font-medium'>{staff.name}</Link>
                   </td>
                   <td>{staff.job_title ? staff.job_title : "N/A"}</td>
                   <td>N/A</td>

@@ -80,10 +80,15 @@ import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
 import { useGlobalContext } from "./Context/GlobalContext";
+<<<<<<< HEAD
 import AdminChatInterface from "./Pages/Admin_Panel/Chats/AdminChatInterFace";
 import StaffChatInterface from "./pages/Staff_Panel/StaffChatInterface";
 import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
  
+=======
+
+
+>>>>>>> 67de6dce3ad9a911c1c1494c42ce73dc2a7c7bd1
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -241,9 +246,9 @@ const App = () => {
           <Route path="/create-new-project" element={<Add_Project />}></Route>
           <Route path="/department-details" element={<Department_Details />} />
           <Route path="/taskstatus" element={<Task_Status />} />
-          <Route path = "chats/admin" element = {<AdminChatInterface/>}/>
-          <Route path = "chats/client" element = {<ClientChatInterface/>}/>
-          <Route path = "chats/staff" element = {<StaffChatInterface/>}/>
+          <Route path="chats/admin" element={<AdminChatInterface />} />
+          <Route path="chats/client" element={<ClientChatInterface />} />
+          <Route path="chats/staff" element={<StaffChatInterface />} />
           <Route path="/status-main-page" element={<StatusMainPage />} />
 
 
@@ -268,20 +273,21 @@ const App = () => {
         </Route>
 
         <Route element={<Editstaff />}>
-          <Route path="/personal-detail" element={<PersonalDetail />} />
-          <Route path="/bank-detail" element={<BankDetails />} />
-          <Route path="/attendance-detail" element={<Editattendance />} />
-          <Route path="/employee-detail" element={<EmployementDetail />} />
-          <Route path="/user-permission" element={<UserPermission />} />
-          <Route path="/leavepolicy-detail" element={<EditLeavePolicies />} />
-          <Route path="/custom-detail" element={<CustomDetail />} />
-          <Route path="/salary-details-edit" element={<EditSalaryDetails />} />
-          <Route path="/edit-penalty" element={<EditPenalty />} />
-          <Route path="/salary-overview" element={<SalaryOverview />} />
+          <Route path="/personal-detail/:id" element={<PersonalDetail />} />
+          <Route path="/bank-detail/:id" element={<BankDetails />} />
+          <Route path="/attendance-detail/:id" element={<Editattendance />} />
+          <Route path="/employee-detail/:id" element={<EmployementDetail />} />
+          <Route path="/user-permission/:id" element={<UserPermission />} />
+          <Route path="/leavepolicy-detail/:id" element={<EditLeavePolicies />} />
+          <Route path="/custom-detail/:id" element={<CustomDetail />} />
+          <Route path="/salary-details-edit/:id" element={<EditSalaryDetails />} />
+          <Route path="/edit-penalty/:id" element={<EditPenalty />} />
+          <Route path="/salary-overview/:id" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
 
           <Route
-            path="/background-verification"
+          
+            path="/background-verification/:id"
             element={<BackgroundVerification />}
           />
           <Route path="/verify-aadhar" element={<VerifyAadhaar />} />

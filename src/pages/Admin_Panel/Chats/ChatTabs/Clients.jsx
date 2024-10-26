@@ -1,5 +1,5 @@
 
-import ProfilePic from "../../../../Assets/Images/User_icon_2.png";
+import ProfilePic from "../../../../Assets/Images/users.jpg";
 const Clients = ({handleShowChatSection,handleSelectedStaff}) =>{
 
   const Clients = [

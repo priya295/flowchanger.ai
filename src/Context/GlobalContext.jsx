@@ -27,11 +27,19 @@ export const GlobalContext = ({ children }) => {
   const [roleId,setRoleId] = useState("");
   const [selectedStaff,setSelectedStaff] = useState(null);
   
+  const fetchDetails= async()=>{
+    const response =  await fetch(baseUrl+"/staff");
+
+    if(response.status==200){
+      const data=response.json();
+      setSelectedStaff(data)
+    }
+  }
 
 
- 
+  
   return (
-    <MainContext.Provider value={{ selectedTab,setSelectedTab,staffTab, setStaffTab,baseUrl, name,setName ,depId,setDepId, roleName,setRoleName,roleId,setRoleId,editPermissions,setEditPermissions,selectedStaff,setSelectedStaff}}>
+    <MainContext.Provider value={{ selectedTab,setSelectedTab,staffTab, setStaffTab,baseUrl, name,setName ,depId,setDepId, roleName,setRoleName,roleId,setRoleId,editPermissions,setEditPermissions,selectedStaff,setSelectedStaff,fetchDetails}}>
       {children}
     </MainContext.Provider>
   );

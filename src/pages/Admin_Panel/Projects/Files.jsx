@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaGoogle } from "react-icons/fa";
+import SearchIcon from '@mui/icons-material/Search';
 
 const Files = () => {
   const [isOn, setIsOn] = useState(false);
@@ -50,27 +51,29 @@ const Files = () => {
       <div >
         <div className="p-4 shadow mt-8 rounded-xl">
           <div className="flex  justify-between items-center mb-4 max-[1050px]:block">
-            <div className="flex space-x-2 text-[#B1B1B1]">
-              <select className="border w-[4.5rem] border-[#B1B1B1] rounded p-2 bg-white">
+            <div className="flex space-x-2 text-[#000]">
+              <select className="border text-[14px]  border-[#B1B1B1] rounded p-2 bg-white">
                 <option>25</option>
               </select>
-              <button className=" text-[#B1B1B1] border border-[#B1B1B1] px-4 py-2 rounded">
+              <button className=" text-[#000] text-[14px] border border-[#B1B1B1] px-4 py-2 rounded">
                 Export
               </button>
-              <button className=" text-[#B1B1B1] border border-[#B1B1B1] px-4 py-2 rounded">
+              <button className=" text-[#000] text-[14px] border border-[#B1B1B1] px-4 py-2 rounded">
                 Bulk Actions
               </button>
-              <button className=" text-[#B1B1B1] border border-[#B1B1B1] px-4 py-2 rounded">
+              <button className=" text-[#000] text-[14px] border border-[#B1B1B1] px-4 py-2 rounded">
                 Download All
               </button>
             </div>
 
-            <div>
+            <div className='relative'>
               <input
                 type="text"
                 placeholder="Search..."
                 className="border border-gray-300 rounded-lg shadow-cs focus-visible:outline-none p-2 w-64 max-[1050px]:mt-4"
+
               />
+              <SearchIcon className='absolute right-[10px] top-[10px] text-[#b1b1b1]'/>
             </div>
           </div>
 
@@ -78,21 +81,21 @@ const Files = () => {
             <table className="min-w-full bg-white border border-[#dbdbdb] shadow-cs mb-[8px]">
               <thead>
                 <tr>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border-t border-r border-[#DBDBDB]">Filename</th>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">File type</th>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">Last Activity</th>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">Total Comments</th>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB]">
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border-t border-r border-[#DBDBDB]">Filename</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border border-[#DBDBDB]">File type</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border border-[#DBDBDB]">Last Activity</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border border-[#DBDBDB]">Total Comments</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border border-[#DBDBDB]">
                     Visible to Customer
                   </th>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB">Uploaded by</th>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border border-[#DBDBDB">Date uploaded</th>
-                  <th className="p-[10px] font-normal whitespace-nowrap text-[#B1B1B1] text-[16px] text-center border-b  border-t border-l border-[#DBDBDB] ">Options</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border border-[#DBDBDB">Uploaded by</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border border-[#DBDBDB">Date uploaded</th>
+                  <th className="p-[10px] font-normal whitespace-nowrap text-[#000] text-[14px] text-center border-b  border-t border-l border-[#DBDBDB] ">Options</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td className="p-[10px] text-start text-[#B1B1B1]" colspan="8">
+                  <td className="p-[10px] text-[14px] text-start text-[#000]" colspan="8">
                     No entries found
                   </td>
                 </tr>
