@@ -1,8 +1,18 @@
 
 import React from 'react';
 import { MdKeyboardArrowLeft } from "react-icons/md";
+// import { requestPasswordReset } from '../../../../Firebase/firebase';
 
 const RequestPassword = ({ prevStep }) => {
+
+  // const [email, setEmail] = useState('');
+
+  // const handleResetRequest = async (e) => {
+  //   e.preventDefault();
+  //   await requestPasswordReset(email);
+  //   alert('Password reset email sent!');
+  // };
+
   return (<>
     <div className='flex flex-start  mt-9 relative ml-9 '>
         <MdKeyboardArrowLeft className='absolute inset-y-0 top-3 left-4 mr-5'/>
@@ -20,9 +30,12 @@ const RequestPassword = ({ prevStep }) => {
             <h2 className="text-3xl font-medium mb-3 text-center mt-5">Forgot your password</h2>
           </div>
           <form>
+            {/* <form onSubmit={handleResetRequest}> */}
             <div className="mb-6">
               <input
                 type="email"
+                // value={email}
+                // onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
                 aria-label="Email"
                 className="w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"

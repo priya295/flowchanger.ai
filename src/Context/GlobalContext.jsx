@@ -5,11 +5,11 @@ export const MainContext = createContext();
 
 export const GlobalContext = ({ children }) => {
 
-  const [selectedTab, setSelectedTab] = useState(0); 
+  const [selectedTab, setSelectedTab] = useState(0);
   const baseUrl = process.env.REACT_APP_BASE_URL
-  const [staffTab, setStaffTab] = useState(0); 
+  const [staffTab, setStaffTab] = useState(0);
   const [name, setName] = useState("");
-  const [depId,setDepId] = useState("");
+  const [depId, setDepId] = useState("");
   const [editPermissions, setEditPermissions] = useState({
     clients_permissions: { view_global: false, create: false, edit: false, delete: false },
     projects_permissions: { view_global: false, create: false, edit: false, delete: false },
@@ -20,8 +20,8 @@ export const GlobalContext = ({ children }) => {
     task_permissions: { view_global: false, create: false, edit: false, delete: false },
     sub_task_permissions: { view_global: false, create: false, edit: false, delete: false },
     chat_module_permissions: { grant_access: false },
-    ai_permissions:{grant_access:false}
-});
+    ai_permissions: { grant_access: false }
+  });
 
   const [roleName, setRoleName] = useState("");
   const [roleId,setRoleId] = useState("");
@@ -45,7 +45,7 @@ export const GlobalContext = ({ children }) => {
   );
 };
 
-export const useGlobalContext = ()=>{
-    return useContext(MainContext)
+export const useGlobalContext = () => {
+  return useContext(MainContext)
 }
 
