@@ -4,7 +4,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyAddress = () => {
-    const [bgVerification, setBgVerification] = useState("");
+    const [currentAddress, setCurrentAddress] = useState("");
+    const [permanentAddress, setPermanentAddress] = useState("");
 
     const { baseUrl, selectedStaff } = useGlobalContext();
 
@@ -15,7 +16,7 @@ const VerifyAddress = () => {
             headers: {
                 "Content-Type": "application/form-data",
             },
-            body: JSON.stringify({ current_address: bgVerification, permanent_address: bgVerification }),
+            body: JSON.stringify({ current_address: currentAddress, permanent_address: permanentAddress }),
         });
 
         console.log(response);
@@ -109,8 +110,8 @@ const VerifyAddress = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Address
                         </label><br />
-                        <input type='text' placeholder='Enter Current Address' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)}/><br />
-                        <input type='text' placeholder="Enter Permanent Address" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)}/><br />
+                        <input type='text' placeholder='Enter Current Address' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)}/><br />
+                        <input type='text' placeholder="Enter Permanent Address" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={permanentAddress} onChange={(e) => setPermanentAddress(e.target.value)}/><br />
 
 
                     </div>

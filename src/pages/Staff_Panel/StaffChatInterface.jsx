@@ -8,7 +8,7 @@ import { BsSendFill } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
 import { IoSearch } from "react-icons/io5";
 import Staff from "./ChatTabs/Staff";
-import profile from "../../Assets/Images/profile.jpeg";
+import profile from "../../../src/Assets/Images/Profile.png";
 
 const StaffChatInterface = () => {
   const [ chatTab , setChatTab] = useState("staff");

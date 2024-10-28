@@ -44,8 +44,8 @@ import Taskview from "../src/pages/Admin_Panel/Tasks/Taskview";
 import Clients from "../src/pages/Admin_Panel/Clients/Clients";
 import NewTicket from "./pages/Admin_Panel/Projects/NewTicketForm";
 import Add_Project from "./pages/Admin_Panel/Projects/Add_Project";
-import Customer_Navbar from "./Customer Panel/Components/Customer_Navbar";
-import Customer_Footer from "./Customer Panel/Components/Customer_Footer";
+// import Customer_Navbar from "./Customer Panel/Components/Customer_Navbar";
+// import Customer_Footer from "./Customer Panel/Components/Customer_Footer";
 import EditSalaryDetails from "../src/pages/Admin_Panel/editstaff/EditSalaryDetails";
 import EditPenalty from "../src/pages/Admin_Panel/editstaff/EditPenalty";
 import SalaryOverview from "../src/pages/Admin_Panel/editstaff/SalaryOverview";
@@ -58,6 +58,7 @@ import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
 import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import Meeting from "./pages/Admin_Panel/Calender/Meeting";
+import RequestPassword from "./pages/Admin_Panel/authentication/steps/RequestPassword";
 import CalenderDay from "./pages/Admin_Panel/Calender/CalenderDay";
 import CalenderYear from "./pages/Admin_Panel/Calender/CalenderYear";
 import Note from "../src/Notes/Note";
@@ -78,12 +79,17 @@ import PayrollMenu from "../src/pages/Admin_Panel/payroll/PayrollMenu";
 import CalenderHeader from "./pages/Admin_Panel/Calender/CalenderHeader";
 import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
+import Login from "../src/pages/Admin_Panel/authentication/steps/login";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
 import { useGlobalContext } from "./Context/GlobalContext";
-import AdminChatInterface from "./Pages/Admin_Panel/Chats/AdminChatInterFace";
+import AdminChatInterface from "./pages/Admin_Panel/Chats/AdminChatInterFace";
 import StaffChatInterface from "./pages/Staff_Panel/StaffChatInterface";
 import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
- 
+import ResetPassword from "./pages/Admin_Panel/authentication/steps/ResetPassword";
+import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
+import ProtectedRoute from './ProtectedRoute';
+import DashBoard from "./pages/Admin_Panel/DashBoard";
+
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -133,15 +139,15 @@ const App = () => {
     );
   }
 
-  function CustomerPanel() {
-    return (
-      <>
-        <Customer_Navbar />
-        <Outlet />
-        <Customer_Footer />
-      </>
-    );
-  }
+  // function CustomerPanel() {
+  //   return (
+  //     <>
+  //       <Customer_Navbar />
+  //       <Outlet />
+  //       <Customer_Footer />
+  //     </>
+  //   );
+  // }
 
   function Client_Panel() {
     return (
@@ -210,61 +216,58 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<AdminLayout />}>
-          <Route path="/project-overview" element={<ProjectsOverview />} />
-          <Route path="/new-ticket" element={<NewTicket />} />
-          <Route path="/addnewclient" element={<AddNewClient />} />
-          <Route path="/editclient" element={<EditClient />} />
-          <Route path="/addrole" element={<AddRole />} />
-          {/* <Route path="/role" element={<Role_Details />} /> */}
-          <Route path="/editrole" element={<EditRole />} />
-          <Route path="/role-detail" element={<Role_Details />} />
-          <Route path="/editdepartment" element={<EditDepartment />} />
-          <Route path="/" element={<StaffMenu />} />
-          <Route path="/add-one-staff" element={<AddOneStaff />} />
-          <Route path="/department-details" element={<DepartmentDetail />} />
-          <Route path="/salary_Details" element={<Salary_Details />} />
-          <Route path="/overtime" element={<Overtime />} />
-          <Route path="/reviewfine" element={<Reviewfine />} />
-          <Route path="/worktime" element={<Worktime />} />
-          <Route path="/attendence_summary" element={<Attendence_summary />} />
-          <Route path="/project_summary" element={<Project_Summary />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/overtime" element={<Overtime />} />
-          <Route path="/taskview" element={<Taskview />} />
-          <Route path="/clients" element={<Clients />} />
-          <Route path="/projectprogress" element={<Project_Progress />} />
-          {/* <Route path="/addnewtask" element={<AddNewTask />} /> */}
-          {/* <Route path="/taskdata" element={<Task_Data />} /> */}
-          <Route path="/task" element={<Task />} />
-          <Route path="/adddepartment" element={<AddDepartment />} />
-          <Route path="/create-new-project" element={<Add_Project />}></Route>
-          <Route path="/department-details" element={<Department_Details />} />
-          <Route path="/taskstatus" element={<Task_Status />} />
-          <Route path="chats/admin" element={<AdminChatInterface />} />
-          <Route path="chats/client" element={<ClientChatInterface />} />
-          <Route path="chats/staff" element={<StaffChatInterface />} />
-          <Route path="/status-main-page" element={<StatusMainPage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/project-overview" element={<ProjectsOverview />} />
+            <Route path="/new-ticket" element={<NewTicket />} />
+            <Route path="/dashboard" element={<DashBoard />} />
+            <Route path="/addnewclient" element={<AddNewClient />} />
+            <Route path="/editclient" element={<EditClient />} />
+            <Route path="/addrole" element={<AddRole />} />
+            {/* <Route path="/role" element={<Role_Details />} /> */}
+            <Route path="/editrole" element={<EditRole />} />
+            <Route path="/role-detail" element={<Role_Details />} />
+            <Route path="/editdepartment" element={<EditDepartment />} />
+            <Route path="/" element={<StaffMenu />} />
+            <Route path="/add-one-staff" element={<AddOneStaff />} />
+            <Route path="/department-details" element={<DepartmentDetail />} />
+            <Route path="/salary_Details" element={<Salary_Details />} />
+            <Route path="/overtime" element={<Overtime />} />
+            <Route path="/reviewfine" element={<Reviewfine />} />
+            <Route path="/worktime" element={<Worktime />} />
+            <Route path="/attendence_summary" element={<Attendence_summary />} />
+            <Route path="/project_summary" element={<Project_Summary />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/overtime" element={<Overtime />} />
+            <Route path="/taskview" element={<Taskview />} />
+            <Route path="/clients" element={<Clients />} />
+            <Route path="/projectprogress" element={<Project_Progress />} />
+            {/* <Route path="/addnewtask" element={<AddNewTask />} /> */}
+            {/* <Route path="/taskdata" element={<Task_Data />} /> */}
+            <Route path="/task" element={<Task />} />
+            <Route path="/adddepartment" element={<AddDepartment />} />
+            <Route path="/create-new-project" element={<Add_Project />}></Route>
+            <Route path="/department-details" element={<Department_Details />} />
+            <Route path="/taskstatus" element={<Task_Status />} />
+            <Route path="chats/admin" element={<AdminChatInterface />} />
+            <Route path="chats/client" element={<ClientChatInterface />} />
+            <Route path="chats/staff" element={<StaffChatInterface />} />
+            <Route path="/status-main-page" element={<StatusMainPage />} />
+            <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
+            <Route path="/edit-project" element={<Edit_Project />} />
+            {/* <Route path="/task" element={<Task />} /> */}
+            <Route path="/editprofile" element={<Editprofile />} />
+            <Route path="/taskstatus" element={<Task_Status />} />
+            {/* <Route path="/clientproject" element={<Client_Project />} /> */}
+            {/* <Route path="/projectprogress" element={<Project_Progress />} /> */}
+            <Route path="/note" element={<Note />} />
+            <Route path="/expenseedit" element={<ExpenseEdit />} />
+            <Route path="/expensepage" element={<ExpensePage />} />
+            <Route path="/subscription-plan" element={<Subscription />} />
+            <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
+          </Route>
+         
 
-
-
-
-
-
-
-
-          <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
-          <Route path="/edit-project" element={<Edit_Project />} />
-          {/* <Route path="/task" element={<Task />} /> */}
-          <Route path="/editprofile" element={<Editprofile />} />
-          <Route path="/taskstatus" element={<Task_Status />} />
-          {/* <Route path="/clientproject" element={<Client_Project />} /> */}
-          {/* <Route path="/projectprogress" element={<Project_Progress />} /> */}
-          <Route path="/note" element={<Note />} />
-          <Route path="/expenseedit" element={<ExpenseEdit />} />
-          <Route path="/expensepage" element={<ExpensePage />} />
-          <Route path="/subscription-plan" element={<Subscription />} />
-          <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
         </Route>
 
         <Route element={<Editstaff />}>
@@ -281,7 +284,7 @@ const App = () => {
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
 
           <Route
-          
+
             path="/background-verification/:id"
             element={<BackgroundVerification />}
           />
@@ -317,14 +320,18 @@ const App = () => {
           <Route path="/year-wise" element={<CalenderYear />} />
           <Route path="/week-wise" element={<CalenderWeekly />} />
         </Route>
+
         <Route element={<AuthLayout />}>
-          <Route path="/authentication" element={<MultiStepForm />} />
+        <Route path="/authentication" element={<MultiStepForm />} />
+          <Route path="/authentication/login" element={<LoginPage />} />
+          <Route path="/authentication/reset" element={<ResetPassword />} />
+          <Route path="/authentication/request-password" element={<RequestPassword />} />
         </Route>
 
-        <Route element={<CustomerPanel />}>
+        {/* <Route element={<CustomerPanel />}>
           <Route path="/customer-panel"></Route>
+        </Route> */}
 
-        </Route>
 
 
 

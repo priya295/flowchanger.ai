@@ -1,46 +1,125 @@
-import { FormContext } from '../../../../store/store';
-import React from 'react';
-import { useContext } from 'react';
-import { CiImageOn } from "react-icons/ci";
+import { FormContext } from '../../../../Context/AuthContext';
+import React, { useContext, useState, useEffect } from 'react';
+import ImageUploading from 'react-images-uploading';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 
 const Step7 = () => {
-  const { nextStep } = useContext(FormContext);
+  const [searchParams] = useSearchParams();
+  const email = searchParams.get('email');
+  const navigate = useNavigate();
+  const { nextStep, extraInfo, updateExtraInfo } = useContext(FormContext);
+  const [companyLogo, setCompanyLogo] = useState(null);
+
+  const storeTokenInCookies = (token) => {
+    if (token) {
+      Cookies.set('flowChangerToken', token);
+      console.log('Token stored in cookies:', token);
+    }
+  };
+
+  // Update extraInfo with email on mount
+  useEffect(() => {
+    if (email) {
+      updateExtraInfo({ email });
+    }
+  }, [email]);
+
+  
+  const handleExtraInfo = () => {
+    updateAdmin(); 
+  };
+
+  // Post request function
+  async function updateAdmin() {
+    console.log("Submitting info to backend:", extraInfo);
+    const infoData = new FormData();
+    for (const key in extraInfo) {
+      infoData.append(key, extraInfo[key]);
+    }
+    try {
+      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/update", {
+        method: "PUT",
+        body: infoData
+      });
+      if (response.status === 200) {
+        const result = await response.json();
+        const { token } = result;
+        storeTokenInCookies(token);
+        nextStep();
+        navigate("/dashboard")
+        sessionStorage.clear();
+      } else {
+        console.log("Error while submitting data");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Handle image change
+  const onChange = (imageList) => {
+    if (imageList.length > 0) {
+      setCompanyLogo(imageList[0].data_url);
+      handleNextStep(imageList[0].data_url);
+    }
+  };
+
+  const handleNextStep = (image) => {
+    if (image) {
+      updateExtraInfo({ company_logo: image });
+      console.log("Profile image saved in context:", image);
+    }
+  };
 
   return (
-
-    // create the profile page
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative bg-purple-500">
-      
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
       <div className="w-full max-w-md">
-        {/* Logo container */}
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img src="./images/flowchangerLogo.png" alt="Flowchangers Logo" className="h-[150px]"/>
+          <img src={flowChangerLogo} alt="Flowchanger Logo" className="h-[150px]" />
         </div>
-        
+
         <div className="bg-white rounded-lg p-8 border border-gray-300 shadow-2xl">
           <div className="flex flex-col justify-center items-center gap-y-0">
-            <h2 className="text-3xl font-medium mb-3 text-center mt-5">upload your orgnization Logo</h2>
+            <h2 className="text-3xl font-medium mb-3 text-center mt-5">Upload your profile picture</h2>
           </div>
-          <div className='flex items-center justify-center'>
-          <div class="flex items-center justify-center h-[80px] w-[80px] bg-gray-200 rounded-full mb-4 ">
-          <h1 class= "left-5 text-3xl text-black font-medium">k</h1>
-         </div>
-         </div>
-         {/* options to choose image */}
-         <div className="flex justify-center items-center">
-            <button
-            onClick={nextStep}
-              type="submit"
-              className="w-[80%] bg-purple-600 text-white py-3 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
-            >
-              Choose Image
-            </button>
+
+          <div className="flex items-center justify-center">
+            {companyLogo ? (
+              <img
+                src={companyLogo}
+                alt="Profile Preview"
+                className="h-[80px] w-[80px] object-cover rounded-full mb-4"
+              />
+            ) : (
+              <div className="flex items-center justify-center h-[80px] w-[80px] bg-gray-200 rounded-full mb-4">
+                <h1 className="left-5 text-3xl text-black font-medium">K</h1>
+              </div>
+            )}
+          </div>
+
+          <ImageUploading multiple={false} onChange={onChange} dataURLKey="data_url">
+            {({ onImageUpload, dragProps }) => (
+              <div className="flex justify-center items-center">
+                <button
+                  onClick={onImageUpload}
+                  className="w-[80%] bg-purple-600 text-white py-3 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
+                  {...dragProps}
+                >
+                  Choose Image
+                </button>
+              </div>
+            )}
+          </ImageUploading>
+
+          <div className="mt-4 text-center">
+            <div className="flex justify-center items-center">
+              <button onClick={handleExtraInfo} className="text-purple-500 hover:underline">
+                Skip the step
+              </button>
             </div>
-              <div className='mt-4'>
-              <p className='flex justify-center items-center'><span><CiImageOn /></span>or drop the file here</p>
-             <div className='flex justify-center items-center'><p>skip the step</p></div>
-             </div>
-          
+          </div>
         </div>
       </div>
     </div>
