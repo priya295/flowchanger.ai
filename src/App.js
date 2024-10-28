@@ -81,13 +81,14 @@ import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Login from "../src/pages/Admin_Panel/authentication/steps/login";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
-import AdminChatInterface from "./pages/Admin_Panel/Chats/AdminChatInterFace";
-import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
-import StaffChatInterface from "./pages/Staff_Panel/ChatTabs/Staff";
 import { useGlobalContext } from "./Context/GlobalContext";
 import ResetPassword from "./pages/Admin_Panel/authentication/steps/ResetPassword";
 
 
+import AdminChatInterface from "./Pages/Admin_Panel/Chats/AdminChatInterFace";
+import StaffChatInterface from "./pages/Staff_Panel/StaffChatInterface";
+import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
+ 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
