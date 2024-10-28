@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState } from 'react';
 import { useEffect } from 'react';
 
 export const MainContext = createContext();
-
 export const GlobalContext = ({ children }) => {
 
   const [selectedTab, setSelectedTab] = useState(0);
