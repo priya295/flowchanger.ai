@@ -1,18 +1,61 @@
-import React from 'react';
+import { Password } from '@mui/icons-material';
+import React, { useEffect} from 'react';
+import { useForm } from 'react-hook-form';
+import { useContext } from 'react';
+import { GoogleLogin ,GoogleOAuthProvider} from '@react-oauth/google';
+import { FormContext, useFormContext } from '../../../../Context/AuthContext';
+import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
+import flowChangerLogo from '../../../../Assets/Images/flowchangerAINew.jpeg';
+import { useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
-const LoginPage = ({ nextStep}) => {
+
+const LoginPage = () => {
+  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { loginInfo,updateLoginInfo,handleLoggedIn,setStep} = useFormContext()
+  const navigate = useNavigate();
+  console.log(loginInfo);
+
+  const handleGoogleLogin = () =>{
+    try{
+      loginWithRedirect();
+    }
+    catch(error){
+    console.log(error);
+    }
+  }
+
+  const onSubmit = (data) => {
+    console.log(data);
+  try {
+      if (data) {
+        console.log(data);
+        updateLoginInfo(data);
+      }
+    } catch (error) {
+     console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (loginInfo.email && loginInfo.password) {
+      handleLoggedIn(); 
+      navigate("/dashboard");
+    }
+  }, [loginInfo]); 
   return (
+    <GoogleOAuthProvider>
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img src="./images/Flowchangers.ai 4.png" alt="Flowchangers Logo" className="bg-black"/>
+          <img src={flowChangerLogo} alt="Flowchangers Logo" className="bg-black w-[350px] h-[200px]"/>
         </div>
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-bold mb-6 text-center">Log in</h2>
-          <button className="w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center mb-4 hover:bg-gray-50 transition duration-300">
-            <img src="./images/google-icon.png" alt="Google Icon" className="w-5 h-5 mr-2"/>
-            Log In with Google
+          <button onClick={handleGoogleLogin} className="w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center mb-4 hover:bg-gray-50 transition duration-300">
+          Login With Google
           </button>
           <div className="flex items-center justify-center my-4">
             <div className="border-t border-gray-300 flex-grow mr-3"></div>
@@ -21,21 +64,25 @@ const LoginPage = ({ nextStep}) => {
             </div>
             <div className="border-t border-gray-300 flex-grow ml-3"></div>
           </div>
-          <form>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
               <input
                 type="email"
                 placeholder="Email"
                 aria-label="Email"
                 className="w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"
+                {...register('email', { required: "email is required"}
+            )}
               />
+              {errors.email && <p className="text-red-500">{errors.email.message}</p>}
             </div>
             <div className="mb-6">
               <input
-                type="password"
+                type="text"
                 placeholder="Password"
                 aria-label="Password"
                 className="w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"
+                {...register('password', { required: "password is required"})}
               />
             </div>
             <button
@@ -48,16 +95,20 @@ const LoginPage = ({ nextStep}) => {
           <div className="text-center mt-4 flex flex-col justify-center gap-y-3">
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Forgot password?</span> 
-              <Link to="/request-password">Reset</Link>
+              <Link to = "/authentication/request-password">Reset</Link>
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Don't have an account?</span> 
-              <button onClick={nextStep}>Sign up</button>
+              <button onClick={()=>{
+                setStep(1)
+                navigate('/authentication'); 
+                }}>Sign up</button>
             </a>
           </div>
         </div>
       </div>
     </div>
+    </GoogleOAuthProvider>
   );
 };
 
