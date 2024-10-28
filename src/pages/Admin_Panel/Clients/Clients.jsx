@@ -211,13 +211,13 @@ const Clients = () => {
 
                                     <td className="text-[11px]    font-medium p-[10px] ">{index + 1}</td>
 
-                                    <td className="text-[11px] p-[10px]  font-medium whitespace-nowrap">{item.company}</td>
+                                    <td className="text-[11px] p-[10px]  font-medium whitespace-nowrap">{item.clientDetails.company}</td>
 
-                                    <td className="text-[11px] font-medium p-[10px]  whitespace-nowrap	">{item.phone}</td>
+                                    <td className="text-[11px] font-medium p-[10px]  whitespace-nowrap	">{item.mobile}</td>
 
-                                    <td className="text-[11px] font-medium p-[10px] whitespace-nowrap	">N/A</td>
+                                    <td className="text-[11px] font-medium p-[10px] whitespace-nowrap	">{item.email}</td>
 
-                                    <td className="text-[11px] font-medium p-[10px]   whitespace-nowrap	">{item.phone}</td>
+                                    <td className="text-[11px] font-medium p-[10px]   whitespace-nowrap	">{item.mobile}</td>
                                     <td className="text-[11px] font-medium p-[10px]    whitespace-nowrap	">
                                         <div className="flex items-center justify-center gap-[6px]">
                                             {/* Toggle Switch */}
@@ -233,7 +233,7 @@ const Clients = () => {
                                             </div>
                                         </div></td>
                                     <td className="text-[11px] font-medium p-[10px]  whitespace-nowrap	">{item.groups}</td>
-                                    <td className="text-[11px] font-medium p-[10px]    whitespace-nowrap	">{new Date(item.created_at).toDateString()} </td>
+                                    <td className="text-[11px] font-medium p-[10px]    whitespace-nowrap	">{new Date(item.clientDetails.created_at).toDateString()} </td>
 
 
                                     <td>
@@ -291,16 +291,33 @@ const Clients = () => {
         }
     }, [selectedClient]);
 
-    const [company, setCompany] = useState(selectedClient?.company)
-    const [vatNumber, setVatNumber] = useState(selectedClient?.vat_number);
+    const [company, setCompany] = useState(selectedClient?.clientDetails?.company)
+    const [vatNumber, setVatNumber] = useState(selectedClient?.clientDetails?.vat_number);
     const [phone, setPhone] = useState(selectedClient?.phone);
-    const [website, setWebsite] = useState(selectedClient?.website);
-    const [address, setAddress] = useState(selectedClient?.address);
-    const [city, setCity] = useState(selectedClient?.city);
-    const [state, setState] = useState(selectedClient?.state);
-    const [zipCode, setZipCode] = useState(selectedClient?.zip_code);
-    const [country, setCountry] = useState(selectedClient?.country);
-
+    const [website, setWebsite] = useState(selectedClient?.clientDetails?.website);
+    const [address, setAddress] = useState(selectedClient?.clientDetails?.address);
+    const [city, setCity] = useState(selectedClient?.clientDetails?.city);
+    const [state, setState] = useState(selectedClient?.clientDetails?.state);
+    const [zipCode, setZipCode] = useState(selectedClient?.clientDetails?.zip_code);
+    const [country, setCountry] = useState(selectedClient?.clientDetails?.country);
+    const [clientGroup,setClientGroup]=useState([])
+    
+    useEffect(()=>{
+        if (selectedClient && selectedClient.clientDetails) {
+            setCompany(selectedClient.clientDetails.company)
+            setVatNumber(selectedClient.clientDetails.vat_number)
+            setPhone(selectedClient.mobile)
+            setWebsite(selectedClient.clientDetails.website)
+            setAddress(selectedClient.clientDetails.address)
+            setCity(selectedClient.clientDetails.city)
+            setState(selectedClient.clientDetails.state)
+            setZipCode(selectedClient.clientDetails.zip_code)
+            setCountry(selectedClient.clientDetails.country)
+            setClientGroup(selectedClient.clientDetails.groups)
+            
+            
+        }
+    },[selectedClient])
 
     const updateData = async (e) => {
         e.preventDefault();
@@ -476,7 +493,7 @@ const Clients = () => {
                                     <Select
                                         closeMenuOnSelect={false}
                                         isMulti
-                                        defaultValue={groups?.filter((opt) => selectedClient?.groups.includes(opt)).map((opt) => ({ label: opt, value: opt }))
+                                        defaultValue={groups?.filter((opt) => clientGroup.includes(opt)).map((opt) => ({ label: opt, value: opt }))
 
                                         }
                                         onChange={(selectedOptions) => {
@@ -501,7 +518,7 @@ const Clients = () => {
                                         <Select
                                             closeMenuOnSelect={false}
                                             isMulti
-                                            defaultValue={[{ label: "USD", value: "$" }, { label: "INR", value: "₹" }].filter((opt) => selectedClient?.currency.includes(opt.value))}
+                                            defaultValue={[{ label: "USD", value: "$" }, { label: "INR", value: "₹" }].filter((opt) => selectedClient?.clientDetails?.currency.includes(opt.value))}
                                             onChange={(o) => {
                                                 const arr = o.map((op) => op.value)
                                                 setCurrency(arr)
@@ -521,7 +538,7 @@ const Clients = () => {
                                                 const arr = o.map((op) => op.value)
                                                 setLanguage(arr)
                                             }}
-                                            defaultValue={defaultLanguages.filter((lang) => (selectedClient?.default_language.includes(lang))).map((op) => {
+                                            defaultValue={defaultLanguages.filter((lang) => (selectedClient?.clientDetails?.default_language.includes(lang))).map((op) => {
                                                 return { label: op, value: op }
                                             })}
                                             options={defaultLanguages.map((op) => {

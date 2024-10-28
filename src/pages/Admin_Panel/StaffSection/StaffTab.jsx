@@ -119,20 +119,20 @@ const StaffTab = () => {
                   <td>
                     <Link to={`/personal-detail/${staff.id}`} className='text-[#8A25B0] font-medium'>{staff.name}</Link>
                   </td>
-                  <td>{staff.job_title ? staff.job_title : "N/A"}</td>
+                  <td>{staff.staffDetails.job_title ? staff.staffDetails.job_title : "N/A"}</td>
                   <td>N/A</td>
                   <td>N/A</td>
-                  <td>{staff.date_of_joining ? new Date( staff.date_of_joining).toLocaleDateString() :"N/A"}</td>
+                  <td>{staff.staffDetails.date_of_joining ? new Date( staff.date_of_joining).toLocaleDateString() :"N/A"}</td>
                   <td>{staff.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() :"N/A"}</td>
                   <td>{staff.mobile}</td>
-                  <td>{staff.official_email}</td>
+                  <td>{staff.staffDetails.official_email}</td>
                   <td>N/A</td>
-                  <td>{staff.gender ? staff.gender :"N/A"}</td>
-                  <td>{staff.current_address ? staff.current_address :"N/A"}</td>
+                  <td>{staff.staffDetails.gender ? staff.staffDetails.gender :"N/A"}</td>
+                  <td>{staff.staffDetails.current_address ? staff.staffDetails.current_address :"N/A"}</td>
                   <td>N/A</td>
                   <td>N/A</td>
                   <td>N/A</td>
-                  <td>{staff.emergency_contact_name ? staff.emergency_contact_name : "N/A"}</td>
+                  <td>{staff.staffDetails.emergency_contact_name ? staff.staffDetails.emergency_contact_name : "N/A"}</td>
                   
                   
 
