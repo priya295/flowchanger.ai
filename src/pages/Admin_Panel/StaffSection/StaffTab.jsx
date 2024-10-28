@@ -17,10 +17,12 @@ const StaffTab = () => {
 
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
+    console.log(baseUrl)
     console.log("reuslt---", result)
     if (result.status == 200) {
       const res = await result.json();
       setStaffDetail(res)
+      console.log("---",res.name)
     }
     else {
       alert("An Error Occured")
@@ -28,6 +30,7 @@ const StaffTab = () => {
 
   }
 
+  
 
   useEffect(() => {
     fetchRoles()
@@ -114,7 +117,7 @@ const StaffTab = () => {
                 return <tr key={index} onClick={()=>{setSelectedStaff(staff)}} className='border'>
                   <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
                   <td>
-                    <Link to="/personal-detail" className='text-[#8A25B0] font-medium'>{staff.name}</Link>
+                    <Link to={`/personal-detail/${staff.id}`} className='text-[#8A25B0] font-medium'>{staff.name}</Link>
                   </td>
                   <td>{staff.job_title ? staff.job_title : "N/A"}</td>
                   <td>N/A</td>

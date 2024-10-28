@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 
 const PersonalDetail = () => {
 
     const { baseUrl, selectedStaff } = useGlobalContext();
+
+    const {id}= useParams();
+    console.log(id)
     const formatDate = (date) => {
         const d = new Date(date);
         let month = '' + (d.getMonth() + 1);

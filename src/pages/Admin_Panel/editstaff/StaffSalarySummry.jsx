@@ -11,8 +11,12 @@ import AvTimerIcon from '@mui/icons-material/AvTimer';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useParams } from 'react-router';
 
 const StaffSalarySummry = () => {
+    const {id}= useParams();
+    console.log(id)
+
     const [isOpen, setIsOpen] = useState(false);
 
     // Function to open the modal

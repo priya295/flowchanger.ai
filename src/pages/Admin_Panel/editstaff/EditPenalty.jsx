@@ -1,15 +1,97 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const EditPenalty = () => {
 
+    const [fineType, setFineType] = useState("");
+    const [gracePeriodMins, setGracePeriodMins] = useState("");
+    const [fineAmountMins, setFineAmountMins] = useState("");
+    const [waiveOffDays, setWaiveOffDays] = useState("");
+
+    const [lateFineType, setLateFineType] = useState("");
+    const [lateGracePeriodMins, setLateGracePeriodMins] = useState("");
+    const [lateFineAmountMins, setLateFineAmountMins] = useState("");
+    const [lateWaiveOffDays, setLateWaiveOffDays] = useState("");
+
+    const [overGracePeriodMins, setOverGracePeriodMins] = useState("");
+    const [extraHourPay, setExtraHourPay] = useState("");
+    const [publicHolidayPay, setPublicHolidayPay] = useState("");
+    const [weekOffPay, setWeekOffPay] = useState("");
+
+    const { baseUrl, selectedStaff } = useGlobalContext();
+
+
+    async function submitEarlyLeavePolicy() {
+        const response = await fetch(baseUrl + "policy/early-leave", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fineType: fineType, gracePeriodMins: Number(gracePeriodMins), fineAmountMins: Number(fineAmountMins), waiveOffDays: Number(waiveOffDays), staffId: selectedStaff.id})
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            closeModal12();
+            alert("Early Leave Policy successfully saved");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
+    async function submitLateComingPolicy() {
+        const response = await fetch(baseUrl + "policy/late-coming", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ fineType: lateFineType, gracePeriodMins: Number(lateGracePeriodMins), fineAmountMins: Number(lateFineAmountMins), waiveOffDays: Number(lateWaiveOffDays), staffId: selectedStaff.id})
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            closeModal12();
+            alert("Late Coming Policy successfully saved");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
+    async function submitOvertimePolicy() {
+        const response = await fetch(baseUrl + "policy/overtime", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ gracePeriodMins: Number(overGracePeriodMins), extraHoursPay: Number(extraHourPay), publicHolidayPay: Number(publicHolidayPay), weekOffPay: Number(weekOffPay), staffId: selectedStaff.id})
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            closeModal12();
+            alert("Overtime Policy successfully saved");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
     let subtitle;
     // when onclick update staff
-   
+
 
 
     // when on click update leave policiy
@@ -69,7 +151,7 @@ const EditPenalty = () => {
                 <h3 className='font-medium'>Penalty & Overtime Details
 
                 </h3>
-                <button className='second-btn'>Update Details</button>
+                {/* <button className='second-btn'>Update Details</button> */}
             </div>
 
 
@@ -85,7 +167,7 @@ const EditPenalty = () => {
             </div>
 
 
- 
+
 
 
 
@@ -105,31 +187,31 @@ const EditPenalty = () => {
                 <button onClick={closeModal12} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2 pl-3 pr-3 pt-[20px]'>
 
-                    <label  className='text-[14px]'>Fine Type</label>
+                    <label className='text-[14px]'>Fine Type</label>
                     <div className=' flex justify-between gap-4'>
                         <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                        <input type="radio" id="daily" name="fav_language" value="daily" />
-                        <label for="daily">Daily</label><br />
+                            <input type="radio" id="daily" name="fav_language" checked onChange={(e) => setFineType("DAILY")}/>
+                            <label for="daily">Daily</label><br />
                         </div>
                         <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                        <input type="radio" id="hourly" name="fav_language" value="hourly" />
-                        <label for="hourly">Hourly</label><br />
+                            <input type="radio" id="hourly" name="fav_language" onChange={(e) => setFineType("HOURLY")} />
+                            <label for="hourly">Hourly</label><br />
                         </div>
                     </div>
 
-                    <label  className='text-[14px]'>Grace Period (mins)
+                    <label className='text-[14px]'>Grace Period (mins)
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
-                    <label  className='text-[14px]'>Fine Amount (mins)
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={gracePeriodMins} onChange={(e) => setGracePeriodMins(e.target.value)}/>
+                    <label className='text-[14px]'>Fine Amount (mins)
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={fineAmountMins} onChange={(e) => setFineAmountMins(e.target.value)}/>
 
-                    <label  className='text-[14px]'>Waive Off Days
+                    <label className='text-[14px]'>Waive Off Days
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={waiveOffDays} onChange={(e) => setWaiveOffDays(e.target.value)}/>
 
                     <div className='text-center pt-4 pb-4'>
-                        <button className='second-btn'>Update</button>
+                        <button className='second-btn' onClick={submitEarlyLeavePolicy}>Save Early Leave Policy</button>
                     </div>
 
 
@@ -140,7 +222,7 @@ const EditPenalty = () => {
 
 
 
-                
+
             {/* when onclick leave policies
              */}
 
@@ -156,31 +238,31 @@ const EditPenalty = () => {
                 <button onClick={closeModal13} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2 pl-3 pr-3 pt-[20px]'>
 
-                    <label  className='text-[14px]'>Fine Type</label>
+                    <label className='text-[14px]'>Fine Type</label>
                     <div className=' flex justify-between gap-4'>
                         <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                        <input type="radio" id="daily" name="fav_language" value="daily" />
-                        <label for="daily">Daily</label><br />
+                            <input type="radio" id="daily" name="fav_language" checked value="daily" onChange={(e) => setLateFineType("DAILY")}/>
+                            <label for="daily">Daily</label><br />
                         </div>
                         <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                        <input type="radio" id="hourly" name="fav_language" value="hourly" />
-                        <label for="hourly">Hourly</label><br />
+                            <input type="radio" id="hourly" name="fav_language" value="hourly" onChange={(e) => setLateFineType("DAILY")}/>
+                            <label for="hourly">Hourly</label><br />
                         </div>
                     </div>
 
-                    <label  className='text-[14px]'>Grace Period (mins)
+                    <label className='text-[14px]'>Grace Period (mins)
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
-                    <label  className='text-[14px]'>Fine Amount (mins)
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={lateGracePeriodMins} onChange={(e) => setLateGracePeriodMins(e.target.value)}/>
+                    <label className='text-[14px]'>Fine Amount (mins)
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={lateFineAmountMins} onChange={(e) => setLateFineAmountMins(e.target.value)}/>
 
-                    <label  className='text-[14px]'>Waive Off Days
+                    <label className='text-[14px]'>Waive Off Days
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={lateWaiveOffDays} onChange={(e) => setLateWaiveOffDays(e.target.value)}/>
 
                     <div className='text-center pt-4 pb-4'>
-                        <button className='second-btn'>Update</button>
+                        <button className='second-btn' onClick={submitLateComingPolicy}>Save Late Coming Policy</button>
                     </div>
 
 
@@ -189,7 +271,7 @@ const EditPenalty = () => {
             {/* when onclick leave policies
              */}
 
-              {/* when onclick leave policies
+            {/* when onclick leave policies
              */}
 
             <Modal
@@ -204,27 +286,27 @@ const EditPenalty = () => {
                 <button onClick={closeModal14} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2 pl-3 pr-3 pt-[20px]'>
 
-                    
 
-                    <label  className='text-[14px]'>Grace Period (mins)
-                    </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
-                    <label  className='text-[14px]'>Extra Hours Pay
-                    </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
 
-                    <label  className='text-[14px]'>Public Holiday Pay
+                    <label className='text-[14px]'>Grace Period (mins)
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={overGracePeriodMins} onChange={(e) => setOverGracePeriodMins(e.target.value)}/>
+                    <label className='text-[14px]'>Extra Hours Pay
+                    </label>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={extraHourPay} onChange={(e) => setExtraHourPay(e.target.value)}/>
 
-                    <label  className='text-[14px]'>Week Off Pay
-                
+                    <label className='text-[14px]'>Public Holiday Pay
                     </label>
-                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0'/>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={publicHolidayPay} onChange={(e) => setPublicHolidayPay(e.target.value)}/>
+
+                    <label className='text-[14px]'>Week Off Pay
+
+                    </label>
+                    <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' placeholder='0' value={weekOffPay} onChange={(e) => setWeekOffPay(e.target.value)}/>
 
 
                     <div className='text-center pt-4 pb-4'>
-                        <button className='second-btn'>Update</button>
+                        <button className='second-btn' onClick={submitOvertimePolicy}>Save Overtime Policy</button>
                     </div>
 
 

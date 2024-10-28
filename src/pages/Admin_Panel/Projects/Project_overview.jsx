@@ -111,7 +111,7 @@ const Projects = () => {
         <span className=" text-[18px] font-medium max-[600px]:text-[15px]">
           Projects / Overview
         </span>
-        <div className="flex mt-3 justify-between items-center gap-3">
+        <div className="flex justify-between  items-center gap-3">
           <div className="flex gap-[10px]">
           <div className="flex items-center gap-2">
             <span className="text-black text-[20px] font-medium max-[600px]:text-[25px]">
@@ -153,7 +153,7 @@ const Projects = () => {
         </div>
       </div>
 
-      <div className="flex items-center pt-[6px] shadow-cs mt-8 border h-[58px] shadow-md rounded-xl overflow-x-auto  whitespace-wrap gap-[4rem] pl-[20px]">
+      <div className="flex items-center p-[8px] shadow-cs border h-auto shadow-md rounded-xl overflow-x-auto gap-[30px]  whitespace-wrap">
         {[
           "Overview",
           "Task",
@@ -170,12 +170,12 @@ const Projects = () => {
             key={tab}
             onClick={() => handleActiveClick(tab)}
             className={`flex items-center space-x-2 sm:space-x-3 ${activeTab === tab
-                ? "text-black border-b-2 border-[#511992] text-base sm:text-lg lg:text-xl"
-                : "text-gray-400 text-sm sm:text-base"
-              } hover:border-b-2 pb-2 cursor-pointer`}
+                ? " bg-[#27004a] active-set2  p-[8px] rounded-lg text-base sm:text-lg lg:text-xl"
+                : "text-[#b1b1b1] text-sm sm:text-base"
+              }   cursor-pointer`}
           >
             {tabIcons[tab]} {/* Render the corresponding icon */}
-            <span className="text-sm sm:text-base">{tab}</span>
+            <span className="text-sm tab-span sm:text-base">{tab}</span>
           </button>
         ))}
       </div>

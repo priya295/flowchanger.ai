@@ -172,7 +172,7 @@ const Task = () => {
       <div className=" h-[30px] mb-5">
         {/* Button to open the modal */}
         <button
-          className="bg-[#8a25b0] p-[8px] text-white flex items-center text-[12px] focus-visible:outline-none  rounded-md "
+          className="bg-[#27004a] p-[8px] text-white flex items-center text-[12px] focus-visible:outline-none  rounded-md "
           onClick={toggleModal15}
         >
           <AddIcon className="newadd" /> New Task
