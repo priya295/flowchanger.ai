@@ -1,9 +1,7 @@
-import { Password } from '@mui/icons-material';
 import React, { useEffect} from 'react';
 import { useForm } from 'react-hook-form';
-import { useContext } from 'react';
 import { GoogleLogin ,GoogleOAuthProvider} from '@react-oauth/google';
-import { FormContext, useFormContext } from '../../../../Context/AuthContext';
+import {useFormContext } from '../../../../Context/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import flowChangerLogo from '../../../../Assets/Images/flowchangerAINew.jpeg';
@@ -44,7 +42,7 @@ const LoginPage = () => {
       handleLoggedIn(); 
       navigate("/dashboard");
     }
-  }, [loginInfo]); 
+  }, []); 
   return (
     <GoogleOAuthProvider>
     <div className="min-h-screen flex items-center justify-center p-4">
