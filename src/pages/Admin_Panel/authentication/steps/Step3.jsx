@@ -1,15 +1,15 @@
 import React, { useState ,useContext} from 'react';
-import { FormContext } from '../../../../Context/AuthContext';
 import { useGlobalContext } from '../../../../Context/GlobalContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useFormContext } from '../../../../Context/AuthContext';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 
 
 const Step3 = () => {
   const navigate = useNavigate();
   const {baseUrl,openToast} = useGlobalContext();
-  const {nextStep,adminInfo,handleInfoSubmission} = useContext(FormContext);
+  const {nextStep,adminInfo,handleInfoSubmission} = useFormContext();
   const [isLoading , setIsLoading] = useState(false);
   const [searchParams , setSearchParams] = useSearchParams();
   const email = searchParams.get('email');

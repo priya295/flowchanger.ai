@@ -10,7 +10,9 @@ export const useFormContext = ()=>{
 
 export const AuthProvider = ({ children }) => {
   const {openToast} = useGlobalContext();
-  const [isAuthenticated , setIsAuthenticated] = useState(true);
+  // new code added
+  console.log(Cookies.get('flowChangerToken'));
+  const [isAuthenticated , setIsAuthenticated] = useState(Cookies.get('flowChangerToken')?true:false);
   const [step, setStep] = useState(1);
   const [loginInfo , setLoginInfo] = useState({
     email:'',
@@ -42,11 +44,11 @@ export const AuthProvider = ({ children }) => {
  
 
 
-  useEffect(() => {
-    const flowChangerToken = Cookies.get('flowChangerToken');
-    console.log(flowChangerToken,flowChangerToken ? true : false)
-    setIsAuthenticated(flowChangerToken ? true : false);
-  }, []);
+  // useEffect(() => {
+  //   const flowChangerToken = Cookies.get('flowChangerToken');
+  //   console.log(flowChangerToken,flowChangerToken ? true : false)
+  //   setIsAuthenticated(flowChangerToken ? true : false);
+  // }, []);
 
   useEffect(() => {
     const storedAdminInfo = JSON.parse(sessionStorage.getItem('adminInfo'));
@@ -87,31 +89,34 @@ const updateAdminInfo = (data) => {
     setLoginInfo({...loginInfo,...data})
   }
 
-  const handleLoggedIn =async () =>{
+  const handleLoggedIn = async (loginInfo) => {
     console.log(loginInfo);
-    try{
-      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/login",{
-    method:"POST",
-    headers:{
-      "Content-Type": "application/json",
-    },
-    body:JSON.stringify(loginInfo)
-      })
+    try {
+      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
+  
       if (response.status === 200) {
-        openToast('you have successfully logged in',"success");
-      }
-      else {
+        openToast('You have successfully logged in', "success");
+        console.log("You have logged in");
+        return true;
+       
+      } else {
         const result = await response.json();
-        openToast(result.message || 'login failed',"error");
+        openToast(result.message || 'Login failed', "error");
+        console.log("can't logged in")
+        return false;
       }
+    } catch (error) {
+      console.error("Login error:", error);
+      openToast('An error occurred. Please try again.', "error");
+      return false;
     }
-
-    catch(error){
-      console.log(error);
-      openToast('An error occurred. Please try again.',"error");
-    }
- 
-  }
+  };
 
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
@@ -120,6 +125,7 @@ const updateAdminInfo = (data) => {
     <FormContext.Provider value={{
       step,
       setStep,
+      setIsAuthenticated,
       adminInfo,
       loginInfo,
       extraInfo,

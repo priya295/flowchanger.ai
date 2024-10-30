@@ -1,5 +1,6 @@
-import { FormContext } from '../../../../Context/AuthContext';
-import React, { useContext, useState, useEffect } from 'react';
+
+import React, {  useState, useEffect } from 'react';
+import { useFormContext } from '../../../../Context/AuthContext';
 import ImageUploading from 'react-images-uploading';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -9,17 +10,9 @@ const Step7 = () => {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');
   const navigate = useNavigate();
-  const { nextStep, extraInfo, updateExtraInfo } = useContext(FormContext);
+  const { nextStep, extraInfo, updateExtraInfo ,setIsAuthenticated} = useFormContext();
   const [companyLogo, setCompanyLogo] = useState(null);
 
-  const storeTokenInCookies = (token) => {
-    if (token) {
-      Cookies.set('flowChangerToken', token);
-      console.log('Token stored in cookies:', token);
-    }
-  };
-
-  // Update extraInfo with email on mount
   useEffect(() => {
     if (email) {
       updateExtraInfo({ email });
@@ -35,6 +28,7 @@ const Step7 = () => {
   async function updateAdmin() {
     console.log("Submitting info to backend:", extraInfo);
     const infoData = new FormData();
+    console.log(infoData);
     for (const key in extraInfo) {
       infoData.append(key, extraInfo[key]);
     }
@@ -46,7 +40,11 @@ const Step7 = () => {
       if (response.status === 200) {
         const result = await response.json();
         const { token } = result;
-        storeTokenInCookies(token);
+        if (token) {
+          Cookies.set('flowChangerToken', token);
+          console.log('Token stored in cookies:', token);
+          setIsAuthenticated(true);
+        }
         nextStep();
         navigate("/dashboard")
         sessionStorage.clear();

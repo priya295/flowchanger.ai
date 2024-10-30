@@ -1,4 +1,4 @@
-import { FormContext } from '../../../../Context/AuthContext';
+import { useFormContext } from '../../../../Context/AuthContext';
 import React, { useContext, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
@@ -6,7 +6,7 @@ import flowChangerLogo from "../../../../Assets/Images/flowchangerAI.jpg"
 
 const Step4 = () => {
   const [searchParams,setSearchParams] = useSearchParams();
-  const { nextStep, extraInfo,updateExtraInfo ,adminInfo} = useContext(FormContext);
+  const { nextStep, extraInfo,updateExtraInfo ,adminInfo} = useFormContext();
   console.log(extraInfo);
   const [profileImage, setProfileImage] = useState(null); 
   const email = searchParams.get('email');

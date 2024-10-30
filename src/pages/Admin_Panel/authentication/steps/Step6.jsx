@@ -1,14 +1,13 @@
 import { FaGraduationCap, FaTasks, FaBriefcase } from 'react-icons/fa';
 import { MdDone } from "react-icons/md";
-import { useContext } from 'react';
-import { FormContext } from '../../../../Context/AuthContext';
+import { useFormContext} from '../../../../Context/AuthContext';
 import { useSearchParams} from 'react-router-dom';
 
 
 
 function Step6() {
   const [searchParams,setSearchParams] = useSearchParams();
-  const { nextStep,extraInfo, updateExtraInfo ,adminInfo} = useContext(FormContext);
+  const { nextStep,extraInfo, updateExtraInfo ,adminInfo} = useFormContext();
   const email = searchParams.get('email');
 
   const handlePackageSelection = (selectedPackageId) => {

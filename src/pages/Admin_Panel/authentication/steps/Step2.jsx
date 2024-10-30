@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { useGlobalContext } from '../../../../Context/GlobalContext';
-import { FormContext } from '../../../../Context/AuthContext';
+import {useFormContext} from '../../../../Context/AuthContext';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 
 const Step2 = () => {
@@ -11,7 +11,7 @@ const Step2 = () => {
   const email = searchParams.get('email');
 
   const { openToast } = useGlobalContext();
-  const { nextStep, adminInfo, updateAdminInfo } = useContext(FormContext);
+  const { nextStep, adminInfo, updateAdminInfo } = useFormContext();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();

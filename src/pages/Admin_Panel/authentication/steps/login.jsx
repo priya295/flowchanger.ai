@@ -12,10 +12,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 const LoginPage = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { loginInfo,updateLoginInfo,handleLoggedIn,setStep} = useFormContext()
+  const {loginInfo, updateLoginInfo,handleLoggedIn, setIsAuthenticated} = useFormContext()
   const navigate = useNavigate();
-  console.log(loginInfo);
-
+  
   const handleGoogleLogin = () =>{
     try{
       loginWithRedirect();
@@ -25,24 +24,19 @@ const LoginPage = () => {
     }
   }
 
-  const onSubmit = (data) => {
-    console.log(data);
-  try {
-      if (data) {
-        console.log(data);
-        updateLoginInfo(data);
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      updateLoginInfo(data);  
+      const success = await handleLoggedIn(data);
+      if (success) {
+        setIsAuthenticated(true);
+        navigate("/dashboard");
       }
     } catch (error) {
-     console.error(error);
+      console.error("Login error:", error);
     }
   };
-
-  useEffect(() => {
-    if (loginInfo.email && loginInfo.password) {
-      handleLoggedIn(); 
-      navigate("/dashboard");
-    }
-  }, []); 
   return (
     <GoogleOAuthProvider>
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -97,10 +91,8 @@ const LoginPage = () => {
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Don't have an account?</span> 
-              <button onClick={()=>{
-                setStep(1)
-                navigate('/authentication'); 
-                }}>Sign up</button>
+              <Link to = "/authentication?step=1"
+                >Sign up</Link>
             </a>
           </div>
         </div>

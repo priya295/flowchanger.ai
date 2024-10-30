@@ -1,17 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { FormContext } from '../../../../Context/AuthContext';
+import React, {  useState } from 'react';
+import { useFormContext } from '../../../../Context/AuthContext';
 import TimezoneSelect from 'react-timezone-select';
-import { useNavigate } from 'react-router';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 import { useSearchParams } from 'react-router-dom';
 
 const Step5 = () => {
   const [searchParams,setSearchParams] = useSearchParams();
-  const { nextStep, updateExtraInfo, extraInfo ,adminInfo} = useContext(FormContext);
+  const { nextStep, updateExtraInfo, extraInfo } = useFormContext();
   console.log(extraInfo);
   const email = searchParams.get('email');
   
-  const [timeZone, setTimeZone] = useState(null); // Changed from '' to null
+  const [timeZone, setTimeZone] = useState(null); 
   const [timeFormate, setTimeFormate] = useState('');
   const [dateFormate, setDateFormate] = useState('');
   const [weekFormate, setWeekFormate] = useState('');
