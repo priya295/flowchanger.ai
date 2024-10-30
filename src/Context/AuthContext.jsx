@@ -10,6 +10,7 @@ export const useFormContext = ()=>{
 
 export const AuthProvider = ({ children }) => {
   const {openToast} = useGlobalContext();
+  console.log("hello");
   // new code added
   console.log(Cookies.get('flowChangerToken'));
   const [isAuthenticated , setIsAuthenticated] = useState(Cookies.get('flowChangerToken')?true:false);
