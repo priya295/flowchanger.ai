@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import flowchangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg"
+import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 
 const RequestPassword = ({ prevStep }) => {
   return (<>
@@ -14,7 +14,7 @@ const RequestPassword = ({ prevStep }) => {
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
-          <img src={flowchangerLogo} alt="Flowchangers Logo" className="bg-black"/>
+          <img src={flowChangerLogo} alt="Flowchangers Logo" className="bg-black"/>
         </div>
         <div className="bg-white rounded-lg p-8 border border-gray-300 shadow-2xl">
           <div className="flex flex-col justify-center items-center gap-y-0">

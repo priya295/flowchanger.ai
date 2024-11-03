@@ -1,23 +1,56 @@
-import { Password } from '@mui/icons-material';
-import React, { useEffect} from 'react';
+import React, { useState} from 'react';
 import { useForm } from 'react-hook-form';
-import { useContext } from 'react';
 import { GoogleLogin ,GoogleOAuthProvider} from '@react-oauth/google';
-import { FormContext, useFormContext } from '../../../../Context/AuthContext';
+import {useAuthContext } from '../../../../Context/AuthContext';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 import { Link } from 'react-router-dom';
-import flowChangerLogo from '../../../../Assets/Images/flowchangerAINew.jpeg';
+import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useGlobalContext } from '../../../../Context/GlobalContext';
 
 
 const LoginPage = () => {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
+  const { loginWithRedirect} = useAuth0();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { loginInfo,updateLoginInfo,handleLoggedIn,setStep} = useFormContext()
+  const { setIsAuthenticated} = useAuthContext()
+  const {openToast} = useGlobalContext();
   const navigate = useNavigate();
-  console.log(loginInfo);
 
+  const handleLoggedIn = async (loginInfo) => {
+    console.log(loginInfo);
+    try {
+      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
+      const result = await response.json();
+      const {token} = result
+      if (response.status === 200 && token) {
+        openToast('You have successfully logged in', "success");
+          console.log("You have logged in");
+           Cookies.set('flowChangerAuthToken',token)
+          return true;
+        }
+     else{
+          console.log("there is no token");
+        openToast(result.message || 'Login failed', "error");
+        console.log("can't logged in")
+        return false;
+        }
+      
+    } catch (error) {
+      console.error("Login error:", error);
+      openToast('An error occurred. Please try again.', "error");
+      return false;
+    }
+  };
+
+  
   const handleGoogleLogin = () =>{
     try{
       loginWithRedirect();
@@ -27,24 +60,18 @@ const LoginPage = () => {
     }
   }
 
-  const onSubmit = (data) => {
-    console.log(data);
-  try {
-      if (data) {
-        console.log(data);
-        updateLoginInfo(data);
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);  
+      const success = await handleLoggedIn(data);
+      if (success) {
+        setIsAuthenticated(true);
+        navigate("/dashboard");
       }
     } catch (error) {
-     console.error(error);
+      console.error("Login error:", error);
     }
   };
-
-  useEffect(() => {
-    if (loginInfo.email && loginInfo.password) {
-      handleLoggedIn(); 
-      navigate("/dashboard");
-    }
-  }, [loginInfo]); 
   return (
     <GoogleOAuthProvider>
     <div className="min-h-screen flex items-center justify-center p-4">
@@ -99,10 +126,8 @@ const LoginPage = () => {
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Don't have an account?</span> 
-              <button onClick={()=>{
-                setStep(1)
-                navigate('/authentication'); 
-                }}>Sign up</button>
+              <Link to = "/authentication?step=1"
+                >Sign up</Link>
             </a>
           </div>
         </div>

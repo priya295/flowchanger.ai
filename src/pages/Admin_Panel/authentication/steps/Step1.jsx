@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
-import { FormContext } from '../../../../Context/AuthContext';
+import { useAuthContext } from '../../../../Context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 
 const Step1 = () => {
-  const { user, loginWithRedirect, isAuthenticated } = useAuth0();
-  const { nextStep, updateAdminInfo } = useContext(FormContext);
+  const { user, loginWithRedirect } = useAuth0();
+  const { nextStep, updateAdminInfo } = useAuthContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

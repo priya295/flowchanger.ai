@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { FormContext, useFormContext } from './Context/AuthContext';
+import { useAuthContext } from './Context/AuthContext';
 
 const ProtectedRoute = () => {
-  const { isAuthenticated } =useFormContext()
+  const { isAuthenticated } =useAuthContext()
 
   return isAuthenticated ? <Outlet /> : <Navigate to="/authentication/login" />;
 };

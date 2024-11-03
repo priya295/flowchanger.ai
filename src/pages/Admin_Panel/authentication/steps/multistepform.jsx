@@ -1,7 +1,6 @@
 import React, { useContext ,useEffect} from 'react';
-import { FormContext ,FormProvider} from '../../../../Context/AuthContext';
+import { useAuthContext } from '../../../../Context/AuthContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
@@ -13,21 +12,18 @@ import Step7 from './step7';
 
 
 const FormSteps = () => {
-  const { step ,prevStep} = useContext(FormContext); 
+  const { step ,prevStep} = useAuthContext(); 
   useEffect(() => {
     const handlePopState = () => {
-      prevStep(); // Go to the previous step
+      prevStep();
     };
-
-    window.addEventListener('popstate', handlePopState);
-
-    // Clean up the event listener when component unmounts
-    return () => {
+   window.addEventListener('popstate', handlePopState);
+     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
   }, [prevStep]);
   
-  // Conditional rendering of the step based on the 'step' state
+ 
   switch (step) {
     case 1:
       return <Step1 />;
@@ -48,7 +44,6 @@ const FormSteps = () => {
   }
 };
 
-// Parent component to wrap form steps with the FormProvider
 const MultiStepForm = () => {
   return (
   
