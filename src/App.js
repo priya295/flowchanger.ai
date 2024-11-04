@@ -3,7 +3,7 @@ import "./Assets/css/roledetail.css";
 import "../src/Assets/css/new.css";
 import "../src/Assets/css/customer.css";
 import "../src/Assets/css/subscribe.css";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./components/Admin_Panel/NavBar";
 import SideBar from "./components/Admin_Panel/SideBar";
 import Project from "./pages/Admin_Panel/Projects/Project_Data";
@@ -89,10 +89,13 @@ import ResetPassword from "./pages/Admin_Panel/authentication/steps/ResetPasswor
 import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
 import ProtectedRoute from './ProtectedRoute';
 import DashBoard from "./pages/Admin_Panel/DashBoard";
+import { useAuthContext } from "./Context/AuthContext";
+
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
+
 
 
   const handleToggleSideBar = () => {

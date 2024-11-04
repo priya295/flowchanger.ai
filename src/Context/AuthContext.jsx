@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useGlobalContext } from './GlobalContext';
 
+
 export const AuthContext = createContext();
 
 export const useAuthContext = ()=>{
@@ -13,6 +14,11 @@ export const AuthProvider = ({ children }) => {
   console.log(Cookies.get('flowChangerAuthToken'));
   const [isAuthenticated , setIsAuthenticated] = useState(Cookies.get('flowChangerAuthToken')?true:false);
   const [step, setStep] = useState(1);
+
+
+ 
+  
+
 
   const [adminInfo, setAdminInfo] = useState({
       email: '',
