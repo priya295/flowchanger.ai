@@ -1,12 +1,15 @@
 import React, {  useState } from 'react';
-import { useFormContext } from '../../../../Context/AuthContext';
+import { useAuthContext } from '../../../../Context/AuthContext';
 import TimezoneSelect from 'react-timezone-select';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 import { useSearchParams } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { useGlobalContext } from '../../../../Context/GlobalContext';
 
 const Step5 = () => {
   const [searchParams,setSearchParams] = useSearchParams();
-  const { nextStep, updateExtraInfo, extraInfo } = useFormContext();
+  const {openToast}  = useGlobalContext();
+  const { nextStep, updateExtraInfo, extraInfo } = useAuthContext();
   console.log(extraInfo);
   const email = searchParams.get('email');
   
@@ -16,14 +19,20 @@ const Step5 = () => {
   const [weekFormate, setWeekFormate] = useState('');
 
   const handleNextStep = () => {
-    updateExtraInfo({
-      time_zone: timeZone ? timeZone.value : '',
-      time_formate: timeFormate,
-      date_formate: dateFormate,
-      week_formate: weekFormate
-    });
-    nextStep();
-    setSearchParams({ step: 6, email: email });
+    if(timeFormate && timeZone?.value && dateFormate && weekFormate){
+      updateExtraInfo({
+        time_zone:timeZone &&  timeZone.value,
+        time_formate: timeFormate,
+        date_formate: dateFormate,
+        week_formate: weekFormate
+      });
+      nextStep();
+      setSearchParams({ step: 6, email: email });
+    }
+    else{
+      openToast("all fields are required" , "error")
+    }
+   
   };
 
   return (

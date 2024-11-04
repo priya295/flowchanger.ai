@@ -1,32 +1,32 @@
-import { useFormContext } from '../../../../Context/AuthContext';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useAuthContext } from '../../../../Context/AuthContext';
 import { useSearchParams } from 'react-router-dom';
 import ImageUploading from 'react-images-uploading';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAI.jpg"
 
 const Step4 = () => {
   const [searchParams,setSearchParams] = useSearchParams();
-  const { nextStep, extraInfo,updateExtraInfo ,adminInfo} = useFormContext();
+  const { nextStep, extraInfo,updateExtraInfo} = useAuthContext();
   console.log(extraInfo);
   const [profileImage, setProfileImage] = useState(null); 
+  const [isImageUploaded , setIsImageUploaded] = useState(false);
   const email = searchParams.get('email');
 
   // Handle image change
   const onChange = (imageList) => {
     if (imageList.length > 0) {
       setProfileImage(imageList[0].data_url);
-      console.log("Selected Image:", imageList[0].data_url);  // For testing
-      handleNextStep(imageList[0].data_url);
+      setIsImageUploaded(true);
+      updateExtraInfo({ profile_image: imageList[0].data_url });
     }
   };
 
-  const handleNextStep = (image) => {
-    if(image){
-      updateExtraInfo({ profile_image: "" }); 
-      console.log("Profile image saved in context:");  // For testing
+  // Handle moving to the next step
+  const handleNextStep = () => {
+    if (isImageUploaded) { 
+      nextStep();
+      setSearchParams({ step: 5, email: email });
     }
-    nextStep();
-    setSearchParams({ step: 5, email: email });
   };
 
   return (
@@ -65,13 +65,22 @@ const Step4 = () => {
           >
             {({ onImageUpload, dragProps }) => (
               <div className="flex justify-center items-center">
-                <button
-                  onClick={onImageUpload}
-                  className="w-[80%] bg-purple-600 text-white py-3 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
-                  {...dragProps}
-                >
-                  Choose Image
-                </button>
+            {isImageUploaded ? (
+                  <button
+                    onClick={handleNextStep}
+                    className="w-[80%] bg-purple-600 text-white py-3 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
+                  >
+                    Next Step
+                  </button>
+                ) : (
+                  <button
+                    onClick={onImageUpload}
+                    className="w-[80%] bg-purple-600 text-white py-3 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
+                    {...dragProps}
+                  >
+                    Choose Image
+                  </button>
+                )}
               </div>
             )}
           </ImageUploading>
@@ -79,8 +88,9 @@ const Step4 = () => {
           <div className="mt-4 text-center">
             <div className="flex justify-center items-center">
               <button onClick={nextStep} className="text-purple-500 hover:underline">
-                Skip the step
+                skip the step
               </button>
+             
             </div>
           </div>
         </div>

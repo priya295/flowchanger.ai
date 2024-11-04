@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { useForm} from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 import { useGlobalContext } from '../../../../Context/GlobalContext';
-import {useFormContext} from '../../../../Context/AuthContext';
+import {useAuthContext} from '../../../../Context/AuthContext';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 
 const Step2 = () => {
@@ -11,7 +11,7 @@ const Step2 = () => {
   const email = searchParams.get('email');
 
   const { openToast } = useGlobalContext();
-  const { nextStep, adminInfo, updateAdminInfo } = useFormContext();
+  const { nextStep, adminInfo, updateAdminInfo } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors }, setValue } = useForm();
@@ -19,7 +19,6 @@ const Step2 = () => {
   // Set form values from adminInfo when the component mounts
   useEffect(() => {
     if (adminInfo.first_name || adminInfo.last_name || adminInfo.mobile || adminInfo.password) {
-      setValue('email', adminInfo.email);
       setValue('first_name', adminInfo.first_name);
       setValue('last_name', adminInfo.last_name);
       setValue('mobile', adminInfo.mobile);

@@ -1,13 +1,13 @@
 import { FaGraduationCap, FaTasks, FaBriefcase } from 'react-icons/fa';
 import { MdDone } from "react-icons/md";
-import { useFormContext} from '../../../../Context/AuthContext';
+import { useAuthContext} from '../../../../Context/AuthContext';
 import { useSearchParams} from 'react-router-dom';
 
 
 
 function Step6() {
   const [searchParams,setSearchParams] = useSearchParams();
-  const { nextStep,extraInfo, updateExtraInfo ,adminInfo} = useFormContext();
+  const { nextStep,extraInfo, updateExtraInfo } = useAuthContext();
   const email = searchParams.get('email');
 
   const handlePackageSelection = (selectedPackageId) => {
@@ -33,7 +33,7 @@ function Step6() {
             <li className='flex items-start'><MdDone className='h-5 w-5 mr-2 flex-shrink-0'/>Track your daily progress</li>
           </ul>
           <button 
-            onClick={() => handlePackageSelection(1)} // Pass numeric package ID
+            onClick={() => handlePackageSelection(1)} 
             className="mt-auto bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-600 w-[100%]">
             Choose
           </button>

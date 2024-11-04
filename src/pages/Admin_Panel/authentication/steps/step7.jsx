@@ -1,6 +1,6 @@
 
 import React, {  useState, useEffect } from 'react';
-import { useFormContext } from '../../../../Context/AuthContext';
+import { useAuthContext } from '../../../../Context/AuthContext';
 import ImageUploading from 'react-images-uploading';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -10,7 +10,7 @@ const Step7 = () => {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');
   const navigate = useNavigate();
-  const { nextStep, extraInfo, updateExtraInfo ,setIsAuthenticated} = useFormContext();
+  const { extraInfo, updateExtraInfo ,setIsAuthenticated} = useAuthContext();
   const [companyLogo, setCompanyLogo] = useState(null);
 
   useEffect(() => {
@@ -45,9 +45,7 @@ const Step7 = () => {
           console.log('Token stored in cookies:', token);
           setIsAuthenticated(true);
         }
-        nextStep();
         navigate("/dashboard")
-        sessionStorage.clear();
       } else {
         console.log("Error while submitting data");
       }
