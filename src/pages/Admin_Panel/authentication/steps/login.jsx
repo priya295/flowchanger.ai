@@ -30,7 +30,7 @@ const LoginPage = () => {
       });
       const result = await response.json();
       const {token} = result
-      if (response.status === 200 && token) {
+      if (response.status === 200) {
         openToast('You have successfully logged in', "success");
           console.log("You have logged in");
            Cookies.set('flowChangerAuthToken',token)

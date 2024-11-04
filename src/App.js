@@ -155,7 +155,7 @@ const App = () => {
         <div className="flex">
           <div className="">
             {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} />}
-          </div>
+          </div>``
 
           {/* container for navbar and outlet */}
           <div className={`flex flex-col  flex-grow overflow-hidden`}>
