@@ -35,8 +35,6 @@ export const GlobalContext = ({ children }) => {
       setSelectedStaff(data)
     }
   }
-
-
   
   return (
     <MainContext.Provider value={{ selectedTab,setSelectedTab,staffTab, setStaffTab,baseUrl, name,setName ,depId,setDepId, roleName,setRoleName,roleId,setRoleId,editPermissions,setEditPermissions,selectedStaff,setSelectedStaff,fetchDetails}}>
