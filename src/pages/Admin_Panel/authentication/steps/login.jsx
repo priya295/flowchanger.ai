@@ -9,6 +9,7 @@ import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useGlobalContext } from '../../../../Context/GlobalContext';
+// 
 
 
 const LoginPage = () => {
@@ -28,6 +29,7 @@ const LoginPage = () => {
         },
         body: JSON.stringify(loginInfo),
       });
+      console.log(response);
       const result = await response.json();
       const {token} = result
       if (response.status === 200) {
