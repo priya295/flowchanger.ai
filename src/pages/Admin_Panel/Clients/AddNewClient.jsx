@@ -58,7 +58,7 @@ const AddNewClient = () => {
   const [email, setEmail] = useState("");
   const [website, setWebsite] = useState("");
   const [currency, setCurrency] = useState([]);
-  const [language,setLanguage]=useState([]);
+  const [language, setLanguage] = useState([]);
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -73,7 +73,7 @@ const AddNewClient = () => {
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, address: address, country: country, state: state, city: city, zip_code: zipCode,default_language:language,groups:selectedGroups,currency:currency,email:email })
+      body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, address: address, country: country, state: state, city: city, zip_code: zipCode, default_language: language, groups: selectedGroups, currency: currency, email: email })
     })
     console.log(result)
     if (result.status == 201) {
@@ -112,8 +112,8 @@ const AddNewClient = () => {
               <input type="text" onChange={(e) => { setVatNumber(e.target.value) }} id="vat" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
             </div>
 
-             {/* <!-- email --> */}
-             <div>
+            {/* <!-- email --> */}
+            <div>
               <label for="email" className="block text-sm font-medium text-gray-700">Email</label>
               <input type="email" onChange={(e) => { setEmail(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
             </div>
@@ -182,11 +182,11 @@ const AddNewClient = () => {
                 <Select
                   closeMenuOnSelect={false}
                   isMulti
-                  onChange={(o)=>{
-                    const arr = o.map((op)=>op.value)
+                  onChange={(o) => {
+                    const arr = o.map((op) => op.value)
                     setCurrency(arr)
                   }}
-                  options={[{label:"USD",value:"$"},{label:"INR",value:"₹"}]}
+                  options={[{ label: "USD", value: "$" }, { label: "INR", value: "₹" }]}
                 />
               </div>
 
@@ -197,12 +197,12 @@ const AddNewClient = () => {
                 <Select
                   closeMenuOnSelect={false}
                   isMulti
-                  onChange={(o)=>{
-                    const arr = o.map((op)=>op.value)
+                  onChange={(o) => {
+                    const arr = o.map((op) => op.value)
                     setLanguage(arr)
                   }}
-                  options={defaultLanguages.map((op)=>{
-                   return{ label:op,value:op}
+                  options={defaultLanguages.map((op) => {
+                    return { label: op, value: op }
                   })}
                 />
               </div>

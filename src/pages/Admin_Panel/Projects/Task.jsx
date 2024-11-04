@@ -192,18 +192,11 @@ const Task = () => {
                 </div>
                 <div className="flex gap-[8px]">
 
-                  <div className="w-[50%]" >
+                  <div className="w-[100%]" >
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Status</label>    <br />
                     <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
                   </div>
-                  <div className="w-[50%]">
-
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Type</label>    <br />
-                    <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
-                      <option>Graphic</option>
-                      <option>Video</option>
-                    </select>
-                  </div>
+                 
                 </div>
                 <div className="flex gap-[8px]">
                   <div className="w-[50%]">

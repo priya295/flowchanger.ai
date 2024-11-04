@@ -14,15 +14,13 @@ const StaffTab = () => {
   }
 
   const [staffDetail, setStaffDetail] = useState();
-
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
-    console.log(baseUrl)
     console.log("reuslt---", result)
     if (result.status == 200) {
       const res = await result.json();
       setStaffDetail(res)
-      console.log("---",res.name)
+      // console.log("---",res.name)
     }
     else {
       alert("An Error Occured")
@@ -133,11 +131,6 @@ const StaffTab = () => {
                   <td>N/A</td>
                   <td>N/A</td>
                   <td>{staff.staffDetails.emergency_contact_name ? staff.staffDetails.emergency_contact_name : "N/A"}</td>
-                  
-                  
-
-
-                  
                 </tr>
                 
               })

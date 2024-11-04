@@ -122,32 +122,7 @@ const TaskPriority = () => {
                                                 <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
-                                            <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Priority  Color</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-
-                                            </div>
-                                            <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Priority Order</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-
-                                            </div>
-                                            <div className="mb-[10px] flex items-center gap-[6px]">
-                                                <input type="checkbox" />
-                                                <p>Default Filter</p>
-                                            </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[26px]'>
-                                                <label className='text-[14px]'>is hidden for</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
-                                            </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[20px]'>
-                                                <label className='text-[14px]'>Can be changed to</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
-                                            </div>
+                                           
                                         </div>
 
                                         {/* Modal Footer */}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -8,9 +8,12 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { useGlobalContext } from "../../../Context/GlobalContext";
+import Select from 'react-select';
 
 
 const Edit_Task_Status = () => {
+    const { baseUrl } = useGlobalContext();
     let subtitle;
     const [openIndex, setOpenIndex] = useState(null);
 
@@ -82,6 +85,69 @@ const Edit_Task_Status = () => {
     function closeModal6() {
         setIsOpen6(false);
     }
+    const [fetchName, setFetchName] = useState([]);
+    const [selectedNames, setSelectedNames] = useState([]);
+    const fetchNameDetals = async () => {
+        try {
+            const result = await fetch(baseUrl + "staff");
+
+            if (result.status === 200) {
+                const res = await result.json();
+                console.log("All data:", res);
+                const name = res.map(item => item.name).join(", ");
+                console.log("Shift Names:", name); // This will be a single string
+                setFetchName(res);
+            } else {
+                alert("An error occurred while fetching data");
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            alert("An error occurred");
+        }
+    };
+    useEffect(() => {
+        // fetchShifts();
+        fetchNameDetals();
+    }, []);
+
+    // Handle change event for the select element
+    const handleSelectChange = (event) => {
+        const options = event.target.options;
+        const selected = [];
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].selected) {
+                selected.push(options[i].value);
+            }
+        }
+        setSelectedNames(selected);
+    };
+    const [selectedColor, setSelectedColor] = useState("#000000"); // Default color
+    const handleColorChange = (event) => {
+        setSelectedColor(event.target.value); // Update state with selected color
+    };
+    const[statusName,setStatusName]=useState();
+    const[statusOrder,setStatusOrder]=useState();
+    // const[staffName,setStaffName]=useState();
+    async function submitTask(){
+        const response= await fetch(baseUrl + "task/status",{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({taskStatusName:statusName,statusOrder:Number(statusOrder),statusColor:selectedColor,isHiddenId:fetchName})
+        } )
+        if (response.status === 200) {
+            const result = await response.json();
+            console.log(result);
+            alert("Role successfully added");
+        } else {
+            alert("An error occurred");
+        }
+    }
+    
+
+
+
     return (
         <div className=" w-full  ">
 
@@ -114,19 +180,28 @@ const Edit_Task_Status = () => {
                                         <div className="p-4">
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Status Name</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='text' onChange={(e)=>setStatusName(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
-                                            <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Status Color</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
-                                            </div>
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Status Order</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='text' onChange={(e)=>setStatusOrder(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            </div>
+
+                                            <div className='w-[100%] xl:[48%] mb-[10px] '>
+                                                <label className='text-[14px]'>*Status Color</label><br />
+                                                {/* <input type='color' placeholder='' className='border border-1 w-[73px] h-[48px]  rounded-md p-[5px] mt-1  bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /> */}
+                                                <input
+                                                    type="color"
+                                                    value={selectedColor} // Bind input to state
+                                                    onChange={handleColorChange} // Update state on change
+                                                    className="ml-2"
+                                                />
+
 
                                             </div>
+
                                             <div className="mb-[10px] flex items-center gap-[6px]">
                                                 <input type="checkbox" />
                                                 <p>Default Filter</p>
@@ -134,15 +209,46 @@ const Edit_Task_Status = () => {
                                             <div className='w-[100%]  xl:[48%] mb-[26px]'>
                                                 <label className='text-[14px]'>is hidden for</label><br />
                                                 <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
+                                                    <option>Select Name</option>
+                                                    {
+                                                        fetchName?.map((staff, index) => {
+                                                            return <option>{staff.name}</option>
+                                                        }
+                                                        )}
                                                 </select>
+                                                {/* <select
+                                                    className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
+                                                    multiple // Enable multiple selection
+                                                    value={selectedNames} // Set the value to the selected names
+                                                    onChange={handleSelectChange} // Handle change event
+                                                >
+                                                    <option disabled>Select Names</option>
+                                                    {
+                                                        fetchName.map((staff, index) => {
+                                                            return (
+                                                                <option key={index} value={staff.name}>
+                                                                    {staff.name}
+                                                                </option>
+                                                            );
+                                                        })
+                                                    }
+                                                </select> */}
+
                                             </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[20px]'>
+                                            {/* <div className='w-[100%]  xl:[48%] mb-[20px]'>
                                                 <label className='text-[14px]'>Can be changed to</label><br />
                                                 <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
+                                                    <option>Select Name</option>
+                                                    {
+                                                        fetchName?.map((staff, index) => {
+                                                            return <option>{staff.name}</option>
+                                                        }
+                                                        )}
                                                 </select>
-                                            </div>
+
+
+
+                                            </div> */}
                                         </div>
 
                                         {/* Modal Footer */}
@@ -154,7 +260,7 @@ const Edit_Task_Status = () => {
                                                 Close
                                             </button>
                                             <button
-                                                onClick={toggleModal}
+                                                onClick={submitTask}
                                                 className=" second-btn bg-blue-500 text-white rounded-md"
                                             >
                                                 Save Changes
@@ -257,7 +363,7 @@ const Edit_Task_Status = () => {
                                     </td>
 
                                 </tr>
-                            
+
                             </tbody>
                         </table>
                     </div>

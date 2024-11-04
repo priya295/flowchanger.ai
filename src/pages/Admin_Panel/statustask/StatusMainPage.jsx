@@ -10,7 +10,7 @@ const StatusMainPage = () => {
   return (
     <div>
         <Edit_Task_Status />
-        <TaskType />
+        {/* <TaskType /> */}
         <ProjectStatus />
         <ProjectType />
         <ProjectPriority />

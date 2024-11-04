@@ -53,25 +53,26 @@ const EditAttendanceDetail = () => {
 
     // Fetch available shifts from backend and store them in `shifts`
     useEffect(() => {
-        fetchShifts();
+        // fetchShifts();
+        fetchShiftDetail1();
     }, []);
 
     // Fetch available shifts from backend
-    async function fetchShifts() {
-        try {
-            const response = await fetch(baseUrl + "shift/");
-            const data = await response.json();
-            if (data && data.shifts) {
-                setShifts(data.shifts); // Ensure data is in the expected format
-            } else {
-                console.error("No shifts found in response", data);
-                setShifts([]); // Handle case where no shifts are returned
-            }
-        } catch (error) {
-            console.error("Error fetching shifts", error);
-            setShifts([]); // In case of an error, set an empty array to avoid undefined issues
-        } // Assuming data contains a `shifts` array with `id` and `name`
-    }
+    // async function fetchShifts() {
+    //     try {
+    //         const response = await fetch(baseUrl + "shift/");
+    //         const data = await response.json();
+    //         if (data && data.shifts) {
+    //             setShifts(data.shifts); // Ensure data is in the expected format
+    //         } else {
+    //             console.error("No shifts found in response", data);
+    //             setShifts([]); // Handle case where no shifts are returned
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching shifts", error);
+    //         setShifts([]); // In case of an error, set an empty array to avoid undefined issues
+    //     } // Assuming data contains a `shifts` array with `id` and `name`
+    // }
 
     // Handle checkbox changes for week off selection
     const handleCheckboxChange = (day) => {
@@ -91,7 +92,7 @@ const EditAttendanceDetail = () => {
     };
 
     async function createNewShift() {
-        const response = await fetch(baseUrl + "shift/create", {
+        const response = await fetch(baseUrl + "shift/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -106,7 +107,7 @@ const EditAttendanceDetail = () => {
             console.log(newShift);
 
             // After creating the shift, fetch shifts again to update the dropdown
-            fetchShifts();
+            // fetchShifts();
 
             // Optionally, directly set the new shift in the corresponding `selectedShifts` state
             setSelectedShifts((prev) => ({
@@ -157,6 +158,31 @@ const EditAttendanceDetail = () => {
         closeModal();
         alert("Fixed Shift successfully created for the selected days.");
     }
+
+
+
+    const [fetchShift1, setFetchShift1] = useState([]);
+    const fetchShiftDetail1 = async () => {
+        try {
+            const result = await fetch(baseUrl + "shift");
+
+            if (result.status === 200) {
+                const res = await result.json();
+                console.log("All data:", res); // Inspect the entire response structure
+                // Extract shift names and join them into a single string
+                const shiftNames = res.map(item => item.shiftName).join(", ");
+                console.log("Shift Names:", shiftNames); // This will be a single string
+
+                setFetchShift1(res); // If you still want to keep the full array in state
+            } else {
+                alert("An error occurred while fetching data");
+            }
+        } catch (error) {
+            console.error("Fetch error:", error);
+            alert("An error occurred");
+        }
+    };
+
 
     async function submitFlexibleShift() {
         const response = await fetch(baseUrl + "shift/createFlexibleShift", {
@@ -411,6 +437,8 @@ const EditAttendanceDetail = () => {
         setIsOpen18(false);
     }
     // onclick mandatory half day button
+    const [selectedShift,setSelectedShift]=useState();
+
 
     return (
         <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '>
@@ -497,11 +525,11 @@ const EditAttendanceDetail = () => {
                                                 <select onClick={openModal1} value={selectedShifts[day]} onChange={(e) => handleShiftChange(day, e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
                                                     <option value="">Select Shift</option>
                                                     {shifts && shifts.length > 0 ? (
-                                                    shifts.map((shift) => (
-                                                        <option key={shift.id} value={shift.id}>
-                                                            {shift.name} {/* Show shift name in the dropdown */}
-                                                        </option>
-                                                    )) ):<option disabled>No shifts available</option> }
+                                                        shifts.map((shift) => (
+                                                            <option key={shift.id} value={shift.id}>
+                                                                {shift.name} {/* Show shift name in the dropdown */}
+                                                            </option>
+                                                        ))) : <option disabled>No shifts available</option>}
                                                 </select>
                                             </td>
                                         </tr>
@@ -693,12 +721,19 @@ const EditAttendanceDetail = () => {
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Shifts</h2>
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
-                <div>
-                    <h4 className='p-4 pl-3 border border-b border-l-0 border-r-0 text-[13px] xl:text-[15px]'>No Options Available ....</h4>
-                    <Link to="" className='text-[#27004a] p-4 font-medium mt-3 block w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
-                    <div className='text-end pr-4 pb-3'>
-                        <button className='second-btn'>Okay</button>
-                    </div>
+                <div className='h-[250px] overflow-y-scroll'>
+                    {fetchShift1.map((shiftDetail, index) => (
+                        <div key={index} className='p-4 border-b border-[#e4e4e4] items-center flex justify-between'>
+                            <label for=''>{shiftDetail.shiftName}
+                                <span className='text-[#000] ml-3'>|</span>
+                                <span className='mb-0 ml-3'>{shiftDetail.shiftStartTime}-{shiftDetail.shiftEndTime}</span></label>
+                                <input id='' type='checkbox' onChange={(e)=>setSelectedShift(shiftDetail.id)} />
+                        </div>
+                    ))}
+                </div>
+                <Link to="" className='text-[#27004a] p-4 font-medium mt-3 block w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
+                <div className='text-end pr-4 pb-3'>
+                    <button className='second-btn' onClick={closeModal1}>Okay</button>
                 </div>
             </Modal>
 
