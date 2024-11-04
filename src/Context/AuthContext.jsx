@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState , useEffect} from 'react';
 import Cookies from 'js-cookie';
 import { useGlobalContext } from './GlobalContext';
 
@@ -55,6 +55,11 @@ const updateAdminInfo = (data) => {
   
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
+
+  useEffect(() => {
+    const token = Cookies.get('flowChangerAuthToken');
+    setIsAuthenticated(token ? true : false);
+  }, []);
 
   return (
     <AuthContext.Provider value={{
