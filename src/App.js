@@ -91,6 +91,7 @@ import { useAuthContext } from "./Context/AuthContext";
 
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
+
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
 
@@ -220,9 +221,9 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
+          <Route path="/" element={<DashBoard />} />
             <Route path="/project-overview" element={<ProjectsOverview />} />
             <Route path="/new-ticket" element={<NewTicket />} />
-            <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/addnewclient" element={<AddNewClient />} />
             <Route path="/editclient" element={<EditClient />} />
             <Route path = "/staff-menu" element = {<StaffMenu/>}/>

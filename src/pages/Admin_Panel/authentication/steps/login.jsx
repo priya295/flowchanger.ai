@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useGlobalContext } from '../../../../Context/GlobalContext';
 
 
 const LoginPage = () => {
@@ -16,7 +17,6 @@ const LoginPage = () => {
   const {isAuthenticated , setIsAuthenticated} = useAuthContext()
   const {openToast} = useGlobalContext();
   const navigate = useNavigate();
-  console.log(loginInfo);
 
   const handleGoogleLogin = () =>{
     try{
@@ -26,6 +26,37 @@ const LoginPage = () => {
     console.log(error);
     }
   }
+  const handleLoggedIn = async (loginInfo) => {
+    console.log(loginInfo);
+    try {
+      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginInfo),
+      });
+      const result = await response.json();
+      const {token} = result
+      if (response.status === 200 && token) {
+        openToast('You have successfully logged in', "success");
+          console.log("You have logged in");
+           Cookies.set('flowChangerAuthToken',token)
+          return true;
+        }
+     else{
+          console.log("there is no token");
+        openToast(result.message || 'Login failed', "error");
+        console.log("can't logged in")
+        return false;
+        }
+      
+    } catch (error) {
+      console.error("Login error:", error);
+      openToast('An error occurred. Please try again.', "error");
+      return false;
+    }
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -93,10 +124,8 @@ const LoginPage = () => {
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Don't have an account?</span> 
-              <button onClick={()=>{
-                setStep(1)
-                navigate('/authentication'); 
-                }}>Sign up</button>
+              <Link to = "/authentication?step=1"
+                >Sign up</Link>
             </a>
           </div>
         </div>
