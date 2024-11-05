@@ -15,9 +15,11 @@ import { useGlobalContext } from '../../../../Context/GlobalContext';
 const LoginPage = () => {
   const { loginWithRedirect} = useAuth0();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { setIsAuthenticated} = useAuthContext()
+  const {isAuthenticated , setIsAuthenticated} = useAuthContext()
   const {openToast} = useGlobalContext();
   const navigate = useNavigate();
+
+  console.log(isAuthenticated);
 
   const handleLoggedIn = async (loginInfo) => {
     console.log(loginInfo);
@@ -32,7 +34,7 @@ const LoginPage = () => {
       console.log(response);
       const result = await response.json();
       const {token} = result
-      if (response.status === 200) {
+      if (response.status === 200 && token) {
         openToast('You have successfully logged in', "success");
           console.log("You have logged in");
            Cookies.set('flowChangerAuthToken',token)
@@ -68,7 +70,7 @@ const LoginPage = () => {
       const success = await handleLoggedIn(data);
       if (success) {
         setIsAuthenticated(true);
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -107,7 +109,7 @@ const LoginPage = () => {
             </div>
             <div className="mb-6">
               <input
-                type="text"
+                type="password"
                 placeholder="Password"
                 aria-label="Password"
                 className="w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"

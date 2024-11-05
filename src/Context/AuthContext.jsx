@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import { useGlobalContext } from './GlobalContext';
 
@@ -9,9 +9,9 @@ export const useAuthContext = ()=>{
 }
 
 export const AuthProvider = ({ children }) => {
-  const {openToast} = useGlobalContext();
-  console.log(Cookies.get('flowChangerAuthToken'));
-  const [isAuthenticated , setIsAuthenticated] = useState(Cookies.get('flowChangerAuthToken')?true:false);
+  const flowChangerAIToken = Cookies.get('flowChangerAuthToken');
+  console.log(flowChangerAIToken);
+  const [isAuthenticated , setIsAuthenticated] = useState(flowChangerAIToken?true:false);
   const [step, setStep] = useState(1);
 
   const [adminInfo, setAdminInfo] = useState({
@@ -45,6 +45,12 @@ const updateAdminInfo = (data) => {
   };
 
 
+useEffect(()=>{
+  if(flowChangerAIToken){
+    console.log("token is present")
+    setIsAuthenticated(true);
+  }
+},[flowChangerAIToken])
 
   
   const nextStep = () => setStep(prev => prev + 1);

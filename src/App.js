@@ -6,7 +6,7 @@ import "../src/Assets/css/subscribe.css";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import NavBar from "./components/Admin_Panel/NavBar";
 import SideBar from "./components/Admin_Panel/SideBar";
-import Project from "./pages/Admin_Panel/Projects/Project_Data";
+// import Project from "./pages/Admin_Panel/Projects/Project_Data";
 import Role_Details from "./pages/Admin_Panel/Roles/RoleDetails";
 // import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import AddRole from "./pages/Admin_Panel/Roles/Add_Role";
@@ -53,7 +53,7 @@ import StaffSalarySummry from "../src/pages/Admin_Panel/editstaff/StaffSalarySum
 import Calender from "./pages/Admin_Panel/Calender/Calender";
 import Editprofile from "../src/pages/Admin_Panel/profile/Editprofile";
 import Task_Status from "./pages/Admin_Panel/Projects/Task_Status";
-import Client_Project from "../src/pages/Client_Panel/Client_Project";
+// import Client_Project from "../src/pages/Client_Panel/Client_Project";
 import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
 import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
@@ -79,9 +79,7 @@ import PayrollMenu from "../src/pages/Admin_Panel/payroll/PayrollMenu";
 import CalenderHeader from "./pages/Admin_Panel/Calender/CalenderHeader";
 import RunPayroll from "../src/pages/Admin_Panel/payroll/RunPayroll";
 import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
-import Login from "../src/pages/Admin_Panel/authentication/steps/login";
 import Department_Details from '../src/pages/Admin_Panel/Department/DepartmentDetails';
-import { useGlobalContext } from "./Context/GlobalContext";
 import AdminChatInterface from "./pages/Admin_Panel/Chats/AdminChatInterFace";
 import StaffChatInterface from "./pages/Staff_Panel/StaffChatInterface";
 import ClientChatInterface from "./pages/Client_Panel/ClientChatInterFace";
@@ -219,9 +217,12 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
+            <Route path="/" element={<DashBoard />} />
             <Route path="/project-overview" element={<ProjectsOverview />} />
             <Route path="/new-ticket" element={<NewTicket />} />
-            <Route path="/dashboard" element={<DashBoard />} />
+            {/* this is changed on 04-11-2024*/}
+            <Route path = "/staff-menu" element = {<StaffMenu/>} />
+            {/* end */}
             <Route path="/addnewclient" element={<AddNewClient />} />
             <Route path="/editclient" element={<EditClient />} />
             <Route path="/addrole" element={<AddRole />} />
@@ -229,7 +230,6 @@ const App = () => {
             <Route path="/editrole" element={<EditRole />} />
             <Route path="/role-detail" element={<Role_Details />} />
             <Route path="/editdepartment" element={<EditDepartment />} />
-            <Route path="/" element={<StaffMenu />} />
             <Route path="/add-one-staff" element={<AddOneStaff />} />
             <Route path="/department-details" element={<DepartmentDetail />} />
             <Route path="/salary_Details" element={<Salary_Details />} />
