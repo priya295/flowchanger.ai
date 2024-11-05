@@ -32,18 +32,110 @@ const EditAttendanceDetail = () => {
     };
 
 
-    const [toggleAutoPresent, setToggleAutoPresent] = useState(selectedStaff?.attendanceAutomationRule?.auto_absent || false);
-    const [togglePresentOnPunch, setTogglePresentOnPunch] = useState(selectedStaff?.attendanceAutomationRule?.present_on_punch || false);
+    // Handle shift select changes
+    const handleShiftChange = (day, shiftId) => {
+        setSelectedShifts((prev) => ({
+            ...prev,
+            [day]: shiftId, // Save the selected shiftId for the day
+        }));
+    };
 
-    const [autoHalfDay, setAutoHalfDay] = useState(parseTimeString(selectedStaff?.attendanceAutomationRule?.auto_half_day));
-    const [mandatoryFullDayHour, setMandatoryFullDayHour] = useState(parseTimeString(selectedStaff?.attendanceAutomationRule?.manadatory_full_day));
-    const [mandatoryHalfDayHour, setMandatoryHalfDayHour] = useState(parseTimeString(selectedStaff?.attendanceAutomationRule?.manadatory_half_day));
-    // console.log(selectedStaff);
+    async function createNewShift() {
+        const response = await fetch(baseUrl + "shift/create", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: Number(allowPunchInHours), allowPunchInMinutes: Number(allowPunchInMinutes), allowPunchOutHours: Number(allowPunchOutHours), allowPunchOutMinutes: Number(allowPunchOutMinutes) })
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const newShift = await response.json()
+            console.log(newShift);
+
+            // After creating the shift, fetch shifts again to update the dropdown
+            fetchShifts();
+
+            // Optionally, directly set the new shift in the corresponding `selectedShifts` state
+            setSelectedShifts((prev) => ({
+                ...prev,
+                [newShift.day]: newShift.id, // Set the newly created shift ID for the selected day
+            }));
+
+            closeModal();
+            alert("Shift successfully created");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
+    // Submit the fixed shifts
+    async function submitFixedShift() {
+        // Filter out the days where weekOff is checked
+        const weekOffDays = Object.keys(daysChecked).filter((day) => daysChecked[day]);
+
+        // Loop through the selected weekOff days
+        for (const day of weekOffDays) {
+            const shiftId = selectedShifts[day]; // Get the selected shift ID for the current day
+
+            const response = await fetch(baseUrl + "shift/createFixedShift", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    day, // The current day (e.g., 'Mon', 'Tue')
+                    weekOff: daysChecked[day], // Whether it's marked as a week off
+                    staffId: selectedStaff.id, // Selected staff member's ID
+                    shiftId: shiftId || null, // Pass the correct shift ID or null if no shift is selected
+                }),
+            });
+
+            // Handle the response for each day
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(`${day} shift created successfully:`, result);
+            } else {
+                console.error(`An error occurred while saving the shift for ${day}`);
+                alert(`An error occurred while saving the shift for ${day}`);
+            }
+        }
+
+        // Close the modal after all requests are completed
+        closeModal();
+        alert("Fixed Shift successfully created for the selected days.");
+    }
+
+    async function submitFlexibleShift() {
+        const response = await fetch(baseUrl + "shift/createFlexibleShift", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ weekOff: weekOff, staffId: selectedStaff.id })
+        });
+
+        console.log(response);
+
+        if (response.status === 201) {
+            const result = await response.json()
+            console.log(result);
+            closeModal();
+            alert("Flexible Shift successfully created");
+        } else {
+            alert("An error occurred");
+        }
+    }
+
+    // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
+    // console.log(selectedStaff.AttendenceMode);
     async function updateAttendanceMode(e) {
         e.preventDefault();
         const data = {
             staff_ids: [
-                selectedStaff.id
+                selectedStaff.staffDetails.id
             ],
             attendence_mode: {
                 "selfie_attendance": toggleSelfieAttendance,

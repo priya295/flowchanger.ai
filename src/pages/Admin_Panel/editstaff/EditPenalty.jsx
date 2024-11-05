@@ -32,7 +32,7 @@ const EditPenalty = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ fineType: fineType, gracePeriodMins: Number(gracePeriodMins), fineAmountMins: Number(fineAmountMins), waiveOffDays: Number(waiveOffDays), staffId: selectedStaff.id})
+            body: JSON.stringify({ fineType: fineType, gracePeriodMins: Number(gracePeriodMins), fineAmountMins: Number(fineAmountMins), waiveOffDays: Number(waiveOffDays), staffId: selectedStaff.staffDetails.id})
         });
 
         console.log(response);
@@ -53,7 +53,7 @@ const EditPenalty = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ fineType: lateFineType, gracePeriodMins: Number(lateGracePeriodMins), fineAmountMins: Number(lateFineAmountMins), waiveOffDays: Number(lateWaiveOffDays), staffId: selectedStaff.id})
+            body: JSON.stringify({ fineType: lateFineType, gracePeriodMins: Number(lateGracePeriodMins), fineAmountMins: Number(lateFineAmountMins), waiveOffDays: Number(lateWaiveOffDays), staffId: selectedStaff.staffDetails.id})
         });
 
         console.log(response);
@@ -74,7 +74,7 @@ const EditPenalty = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ gracePeriodMins: Number(overGracePeriodMins), extraHoursPay: Number(extraHourPay), publicHolidayPay: Number(publicHolidayPay), weekOffPay: Number(weekOffPay), staffId: selectedStaff.id})
+            body: JSON.stringify({ gracePeriodMins: Number(overGracePeriodMins), extraHoursPay: Number(extraHourPay), publicHolidayPay: Number(publicHolidayPay), weekOffPay: Number(weekOffPay), staffId: selectedStaff.staffDetails.id})
         });
 
         console.log(response);

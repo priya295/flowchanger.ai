@@ -43,7 +43,6 @@ const Step3 = () => {
         openToast('OTP verified successfully!',"success");
         nextStep(); 
        setSearchParams({step:4,email:email})
-        sessionStorage.clear();
       } else {
         const result = await response.json();
         openToast(result.message || 'OTP verification failed.',"error");

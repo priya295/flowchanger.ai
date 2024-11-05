@@ -8,8 +8,6 @@ import { Link } from 'react-router-dom';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useGlobalContext } from '../../../../Context/GlobalContext';
-// 
 
 
 const LoginPage = () => {
@@ -18,43 +16,8 @@ const LoginPage = () => {
   const {isAuthenticated , setIsAuthenticated} = useAuthContext()
   const {openToast} = useGlobalContext();
   const navigate = useNavigate();
+  console.log(loginInfo);
 
-  console.log(isAuthenticated);
-
-  const handleLoggedIn = async (loginInfo) => {
-    console.log(loginInfo);
-    try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginInfo),
-      });
-      console.log(response);
-      const result = await response.json();
-      const {token} = result
-      if (response.status === 200 && token) {
-        openToast('You have successfully logged in', "success");
-          console.log("You have logged in");
-           Cookies.set('flowChangerAuthToken',token)
-          return true;
-        }
-     else{
-          console.log("there is no token");
-        openToast(result.message || 'Login failed', "error");
-        console.log("can't logged in")
-        return false;
-        }
-      
-    } catch (error) {
-      console.error("Login error:", error);
-      openToast('An error occurred. Please try again.', "error");
-      return false;
-    }
-  };
-
-  
   const handleGoogleLogin = () =>{
     try{
       loginWithRedirect();
@@ -83,7 +46,7 @@ const LoginPage = () => {
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
           <img src={flowChangerLogo} alt="Flowchangers Logo" className="bg-black w-[350px] h-[200px]"/>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-300">
           <h2 className="text-2xl font-bold mb-6 text-center">Log in</h2>
           <button onClick={handleGoogleLogin} className="w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center mb-4 hover:bg-gray-50 transition duration-300">
           Login With Google
@@ -125,13 +88,15 @@ const LoginPage = () => {
           </form>
           <div className="text-center mt-4 flex flex-col justify-center gap-y-3">
             <a href="#" className="text-purple-600 hover:text-purple-500">
-              <span className="text-gray-400">Forgot password?</span> 
+              <span className="text-gray-400 mr-2">Forgot password?</span> 
               <Link to = "/authentication/request-password">Reset</Link>
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
               <span className="text-gray-400">Don't have an account?</span> 
-              <Link to = "/authentication?step=1"
-                >Sign up</Link>
+              <button onClick={()=>{
+                setStep(1)
+                navigate('/authentication'); 
+                }}>Sign up</button>
             </a>
           </div>
         </div>
