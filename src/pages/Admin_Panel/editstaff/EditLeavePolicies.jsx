@@ -31,7 +31,7 @@ const EditLeavePolicies = () => {
         };
 
 
-        const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.id, {
+        const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.staffDetails.id, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

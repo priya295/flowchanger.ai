@@ -27,12 +27,12 @@ const EditPenalty = () => {
 
 
     async function submitEarlyLeavePolicy() {
-        const response = await fetch(baseUrl + "policy/early-leave", {
+        const response = await fetch(baseUrl + "policy/early", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ fineType: fineType, gracePeriodMins: Number(gracePeriodMins), fineAmountMins: Number(fineAmountMins), waiveOffDays: Number(waiveOffDays), staffId: selectedStaff.id})
+            body: JSON.stringify({ fineType: fineType, gracePeriodMins: Number(gracePeriodMins), fineAmountMins: Number(fineAmountMins), waiveOffDays: Number(waiveOffDays), staffId: selectedStaff.staffDetails.id})
         });
 
         console.log(response);
@@ -48,12 +48,12 @@ const EditPenalty = () => {
     }
 
     async function submitLateComingPolicy() {
-        const response = await fetch(baseUrl + "policy/late-coming", {
+        const response = await fetch(baseUrl + "policy/late", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ fineType: lateFineType, gracePeriodMins: Number(lateGracePeriodMins), fineAmountMins: Number(lateFineAmountMins), waiveOffDays: Number(lateWaiveOffDays), staffId: selectedStaff.id})
+            body: JSON.stringify({ fineType: lateFineType, gracePeriodMins: Number(lateGracePeriodMins), fineAmountMins: Number(lateFineAmountMins), waiveOffDays: Number(lateWaiveOffDays), staffId: selectedStaff.staffDetails.id})
         });
 
         console.log(response);
@@ -74,7 +74,7 @@ const EditPenalty = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ gracePeriodMins: Number(overGracePeriodMins), extraHoursPay: Number(extraHourPay), publicHolidayPay: Number(publicHolidayPay), weekOffPay: Number(weekOffPay), staffId: selectedStaff.id})
+            body: JSON.stringify({ gracePeriodMins: Number(overGracePeriodMins), extraHoursPay: Number(extraHourPay), publicHolidayPay: Number(publicHolidayPay), weekOffPay: Number(weekOffPay), staffId: selectedStaff.staffDetails.id})
         });
 
         console.log(response);
@@ -190,11 +190,11 @@ const EditPenalty = () => {
                     <label className='text-[14px]'>Fine Type</label>
                     <div className=' flex justify-between gap-4'>
                         <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <input type="radio" id="daily" name="fav_language" checked onChange={(e) => setFineType("DAILY")}/>
+                            <input type="radio" id="daily" name="fav_language" value={fineType} checked onChange={(e) => setFineType("DAILY")}/>
                             <label for="daily">Daily</label><br />
                         </div>
                         <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <input type="radio" id="hourly" name="fav_language" onChange={(e) => setFineType("HOURLY")} />
+                            <input type="radio" id="hourly" name="fav_language" value={fineType} onChange={(e) => setFineType("HOURLY")} />
                             <label for="hourly">Hourly</label><br />
                         </div>
                     </div>

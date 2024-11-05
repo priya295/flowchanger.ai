@@ -142,12 +142,12 @@ const SideBar = ({ toggleSideBar }) => {
               }`}
           >
 
-            <Link to="#"
+            {/* <Link to="#"
               className="w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap  text-white   transition-all	rounded-md"
             >
               <ArrowForwardIosIcon className="arrow-icon-sidebar"/>
               Sub Menu
-            </Link>
+            </Link> */}
 
 
 
@@ -172,12 +172,12 @@ const SideBar = ({ toggleSideBar }) => {
               }`}
           >
 
-            <Link to="#"
+            {/* <Link to="#"
               className="w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap  text-white   transition-all	rounded-md"
             >
               <ArrowForwardIosIcon className="arrow-icon-sidebar"/>
               Sub Menu
-            </Link>
+            </Link> */}
 
 
 
@@ -238,13 +238,13 @@ const SideBar = ({ toggleSideBar }) => {
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen5 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
-
+{/* 
             <Link to="#"
               className="w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap  text-white   transition-all	rounded-md"
             >
               <ArrowForwardIosIcon className="arrow-icon-sidebar"/>
               Sub Menu
-            </Link>
+            </Link> */}
 
 
 
