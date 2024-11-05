@@ -67,7 +67,7 @@ const LoginPage = () => {
       const success = await handleLoggedIn(data);
       if (success) {
         setIsAuthenticated(true);
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -80,7 +80,7 @@ const LoginPage = () => {
         <div className="text-white text-4xl font-bold mb-8 flex justify-center">
           <img src={flowChangerLogo} alt="Flowchangers Logo" className="bg-black w-[350px] h-[200px]"/>
         </div>
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className="bg-white rounded-lg shadow-lg p-8 border border-gray-300">
           <h2 className="text-2xl font-bold mb-6 text-center">Log in</h2>
           <button onClick={handleGoogleLogin} className="w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md flex items-center justify-center mb-4 hover:bg-gray-50 transition duration-300">
           Login With Google
@@ -122,11 +122,11 @@ const LoginPage = () => {
           </form>
           <div className="text-center mt-4 flex flex-col justify-center gap-y-3">
             <a href="#" className="text-purple-600 hover:text-purple-500">
-              <span className="text-gray-400">Forgot password?</span> 
+              <span className="text-gray-400 mr-2">Forgot password?</span> 
               <Link to = "/authentication/request-password">Reset</Link>
             </a>
             <a href="#" className="text-purple-600 hover:text-purple-500">
-              <span className="text-gray-400">Don't have an account?</span> 
+              <span className="text-gray-400 mr-2">Don't have an account?</span> 
               <Link to = "/authentication?step=1"
                 >Sign up</Link>
             </a>

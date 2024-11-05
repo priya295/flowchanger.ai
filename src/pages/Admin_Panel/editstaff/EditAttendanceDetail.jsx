@@ -138,7 +138,7 @@ const EditAttendanceDetail = () => {
                 body: JSON.stringify({
                     day, // The current day (e.g., 'Mon', 'Tue')
                     weekOff: daysChecked[day], // Whether it's marked as a week off
-                    staffId: selectedStaff.id, // Selected staff member's ID
+                    staffId: selectedStaff.staffDetails.id, // Selected staff member's ID
                     shiftId: shiftId || null, // Pass the correct shift ID or null if no shift is selected
                 }),
             });
@@ -164,7 +164,7 @@ const EditAttendanceDetail = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ weekOff: weekOff, staffId: selectedStaff.id })
+            body: JSON.stringify({ weekOff: weekOff, staffId: selectedStaff.staffDetails.id })
         });
 
         console.log(response);
@@ -185,7 +185,7 @@ const EditAttendanceDetail = () => {
         e.preventDefault();
         const data = {
             staff_ids: [
-                selectedStaff.id
+                selectedStaff.staffDetails.id
             ],
             attendence_mode: {
                 "selfie_attendance": toggleSelfieAttendance,
