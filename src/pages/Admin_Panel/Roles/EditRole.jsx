@@ -369,7 +369,7 @@ const EditRole = () => {
             <div className='staff-member w-[100%] sm:w-[100%] lg:w-[50%] md:w-[100%]'>
                 <h2>Staff members using this role</h2>
 
-                <div className='bg-[#f1f5f9]  bg-[#f1f5f9] p-2 rounded-md mt-2'>
+                <div className='bg-[#f1f5f9]   p-2 rounded-md mt-2'>
                     <div className='flex mb-4 justify-between p-2 pl-0 pr-0 flex-col gap-2  sm:flex-row sm:gap-0'>
                         <div className='left-side '>
                             <select className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>

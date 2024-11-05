@@ -44,7 +44,7 @@ const BankDetails = () => {
     // when onclick update staff
     return (
         <div className='staff-tab mt-[20px]'>
-            <div className='flex justify-between flex-col xl:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
+            <div className='flex justify-between flex-col xl:flex-row lg:flex-col  md:flex-col gap-[15px] lg:gap-[0px]'>
                 <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row'>
                     <div className='searching-input relative'>
                         <img src={Search} className='absolute left-2 top-3' />

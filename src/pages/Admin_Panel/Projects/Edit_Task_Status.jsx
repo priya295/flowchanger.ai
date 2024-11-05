@@ -103,7 +103,7 @@ const Edit_Task_Status = () => {
 
                             {/* Modal (visible only when isOpen is true) */}
                             {isOpen && (
-                                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                                <div className="fixed inset-0 z-[1] flex items-center justify-center bg-gray-800 bg-opacity-50">
                                     <div className="bg-white rounded-lg shadow-lg w-96">
                                         {/* Modal Header */}
                                         <div className="px-4 py-2 border-b">
@@ -277,7 +277,7 @@ const Edit_Task_Status = () => {
                 onRequestClose={closeModal6}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Edit New Task</h2>
                 <button onClick={closeModal6} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>

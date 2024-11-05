@@ -54,7 +54,7 @@ const PayrollReimbrusments = () => {
     }, []);
   return (
     <div className='mt-[20px]'>
-    <div className='flex justify-between items-end flex-col xl:flex-row lg:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
+    <div className='flex justify-between items-end flex-col xl:flex-row lg:flex-row  md:flex-col gap-[15px] lg:gap-[0px]'>
         <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row w-full'>
 
             <div className='xl:w-[240px]'>
@@ -112,7 +112,7 @@ const PayrollReimbrusments = () => {
             Import Reimbursements
         </button>
         </div>
-    <div className='w-[100%] overflow-scroll flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+    <div className='w-[100%] overflow-scroll flex rounded-md shadow  border border-1 mt-4 pl-3 pr-3'>
         <table className='table-section mt-4 w-full'>
         <thead className='border border-1 '>
                         <th>
