@@ -45,7 +45,7 @@ const Step7 = () => {
           console.log('Token stored in cookies:', token);
           setIsAuthenticated(true);
         }
-        navigate("/dashboard")
+        navigate("/")
       } else {
         console.log("Error while submitting data");
       }
