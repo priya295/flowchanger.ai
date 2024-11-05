@@ -93,8 +93,8 @@ const Main = () => {
         <table class="table-auto w-[100%]">
           <thead className='bg-[#f1f5f9] '>
             <tr>
-              <th className='text-left p-4 text-sm font-medium text-center'>Roll Name</th>
-              <th className='text-left p-4 text-sm font-medium text-center'>Options</th>
+              <th className='text-left p-4 text-sm font-medium '>Roll Name</th>
+              <th className='text-left p-4 text-sm font-medium'>Options</th>
             </tr>
           </thead>
           <tbody>

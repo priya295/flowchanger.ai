@@ -25,7 +25,7 @@ const MonthlyCalendar = ({ year, month }) => {
 
   return (
     <div className="p-2     ">
-      <h3 className="text-[14px] font-medium text-left mb-0 pl-3 text-[#787575] mb-[5px]">
+      <h3 className="text-[14px] font-medium text-left pl-3 text-[#787575] mb-[5px]">
         {dayjs(`${year}-${month}-01`).format('MMMM YYYY')}
       </h3>
       

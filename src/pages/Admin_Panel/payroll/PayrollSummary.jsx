@@ -69,7 +69,7 @@ const PayrollSummary = () => {
     }, []);
     return (
         <div className='mt-[20px]'>
-            <div className='flex justify-between items-end flex-col xl:flex-row lg:flex-row lg:flex-col lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
+            <div className='flex justify-between items-end flex-col xl:flex-row lg:flex-row  md:flex-col gap-[15px] lg:gap-[0px]'>
                 <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row w-full'>
 
                     <div className='xl:w-[240px]'>
@@ -127,7 +127,7 @@ const PayrollSummary = () => {
 
                     </div>
 
-                    <div className='bg-white set-shadow mt-[20px] rounded-md mt-[20px]'>
+                    <div className='bg-white set-shadow mt-[20px] rounded-md'>
 
                         <h2 className='p-[20px] border-b'>Earning Details</h2>
                         <div className='p-[20px]'>
@@ -173,7 +173,7 @@ const PayrollSummary = () => {
 
 
 
-                    <div className='bg-white set-shadow mt-[20px] rounded-md mt-[20px]'>
+                    <div className='bg-white set-shadow mt-[20px] rounded-md '>
                         <div className='flex justify-between p-[20px] border-b items-center'>
                             <h2 className=''>Statutory Compliance Details</h2>
                             <div className='relative'>
@@ -184,9 +184,9 @@ const PayrollSummary = () => {
 
                                     <div className="absolute w-[300px] xl:w-[300px] xl:left-[-270px]  lg:w-[322px] lg:left-[-302px]  md:w-[322px] md:left-[-302px]  right-[-10px] z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                         <div className="py-1" role="none">
-                                            <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Provident Fund Challan Report</NavLink>
-                                            <NavLink to="/day-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> ESI Challan Report</NavLink>
-                                            <NavLink to="/week-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Tax Deducated at Source Report</NavLink>
+                                            <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700  gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Provident Fund Challan Report</NavLink>
+                                            <NavLink to="/day-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700  gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> ESI Challan Report</NavLink>
+                                            <NavLink to="/week-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Tax Deducated at Source Report</NavLink>
 
                                         </div>
 
@@ -337,7 +337,7 @@ const PayrollSummary = () => {
                     </div>
 
 
-                    <div className='bg-white set-shadow mt-[20px] rounded-md mt-[20px]'>
+                    <div className='bg-white set-shadow mt-[20px] rounded-md '>
                         <div className='flex justify-between p-[20px] border-b '>
                             <h2 className=''>Total Loan Amount</h2>
                             <div className='relative'>
@@ -348,7 +348,7 @@ const PayrollSummary = () => {
 
                                     <div className="absolute w-[300px] xl:w-[300px] xl:left-[-270px]  lg:w-[322px] lg:left-[-302px]  md:w-[322px] md:left-[-302px]  right-[-10px] z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                         <div className="py-1" role="none">
-                                            <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Loan Report</NavLink>
+                                            <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700  gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Loan Report</NavLink>
 
                                         </div>
 

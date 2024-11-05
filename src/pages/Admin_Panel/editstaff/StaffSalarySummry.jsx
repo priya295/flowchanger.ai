@@ -193,7 +193,7 @@ const StaffSalarySummry = () => {
                             {/* Button to open modal */}
                             <button
                                 onClick={openModal6}
-                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px]  lg:w-[200px] md:w-[140px] whitespace-nowrap shadow shadow "
+                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px]  lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-lg "
                             >
                                 P I Present
                             </button>

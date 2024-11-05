@@ -486,7 +486,7 @@ const EditSalaryDetails = () => {
 
 
   return (
-    <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col">
+    <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col">
       <div className="flex items-center justify-between  xl:pb-6  ">
         <h1 className="  font-medium ">
           Salary Details Import Settings
@@ -682,11 +682,12 @@ const EditSalaryDetails = () => {
         </h1>
 
         <div className="flex xl:mt-12 mt-[20px] xl:ml-16 ml-0 gap-[30px] flex-col xl:flex-row lg:flex-row md:flex-row ">
-          {/* Employer Contributions Section */}
-          <div className="xl:w-[50%] w-full space-y-5">
-            <div className="flex items-center justify-between">
-              <span className="text-[13px] xl:text-[13px] font-semibold">Employer Contributions</span>
-              <h1 className="text-[13px] xl:text-[13px] font-semibold">Calculation</h1>
+          <div className="xl:w-[50%] w-[100%] space-y-5 w-full">
+            <div className="flex items-center  justify-between   ">
+              <span className="text-[13px] xl:text-[13px] font-semibold">
+                Employer Contributions
+              </span>
+              <h1 className="text-[13px] xl:text-[13px] font-semibold">Select Components</h1>
             </div>
 
             <div className="flex items-center justify-between">
@@ -766,11 +767,11 @@ const EditSalaryDetails = () => {
               />
             </div>
           </div>
-
-          {/* Included in CTC Section */}
-          <div className="xl:w-[50%] w-full space-y-5">
-            <div className="flex items-center justify-between">
-              <span className="text-[13px] xl:text-[13px] font-semibold">Included in CTC</span>
+          <div className="xl:w-[50%] w-[100%] space-y-5 w-full">
+            <div className="flex items-center  justify-between   ">
+              <span className="text-[13px] xl:text-[13px] font-semibold">
+                Included in CTC
+              </span>
               <h1 className="text-[13px] xl:text-[13px] font-semibold">Amount</h1>
             </div>
 

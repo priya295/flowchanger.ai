@@ -90,7 +90,7 @@ const CalenderWeekly = () => {
                     </div>
                 </div>
                 <tbody className='w-full relative top-[-75px] block'>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -106,7 +106,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -122,7 +122,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -138,7 +138,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -154,7 +154,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -170,7 +170,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -186,7 +186,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -202,7 +202,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -218,7 +218,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -234,7 +234,7 @@ const CalenderWeekly = () => {
                     
 
                     </tr>
-                    <tr className='block flex'>
+                    <tr className='block'>
                         <td>
                             <Link to="" onClick={openModal15}></Link>
                         </td>
@@ -263,7 +263,7 @@ const CalenderWeekly = () => {
                 onRequestClose={closeModal15}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add Aadhaar</h2>

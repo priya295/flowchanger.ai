@@ -143,7 +143,7 @@ const RunPayroll = () => {
 
     return (
         <div className='mt-[20px] overflow-scroll w-full'>
-            <div className='flex justify-between items-start flex-col xl:flex-row lg:flex-row  xl:items-center lg:items-center lg:gap-[15px] md:flex-col gap-[15px] lg:gap-[0px]'>
+            <div className='flex justify-between items-start flex-col xl:flex-row lg:flex-row  xl:items-center lg:items-center md:flex-col gap-[15px] lg:gap-[0px]'>
 
 
 
@@ -176,8 +176,8 @@ const RunPayroll = () => {
                             toggleDrop38 &&
                             <div className="absolute w-[98%] xl:w-[300px] xl:left-[-270px]  lg:w-[200px] lg:left-[-100px]  md:w-[200px] md:left-[-100px] left-[4px] right-0 z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                 <div className="py-1" role="none">
-                                    <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Download Pay Slip</NavLink>
-                                    <NavLink to="/day-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><ShareIcon className='text-[#5173ff] font-normal text-[18px]' /> Share Pay Slip</NavLink>
+                                    <NavLink to="/calender" className=" hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><DownloadIcon className='text-[#5173ff] font-normal text-[18px]' /> Download Pay Slip</NavLink>
+                                    <NavLink to="/day-wise" className=" hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><ShareIcon className='text-[#5173ff] font-normal text-[18px]' /> Share Pay Slip</NavLink>
 
                                 </div>
                             </div>
@@ -192,8 +192,8 @@ const RunPayroll = () => {
 
                             <div className="absolute w-[98%] xl:w-[300px] xl:left-[-270px]  lg:w-[200px] lg:left-[-100px]  md:w-[200px] md:left-[-100px] left-[4px] right-0 z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white set-shadow ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                 <div className="py-1" role="none">
-                                    <NavLink to="/calender" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><UploadFileIcon className='text-[#5173ff] font-normal text-[18px]' /> Import Earnings</NavLink>
-                                    <NavLink to="/day-wise" className="block hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><UploadFileIcon className='text-[#5173ff] font-normal text-[18px]' /> Import Deductions</NavLink>
+                                    <NavLink to="/calender" className=" hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-1"><UploadFileIcon className='text-[#5173ff] font-normal text-[18px]' /> Import Earnings</NavLink>
+                                    <NavLink to="/day-wise" className=" hover:bg-[#e3e3e3] px-4 py-2 text-sm text-gray-700 flex gap-[10px] items-center" role="menuitem" tabindex="-1" id="menu-item-0"><UploadFileIcon className='text-[#5173ff] font-normal text-[18px]' /> Import Deductions</NavLink>
 
                                 </div>
 

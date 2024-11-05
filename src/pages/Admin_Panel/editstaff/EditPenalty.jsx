@@ -189,11 +189,11 @@ const EditPenalty = () => {
 
                     <label className='text-[14px]'>Fine Type</label>
                     <div className=' flex justify-between gap-4'>
-                        <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        <div className='flex  cursor-pointer border border-1  rounded-md  items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <input type="radio" id="daily" name="fav_language" checked onChange={(e) => setFineType("DAILY")}/>
                             <label for="daily">Daily</label><br />
                         </div>
-                        <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        <div className='border border-1 cursor-pointer rounded-md flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <input type="radio" id="hourly" name="fav_language" onChange={(e) => setFineType("HOURLY")} />
                             <label for="hourly">Hourly</label><br />
                         </div>
@@ -240,11 +240,11 @@ const EditPenalty = () => {
 
                     <label className='text-[14px]'>Fine Type</label>
                     <div className=' flex justify-between gap-4'>
-                        <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        <div className=' border border-1 cursor-pointer rounded-md  flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <input type="radio" id="daily" name="fav_language" checked value="daily" onChange={(e) => setLateFineType("DAILY")}/>
                             <label for="daily">Daily</label><br />
                         </div>
-                        <div className='flex gap-3 cursor-pointer border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        <div className=' border border-1 cursor-pointer rounded-md  flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <input type="radio" id="hourly" name="fav_language" value="hourly" onChange={(e) => setLateFineType("DAILY")}/>
                             <label for="hourly">Hourly</label><br />
                         </div>
