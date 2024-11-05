@@ -27,7 +27,7 @@ const EditPenalty = () => {
 
 
     async function submitEarlyLeavePolicy() {
-        const response = await fetch(baseUrl + "policy/early-leave", {
+        const response = await fetch(baseUrl + "policy/early", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const EditPenalty = () => {
     }
 
     async function submitLateComingPolicy() {
-        const response = await fetch(baseUrl + "policy/late-coming", {
+        const response = await fetch(baseUrl + "policy/late", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

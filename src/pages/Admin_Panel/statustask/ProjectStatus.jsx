@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -8,12 +8,13 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { useGlobalContext } from "../../../Context/GlobalContext";
 
 
 
 const ProjectStatus = () => {
+    const { baseUrl } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
-
     // Function to handle accordion toggling
     const handleToggle = (index) => {
         if (openIndex === index) {
@@ -66,7 +67,7 @@ const ProjectStatus = () => {
 
     // Toggle the visibility of tbody
     const toggleTable = () => {
-      setIsOpen5(!isOpen5);
+        setIsOpen5(!isOpen5);
     };
     let subtitle;
 
@@ -83,9 +84,39 @@ const ProjectStatus = () => {
     function closeModal6() {
         setIsOpen6(false);
     }
+    const [projectName, setProjectName] = useState();
+    const [projectColor, setProjectColor] = useState();
+    const [projectOrder, setProjectOrder] = useState();
+    const [filter, setFilter] = useState(false);
+    const [canChanged, setCanChanged] = useState();
 
+    async function submitProjectStatus() {
+        const result = await fetch(baseUrl + "project-status", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ project_name: projectName, project_color: projectColor, project_order: projectOrder, default_filter: filter, can_changed: canChanged })
+        })
+        if (result.status == 201) {
+            alert("Add Project Status Successfully")
+        }
+        else {
+            alert("An Error Occured")
+        }
+    }
 
-   
+    const [fetchProjectStatus, setFetchProjectStatus] = useState([]);
+    async function fetchProjectDetails() {
+        const result = await fetch(baseUrl + "project-status");
+        const data = await result.json();
+        console.log(data)
+        setFetchProjectStatus(data.data)
+    }
+
+    useEffect(() => {
+        fetchProjectDetails();
+    }, [])
     return (
         <div className=" w-full  ">
 
@@ -111,39 +142,37 @@ const ProjectStatus = () => {
                                     <div className="bg-white rounded-lg shadow-lg w-96">
                                         {/* Modal Header */}
                                         <div className="px-4 py-2 border-b">
-                                            <h2 className="text-lg font-semibold">Create New Project</h2>
+                                            <h2 className="text-lg font-semibold"> Project Status</h2>
                                         </div>
 
                                         {/* Modal Body */}
                                         <div className="p-4">
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Project Name</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='text' onChange={(e) => setProjectName(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Project  Color</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='color' onChange={(e) => setProjectColor(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Project Order</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='text' onChange={(e) => setProjectOrder(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className="mb-[10px] flex items-center gap-[6px]">
-                                                <input type="checkbox" />
+                                                <input
+                                                    type="checkbox"
+                                                    onChange={(e) => setFilter(e.target.checked)}
+                                                />
+
                                                 <p>Default Filter</p>
-                                            </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[26px]'>
-                                                <label className='text-[14px]'>is hidden for</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
                                             </div>
                                             <div className='w-[100%]  xl:[48%] mb-[20px]'>
                                                 <label className='text-[14px]'>Can be changed to</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                <select onChange={(e) => setCanChanged(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                                                     <option>Nothing Selected</option>
                                                 </select>
                                             </div>
@@ -158,7 +187,7 @@ const ProjectStatus = () => {
                                                 Close
                                             </button>
                                             <button
-                                                onClick={toggleModal}
+                                                onClick={submitProjectStatus}
                                                 className=" second-btn bg-blue-500 text-white rounded-md"
                                             >
                                                 Save Changes
@@ -222,64 +251,54 @@ const ProjectStatus = () => {
                     </div>
 
                     <div className="main-table-status">
-                    <table className="table-auto w-full border border-gray-300 rounded-md table-status">
-                        <thead
-                            onClick={toggleTable}
-                            className="set-shadow  cursor-pointer"
-                        >
-                            <tr>
-                                <th className="p-3 text-left">ID</th>
-                                <th className="p-3 text-left">Status Name</th>
-                                <th className="p-3 text-left">Status Color</th>
-                                <th className="p-3 text-left">Status Order</th>
-                                <th className="p-3 text-left">Status Defaulter Filter</th>
-                                <th className="p-3 text-left">Status can be changed to</th>
-                                <th className="p-3 text-left">Status in hidder for</th>
-                                
-                            </tr>
-                        </thead>
-                        {/* Add transition for tbody */}
-                        <tbody
-                            className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
-                            style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
-                        >
-                            <tr className="border">
-                                <td className=" ">1</td>
-                                <td className=" ">Not Started</td>
-                                <td className=" ">#fff</td>
-                                <td className=" ">20</td>
-                                <td className=" ">Yes</td>
-                                <td className=" ">In Progress</td>
-                                <td className=" ">
-                                    <div className="flex gap-2">
-                                        <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
-                                        <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-                                        
-                                    </div>
-                                </td>
-                                
-                            </tr>
-                            <tr className="border">
-                                <td className=" ">1</td>
-                                <td className=" ">Not Started</td>
-                                <td className=" ">#fff</td>
-                                <td className=" ">20</td>
-                                <td className=" ">Yes</td>
-                                <td className=" ">In Progress</td>
-                                <td className=" ">
-                                    <div className="flex gap-2">
-                                        <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
-                                        <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-                                        
-                                    </div>
-                                </td>
-                                
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+                        <table className="table-auto w-full border border-gray-300 rounded-md table-status">
+                            <thead
+                                onClick={toggleTable}
+                                className="set-shadow  cursor-pointer"
+                            >
+                                <tr>
+                                    <th className="p-3 text-center">ID</th>
+                                    <th className="p-3 text-center">Status Name</th>
+                                    <th className="p-3 text-center">Status Color</th>
+                                    <th className="p-3 text-center">Status Order</th>
+                                    <th className="p-3 text-center">Status Defaulter Filter</th>
+                                    <th className="p-3 text-center">Status can be changed to</th>
+                                    <th className="p-3 text-center">Status in hidder for</th>
+
+                                </tr>
+                            </thead>
+                            {/* Add transition for tbody */}
+                            <tbody
+                                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
+                                style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
+                            >
+
+                                {
+                                    fetchProjectStatus?.map((fetchProjectDetail, index) => {
+                                        return <tr className="border">
+                                            <td className=" ">{index + 1}</td>
+                                            <td className=" ">{fetchProjectDetail.project_name}</td>
+                                            <td className=" ">{fetchProjectDetail.project_color}</td>
+                                            <td className=" ">{fetchProjectDetail.project_order}</td>
+                                            <td className=" ">Yes</td>
+                                            <td className=" ">In Progress</td>
+                                            <td className=" ">
+                                                <div className="flex gap-2">
+                                                    <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
+                                                    <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    })
+                                }
+
+
+                            </tbody>
+                        </table>
                     </div>
-                
+
 
                 </div>
 

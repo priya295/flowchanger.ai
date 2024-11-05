@@ -143,6 +143,7 @@ const Clients = () => {
 
                                 <th className="text-[11px] border-r font-medium p-[10px] ">#</th>
 
+                                <th className="text-[11px] p-[10px] border-r font-medium whitespace-nowrap">Name</th>
 
                                 <th className="text-[11px] p-[10px] border-r font-medium whitespace-nowrap">Company</th>
 
@@ -210,7 +211,7 @@ const Clients = () => {
                                     <td className=" p-[10px]   font-medium   whitespace-nowrap"><input className="text-[12px] h-[12px] " type="checkbox" /></td>
 
                                     <td className="text-[11px]    font-medium p-[10px] ">{index + 1}</td>
-
+                                    <td className="text-[11px] p-[10px]  font-medium whitespace-nowrap">{item.name}</td>
                                     <td className="text-[11px] p-[10px]  font-medium whitespace-nowrap">{item.clientDetails.company}</td>
 
                                     <td className="text-[11px] font-medium p-[10px]  whitespace-nowrap	">{item.mobile}</td>

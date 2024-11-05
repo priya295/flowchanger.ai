@@ -220,7 +220,7 @@ const Edit_Task_Status = () => {
                                                 }} type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
-                                            <div className='w-[30%] xl:[48%] mb-[10px] '>
+                                            <div className='w-full mb-[10px] '>
                                                 <label className='text-[14px]'>*Status Color</label><br />
                                                 <input type='color' value={taskStatus?.color} onChange={(e) => {
                                                     setTaskStatus({ ...taskStatus, color: e.target.value })
@@ -238,7 +238,7 @@ const Edit_Task_Status = () => {
                                                 <input type="checkbox" />
                                                 <p>Default Filter</p>
                                             </div>
-                                            <div className="w-full xl:w-[48%] mb-[26px]">
+                                            <div className="w-full  mb-[26px]">
                                                 <label className="text-[14px] block mb-1">Is hidden for</label>
                                                 <Select
                                                     isMulti
@@ -257,7 +257,7 @@ const Edit_Task_Status = () => {
                                                 />
                                             </div>
 
-                                            <div className='w-[100%] xl:w-[48%] mb-[20px]'>
+                                            <div className='w-[100%]  mb-[20px]'>
                                                 <label className='text-[14px]'>Can be changed to</label><br />
                                                 <Select
                                                     isMulti
@@ -389,7 +389,7 @@ const Edit_Task_Status = () => {
                                 className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
                             >
                                 {
-                                    allTaskStatus?.map((status) => (
+                                    allTaskStatus?.map((status,index) => (
                                         <tr className="border">
                                             <td className="p-3">{status?.id}</td>
                                             <td className="p-3">{status?.taskStatusName}</td>
