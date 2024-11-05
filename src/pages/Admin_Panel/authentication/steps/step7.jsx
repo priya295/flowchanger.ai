@@ -41,11 +41,11 @@ const Step7 = () => {
         const result = await response.json();
         const { token } = result;
         if (token) {
-          Cookies.set('flowChangerToken', token);
+          Cookies.set('flowChangerAuthToken', token);
           console.log('Token stored in cookies:', token);
           setIsAuthenticated(true);
         }
-        navigate("/dashboard")
+        navigate("/")
       } else {
         console.log("Error while submitting data");
       }

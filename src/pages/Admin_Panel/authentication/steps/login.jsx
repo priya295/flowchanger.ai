@@ -14,9 +14,10 @@ import { useGlobalContext } from '../../../../Context/GlobalContext';
 const LoginPage = () => {
   const { loginWithRedirect} = useAuth0();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { setIsAuthenticated} = useAuthContext()
+  const {isAuthenticated , setIsAuthenticated} = useAuthContext()
   const {openToast} = useGlobalContext();
   const navigate = useNavigate();
+  console.log(isAuthenticated);
 
   const handleLoggedIn = async (loginInfo) => {
     console.log(loginInfo);

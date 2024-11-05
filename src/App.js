@@ -222,17 +222,17 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
+          <Route path="/" element={<DashBoard />} />
             <Route path="/project-overview" element={<ProjectsOverview />} />
             <Route path="/new-ticket" element={<NewTicket />} />
-            <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/addnewclient" element={<AddNewClient />} />
             <Route path="/editclient" element={<EditClient />} />
+            <Route path = "/staff-menu" element = {<StaffMenu/>}/>
             <Route path="/addrole" element={<AddRole />} />
             {/* <Route path="/role" element={<Role_Details />} /> */}
             <Route path="/editrole" element={<EditRole />} />
             <Route path="/role-detail" element={<Role_Details />} />
             <Route path="/editdepartment" element={<EditDepartment />} />
-            <Route path="/" element={<StaffMenu />} />
             <Route path="/add-one-staff" element={<AddOneStaff />} />
             <Route path="/department-details" element={<DepartmentDetail />} />
             <Route path="/salary_Details" element={<Salary_Details />} />
