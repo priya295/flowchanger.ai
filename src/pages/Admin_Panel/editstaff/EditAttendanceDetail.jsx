@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import React, { useState } from 'react';
+import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
-import AddIcon from '@mui/icons-material/Add';
-import selfie from '../../../Assets/Images/selfie-img.svg'
-import qr from '../../../Assets/Images/qr-code.svg'
-import gps from '../../../Assets/Images/gps.svg'
-import biometric from '../../../Assets/Images/biometric.svg'
-import rightimg from '../../../Assets/Images/right.svg'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import biometric from '../../../Assets/Images/biometric.svg';
+import gps from '../../../Assets/Images/gps.svg';
+import qr from '../../../Assets/Images/qr-code.svg';
+import rightimg from '../../../Assets/Images/right.svg';
+import selfie from '../../../Assets/Images/selfie-img.svg';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
@@ -206,7 +207,7 @@ const EditAttendanceDetail = () => {
     }
 
     // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
-    // console.log(selectedStaff.AttendenceMode);
+    console.log(selectedStaff.AttendenceMode);
     async function updateAttendanceMode(e) {
         e.preventDefault();
         const data = {
@@ -237,6 +238,36 @@ const EditAttendanceDetail = () => {
         } else {
             console.log(result);
             alert("An error occurred during update attendance mode staff");
+        }
+    }
+    async function updateAttendanceAutomationRules(e) {
+        e.preventDefault();
+        const data = {
+            staff_ids: [selectedStaff?.id], // Ensure staff id is present
+            automation_rules: {
+                auto_absent: toggleAutoPresent,  // Ensure boolean
+                present_on_punch: togglePresentOnPunch, // Ensure boolean
+                auto_half_day: autoHalfDay.hr && autoHalfDay.min ? `${autoHalfDay.hr} hr : ${autoHalfDay.min} min` : " Not Set",
+                mandatory_half_day: `${mandatoryHalfDayHour.hr} hr : ${mandatoryHalfDayHour.min} min`,
+                mandatory_full_day: `${mandatoryFullDayHour.hr} hr : ${mandatoryFullDayHour.min} min`,
+            }
+        };
+
+
+        const response = await fetch(baseUrl + "attendance/automation/", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data) // send the formatted data
+        });
+        const result = await response.json();
+        if (response.status === 200) {
+            console.log(result);
+            openModal8();
+        } else {
+            console.log(result);
+            alert("An error occurred during update attendance automation rule staff");
         }
     }
     let subtitle;
@@ -437,8 +468,6 @@ const EditAttendanceDetail = () => {
         setIsOpen18(false);
     }
     // onclick mandatory half day button
-    const [selectedShift,setSelectedShift]=useState();
-
 
     return (
         <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '>
@@ -1099,12 +1128,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setToggleAutoPresent(!toggleAutoPresent)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toggleAutoPresent ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toggleAutoPresent ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -1118,12 +1147,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setTogglePresentOnPunch(!togglePresentOnPunch)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${togglePresentOnPunch ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${togglePresentOnPunch ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -1137,7 +1166,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Auto half day if late by</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal16}>Not Set</button>
+                            <button className='first-btn' onClick={openModal16}>{(autoHalfDay.hr === "" && autoHalfDay.min === "") ? "Not Set" : autoHalfDay.hr + ":" + autoHalfDay.min}</button>
                         </div>
                     </div>
 
@@ -1147,7 +1176,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory half day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal17}>Not Set</button>
+                            <button className='first-btn' onClick={openModal17}>{(mandatoryHalfDayHour.hr === "" && mandatoryHalfDayHour.min === "") ? "Not Set" : mandatoryHalfDayHour.hr + ":" + mandatoryHalfDayHour.min}</button>
                         </div>
                     </div>
 
@@ -1157,7 +1186,8 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory full day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal18}>Not Set</button>
+                            <button className='first-btn' onClick={openModal18}>{(mandatoryFullDayHour.hr === "" && mandatoryFullDayHour.min === "") ? "Not Set" : mandatoryFullDayHour.hr + ":" + mandatoryFullDayHour.min}</button>
+
                         </div>
                     </div>
 
@@ -1165,7 +1195,9 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal7}>Cancel</button>
-                        <button className="second-btn" onClick={openModal8} >Update Automation Rules for All Staff</button>
+                        <button className="second-btn" onClick={(e) => {
+                            updateAttendanceAutomationRules(e);
+                        }} >Update Automation Rules for All Staff</button>
                     </div>
 
                 </div>
@@ -1213,11 +1245,21 @@ const EditAttendanceDetail = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={autoHalfDay.hr} onChange={(e) => setAutoHalfDay((prev) => {
+                                return {
+                                    ...prev,
+                                    hr: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={autoHalfDay.min} onChange={(e) => setAutoHalfDay((prev) => {
+                                return {
+                                    ...prev,
+                                    min: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
@@ -1226,7 +1268,9 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal16}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                        <button className="second-btn" onClick={() => {
+                            closeModal16();
+                        }} >Confirm</button>
                     </div>
 
                 </div>
@@ -1256,11 +1300,21 @@ const EditAttendanceDetail = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryHalfDayHour.hr} onChange={(e) => setMandatoryHalfDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    hr: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryHalfDayHour.min} onChange={(e) => setMandatoryHalfDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    min: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
@@ -1269,7 +1323,7 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal17}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                        <button className="second-btn" onClick={closeModal17} >Confirm</button>
                     </div>
 
                 </div>
@@ -1299,11 +1353,21 @@ const EditAttendanceDetail = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryFullDayHour.hr} onChange={(e) => setMandatoryFullDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    hr: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryFullDayHour.min} onChange={(e) => setMandatoryFullDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    min: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
@@ -1312,7 +1376,7 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal18}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal18} >Confirm</button>
+                        <button className="second-btn" onClick={closeModal18} >Confirm</button>
                     </div>
 
                 </div>
