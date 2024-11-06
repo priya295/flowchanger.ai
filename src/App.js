@@ -66,9 +66,9 @@ import ExpenseEdit from "./pages/Admin_Panel/ExpensesClient/ExpenseEdit";
 import ExpensePage from "./pages/Admin_Panel/ExpensesClient/ExpensePage";
 import AddNewClient from "../src/pages/Admin_Panel/Clients/AddNewClient";
 import EditClient from "../src/pages/Admin_Panel/Clients/EditClient";
-import Subscription from '../src/pages/Admin_Panel/Subscription Plan/Subscription'
-import Buy_plan from '../src/pages/Admin_Panel/Subscription Plan/Pricing Plans/Plan'
-import CalenderWeekly from './pages/Admin_Panel/Calender/CalenderWeekly'
+import Subscription from '../src/pages/Admin_Panel/Subscription Plan/Subscription';
+import Buy_plan from '../src/pages/Admin_Panel/Subscription Plan/Pricing Plans/Plan';
+import CalenderWeekly from './pages/Admin_Panel/Calender/CalenderWeekly';
 // import Task from "./Admin/pages/Project/Task";
 import Task from "./pages/Admin_Panel/Projects/Task";
 import ClientHeader from "./components/Client_Panel/ClientHeader";

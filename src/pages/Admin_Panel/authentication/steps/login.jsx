@@ -16,7 +16,7 @@ const LoginPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const {isAuthenticated , setIsAuthenticated} = useAuthContext();
   const [isLoading , setIsLoading] = useState(false);
-  const {openToast} = useGlobalContext();
+  const {openToast , baseUrl} = useGlobalContext();
   const navigate = useNavigate();
 
   const handleGoogleLogin = () =>{
@@ -31,7 +31,7 @@ const LoginPage = () => {
     console.log(loginInfo);
     setIsLoading(true);
     try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/login", {
+      const response = await fetch( baseUrl + "admin/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

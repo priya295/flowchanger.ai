@@ -5,12 +5,14 @@ import ImageUploading from 'react-images-uploading';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
+import { useGlobalContext } from '../../../../Context/GlobalContext';
 
 const Step7 = () => {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');
   const navigate = useNavigate();
   const { extraInfo, updateExtraInfo ,setIsAuthenticated} = useAuthContext();
+  const {baseUrl} = useGlobalContext();
   const [companyLogo, setCompanyLogo] = useState(null);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const Step7 = () => {
       infoData.append(key, extraInfo[key]);
     }
     try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/update", {
+      const response = await fetch(baseUrl + "admin/update", {
         method: "PUT",
         body: infoData
       });
