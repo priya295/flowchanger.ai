@@ -18,7 +18,7 @@ const Step2 = () => {
 
   // Set form values from adminInfo when the component mounts
   useEffect(() => {
-    if (adminInfo.first_name || adminInfo.last_name || adminInfo.mobile || adminInfo.password) {
+    if (adminInfo) {
       setValue('first_name', adminInfo.first_name);
       setValue('last_name', adminInfo.last_name);
       setValue('mobile', adminInfo.mobile);

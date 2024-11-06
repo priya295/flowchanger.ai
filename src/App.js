@@ -3,7 +3,7 @@ import "./Assets/css/roledetail.css";
 import "../src/Assets/css/new.css";
 import "../src/Assets/css/customer.css";
 import "../src/Assets/css/subscribe.css";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import NavBar from "./components/Admin_Panel/NavBar";
 import SideBar from "./components/Admin_Panel/SideBar";
 // import Project from "./pages/Admin_Panel/Projects/Project_Data";
@@ -87,10 +87,14 @@ import ResetPassword from "./pages/Admin_Panel/authentication/steps/ResetPasswor
 import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
 import ProtectedRoute from './ProtectedRoute';
 import DashBoard from "./pages/Admin_Panel/DashBoard";
+import { useAuthContext } from "./Context/AuthContext";
+
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
+
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
+
 
 
   const handleToggleSideBar = () => {
@@ -217,14 +221,12 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-            <Route path="/" element={<DashBoard />} />
+          <Route path="/" element={<DashBoard />} />
             <Route path="/project-overview" element={<ProjectsOverview />} />
             <Route path="/new-ticket" element={<NewTicket />} />
-            {/* this is changed on 04-11-2024*/}
-            <Route path = "/staff-menu" element = {<StaffMenu/>} />
-            {/* end */}
             <Route path="/addnewclient" element={<AddNewClient />} />
             <Route path="/editclient" element={<EditClient />} />
+            <Route path = "/staff-menu" element = {<StaffMenu/>}/>
             <Route path="/addrole" element={<AddRole />} />
             {/* <Route path="/role" element={<Role_Details />} /> */}
             <Route path="/editrole" element={<EditRole />} />

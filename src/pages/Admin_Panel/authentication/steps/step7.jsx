@@ -41,7 +41,7 @@ const Step7 = () => {
         const result = await response.json();
         const { token } = result;
         if (token) {
-          Cookies.set('flowChangerToken', token);
+          Cookies.set('flowChangerAuthToken', token);
           console.log('Token stored in cookies:', token);
           setIsAuthenticated(true);
         }
@@ -78,7 +78,7 @@ const Step7 = () => {
 
         <div className="bg-white rounded-lg p-8 border border-gray-300 shadow-2xl">
           <div className="flex flex-col justify-center items-center gap-y-0">
-            <h2 className="text-3xl font-medium mb-3 text-center mt-5">Upload your profile picture</h2>
+            <h2 className="text-3xl font-medium mb-3 text-center mt-5">Upload Your Company Logo</h2>
           </div>
 
           <div className="flex items-center justify-center">
