@@ -17,7 +17,7 @@ const Edit_Task_Status = () => {
     const { baseUrl } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
     const [allStaff, setAllStaff] = useState();
-    const [allTaskStatus, setAllTaskStatus] = useState();
+    const [allTaskStatus, setAllTaskStatus] = useState([]);
     const [updateAllTaskStatus, setUpdateAllTaskStatus] = useState(false);
     const [taskStatus, setTaskStatus] = useState({
         name: "",
@@ -66,7 +66,13 @@ const Edit_Task_Status = () => {
     const fetchAllTaskStatus = async () => {
         const response = await fetch(baseUrl + 'task/status');
         const data = await response.json();
-        setAllTaskStatus(data)
+        if (response.status==200){
+            setAllTaskStatus(data)
+        }
+        else{
+
+        }
+        // console.log(data)
     }
     async function createNewTaskStatus(e) {
         // e.preventDefault(); // Uncomment this if using in a form submit event
@@ -376,13 +382,13 @@ const Edit_Task_Status = () => {
                                 className="set-shadow cursor-pointer"
                             >
                                 <tr>
-                                    <th className="p-3 text-left">ID</th>
-                                    <th className="p-3 text-left">Status Name</th>
-                                    <th className="p-3 text-left">Status Color</th>
-                                    <th className="p-3 text-left">Status Order</th>
-                                    <th className="p-3 text-left">Status Defaulter Filter</th>
-                                    <th className="p-3 text-left">Status can be changed to</th>
-                                    <th className="p-3 text-left">Status in hidden for</th>
+                                    <th className="p-3 text-center">ID</th>
+                                    <th className="p-3 text-center">Status Name</th>
+                                    <th className="p-3 text-center">Status Color</th>
+                                    <th className="p-3 text-center">Status Order</th>
+                                    <th className="p-3 text-center">Status Defaulter Filter</th>
+                                    <th className="p-3 text-center">Status can be changed to</th>
+                                    <th className="p-3 text-center">Status in hidden for</th>
                                 </tr>
                             </thead>
                             <tbody

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 // import DescriptionEditer from './DescriptionEditer';
 import RemoveIcon from '@mui/icons-material/Remove';
 import SellIcon from '@mui/icons-material/Sell';
+import { useGlobalContext } from "../../../Context/GlobalContext";
+import Select from 'react-select';
 
 const Task = () => {
+  const { baseUrl } = useGlobalContext();
   const [openIndex, setOpenIndex] = useState(null);
 
   const handleToggle = (index) => {
@@ -37,7 +40,81 @@ const Task = () => {
   }
   //modal7
 
+
   // Array of accordion item
+  const [allTaskStatus, setAllTaskStatus] = useState();
+  const fetchAllTaskStatus = async () => {
+    const response = await fetch(baseUrl + 'task/status');
+    const data = await response.json();
+    setAllTaskStatus(data)
+  }
+
+  const [departments, setDepartments] = useState([])
+  const fetchDepartments = async () => {
+    const result = await fetch(baseUrl + "department")
+
+    if (result.status == 200) {
+      const res = await result.json();
+      setDepartments(res.data)
+
+    }
+    else {
+      alert("An Error Occured")
+    }
+
+  }
+
+  const [taskPriority, setTaskPriority] = useState([]);
+  const fetchTaskPriority = async () => {
+    const result = await fetch(baseUrl + "task/priority")
+
+    if (result.status == 200) {
+      const res = await result.json();
+      setTaskPriority(res)
+
+    }
+    else {
+      alert("An Error Occured")
+    }
+
+  }
+
+  const [selectedTag, setSelectedTag] = useState([])
+  const [staffDetail, setStaffDetail] = useState();
+  const handleChange = (selectedOptions) => {
+    setSelectedTag(selectedOptions);
+  };
+  const options = staffDetail?.map((staff) => ({
+    value: staff.id,
+    label: staff.name,
+  }));
+
+  const fetchStaffDetail = async () => {
+    const result = await fetch(baseUrl + "staff")
+    console.log("reuslt---", result)
+    if (result.status == 200) {
+      const res = await result.json();
+      setStaffDetail(res)
+    }
+    else {
+      alert("An Error Occured")
+    }
+
+  }
+
+
+
+  useEffect(() => {
+    fetchStaffDetail();
+    fetchAllTaskStatus();
+    fetchDepartments();
+    fetchTaskPriority();
+  }, [])
+
+  const[taskName,setTaskName]=useState();
+  // const
+
+
   const accordionItems = [
     {
       title:
@@ -119,29 +196,26 @@ const Task = () => {
             </tr>
             <tr className="rounded-lg border-b border-[#e5e7eb]">
 
-<td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">Complete</Link></td>
+              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">Complete</Link></td>
 
 
-<td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
+              <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
 
 
-<td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
+              <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
 
 
-<td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
+              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
 
 
-<td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-
-<td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-<td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	"><button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">Ads</button></td>
-<td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">-</td>
-<td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred2">Medium</Link></td>
+              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
 
 
 
+              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
+              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	"><button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">Ads</button></td>
+              <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">-</td>
+              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred2">Medium</Link></td>
 
 
 
@@ -149,7 +223,10 @@ const Task = () => {
 
 
 
-</tr>
+
+
+
+            </tr>
 
           </tbody>
 
@@ -194,9 +271,16 @@ const Task = () => {
 
                   <div className="w-[100%]" >
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Status</label>    <br />
-                    <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                      <option>Please Select Task Status</option>
+                      {
+                        allTaskStatus?.map((s, index) => {
+                          return <option>{s?.taskStatusName}</option>
+                        })
+                      }
+                    </select>
                   </div>
-                 
+
                 </div>
                 <div className="flex gap-[8px]">
                   <div className="w-[50%]">
@@ -227,39 +311,73 @@ const Task = () => {
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
                     <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
                       <option>Department</option>
-                      <option>Video</option>
+                      {
+                        departments?.map((s, index) => {
+                          return <option>{s.department_name}</option>
+                        })
+                      }
+
                     </select>
                   </div>
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Priority</label>    <br />
                     <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
-                      <option>Priority</option>
-                      <option>Video</option>
+                      <option>Select Task Priority</option>
+                      {
+                        taskPriority?.map((s, index) => {
+                          return <option>{s.taskPriorityName}</option>
+                        })
+                      }
                     </select>
                   </div>
                 </div>
-                <div className="flex gap-[8px]">
+                <div className="">
 
-                  <div className="w-[50%]">
 
+                  <div className="w-[100%]">
+                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Assignee</label>    <br />
+                    <Select
+                      isMulti
+                      options={options}
+                      onChange={handleChange}
+                      placeholder="Select Members..."
+                      className="w-full"
+                      styles={{
+                        control: (provided) => ({
+                          ...provided,
+                          minHeight: '46px',
+                          border: '1px solid #DBDCDE',
+                        }),
+                        multiValue: (provided) => ({
+                          ...provided,
+                          backgroundColor: '#e5e7eb',
+                          borderRadius: '4px',
+                        }),
+                        multiValueLabel: (provided) => ({
+                          ...provided,
+                          fontSize: '0.875rem',
+                        }),
+                        multiValueRemove: (provided) => ({
+                          ...provided,
+                          color: '#4b5563',
+                          cursor: 'pointer',
+                        }),
+                      }}
+                    />
+                  </div>
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
+                  <textarea type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+
+                  <div className="w-[100%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />
                     <input type='text' className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' />    <br />
                   </div>
-                  <div className="w-[50%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Assignee</label>    <br />
-                    <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
-                      <option>Assignee</option>
-                      <option>Video</option>
-                    </select>
-                  </div>
 
 
                 </div>
 
 
 
-                <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
-                <textarea type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
 
                 <div>
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Attach File</label><br />
@@ -343,7 +461,7 @@ const Task = () => {
           )}
         </div>
       ))}
-      
+
     </div>
   );
 };

@@ -107,11 +107,12 @@ const TaskPriority = () => {
     }
 
 
-    const [priorityHeading,setPriorityHeading]=useState();
+    const [priorityHeading,setPriorityHeading]=useState([]);
     async function fetchPriority (){
         const result= await fetch(baseUrl+"task/priority");
         const res= await result.json()
-        setPriorityHeading(res)
+        console.log(res)
+        setPriorityHeading(res.data)
     }
 
     useEffect(()=>{

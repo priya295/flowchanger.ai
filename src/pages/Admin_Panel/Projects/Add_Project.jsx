@@ -11,6 +11,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Quill styling
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import CreatableSelect from "react-select/creatable";
+import Select from 'react-select';
 
 const Add_Project = () => {
   const { baseUrl } = useGlobalContext();
@@ -54,6 +55,13 @@ const Add_Project = () => {
   }
   const [clientData, setClientData] = useState(null);
 
+  const handleChange = (selectedOptions) => {
+    // Extract only the `value` from each selected option
+    const tagValues = selectedOptions.map(option => option.value);
+    setSelectedTag(tagValues);  // Set the values in the state
+  };
+
+
   const fetchDetail = async () => {
     const result = await fetch(baseUrl + "client");
     if (result.status == 200) {
@@ -96,17 +104,19 @@ const Add_Project = () => {
     { value: "drdcrcrc", label: "drdcrcrc" },
   ]);
   const [selectedTag, setSelectedTag] = useState([])
-  const handleChange = (selectedOptions) => {
-    setSelectedTag(selectedOptions);
-  };
+
   const [projectName, setProjectName] = useState();
   const [billingType, setBillingType] = useState();
   const [rate, setRate] = useState();
   const [hours, setHours] = useState();
   const [date, setDate] = useState();
   const [deadline, setDeadLine] = useState();
-  const [description, setDescription] = useState();
+  const [selectedClient, setSelectClient] = useState();
+  const [sendEmail, setSendEmail] = useState(false);
+  const [members, setMembers] = useState([])
 
+
+  const [selectedStatus, setSelectedStatus] = useState([]);
   const [fetchProjectStatus, setFetchProjectStatus] = useState([]);
   async function fetchProjectDetails() {
     const result = await fetch(baseUrl + "project-status");
@@ -120,7 +130,48 @@ const Add_Project = () => {
   }, [])
 
 
-  
+  const options = staffDetail?.map((staff) => ({
+    value: staff.id,
+    label: staff.name,
+  }));
+
+
+
+  async function projectSubmit() {
+    const plainTextDescription = (editorData || '').replace(/<\/?p>/g, '');
+    const projectNameString = fetchProjectStatus.length > 0 ? fetchProjectStatus[0].project_name : ''; // Option 1, or use Option 2 as needed
+    const result = await fetch(baseUrl + "project", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({
+        project_name: projectName,
+        customer: selectedClient,
+        status: projectNameString,
+        billing_type: billingType,
+        total_rate: rate,
+        estimated_hours: hours,
+        department: members,
+        start_date: date,
+        deadline: deadline,
+        description: plainTextDescription, // Send `editorData` here
+        send_mail: sendEmail,
+        tags: selectedTag
+      })
+    })
+    if (result.status == 201) {
+      const data = result.json()
+      alert("Add Project Successfully")
+    }
+    else {
+      alert("An Error Occured")
+    }
+  }
+
+  useEffect(() => {
+    console.log(editorData); // Check if `editorData` updates on every change
+  }, [editorData]);
 
   return (
     <Tabs className="m-5 shadow rounded-lg">
@@ -140,16 +191,17 @@ const Add_Project = () => {
             <input
               className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
               type="text"
+              onChange={(e) => { setProjectName(e.target.value) }}
             />
           </div>
 
           <div className="space-y-2">
             <h1 className="font-medium">* Customer</h1>
-            <select className="w-[100%] h-[46px] bg-white border border-[#DBDCDE] rounded-md pl-5 ">
+            <select onChange={(e) => { setSelectClient(e.target.value) }} className="w-[100%] h-[46px] bg-white border border-[#DBDCDE] rounded-md pl-5 ">
               <option value="">Select and begin typing</option>
               {
                 clientData?.map((clientInformation, index) => {
-                  return <option>{clientInformation.name}</option>
+                  return <option value={clientInformation.id}>{clientInformation.name}</option>
                 })
               }
 
@@ -169,10 +221,10 @@ const Add_Project = () => {
           <div className="flex w-[100%] gap-10">
             <div className="w-[50%] space-y-2">
               <h1>* Billing Type</h1>
-              <select className="h-[46px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5">
-                <option value="">Fixed rate</option>
-                <option value="">Project Hours</option>
-                <option value="">Task Hours Based on task hourly rate</option>
+              <select onChange={(e) => { setBillingType(e.target.value) }} className="h-[46px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5">
+                <option value="Fixed Rate">Fixed rate</option>
+                <option value="Project Hours">Project Hours</option>
+                <option value="Task Hours Based on task hourly rate">Task Hours Based on task hourly rate</option>
               </select>
             </div>
 
@@ -181,8 +233,8 @@ const Add_Project = () => {
               <select className="h-[46px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5">
                 <option value="">In Progress</option>
                 {
-                  fetchProjectStatus?.map((s)=>{
-                    return <option>
+                  fetchProjectStatus?.map((s) => {
+                    return <option value={s.id}>
                       {s.project_name}
                     </option>
                   })
@@ -196,6 +248,8 @@ const Add_Project = () => {
             <input
               className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
               type="number"
+              onChange={(e) => { setRate(parseInt(e.target.value) || 0) }}
+
             />
           </div>
 
@@ -206,19 +260,44 @@ const Add_Project = () => {
                 <input
                   className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
                   type="number"
+                  onChange={(e) => { setHours(parseInt(e.target.value) || 0) }}
                 />
               </div>
 
               <div className="w-[50%] space-y-2">
                 <h1>Members</h1>
-                <select className="h-[46px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5">
-                  <option value="">Select Member</option>
-                  {
-                    staffDetail?.map((staffDetail, index) => {
-                      return <option value="">{staffDetail.name}</option>
-                    })
-                  }
-                </select>
+
+                <Select
+                  isMulti
+                  options={options}
+                  onChange={(op) => { setMembers(op.map(o => o.value)) }}
+                  placeholder="Select Members..."
+                  className="w-full"
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      minHeight: '46px',
+                      border: '1px solid #DBDCDE',
+                    }),
+                    multiValue: (provided) => ({
+                      ...provided,
+                      backgroundColor: '#e5e7eb',
+                      borderRadius: '4px',
+                    }),
+                    multiValueLabel: (provided) => ({
+                      ...provided,
+                      fontSize: '0.875rem',
+                    }),
+                    multiValueRemove: (provided) => ({
+                      ...provided,
+                      color: '#4b5563',
+                      cursor: 'pointer',
+                    }),
+                  }}
+                />
+
+
+
               </div>
             </div>
 
@@ -228,6 +307,7 @@ const Add_Project = () => {
                 <input
                   className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
+                  onChange={(e) => { setDate(e.target.value) }}
                 />
               </div>
 
@@ -236,6 +316,7 @@ const Add_Project = () => {
                 <input
                   className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
+                  onChange={(e) => { setDeadLine(e.target.value) }}
                 />
               </div>
             </div>
@@ -285,13 +366,13 @@ const Add_Project = () => {
           </div>
 
           <div className="space-x-3 border-b border-t border-[#B1B1B1] py-4">
-            <input type="checkbox" />
+            <input type="checkbox" onChange={(e) => setSendEmail(e.target.checked)} />
             <span className="font-medium">Send project created email</span>
           </div>
 
           <div className="flex justify-end gap-5 pb-10">
             <button onClick={handleCloseForm} className="bg-white text-[#511992] border border-[#511992] h-10 w-20 rounded-md">Cancel</button>
-            <button className="bg-[#511992] text-white h-10 w-20 rounded-md">Save</button>
+            <button className="bg-[#511992] text-white h-10 w-20 rounded-md" onClick={projectSubmit}>Save</button>
           </div>
         </div>
       </TabPanel>

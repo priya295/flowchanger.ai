@@ -62,7 +62,7 @@ const Clients = () => {
 
     //Toggle swich off on btn
 
-    const [clientData, setClientData] = useState(null);
+    const [clientData, setClientData] = useState([]);
 
     const fetchDetail = async () => {
         const result = await fetch(baseUrl + "client");
