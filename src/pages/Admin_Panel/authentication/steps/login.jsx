@@ -14,7 +14,8 @@ import { useGlobalContext } from '../../../../Context/GlobalContext';
 const LoginPage = () => {
   const { loginWithRedirect} = useAuth0();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const {isAuthenticated , setIsAuthenticated} = useAuthContext()
+  const {isAuthenticated , setIsAuthenticated} = useAuthContext();
+  const [isLoading , setIsLoading] = useState(false);
   const {openToast} = useGlobalContext();
   const navigate = useNavigate();
 
@@ -28,6 +29,7 @@ const LoginPage = () => {
   }
   const handleLoggedIn = async (loginInfo) => {
     console.log(loginInfo);
+    setIsLoading(true);
     try {
       const response = await fetch("https://fc-prod-test.onrender.com/api/admin/login", {
         method: "POST",
@@ -42,18 +44,21 @@ const LoginPage = () => {
         openToast('You have successfully logged in', "success");
           console.log("You have logged in");
            Cookies.set('flowChangerAuthToken',token)
+           setIsLoading(false);
           return true;
         }
      else{
           console.log("there is no token");
         openToast(result.message || 'Login failed', "error");
         console.log("can't logged in")
+        setIsLoading(false);
         return false;
         }
       
     } catch (error) {
       console.error("Login error:", error);
       openToast('An error occurred. Please try again.', "error");
+      setIsLoading(false);
       return false;
     }
   };
@@ -112,7 +117,8 @@ const LoginPage = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-purple-600 text-white py-4 px-4 hover:bg-purple-500 transition duration-300 rounded-full"
+              disabled={isLoading}
+              className={`w-full ${isLoading?"bg-purple-400": "bg-purple-600"} text-white py-4 px-4 hover:bg-purple-500 transition duration-300 rounded-full`}
             >
               Log in
             </button>
