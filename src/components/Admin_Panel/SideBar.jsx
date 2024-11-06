@@ -76,7 +76,7 @@ const SideBar = ({ toggleSideBar }) => {
             </button>
 
           </Link>
-
+{/* 
           <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen ? 'max-h-screen' : 'max-h-0'
               }`}
@@ -91,7 +91,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -264,7 +264,7 @@ const SideBar = ({ toggleSideBar }) => {
 
           </Link>
 
-          <div
+          {/* <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen6 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
@@ -278,7 +278,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -294,7 +294,7 @@ const SideBar = ({ toggleSideBar }) => {
 
           </Link>
 
-          <div
+          {/* <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen7 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
@@ -308,7 +308,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -324,7 +324,7 @@ const SideBar = ({ toggleSideBar }) => {
 
           </div>
 
-          <div
+          {/* <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen8 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
@@ -338,7 +338,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -353,7 +353,7 @@ const SideBar = ({ toggleSideBar }) => {
             </button>
 
           </Link>
-
+{/* 
           <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen8 ? 'max-h-screen' : 'max-h-0'
               }`}
@@ -368,7 +368,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
       </ul>
