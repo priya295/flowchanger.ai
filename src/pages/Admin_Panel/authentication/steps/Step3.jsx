@@ -30,7 +30,7 @@ const Step3 = () => {
   const submitOtp = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/"+"admin/verify-otp", {
+      const response = await fetch(baseUrl+"admin/verify-otp", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,6 @@ const Step3 = () => {
         openToast('OTP verified successfully!',"success");
         nextStep(); 
        setSearchParams({step:4,email:email})
-        sessionStorage.clear();
       } else {
         const result = await response.json();
         openToast(result.message || 'OTP verification failed.',"error");

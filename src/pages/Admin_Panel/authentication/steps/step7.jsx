@@ -1,16 +1,18 @@
 
-import React, {  useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../../../Context/AuthContext';
 import ImageUploading from 'react-images-uploading';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
+import { useGlobalContext } from '../../../../Context/GlobalContext';
 
 const Step7 = () => {
+  const { baseUrl } = useGlobalContext();
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');
   const navigate = useNavigate();
-  const { extraInfo, updateExtraInfo ,setIsAuthenticated} = useAuthContext();
+  const { extraInfo, updateExtraInfo, setIsAuthenticated } = useAuthContext();
   const [companyLogo, setCompanyLogo] = useState(null);
 
   useEffect(() => {
@@ -19,9 +21,9 @@ const Step7 = () => {
     }
   }, [email]);
 
-  
+
   const handleExtraInfo = () => {
-    updateAdmin(); 
+    updateAdmin();
   };
 
   // Post request function
@@ -33,7 +35,7 @@ const Step7 = () => {
       infoData.append(key, extraInfo[key]);
     }
     try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/update", {
+      const response = await fetch(baseUrl + "admin/update", {
         method: "PUT",
         body: infoData
       });
@@ -41,7 +43,7 @@ const Step7 = () => {
         const result = await response.json();
         const { token } = result;
         if (token) {
-          Cookies.set('flowChangerToken', token);
+          Cookies.set('flowChangerAuthToken', token);
           console.log('Token stored in cookies:', token);
           setIsAuthenticated(true);
         }
@@ -78,7 +80,7 @@ const Step7 = () => {
 
         <div className="bg-white rounded-lg p-8 border border-gray-300 shadow-2xl">
           <div className="flex flex-col justify-center items-center gap-y-0">
-            <h2 className="text-3xl font-medium mb-3 text-center mt-5">Upload your profile picture</h2>
+            <h2 className="text-3xl font-medium mb-3 text-center mt-5">Upload Your Company Logo</h2>
           </div>
 
           <div className="flex items-center justify-center">

@@ -18,7 +18,7 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 import PeopleIcon from '@mui/icons-material/People';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 
-const StaffMenu = () => {
+const   StaffMenu = () => {
   const {staffTab,setStaffTab} = useGlobalContext()
   return (
     <div className="staff-menu ">
