@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const StaffTab = () => {
-  const { baseUrl,setSelectedStaff } = useGlobalContext();
+  const { baseUrl, setSelectedStaff } = useGlobalContext();
 
   const [toggleDrop, setToggleDrop] = useState(false);
 
@@ -14,15 +14,14 @@ const StaffTab = () => {
   }
 
   const [staffDetail, setStaffDetail] = useState();
-
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
-    console.log(baseUrl)
     console.log("reuslt---", result)
     if (result.status == 200) {
       const res = await result.json();
+      console.log(res);
       setStaffDetail(res)
-      console.log("---",res.name)
+      // console.log("---",res.name)
     }
     else {
       alert("An Error Occured")
@@ -30,7 +29,7 @@ const StaffTab = () => {
 
   }
 
-  
+
 
   useEffect(() => {
     fetchRoles()
@@ -89,65 +88,60 @@ const StaffTab = () => {
 
 
       <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
-      <div className='   '>
-        <table className='table-section '>
-          <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
-            <th>#</th>
-            <th>Name</th>
-            <th>Job Title</th>
-            <th>Employee Id</th>
-            <th>Employee Type</th>
-            <th>Date of Joining</th>
-            <th>Date of Birth</th>
-            <th>Mobile Number</th>
-            <th>Personal Email ID</th>
-            <th>Marital Status</th>
-            <th>Gender</th>
-            <th>Current Address</th>
-            <th>Aadhaar</th>
-            <th>Pan</th>
-            <th>Guardian Name</th>
-            <th>Emergency Contact Name</th>
+        <div className='   '>
+          <table className='table-section '>
+            <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
+              <th>#</th>
+              <th>Name</th>
+              <th>Job Title</th>
+              <th>Employee Id</th>
+              <th>Employee Type</th>
+              <th>Date of Joining</th>
+              <th>Date of Birth</th>
+              <th>Mobile Number</th>
+              <th>Personal Email ID</th>
+              <th>Marital Status</th>
+              <th>Gender</th>
+              <th>Current Address</th>
+              <th>Aadhaar</th>
+              <th>Pan</th>
+              <th>Guardian Name</th>
+              <th>Emergency Contact Name</th>
 
 
-          </thead>
-          <tbody >
-            {
-              staffDetail?.map((staff, index) => {
-                return <tr key={index} onClick={()=>{setSelectedStaff(staff)}} className='border'>
-                  <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                  <td>
-                    <Link to={`/personal-detail/${staff.id}`} className='text-[#8A25B0] font-medium'>{staff.name}</Link>
-                  </td>
-                  <td>{staff.staffDetails.job_title ? staff.staffDetails.job_title : "N/A"}</td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td>{staff.staffDetails.date_of_joining ? new Date( staff.date_of_joining).toLocaleDateString() :"N/A"}</td>
-                  <td>{staff.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() :"N/A"}</td>
-                  <td>{staff.mobile}</td>
-                  <td>{staff.staffDetails.official_email}</td>
-                  <td>N/A</td>
-                  <td>{staff.staffDetails.gender ? staff.staffDetails.gender :"N/A"}</td>
-                  <td>{staff.staffDetails.current_address ? staff.staffDetails.current_address :"N/A"}</td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td>N/A</td>
-                  <td>{staff.staffDetails.emergency_contact_name ? staff.staffDetails.emergency_contact_name : "N/A"}</td>
-                  
-                  
+            </thead>
+            <tbody >
+              {
+                staffDetail?.map((staff, index) => {
+                  return <tr key={index} onClick={() => { setSelectedStaff(staff) }} className='border'>
+                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                    <td>
+                      <Link to={`/personal-detail/${staff.id}`} className='text-[#8A25B0] font-medium'>{staff.name}</Link>
+                    </td>
+                    <td>{staff.staffDetails.job_title ? staff.staffDetails.job_title : "N/A"}</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>{staff.staffDetails.date_of_joining ? new Date(staff.date_of_joining).toLocaleDateString() : "N/A"}</td>
+                    <td>{staff.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() : "N/A"}</td>
+                    <td>{staff.mobile}</td>
+                    <td>{staff.staffDetails.official_email}</td>
+                    <td>N/A</td>
+                    <td>{staff.staffDetails.gender ? staff.staffDetails.gender : "N/A"}</td>
+                    <td>{staff.staffDetails.current_address ? staff.staffDetails.current_address : "N/A"}</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>{staff.staffDetails.emergency_contact_name ? staff.staffDetails.emergency_contact_name : "N/A"}</td>
+                  </tr>
+
+                })
+              }
 
 
-                  
-                </tr>
-                
-              })
-            }
 
-            
-
-          </tbody>
-        </table>
-      </div>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

@@ -10,7 +10,7 @@ const Step2 = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const email = searchParams.get('email');
 
-  const { openToast } = useGlobalContext();
+  const { openToast , baseUrl} = useGlobalContext();
   const { nextStep, adminInfo, updateAdminInfo } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Step2 = () => {
 
   // Set form values from adminInfo when the component mounts
   useEffect(() => {
-    if (adminInfo.first_name || adminInfo.last_name || adminInfo.mobile || adminInfo.password) {
+    if (adminInfo) {
       setValue('first_name', adminInfo.first_name);
       setValue('last_name', adminInfo.last_name);
       setValue('mobile', adminInfo.mobile);
@@ -28,7 +28,7 @@ const Step2 = () => {
 
   const handleInfoSubmission = async (updatedAdminInfo) => {
     try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/admin", {
+      const response = await fetch(baseUrl+"admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

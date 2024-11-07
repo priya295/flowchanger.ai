@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -8,11 +8,13 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
-
+import { useGlobalContext } from "../../../Context/GlobalContext";
+ 
 
 
 const TaskPriority = () => {
     const [openIndex, setOpenIndex] = useState(null);
+    const {baseUrl}=useGlobalContext();
 
     // Function to handle accordion toggling
     const handleToggle = (index) => {
@@ -87,6 +89,36 @@ const TaskPriority = () => {
         setIsOpen6(false);
     }
 
+    const[priorityName,setPriorityName]=useState();
+    async function submitPriority(){
+        const result= await fetch(baseUrl+"task/priority",{
+            method:"POST",
+            headers:{
+                "Content-type":"application/json"
+            },
+            body:JSON.stringify({taskPriorityName:priorityName})
+        })
+        if(result.status==201){
+            alert("Added Task Priority Successfully")
+        }
+        else{
+            alert("An Error Occured")
+        }
+    }
+
+
+    const [priorityHeading,setPriorityHeading]=useState([]);
+    async function fetchPriority (){
+        const result= await fetch(baseUrl+"task/priority");
+        const res= await result.json()
+        console.log(res)
+        setPriorityHeading(res.data)
+    }
+
+    useEffect(()=>{
+        fetchPriority();
+    },[])
+
     return (
         <div className=" w-full  ">
 
@@ -119,35 +151,10 @@ const TaskPriority = () => {
                                         <div className="p-4">
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Priority Name</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='text' onChange={(e)=>setPriorityName(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
-                                            <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Priority  Color</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-
-                                            </div>
-                                            <div className='w-[100%] xl:[48%] mb-[10px] '>
-                                                <label className='text-[14px]'>*Priority Order</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-
-                                            </div>
-                                            <div className="mb-[10px] flex items-center gap-[6px]">
-                                                <input type="checkbox" />
-                                                <p>Default Filter</p>
-                                            </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[26px]'>
-                                                <label className='text-[14px]'>is hidden for</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
-                                            </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[20px]'>
-                                                <label className='text-[14px]'>Can be changed to</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
-                                            </div>
+                                           
                                         </div>
 
                                         {/* Modal Footer */}
@@ -159,7 +166,7 @@ const TaskPriority = () => {
                                                 Close
                                             </button>
                                             <button
-                                                onClick={toggleModal}
+                                                onClick={submitPriority}
                                                 className=" second-btn bg-blue-500 text-white rounded-md"
                                             >
                                                 Save Changes
@@ -228,13 +235,9 @@ const TaskPriority = () => {
                             className="set-shadow  cursor-pointer"
                         >
                             <tr>
-                                <th className="p-3 text-left">ID</th>
-                                <th className="p-3 text-left">Status Name</th>
-                                <th className="p-3 text-left">Status Color</th>
-                                <th className="p-3 text-left">Status Order</th>
-                                <th className="p-3 text-left">Status Defaulter Filter</th>
-                                <th className="p-3 text-left">Status can be changed to</th>
-                                <th className="p-3 text-left">Status in hidder for</th>
+                                <th className="p-3 text-center">ID</th>
+                                <th className="p-3 text-center">Priority Name</th>
+                                <th className="p-3 text-center">Action</th>
                                 
                             </tr>
                         </thead>
@@ -243,38 +246,25 @@ const TaskPriority = () => {
                             className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
                             style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
                         >
-                            <tr className="border">
-                                <td className=" ">1</td>
-                                <td className=" ">Not Started</td>
-                                <td className=" ">#fff</td>
-                                <td className=" ">20</td>
-                                <td className=" ">Yes</td>
-                                <td className=" ">In Progress</td>
-                                <td className=" ">
-                                    <div className="flex gap-2">
-                                        <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
-                                        <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                          
+                        
+                                {
+                                    priorityHeading?.map((priorityName,index)=>{
+                                        return <tr className="border">
+                                        <td className=" ">{index+1}</td>
+                                       <td>{priorityName.taskPriorityName}</td>
+                                        <td className=" ">
+                                            <div className="flex gap-2 justify-center">
+                                                <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
+                                                <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                                                
+                                            </div>
+                                        </td>
                                         
-                                    </div>
-                                </td>
-                                
-                            </tr>
-                            <tr className="border">
-                                <td className=" ">1</td>
-                                <td className=" ">Not Started</td>
-                                <td className=" ">#fff</td>
-                                <td className=" ">20</td>
-                                <td className=" ">Yes</td>
-                                <td className=" ">In Progress</td>
-                                <td className=" ">
-                                    <div className="flex gap-2">
-                                        <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
-                                        <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-                                        
-                                    </div>
-                                </td>
-                                
-                            </tr>
+                                    </tr>
+                                    })
+                                }
+
                             
                         </tbody>
                     </table>

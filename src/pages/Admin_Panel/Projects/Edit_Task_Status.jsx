@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -8,12 +8,119 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { useGlobalContext } from "../../../Context/GlobalContext";
+import Select from 'react-select';
 
 
 const Edit_Task_Status = () => {
     let subtitle;
+    const { baseUrl } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
+    const [allStaff, setAllStaff] = useState();
+    const [allTaskStatus, setAllTaskStatus] = useState([]);
+    const [updateAllTaskStatus, setUpdateAllTaskStatus] = useState(false);
+    const [taskStatus, setTaskStatus] = useState({
+        name: "",
+        color: "#000000",
+        order: "",
+        isHiddenFor: [],
+        canBeChangedTo: [],
+    })
 
+    const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            backgroundColor: '#F4F5F9',
+            borderColor: '#E2E8F0',
+            minHeight: '38px',
+        }),
+        multiValue: (provided) => ({
+            ...provided,
+            backgroundColor: '#E2E8F0',
+        }),
+        multiValueLabel: (provided) => ({
+            ...provided,
+            fontSize: '14px',
+        }),
+        multiValueRemove: (provided) => ({
+            ...provided,
+            color: '#4A5568',
+            ':hover': {
+                backgroundColor: '#CBD5E0',
+                color: '#2D3748',
+            },
+        }),
+    };
+
+
+    const fetchAllStaff = async () => {
+        const response = await fetch(baseUrl + 'staff');
+        const data = await response.json();
+        setAllStaff(data?.map((staff) => {
+            return {
+                id: staff?.id,
+                label: staff?.name
+            }
+        }));
+    }
+    const fetchAllTaskStatus = async () => {
+        const response = await fetch(baseUrl + 'task/status');
+        const data = await response.json();
+        if (response.status==200){
+            setAllTaskStatus(data)
+        }
+        else{
+
+        }
+        // console.log(data)
+    }
+    async function createNewTaskStatus(e) {
+        // e.preventDefault(); // Uncomment this if using in a form submit event
+
+        const data = {
+            taskStatusName: taskStatus.name,
+            statusColor: taskStatus.color,
+            statusOrder: Number(taskStatus.order),
+            isHiddenId: taskStatus.isHiddenFor?.map((staff) => staff?.value),
+            canBeChangedId: taskStatus.canBeChangedTo
+        };
+        console.log(data);
+
+        try {
+            const response = await fetch(baseUrl + "task/status", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data) // Send the formatted data
+            });
+
+            const result = await response.json();
+
+            setUpdateAllTaskStatus(!updateAllTaskStatus)
+            setTaskStatus({
+                name: "",
+                color: "#000000",
+                order: "",
+                isHiddenFor: [],
+                canBeChangedTo: [],
+            })
+            if (response.ok) {
+                console.log("Task created successfully:", result);
+            } else {
+                console.error("Failed to create task:", result);
+                alert("An error occurred during task creation.");
+            }
+        } catch (error) {
+            console.error("Error in fetch request:", error);
+            alert("An unexpected error occurred.");
+        }
+    }
+
+    useEffect(() => {
+        fetchAllStaff();
+        fetchAllTaskStatus();
+    }, [])
     // Function to handle accordion toggling
     const handleToggle = (index) => {
         if (openIndex === index) {
@@ -25,7 +132,7 @@ const Edit_Task_Status = () => {
     //salary dropdown
     const [isOpen1, setIsOpen1] = useState(false);
 
-
+    console.log(allTaskStatus);
 
     const toggleDropdown1 = () => {
         setIsOpen1(!isOpen1);
@@ -103,7 +210,7 @@ const Edit_Task_Status = () => {
 
                             {/* Modal (visible only when isOpen is true) */}
                             {isOpen && (
-                                <div className="fixed inset-0 z-[1] flex items-center justify-center bg-gray-800 bg-opacity-50">
+                                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
                                     <div className="bg-white rounded-lg shadow-lg w-96">
                                         {/* Modal Header */}
                                         <div className="px-4 py-2 border-b">
@@ -114,35 +221,81 @@ const Edit_Task_Status = () => {
                                         <div className="p-4">
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Status Name</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input value={taskStatus?.name} onChange={(e) => {
+                                                    setTaskStatus({ ...taskStatus, name: e.target.value })
+                                                }} type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
-                                            <div className='w-[100%] xl:[48%] mb-[10px] '>
+                                            <div className='w-full mb-[10px] '>
                                                 <label className='text-[14px]'>*Status Color</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='color' value={taskStatus?.color} onChange={(e) => {
+                                                    setTaskStatus({ ...taskStatus, color: e.target.value })
+                                                }} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Status Order</label><br />
-                                                <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input value={taskStatus?.order} onChange={(e) => {
+                                                    setTaskStatus({ ...taskStatus, order: e.target.value })
+                                                }} type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className="mb-[10px] flex items-center gap-[6px]">
                                                 <input type="checkbox" />
                                                 <p>Default Filter</p>
                                             </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[26px]'>
-                                                <label className='text-[14px]'>is hidden for</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
+                                            <div className="w-full  mb-[26px]">
+                                                <label className="text-[14px] block mb-1">Is hidden for</label>
+                                                <Select
+                                                    isMulti
+                                                    name="isHiddenFor"
+                                                    options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+                                                    className="basic-multi-select"
+                                                    classNamePrefix="select"
+                                                    value={taskStatus.isHiddenFor || []}
+                                                    onChange={(selectedOptions) => 
+                                                        setTaskStatus((prev) => ({
+                                                            ...prev,
+                                                            isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
+                                                        }))
+                                                    }
+                                                    styles={customStyles}
+                                                />
                                             </div>
-                                            <div className='w-[100%]  xl:[48%] mb-[20px]'>
+
+                                            <div className='w-[100%]  mb-[20px]'>
                                                 <label className='text-[14px]'>Can be changed to</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
+                                                <Select
+                                                    isMulti
+                                                    name="canBeChangedTo"
+                                                    options={allTaskStatus?.map(({ id, taskStatusName }) => ({ label: taskStatusName, value: id }))}
+                                                    className="basic-multi-select"
+                                                    classNamePrefix="select"
+                                                    value={
+                                                        taskStatus.canBeChangedTo?.map(value => {
+                                                            const status = allTaskStatus?.find(option => option?.id === value);
+                                                            return status ? { value: status?.id, label: status?.taskStatusName } : null;
+                                                        }).filter(Boolean) // Filter out any null values in case no match is found
+                                                    }
+                                                    onChange={(selectedOptions) => {
+                                                        setTaskStatus((prev) => ({
+                                                            ...prev,
+                                                            canBeChangedTo: selectedOptions?.map(option => option?.value), // Update state with selected values
+                                                        }));
+                                                    }}
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            border: '1px solid #ccc',
+                                                            borderRadius: '4px',
+                                                            padding: '5px',
+                                                            backgroundColor: '#F4F5F9',
+                                                        }),
+                                                    }}
+                                                />
                                             </div>
+
+
                                         </div>
 
                                         {/* Modal Footer */}
@@ -154,7 +307,10 @@ const Edit_Task_Status = () => {
                                                 Close
                                             </button>
                                             <button
-                                                onClick={toggleModal}
+                                                onClick={(e) => {
+                                                    createNewTaskStatus(e);
+                                                    toggleModal();
+                                                }}
                                                 className=" second-btn bg-blue-500 text-white rounded-md"
                                             >
                                                 Save Changes
@@ -223,41 +379,39 @@ const Edit_Task_Status = () => {
                         <table className="table-auto w-full border border-gray-300 rounded-md table-status">
                             <thead
                                 onClick={toggleTable}
-                                className="set-shadow  cursor-pointer"
+                                className="set-shadow cursor-pointer"
                             >
                                 <tr>
-                                    <th className="p-3 text-left">ID</th>
-                                    <th className="p-3 text-left">Status Name</th>
-                                    <th className="p-3 text-left">Status Color</th>
-                                    <th className="p-3 text-left">Status Order</th>
-                                    <th className="p-3 text-left">Status Defaulter Filter</th>
-                                    <th className="p-3 text-left">Status can be changed to</th>
-                                    <th className="p-3 text-left">Status in hidder for</th>
-
+                                    <th className="p-3 text-center">ID</th>
+                                    <th className="p-3 text-center">Status Name</th>
+                                    <th className="p-3 text-center">Status Color</th>
+                                    <th className="p-3 text-center">Status Order</th>
+                                    <th className="p-3 text-center">Status Defaulter Filter</th>
+                                    <th className="p-3 text-center">Status can be changed to</th>
+                                    <th className="p-3 text-center">Status in hidden for</th>
                                 </tr>
                             </thead>
-                            {/* Add transition for tbody */}
                             <tbody
                                 className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
-                                style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
                             >
-                                <tr className="border">
-                                    <td className=" ">1</td>
-                                    <td className=" ">Not Started</td>
-                                    <td className=" ">#fff</td>
-                                    <td className=" ">20</td>
-                                    <td className=" ">Yes</td>
-                                    <td className=" ">In Progress</td>
-                                    <td className=" ">
-                                        <div className="flex gap-2">
-                                            <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
-                                            <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-
-                                        </div>
-                                    </td>
-
-                                </tr>
-                            
+                                {
+                                    allTaskStatus?.map((status,index) => (
+                                        <tr className="border">
+                                            <td className="p-3">{status?.id}</td>
+                                            <td className="p-3">{status?.taskStatusName}</td>
+                                            <td className="p-3">{status?.statusColor}</td>
+                                            <td className="p-3">{status?.statusOrder}</td>
+                                            <td className="p-3">Yes</td>
+                                            <td className="p-3">In Progress</td>
+                                            <td className="p-3">
+                                                <div className="flex gap-2">
+                                                    <button className="bg-[#27004a] p-3 rounded-md text-white" onClick={openModal6}>Edit</button>
+                                                    <button className="bg-red-600 p-3 rounded-md text-white">Delete</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -277,7 +431,7 @@ const Edit_Task_Status = () => {
                 onRequestClose={closeModal6}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Edit New Task</h2>
                 <button onClick={closeModal6} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>

@@ -1,4 +1,12 @@
+import { useAuthContext } from "../../Context/AuthContext";
+import { useEffect } from "react";
+
 const DashBoard = () =>{
+
+    const {isAuthenticated , setIsAuthenticated} = useAuthContext();
+    useEffect(()=>{
+      setIsAuthenticated(true);
+    },[]); 
 
     return (
         <>

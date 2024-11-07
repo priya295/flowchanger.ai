@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -8,12 +8,30 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { useGlobalContext } from "../../../Context/GlobalContext";
 
 
 const Edit_Task_Status = () => {
     let subtitle;
+    const { baseURL } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
+    const [allStaff, setAllStaff] = useState();
 
+    const fetchAllStaff = async () => {
+        try {
+            const response = await fetch(baseURL + 'staff');
+            const data = await response.json();
+            setAllStaff(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        fetchAllStaff();
+    }, [allStaff])
+
+    console.log(allStaff);
     // Function to handle accordion toggling
     const handleToggle = (index) => {
         if (openIndex === index) {
@@ -257,7 +275,7 @@ const Edit_Task_Status = () => {
                                     </td>
 
                                 </tr>
-                            
+
                             </tbody>
                         </table>
                     </div>

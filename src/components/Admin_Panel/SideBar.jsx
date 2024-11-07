@@ -60,7 +60,7 @@ const SideBar = ({ toggleSideBar }) => {
           {/* <img src={home} /> */}
             <HomeIcon/>
 
-          <Link to="#" className="">Dashboard</Link>
+          <Link to="/" className="">Dashboard</Link>
         </li>
 
 
@@ -76,7 +76,7 @@ const SideBar = ({ toggleSideBar }) => {
             </button>
 
           </Link>
-
+{/* 
           <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen ? 'max-h-screen' : 'max-h-0'
               }`}
@@ -91,7 +91,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -142,12 +142,12 @@ const SideBar = ({ toggleSideBar }) => {
               }`}
           >
 
-            <Link to="#"
+            {/* <Link to="#"
               className="w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap  text-white   transition-all	rounded-md"
             >
               <ArrowForwardIosIcon className="arrow-icon-sidebar"/>
               Sub Menu
-            </Link>
+            </Link> */}
 
 
 
@@ -172,12 +172,12 @@ const SideBar = ({ toggleSideBar }) => {
               }`}
           >
 
-            <Link to="#"
+            {/* <Link to="#"
               className="w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap  text-white   transition-all	rounded-md"
             >
               <ArrowForwardIosIcon className="arrow-icon-sidebar"/>
               Sub Menu
-            </Link>
+            </Link> */}
 
 
 
@@ -185,7 +185,7 @@ const SideBar = ({ toggleSideBar }) => {
         </div>
 
         <div className="">
-          <Link to="/" className="flex items-center gap-[10px] text-white p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all	">
+          <Link to="/staff-menu" className="flex items-center gap-[10px] text-white p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all	">
             {/* <img src={staff} alt="" /> */}
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             <button
@@ -238,13 +238,13 @@ const SideBar = ({ toggleSideBar }) => {
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen5 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
-
+{/* 
             <Link to="#"
               className="w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap  text-white   transition-all	rounded-md"
             >
               <ArrowForwardIosIcon className="arrow-icon-sidebar"/>
               Sub Menu
-            </Link>
+            </Link> */}
 
 
 
@@ -264,7 +264,7 @@ const SideBar = ({ toggleSideBar }) => {
 
           </Link>
 
-          <div
+          {/* <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen6 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
@@ -278,7 +278,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -294,7 +294,7 @@ const SideBar = ({ toggleSideBar }) => {
 
           </Link>
 
-          <div
+          {/* <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen7 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
@@ -308,7 +308,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -324,7 +324,7 @@ const SideBar = ({ toggleSideBar }) => {
 
           </div>
 
-          <div
+          {/* <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen8 ? 'max-h-screen' : 'max-h-0'
               }`}
           >
@@ -338,7 +338,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
         <div className="">
@@ -353,7 +353,7 @@ const SideBar = ({ toggleSideBar }) => {
             </button>
 
           </Link>
-
+{/* 
           <div
             className={`overflow-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${isMenuOpen8 ? 'max-h-screen' : 'max-h-0'
               }`}
@@ -368,7 +368,7 @@ const SideBar = ({ toggleSideBar }) => {
 
 
 
-          </div>
+          </div> */}
         </div>
 
       </ul>

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const Projects = () => {
     const [openIndex, setOpenIndex] = useState(null);
-
+    const{baseUrl}=useGlobalContext();
     // Function to handle accordion toggling
     const handleToggle = (index) => {
         if (openIndex === index) {
@@ -27,9 +28,24 @@ const Projects = () => {
     };
 
     //salary dropdown
+    const[projectDetails,setProjectDetails]=useState([]);
+    async function fetchProjectDetails(){
+        const result=await fetch(baseUrl+"project");
+        console.log("---",result)
+        if (result.status == 200) {
+            const res = await result.json();
+            console.log(res)
+            setProjectDetails(res.data)
+          }
+          else {
+            alert("An Error Occured")
+          }
+    }
 
 
-
+    useEffect(()=>{
+        fetchProjectDetails();
+    },[])
     // Array of accordion items
     const accordionItems = [
         {
@@ -38,24 +54,14 @@ const Projects = () => {
                     <table className="w-full">
                         <thead className="tablehead">
                             <tr className="rounded-lg">
-
-                            <th className="text-[12px] font-medium p-[8px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
-
-
-                                <th className="text-[12px] border-r   font-medium p-[10px] ">#</th>
-
-
-                                <th className="text-[12px] w-[250px] p-[12px] border-r font-medium whitespace-nowrap">Project Name</th>
-
-
-                                <th className="text-[12px] font-medium p-[12px]  border-r whitespace-nowrap	">Start Date</th>
-
-
-                                <th className="text-[12px] font-medium p-[12px]  border-r whitespace-nowrap	">Deadline</th>
-
-
-
-                                <th className="text-[12px] font-medium p-[12px] border-r whitespace-nowrap	">Members</th>
+                                <th className="text-[12px] text-center border-r   font-medium p-[10px] ">#</th>
+                                <th className="text-[12px] text-center  p-[12px] border-r font-medium whitespace-nowrap">Project Name</th>
+                                <th className="text-[12px] text-center  p-[12px] border-r font-medium whitespace-nowrap">Customer</th>
+                                <th className="text-[12px] text-center  p-[12px] border-r font-medium whitespace-nowrap">Tags</th>
+                                <th className="text-[12px] text-center font-medium p-[12px]  border-r whitespace-nowrap	">Start Date</th>
+                                <th className="text-[12px] text-center font-medium p-[12px]  border-r whitespace-nowrap	">Deadline</th>
+                                <th className="text-[12px] text-center font-medium p-[12px] border-r whitespace-nowrap	">Members</th>
+                                <th className="text-[12px] text-center font-medium p-[12px] border-r whitespace-nowrap	">Status</th>
                             </tr>
                         </thead>
                     </table>
@@ -63,71 +69,24 @@ const Projects = () => {
             content: (
                 <table className="w-full " >
                     <tbody>
-
-                        <tr className="border-b border text-[#e5e7eb]">
-                            
-
-                                <td className="p-[10px] w-[100px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
-
-                                <td className="text-[12px] w-[80px] font-medium p-[10px] text-[#8a25b0]">43</td>
-
-
-
-                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/project-overview">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
-
-
-
-
-                                <td className="text-[12px] p-[10px] text-[black] w-[173px] whitespace-nowrap	">13-08-2024</td>
-
-                                <td className="text-[12px] p-[10px]  w-[173px] text-[black]   whitespace-nowrap	">13-08-2024</td>
-                                <td className="text-[12px] p-[10px] w-[173px] whitespace-nowrap text-[black]	">19-08-2024</td>
-
-
-
-
-
-
-
-                 
-
-
-                        </tr>
-                        <tr className="border-b border text-[#e5e7eb]">
-                            
-
-                                <td className="p-[10px] w-[100px]"><Link className="text-[10px]  text-[#47cc00] " to="/">Complete</Link></td>
-
-                                <td className="text-[12px] w-[80px] font-medium p-[10px] text-[#8a25b0]">43</td>
-
-
-
-                                <td className="flex flex-col w-[218px] p-[10px] break-words"><Link className="text-[11px] text-[#8a25b0]" to="/project-overview">soul relation intro</Link> <Link className="text-[9px] text-[#000]" to="/">#12 - DIVINE HEALING-AUG-2024 - DIVINE HEALING</Link></td>
-
-
-
-
-                                <td className="text-[12px] p-[10px] text-[black] w-[173px] whitespace-nowrap	">13-08-2024</td>
-
-                                <td className="text-[12px] p-[10px]  w-[173px] text-[black]   whitespace-nowrap	">13-08-2024</td>
-                                <td className="text-[12px] p-[10px] w-[173px] whitespace-nowrap text-[black]	">19-08-2024</td>
-
-
-
-
-
-
-
-                      
-
-
-                        </tr>
+                    {
+                        projectDetails?.map((s,index)=>{
+                           return <tr className="">  
+                            <td className="text-center p-2 text-[12px]">{index+1}</td>
+                            <td className="text-center p-2 text-[12px]">{s.project_name}</td>
+                            <td className="text-center p-2 text-[12px]">Customer</td>
+                            <td className="text-center p-2 text-[12px]">{s.tags.map((s,index)=>{
+                                return <span className="border rounded-md p-2 mr-2">{s}</span>
+                            })}</td>
+                            <td className="text-center p-2 text-[12px]">{s.start_date}</td>
+                            <td className="text-center p-2 text-[12px]">{s.deadline}</td>
+                            <td className="text-center p-2 text-[12px]">Members</td>
+                            <td className="text-center p-2 text-[12px]">{s.status}</td>
+                           </tr>
+                        })
+                    }
+                       
                     </tbody>
-
-
-
-
-
                 </table>
 
             )

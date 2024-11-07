@@ -1,191 +1,49 @@
-import React, { useEffect, useState } from 'react'
-import Modal from 'react-modal';
-import CloseIcon from '@mui/icons-material/Close';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
-import selfie from '../../../Assets/Images/selfie-img.svg'
-import qr from '../../../Assets/Images/qr-code.svg'
-import gps from '../../../Assets/Images/gps.svg'
-import biometric from '../../../Assets/Images/biometric.svg'
-import rightimg from '../../../Assets/Images/right.svg'
+import CloseIcon from '@mui/icons-material/Close';
+import React, { useState } from 'react';
+import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import biometric from '../../../Assets/Images/biometric.svg';
+import gps from '../../../Assets/Images/gps.svg';
+import qr from '../../../Assets/Images/qr-code.svg';
+import rightimg from '../../../Assets/Images/right.svg';
+import selfie from '../../../Assets/Images/selfie-img.svg';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const EditAttendanceDetail = () => {
 
     const { baseUrl, selectedStaff } = useGlobalContext();
-    const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff?.AttendenceMode?.selfie_attendance || false);
-    const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff?.AttendenceMode?.allow_punch_in_for_mobile || false);
-    const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff?.AttendenceMode?.qr_attendance || false);
-    const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff?.AttendenceMode?.gps_attendance || false);
-    const [markLocation, setMarkLocation] = useState(selectedStaff?.AttendenceMode?.mark_attendance || "Office");
-    const [weekOff, setWeekOff] = useState(false)
-    const [shiftName, setShiftName] = useState("");
-    const [shiftStartTime, setShiftStartTime] = useState("");
-    const [shiftEndTime, setShiftEndTime] = useState("");
-    const [punchInType, setPunchInType] = useState("");
-    const [punchOutType, setPunchOutType] = useState("");
-    const [allowPunchInHours, setAllowPunchInHours] = useState("");
-    const [allowPunchInMinutes, setAllowPunchInMinutes] = useState("");
-    const [allowPunchOutHours, setAllowPunchOutHours] = useState("");
-    const [allowPunchOutMinutes, setAllowPunchOutMinutes] = useState("");
-    const [shifts, setShifts] = useState([]);
-    const [daysChecked, setDaysChecked] = useState({
-        Mon: false,
-        Tue: false,
-        Wed: false,
-        Thu: false,
-        Fri: false,
-        Sat: false,
-        Sun: false,
-    });
-    // State to track selected shifts for each day
-    const [selectedShifts, setSelectedShifts] = useState({
-        Mon: '',
-        Tue: '',
-        Wed: '',
-        Thu: '',
-        Fri: '',
-        Sat: '',
-        Sun: '',
-    });
-
-    // Fetch available shifts from backend and store them in `shifts`
-    useEffect(() => {
-        fetchShifts();
-    }, []);
-
-    // Fetch available shifts from backend
-    async function fetchShifts() {
-        try {
-            const response = await fetch(baseUrl + "shift/");
-            const data = await response.json();
-            if (data && data.shifts) {
-                setShifts(data.shifts); // Ensure data is in the expected format
-            } else {
-                console.error("No shifts found in response", data);
-                setShifts([]); // Handle case where no shifts are returned
-            }
-        } catch (error) {
-            console.error("Error fetching shifts", error);
-            setShifts([]); // In case of an error, set an empty array to avoid undefined issues
-        } // Assuming data contains a `shifts` array with `id` and `name`
-    }
-
-    // Handle checkbox changes for week off selection
-    const handleCheckboxChange = (day) => {
-        setDaysChecked((prev) => ({
-            ...prev,
-            [day]: !prev[day],
-        }));
-    };
-
-
-    // Handle shift select changes
-    const handleShiftChange = (day, shiftId) => {
-        setSelectedShifts((prev) => ({
-            ...prev,
-            [day]: shiftId, // Save the selected shiftId for the day
-        }));
-    };
-
-    async function createNewShift() {
-        const response = await fetch(baseUrl + "shift/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: Number(allowPunchInHours), allowPunchInMinutes: Number(allowPunchInMinutes), allowPunchOutHours: Number(allowPunchOutHours), allowPunchOutMinutes: Number(allowPunchOutMinutes) })
-        });
-
-        console.log(response);
-
-        if (response.status === 201) {
-            const newShift = await response.json()
-            console.log(newShift);
-
-            // After creating the shift, fetch shifts again to update the dropdown
-            fetchShifts();
-
-            // Optionally, directly set the new shift in the corresponding `selectedShifts` state
-            setSelectedShifts((prev) => ({
-                ...prev,
-                [newShift.day]: newShift.id, // Set the newly created shift ID for the selected day
-            }));
-
-            closeModal();
-            alert("Shift successfully created");
-        } else {
-            alert("An error occurred");
-        }
-    }
-
-    // Submit the fixed shifts
-    async function submitFixedShift() {
-        // Filter out the days where weekOff is checked
-        const weekOffDays = Object.keys(daysChecked).filter((day) => daysChecked[day]);
-
-        // Loop through the selected weekOff days
-        for (const day of weekOffDays) {
-            const shiftId = selectedShifts[day]; // Get the selected shift ID for the current day
-
-            const response = await fetch(baseUrl + "shift/createFixedShift", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    day, // The current day (e.g., 'Mon', 'Tue')
-                    weekOff: daysChecked[day], // Whether it's marked as a week off
-                    staffId: selectedStaff.id, // Selected staff member's ID
-                    shiftId: shiftId || null, // Pass the correct shift ID or null if no shift is selected
-                }),
-            });
-
-            // Handle the response for each day
-            if (response.status === 201) {
-                const result = await response.json();
-                console.log(`${day} shift created successfully:`, result);
-            } else {
-                console.error(`An error occurred while saving the shift for ${day}`);
-                alert(`An error occurred while saving the shift for ${day}`);
-            }
-        }
-
-        // Close the modal after all requests are completed
-        closeModal();
-        alert("Fixed Shift successfully created for the selected days.");
-    }
-
-    async function submitFlexibleShift() {
-        const response = await fetch(baseUrl + "shift/createFlexibleShift", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ weekOff: weekOff, staffId: selectedStaff.id })
-        });
-
-        console.log(response);
-
-        if (response.status === 201) {
-            const result = await response.json()
-            console.log(result);
-            closeModal();
-            alert("Flexible Shift successfully created");
-        } else {
-            alert("An error occurred");
-        }
-    }
-
+    const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.selfie_attendance || false);
+    const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff?.staffDetails?.AttendenceMode?.allow_punch_in_for_mobile || false);
+    const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.qr_attendance || false);
+    const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.gps_attendance || false);
+    const [markLocation, setMarkLocation] = useState(selectedStaff?.staffDetails?.AttendenceMode?.mark_attendance || "Office");
     // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
-    // console.log(selectedStaff.AttendenceMode);
+
+    const parseTimeString = (timeString) => {
+        // Check if the timeString is valid and formatted correctly
+        if (!timeString || !timeString.includes(" hr : ")) {
+            return { hr: "", min: "" };
+        }
+        const [hr, min] = timeString.split(" hr : ").map((val) => val.trim());
+        return { hr, min: min.split(" ")[0] };
+    };
+
+
+    const [toggleAutoPresent, setToggleAutoPresent] = useState(selectedStaff?.staffDetails?.attendanceAutomationRule?.auto_absent || false);
+    const [togglePresentOnPunch, setTogglePresentOnPunch] = useState(selectedStaff?.staffDetails?.attendanceAutomationRule?.present_on_punch || false);
+
+    const [autoHalfDay, setAutoHalfDay] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.auto_half_day));
+    const [mandatoryFullDayHour, setMandatoryFullDayHour] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.manadatory_full_day));
+    const [mandatoryHalfDayHour, setMandatoryHalfDayHour] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.manadatory_half_day));
+    console.log(selectedStaff?.staffDetails);
     async function updateAttendanceMode(e) {
         e.preventDefault();
         const data = {
             staff_ids: [
-                selectedStaff.id
+                selectedStaff?.staffDetails.id
             ],
             attendence_mode: {
                 "selfie_attendance": toggleSelfieAttendance,
@@ -211,6 +69,36 @@ const EditAttendanceDetail = () => {
         } else {
             console.log(result);
             alert("An error occurred during update attendance mode staff");
+        }
+    }
+    async function updateAttendanceAutomationRules(e) {
+        e.preventDefault();
+        const data = {
+            staff_ids: [selectedStaff?.staffDetails?.id], // Ensure staff id is present
+            automation_rules: {
+                auto_absent: toggleAutoPresent,  // Ensure boolean
+                present_on_punch: togglePresentOnPunch, // Ensure boolean
+                auto_half_day: autoHalfDay.hr && autoHalfDay.min ? `${autoHalfDay.hr} hr : ${autoHalfDay.min} min` : " Not Set",
+                mandatory_half_day: `${mandatoryHalfDayHour.hr} hr : ${mandatoryHalfDayHour.min} min`,
+                mandatory_full_day: `${mandatoryFullDayHour.hr} hr : ${mandatoryFullDayHour.min} min`,
+            }
+        };
+
+
+        const response = await fetch(baseUrl + "attendance/automation/", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data) // send the formatted data
+        });
+        const result = await response.json();
+        if (response.status === 200) {
+            console.log(result);
+            openModal8();
+        } else {
+            console.log(result);
+            alert("An error occurred during update attendance automation rule staff");
         }
     }
     let subtitle;
@@ -412,6 +300,7 @@ const EditAttendanceDetail = () => {
     }
     // onclick mandatory half day button
 
+
     return (
         <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '>
             <h2 className='bg-[#f6f9fa] pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow'>Attendance Details</h2>
@@ -461,7 +350,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Work Timings for All Staff</h2>
                 <button onClick={closeModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
@@ -469,7 +358,7 @@ const EditAttendanceDetail = () => {
                     <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
                         <label className='text-[14px]'>Select Type</label>
                         <Tab className="cursor-pointer flex items-center gap-[10px]">
-                            <input type="radio" id="fixed" name='fixed' className='rounded-full ' checked />
+                            <input type="radio" id="fixed" name='fixed' className='rounded-full ' />
                             <label for="fixed" className='text-[14px]'> Fixed</label><br />
                         </Tab>
                         <Tab className="cursor-pointer flex items-center gap-[10px]">
@@ -487,101 +376,94 @@ const EditAttendanceDetail = () => {
 
                                 </thead>
                                 <tbody>
-                                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-                                        <tr className='' key={day}>
-                                            <td className='text-center text-[12px] font-normal'>{day}</td>
-                                            <td className='p-3 text-center'>
-                                                <input type="checkbox" checked={daysChecked[day]} onChange={() => handleCheckboxChange(day)} />
-                                            </td>
-                                            <td className='pr-5'>
-                                                <select onClick={openModal1} value={selectedShifts[day]} onChange={(e) => handleShiftChange(day, e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                    <option value="">Select Shift</option>
-                                                    {shifts && shifts.length > 0 ? (
-                                                    shifts.map((shift) => (
-                                                        <option key={shift.id} value={shift.id}>
-                                                            {shift.name} {/* Show shift name in the dropdown */}
-                                                        </option>
-                                                    )) ):<option disabled>No shifts available</option> }
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        // <tr className=''>
-                                        //     <td className='text-center text-[12px] font-normal'>Tue</td>
-                                        //     <td className='p-3 text-center'>
-                                        //         <input type="checkbox" value="Tue" />
-                                        //     </td>
-                                        //     <td className='pr-5'>
-                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        //             <option>Select Shift</option>
-                                        //         </select>
-                                        //     </td>
-                                        // </tr>
-                                        // <tr className=''>
-                                        //     <td className='text-center text-[12px] font-normal'>Wed</td>
-                                        //     <td className='p-3 text-center'>
-                                        //         <input type="checkbox" value="Wed" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        //     </td>
-                                        //     <td className='pr-5'>
-                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        //             <option>Select Shift</option>
-                                        //         </select>
-                                        //     </td>
-                                        // </tr>
-                                        // <tr className=''>
-                                        //     <td className='text-center text-[12px] font-normal'>Thu</td>
-                                        //     <td className='p-3 text-center'>
-                                        //         <input type="checkbox" value="Thu" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        //     </td>
-                                        //     <td className='pr-5'>
-                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        //             <option>Select Shift</option>
-                                        //         </select>
-                                        //     </td>
-                                        // </tr>
-                                        // <tr className=''>
-                                        //     <td className='text-center text-[12px] font-normal'>Fri</td>
-                                        //     <td className='p-3 text-center'>
-                                        //         <input type="checkbox" value="Fri" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        //     </td>
-                                        //     <td className='pr-5'>
-                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        //             <option>Select Shift</option>
-                                        //         </select>
-                                        //     </td>
-                                        // </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Mon</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className='pr-5'>
+                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option>Select Shift</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Tue</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className='pr-5'>
+                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option>Select Shift</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Wed</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className='pr-5'>
+                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option>Select Shift</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Thu</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className='pr-5'>
+                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option>Select Shift</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Fri</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className='pr-5'>
+                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option>Select Shift</option>
+                                            </select>
+                                        </td>
+                                    </tr>
 
-                                        // <tr className=''>
-                                        //     <td className='text-center text-[12px] font-normal'>Sat</td>
-                                        //     <td className='p-3 text-center'>
-                                        //         <input type="checkbox" value="Sat" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        //     </td>
-                                        //     <td className='pr-5'>
-                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        //             <option>Select Shift</option>
-                                        //         </select>
-                                        //     </td>
-                                        // </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Sat</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className='pr-5'>
+                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option>Select Shift</option>
+                                            </select>
+                                        </td>
+                                    </tr>
 
-                                        // <tr className=''>
-                                        //     <td className='text-center text-[12px] font-normal'>Sun</td>
-                                        //     <td className='p-3 text-center'>
-                                        //         <input type="checkbox" value="Sun" onChange={(e) => setWeekOff(e.target.checked ? e.target.value : null)} />
-                                        //     </td>
-                                        //     <td className='pr-5'>
-                                        //         <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        //             <option>Select Shift</option>
-                                        //         </select>
-                                        //     </td>
-                                        // </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Sun</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" />
+                                        </td>
+                                        <td className='pr-5'>
+                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option>Select Shift</option>
+                                            </select>
+                                        </td>
+                                    </tr>
 
 
 
-                                    ))}
+
                                 </tbody>
                             </table>
 
                             <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
-                                <button className="first-btn" onClick={closeModal}>Cancel</button><button onClick={submitFixedShift} className="second-btn">Confirm</button>
+                                <button className="first-btn" onClick={closeModal}>Cancel</button><button className="second-btn">Confirm</button>
                             </div>
                         </div>
                     </TabPanel>
@@ -672,7 +554,7 @@ const EditAttendanceDetail = () => {
                             </table>
                             <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button class="first-btn" onClick={closeModal}>Cancel</button>
-                                <button class="second-btn" onClick={submitFlexibleShift}>Update Work Timings for All Staff</button></div>
+                                <button class="second-btn">Update Work Timings for All Staff</button></div>
                         </div>
                     </TabPanel>
 
@@ -688,14 +570,14 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal1}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Shifts</h2>
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div>
                     <h4 className='p-4 pl-3 border border-b border-l-0 border-r-0 text-[13px] xl:text-[15px]'>No Options Available ....</h4>
-                    <Link to="" className='text-[#27004a] p-4 font-medium mt-3  w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
+                    <Link to="" className='text-[#27004a] p-4 font-medium mt-3 block w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
                     <div className='text-end pr-4 pb-3'>
                         <button className='second-btn'>Okay</button>
                     </div>
@@ -709,7 +591,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal2}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add New Shifts</h2>
@@ -717,30 +599,28 @@ const EditAttendanceDetail = () => {
                 <div className=''>
                     <div className='modal-field p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Shift Name</label><br />
-                        <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={shiftName} onChange={(e) => setShiftName(e.target.value)} /><br />
-                        <label className='text-[13px] xl:text-[14px] font-medium' >Shift Start Time</label><br />
-                        {/* <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift Start Time</label><br />
+                        <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <option>Please Select Time</option>
-                        </select> */}
-                        <input className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" type="time" id="start-time" name="start-time" value={shiftStartTime} onChange={(e) => setShiftStartTime(e.target.value)} />
-                        <br />
+                        </select><br />
                         <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch In</label><br />
                         <div className='flex  justify-between'>
 
 
                             <Tabs className="w-full">
-                                <TabList className="w-full flex justify-between gap-[20px]">
+                                <TabList className="w-full flex justify-between w-full gap-[20px]">
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="anytime" name="select-timing" onChange={(e) => setPunchInType('ANYTIME')} />
-                                            <label for="anytime" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer' >Anytime</label><br />
+                                            <input type="radio" id="anytime" name="select-timing" />
+                                            <label for="anytime" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Anytime</label><br />
                                         </div>
 
                                     </Tab>
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="limit" name="select-timing" onChange={(e) => setPunchInType('ADDLIMIT')} />
-                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer' >Add Limit</label><br />
+                                            <input type="radio" id="limit" name="select-timing" />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Add Limit</label><br />
                                         </div>
                                     </Tab>
                                 </TabList>
@@ -751,14 +631,14 @@ const EditAttendanceDetail = () => {
                                     <label className='text-[13px] xl:text-[14px] font-medium'>Allow Punch In</label><br />
                                     <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchInHours} onChange={(e) => setAllowPunchInHours(e.target.value)} />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                                             <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
 
                                         </div>
 
 
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchInMinutes} onChange={(e) => setAllowPunchInMinutes(e.target.value)} />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                                             <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
 
                                         </div>
@@ -775,31 +655,28 @@ const EditAttendanceDetail = () => {
 
                         <label className='text-[13px] xl:text-[14px] font-medium'>Shift End Time</label><br />
 
-                        {/* <select onClick={openModal3}  className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                        <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
                             <option>Please Select Time</option>
-                        </select> */}
-                        <input className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" type="time" id="start-time" name="start-time" value={shiftEndTime} onChange={(e) => setShiftEndTime(e.target.value)} />
-
-                        <br />
+                        </select><br />
 
                         <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch Out</label><br />
                         <div className=''>
 
 
                             <Tabs className="w-full">
-                                <TabList className="w-full flex justify-between gap-[20px]">
+                                <TabList className="w-full flex justify-between w-full gap-[20px]">
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="anytime1" name="punching-timing" onChange={(e) => setPunchOutType('ANYTIME')} />
-                                            <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1" >Anytime</label><br />
+                                            <input type="radio" id="anytime1" name="punching-timing" />
+                                            <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1">Anytime</label><br />
                                         </div>
 
 
                                     </Tab>
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="limit1" name="punching-timing" onChange={(e) => setPunchOutType('ADDLIMIT')} />
-                                            <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1" >Add Limit</label><br />
+                                            <input type="radio" id="limit1" name="punching-timing" />
+                                            <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1">Add Limit</label><br />
                                         </div>
                                     </Tab>
                                 </TabList>
@@ -808,18 +685,18 @@ const EditAttendanceDetail = () => {
 
                                 </TabPanel>
                                 <TabPanel>
-                                    <label className='text-[14px] font-medium'>Allow Punch Out</label><br />
+                                    <label className='text-[14px] font-medium'>Allow Punch In</label><br />
                                     <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchOutHours} onChange={(e) => setAllowPunchOutHours(e.target.value)} />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                                             <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
 
                                         </div>
 
 
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={allowPunchOutMinutes} onChange={(e) => setAllowPunchOutMinutes(e.target.value)} />
-                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer' >Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
+                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
 
                                         </div>
                                     </div>
@@ -838,7 +715,7 @@ const EditAttendanceDetail = () => {
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn' onClick={createNewShift}>Confirm</button>
+                        <button className='second-btn'>Confirm</button>
                     </div>
                 </div>
             </Modal>
@@ -851,7 +728,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal3}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border border-b border-t-0 border-r-0 border-l-0 mb-4  p-3 text-[13px] xl:text-[14px] '>Select Time</h2>
@@ -904,7 +781,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal5}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Work Timings for All Staff</h2>
                 <button onClick={closeModal5} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
@@ -1032,7 +909,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal6}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Work Timings for All Staff</h2>
                 <button onClick={closeModal6} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
@@ -1051,7 +928,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal7}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Automation Rules for All Staff</h2>
                 <button onClick={closeModal7} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
@@ -1064,12 +941,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setToggleAutoPresent(!toggleAutoPresent)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toggleAutoPresent ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toggleAutoPresent ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -1083,12 +960,12 @@ const EditAttendanceDetail = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                                onClick={() => setTogglePresentOnPunch(!togglePresentOnPunch)}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${togglePresentOnPunch ? 'bg-[#27004a]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${togglePresentOnPunch ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -1102,7 +979,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Auto half day if late by</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal16}>Not Set</button>
+                            <button className='first-btn' onClick={openModal16}>{(autoHalfDay.hr === "" && autoHalfDay.min === "") ? "Not Set" : autoHalfDay.hr + ":" + autoHalfDay.min}</button>
                         </div>
                     </div>
 
@@ -1112,7 +989,7 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory half day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal17}>Not Set</button>
+                            <button className='first-btn' onClick={openModal17}>{(mandatoryHalfDayHour.hr === "" && mandatoryHalfDayHour.min === "") ? "Not Set" : mandatoryHalfDayHour.hr + ":" + mandatoryHalfDayHour.min}</button>
                         </div>
                     </div>
 
@@ -1122,7 +999,8 @@ const EditAttendanceDetail = () => {
                             <h4 className='m-0'>Mandatory full day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal18}>Not Set</button>
+                            <button className='first-btn' onClick={openModal18}>{(mandatoryFullDayHour.hr === "" && mandatoryFullDayHour.min === "") ? "Not Set" : mandatoryFullDayHour.hr + ":" + mandatoryFullDayHour.min}</button>
+
                         </div>
                     </div>
 
@@ -1130,7 +1008,9 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal7}>Cancel</button>
-                        <button className="second-btn" onClick={openModal8} >Update Automation Rules for All Staff</button>
+                        <button className="second-btn" onClick={(e) => {
+                            updateAttendanceAutomationRules(e);
+                        }} >Update Automation Rules for All Staff</button>
                     </div>
 
                 </div>
@@ -1145,7 +1025,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal8}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Work Timings for All Staff</h2>
                 <button onClick={closeModal8} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
@@ -1167,7 +1047,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal16}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Auto half day if late by
                 </h2>
@@ -1178,11 +1058,21 @@ const EditAttendanceDetail = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={autoHalfDay.hr} onChange={(e) => setAutoHalfDay((prev) => {
+                                return {
+                                    ...prev,
+                                    hr: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={autoHalfDay.min} onChange={(e) => setAutoHalfDay((prev) => {
+                                return {
+                                    ...prev,
+                                    min: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
@@ -1191,7 +1081,9 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal16}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                        <button className="second-btn" onClick={() => {
+                            closeModal16();
+                        }} >Confirm</button>
                     </div>
 
                 </div>
@@ -1209,7 +1101,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal17}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Mandatory half day hours
 
@@ -1221,11 +1113,21 @@ const EditAttendanceDetail = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryHalfDayHour.hr} onChange={(e) => setMandatoryHalfDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    hr: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryHalfDayHour.min} onChange={(e) => setMandatoryHalfDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    min: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
@@ -1234,7 +1136,7 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal17}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                        <button className="second-btn" onClick={closeModal17} >Confirm</button>
                     </div>
 
                 </div>
@@ -1252,7 +1154,7 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal18}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Mandatory Full day hours
 
@@ -1264,11 +1166,21 @@ const EditAttendanceDetail = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryFullDayHour.hr} onChange={(e) => setMandatoryFullDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    hr: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
+                            <input value={mandatoryFullDayHour.min} onChange={(e) => setMandatoryFullDayHour((prev) => {
+                                return {
+                                    ...prev,
+                                    min: e.target.value
+                                }
+                            })} type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
                             <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
@@ -1277,7 +1189,7 @@ const EditAttendanceDetail = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal18}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal18} >Confirm</button>
+                        <button className="second-btn" onClick={closeModal18} >Confirm</button>
                     </div>
 
                 </div>
