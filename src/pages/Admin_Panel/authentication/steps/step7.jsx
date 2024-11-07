@@ -1,16 +1,18 @@
 
-import React, {  useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthContext } from '../../../../Context/AuthContext';
 import ImageUploading from 'react-images-uploading';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
+import { useGlobalContext } from '../../../../Context/GlobalContext';
 
 const Step7 = () => {
+  const { baseUrl } = useGlobalContext();
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');
   const navigate = useNavigate();
-  const { extraInfo, updateExtraInfo ,setIsAuthenticated} = useAuthContext();
+  const { extraInfo, updateExtraInfo, setIsAuthenticated } = useAuthContext();
   const [companyLogo, setCompanyLogo] = useState(null);
 
   useEffect(() => {
@@ -19,9 +21,9 @@ const Step7 = () => {
     }
   }, [email]);
 
-  
+
   const handleExtraInfo = () => {
-    updateAdmin(); 
+    updateAdmin();
   };
 
   // Post request function
@@ -33,7 +35,7 @@ const Step7 = () => {
       infoData.append(key, extraInfo[key]);
     }
     try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/admin/update", {
+      const response = await fetch(baseUrl + "admin/update", {
         method: "PUT",
         body: infoData
       });

@@ -30,7 +30,7 @@ const Step3 = () => {
   const submitOtp = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("https://fc-prod-test.onrender.com/api/"+"admin/verify-otp", {
+      const response = await fetch(baseUrl+"admin/verify-otp", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
