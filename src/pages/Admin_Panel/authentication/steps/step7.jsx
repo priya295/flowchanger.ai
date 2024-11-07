@@ -12,8 +12,8 @@ const Step7 = () => {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email');
   const navigate = useNavigate();
-  const { extraInfo, updateExtraInfo, setIsAuthenticated } = useAuthContext();
-  const [companyLogo, setCompanyLogo] = useState(null);
+  const { extraInfo, updateExtraInfo ,setIsAuthenticated} = useAuthContext();
+   const [companyLogo, setCompanyLogo] = useState(null);
 
   useEffect(() => {
     if (email) {

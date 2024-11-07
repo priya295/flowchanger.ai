@@ -102,13 +102,26 @@ const Task = () => {
 
   }
 
+  const[projectDetails,setProjectDetails]=useState([]);
+    async function fetchProjectDetails(){
+        const result=await fetch(baseUrl+"project");
+        console.log("---",result)
+        if (result.status == 200) {
+            const res = await result.json();
+            console.log(res)
+            setProjectDetails(res.data)
+          }
+          else {
+            alert("An Error Occured")
+          }
+    }
 
-
-  useEffect(() => {
+    useEffect(() => {
     fetchStaffDetail();
     fetchAllTaskStatus();
     fetchDepartments();
     fetchTaskPriority();
+    fetchProjectDetails();
   }, [])
 
   const[taskName,setTaskName]=useState();
@@ -301,8 +314,12 @@ const Task = () => {
 
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Project</label>    <br />
                     <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
-                      <option>Project</option>
-                      <option>Video</option>
+                      <option>Select Project</option>
+                     {
+                      projectDetails?.map((s,index)=>{
+                        return <option value={s.id}>{s.project_name}</option>
+                      })
+                     }
                     </select>
                   </div>
                 </div>
