@@ -72,7 +72,9 @@ import CalenderWeekly from './pages/Admin_Panel/Calender/CalenderWeekly'
 // import Task from "./Admin/pages/Project/Task";
 import Task from "./pages/Admin_Panel/Projects/Task";
 import ClientHeader from "./components/Client_Panel/ClientHeader";
+
 import SidebarClient from "./components/Client_Panel/SidebarClient";
+// import SidebarHeader from "./components/Client_Panel/SidebarHeader";
 // import AddNewTask from "./Admin/pages/Projects/AddNewTask";
 import DepartmentDetail from "../src/pages/Admin_Panel/Department/DepartmentDetails";
 import PayrollMenu from "../src/pages/Admin_Panel/payroll/PayrollMenu";
@@ -259,7 +261,7 @@ const App = () => {
             {/* <Route path="/task" element={<Task />} /> */}
             <Route path="/editprofile" element={<Editprofile />} />
             <Route path="/taskstatus" element={<Task_Status />} />
-            {/* <Route path="/clientproject" element={<Client_Project />} /> */}
+            <Route path="/clientproject" element={<Client_Project />} />
             {/* <Route path="/projectprogress" element={<Project_Progress />} /> */}
             <Route path="/note" element={<Note />} />
             <Route path="/expenseedit" element={<ExpenseEdit />} />
@@ -298,9 +300,9 @@ const App = () => {
 
         </Route>
         <Route element={<Client_Panel />}>
-          {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
+          <Route path="/sidebarclient" element={<SidebarClient />} />
           <Route path="/task" element={<Task />} />
-          {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
+          {/* <Route path="/sidebarheader" element={<SidebarHeader />} /> */}
 
           <Route
             path="/background-verification"

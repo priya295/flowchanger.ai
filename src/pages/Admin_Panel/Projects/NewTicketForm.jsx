@@ -80,7 +80,7 @@ const NewTicketForm = () => {
 
           <div className="flex w-[100%] items-center mt-4 gap-4 max-[1000px]:block max-[1000px]:mt-5 max-[1000px]:w-[100%] ">
             <div className="w-[50%] max-[1000px]:w-[100%]">
-              <label htmlFor="text" className="text-[14.22px] font-normal flex">
+              <label htmlFor="text" className="text-[14.22px] font-normal fl6ex">
                 Department
               </label>
               <select
