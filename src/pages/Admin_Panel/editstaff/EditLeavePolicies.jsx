@@ -8,7 +8,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 const EditLeavePolicies = () => {
     const [activeTab, setActiveTab] = useState('leave-requests')
     const [activeSubTab, setActiveSubTab] = useState('pending')
-    const { baseUrl, selectedStaff } = useGlobalContext();
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
     const [selectDuration, setSelectDuration] = useState();
     const [editingRow, setEditingRow] = useState(null);
     const [leavePolicyType, setLeavePolicyType] = useState();
@@ -22,7 +22,7 @@ const EditLeavePolicies = () => {
     const [editLeaveRequestDate, setEditLeaveRequestDate] = useState('');
     const [saveLeaveRequestEdit, setSaveLeaveRequestEdit] = useState('');
 
-    console.log(editLeaveID);
+    const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
 
 
     const [updatePolicy, setUpdatePolicy] = useState({
@@ -41,104 +41,117 @@ const EditLeavePolicies = () => {
             carry_forward_leaves: Number(carryForwardLeaves)
         };
 
+        try {
+            const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.staffDetails.id, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response);
 
-        const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.staffDetails.id, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
-        console.log(response);
-
-        const result = await response.json();
-        if (response.status === 201) {
-            console.log(result);
-            alert("Policy Create Successfully");
-        } else {
-            console.log(result);
-            alert("Error in creating Policy");
+            const result = await response.json();
+            if (response.status === 201) {
+                console.log(result);
+                openToast("Leave Policy created Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while creating leave policy", "error");
+            }
+        } catch (error) {
+            console.error("Error creating leave policy:", error);
+            openToast("An error occurred while creating leave policy", "error");
         }
     }
+
     async function updateLeavePolicy(e) {
         e.preventDefault();
         const data = {
-            name: selectedStaff?.LeavePolicy?.filter(({ id }) => id === editingRow)[0]?.name,
+            name: selectedStaff?.staffDetails?.LeavePolicy?.filter(({ id }) => id === editingRow)[0]?.name,
             allowed_leaves: Number(updatePolicy?.allowed_leaves),
             carry_forward_leaves: Number(updatePolicy?.carry_forward_leaves)
         };
 
         console.log(data);
 
-        const response = await fetch(baseUrl + "leave-policy/" + editingRow, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
-        console.log(response);
+        try {
+            const response = await fetch(baseUrl + "leave-policy/" + editingRow, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response);
 
-        const result = await response.json();
-        console.log(result);
-        if (response.status === 200) {
-            console.log(result);
-            alert("Policy update Successfully");
-        } else {
-            console.log(result);
-            alert("Error in upating Policy");
+            const result = await response.json();
+            if (response.status === 200) {
+                console.log(result);
+                openToast("Leave Policy updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while updating leave policy", "error");
+            }
+        } catch (error) {
+            console.error("Error updating leave policy:", error);
+            openToast("An error occurred while updating leave policy", "error");
         }
         setEditingRow(null);
     }
 
-    const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
-    console.log(selectedStaff);
-    
     async function getAllLeaveRequest() {
-        const response = await fetch(baseUrl + "leave-request/" + selectedStaff?.staffDetails?.id, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        console.log(response);
+        try {
+            const response = await fetch(baseUrl + "leave-request/" + selectedStaff?.staffDetails?.id, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log(response);
 
-        const result = await response.json();
-        if (response.status === 200) {
-            console.log(result);
-            console.log(result);
-            setFetchAllLeaveRequest(result);
-            alert("Policy update Successfully");
-        } else {
-            console.log(result);
-            alert("Error in upating Policy");
+            const result = await response.json();
+            if (response.status === 200) {
+                console.log(result);
+                setFetchAllLeaveRequest(result);
+
+            } else {
+                console.log(result);
+            }
+        } catch (error) {
+            console.error("Error retrieving leave requests:", error);
         }
     }
+
     async function deleteLeaveRequest(e) {
         e.preventDefault();
-        const response = await fetch(baseUrl + "leave-request/" + deleteLeaveID, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        console.log(response);
+        try {
+            const response = await fetch(baseUrl + "leave-request/" + deleteLeaveID, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            console.log(response);
 
-        const result = await response.json();
-        if (response.status === 200) {
-            console.log(result);
-            setDeleteLeaveID(null);
-            alert("Leave request delete Successfully");
-        } else {
-            console.log(result);
-            alert("Error in deleting leave re");
+            const result = await response.json();
+            if (response.status === 200) {
+                console.log(result);
+                setDeleteLeaveID(null);
+                openToast("Leave Request deleted Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while deleting leave request", "error");
+            }
+        } catch (error) {
+            console.error("Error deleting leave request:", error);
+            openToast("An error occurred while deleting leave request", "error");
         }
-    }
 
+    }
 
     async function editLeaveRequest(e) {
         e.preventDefault();
-        // console.log(editLeaveEndDate, editLeaveRequestDate, editLeaveStartDate, editLeaveStatus);
         const data = {
             staffId: selectedStaff?.id,
             leaveTypeId: editLeaveID,
@@ -146,35 +159,37 @@ const EditLeavePolicies = () => {
             start_date: new Date(editLeaveStartDate).toISOString(),
             end_date: new Date(editLeaveEndDate).toISOString(),
             status: editLeaveStatus,
-        }
+        };
 
-        console.log(saveLeaveRequestEdit);
-        const response = await fetch(baseUrl + "leave-request/" + saveLeaveRequestEdit, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
-        });
-        console.log(response);
+        try {
+            const response = await fetch(baseUrl + "leave-request/" + saveLeaveRequestEdit, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+            console.log(response);
 
-        const result = await response.json();
-        if (response.status === 200) {
-            console.log(result);
-            setEditLeaveID('');
-            setEditLeaveStatus('');
-            setEditLeaveStartDate('');
-            setEditLeaveEndDate('');
-            setEditLeaveRequestDate('');
-            setSaveLeaveRequestEdit('');
-            alert("Leave Request update Successfully");
-        } else {
-            console.log(result);
-            alert("Error in upating leave request");
+            const result = await response.json();
+            if (response.status === 200) {
+                console.log(result);
+                setEditLeaveID('');
+                setEditLeaveStatus('');
+                setEditLeaveStartDate('');
+                setEditLeaveEndDate('');
+                setEditLeaveRequestDate('');
+                setSaveLeaveRequestEdit('');
+                openToast("Leave Request updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while updating leave request", "error");
+            }
+        } catch (error) {
+            console.error("Error updating leave request:", error);
+            openToast("An error occurred while updating leave request", "error");
         }
-        console.log(data);
     }
-
 
 
     let subtitle;
@@ -395,6 +410,7 @@ const EditLeavePolicies = () => {
                                         {
                                             selectedStaff?.staffDetails?.LeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
                                                 <td onClick={() => {
+                                                    console.log(id);
                                                     setEditingRow(id);
                                                     setUpdatePolicy({ carry_forward_leaves, allowed_leaves })
                                                 }}>{name}</td>
@@ -440,16 +456,7 @@ const EditLeavePolicies = () => {
                         </TabPanel>
 
                     </Tabs>
-                    <button onClick={(e) => {
-                        if (editingRow) {
-                            updateLeavePolicy(e)
-                        } else {
-                            createLeavePolicy(e)
-                        }
-                    }} className='second-btn'>Update Details</button>
-                    <div>
-
-                    </div>
+                    <button onClick={(e) => editingRow === null ? createLeavePolicy(e) : updateLeavePolicy(e)} className='second-btn'>Update Details</button>
                 </div>
             </Modal>
             {/* when onclick leave policies

@@ -14,7 +14,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const EditAttendanceDetail = () => {
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
     const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.selfie_attendance || false);
     const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff?.staffDetails?.AttendenceMode?.allow_punch_in_for_mobile || false);
     const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.qr_attendance || false);
@@ -39,6 +39,7 @@ const EditAttendanceDetail = () => {
     const [mandatoryFullDayHour, setMandatoryFullDayHour] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.manadatory_full_day));
     const [mandatoryHalfDayHour, setMandatoryHalfDayHour] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.manadatory_half_day));
     console.log(selectedStaff?.staffDetails);
+
     async function updateAttendanceMode(e) {
         e.preventDefault();
         const data = {
@@ -54,53 +55,67 @@ const EditAttendanceDetail = () => {
             }
         };
 
+        try {
+            const response = await fetch(baseUrl + "attendance/mode/", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
 
-        const response = await fetch(baseUrl + "attendance/mode/", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
-        const result = await response.json();
-        if (response.status === 200) {
-            console.log(result);
-            openModal6();
-        } else {
-            console.log(result);
-            alert("An error occurred during update attendance mode staff");
+            if (response.status === 200) {
+                console.log(result);
+                openModal6();
+                openToast("Attendance Mode created and updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while creating and updating attendance mode", "error");
+            }
+        } catch (error) {
+            console.error("Error creating and updating attendance mode:", error);
+            openToast("An error occurred while creating and updating attendance mode", "error");
         }
     }
+
     async function updateAttendanceAutomationRules(e) {
         e.preventDefault();
         const data = {
-            staff_ids: [selectedStaff?.staffDetails?.id], // Ensure staff id is present
+            staff_ids: [selectedStaff?.staffDetails?.id],
             automation_rules: {
-                auto_absent: toggleAutoPresent,  // Ensure boolean
-                present_on_punch: togglePresentOnPunch, // Ensure boolean
-                auto_half_day: autoHalfDay.hr && autoHalfDay.min ? `${autoHalfDay.hr} hr : ${autoHalfDay.min} min` : " Not Set",
+                auto_absent: toggleAutoPresent,
+                present_on_punch: togglePresentOnPunch,
+                auto_half_day: autoHalfDay.hr && autoHalfDay.min ? `${autoHalfDay.hr} hr : ${autoHalfDay.min} min` : "Not Set",
                 mandatory_half_day: `${mandatoryHalfDayHour.hr} hr : ${mandatoryHalfDayHour.min} min`,
                 mandatory_full_day: `${mandatoryFullDayHour.hr} hr : ${mandatoryFullDayHour.min} min`,
             }
         };
 
+        try {
+            const response = await fetch(baseUrl + "attendance/automation/", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
 
-        const response = await fetch(baseUrl + "attendance/automation/", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
-        const result = await response.json();
-        if (response.status === 200) {
-            console.log(result);
-            openModal8();
-        } else {
-            console.log(result);
-            alert("An error occurred during update attendance automation rule staff");
+            if (response.status === 200) {
+                console.log(result);
+                openModal8();
+                openToast("Attendance Automation Rules created and updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while creating and updating attendance automation rules", "error");
+            }
+        } catch (error) {
+            console.error("Error creating and updating attendance automation rules:", error);
+            openToast("An error occurred while creating and updating attendance automation rules", "error");
         }
     }
+
     let subtitle;
     // update work timing
     const [modalIsOpen, setIsOpen] = React.useState(false);
@@ -916,7 +931,10 @@ const EditAttendanceDetail = () => {
                 <div className='flex items-center justify-center flex-col gap-[10px] pt-[20px] pb-[20px]'>
                     <img src={rightimg} className='w-[65px]' />
                     <h3 className='text-center'>You have Successfully updated attendance modes</h3>
-                    <button className='second-btn '>Okay</button>
+                    <button className='second-btn ' onClick={()=>{
+                        closeModal6();
+                        closeModal5();
+                    }}>Okay</button>
                 </div>
             </Modal>
 
@@ -1032,7 +1050,10 @@ const EditAttendanceDetail = () => {
                 <div className='flex items-center justify-center flex-col gap-[10px] pt-[20px] pb-[20px]'>
                     <img src={rightimg} className='w-[65px]' />
                     <h3 className='text-center'>You have Successfully updated attendance modes</h3>
-                    <button className='second-btn' onClick={closeModal8}>Okay</button>
+                    <button className='second-btn' onClick={()=>{
+                        closeModal8();
+                        closeModal7();
+                    }}>Okay</button>
                 </div>
             </Modal>
 

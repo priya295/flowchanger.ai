@@ -8,86 +8,129 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const EditPenalty = () => {
 
-    const [fineType, setFineType] = useState("");
-    const [gracePeriodMins, setGracePeriodMins] = useState("");
-    const [fineAmountMins, setFineAmountMins] = useState("");
-    const [waiveOffDays, setWaiveOffDays] = useState("");
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+    const [fineType, setFineType] = useState(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.fineType ?? "DAILY");
+    const [gracePeriodMins, setGracePeriodMins] = useState(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.gracePeriodMins ?? 0);
+    const [fineAmountMins, setFineAmountMins] = useState(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.fineAmountMins ?? 0);
+    const [waiveOffDays, setWaiveOffDays] = useState(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.waiveOffDays ?? 0);
 
-    const [lateFineType, setLateFineType] = useState("");
-    const [lateGracePeriodMins, setLateGracePeriodMins] = useState("");
-    const [lateFineAmountMins, setLateFineAmountMins] = useState("");
-    const [lateWaiveOffDays, setLateWaiveOffDays] = useState("");
+    const [lateFineType, setLateFineType] = useState(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.fineType ?? "DAILY");
+    const [lateGracePeriodMins, setLateGracePeriodMins] = useState(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.gracePeriodMins ?? 0);
+    const [lateFineAmountMins, setLateFineAmountMins] = useState(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.fineAmountMins ?? 0);
+    const [lateWaiveOffDays, setLateWaiveOffDays] = useState(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.waiveOffDays ?? 0);
 
-    const [overGracePeriodMins, setOverGracePeriodMins] = useState("");
-    const [extraHourPay, setExtraHourPay] = useState("");
-    const [publicHolidayPay, setPublicHolidayPay] = useState("");
-    const [weekOffPay, setWeekOffPay] = useState("");
+    const [overGracePeriodMins, setOverGracePeriodMins] = useState(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.gracePeriodMins ?? 0);
+    const [extraHourPay, setExtraHourPay] = useState(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.extraHoursPay ?? 0);
+    const [publicHolidayPay, setPublicHolidayPay] = useState(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.publicHolidayPay ?? 0);
+    const [weekOffPay, setWeekOffPay] = useState(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.weekOffPay ?? 0);
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
 
     console.log(selectedStaff);
 
+
     async function submitEarlyLeavePolicy() {
-        const response = await fetch(baseUrl + "policy/early", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ fineType: fineType, gracePeriodMins: Number(gracePeriodMins), fineAmountMins: Number(fineAmountMins), waiveOffDays: Number(waiveOffDays), staffId: selectedStaff.staffDetails.id })
-        });
+        try {
+            const response = await fetch(baseUrl + "policy/early", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fineType: fineType,
+                    gracePeriodMins: Number(gracePeriodMins),
+                    fineAmountMins: Number(fineAmountMins),
+                    waiveOffDays: Number(waiveOffDays),
+                    staffId: selectedStaff.staffDetails.id
+                })
+            });
 
-        console.log(response);
+            console.log(response);
 
-        if (response.status === 201) {
-            const result = await response.json()
-            console.log(result);
-            closeModal12();
-            alert("Early Leave Policy successfully saved");
-        } else {
-            alert("An error occurred");
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                setFineType(result?.fineType);
+                setGracePeriodMins(result?.gracePeriodMins);
+                setFineAmountMins(result?.fineAmountMins);
+                setWaiveOffDays(result?.waiveOffDays);
+                closeModal12();
+                openToast("Early Leave Policy created Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while creating early leave policy", "error");
+            }
+        } catch (error) {
+            console.error("Error creating early leave policy:", error);
+            openToast("An error occurred while creating early leave policy", "error");
         }
+
     }
 
     async function submitLateComingPolicy() {
-        const response = await fetch(baseUrl + "policy/late", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ fineType: lateFineType, gracePeriodMins: Number(lateGracePeriodMins), fineAmountMins: Number(lateFineAmountMins), waiveOffDays: Number(lateWaiveOffDays), staffId: selectedStaff.staffDetails.id })
-        });
+        try {
+            const response = await fetch(baseUrl + "policy/late", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fineType: lateFineType,
+                    gracePeriodMins: Number(lateGracePeriodMins),
+                    fineAmountMins: Number(lateFineAmountMins),
+                    waiveOffDays: Number(lateWaiveOffDays),
+                    staffId: selectedStaff.staffDetails.id
+                })
+            });
 
-        console.log(response);
+            console.log(response);
 
-        if (response.status === 201) {
-            const result = await response.json()
-            console.log(result);
-            closeModal12();
-            alert("Late Coming Policy successfully saved");
-        } else {
-            alert("An error occurred");
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                closeModal12();
+                openToast("Late Coming Policy created Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while creating late coming policy", "error");
+            }
+        } catch (error) {
+            console.error("Error creating late coming policy:", error);
+            openToast("An error occurred while creating late coming policy", "error");
         }
     }
 
     async function submitOvertimePolicy() {
-        const response = await fetch(baseUrl + "policy/overtime", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ gracePeriodMins: Number(overGracePeriodMins), extraHoursPay: Number(extraHourPay), publicHolidayPay: Number(publicHolidayPay), weekOffPay: Number(weekOffPay), staffId: selectedStaff.staffDetails.id })
-        });
+        try {
+            const response = await fetch(baseUrl + "policy/overtime", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    gracePeriodMins: Number(overGracePeriodMins),
+                    extraHoursPay: Number(extraHourPay),
+                    publicHolidayPay: Number(publicHolidayPay),
+                    weekOffPay: Number(weekOffPay),
+                    staffId: selectedStaff.staffDetails.id
+                })
+            });
 
-        console.log(response);
+            console.log(response);
 
-        if (response.status === 201) {
-            const result = await response.json()
-            console.log(result);
-            closeModal12();
-            alert("Overtime Policy successfully saved");
-        } else {
-            alert("An error occurred");
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                closeModal12();
+                openToast("Overtime Policy created Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while creating Overtime policy", "error");
+            }
+        } catch (error) {
+            console.error("Error creating Overtime policy:", error);
+            openToast("An error occurred while creating Overtime policy", "error");
         }
+
     }
 
     let subtitle;
@@ -145,24 +188,6 @@ const EditPenalty = () => {
     }
     // when on click update leave policy
 
-    useEffect(() => {
-        setFineType(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.fineType ?? "DAILY");
-        setGracePeriodMins(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.gracePeriodMins ?? 0);
-        setFineAmountMins(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.fineAmountMins ?? 0);
-        setWaiveOffDays(selectedStaff?.staffDetails?.EarlyLeavePolicy?.[0]?.waiveOffDays ?? 0);
-
-        setLateFineType(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.fineType ?? "DAILY");
-        setLateGracePeriodMins(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.gracePeriodMins ?? 0);
-        setLateFineAmountMins(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.fineAmountMins ?? 0);
-        setLateWaiveOffDays(selectedStaff?.staffDetails?.LateComingPolicy?.[0]?.waiveOffDays ?? 0);
-
-        setOverGracePeriodMins(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.gracePeriodMins ?? 0);
-        setExtraHourPay(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.extraHoursPay ?? 0);
-        setPublicHolidayPay(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.publicHolidayPay ?? 0);
-        setWeekOffPay(selectedStaff?.staffDetails?.OverLeavePolicy?.[0]?.weekOffPay ?? 0);
-
-
-    }, [])
 
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
@@ -210,11 +235,11 @@ const EditPenalty = () => {
                     <label className='text-[14px]'>Fine Type</label>
                     <div className=' flex justify-between gap-4'>
                         <div className='flex  cursor-pointer border border-1  rounded-md  items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <input type="radio" id="daily" name="fav_language" checked onChange={(e) => setFineType("DAILY")} />
+                            <input type="radio" id="daily" name="fav_language" checked={fineType === "DAILY"} onChange={(e) => setFineType("DAILY")} />
                             <label for="daily">Daily</label><br />
                         </div>
                         <div className='border border-1 cursor-pointer rounded-md flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <input type="radio" id="hourly" name="fav_language" onChange={(e) => setFineType("HOURLY")} />
+                            <input type="radio" id="hourly" name="fav_language" checked={fineType === "HOURLY"} onChange={(e) => setFineType("HOURLY")} />
                             <label for="hourly">Hourly</label><br />
                         </div>
                     </div>
@@ -261,11 +286,11 @@ const EditPenalty = () => {
                     <label className='text-[14px]'>Fine Type</label>
                     <div className=' flex justify-between gap-4'>
                         <div className=' border border-1 cursor-pointer rounded-md  flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <input type="radio" id="daily" name="fav_language" checked value="daily" onChange={(e) => setLateFineType("DAILY")} />
+                            <input type="radio" id="daily" name="fav_language" checked={lateFineType === "DAILY"} value="daily"  onChange={(e) => setLateFineType("DAILY")} />
                             <label for="daily">Daily</label><br />
                         </div>
                         <div className=' border border-1 cursor-pointer rounded-md  flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px] w-[48%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <input type="radio" id="hourly" name="fav_language" value="hourly" onChange={(e) => setLateFineType("DAILY")} />
+                            <input type="radio" id="hourly" name="fav_language" checked={lateFineType === "HOURLY"} value="hourly" onChange={(e) => setLateFineType("HOURLY")} />
                             <label for="hourly">Hourly</label><br />
                         </div>
                     </div>

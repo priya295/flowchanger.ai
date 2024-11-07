@@ -4,34 +4,47 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyPan = () => {
-    const [bgVerification, setBgVerification] = useState("");
+    
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+    
+    
+    
+        let subtitle;
+        const [pan, setPan] = useState({
+            number: selectedStaff?.staffDetails?.staff_bg_verification?.pan_number,
+            status: selectedStaff?.staffDetails?.staff_bg_verification?.pan_verification_status,
+    });
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
-
-
-
+    const [bgVerification, setBgVerification] = useState(pan?.number);
+    
     
     async function submitPan() {
         const newFormData = new FormData();
         newFormData.append("pan_number", bgVerification);
 
-        const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/pan", {
-            method: "PUT",
-            body: newFormData
-        });
+        try {
+            const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/pan", {
+                method: "PUT",
+                body: newFormData
+            });
 
-        console.log(response);
+            console.log(response);
 
-        if (response.status === 201) {
-            const result = await response.json();
-            console.log(result);
-            closeModal2();
-            alert("Pan successfully updated");
-        } else {
-            alert("An error occurred");
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                setPan({ ...pan, number: result?.data?.pan_number, status: result?.data?.pan_verification_status });
+                openToast("Pan successfully updated or created", "success");
+                closeModal2();
+            } else {
+                openToast("An error occurred while adding or updating Pan", "error");
+            }
+        } catch (error) {
+            console.error("Error submitting Pan:", error);
+            openToast("An error occurred while adding or updating Pan", "error");
         }
     }
-    let subtitle;
+
 
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
     function openModal2() {
@@ -67,6 +80,7 @@ const VerifyPan = () => {
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>PAN</h4>
+                <p className='font-light'>{pan?.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
                     Add
                 </button>
@@ -77,6 +91,8 @@ const VerifyPan = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
+                <p className='font-light'>{pan?.status}
+                </p>
 
             </div>
 

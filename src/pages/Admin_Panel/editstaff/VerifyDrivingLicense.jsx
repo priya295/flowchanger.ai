@@ -4,30 +4,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyDrivingLicense = () => {
-    const [bgVerification, setBgVerification] = useState("");
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
-    async function submitDrivingLicense() {
-        const newFormData = new FormData();
-        newFormData.append("driving_license_number", bgVerification);
-
-        const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/driving_license", {
-            method: "PUT",
-            body: newFormData
-        });
-
-        console.log(response);
-
-        if (response.status === 201) {
-            const result = await response.json();
-            console.log(result);
-            closeModal2();
-            alert("Driving License successfully updated");
-        } else {
-            alert("An error occurred");
-        }
-    }
-
+    const { baseUrl, selectedStaff,openToast } = useGlobalContext();
    
     let subtitle;
 
@@ -57,6 +35,44 @@ const VerifyDrivingLicense = () => {
         console.log("Selected file:", file);
     };
 
+    const [drivingLicense, setDrivingLicense] = useState({
+        number: selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_number,
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_status,
+    });
+
+        const [bgVerification, setBgVerification] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_number);
+
+
+    async function submitDrivingLicense() {
+        const newFormData = new FormData();
+        newFormData.append("driving_license_number", bgVerification);
+
+        try {
+            const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/driving_license", {
+                method: "PUT",
+                body: newFormData
+            });
+
+
+            console.log(response);
+
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                setDrivingLicense({ ...drivingLicense, number: result?.data?.driving_license_number, status: result?.data?.driving_license_status });
+                openToast("Driving License successfully updated or created", "success");
+                closeModal2();
+            } else {
+                openToast("An error occurred while adding or updating Driving License", "error");
+            }
+        } catch (error) {
+            console.error("Error adding or updating Driving License:", error);
+            openToast("An error occurred while adding or updating Driving License", "error");
+        }
+    }
+
+
+
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
@@ -65,6 +81,7 @@ const VerifyDrivingLicense = () => {
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Driving License</h4>
+                <p className='font-light'>{drivingLicense.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
                     Add
                 </button>
@@ -75,6 +92,7 @@ const VerifyDrivingLicense = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
+                <p className='font-light'>{drivingLicense.status}</p>
 
             </div>
 

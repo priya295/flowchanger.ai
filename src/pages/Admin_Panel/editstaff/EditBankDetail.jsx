@@ -9,7 +9,7 @@ const PersonalDetail = () => {
     const { id } = useParams();
     console.log(id)
 
-    const { baseUrl, selectedStaff } = useGlobalContext()
+    const { baseUrl, selectedStaff,openToast } = useGlobalContext()
     const [isEditable, setIsEditable] = useState(false);
     const [inputValue, setInputValue] = useState(selectedStaff?.staffDetails?.BankDetails?.bank_name);
 
@@ -31,49 +31,66 @@ const PersonalDetail = () => {
     // Function to toggle between editable and readonly mode
     const handleEditClick = async () => {
         if (isEditable) {
-            const response = await fetch(baseUrl + "bank-details/" + selectedStaff.staffDetails.id, {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({ bank_name: inputValue, account_number: inputValue4, branch_name: inputValue5, ifsc_code: inputValue1 })
-            })
-            if (response.status == 201) {
-                alert("Bank Details Updated Successfully")
+            try {
+                const response = await fetch(baseUrl + "bank-details/" + selectedStaff.staffDetails.id, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        bank_name: inputValue,
+                        account_number: inputValue4,
+                        branch_name: inputValue5,
+                        ifsc_code: inputValue1
+                    })
+                });
+
+                if (response.status === 201) {
+                    const result = await response.json();
+                    console.log(result.data);
+                    openToast("Bank Details Added Successfully", "success");
+                }
+                else {
+                    openToast("An error occurred while adding bank details", "error");
+                }
+            } catch (error) {
+                console.error("Error submitting bank details:", error);
+                openToast("An error occurred while adding bank details", "error");
             }
-            else {
-                alert("An Error Accured")
-            }
-
-
-
         }
-        setIsEditable(!isEditable);
-        console.log("bank detials", selectedStaff)
-        // Toggle editable state
+
+        setIsEditable(!isEditable); // Toggle editable state
     };
 
     const handleEditClick2 = async () => {
         if (isEditable6) {
-            const response = await fetch(baseUrl + "upi-details", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify({
-                    staffId: selectedStaff.staffDetails.id,
-                    UpiId: inputValue6
-                })
-            })
-            if (response.status == 200) {
-                alert("UPI Details Added Successfully")
-            }
-            else {
-                alert("Internal Server Error")
+            try {
+                const response = await fetch(baseUrl + "upi-details", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        staffId: selectedStaff.staffDetails.id,
+                        UpiId: inputValue6
+                    })
+                });
+
+                if (response.status === 200) {
+                    openToast("Upi Details Added Successfully", "success");
+                }
+                else {
+                    openToast("An error occurred while adding Upi details", "error");
+                }
+            } catch (error) {
+                console.error("Error submitting bank details:", error);
+                openToast("An error occurred while adding Upi details", "error");
             }
         }
-        setIsEditable6(!isEditable6);
-    }
+
+        setIsEditable6(!isEditable6); // Toggle editable state
+    };
+
 
 
 

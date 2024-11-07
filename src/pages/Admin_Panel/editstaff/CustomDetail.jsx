@@ -7,7 +7,8 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const CustomDetail = () => {
     let subtitle;
-    const { baseUrl, selectedStaff } = useGlobalContext();
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+    
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
     const [editingId, setEditingId] = useState("");
     function openModal2() {
@@ -30,67 +31,91 @@ const CustomDetail = () => {
     const [description, setDescription] = useState("");
 
     async function submitField() {
-        const data = { field_name: fieldName, field_value: description, staffId: selectedStaff.staffDetails.id }
+        const data = { field_name: fieldName, field_value: description, staffId: selectedStaff.staffDetails.id };
         console.log(data);
-        const response = await fetch(baseUrl + "custom-details", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
 
-        console.log(response);
+        try {
+            const response = await fetch(baseUrl + "custom-details", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
 
-        if (response.status === 201) {
-            const result = await response.json()
-            console.log(result.data);
-            setAllCustomDetail([...allCustomDetail, result?.data])
-            alert("Add Custom Field Successfully");
-        } else {
-            alert("An error occurred");
+            console.log(response);
+
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result.data);
+                setAllCustomDetail([...allCustomDetail, result?.data]);
+                openToast("Custom Field Added Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while adding custom field", "error");
+            }
+        } catch (error) {
+            console.error("Error submitting custom field:", error);
+            openToast("An error occurred while adding custom field", "error");
         }
     }
+
     async function editCustomField() {
-        const data = { field_name: fieldName, field_value: description }
+        const data = { field_name: fieldName, field_value: description };
         console.log(data);
-        const response = await fetch(baseUrl + "custom-details/" + editingId, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
 
-        console.log(response);
+        try {
+            const response = await fetch(baseUrl + "custom-details/" + editingId, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
 
-        if (response.status === 200) {
-            const result = await response.json()
-            setAllCustomDetail(allCustomDetail.map((item) => item.id === editingId ? { ...item, field_name: fieldName, field_value: description } : item));
-            setEditingId("");
-            console.log(result.data);
-            alert("edit Custom Field Successfully");
-        } else {
-            alert("An error occurred");
+            console.log(response);
+
+            if (response.status === 200) {
+                const result = await response.json();
+                setAllCustomDetail(
+                    allCustomDetail.map((item) => item.id === editingId ? { ...item, field_name: fieldName, field_value: description } : item)
+                );
+                setEditingId("");
+                console.log(result.data);
+                openToast("Custom Field Edited Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while editing custom field", "error");
+            }
+        } catch (error) {
+            console.error("Error editing custom field:", error);
+            openToast("An error occurred while editing custom field", "success");
         }
     }
+
     async function deleteCustomDetail(id) {
-        const response = await fetch(baseUrl + "custom-details/" + id, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
+        try {
+            const response = await fetch(baseUrl + "custom-details/" + id, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-        console.log(response);
+            console.log(response);
 
-        if (response.status === 200) {
-            const result = await response.json()
-            console.log(result);
-            setAllCustomDetail(allCustomDetail.filter((item) => item.id !== id));
-            alert("Deleted Custom Field Successfully");
-        } else {
-            alert("An error occurred");
+            if (response.status === 200) {
+                const result = await response.json();
+                console.log(result);
+                setAllCustomDetail(allCustomDetail.filter((item) => item.id !== id));
+                openToast("Deleted Custom Field Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while deleting Aadhaar", "error");
+            }
+        } catch (error) {
+            console.error("Error deleting custom field:", error);
+            openToast("An error occurred while deleting the custom field.", "error");
         }
     }
 
@@ -165,6 +190,7 @@ const CustomDetail = () => {
                             else {
                                 submitField();
                             }
+                            closeModal2();
                         }}>Add Custom Field </button>
                     </div>
                 </div>
