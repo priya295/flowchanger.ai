@@ -9,12 +9,12 @@ import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
- 
+
 
 
 const TaskPriority = () => {
     const [openIndex, setOpenIndex] = useState(null);
-    const {baseUrl}=useGlobalContext();
+    const { baseUrl, openToast } = useGlobalContext();
 
     // Function to handle accordion toggling
     const handleToggle = (index) => {
@@ -70,7 +70,7 @@ const TaskPriority = () => {
 
     // Toggle the visibility of tbody
     const toggleTable = () => {
-      setIsOpen5(!isOpen5);
+        setIsOpen5(!isOpen5);
     };
 
     let subtitle;
@@ -89,35 +89,40 @@ const TaskPriority = () => {
         setIsOpen6(false);
     }
 
-    const[priorityName,setPriorityName]=useState();
-    async function submitPriority(){
-        const result= await fetch(baseUrl+"task/priority",{
-            method:"POST",
-            headers:{
-                "Content-type":"application/json"
+    const [priorityName, setPriorityName] = useState();
+    async function submitPriority() {
+        const result = await fetch(baseUrl + "task/priority", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
             },
-            body:JSON.stringify({taskPriorityName:priorityName})
+            body: JSON.stringify({ taskPriorityName: priorityName })
         })
-        if(result.status==201){
+        if (result.status == 201) {
             alert("Added Task Priority Successfully")
         }
-        else{
+        else {
             alert("An Error Occured")
         }
     }
 
 
-    const [priorityHeading,setPriorityHeading]=useState([]);
-    async function fetchPriority (){
-        const result= await fetch(baseUrl+"task/priority");
-        const res= await result.json()
-        console.log(res)
-        setPriorityHeading(res.data)
+    const [priorityHeading, setPriorityHeading] = useState([]);
+    async function fetchPriority() {
+        const result = await fetch(baseUrl + "task/priority");
+        if (result.status == 200) {
+            const res = await result.json()
+            setPriorityHeading(res.data)
+
+        } else {
+            openToast("Internal Server Error", "error")
+        }
+
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchPriority();
-    },[])
+    }, [])
 
     return (
         <div className=" w-full  ">
@@ -151,10 +156,10 @@ const TaskPriority = () => {
                                         <div className="p-4">
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Priority Name</label><br />
-                                                <input type='text' onChange={(e)=>setPriorityName(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='text' onChange={(e) => setPriorityName(e.target.value)} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
-                                           
+
                                         </div>
 
                                         {/* Modal Footer */}
@@ -181,7 +186,7 @@ const TaskPriority = () => {
                     <div className="flex justify-between items-start gap-[10px] mb-[14px] flex-col xl:flex-row lg:flex-row md:flex-row ">
                         <div className="flex gap-[10px]">
                             <div className="relative inline-block text-left">
-                                {/* Button to open/close the dropdown */}
+
                                 <button
                                     className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
                                     onClick={toggleDropdown1}
@@ -189,7 +194,6 @@ const TaskPriority = () => {
                                     25 <KeyboardArrowDownIcon className="newadd" />
                                 </button>
 
-                                {/* Dropdown menu */}
                                 {isOpen1 && (
                                     <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
                                         <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -229,45 +233,42 @@ const TaskPriority = () => {
                         </div>
                     </div>
                     <div className="main-table-status">
-                    <table className="table-auto w-full border border-gray-300 rounded-md table-status">
-                        <thead
-                            onClick={toggleTable}
-                            className="set-shadow  cursor-pointer"
-                        >
-                            <tr>
-                                <th className="p-3 text-center">ID</th>
-                                <th className="p-3 text-center">Priority Name</th>
-                                <th className="p-3 text-center">Action</th>
-                                
-                            </tr>
-                        </thead>
-                        {/* Add transition for tbody */}
-                        <tbody
-                            className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
-                            style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
-                        >
-                          
-                        
+                        <table className="table-auto w-full border border-gray-300 rounded-md table-status">
+                            <thead
+                                onClick={toggleTable}
+                                className="set-shadow  cursor-pointer"
+                            >
+                                <tr>
+                                    <th className="p-3 text-center">ID</th>
+                                    <th className="p-3 text-center">Priority Name</th>
+                                    <th className="p-3 text-center">Action</th>
+
+                                </tr>
+                            </thead>
+                            <tbody
+                                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
+                                style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
+                            >
                                 {
-                                    priorityHeading?.map((priorityName,index)=>{
+                                    priorityHeading?.map((priorityName, index) => {
                                         return <tr className="border">
-                                        <td className=" ">{index+1}</td>
-                                       <td>{priorityName.taskPriorityName}</td>
-                                        <td className=" ">
-                                            <div className="flex gap-2 justify-center">
-                                                <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
-                                                <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-                                                
-                                            </div>
-                                        </td>
-                                        
-                                    </tr>
+                                            <td className=" ">{index + 1}</td>
+                                            <td>{priorityName.taskPriorityName}</td>
+                                            <td className=" ">
+                                                <div className="flex gap-2 justify-center">
+                                                    <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
+                                                    <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
                                     })
                                 }
 
-                            
-                        </tbody>
-                    </table>
+
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>

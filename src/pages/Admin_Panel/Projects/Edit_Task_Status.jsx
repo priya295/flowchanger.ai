@@ -14,10 +14,11 @@ import Select from 'react-select';
 
 const Edit_Task_Status = () => {
     let subtitle;
-    const { baseUrl } = useGlobalContext();
+    const { baseUrl, openToast } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
     const [allStaff, setAllStaff] = useState();
     const [allTaskStatus, setAllTaskStatus] = useState([]);
+    console.log("all ", allTaskStatus)
     const [updateAllTaskStatus, setUpdateAllTaskStatus] = useState(false);
     const [taskStatus, setTaskStatus] = useState({
         name: "",
@@ -66,10 +67,10 @@ const Edit_Task_Status = () => {
     const fetchAllTaskStatus = async () => {
         const response = await fetch(baseUrl + 'task/status');
         const data = await response.json();
-        if (response.status==200){
+        if (response.status == 200) {
             setAllTaskStatus(data)
         }
-        else{
+        else {
 
         }
         // console.log(data)
@@ -96,6 +97,7 @@ const Edit_Task_Status = () => {
             });
 
             const result = await response.json();
+            console.log("result--", result)
 
             setUpdateAllTaskStatus(!updateAllTaskStatus)
             setTaskStatus({
@@ -189,6 +191,70 @@ const Edit_Task_Status = () => {
     function closeModal6() {
         setIsOpen6(false);
     }
+
+
+
+
+    const [updateTaskAssigne, setUpdateTaskAssigne] = useState([]);
+
+    const [staffDetail, setStaffDetail] = useState();
+    const fetchStaffDetail = async () => {
+        const result = await fetch(baseUrl + "staff")
+        console.log("reuslt---", result)
+        if (result.status == 200) {
+            const res = await result.json();
+            setStaffDetail(res)
+        }
+        else {
+            alert("An Error Occured")
+        }
+
+    }
+
+
+
+    const [selectedTaskStatus, setSelectedTaskStatus] = useState(''); // State for selected task status
+    const [taskDataDetail, setTaskDetail] = useState([]);
+    console.log("taskdatadetail", taskDataDetail);
+    const [selectedTask, setSelectedTask] = useState([]);
+    console.log("selectone", selectedTask);
+
+    const [statusName, setStatusName] = useState();
+    const [statusColor, setStatusColor] = useState();
+    const [statusOrder, setStatusOrder] = useState();
+    const [filter, setFilter] = useState();
+
+
+
+    useEffect(() => {
+        if (taskDataDetail) {
+            setSelectedTask(taskDataDetail);  // Automatically copy the data to updateData
+        }
+        fetchStaffDetail();
+    }, [taskDataDetail])
+
+
+    async function updateDataTaskDetails() {
+        const taskId = taskDataDetail?.id; // Get the task ID dynamically from `selectedTaskData`
+        const result = await fetch(baseUrl + `task/detail/${taskId}`, {
+            method: "PUT",
+            headers: {
+                'Content-type': "application/form-data"
+            },
+            body: JSON.stringify({ taskStatusName: statusName, statusColor: statusColor, statusOrder: statusOrder, isHiddenId: updateTaskAssigne,canBeChangedId:selectedTaskStatus })
+        })
+        if (result.status = 200) {
+            const data = await result.json();
+            console.log(data)
+            openToast("Add Task Successfully", "success")
+        }
+        else {
+            openToast("Internal Server Error", "error")
+        }
+    }
+    // Initial selected IDs
+
+
     return (
         <div className=" w-full  ">
 
@@ -253,7 +319,7 @@ const Edit_Task_Status = () => {
                                                     className="basic-multi-select"
                                                     classNamePrefix="select"
                                                     value={taskStatus.isHiddenFor || []}
-                                                    onChange={(selectedOptions) => 
+                                                    onChange={(selectedOptions) =>
                                                         setTaskStatus((prev) => ({
                                                             ...prev,
                                                             isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
@@ -395,7 +461,7 @@ const Edit_Task_Status = () => {
                                 className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
                             >
                                 {
-                                    allTaskStatus?.map((status,index) => (
+                                    allTaskStatus?.map((status, index) => (
                                         <tr className="border">
                                             <td className="p-3">{status?.id}</td>
                                             <td className="p-3">{status?.taskStatusName}</td>
@@ -405,7 +471,14 @@ const Edit_Task_Status = () => {
                                             <td className="p-3">In Progress</td>
                                             <td className="p-3">
                                                 <div className="flex gap-2">
-                                                    <button className="bg-[#27004a] p-3 rounded-md text-white" onClick={openModal6}>Edit</button>
+                                                    <button className="bg-[#27004a] p-3 rounded-md text-white"
+                                                        onClick={() => {
+                                                            setTaskDetail(status)
+                                                            openModal6()
+                                                        }
+
+
+                                                        }>Edit</button>
                                                     <button className="bg-red-600 p-3 rounded-md text-white">Delete</button>
                                                 </div>
                                             </td>
@@ -442,41 +515,91 @@ const Edit_Task_Status = () => {
                     <div className="p-4">
                         <div className='w-[100%] xl:[48%] mb-[10px] '>
                             <label className='text-[14px]'>*Status Name</label><br />
-                            <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                            <input type='text' placeholder='' onChange={(e) => setStatusName(e.target.value)} defaultValue={taskDataDetail.taskStatusName} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                         </div>
                         <div className='w-[100%] xl:[48%] mb-[10px] '>
                             <label className='text-[14px]'>*Status Color</label><br />
-                            <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                            <input type='text' placeholder='' onChange={(e) => setStatusColor(e.target.value)} defaultValue={taskDataDetail.statusColor} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                         </div>
                         <div className='w-[100%] xl:[48%] mb-[10px] '>
                             <label className='text-[14px]'>*Status Order</label><br />
-                            <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                            <input type='text' placeholder='' onChange={(e) => setStatusOrder(e.target.value)} defaultValue={taskDataDetail.statusOrder} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                         </div>
                         <div className="mb-[10px] flex items-center gap-[6px]">
-                            <input type="checkbox" />
+                            <input type="checkbox" onChange={(e) => setFilter(e.target.checked)} />
                             <p>Default Filter</p>
                         </div>
                         <div className='w-[100%]  xl:[48%] mb-[26px]'>
                             <label className='text-[14px]'>is hidden for</label><br />
-                            <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                <option>Nothing Selected</option>
-                            </select>
+                            <Select
+                                isMulti
+                                options={staffDetail?.map(staff => ({
+                                    value: staff.id,
+                                    label: staff.name
+                                }))}
+                                defaultValue={staffDetail
+                                    ?.filter(staff => taskDataDetail?.isHiddenId?.includes(staff.id))
+                                    .map(staff => ({
+                                        value: staff.id,
+                                        label: staff.name
+                                    }))
+                                }
+                                onChange={(selectedOptions) => {
+                                    const selectedIds = selectedOptions?.map(option => option.value) || [];
+                                    setUpdateTaskAssigne(selectedIds);  // Update `updateTaskAssigne` with selected IDs
+                                }}
+                                placeholder="Select Members..."
+                                className="w-full"
+                                styles={{
+                                    control: (provided) => ({
+                                        ...provided,
+                                        minHeight: '46px',
+                                        border: '1px solid #DBDCDE',
+                                    }),
+                                    multiValue: (provided) => ({
+                                        ...provided,
+                                        backgroundColor: '#e5e7eb',
+                                        borderRadius: '4px',
+                                    }),
+                                    multiValueLabel: (provided) => ({
+                                        ...provided,
+                                        fontSize: '0.875rem',
+                                    }),
+                                    multiValueRemove: (provided) => ({
+                                        ...provided,
+                                        color: '#4b5563',
+                                        cursor: 'pointer',
+                                    }),
+                                }}
+                            />
+
+
                         </div>
                         <div className='w-[100%]  xl:[48%] mb-[20px]'>
                             <label className='text-[14px]'>Can be changed to</label><br />
-                            <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                <option>Nothing Selected</option>
+                            <select
+                                className="border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                                defaultValue={taskDataDetail.canBeChangedId} // Set default value from state
+                                onChange={(e) => setSelectedTaskStatus(e.target.value)} // Update state on change
+                            >
+                                <option value="">Nothing Selected</option>
+                                {allTaskStatus?.map((status, index) => (
+                                    <option key={status.id} value={status.id}>
+                                        {status.taskStatusName}
+                                    </option>
+                                ))}
                             </select>
+
                         </div>
                     </div>
 
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                         <button className="first-btn" onClick={closeModal6}>Cancel</button>
-                        <button className="second-btn">Confirm</button>
+                        <button className="second-btn" onClick={updateDataTaskDetails}>Confirm</button>
                     </div>
                 </div>
 
