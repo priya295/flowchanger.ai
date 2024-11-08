@@ -1,5 +1,6 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Monthly from "./Monthly";
 
 const Plan = () => {
   return (
@@ -14,14 +15,16 @@ const Plan = () => {
 
       <div className="tab-section ">
         <Tabs>
-          <TabList className="flex items-center justify-center border border-[#8A25B0] mx-[42%]">
-            <Tab className= "hover:bg-[#8A25B0] hover:text-white text-[#8A25B0] px-2 py-2 border-none">Monthly</Tab>
-            <Tab className="hover:bg-[#8A25B0] hover:text-white text-[#8A25B0] px-2 py-2" >Yearly</Tab>
-            <Tab className="hover:bg-[#8A25B0] hover:text-white text-[#8A25B0] px-2 py-2">Lifetime</Tab>
+          <TabList className="flex items-center justify-center mt-7">
+            <Tab className= "hover:bg-[#27004a] hover:text-white text-[#27004a] px-4 py-2 border border-[#27004a] rounded-l-md">Monthly</Tab>
+            <Tab className="hover:bg-[#27004a] hover:text-white text-[#27004a] px-3 py-2 border-t border-b border-[#27004a]" >Yearly</Tab>
+            <Tab className="hover:bg-[#27004a] hover:text-white text-[#27004a] px-4 py-2 border border-[#27004a] rounded-r-md">Lifetime</Tab>
           </TabList>
+
           <TabPanel>
-            
+            <Monthly/>
           </TabPanel>
+          
           <TabPanel>
             
           </TabPanel>

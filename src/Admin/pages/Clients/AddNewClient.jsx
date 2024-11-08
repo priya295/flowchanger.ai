@@ -3,7 +3,8 @@ import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 // import CustomDialog from "./DialougeBox";
 import { MdOutlineDone } from "react-icons/md";
-const EditNewClient = () =>{
+
+const AddNewClient = () =>{
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -165,7 +166,7 @@ const EditNewClient = () =>{
                <option>{option}</option>
               </>
             })}
-          </select>
+           </select>
         </div>
       </div>
 
@@ -213,6 +214,6 @@ const EditNewClient = () =>{
   );
 }
 
-export default EditNewClient;
+export default AddNewClient;
 
 

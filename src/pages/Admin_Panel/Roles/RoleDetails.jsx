@@ -6,11 +6,53 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+
 
 const Main = () => {
 
   const { baseUrl, setRoleName, setRoleId, setEditPermissions } = useGlobalContext();
   const [roles, setRoles] = useState([])
+  const [exportFormat, setExportFormat] = useState('');
+  const [rowsToShow, setRowsToShow] = useState(25);
+
+  const handleSelectChange = (event) => {
+    setRowsToShow(Number(event.target.value));
+  };
+
+
+  const handleExport = () => {
+    if (exportFormat === 'CSV') exportCSV();
+    else if (exportFormat === 'PDF') exportPDF();
+    else if (exportFormat === 'Print') printRoles();
+  };
+
+  const exportCSV = () => {
+    const csvData = roles.map(role => `${role.role_name}, Total Users: 1`).join('\n');
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'roles.csv');
+  };
+
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Role List", 20, 10);
+    roles.forEach((role, index) => {
+      doc.text(`${index + 1}. ${role.role_name} (Total Users: 1)`, 10, 20 + index * 10);
+    });
+    doc.save('roles.pdf');
+  };
+
+  const printRoles = () => {
+    const printContent = roles.map(role => `${role.role_name} (Total Users: 1)`).join('\n');
+    const newWindow = window.open('', '_blank');
+    newWindow.document.write(`<pre>${printContent}</pre>`);
+    newWindow.document.close();
+    newWindow.print();
+  };
+
+
+
 
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "role")
@@ -24,8 +66,6 @@ const Main = () => {
     }
 
   }
-
-  
 
 
   const deleteRole = async (id) => {
@@ -61,20 +101,26 @@ const Main = () => {
 
         <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
           <div className='left-side '>
-            <select className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
-              <option>25</option>
-              <option>50</option>
-              <option>100</option>
-              <option>120</option>
+            <select onChange={handleSelectChange} className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="120">120</option>
 
             </select>
 
-            <select className=' border border-[#e5e7eb]  p-[8px] shadow-sm rounded-md pl-0 pr-3 focus:outline-none'>
-              <option>Export</option>
-              <option>CSV</option>
-              <option>PDF</option>
-              <option>Print</option>
+            <select onChange={(e) => setExportFormat(e.target.value)} className=' border border-[#e5e7eb]  p-[8px] shadow-sm rounded-md pl-0 pr-3 focus:outline-none'>
+              <option value="CSV">CSV</option>
+              <option value="PDF">PDF</option>
+              <option value="Print">Print</option>
             </select>
+
+            <button
+              onClick={handleExport}
+              className='ml-2 bg-[#511992] text-white p-2 rounded-md cursor-pointer'
+            >
+              Export File
+            </button>
             <CachedIcon className='border border-[#e5e7eb] shadow-sm ml-2 rounded-md cursor-pointer refresh' />
 
 
@@ -101,7 +147,7 @@ const Main = () => {
 
 
             {
-              roles.map((role, index) => {
+              roles.slice(0,rowsToShow).map((role, index) => {
                 return <tr className='border-b pb-2 border-[#f1f5f9]'>
                   <td className='pt-4 pb-3 pl-3'>
                     <Link to="/" className='text-[#511992] text-[14px]'>{role.role_name}</Link>
@@ -131,7 +177,7 @@ const Main = () => {
           </tbody>
         </table>
         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
-          <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to 7 of 7 entries </p>
+          <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {roles.length} entries </p>
           <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
             <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
             <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
