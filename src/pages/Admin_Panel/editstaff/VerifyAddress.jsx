@@ -4,32 +4,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyAddress = () => {
-    const [currentAddress, setCurrentAddress] = useState("");
-    const [permanentAddress, setPermanentAddress] = useState("");
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
 
-    async function submitAddress() {
-        const newFormData = new FormData();
-        newFormData.append("current_address", currentAddress);
-        newFormData.append("permanent_address", permanentAddress);
-
-        const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/address", {
-            method: "PUT",
-            body: newFormData
-        });
-
-        console.log(response);
-
-        if (response.status === 201) {
-            const result = await response.json();
-            console.log(result);
-            closeModal2();
-            alert("Address successfully updated");
-        } else {
-            alert("An error occurred");
-        }
-    }
 
     let subtitle;
 
@@ -50,7 +27,7 @@ const VerifyAddress = () => {
     const fileInputRef = useRef(null);
 
     const handleUploadClick = () => {
-        fileInputRef.current.click(); 
+        fileInputRef.current.click();
     };
 
     // Function to handle file selection
@@ -58,6 +35,44 @@ const VerifyAddress = () => {
         const file = event.target.files[0];
         console.log("Selected file:", file);
     };
+
+    const [address, setAddress] = useState({
+        current: selectedStaff?.staffDetails?.staff_bg_verification?.current_address,
+        permanent: selectedStaff?.staffDetails?.staff_bg_verification?.permanent_address,
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.address_status,
+    });
+    const [currentAddress, setCurrentAddress] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.current_address);
+    const [permanentAddress, setPermanentAddress] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.permanent_address);
+
+
+
+    async function submitAddress() {
+        const newFormData = new FormData();
+        newFormData.append("current_address", currentAddress);
+        newFormData.append("permanent_address", permanentAddress);
+
+        try {
+            const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/address", {
+                method: "PUT",
+                body: newFormData
+            });
+            console.log(response);
+
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                setAddress({ ...address, current: currentAddress, permanent: permanentAddress, status: result?.data?.address_status });
+                openToast("Address successfully updated or created", "success");
+                closeModal2();
+            } else {
+                openToast("An error occurred while adding or updating Address", "error");
+            }
+        } catch (error) {
+            console.error("Error adding or updating Address:", error);
+            openToast("An error occurred while adding or updating Address", "error");
+        }
+    }
+
 
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
@@ -67,6 +82,7 @@ const VerifyAddress = () => {
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Address</h4>
+                <p className='font-light'>{address.permanent}</p>
                 <button className='second-btn' onClick={openModal2}  >
                     Add
                 </button>
@@ -77,6 +93,7 @@ const VerifyAddress = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
+                <p className='font-light'>{address.status}</p>
 
             </div>
 
@@ -110,8 +127,8 @@ const VerifyAddress = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Address
                         </label><br />
-                        <input type='text' placeholder='Enter Current Address' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)}/><br />
-                        <input type='text' placeholder="Enter Permanent Address" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={permanentAddress} onChange={(e) => setPermanentAddress(e.target.value)}/><br />
+                        <input type='text' placeholder='Enter Current Address' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={currentAddress} onChange={(e) => setCurrentAddress(e.target.value)} /><br />
+                        <input type='text' placeholder="Enter Permanent Address" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={permanentAddress} onChange={(e) => setPermanentAddress(e.target.value)} /><br />
 
 
                     </div>

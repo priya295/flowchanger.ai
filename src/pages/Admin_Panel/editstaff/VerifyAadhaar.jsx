@@ -7,32 +7,44 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyAadhaar = () => {
-    const [bgVerification, setBgVerification] = useState("");
+    
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+    
+    const [aadhaar, setAadhaar] = useState({
+        number: selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_number,
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_verification_status,
+    });
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
-
+        const [bgVerification, setBgVerification] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_number);
 
 
     async function submitAadhar() {
         const newFormData = new FormData();
         newFormData.append("aadhaar_number", bgVerification);
 
-        const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/aadhaar", {
-            method: "PUT",
-            body: newFormData
-        });
+        try {
+            const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/aadhaar", {
+                method: "PUT",
+                body: newFormData
+            });
 
-        console.log(response);
+            console.log(response);
 
-        if (response.status === 201) {
-            const result = await response.json();
-            console.log(result);
-            closeModal2();
-            alert("Aadhaar successfully updated");
-        } else {
-            alert("An error occurred");
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                setAadhaar({ ...aadhaar, number: result?.data?.aadhaar_number, status: result?.data?.aadhaar_verification_status });
+                openToast("Aadhaar successfully updated or created", "success");
+                closeModal2();
+            } else {
+                openToast("An error occurred while adding or updating Aadhaar", "error");
+            }
+        } catch (error) {
+            console.error("Error submitting Aadhaar:", error);
+            openToast("An error occurred while adding or updating Aadhaar", "error");
         }
     }
+
 
 
     let subtitle;
@@ -72,6 +84,7 @@ const VerifyAadhaar = () => {
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Aadhaar</h4>
+                <p className='font-light'>{aadhaar?.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
                     Add
                 </button>
@@ -82,7 +95,7 @@ const VerifyAadhaar = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
-
+                <p className='font-light'>{aadhaar?.status}</p>
             </div>
 
 

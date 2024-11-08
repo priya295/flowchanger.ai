@@ -4,32 +4,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyUan = () => {
-    const [bgVerification, setBgVerification] = useState("");
 
-    const { baseUrl, selectedStaff } = useGlobalContext();
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
 
-    async function submitUan() {
-        const newFormData = new FormData();
-        newFormData.append("uan_number", bgVerification);
-
-        const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/uan", {
-            method: "PUT",
-            body: newFormData
-        });
-
-        console.log(response);
-
-        if (response.status === 201) {
-            const result = await response.json();
-            console.log(result);
-            closeModal2();
-            alert("UAN successfully updated");
-        } else {
-            alert("An error occurred");
-        }
-    }
-
-   
+    
     let subtitle;
 
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -49,7 +27,7 @@ const VerifyUan = () => {
     const fileInputRef = useRef(null);
 
     const handleUploadClick = () => {
-        fileInputRef.current.click(); 
+        fileInputRef.current.click();
     };
 
     // Function to handle file selection
@@ -57,6 +35,44 @@ const VerifyUan = () => {
         const file = event.target.files[0];
         console.log("Selected file:", file);
     };
+
+    const [uan, setUan] = useState({
+        number: selectedStaff?.staffDetails?.staff_bg_verification?.uan_number,
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.uan_verification_status,
+    });
+
+    const [bgVerification, setBgVerification] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.uan_number);
+
+
+    async function submitUan() {
+        const newFormData = new FormData();
+        newFormData.append("uan_number", bgVerification);
+
+
+        try {
+            const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/uan", {
+                method: "PUT",
+                body: newFormData
+            });
+
+            console.log(response);
+
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                setUan({ ...uan, number: result?.data?.uan_number, status: result?.data?.uan_verification_status });
+                openToast("UAN successfully updated or created", "success");
+                closeModal2();
+            } else {
+                openToast("An error occurred while adding or updating UAN", "error");
+            }
+        } catch (error) {
+            console.error("Error adding or updating Driving License:", error);
+            openToast("An error occurred while adding or updating UAN", "error");
+        }
+    }
+
+
 
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
@@ -66,6 +82,7 @@ const VerifyUan = () => {
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>UAN</h4>
+                <p className='font-light'>{uan?.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
                     Add
                 </button>
@@ -76,6 +93,7 @@ const VerifyUan = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
+                <p className='font-light'>{uan?.status}</p>
 
             </div>
 
@@ -109,7 +127,7 @@ const VerifyUan = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>UAN
                         </label><br />
-                        <input type='text' placeholder="Enter UAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)}/><br />
+                        <input type='text' placeholder="Enter UAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)} /><br />
 
 
                     </div>
