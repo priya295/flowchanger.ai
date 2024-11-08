@@ -9,6 +9,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
 
@@ -66,7 +70,7 @@ const TaskPriority = () => {
     //Modal2
 
 
-    const [isOpen5, setIsOpen5] = useState(false);
+    const [isOpen5, setIsOpen5] = useState(true);
 
     // Toggle the visibility of tbody
     const toggleTable = () => {
@@ -108,11 +112,13 @@ const TaskPriority = () => {
 
 
     const [priorityHeading, setPriorityHeading] = useState([]);
+    console.log("priority", priorityHeading)
     async function fetchPriority() {
         const result = await fetch(baseUrl + "task/priority");
         if (result.status == 200) {
             const res = await result.json()
-            setPriorityHeading(res.data)
+            console.log("---", res)
+            setPriorityHeading(res)
 
         } else {
             openToast("Internal Server Error", "error")
@@ -123,6 +129,42 @@ const TaskPriority = () => {
     useEffect(() => {
         fetchPriority();
     }, [])
+
+
+    const [exportFormat, setExportFormat] = useState('');
+    const handleExport = () => {
+        if (exportFormat === 'CSV') exportCSV();
+        else if (exportFormat === 'PDF') exportPDF();
+        else if (exportFormat === 'Print') printDepartments();
+    };
+
+    const exportCSV = () => {
+        const csvData = priorityHeading.map(dep => `${dep.taskPriorityName}`).join('\n');
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'Priority Name.csv');
+    };
+
+    const exportPDF = () => {
+        const doc = new jsPDF();
+        doc.text("Priority Name", 20, 10);
+        priorityHeading.forEach((dep, index) => {
+            doc.text(`${index + 1}. ${dep.taskPriorityName}`, 10, 20 + index * 10);
+        });
+        doc.save('Priority Name.pdf');
+    };
+
+    const printDepartments = () => {
+        const printContent = priorityHeading.map(dep => `${dep.taskPriorityName} `).join('\n');
+        const newWindow = window.open();
+        newWindow.document.write(`<pre>${printContent}</pre>`);
+        newWindow.document.close();
+        newWindow.print();
+    };
+    const [rowsToShow, setRowsToShow] = useState(25);
+    const handleSelectChange = (event) => {
+        setRowsToShow(Number(event.target.value));
+    };
+
 
     return (
         <div className=" w-full  ">
@@ -186,14 +228,17 @@ const TaskPriority = () => {
                     <div className="flex justify-between items-start gap-[10px] mb-[14px] flex-col xl:flex-row lg:flex-row md:flex-row ">
                         <div className="flex gap-[10px]">
                             <div className="relative inline-block text-left">
+                                {/* Button to open/close the dropdown */}
+                                <select
+                                    onChange={handleSelectChange}
+                                    className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="120">120</option>
+                                </select>
 
-                                <button
-                                    className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                    onClick={toggleDropdown1}
-                                >
-                                    25 <KeyboardArrowDownIcon className="newadd" />
-                                </button>
-
+                                {/* Dropdown menu */}
                                 {isOpen1 && (
                                     <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
                                         <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
@@ -224,51 +269,70 @@ const TaskPriority = () => {
                             </div>
 
 
-                            <p className=" relative p-[7px] text-[12px] w-[100px] font-medium summary-border rounded-md  "> Export <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" /> </p>
-
+                            <select onChange={(e) => setExportFormat(e.target.value)}
+                                className='border border-[#e5e7eb] p-2 pl-0 shadow-sm text-sm rounded-md  focus:outline-none'>
+                                <option value="CSV">CSV</option>
+                                <option value="PDF">PDF</option>
+                                <option value="Print">Print</option>
+                            </select>
+                            <button
+                                onClick={handleExport}
+                                className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
+                            >
+                                Export
+                            </button>
                         </div>
                         <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
                             <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
                             <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
                         </div>
                     </div>
+
                     <div className="main-table-status">
                         <table className="table-auto w-full border border-gray-300 rounded-md table-status">
                             <thead
                                 onClick={toggleTable}
-                                className="set-shadow  cursor-pointer"
+                                className="set-shadow cursor-pointer"
                             >
                                 <tr>
-                                    <th className="p-3 text-center">ID</th>
+                                    <th className="p-3 text-center">#</th>
                                     <th className="p-3 text-center">Priority Name</th>
                                     <th className="p-3 text-center">Action</th>
 
                                 </tr>
                             </thead>
                             <tbody
-                                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
-                                style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
+                                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? "block" : "hidden"}`}
                             >
                                 {
                                     priorityHeading?.map((priorityName, index) => {
                                         return <tr className="border">
-                                            <td className=" ">{index + 1}</td>
-                                            <td>{priorityName.taskPriorityName}</td>
-                                            <td className=" ">
+                                            <td className="w-full">{index + 1} </td>
+                                            <td className="w-full">{priorityName.taskPriorityName}</td>
+                                            <td className=" w-full">
                                                 <div className="flex gap-2 justify-center">
-                                                    <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
-                                                    <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                                                    <button className="  rounded-md text-white "><BorderColorIcon className="text-[#27004a]"/></button>
+                                                    <button className="  rounded-md text-white "><DeleteOutlineIcon className="text-[#ff0000]"/></button>
 
                                                 </div>
                                             </td>
 
+
                                         </tr>
                                     })
                                 }
-
-
                             </tbody>
                         </table>
+
+                        <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+                            <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {priorityHeading?.length} entries</p>
+                            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
+                            </div>
+                        </div>
                     </div>
 
                 </div>

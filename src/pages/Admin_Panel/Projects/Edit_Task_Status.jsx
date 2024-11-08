@@ -10,6 +10,9 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+
 
 
 const Edit_Task_Status = () => {
@@ -85,7 +88,7 @@ const Edit_Task_Status = () => {
             isHiddenId: taskStatus.isHiddenFor?.map((staff) => staff?.value),
             canBeChangedId: taskStatus.canBeChangedTo
         };
-        console.log(data);
+        console.log("---", data);
 
         try {
             const response = await fetch(baseUrl + "task/status", {
@@ -95,7 +98,6 @@ const Edit_Task_Status = () => {
                 },
                 body: JSON.stringify(data) // Send the formatted data
             });
-
             const result = await response.json();
             console.log("result--", result)
 
@@ -107,7 +109,7 @@ const Edit_Task_Status = () => {
                 isHiddenFor: [],
                 canBeChangedTo: [],
             })
-            if (response.ok) {
+            if (response.status == 201) {
                 console.log("Task created successfully:", result);
             } else {
                 console.error("Failed to create task:", result);
@@ -241,7 +243,7 @@ const Edit_Task_Status = () => {
             headers: {
                 'Content-type': "application/form-data"
             },
-            body: JSON.stringify({ taskStatusName: statusName, statusColor: statusColor, statusOrder: statusOrder, isHiddenId: updateTaskAssigne,canBeChangedId:selectedTaskStatus })
+            body: JSON.stringify({ taskStatusName: statusName, statusColor: statusColor, statusOrder: statusOrder, isHiddenId: updateTaskAssigne, canBeChangedId: selectedTaskStatus })
         })
         if (result.status = 200) {
             const data = await result.json();
@@ -253,6 +255,39 @@ const Edit_Task_Status = () => {
         }
     }
     // Initial selected IDs
+    const [exportFormat, setExportFormat] = useState('');
+    const handleExport = () => {
+        if (exportFormat === 'CSV') exportCSV();
+        else if (exportFormat === 'PDF') exportPDF();
+        else if (exportFormat === 'Print') printDepartments();
+    };
+
+    const exportCSV = () => {
+        const csvData = allTaskStatus.map(dep => `${dep.taskStatusName}, ${dep.statusColor}, ${dep.statusOrder}`).join('\n');
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'AllTaskStatus.csv');
+    };
+
+    const exportPDF = () => {
+        const doc = new jsPDF();
+        doc.text("AllTaskStatus", 20, 10);
+        allTaskStatus.forEach((dep, index) => {
+            doc.text(`${index + 1}. ${dep.taskStatusName},${dep.statusColor},${dep.statusOrder}`, 10, 20 + index * 10);
+        });
+        doc.save('AllTaskStatus.pdf');
+    };
+
+    const printDepartments = () => {
+        const printContent = allTaskStatus.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
+        const newWindow = window.open();
+        newWindow.document.write(`<pre>${printContent}</pre>`);
+        newWindow.document.close();
+        newWindow.print();
+    };
+    const [rowsToShow, setRowsToShow] = useState(25);
+    const handleSelectChange = (event) => {
+        setRowsToShow(Number(event.target.value));
+    };
 
 
     return (
@@ -392,12 +427,14 @@ const Edit_Task_Status = () => {
                         <div className="flex gap-[10px]">
                             <div className="relative inline-block text-left">
                                 {/* Button to open/close the dropdown */}
-                                <button
-                                    className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                    onClick={toggleDropdown1}
-                                >
-                                    25 <KeyboardArrowDownIcon className="newadd" />
-                                </button>
+                                <select
+                                    onChange={handleSelectChange}
+                                    className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="120">120</option>
+                                </select>
 
                                 {/* Dropdown menu */}
                                 {isOpen1 && (
@@ -430,8 +467,18 @@ const Edit_Task_Status = () => {
                             </div>
 
 
-                            <p className=" relative p-[7px] text-[12px] w-[100px] font-medium summary-border rounded-md  "> Export <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" /> </p>
-
+                            <select onChange={(e) => setExportFormat(e.target.value)}
+                                className='border border-[#e5e7eb] p-2 pl-0 shadow-sm text-sm rounded-md  focus:outline-none'>
+                                <option value="CSV">CSV</option>
+                                <option value="PDF">PDF</option>
+                                <option value="Print">Print</option>
+                            </select>
+                            <button
+                                onClick={handleExport}
+                                className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
+                            >
+                                Export
+                            </button>
                         </div>
                         <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
                             <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
@@ -448,7 +495,7 @@ const Edit_Task_Status = () => {
                                 className="set-shadow cursor-pointer"
                             >
                                 <tr>
-                                    <th className="p-3 text-center">ID</th>
+                                    <th className="p-3 text-center">#</th>
                                     <th className="p-3 text-center">Status Name</th>
                                     <th className="p-3 text-center">Status Color</th>
                                     <th className="p-3 text-center">Status Order</th>
@@ -463,7 +510,7 @@ const Edit_Task_Status = () => {
                                 {
                                     allTaskStatus?.map((status, index) => (
                                         <tr className="border">
-                                            <td className="p-3">{status?.id}</td>
+                                            <td className="p-3">{index + 1}</td>
                                             <td className="p-3">{status?.taskStatusName}</td>
                                             <td className="p-3">{status?.statusColor}</td>
                                             <td className="p-3">{status?.statusOrder}</td>
@@ -487,6 +534,16 @@ const Edit_Task_Status = () => {
                                 }
                             </tbody>
                         </table>
+
+                        <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+                            <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {allTaskStatus?.length} entries</p>
+                            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
+                            </div>
+                        </div>
                     </div>
 
                 </div>

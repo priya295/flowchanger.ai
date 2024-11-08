@@ -10,6 +10,10 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+
+
 
 
 
@@ -138,7 +142,7 @@ const ProjectPriority = () => {
     const [prorityName, setPriorityName] = useState();
     const [priorityColor, setPriorityColor] = useState();
     const [priorityOrder, setPriorityOrder] = useState();
-    const [filter,setFilter]=useState(false)
+    const [filter, setFilter] = useState(false)
     const [canChanged, setCanChanged] = useState();
     const [selectStaffId, setSelectStaffId] = useState();
 
@@ -148,29 +152,66 @@ const ProjectPriority = () => {
             headers: {
                 "Content-type": "application/json"
             },
-            body:JSON.stringify({Priority_name:prorityName,Priority_color:priorityColor,Priority_order:priorityOrder,default_filter:filter,is_hidden:selectStaffId,can_changed:canChanged})
+            body: JSON.stringify({ Priority_name: prorityName, Priority_color: priorityColor, Priority_order: priorityOrder, default_filter: filter, is_hidden: selectStaffId, can_changed: canChanged })
         })
-        if(result.status==201){
+        if (result.status == 201) {
             alert("Added Project Priority Sucessfully")
         }
-        else{
+        else {
             alert("An Occor Error")
         }
     }
 
 
 
-    const[projectPriorityDetail,setProjectPriorityDetail]=useState();
-    async function fetchProjectPriority(){
-        const result= await fetch(baseUrl+"project-Priority/")
+    const [projectPriorityDetail, setProjectPriorityDetail] = useState();
+    console.log("ProjectPriority Detail",projectPriorityDetail)
+    async function fetchProjectPriority() {
+        const result = await fetch(baseUrl + "project-Priority/")
         const data = await result.json();
-        console.log("+++++---",data)
+        console.log("+++++---", data)
         setProjectPriorityDetail(data.data)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         fetchProjectPriority();
-    },[])
+    }, [])
+
+
+    const [exportFormat, setExportFormat] = useState('');
+    const handleExport = () => {
+        if (exportFormat === 'CSV') exportCSV();
+        else if (exportFormat === 'PDF') exportPDF();
+        else if (exportFormat === 'Print') printDepartments();
+    };
+
+    const exportCSV = () => {
+        const csvData = projectPriorityDetail.map(dep => `${dep.Priority_name}, ${dep.Priority_color}, ${dep.Priority_order}`).join('\n');
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'ProjectStatus.csv');
+    };
+
+    const exportPDF = () => {
+        const doc = new jsPDF();
+        doc.text("AllTaskStatus", 20, 10);
+        projectPriorityDetail.forEach((dep, index) => {
+            doc.text(`${index + 1}. ${dep.Priority_name},${dep.project_color},${dep.Priority_order}`, 10, 20 + index * 10);
+        });
+        doc.save('ProjectStatus.pdf');
+    };
+
+    const printDepartments = () => {
+        const printContent = projectPriorityDetail.map(dep => `${dep.Priority_name},${dep.Priority_color}, ${dep.Priority_order} (Total Users: 1)`).join('\n');
+        const newWindow = window.open();
+        newWindow.document.write(`<pre>${printContent}</pre>`);
+        newWindow.document.close();
+        newWindow.print();
+    };
+    const [rowsToShow, setRowsToShow] = useState(25);
+    const handleSelectChange = (event) => {
+        setRowsToShow(Number(event.target.value));
+    };
+
 
     return (
         <div className=" w-full  ">
@@ -204,7 +245,7 @@ const ProjectPriority = () => {
                                         <div className="p-4">
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
                                                 <label className='text-[14px]'>*Priority Name</label><br />
-                                                <input type='text' onChange={(e)=>{setPriorityName(e.target.value)}} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                                <input type='text' onChange={(e) => { setPriorityName(e.target.value) }} placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
                                             </div>
                                             <div className='w-[100%] xl:[48%] mb-[10px] '>
@@ -218,7 +259,7 @@ const ProjectPriority = () => {
 
                                             </div>
                                             <div className="mb-[10px] flex items-center gap-[6px]">
-                                                <input type="checkbox" onChange={(e)=>{setFilter(e.target.value)}} />
+                                                <input type="checkbox" onChange={(e) => { setFilter(e.target.value) }} />
                                                 <p>Default Filter</p>
                                             </div>
                                             <div className='w-[100%]  xl:[48%] mb-[26px]'>
@@ -241,7 +282,7 @@ const ProjectPriority = () => {
                                                     styles={customStyles}
                                                 />
 
-                                               
+
                                             </div>
                                             <div className='w-[100%]  xl:[48%] mb-[20px]'>
                                                 <label className='text-[14px]'>Can be changed to</label><br />
@@ -276,12 +317,14 @@ const ProjectPriority = () => {
                         <div className="flex gap-[10px]">
                             <div className="relative inline-block text-left">
                                 {/* Button to open/close the dropdown */}
-                                <button
-                                    className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                    onClick={toggleDropdown1}
-                                >
-                                    25 <KeyboardArrowDownIcon className="newadd" />
-                                </button>
+                                <select
+                                    onChange={handleSelectChange}
+                                    className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="120">120</option>
+                                </select>
 
                                 {/* Dropdown menu */}
                                 {isOpen1 && (
@@ -314,8 +357,19 @@ const ProjectPriority = () => {
                             </div>
 
 
-                            <p className=" relative p-[7px] text-[12px] w-[100px] font-medium summary-border rounded-md  "> Export <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" /> </p>
+                            <select onChange={(e) => setExportFormat(e.target.value)}
+                                className='border border-[#e5e7eb] p-2 pl-0 shadow-sm text-sm rounded-md  focus:outline-none'>
+                                <option value="CSV">CSV</option>
+                                <option value="PDF">PDF</option>
+                                <option value="Print">Print</option>
+                            </select>
+                            <button
+                                onClick={handleExport}
+                                className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
 
+>
+                                Export
+                            </button>
                         </div>
                         <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
                             <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
@@ -346,29 +400,40 @@ const ProjectPriority = () => {
                             >
 
                                 {
-                                    projectPriorityDetail?.map((s,index)=>{
-                                        return   <tr className="border">
-                                        <td className=" ">{index+1}</td>
-                                        <td className=" ">{s.Priority_name}</td>
-                                        <td className=" ">{s.Priority_color}</td>
-                                        <td className=" ">{s.Priority_order}</td>
-                                        <td className=" ">Yes</td>
-                                        <td className=" ">In Progress</td>
-                                        <td className=" ">
-                                            <div className="flex gap-2 justify-center">
-                                                <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6} >Edit</button>
-                                                <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-    
-                                            </div>
-                                        </td>
-    
-                                    </tr>
+                                    projectPriorityDetail?.map((s, index) => {
+                                        return <tr className="border">
+                                            <td className=" ">{index + 1}</td>
+                                            <td className=" ">{s.Priority_name}</td>
+                                            <td className=" ">{s.Priority_color}</td>
+                                            <td className=" ">{s.Priority_order}</td>
+                                            <td className=" ">Yes</td>
+                                            <td className=" ">In Progress</td>
+                                            <td className=" ">
+                                                <div className="flex gap-2 justify-center">
+                                                    <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6} >Edit</button>
+                                                    <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
                                     })
                                 }
-                              
-                              
+
+
                             </tbody>
                         </table>
+
+
+                        <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+                            <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {projectPriorityDetail?.length} entries</p>
+                            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
+                            </div>
+                        </div>
                     </div>
 
                 </div>
