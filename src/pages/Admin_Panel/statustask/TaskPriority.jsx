@@ -8,6 +8,8 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { AiOutlineEdit } from "react-icons/ai";
 import { useGlobalContext } from "../../../Context/GlobalContext";
  
 
@@ -254,9 +256,9 @@ const TaskPriority = () => {
                                         <td className=" ">{index+1}</td>
                                        <td>{priorityName.taskPriorityName}</td>
                                         <td className=" ">
-                                            <div className="flex gap-2 justify-center">
-                                                <button className="bg-[#27004a] p-3  rounded-md text-white ">Edit</button>
-                                                <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                                            <div className="flex  justify-center">
+                                                <button className=" p-3  rounded-md text-white "><AiOutlineEdit className="text-[#27004a] text-xl"/></button>
+                                                <button className=" p-3  rounded-md text-white "><RiDeleteBin6Line className="text-red-600 text-xl"/></button>
                                                 
                                             </div>
                                         </td>
