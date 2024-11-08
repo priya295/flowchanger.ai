@@ -116,7 +116,6 @@ const DepartmentDetail = () => {
               <option value="120">120</option>
 
             </select>
-
             <select onChange={(e) => setExportFormat(e.target.value)}
               className='border border-[#e5e7eb] p-[8px] shadow-sm rounded-md pl-0 pr-3 focus:outline-none'>
               <option value="CSV">CSV</option>
