@@ -13,10 +13,10 @@ const Files = () => {
       <div className="flex justify-center items-center w-full">
         <label
           for="dropzone-file"
-          className="flex flex-col justify-center items-center w-full h-20 border-2 border-dashed border-[#4E58F2] rounded-lg cursor-pointer"
+          className="flex flex-col justify-center items-center w-full h-20 border-2 border-dashed border-[#27004a] rounded-lg cursor-pointer"
         >
           <div className="flex flex-col justify-center items-center pt-5 pb-6">
-            <p className="mb-2 text-sm text-[#4E58F2] font-medium">
+            <p className="mb-2 text-sm text-[#27004a] font-medium">
               Drop files here to upload
             </p>
           </div>
@@ -30,7 +30,7 @@ const Files = () => {
             Visible to Customer
           
           <div
-            className={`${isOn ? 'bg-green-500' : 'bg-[#e6e0e0]'
+            className={`${isOn ? 'bg-[#27004a]' : 'bg-[#e6e0e0]'
               } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
             onClick={toggleSwitch}
           >

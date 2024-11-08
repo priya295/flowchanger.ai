@@ -118,7 +118,7 @@ const Overtime = () => {
                 </div>
 
                 <div className='btn-apply'>
-                    <button className='apply-btn bg-[#8a25b0] rounded-md text-[white]' type='submit'>Apply</button>
+                    <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Apply</button>
                 </div>
 
 
@@ -207,7 +207,7 @@ const Overtime = () => {
                             </div>
 
                             <div className='flex items-center md:justify-end md:m-[0px] md:w-[100%] sm:m-[0px] mt-[20px] lg:w-[100%] lg:justify-end lg:m-[0] sm:justify-center save-btn'>
-                        <button className='apply-btn bg-[#8a25b0]  rounded-md text-[white]' type='submit'>Save</button>
+                        <button className='apply-btn bg-[#27004a]  rounded-md text-[white]' type='submit'>Save</button>
                     </div>
                         </div>
                   

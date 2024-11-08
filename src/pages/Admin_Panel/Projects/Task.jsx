@@ -9,7 +9,7 @@ import Select from 'react-select';
 
 const Task = () => {
   const { baseUrl } = useGlobalContext();
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(0);
 
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);

@@ -117,7 +117,7 @@ const Reviewfine = () => {
                 </div>
 
                 <div>
-                    <button className='apply-btn bg-[#8a25b0] rounded-md text-[white]' type='submit'>Apply</button>
+                    <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Apply</button>
                 </div>
 
 
@@ -213,7 +213,7 @@ const Reviewfine = () => {
                         </div>
                     </div>
                     <div className='flex items-center'>
-                        <button className='apply-btn bg-[#8a25b0] rounded-md text-[white]' type='submit'>Save</button>
+                        <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Save</button>
                     </div>
 
                 </div>
@@ -308,7 +308,7 @@ const Reviewfine = () => {
                         </div>
                     </div>
                     <div className='flex items-center'>
-                        <button className='apply-btn bg-[#8a25b0] rounded-md text-[white]' type='submit'>Save</button>
+                        <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Save</button>
                     </div>
 
                 </div>

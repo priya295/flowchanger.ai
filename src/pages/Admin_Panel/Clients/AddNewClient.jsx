@@ -10,7 +10,7 @@ import { label } from "framer-motion/client";
 
 const AddNewClient = () => {
   const animatedComponents = makeAnimated();
-  const { baseUrl } = useGlobalContext();
+  const { baseUrl,openToast } = useGlobalContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -77,10 +77,10 @@ const AddNewClient = () => {
     })
     console.log(result)
     if (result.status == 201) {
-      alert("Add Client Successfully")
+      openToast("Add Client Successfully")
     }
     else {
-      alert("An Error Accured")
+      openToast("An Error Accured")
     }
   }
 
@@ -137,46 +137,20 @@ const AddNewClient = () => {
             </div>
 
             {/* <!-- Groups --> */}
+
             <div className="relative">
               <label for="groups" className="block text-sm font-medium text-gray-700">Groups</label>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="groups"
-                  className="mt-1 block w-full border border-gray-300 rounded-md p-2 pr-16 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                  placeholder="Nothing selected"
+                <Select
+                  closeMenuOnSelect={false}
+                  isMulti
+                  onChange={(o) => {
+                    const arr = o.map((op) => op.value)
+                    setSelectedGroups(arr)
+                  }}
+                  options={groups.map((g)=>{
+                   return {value:g,label:g}
+                  })}
                 />
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 mt-1">
-                  <IoIosArrowDown className="h-4 w-4 text-gray-400 mr-2" onClick={() => setIsOpen(!isOpen)} />
-                  <FiPlus className="h-4 w-4 text-gray-400" onClick={() => setIsDialogOpen(true)} />
-                </div>
-              </div>
-              <CustomDialog
-                isOpen={isDialogOpen}
-                onClose={() => setIsDialogOpen(false)}
-              />
-              {isOpen && (
-                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
-                  <div className="border-b border-gray-200">
-                    <div className="flex justify-between px-4 py-2 text-sm text-black-600">
-                      <button className="hover:underline border border-gray-200 w-1/2 py-2" onClick={() => handleGroupSelection(true)}>Select All</button>
-                      <button className="hover:underline border border-gray-200 w-1/2 py-2" onClick={() => handleGroupSelection(false)}>Deselect All</button>
-                    </div>
-                  </div>
-                  <ul className="max-h-60 overflow-auto">
-                    {groups.map(group => (
-                      <li
-                        onClick={() => toggleGroupSelection(group)}
-                        key={group}
-                        className="flex items-center justify-between px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                      >
-                        <span className="text-sm">{group}</span>
-                        {selectedGroups.includes(group) && <MdOutlineDone className="text-xl" />}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
 
             {/* <!-- Currency and Default Language in one row --> */}
@@ -247,7 +221,7 @@ const AddNewClient = () => {
 
           {/* <!-- Submit Button --> */}
           <div className="mt-6  w-full md:w-[45%] flex p-2 justify-between md:justify-end  md:float-right">
-            <button type="submit" onClick={handleSubmit} className=" bg-purple-600 text-white px-2 py-1 rounded-md shadow-sm hover:bg-purple-700 focus:ring-4 focus:ring-black focus:ring-opacity-50">
+            <button type="submit" onClick={handleSubmit} className=" bg-[#27004a] text-white px-2 py-1 rounded-md shadow-sm  focus:ring-4 focus:ring-opacity-50">
               Save</button>
           </div>
         </form>

@@ -55,7 +55,7 @@ const Main = () => {
 
   return (
     <div className=' pl-[10px] w-[100%] pr-2 mb-3 pb-4 pt-[10px]'>
-      <Link to="/addrole" className='bg-[#511992]  p-2 pr-3 rounded-lg text-white hover:bg-[#7526d1]'> <AddIcon /> New Role</Link>
+      <Link to="/addrole" className='bg-[#27004a]  p-2 pr-3 rounded-lg text-white '> <AddIcon /> New Role</Link>
 
       <div className='table-section mt-5 bg-white shadow p-4 pl-0 rounded-sm pr-0'>
 
@@ -104,7 +104,7 @@ const Main = () => {
               roles.map((role, index) => {
                 return <tr className='border-b pb-2 border-[#f1f5f9]'>
                   <td className='pt-4 pb-3 pl-3'>
-                    <Link to="/" className='text-[#511992] text-[14px]'>{role.role_name}</Link>
+                    <Link to="/" className='text-[#27004a] text-[14px]'>{role.role_name}</Link>
                     <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
                   </td>
                   <td className='flex pt-4 gap-2 justify-center'>
@@ -134,7 +134,7 @@ const Main = () => {
           <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to 7 of 7 entries </p>
           <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
             <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-            <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+            <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
             <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
 
           </div>

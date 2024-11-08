@@ -50,7 +50,7 @@ const Step1 = () => {
     <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
       <div className="absolute top-4 right-4 flex items-center space-x-4">
         <p className="text-purple-500 ">Already have an account?</p>
-        <Link to="/login" className="bg-purple-500 text-white py-2 px-4 rounded-full hover:bg-purple-400 transition duration-300">Login</Link>
+        <Link to="/login" className="bg-[#8a25b0] text-white py-2 px-4 rounded-full hover:bg-purple-400 transition duration-300">Login</Link>
       </div>
 
       <div className="w-full max-w-md">

@@ -119,7 +119,7 @@ const Meeting = () => {
         <div className=' mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 '>
             <div className='heading flex justify-between items-center '>
                 <h2 className='font-medium text-[22px]'>Meetings</h2>
-                <button className='bg-[#8a25b0] text-white rounded-md p-[7px]' onClick={openModal2}>
+                <button className='bg-[#27004a] text-white rounded-md p-[7px]' onClick={openModal2}>
                     <AddIcon />
                 </button>
             </div>
@@ -197,7 +197,7 @@ const Meeting = () => {
                                 <div className='flex user-img'>
                                     <img src={userimg}  className='w-[30px] rounded-full relative  '/>
                                     <img src={userimg}  className='w-[30px] rounded-full relative left-[-7px]'/>
-                                   <button className='rounded bg-[#8A25B0] text-white -[2px] w-[33px]' onClick={openModal16}>
+                                   <button className='rounded bg-[#27004a] text-white -[2px] w-[33px]' onClick={openModal16}>
                                         <CreateIcon/>
                                     </button>
                                 </div>
@@ -206,7 +206,7 @@ const Meeting = () => {
                                 <div className='flex user-img'>
                                     <img src={userimg}  className='w-[30px] rounded-full relative  '/>
                                      <img src={userimg}  className='w-[30px] rounded-full relative left-[-7px]'/>
-                                    <button className='rounded bg-[#8A25B0] text-white -[2px] w-[33px]' onClick={openModal16}>
+                                    <button className='rounded bg-[#27004a] text-white -[2px] w-[33px]' onClick={openModal16}>
                                         <CreateIcon/>
                                     </button>
                                 </div>
@@ -215,7 +215,7 @@ const Meeting = () => {
                             <td>10-07-2024 10:04:00</td>
                             <td>Ended before 91 days 01 hours 15 minutes 47 seconds	</td>
                             <td>
-                            <button className='rounded bg-[#8A25B0] text-[#fff] p-[2px] w-[33px] mr-2' onClick={openModal16}>
+                            <button className='rounded bg-[#27004a] text-[#fff] p-[2px] w-[33px] mr-2' onClick={openModal16}>
                                         <CreateIcon/>
                                     </button>
                                     <button className='rounded text-red-500 p-[2px] w-[33px]' onClick={openModal16}>
@@ -324,7 +324,7 @@ const Meeting = () => {
                                 {selectedClients.map((client, index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center space-x-1 bg-[#8A25B0] text-white px-2 py-1 rounded-full text-[14px] mb-2"
+                                        className="flex items-center space-x-1 bg-[#27004a] text-white px-2 py-1 rounded-full text-[14px] mb-2"
                                     >
                                         <span>{client}</span>
                                         {/* "X" Button to Remove Client Badge */}
@@ -377,7 +377,7 @@ const Meeting = () => {
                                 {chosenUsers.map((user, index) => ( // Changed to chosenUsers
                                     <div
                                         key={index}
-                                        className="flex items-center space-x-1 bg-[#8A25B0] text-white px-2 py-1 rounded-full text-[14px] mb-2"
+                                        className="flex items-center space-x-1 bg-[#27004a] text-white px-2 py-1 rounded-full text-[14px] mb-2"
                                     >
                                         <span>{user}</span>
                                         {/* "X" Button to Remove User Badge */}
@@ -492,7 +492,7 @@ const Meeting = () => {
                                 {selectedClients.map((client, index) => (
                                     <div
                                         key={index}
-                                        className="flex items-center space-x-1 bg-[#8A25B0] text-white px-2 py-1 rounded-full text-[14px] mb-2"
+                                        className="flex items-center space-x-1 bg-[#27004a] text-white px-2 py-1 rounded-full text-[14px] mb-2"
                                     >
                                         <span>{client}</span>
                                         {/* "X" Button to Remove Client Badge */}
@@ -545,7 +545,7 @@ const Meeting = () => {
                                 {chosenUsers.map((user, index) => ( // Changed to chosenUsers
                                     <div
                                         key={index}
-                                        className="flex items-center space-x-1 bg-[#8A25B0] text-white px-2 py-1 rounded-full text-[14px] mb-2"
+                                        className="flex items-center space-x-1 bg-[#27004a] text-white px-2 py-1 rounded-full text-[14px] mb-2"
                                     >
                                         <span>{user}</span>
                                         {/* "X" Button to Remove User Badge */}

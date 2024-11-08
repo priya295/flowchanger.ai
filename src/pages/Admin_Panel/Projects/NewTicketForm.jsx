@@ -222,7 +222,7 @@ const NewTicketForm = () => {
         ></input>
         </div>
         <div>
-          <button className="bg-[#511992] text-white px-5 py-2 rounded-md ">Open Tickets</button>
+          <button className="bg-[#27004a] text-white px-5 py-2 rounded-md ">Open Tickets</button>
           </div>
       </div>
 

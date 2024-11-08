@@ -28,7 +28,7 @@ const Activity = () => {
             <div>
             <h1>Visible to Customer</h1>
             <div
-            className={`${isOn ? 'bg-green-500' : 'bg-[#e6e0e0]'
+            className={`${isOn ? 'bg-[#27004a]' : 'bg-[#e6e0e0]'
               } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
             onClick={toggleSwitch}
           >

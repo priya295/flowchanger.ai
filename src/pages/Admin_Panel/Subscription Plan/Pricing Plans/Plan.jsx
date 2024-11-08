@@ -14,10 +14,10 @@ const Plan = () => {
 
       <div className="tab-section ">
         <Tabs>
-          <TabList className="flex items-center justify-center border border-[#8A25B0] mx-[42%]">
-            <Tab className= "hover:bg-[#8A25B0] hover:text-white text-[#8A25B0] px-2 py-2 border-none">Monthly</Tab>
-            <Tab className="hover:bg-[#8A25B0] hover:text-white text-[#8A25B0] px-2 py-2" >Yearly</Tab>
-            <Tab className="hover:bg-[#8A25B0] hover:text-white text-[#8A25B0] px-2 py-2">Lifetime</Tab>
+          <TabList className="flex items-center justify-center border border-[#27004a] mx-[42%]">
+            <Tab className= "hover:bg-[#27004a] text-[white]  px-2 py-2 border-none">Monthly</Tab>
+            <Tab className="bg-[#27004a] text-[white]  px-2 py-2" >Yearly</Tab>
+            <Tab className="bg-[#27004a] text-[white]  px-2 py-2">Lifetime</Tab>
           </TabList>
           <TabPanel>
             
