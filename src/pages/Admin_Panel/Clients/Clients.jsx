@@ -414,7 +414,7 @@ const Clients = () => {
             <div className="bg-[#fff] p-[10px] ml-[10px]">
                 <div className="mb-[14px] flex gap-[10px] items-center import-customers">
 
-                    <Link to="/addnewclient" className="text-[#fff] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none focus:ring-4 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <Link to="/addnewclient" className="text-[#fff] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none  font-medium rounded-lg  p-[8px] text-center">
                         <AddIcon className="newadd" /> New Clients</Link>
                     <Link to="/" className="text-[#fff] text-[14px] client-add bg-[#27004a]   focus:outline-none font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <AddIcon className="newadd" /> Import Clients</Link>
@@ -452,7 +452,7 @@ const Clients = () => {
                             >
                                 Export File
                             </button>
-                            <CachedIcon className='border border-[#e5e7eb] shadow-sm ml-2 h-[36px] rounded-md cursor-pointer refresh' />
+                            <CachedIcon className='border border-[#e5e7eb] shadow-sm ml-2 cached-icon rounded-md cursor-pointer refresh' />
 
 
 
@@ -655,4 +655,5 @@ const Clients = () => {
     );
 };
 export default Clients
+
 

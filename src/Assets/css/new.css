@@ -149,8 +149,14 @@
     transition: all 0.3s linear;
   
 }
+.newsidebar-icon{
+    font-size: 20px !important;
+}
 .interview-card:hover{
    transform: translateY(-6px);
+}
+.cached-icon{
+    height: 36px !important;
 }
 .bg-label-success{
     background-color: #e8fadf !important;

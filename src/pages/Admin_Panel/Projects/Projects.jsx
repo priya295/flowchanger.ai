@@ -143,7 +143,7 @@ const Projects = () => {
             <div className="bg-[#fff] p-[10px] project-fear">
                 <div className="mb-[14px]">
 
-                    <Link to="/create-new-project " className="text-[#fff] text-[14px] bg-[#27004a] focus-visible:outline-none focus:shadow-none mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <Link to="/create-new-project " className="text-[#fff] text-[14px] bg-[#27004a] focus-visible:outline-none focus:shadow-none mb-[10px]  focus:outline-none  font-medium rounded-lg  p-[8px] text-center">
                         <AddIcon className="newadd" /> New Project</Link>
                 </div>
 
@@ -176,7 +176,7 @@ const Projects = () => {
                             >
                                 Export File
                             </button>
-                            <CachedIcon className='border  border-[#e5e7eb] h-[36px] text-[14px] shadow-sm ml-2  rounded-md cursor-pointer refresh' />
+                            <CachedIcon className='border  border-[#e5e7eb] cached-icon text-[14px] shadow-sm ml-2  rounded-md cursor-pointer refresh' />
 
 
 
@@ -239,3 +239,6 @@ const Projects = () => {
 
 };
 export default Projects
+
+
+
