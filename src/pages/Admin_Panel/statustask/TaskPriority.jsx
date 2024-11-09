@@ -103,10 +103,10 @@ const TaskPriority = () => {
             body: JSON.stringify({ taskPriorityName: priorityName })
         })
         if (result.status == 201) {
-            alert("Added Task Priority Successfully")
+            openToast("Add Priority Successfuly", "success")
         }
         else {
-            alert("An Error Occured")
+            openToast("Internal Server Error", "error")
         }
     }
 
@@ -118,7 +118,7 @@ const TaskPriority = () => {
         if (result.status == 200) {
             const res = await result.json()
             console.log("---", res)
-            setPriorityHeading(res)
+            setPriorityHeading(res);
 
         } else {
             openToast("Internal Server Error", "error")
@@ -165,16 +165,54 @@ const TaskPriority = () => {
         setRowsToShow(Number(event.target.value));
     };
 
+    function openModal6() {
+        setIsOpen6(true);
+    }
+    function afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal6() {
+        setIsOpen6(false);
+    }
+
+    const [selectedPriority, setSelectedPriority] = useState();
+    console.log(selectedPriority)
+    const handlePrioritySelect = (opt) => {
+        console.log(opt)
+        setSelectedPriority(opt );
+        openModal6();
+    };
+
+    const[updatePriority,setUpdatePriority]=useState("");
+    console.log(updatePriority)
+    async function updateTaskPriority(){
+        const taskPriorityId=selectedPriority.id;
+        console.log(taskPriorityId)
+        const result=await fetch(baseUrl+`task/priority/${taskPriorityId}`,{
+            method:"PUT",
+            headers:{
+                "Content-type":"application/json"   
+            },
+            body:JSON.stringify({taskPriorityName:updatePriority})
+        });
+        const data=await result.json();
+        console.log(data)
+        if(result.status==200){
+            openToast("Update Task Name Successfully","success")
+        }
+        else{
+            openToast("Internal Server Error","error")
+        }
+        
+    }
 
     return (
         <div className=" w-full  ">
-
             <div className="bg-[#fff] p-[10px] ">
-
-
                 <div className="p-[20px] rounded-md set-shadow w-full">
-
-
                     <div className="flex items-center gap-[14px] mb-[10px]">
                         <div className="flex items-center justify-center text-[14px] h-[50px]">
                             {/* Button to open the modal */}
@@ -290,45 +328,44 @@ const TaskPriority = () => {
 
                     <div className="main-table-status">
                         <table className="table-auto w-full border border-gray-300 rounded-md table-status">
-                            <thead
-                                onClick={toggleTable}
-                                className="set-shadow cursor-pointer"
-                            >
+                            <thead onClick={toggleTable} className="set-shadow cursor-pointer">
                                 <tr>
-                                    <th className="p-3 text-center">#</th>
-                                    <th className="p-3 text-center">Priority Name</th>
-                                    <th className="p-3 text-center">Action</th>
-
+                                    <th className="p-3 text-center ">#</th>
+                                    <th className="p-3 text-center ">Priority Name</th>
+                                    <th className="p-3 text-center ">Action</th>
                                 </tr>
                             </thead>
                             <tbody
-                                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? "block" : "hidden"}`}
+                                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? "table-row-group" : "hidden"
+                                    }`}
                             >
-                                {
-                                    priorityHeading?.map((priorityName, index) => {
-                                        return <tr className="border">
-                                            <td className="w-full">{index + 1} </td>
-                                            <td className="w-full">{priorityName.taskPriorityName}</td>
-                                            <td className=" w-full">
-                                                <div className="flex gap-2 justify-center">
-                                                    <button className="  rounded-md text-white "><BorderColorIcon className="text-[#27004a]"/></button>
-                                                    <button className="  rounded-md text-white "><DeleteOutlineIcon className="text-[#ff0000]"/></button>
-
-                                                </div>
-                                            </td>
-
-
-                                        </tr>
-                                    })
-                                }
+                                {priorityHeading?.map((priorityName, index) => (
+                                    <tr key={index} className="border">
+                                        <td className="p-3 text-center ">{index + 1}</td>
+                                        <td className="p-3 text-center ">{priorityName.taskPriorityName}</td>
+                                        <td className="p-3 text-center ">
+                                            <div className="flex gap-2 justify-center">
+                                                <button className="rounded-md text-white"
+                                                    onClick={() => handlePrioritySelect(priorityName)}
+                                                >
+                                                    <BorderColorIcon className="text-[#27004a]" />
+                                                </button>
+                                                <button className="rounded-md text-white">
+                                                    <DeleteOutlineIcon className="text-[#ff0000]" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
+
 
                         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
                             <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {priorityHeading?.length} entries</p>
                             <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
 
                             </div>
@@ -336,11 +373,6 @@ const TaskPriority = () => {
                     </div>
 
                 </div>
-
-
-
-
-
             </div>
             <Modal
                 isOpen={modalIsOpen6}
@@ -350,7 +382,7 @@ const TaskPriority = () => {
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Edit New Task</h2>
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Edit Task Priority</h2>
                 <button onClick={closeModal6} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
 
 
@@ -358,42 +390,16 @@ const TaskPriority = () => {
                 <div className='first-panel'>
                     <div className="p-4">
                         <div className='w-[100%] xl:[48%] mb-[10px] '>
-                            <label className='text-[14px]'>*Status Name</label><br />
-                            <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                            <label className='text-[14px]'>*Task Priority Name</label><br />
+                            <input type='text' placeholder='' onChange={(e)=>setUpdatePriority(e.target.value)} defaultValue={selectedPriority?.taskPriorityName} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
 
-                        </div>
-                        <div className='w-[100%] xl:[48%] mb-[10px] '>
-                            <label className='text-[14px]'>*Status Color</label><br />
-                            <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-
-                        </div>
-                        <div className='w-[100%] xl:[48%] mb-[10px] '>
-                            <label className='text-[14px]'>*Status Order</label><br />
-                            <input type='text' placeholder='' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#fff] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-
-                        </div>
-                        <div className="mb-[10px] flex items-center gap-[6px]">
-                            <input type="checkbox" />
-                            <p>Default Filter</p>
-                        </div>
-                        <div className='w-[100%]  xl:[48%] mb-[26px]'>
-                            <label className='text-[14px]'>is hidden for</label><br />
-                            <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                <option>Nothing Selected</option>
-                            </select>
-                        </div>
-                        <div className='w-[100%]  xl:[48%] mb-[20px]'>
-                            <label className='text-[14px]'>Can be changed to</label><br />
-                            <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                <option>Nothing Selected</option>
-                            </select>
                         </div>
                     </div>
 
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                         <button className="first-btn" onClick={closeModal6}>Cancel</button>
-                        <button className="second-btn">Confirm</button>
+                        <button className="second-btn" onClick={updateTaskPriority}>Confirm</button>
                     </div>
                 </div>
 

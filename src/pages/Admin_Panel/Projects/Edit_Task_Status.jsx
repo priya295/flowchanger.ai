@@ -12,6 +12,9 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 
 
 
@@ -19,7 +22,7 @@ const Edit_Task_Status = () => {
     let subtitle;
     const { baseUrl, openToast } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
-    const [allStaff, setAllStaff] = useState();
+    const [allStaff, setAllStaff] = useState(null);
     const [allTaskStatus, setAllTaskStatus] = useState([]);
     console.log("all ", allTaskStatus)
     const [updateAllTaskStatus, setUpdateAllTaskStatus] = useState(false);
@@ -60,12 +63,8 @@ const Edit_Task_Status = () => {
     const fetchAllStaff = async () => {
         const response = await fetch(baseUrl + 'staff');
         const data = await response.json();
-        setAllStaff(data?.map((staff) => {
-            return {
-                id: staff?.id,
-                label: staff?.name
-            }
-        }));
+        console.log(data)
+        setAllStaff(data ?? []);
     }
     const fetchAllTaskStatus = async () => {
         const response = await fetch(baseUrl + 'task/status');
@@ -111,9 +110,11 @@ const Edit_Task_Status = () => {
             })
             if (response.status == 201) {
                 console.log("Task created successfully:", result);
+                openToast("Add Task Status Successfully", "success")
             } else {
                 console.error("Failed to create task:", result);
-                alert("An error occurred during task creation.");
+                openToast("Internal Server Error", "success")
+
             }
         } catch (error) {
             console.error("Error in fetch request:", error);
@@ -289,6 +290,23 @@ const Edit_Task_Status = () => {
         setRowsToShow(Number(event.target.value));
     };
 
+     async function fetchSearchingData(searchValue) {
+        const result = await fetch(baseUrl + "/project-status/search-status?project_name="+searchValue,{
+            method:"GET",
+            headers:{
+                "Content-type":"application/json"
+            },
+        });
+        if(result.status==200){
+            const data=await result.json();
+            console.log("data",data)
+        }
+        else{
+            // alert("Error is this field")
+        }
+
+
+    }
 
     return (
         <div className=" w-full  ">
@@ -350,7 +368,7 @@ const Edit_Task_Status = () => {
                                                 <Select
                                                     isMulti
                                                     name="isHiddenFor"
-                                                    options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+                                                    options={allStaff && allStaff?.map((staff) => ({ label: staff.name, value: staff.staffDetails.id }))}
                                                     className="basic-multi-select"
                                                     classNamePrefix="select"
                                                     value={taskStatus.isHiddenFor || []}
@@ -481,7 +499,7 @@ const Edit_Task_Status = () => {
                             </button>
                         </div>
                         <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
-                            <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
+                            <input onChange={(e) => fetchSearchingData(e.target.value)} className="p-[6px] w-full rounded-2xl  summary-border text-[13px] focus:outline-none" type="text" placeholder=" Search......." />
                             <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
                         </div>
                     </div>
@@ -517,16 +535,18 @@ const Edit_Task_Status = () => {
                                             <td className="p-3">Yes</td>
                                             <td className="p-3">In Progress</td>
                                             <td className="p-3">
-                                                <div className="flex gap-2">
-                                                    <button className="bg-[#27004a] p-3 rounded-md text-white"
+                                                <div className="flex gap-2 justify-center">
+                                                    <button className=""
                                                         onClick={() => {
                                                             setTaskDetail(status)
                                                             openModal6()
                                                         }
 
 
-                                                        }>Edit</button>
-                                                    <button className="bg-red-600 p-3 rounded-md text-white">Delete</button>
+                                                        }><BorderColorIcon className="text-[#27004a]" /></button>
+                                                    <button className="">
+                                                        <DeleteOutlineIcon className="text-[#ff0000]" />
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -539,7 +559,7 @@ const Edit_Task_Status = () => {
                             <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {allTaskStatus?.length} entries</p>
                             <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
 
                             </div>

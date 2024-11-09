@@ -92,6 +92,7 @@ const ProjectPriority = () => {
         setIsOpen6(false);
     }
 
+
     const fetchAllStaff = async () => {
         const response = await fetch(baseUrl + 'staff');
         const data = await response.json();
@@ -106,7 +107,7 @@ const ProjectPriority = () => {
     useEffect(() => {
         fetchAllStaff();
     }, [])
-    const [allStaff, setAllStaff] = useState();
+    const [allStaff, setAllStaff] = useState([]);
     const [taskStatus, setTaskStatus] = useState({
         name: "",
         color: "#000000",
@@ -170,7 +171,7 @@ const ProjectPriority = () => {
         const result = await fetch(baseUrl + "project-Priority/")
         const data = await result.json();
         console.log("+++++---", data)
-        setProjectPriorityDetail(data.data)
+        setProjectPriorityDetail(data?.data)
     }
 
     useEffect(() => {

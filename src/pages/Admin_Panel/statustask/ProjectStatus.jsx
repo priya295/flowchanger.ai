@@ -11,6 +11,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 
 
 
@@ -132,6 +135,7 @@ const ProjectStatus = () => {
         else if (exportFormat === 'PDF') exportPDF();
         else if (exportFormat === 'Print') printDepartments();
     };
+
 
     const exportCSV = () => {
         const csvData = fetchProjectStatus.map(dep => `${dep.project_name}, ${dep.project_color}, ${dep.project_order}`).join('\n');
@@ -340,9 +344,13 @@ const ProjectStatus = () => {
                                             <td className=" ">Yes</td>
                                             <td className=" ">In Progress</td>
                                             <td className=" ">
-                                                <div className="flex gap-2">
-                                                    <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
-                                                    <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                                                <div className="flex gap-2 justify-center">
+                                                    <button className="" onClick={openModal6}>
+                                                    <BorderColorIcon className="text-[#27004a]"/>
+                                                    </button>
+                                                    <button className="">
+                                                    <DeleteOutlineIcon className="text-[#ff0000]"/>
+                                                    </button>
 
                                                 </div>
                                             </td>
@@ -357,9 +365,9 @@ const ProjectStatus = () => {
 
                         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
                             <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {fetchProjectStatus?.length} entries</p>
-                            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+                            <div className='pagination flex justify-center gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
 
                             </div>
