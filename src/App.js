@@ -92,7 +92,7 @@ import DashBoard from "./pages/Admin_Panel/DashBoard";
 import { useAuthContext } from "./Context/AuthContext";
 import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
 import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
-
+import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
