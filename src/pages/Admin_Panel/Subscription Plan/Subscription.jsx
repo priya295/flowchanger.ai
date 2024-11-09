@@ -23,7 +23,7 @@ const Subscription = () => {
           <div className="shadow w-[60%] flex items-center justify-between border rounded-lg   max-[1100px]:w-[100%]">
             
             <div className="m-5 space-y-4 ">
-              <h1 className="text-[#8A25B0] font-medium max-[600px]:text-[11px]">
+              <h1 className="text-[#27004a] font-medium max-[600px]:text-[11px]">
                 Congratulations Sid Gor! 🎉
               </h1>
               <h1 className="text-[#a1acb8] text-[14px] max-[600px]:text-[11px]">
@@ -35,7 +35,7 @@ const Subscription = () => {
                 benefits. Renew or upgrade your plan today!{" "}
               </p>
 
-              <button onClick={handleRenewAndManagePlan} className="border border-[#8A25B0] text-[12px] text-[#8A25B0] px-3 py-1 hover:bg-[#8A25B0] hover:text-white duration-300 rounded-md max-[600px]:text-[10px]">
+              <button onClick={handleRenewAndManagePlan} className="border border-[#27004a] text-[12px] text-[#27004a] px-3 py-1 hover:bg-[#27004a] hover:text-white duration-300 rounded-md max-[600px]:text-[10px]">
                 Renew Or Manage Plan
               </button>
             </div>
@@ -51,7 +51,7 @@ const Subscription = () => {
 
           <div className="right-card w-[40%] shadow border rounded-lg max-[1100px]:w-[100%] max-[600px]:text-[10px] ">
             <div className="m-5 space-y-3">
-              <h1 className="text-[#8A25B0] font-medium">
+              <h1 className="text-[#27004a] font-medium">
                 Active Subscription
               </h1>
               <div className="flex gap-1">
@@ -66,7 +66,7 @@ const Subscription = () => {
 
               <div className="flex gap-3">
                 <h1 className="text-[#8794a3]">Remaining Days :</h1>
-                <span className="text-white bg-[#8A25B0] text-[13px] text-center px-3 py-1 rounded-md max-[600px]:text-[10px]">
+                <span className="text-white bg-[#27004a] text-[13px] text-center px-3 py-1 rounded-md max-[600px]:text-[10px]">
                   157 Days
                 </span>
               </div>

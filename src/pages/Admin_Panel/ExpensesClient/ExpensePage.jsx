@@ -47,7 +47,7 @@ const ExpensePage = () => {
                         {/* Button to trigger the modal */}
                         <button
                             onClick={toggleModal}
-                            className="p-[7px] flex items-center gap-[3px] btn-expense rounded-lg bg-[#8a25b0] text-[14px] text-white"
+                            className="p-[7px] flex items-center gap-[3px] btn-expense rounded-lg bg-[#27004a] text-[14px] text-white"
                         >
                             <AddIcon className='newadd' /> Record Expense
                         </button>
@@ -145,7 +145,7 @@ const ExpensePage = () => {
                                                                         >
                                                                             Close Modal
                                                                         </button>
-                                                                        <button className='p-[8px] w-[100px] flex items-center gap-[3px] justify-center rounded-lg bg-[#8a25b0] text-[14px] text-white'>Save</button>
+                                                                        <button className='p-[8px] w-[100px] flex items-center gap-[3px] justify-center rounded-lg bg-[#27004a] text-[14px] text-white'>Save</button>
 
                                                                     </div>
                                                                 </div>
@@ -180,14 +180,14 @@ const ExpensePage = () => {
                                         >
                                             Close Modal
                                         </button>
-                                        <button className='p-[8px] w-[100px] flex items-center gap-[3px] justify-center rounded-lg bg-[#8a25b0] text-[14px] text-white'>Save</button>
+                                        <button className='p-[8px] w-[100px] flex items-center gap-[3px] justify-center rounded-lg bg-[#27004a] text-[14px] text-white'>Save</button>
 
                                     </div>
                                 </div>
                             </div>
                         )}
                     </div>
-                    <button className='p-[7px] btn-expense flex items-center gap-[3px] rounded-lg bg-[#8a25b0] text-[14px] text-white'><ImportExportIcon className='newadd' />import Expense</button>
+                    <button className='p-[7px] btn-expense flex items-center gap-[3px] rounded-lg bg-[#27004a] text-[14px] text-white'><ImportExportIcon className='newadd' />import Expense</button>
                 </div>
                 <div className='flex items-center gap-[8px] new-wid'>
                     <Link className='doublearrow rounded-md'><KeyboardDoubleArrowLeftIcon className='arrow-new3' /></Link>

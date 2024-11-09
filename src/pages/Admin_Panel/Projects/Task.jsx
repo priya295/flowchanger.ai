@@ -13,8 +13,8 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Task = () => {
-  const { baseUrl, openToast } = useGlobalContext();
-  const [openIndex, setOpenIndex] = useState(null);
+  const { baseUrl } = useGlobalContext();
+  const [openIndex, setOpenIndex] = useState(0);
 
   const handleToggle = (index) => {
     setOpenIndex(openIndex === index ? null : index);

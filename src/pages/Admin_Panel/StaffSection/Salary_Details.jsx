@@ -29,10 +29,10 @@ const Salary_Details = () => {
         </h1>
 
         <div className="btn space-x-6 max-[1050px]:mt-7">
-          <button className="h-[46px] w-[113px] text-[#8A25B0] border border-[#8A25B0] rounded-md">
+          <button className="h-[46px] w-[113px] text-[#27004a] border border-[#27004a] rounded-md">
             Cancel
           </button>
-          <button className="h-[46px] w-[166px] text-white bg-[#8A25B0] border border-[#8A25B0] rounded-md">
+          <button className="h-[46px] w-[166px] text-white bg-[#27004a] border border-[#27004a] rounded-md">
             Save Settings
           </button>
         </div>
@@ -88,7 +88,7 @@ const Salary_Details = () => {
             <div className="flex items-center  justify-between  xl:w-[50%] lg:w-[50%] sm:w-[50%] ">
               <button
                 onClick={() => handletoggleButton("addAllowances1")}
-                className="text-[#8A25B0]"
+                className="text-[#27004a]"
               >
                 + Add Allowances
               </button>
@@ -143,7 +143,7 @@ const Salary_Details = () => {
                 onClick={() => handletoggleButton("Employer_PF_Contribution")}
                 name=""
                 id=""
-                className="h-[25px] w-[185px] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
+                className="h-[25px] w-[185px] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
               >
                 {" "}
                 + Add
@@ -173,7 +173,7 @@ const Salary_Details = () => {
                 onClick={() => handletoggleButton("Employer_ESI_Contribution")}
                 name=""
                 id=""
-                className="h-[25px] w-[185px] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
+                className="h-[25px] w-[185px] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
               >
                 {" "}
                 + Add
@@ -221,7 +221,7 @@ const Salary_Details = () => {
                 onClick={() => handletoggleButton("Employer_PF_Contribution2")}
                 name=""
                 id=""
-                className="h-[25px] w-[185px] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
+                className="h-[25px] w-[185px] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
               >
                 {" "}
                 + Add
@@ -250,7 +250,7 @@ const Salary_Details = () => {
                 onClick={() => handletoggleButton("Employer_ESI_Contribution2")}
                 name=""
                 id=""
-                className="h-[25px] w-[185px] text-[#8A25B0] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
+                className="h-[25px] w-[185px] text-[#27004a] border border-[#D9D9D9] bg-white text-[10px] pl-24 rounded-sm"
               >
                 {" "}
                 + Add
@@ -313,7 +313,7 @@ const Salary_Details = () => {
                 </h1>
               </div>
               <div className="flex items-center justify-between xl:w-[50%] lg:w-[50%] sm:w-[50%] ">
-                <button onClick={() => handletoggleButton('addAllowances2')} className="text-[#8A25B0]">+ Add Allowances</button>
+                <button onClick={() => handletoggleButton('addAllowances2')} className="text-[#27004a]">+ Add Allowances</button>
 
                 {toggleButton.addAllowances2 && (
                   <>
@@ -347,7 +347,7 @@ const Salary_Details = () => {
           <button className="border border-[#CFCFCF] rounded-md h-[38px] w-[39px] text-[#CFCFCF] pl-2">
             <ArrowBackIosIcon />
           </button>
-          <button className="rounded-md h-[38px] w-[39px] bg-[#8A25B0] text-white">
+          <button className="rounded-md h-[38px] w-[39px] bg-[#27004a] text-white">
             1
           </button>
           <button className="border border-[#CFCFCF] rounded-md h-[38px] w-[39px] text-[#CFCFCF]">

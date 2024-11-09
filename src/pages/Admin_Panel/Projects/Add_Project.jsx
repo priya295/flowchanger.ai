@@ -14,7 +14,7 @@ import CreatableSelect from "react-select/creatable";
 import Select from 'react-select';
 
 const Add_Project = () => {
-  const { baseUrl } = useGlobalContext();
+  const { baseUrl,openToast } = useGlobalContext();
   const navigate = useNavigate()
   const [editorData, setEditorData] = useState('');
   const modules = {
@@ -68,9 +68,10 @@ const Add_Project = () => {
       const res = await result.json();
       console.log(res)
       setClientData(res.data)
+
     }
     else {
-      alert("An Error Occured")
+      openToast("An Error Occured","error")
     }
   }
 
@@ -90,7 +91,7 @@ const Add_Project = () => {
       // console.log("---",res.name)
     }
     else {
-      alert("An Error Occured")
+      // openToast("An Error Occured")
     }
 
   }
@@ -162,10 +163,10 @@ const Add_Project = () => {
     })
     if (result.status == 201) {
       const data = result.json()
-      alert("Add Project Successfully")
+      openToast("Add Project Successfully")
     }
     else {
-      alert("An Error Occured")
+      openToast("An Error Occured")
     }
   }
 
@@ -188,8 +189,8 @@ const Add_Project = () => {
         <div className="w-[100%] space-y-5">
           <div className="space-y-2">
             <h1 className="font-medium">* Project Name</h1>
-            <input
-              className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
+            <input  
+              className="h-[46px] w-[100%] border border-[#DBDCDE]  rounded-md pl-2"
               type="text"
               onChange={(e) => { setProjectName(e.target.value) }}
             />
@@ -209,7 +210,7 @@ const Add_Project = () => {
           </div>
 
           <div className="font-medium flex gap-4 items-center">
-            <input type="checkbox" />
+            <input type="checkbox"  />
             <h1>Calculate progress through tasks</h1>
           </div>
 

@@ -18,7 +18,7 @@ const ExpenseEdit = () => {
     <>
       <div className="p-[20px]">
         <div className="flex items-center">
-          <Link className="text-[#8a25b0] text-[14px] " to="/">
+          <Link className="text-[#27004a] text-[14px] " to="/">
             Home
           </Link>
           <div className="flex items-center gap-[8px] ml-[8px]">
@@ -27,7 +27,7 @@ const ExpenseEdit = () => {
           </div>
           <div className="flex justify-end w-[100%]">
             <button
-              className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+              className="px-4 py-2 bg-[#27004a] text-white rounded-md"
               onClick={handleOpen}
             >
               +

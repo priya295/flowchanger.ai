@@ -53,7 +53,7 @@ import StaffSalarySummry from "../src/pages/Admin_Panel/editstaff/StaffSalarySum
 import Calender from "./pages/Admin_Panel/Calender/Calender";
 import Editprofile from "../src/pages/Admin_Panel/profile/Editprofile";
 import Task_Status from "./pages/Admin_Panel/Projects/Task_Status";
-// import Client_Project from "../src/pages/Client_Panel/Client_Project";
+import Client_Project from "../src/pages/Client_Panel/Client_Project";
 import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
 import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
@@ -90,7 +90,7 @@ import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
 import ProtectedRoute from './ProtectedRoute';
 import DashBoard from "./pages/Admin_Panel/DashBoard";
 import { useAuthContext } from "./Context/AuthContext";
-import Client_Project from './pages/Client_Panel/Client_Project'
+
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
@@ -243,7 +243,6 @@ const App = () => {
             <Route path="/attendence_summary" element={<Attendence_summary />} />
             <Route path="/project_summary" element={<Project_Summary />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/overtime" element={<Overtime />} />
             <Route path="/taskview" element={<Taskview />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/projectprogress" element={<Project_Progress />} />
@@ -270,6 +269,7 @@ const App = () => {
             <Route path="/expensepage" element={<ExpensePage />} />
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
+            <Route path="/contact-information" element={<ContactInformation />} />
           </Route>
          
 

@@ -129,7 +129,7 @@ const Attendence_summary = () => {
                     </div>
                     <div className='flex items-center justify-between gap-[14px] approval-new '>
                         <h2 className='text-[14px] font-medium'>Total Pending for Approval : 10</h2>
-                        <Link className='bg-[#8a25b0] text-[white] review-btn rounded-md' to="/">Review</Link>
+                        <Link className='bg-[#27004a] text-[white] review-btn rounded-md' to="/">Review</Link>
                     </div>
                 </div>
                 <div className='mt-[16px] flex gap-[30px] summary-bold1'>
@@ -185,7 +185,7 @@ const Attendence_summary = () => {
                             <p className='text-[16px]'>Akash</p>
                             <p className='text-[red] text-[14px]'>Absent</p>
                         </div>
-                        <p className='text-[#8a25b0] font-medium text-[14px] mt-[10px] w-[150px]'>Add Note - Login</p>
+                        <p className='text-[#27004a] font-medium text-[14px] mt-[10px] w-[150px]'>Add Note - Login</p>
 
                     </div>
                     <div className='flex gap-[18px] xl:flex-col flex-row md:flex-col lg:flex-col set-workd w-full justify-between xl:justify-start md:justify-start lg:justify-start '>
@@ -217,48 +217,13 @@ const Attendence_summary = () => {
                                                 <div className='text-right'>
                                                     <DeleteIcon className='del-icon text-[#89868d]' />
                                                 </div>
-                                                <div className='gap-[5px] flex flex-col'>
-                                                    <label className='text-[#89868d] text-[14px]'>Shift Time</label>
+                                                <div className="w-[100%]" >
+                                                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Shift Time</label>    <br />
+                                                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                        <option>Daily Shift</option>
+                                                        <option>Option 2</option>
 
-                                                    <div className="relative inline-block text-left w-[100%]">
-                                                        {/* Button to open/close the dropdown */}
-                                                        <button
-                                                            className=" w-[100%] bg-[white] text-[#89868d] items-center p-[6px] text-left text-[12px] text-sm font-normal  select-pe  rounded-md  focus:outline-none"
-                                                            onClick={toggleDropdown3}
-                                                        >
-                                                            DAILY SHIFT <KeyboardArrowDownIcon className='new-arrow2' />
-                                                        </button>
-
-                                                        {/* Dropdown menu */}
-                                                        {isOpen3 && (
-                                                            <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                    <a
-                                                                        href="#"
-                                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                        role="menuitem"
-                                                                    >
-                                                                        Option 1
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                        role="menuitem"
-                                                                    >
-                                                                        Option 2
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                        role="menuitem"
-                                                                    >
-                                                                        Option 3
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-
+                                                    </select>
                                                 </div>
                                                 <div className='w-[100%] mt-[14px] gap-[64px] flex '>
                                                     <div className='w-[50%] relative'>
@@ -320,48 +285,13 @@ const Attendence_summary = () => {
                                                 <div className='text-right'>
                                                     <DeleteIcon className='del-icon text-[#89868d]' />
                                                 </div>
-                                                <div className='gap-[5px] flex flex-col'>
-                                                    <label className='text-[#89868d] text-[14px]'>Shift Time</label>
+                                                <div className="w-[100%]" >
+                                                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Shift Time</label>    <br />
+                                                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                        <option>Daily Shift</option>
+                                                        <option>Option 2</option>
 
-                                                    <div className="relative inline-block text-left w-[100%]">
-                                                        {/* Button to open/close the dropdown */}
-                                                        <button
-                                                            className=" w-[100%] bg-[white] text-[#89868d] items-center p-[6px] text-left text-[12px] text-sm font-normal  select-pe  rounded-md  focus:outline-none"
-                                                            onClick={toggleDropdown3}
-                                                        >
-                                                            DAILY SHIFT <KeyboardArrowDownIcon className='new-arrow2' />
-                                                        </button>
-
-                                                        {/* Dropdown menu */}
-                                                        {isOpen3 && (
-                                                            <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                    <a
-                                                                        href="#"
-                                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                        role="menuitem"
-                                                                    >
-                                                                        Option 1
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                        role="menuitem"
-                                                                    >
-                                                                        Option 2
-                                                                    </a>
-                                                                    <a
-                                                                        href="#"
-                                                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                        role="menuitem"
-                                                                    >
-                                                                        Option 3
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-
+                                                    </select>
                                                 </div>
                                                 <div className='w-[100%] mt-[14px] gap-[64px] flex '>
                                                     <div className='w-[50%] relative'>
@@ -429,56 +359,25 @@ const Attendence_summary = () => {
                                                     <CloseIcon className='close-icon text-[#89868d]' />
                                                 </div>
 
-                                                <div className='flex items-center gap-[10px]'>
+                                                <div className='flex items-center gap-[20px]'>
 
                                                     <div>
                                                         <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md'>00:41      hrs</p>
+                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
                                                         <p className='text-[12px]' >Amount $ 61.63</p>
                                                     </div>
-                                                    <div className='flex '>
+                                                    <div className='flex gap-[28px] '>
 
+                                                        <div className="w-[100%]" >
 
-                                                        <div className="relative inline-block text-left">
-                                                            {/* Button to open/close the dropdown */}
-                                                            <button
-                                                                className="  bg-[white] w-[150px] text-[#89868d] items-center p-[4px] text-left text-[12px] text-sm font-normal  select-pe  focus:outline-none"
-                                                                onClick={toggleDropdown9}
-                                                            >
-                                                                1X Salary <KeyboardArrowDownIcon className='new-arrow2' />
-                                                            </button>
+                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                <option>Daily Shift</option>
+                                                                <option>Option 2</option>
 
-                                                            {/* Dropdown menu */}
-                                                            {isOpen9 && (
-                                                                <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                        <a
-                                                                            href="#"
-                                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                            role="menuitem"
-                                                                        >
-                                                                            Option 1
-                                                                        </a>
-                                                                        <a
-                                                                            href="#"
-                                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                            role="menuitem"
-                                                                        >
-                                                                            Option 2
-                                                                        </a>
-                                                                        <a
-                                                                            href="#"
-                                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                            role="menuitem"
-                                                                        >
-                                                                            Option 3
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            )}
+                                                            </select>
                                                         </div>
                                                         <div className=''>
-                                                            <p className='text-[14px] w-[148px] select-pe p-[5px]'>00:00 Per Hours</p>
+                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
 
                                                         </div>
 
@@ -551,57 +450,25 @@ const Attendence_summary = () => {
                                                     <p className='text-[14px]'>Late Entry</p>
                                                     <CloseIcon className='close-icon text-[#89868d]' />
                                                 </div>
-
-                                                <div className='flex items-center gap-[10px]'>
+                                                <div className='flex items-center gap-[20px]'>
 
                                                     <div>
                                                         <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md'>00:41      hrs</p>
+                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
                                                         <p className='text-[12px]' >Amount $ 61.63</p>
                                                     </div>
-                                                    <div className='flex '>
+                                                    <div className='flex gap-[28px] '>
 
+                                                        <div className="w-[100%]" >
 
-                                                        <div className="relative inline-block text-left">
-                                                            {/* Button to open/close the dropdown */}
-                                                            <button
-                                                                className="  bg-[white] w-[150px] text-[#89868d] items-center p-[4px] text-left text-[12px] text-sm font-normal  select-pe  focus:outline-none"
-                                                                onClick={toggleDropdown9}
-                                                            >
-                                                                1X Salary <KeyboardArrowDownIcon className='new-arrow2' />
-                                                            </button>
+                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                <option>Daily Shift</option>
+                                                                <option>Option 2</option>
 
-                                                            {/* Dropdown menu */}
-                                                            {isOpen9 && (
-                                                                <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                        <a
-                                                                            href="#"
-                                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                            role="menuitem"
-                                                                        >
-                                                                            Option 1
-                                                                        </a>
-                                                                        <a
-                                                                            href="#"
-                                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                            role="menuitem"
-                                                                        >
-                                                                            Option 2
-                                                                        </a>
-                                                                        <a
-                                                                            href="#"
-                                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                            role="menuitem"
-                                                                        >
-                                                                            Option 3
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            )}
+                                                            </select>
                                                         </div>
                                                         <div className=''>
-                                                            <p className='text-[14px] w-[148px] select-pe p-[5px]'>00:00 Per Hours</p>
+                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
 
                                                         </div>
 

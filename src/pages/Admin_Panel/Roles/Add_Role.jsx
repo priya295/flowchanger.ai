@@ -66,7 +66,7 @@ const AddNewRole = () => {
 
     return (
         <div className='addnewrole pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
-            <h2 className='xl:w-[50%] xl:m-auto'>Add New Role</h2>
+            <h2 className='xl:w-[50%] text-[#27004a] font-medium xl:m-auto'>Add New Role</h2>
 
             <div className='flex justify-center'>
                 <div className='bg-[#fff] set-shadow p-3 lg:w-[100%] xl:w-[50%] w-[100%] mt-2 rounded-md'>

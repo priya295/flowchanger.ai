@@ -125,7 +125,7 @@ const Task_Status = () => {
   ];
   return (
     <div className=" w-full absolute pl-[145px] top-[95px] right-[5px] ">
-      <div className="bg-[#fff] p-[10px] ml-[100px]">
+      <div className="bg-[#fff] p-[10px] ml-[135px]">
         <div className="p-[20px] summary-border w-full">
           <div className="flex items-center gap-[14px] mb-[10px]">
             <div className="flex items-center justify-center text-[14px] h-[50px]">
