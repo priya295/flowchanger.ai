@@ -90,11 +90,11 @@ const Main = () => {
           </div>
         </div>
 
-        <table class="table-auto w-[100%]">
-          <thead className='bg-[#f1f5f9] '>
+        <table class="table-auto w-[100%] border-collapse">
+          <thead className='bg-gray-300 '>
             <tr>
-              <th className=' p-4 text-center font-medium '>Roll Name</th>
-              <th className='text-center p-4 text-sm font-medium'>Options</th>
+              <th className=' p-4 text-center font-medium text-[12px]'>Roll Name</th>
+              <th className='text-center p-4 text-sm font-medium text-[12px]'>Options</th>
             </tr>
           </thead>
           <tbody>

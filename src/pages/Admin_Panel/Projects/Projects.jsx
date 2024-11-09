@@ -28,6 +28,9 @@ async function fetchProjectDetails() {
   if (result.status === 200) {
     const res = await result.json();
     setProjectDetails(res.data);
+    if (res.data && res.data.length > 0) {
+      setIsTableOpen(true);
+    }
   } else {
     alert("An Error Occurred");
   }

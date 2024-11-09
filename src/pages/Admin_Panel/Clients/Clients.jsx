@@ -22,14 +22,8 @@ const Clients = () => {
   const { baseUrl } = useGlobalContext();
   const [openIndex, setOpenIndex] = useState(null);
   let subtitle;
-  // Function to handle accordion toggling
-  const handleToggle = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(null); // Close the accordion if clicked again
-    } else {
-      setOpenIndex(index); // Open the accordion
-    }
-  };
+
+ 
   //salary dropdown
   const [isOpen1, setIsOpen1] = useState(false);
 
@@ -65,6 +59,9 @@ const Clients = () => {
       const res = await result.json();
       console.log(res);
       setClientData(res.data);
+      if (res.data && res.data.length > 0) {
+        setIsOpen(true);
+      }
     } else {
       alert("An Error Occured");
     }
@@ -72,7 +69,11 @@ const Clients = () => {
 
   useEffect(() => {
     fetchDetail();
+    if(clientData){
+     setIsOpen(true);
+    }
   }, []);
+  
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
   function openModal2() {
@@ -131,11 +132,11 @@ const Clients = () => {
   };
   const [selectedClient, setSelectedClient] = useState(null);
 
+  // function to toggle the accordian
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
 
- 
   console.log("---", selectedClient?.company);
 
   useEffect(() => {
@@ -333,89 +334,132 @@ const Clients = () => {
           </div>
 
           <div className="bg-white rounded-lg w-full overflow-x-auto">
-  <table className="w-full table-auto border-collapse">
-    {/* Header with Toggle */}
-    <thead className="cursor-pointer bg-gray-200 border border-gray-300" onClick={toggleAccordion}>
-      <tr>
-        <th className="border-r p-2 text-xs font-medium text-center">
-          <input type="checkbox" className="text-xs h-4" />
-        </th>
-        <th className="border-r p-2 text-xs font-medium text-center">#</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Name</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Company</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Primary Contact</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Primary Email</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Phone</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Active</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Groups</th>
-        <th className="border-r p-2 text-xs font-medium text-center">Date Created</th>
-        <th className="p-2 text-xs font-medium text-center">Action</th>
-      </tr>
-    </thead>
+            <table className="w-full table-auto border-collapse">
+              {/* Header with Toggle */}
+              <thead
+                className="cursor-pointer bg-gray-200 border border-gray-300"
+                onClick={toggleAccordion}
+              >
+                <tr>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    <input type="checkbox" className="text-xs h-4" />
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    #
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Name
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Company
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Primary Contact
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Primary Email
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Phone
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Active
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Groups
+                  </th>
+                  <th className="border-r p-2 text-xs font-medium text-center">
+                    Date Created
+                  </th>
+                  <th className="p-2 text-xs font-medium text-center">
+                    Action
+                  </th>
+                </tr>
+              </thead>
 
-    {/* Conditionally Rendered Table Body */}
-    {isOpen && (
-      <tbody>
-        {clientData ? (
-          clientData.map((item, index) => (
-            <tr key={item.id} className="border-b border-gray-300">
-              <td className="p-2 text-center">
-                <input type="checkbox" className="text-xs h-4" />
-              </td>
-              <td className="p-2 text-xs text-center">{index + 1}</td>
-              <td className="p-2 text-xs text-center">{item.name}</td>
-              <td className="p-2 text-xs text-center">{item.clientDetails.company}</td>
-              <td className="p-2 text-xs text-center">{item.mobile}</td>
-              <td className="p-2 text-xs text-center">{item.email}</td>
-              <td className="p-2 text-xs text-center">{item.mobile}</td>
-              <td className="p-2 text-center">
-              <div className="flex items-center justify-center gap-[6px]">
-                    <div
-                      className={`${
-                        item.status ? "bg-[#8a25b0]" : "bg-gray-300"
-                      } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 cursor-pointer`}
-                      onClick={toggleSwitch1}
-                    >
-                      <span
-                        className={`${
-                          item.status === "active" ? "translate-x-6" : "translate-x-0"
-                        } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300`}
-                      />
-                    </div>
-                    </div>
-              </td>
-              <td className="p-2 text-xs text-center">{item.groups}</td>
-              <td className="p-2 text-xs text-center">
-                {new Date(item.clientDetails.created_at).toDateString()}
-              </td>
-              <td className="p-2 flex justify-center gap-2">
-                <BorderColorIcon className="text-purple-600 cursor-pointer" onClick={() => setSelectedClient(item)} />
-                <DeleteIcon className="text-red-500 cursor-pointer" onClick={() => deleteData(item.id)} />
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="11" className="py-6 text-center">
-              <div role="status">
-                <svg
-                  aria-hidden="true"
-                  className="inline w-8 h-8 text-gray-200 animate-spin fill-blue-600"
-                  viewBox="0 0 100 101"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  {/* Spinner paths */}
-                </svg>
-                <span className="sr-only">Loading...</span>
-              </div>
-            </td>
-          </tr>
-        )}
-      </tbody>
-    )}
-  </table>
-</div>
-
+              {/* Conditionally Rendered Table Body */}
+              {isOpen && (
+                <tbody>
+                  {clientData ? (
+                    clientData.map((item, index) => (
+                      <tr key={item.id} className="border-b border-gray-300">
+                        <td className="p-2 text-center">
+                          <input type="checkbox" className="text-xs h-4" />
+                        </td>
+                        <td className="p-2 text-xs text-center">{index + 1}</td>
+                        <td className="p-2 text-xs text-center">{item.name}</td>
+                        <td className="p-2 text-xs text-center">
+                          {item.clientDetails.company}
+                        </td>
+                        <td className="p-2 text-xs text-center">
+                          {item.mobile}
+                        </td>
+                        <td className="p-2 text-xs text-center">
+                          {item.email}
+                        </td>
+                        <td className="p-2 text-xs text-center">
+                          {item.mobile}
+                        </td>
+                        <td className="p-2 text-center">
+                          <div className="flex items-center justify-center gap-[6px]">
+                            {/* Toggle Switch */}
+                            <div
+                              className={`${
+                                item.status ? "bg-[#8a25b0]" : "bg-gray-300"
+                              } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+                              onClick={toggleSwitch1}
+                            >
+                              <span
+                                className={`${
+                                  item.status == "active"
+                                    ? "translate-x-6"
+                                    : "translate-x-0"
+                                } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
+                              />
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-2 text-xs text-center">
+                          {item.groups}
+                        </td>
+                        <td className="p-2 text-xs text-center">
+                          {new Date(
+                            item.clientDetails.created_at
+                          ).toDateString()}
+                        </td>
+                        <td className="p-2 flex justify-center gap-2">
+                          <BorderColorIcon
+                            className="text-purple-600 cursor-pointer"
+                            onClick={() => setSelectedClient(item)}
+                          />
+                          <DeleteIcon
+                            className="text-red-500 cursor-pointer"
+                            onClick={() => deleteData(item.id)}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="11" className="py-6 text-center">
+                        <div role="status">
+                          <svg
+                            aria-hidden="true"
+                            className="inline w-8 h-8 text-gray-200 animate-spin fill-blue-600"
+                            viewBox="0 0 100 101"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            {/* Spinner paths */}
+                          </svg>
+                          <span className="sr-only">Loading...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              )}
+            </table>
+          </div>
         </div>
       </div>
 
