@@ -199,7 +199,6 @@ const App = () => {
       </>
     );
   }
-
   function Payroll_Summary() {
     return (
       <>
