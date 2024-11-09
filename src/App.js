@@ -8,7 +8,7 @@ import NavBar from "./components/Admin_Panel/NavBar";
 import SideBar from "./components/Admin_Panel/SideBar";
 // import Project from "./pages/Admin_Panel/Projects/Project_Data";
 import Role_Details from "./pages/Admin_Panel/Roles/RoleDetails";
-// import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
+// import Project_Progress from "../src/pages/Client_Panel/Project_Progres
 import AddRole from "./pages/Admin_Panel/Roles/Add_Role";
 import AddDepartment from "../src/pages/Admin_Panel/Department/AddDepartment";
 import EditRole from "./pages/Admin_Panel/Roles/EditRole";
@@ -90,6 +90,8 @@ import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
 import ProtectedRoute from './ProtectedRoute';
 import DashBoard from "./pages/Admin_Panel/DashBoard";
 import { useAuthContext } from "./Context/AuthContext";
+import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
+import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
 
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
@@ -298,6 +300,9 @@ const App = () => {
           <Route path="/uan" element={<VerifyUan />} />
           <Route path="/face" element={<VerifyFace />} />
           <Route path="/address" element={<VerifyAddress />} />
+          <Route path="/voter-id" element={<VerifyVoterID />} />
+          <Route path="/past-employment-details" element={<PastEmploymentDetail />} />
+
 
         </Route>
         <Route element={<Client_Panel />}>
