@@ -1,18 +1,19 @@
 import React,{useEffect, useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import profile from '../../../Assets/Images/profile.svg'
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { LinkOff } from '@mui/icons-material';
 const AddOneStaff = () => {
 
+    const navigate = useNavigate();
     const { baseUrl} = useGlobalContext();
     const [departments, setDepartments] = useState([])
     const [roles,setRoles]=useState([])
 
     const[name, setName]= useState("");
     const[jobTitle, setJobTitle]= useState("");
-    const[branch, setBranch]= useState("hello");
+    const[branch, setBranch]= useState("");
     const[mobile, setMobile]= useState("");
     const[otp, setOtp]= useState("");
     const[gender, setGender]= useState("0");
@@ -84,6 +85,7 @@ const AddOneStaff = () => {
     
         if (response.status === 201) {
             alert("Add Staff Succesfully")
+            navigate("/staff-menu");
             setName("");
             setJobTitle("");
             setBranch(""); 

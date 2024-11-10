@@ -67,6 +67,7 @@ const AddNewClient = () => {
 
 
   const handleSubmit = async (e) => {
+    console.log("Selected Groups:", selectedGroups);
     e.preventDefault();
     const result = await fetch(baseUrl + "client", {
       method: "POST",

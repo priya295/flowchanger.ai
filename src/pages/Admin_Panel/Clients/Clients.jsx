@@ -17,6 +17,8 @@ import { FiPlus } from "react-icons/fi";
 import Select from "react-select";
 import { MdOutlineDone } from "react-icons/md";
 import CustomDialog from "./DialougeBox";
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 
 const Clients = () => {
   const { baseUrl } = useGlobalContext();
@@ -49,6 +51,46 @@ const Clients = () => {
     setIsOn1(!isOn1);
   };
 
+  // 
+
+  const handleSelectChange = (event) => {
+    setRowsToShow(Number(event.target.value));
+};
+
+const [departments, setDepartments] = useState([])
+const [exportFormat, setExportFormat] = useState('');
+
+const [rowsToShow, setRowsToShow] = useState(25);
+  const handleExport = () => {
+    if (exportFormat === 'CSV') exportCSV();
+    else if (exportFormat === 'PDF') exportPDF();
+    else if (exportFormat === 'Print') printDepartments();
+  };
+
+  const exportCSV = () => {
+    const csvData = departments.map(dep => `${dep.department_name}, Total Users: 1`).join('\n');
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'departments.csv');
+  };
+
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Department List", 20, 10);
+    departments.forEach((dep, index) => {
+      doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
+    });
+    doc.save('departments.pdf');
+  };
+
+  const printDepartments = () => {
+    const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
+    const newWindow = window.open();
+    newWindow.document.write(`<pre>${printContent}</pre>`);
+    newWindow.document.close();
+    newWindow.print();
+  };
+
+
   //Toggle swich off on btn
 
   const [clientData, setClientData] = useState([]);
@@ -58,8 +100,8 @@ const Clients = () => {
     if (result.status == 200) {
       const res = await result.json();
       console.log(res);
-      setClientData(res.data);
-      if (res.data && res.data.length > 0) {
+      setClientData(res);
+      if (res && res.length > 0) {
         setIsOpen(true);
       }
     } else {
@@ -131,6 +173,7 @@ const Clients = () => {
     }
   };
   const [selectedClient, setSelectedClient] = useState(null);
+
 
   // function to toggle the accordian
   const toggleAccordion = () => {
@@ -268,61 +311,40 @@ const Clients = () => {
           </h2>
 
           <div className="flex justify-between items-center mb-[14px] betwe-cent">
-            <div className="flex gap-[10px] client-add">
-              <div className="relative inline-block text-left">
-                {/* Button to open/close the dropdown */}
-                <button
-                  className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                  onClick={toggleDropdown1}
-                >
-                  25 <KeyboardArrowDownIcon className="newadd" />
-                </button>
+          <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
+                        <div className='left-side '>
+                            <select
+                                onChange={handleSelectChange}
+                                className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  focus:outline-none'>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="120">120</option>
 
-                {/* Dropdown menu */}
-                {isOpen1 && (
-                  <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
-                    <div
-                      className=""
-                      role="menu"
-                      aria-orientation="vertical"
-                      aria-labelledby="options-menu"
-                    >
-                      <a
-                        href="#"
-                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        30
-                      </a>
-                      <a
-                        href="#"
-                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        40
-                      </a>
-                      <a
-                        href="#"
-                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        50
-                      </a>
+                            </select>
+
+                            <select onChange={(e) => setExportFormat(e.target.value)}
+                                className='border border-[#e5e7eb] p-[7px]  text-[14px] shadow-sm rounded-md  focus:outline-none'>
+                                <option value="CSV">CSV</option>
+                                <option value="PDF">PDF</option>
+                                <option value="Print">Print</option>
+                            </select>
+
+                            <button
+                                onClick={handleExport}
+                                className='ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer'
+                            >
+                                Export File
+                            </button>
+                            <CachedIcon className='border border-[#e5e7eb] shadow-sm ml-2 h-[36px] rounded-md cursor-pointer refresh' />
+
+
+
+
+                        </div>
+
+                    
                     </div>
-                  </div>
-                )}
-              </div>
-              <p className="  p-[7px] text-[12px] w-[55px] font-medium summary-border rounded-md  ">
-                {" "}
-                Export{" "}
-              </p>
-
-              <p className=" relative p-[7px] text-[12px] w-[116px] font-medium summary-border rounded-md  ">
-                {" "}
-                Bulk Actions{" "}
-                <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" />{" "}
-              </p>
-            </div>
             <div className="relative client-add">
               <input
                 className="p-[6px] client-add rounded-2xl  summary-border text-[13px] "
@@ -389,7 +411,7 @@ const Clients = () => {
                         <td className="p-2 text-xs text-center">{index + 1}</td>
                         <td className="p-2 text-xs text-center">{item.name}</td>
                         <td className="p-2 text-xs text-center">
-                          {item.clientDetails.company}
+                          {item.clientDetails?.company}
                         </td>
                         <td className="p-2 text-xs text-center">
                           {item.mobile}
@@ -400,31 +422,26 @@ const Clients = () => {
                         <td className="p-2 text-xs text-center">
                           {item.mobile}
                         </td>
-                        <td className="p-2 text-center">
-                          <div className="flex items-center justify-center gap-[6px]">
-                            {/* Toggle Switch */}
-                            <div
-                              className={`${
-                                item.status ? "bg-[#8a25b0]" : "bg-gray-300"
-                              } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
-                              onClick={toggleSwitch1}
-                            >
-                              <span
-                                className={`${
-                                  item.status == "active"
-                                    ? "translate-x-6"
-                                    : "translate-x-0"
-                                } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
-                              />
-                            </div>
-                          </div>
-                        </td>
+                        <td className="text-[11px] font-medium p-[10px]    whitespace-nowrap	">
+                                        <div className="flex items-center justify-center gap-[6px]">
+                                            {/* Toggle Switch */}
+                                            <div
+                                                className={`${item.status ? 'bg-[#8a25b0]' : 'bg-gray-300'
+                                                    } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+                                                onClick={toggleSwitch1}
+                                            >
+                                                <span
+                                                    className={`${item.status == "active" ? 'translate-x-6' : 'translate-x-0'
+                                                        } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
+                                                />
+                                            </div>
+                                        </div></td>
                         <td className="p-2 text-xs text-center">
                           {item.groups}
                         </td>
                         <td className="p-2 text-xs text-center">
                           {new Date(
-                            item.clientDetails.created_at
+                            item.clientDetails?.created_at
                           ).toDateString()}
                         </td>
                         <td className="p-2 flex justify-center gap-2">

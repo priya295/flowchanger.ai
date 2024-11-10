@@ -17,16 +17,20 @@ const StaffTab = () => {
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
     console.log("reuslt---", result)
-    if (result.status == 200) {
-      const res = await result.json();
-      console.log(res);
-      setStaffDetail(res)
-      // console.log("---",res.name)
+    try{
+      if (result.status == 200) {
+        const res = await result.json();
+        console.log(res);
+        setStaffDetail(res)
+        // console.log("---",res.name)
+      }
+      else {
+        alert("An Error Occured")
+      }
     }
-    else {
-      alert("An Error Occured")
-    }
-
+     catch(error){
+      console.log(error);
+     }
   }
 
 

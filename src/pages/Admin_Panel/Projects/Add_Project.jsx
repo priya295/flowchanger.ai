@@ -14,7 +14,7 @@ import CreatableSelect from "react-select/creatable";
 import Select from 'react-select';
 
 const Add_Project = () => {
-  const { baseUrl } = useGlobalContext();
+  const { baseUrl , openToast} = useGlobalContext();
   const navigate = useNavigate()
   const [editorData, setEditorData] = useState('');
   const modules = {
@@ -67,7 +67,7 @@ const Add_Project = () => {
     if (result.status == 200) {
       const res = await result.json();
       console.log(res)
-      setClientData(res.data)
+      setClientData(res)
     }
     else {
       alert("An Error Occured")
@@ -87,7 +87,7 @@ const Add_Project = () => {
     if (result.status == 200) {
       const res = await result.json();
       setStaffDetail(res)
-      // console.log("---",res.name)
+      console.log("---",res.name)
     }
     else {
       alert("An Error Occured")
@@ -131,7 +131,7 @@ const Add_Project = () => {
 
 
   const options = staffDetail?.map((staff) => ({
-    value: staff.id,
+    value: staff.staffDetails.id,
     label: staff.name,
   }));
 
@@ -140,19 +140,20 @@ const Add_Project = () => {
   async function projectSubmit() {
     const plainTextDescription = (editorData || '').replace(/<\/?p>/g, '');
     const projectNameString = fetchProjectStatus.length > 0 ? fetchProjectStatus[0].project_name : ''; // Option 1, or use Option 2 as needed
-    const result = await fetch(baseUrl + "project", {
+    console.log(projectNameString)
+    const result = await fetch(baseUrl + "project/create", {
       method: "POST",
       headers: {
         "Content-type": "application/json"
       },
       body: JSON.stringify({
         project_name: projectName,
-        customer: selectedClient,
+        customerId: selectedClient,
         status: projectNameString,
         billing_type: billingType,
         total_rate: rate,
         estimated_hours: hours,
-        department: members,
+        staffId: members,
         start_date: date,
         deadline: deadline,
         description: plainTextDescription, // Send `editorData` here
@@ -160,12 +161,15 @@ const Add_Project = () => {
         tags: selectedTag
       })
     })
-    if (result.status == 201) {
+    console.log(result);
+    if (result.status == 200) {
       const data = result.json()
-      alert("Add Project Successfully")
+      openToast("Add Project Successfully");
     }
     else {
-      alert("An Error Occured")
+      const data = result.json()
+      console.log(data);
+      openToast(data.message || 'An error Occured.',"error");
     }
   }
 
@@ -201,7 +205,8 @@ const Add_Project = () => {
               <option value="">Select and begin typing</option>
               {
                 clientData?.map((clientInformation, index) => {
-                  return <option value={clientInformation.id}>{clientInformation.name}</option>
+                  {console.log(clientInformation)}
+                  return <option value={clientInformation.clientDetails?.id}>{clientInformation.name}</option>
                 })
               }
 
@@ -307,6 +312,7 @@ const Add_Project = () => {
                 <input
                   className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
+                  
                   onChange={(e) => { setDate(e.target.value) }}
                 />
               </div>

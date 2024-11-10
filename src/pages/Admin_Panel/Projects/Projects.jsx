@@ -31,9 +31,10 @@ async function fetchProjectDetails() {
     if (res.data && res.data.length > 0) {
       setIsTableOpen(true);
     }
-  } else {
-    alert("An Error Occurred");
-  }
+  } 
+  // else {
+  //   alert("An Error Occurred");
+  // }
 }
 
 useEffect(() => {
