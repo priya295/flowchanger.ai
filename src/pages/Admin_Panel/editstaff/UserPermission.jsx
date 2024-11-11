@@ -6,7 +6,7 @@ const UserPermission = () => {
     const [allDepartments, setAllDepartments] = useState([]);
     const { selectedStaff } = useGlobalContext();
 
-    const { baseUrl } = useGlobalContext();
+    const { baseUrl,openToast } = useGlobalContext();
     const [role, setRole] = useState("");
     const [department, setDepartment] = useState("");
     const [departmentID, setDepartmentID] = useState("");
@@ -52,22 +52,30 @@ const UserPermission = () => {
             departmentId: departmentID
         };
 
-        const response = await fetch(baseUrl + "staff/" + selectedStaff.id, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
-        const result = await response.json();
-        if (response.status === 200) {
-            console.log(result);
-            alert("Staff role and department updated successfully ");
-        } else {
-            console.log(result);
-            alert("An error occurred during update staff role and department");
+        try {
+            const response = await fetch(baseUrl + "staff/" + selectedStaff.id, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+
+            if (response.status === 200) {
+                console.log(result);
+                openToast("User Permission Updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while updating user permission", "error");
+            }
+        } catch (error) {
+            console.error("Error updating user permission:", error);
+            openToast("An error occurred while updating user permission", "error");
         }
     }
+
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>

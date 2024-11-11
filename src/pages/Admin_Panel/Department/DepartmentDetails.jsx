@@ -6,12 +6,53 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 
 
 const DepartmentDetail = () => {
 
-  const { baseUrl,setDepId ,setName} = useGlobalContext();
+  const { baseUrl, setDepId, setName } = useGlobalContext();
   const [departments, setDepartments] = useState([])
+  const [exportFormat, setExportFormat] = useState('');
+
+  const [rowsToShow, setRowsToShow] = useState(25);
+
+  // Handle select change for rows to show
+  const handleSelectChange = (event) => {
+    setRowsToShow(Number(event.target.value));
+  };
+
+
+  const handleExport = () => {
+    if (exportFormat === 'CSV') exportCSV();
+    else if (exportFormat === 'PDF') exportPDF();
+    else if (exportFormat === 'Print') printDepartments();
+  };
+
+  const exportCSV = () => {
+    const csvData = departments.map(dep => `${dep.department_name}, Total Users: 1`).join('\n');
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'departments.csv');
+  };
+
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Department List", 20, 10);
+    departments.forEach((dep, index) => {
+      doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
+    });
+    doc.save('departments.pdf');
+  };
+
+  const printDepartments = () => {
+    const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
+    const newWindow = window.open();
+    newWindow.document.write(`<pre>${printContent}</pre>`);
+    newWindow.document.close();
+    newWindow.print();
+  };
+
 
 
 
@@ -66,20 +107,28 @@ const DepartmentDetail = () => {
 
         <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
           <div className='left-side '>
-            <select className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
-              <option>25</option>
-              <option>50</option>
-              <option>100</option>
-              <option>120</option>
+            <select
+              onChange={handleSelectChange}
+              className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="120">120</option>
 
             </select>
-
-            <select className=' border border-[#e5e7eb]  p-[8px] shadow-sm rounded-md pl-0 pr-3 focus:outline-none'>
-              <option>Export</option>
-              <option>CSV</option>
-              <option>PDF</option>
-              <option>Print</option>
+            <select onChange={(e) => setExportFormat(e.target.value)}
+              className='border border-[#e5e7eb] p-[8px] shadow-sm rounded-md pl-0 pr-3 focus:outline-none'>
+              <option value="CSV">CSV</option>
+              <option value="PDF">PDF</option>
+              <option value="Print">Print</option>
             </select>
+
+            <button
+              onClick={handleExport}
+              className='ml-2 bg-[#511992] text-white p-2 rounded-md cursor-pointer'
+            >
+              Export File
+            </button>
             <CachedIcon className='border border-[#e5e7eb] shadow-sm ml-2 rounded-md cursor-pointer refresh' />
 
 
@@ -103,8 +152,8 @@ const DepartmentDetail = () => {
           </thead>
           <tbody>
             {
-              departments.map((dep, index) => {
-                return <tr key={dep.id} className='border-b pb-2 border-[#f1f5f9]'>
+              departments.slice(0, rowsToShow).map((dep) => (
+                <tr key={dep.id} className='border-b pb-2 border-[#f1f5f9]'>
                   <td className='pt-4 pb-3 pl-3'>
                     <Link to="/" className='text-[#27004a] text-[14px]'>{dep.department_name}</Link>
                     <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
@@ -116,11 +165,10 @@ const DepartmentDetail = () => {
                       }}>
                       <BorderColorIcon className='text-[#27004a] font-light cursor-pointer text-[10px]]' />
                     </Link>
-                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' onClick={() => { deleteDepartments(dep.id) }} />
+                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]' onClick={() => deleteDepartments(dep.id)} />
                   </td>
                 </tr>
-
-              })
+              ))
             }
 
 
@@ -129,7 +177,7 @@ const DepartmentDetail = () => {
           </tbody>
         </table>
         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
-          <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to 7 of 7 entries </p>
+          <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
           <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
             <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
             <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>

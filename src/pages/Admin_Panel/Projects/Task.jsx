@@ -6,9 +6,14 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import SellIcon from '@mui/icons-material/Sell';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import Modal from 'react-modal';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Task = () => {
-  const { baseUrl } = useGlobalContext();
+  const { baseUrl,openToast} = useGlobalContext();
   const [openIndex, setOpenIndex] = useState(0);
 
   const handleToggle = (index) => {
@@ -47,6 +52,7 @@ const Task = () => {
     const response = await fetch(baseUrl + 'task/status');
     const data = await response.json();
     setAllTaskStatus(data)
+
   }
 
   const [departments, setDepartments] = useState([])
@@ -102,31 +108,91 @@ const Task = () => {
 
   }
 
-  const[projectDetails,setProjectDetails]=useState([]);
-    async function fetchProjectDetails(){
-        const result=await fetch(baseUrl+"project");
-        console.log("---",result)
-        if (result.status == 200) {
-            const res = await result.json();
-            console.log(res)
-            setProjectDetails(res.data)
-          }
-          else {
-            alert("An Error Occured")
-          }
+  const [projectDetails, setProjectDetails] = useState([]);
+  async function fetchProjectDetails() {
+    const result = await fetch(baseUrl + "project");
+    console.log("---", result)
+    if (result.status == 200) {
+      const res = await result.json();
+      console.log(res)
+      setProjectDetails(res.data)
     }
+    else {
+      alert("An Error Occured")
+    }
+  }
 
-    useEffect(() => {
-    fetchStaffDetail();
-    fetchAllTaskStatus();
-    fetchDepartments();
-    fetchTaskPriority();
-    fetchProjectDetails();
-  }, [])
 
-  const[taskName,setTaskName]=useState();
-  // const
+  let subtitle;
+  const [taskName, setTaskName] = useState();
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [dueDate, setDueDate] = useState();
+  const [taskDescription, setTaskDescription] = useState();
+  const [tag, setTag] = useState();
+  const [attachFile, setAttachFile] = useState();
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState(""); // New state for selected department
+  const [selectedProjectId, setSelectedProjectId] = useState(""); // New state for selected project
+  const [selectedTaskStatusId, setSelectedTaskStatusId] = useState(""); // State for selected task status ID
+  const [selectedTaskPriorityId, setSelectedTaskPriorityId] = useState(""); // Stores the selected priority ID as a string
+  const [selectedStaffIds, setSelectedStaffIds] = useState([]); // Array to hold selected staff IDs
 
+
+  async function submitTask() {
+    console.log(selectedTaskStatusId)
+    const result = await fetch(baseUrl + "task/detail", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify({ taskName: taskName, startDate: startDate, endDate: endDate, dueDate: dueDate, taskDescription: taskDescription, attachFile: attachFile, taskStatusId: selectedTaskStatusId, selectDepartmentId: selectedDepartmentId, taskPriorityId: selectedTaskPriorityId, selectProjectId: selectedProjectId, taskAssign: selectedStaffIds, taskTag: tag })
+    })
+    if (result.status == 201) {
+      const data = await result.json();
+      openToast("Add Task Successfully", "success")
+    }
+    else {
+      openToast("Internal Server Error", "error")
+    }
+  }
+
+
+  const [fetchTaskData, setFetchTaskData] = useState([]);
+  async function fetchTaskDetails() {
+    const result = await fetch(baseUrl + "/task/detail")
+    if (result.status == 200) {
+      const data = await result.json();
+      console.log(data)
+      setFetchTaskData(data)
+    }
+    else {
+      openToast("Internal Server Error", "error")
+    }
+  }
+
+  const [modalIsOpen2, setIsOpen2] = React.useState(false);
+  function openModal2() {
+    setIsOpen2(true);
+  }
+  function afterOpenModal2() {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = '#000';
+
+  }
+
+  function closeModal2() {
+    setIsOpen2(false);
+  }
+  const [selectedTaskData, setSelectedTaskData] = useState();
+  console.log("task all data", selectedTaskData)
+  const [updateData, setUpdateData] = useState();
+  console.log("Updated Data", updateData)
+
+  useEffect(() => {
+    if (selectedTaskData) {
+      setUpdateData(selectedTaskData);  // Automatically copy the data to updateData
+    }
+  }, [selectedTaskData])
 
   const accordionItems = [
     {
@@ -137,35 +203,15 @@ const Task = () => {
               <tr className="rounded-lg">
 
                 <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
-
-
                 <th className="text-[12px] border-r w-[60px]  font-medium p-[8px] ">#</th>
-
-
                 <th className="text-[12px] w-[220px] p-[8px] border-r font-medium whitespace-nowrap">Task Name</th>
-
-
                 <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Start Date</th>
-
-
                 <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Due Date</th>
-
-
-
                 <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">End Date</th>
                 <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Assigned to</th>
                 <th className="text-[12px] font-medium p-[8px] w-[80px] border-r whitespace-nowrap	">Tags</th>
                 <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Priority</th>
-
-
-
-
-
-
-
-
-
-
+                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Actions</th>
               </tr>
             </thead>
           </table>
@@ -173,90 +219,90 @@ const Task = () => {
       content: (
         <table className="w-full " >
           <tbody>
+            {
+              fetchTaskData?.map((s, index) => {
+                return <tr className="rounded-lg border-b border-[#e5e7eb]">
 
-            <tr className="rounded-lg border-b border-[#e5e7eb]">
+                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">N/A</Link></td>
+                  <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">{index + 1}</td>
+                  <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">{s.taskName}</Link></td>
+                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s.startDate}</td>
+                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s.endDate}</td>
+                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
+                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	">N/A</td>
+                  <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">N/A</td>
+                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred">N/A</Link></td>
+                  <td className="flex gap-[10px]">
+                    <button onClick={() => {
+                      setSelectedTaskData(s);
+                      openModal2(); // Call the function here
+                    }}><BorderColorIcon /></button>
+                    <button className="text-red-600"><DeleteOutlineIcon /></button>
 
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">Complete</Link></td>
+                  </td>
 
-
-              <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
-
-
-              <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	"><button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">Ads</button></td>
-              <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">-</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred">High</Link></td>
-
-
-
-
-
-
-
-
-
-
-            </tr>
-            <tr className="rounded-lg border-b border-[#e5e7eb]">
-
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">Complete</Link></td>
-
-
-              <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
-
-
-              <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	"><button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">Ads</button></td>
-              <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">-</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred2">Medium</Link></td>
-
-
-
-
-
-
-
-
-
-
-            </tr>
+                </tr>
+              })
+            }
 
           </tbody>
-
-
-
-
-
         </table>
-
       )
     },
-
-    //   { title: "2", content: "This is the content for item 2" },
-    //     { title: "3", content: "This is the content for item 3" },
-
   ];
 
+
+  const [updateTaskName, setUpdateTaskName] = useState();
+  const [updateTaskStatus, setUpdateTaskStatus] = useState(selectedTaskData?.taskStatusId || "");
+  const [updateStartDate, setUpdateStartDate] = useState();
+  const [updateEndDate, setUpdateEndDate] = useState();
+  const [updateDueDate, setUpdateDueDate] = useState();
+  const [updateSelectProject, setUpdateSelectProject] = useState(selectedTaskData?.selectProjectId || "");
+  const [updateDepartment, setUpdateDepartment] = useState();
+  const [updateTaskPriority, setUpdateTaskPriority] = useState(selectedTaskData?.taskPriorityId || "");
+  const [updateTaskAssigne, setUpdateTaskAssigne] = useState([]);
+  const [updateTaskDescription, setUpdateTaskDescription] = useState();
+  const [updateTaskTag, setUpdateTaskTag] = useState();
+  const [updateTaskAttachFile, setUpdateTaskAttachFile] = useState();
+
+
+
+
+  useEffect(() => {
+    setUpdateTaskStatus(selectedTaskData?.taskStatusId || "");
+    setUpdateSelectProject(selectedTaskData?.selectProjectId || "");
+    setUpdateTaskPriority(selectedTaskData?.taskPriorityId || "");
+  }, [selectedTaskData]);
+
+
+
+  async function updateDataTaskDetails() {
+    const taskId = selectedTaskData?.id; // Get the task ID dynamically from `selectedTaskData`
+    const result = await fetch(baseUrl + `task/detail/${taskId}`, {
+      method: "PUT",
+      headers: {
+        'Content-type': "application/form-data"
+      },
+      body: JSON.stringify({ taskName: updateTaskName, startDate: updateStartDate, endDate: updateEndDate, dueDate: updateDueDate, selectProjectId: updateSelectProject, taskDescription: updateTaskDescription, taskTag: updateTaskTag, attachFile: updateTaskAttachFile, selectDepartmentId: updateDepartment, taskStatusId: updateTaskStatus, taskPriorityId: updateTaskPriority, taskAssign: updateTaskAssigne })
+    })
+    if (result.status = 200) {
+      const data = await result.json();
+      console.log(data)
+      openToast("Add Task Successfully", "success")
+    }
+    else {
+      openToast("Internal Server Error", "error")
+    }
+  }
+
+  useEffect(() => {
+    fetchStaffDetail();
+    fetchAllTaskStatus();
+    fetchDepartments();
+    fetchTaskPriority();
+    fetchProjectDetails();
+    fetchTaskDetails();
+  }, [])
   return (
     <div className="w-full px-4 py-6 overflow-x-auto">
       <div className=" h-[30px] mb-5">
@@ -278,73 +324,85 @@ const Task = () => {
                 <div className="w-[100%]">
 
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Name</label><br />
-                  <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                  <input type='text' onChange={(e) => setTaskName(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
                 </div>
                 <div className="flex gap-[8px]">
 
                   <div className="w-[100%]" >
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Status</label>    <br />
-                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                      <option>Please Select Task Status</option>
-                      {
-                        allTaskStatus?.map((s, index) => {
-                          return <option>{s?.taskStatusName}</option>
-                        })
-                      }
+                    <select
+                      onChange={(e) => setSelectedTaskStatusId(e.target.value)} // Store only the selected ID as a string
+                      className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                    >
+                      <option value="">Please Select Task Status</option>
+                      {allTaskStatus?.map((status) => (
+
+                        <option key={status.id} value={status.id}>
+                          {status.taskStatusName}
+                        </option>
+                      ))}
                     </select>
+
+
                   </div>
 
                 </div>
                 <div className="flex gap-[8px]">
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Start Date</label>    <br />
-                    <input type='date' className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    <input type='date' onChange={(e) => setStartDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
                   </div>
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>End Date</label>    <br />
-                    <input type='date' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    <input type='date' onChange={(e) => setEndDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
                   </div>
                 </div>
                 <div className="flex gap-[8px]">
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Due Date</label>    <br />
-                    <input type='date' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    <input type='date' onChange={(e) => setUpdateDueDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
                   </div>
                   <div className="w-[50%]">
 
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Project</label>    <br />
-                    <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
-                      <option>Select Project</option>
-                     {
-                      projectDetails?.map((s,index)=>{
-                        return <option value={s.id}>{s.project_name}</option>
-                      })
-                     }
+                    <select
+                      onChange={(e) => setSelectedProjectId(e.target.value)}
+                      className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                    >
+                      <option value="">- Select Project -</option> {/* Placeholder option */}
+                      {projectDetails.map((project) => (
+                        <option key={project.id} value={project.id}>
+                          {project.project_name}
+                        </option>
+                      ))}
                     </select>
+
                   </div>
                 </div>
                 <div className="w-[100%] flex gap-[10px]">
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
-                    <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
-                      <option>Department</option>
-                      {
-                        departments?.map((s, index) => {
-                          return <option>{s.department_name}</option>
-                        })
-                      }
-
+                    <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
+                      <option>Select Department</option>
+                      {departments.map(department => (
+                        <option key={department.id} value={department.id}>
+                          {department.department_name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Priority</label>    <br />
-                    <select className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
-                      <option>Select Task Priority</option>
-                      {
-                        taskPriority?.map((s, index) => {
-                          return <option>{s.taskPriorityName}</option>
-                        })
-                      }
+                    <select
+                      onChange={(e) => setSelectedTaskPriorityId(e.target.value)} // Set only the selected ID
+                      className="border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] hover:bg-[#fff]"
+                    >
+                      <option value="">Select Task Priority</option> {/* Placeholder option */}
+                      {taskPriority?.map((priority) => (
+                        <option key={priority.id} value={priority.id}>
+                          {priority.taskPriorityName}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -355,8 +413,15 @@ const Task = () => {
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Assignee</label>    <br />
                     <Select
                       isMulti
-                      options={options}
-                      onChange={handleChange}
+                      options={staffDetail?.map(staff => ({
+                        value: staff.id,
+                        label: staff.name,
+                      }))}
+                      onChange={(selectedOptions) => {
+                        const selectedIds = selectedOptions?.map(option => option.value) || [];
+                        console.log("Selected IDs:", selectedIds);
+                        setUpdateTaskAssigne(selectedIds);
+                      }}
                       placeholder="Select Members..."
                       className="w-full"
                       styles={{
@@ -381,13 +446,13 @@ const Task = () => {
                         }),
                       }}
                     />
+
                   </div>
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
-                  <textarea type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
-
+                  <textarea type='text' onChange={(e) => setTaskDescription(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
                   <div className="w-[100%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />
-                    <input type='text' className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' />    <br />
+                    <input type='text' onChange={(e) => setTag(e.target.value)} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' />    <br />
                   </div>
 
 
@@ -399,7 +464,7 @@ const Task = () => {
                 <div>
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Attach File</label><br />
                   <div className='relative'>
-                    <input type='file' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                    <input type='file' onChange={(e) => setAttachFile(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                     <button onClick={addNewDiv} >
                       <AddIcon className='plus-icon' />
                     </button>
@@ -427,17 +492,6 @@ const Task = () => {
 
 
                 </div>
-                {/* <div className='flex'>
-                                    <input type='number' placeholder='22' className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
-                                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[94%]   focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                        <option>Months</option>
-                                        <option>Weekly</option>
-                                        <option>Daily</option>
-                                        <option>Hourly</option>
-                                    </select>
-                                </div> */}
-
-
                 {/* <DescriptionEditer /> */}
 
                 <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
@@ -446,9 +500,9 @@ const Task = () => {
                     className="bg-red-500 text-white px-4 py-2 rounded"
                     onClick={toggleModal15}
                   >
-                    Close Modal
+                    Close
                   </button>
-                  <button className='second-btn'>Save </button>
+                  <button className='second-btn' onClick={submitTask}>Save </button>
                 </div>
               </div>
 
@@ -478,6 +532,217 @@ const Task = () => {
           )}
         </div>
       ))}
+
+      {/* onclick Update task */}
+      <Modal
+        isOpen={modalIsOpen2}
+        onAfterOpen={afterOpenModal2}
+        onRequestClose={closeModal2}
+        // style={customStyles}
+        contentLabel="Example Modal"
+        className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+
+      >
+        <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 shadow p-3 text-[13px] xl:text-[15px] '>Update Task</h2>
+        <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+        <div className=''>
+          <div className="bg-white p-6    relative h-[400px]  overflow-y-scroll">
+            <div className="w-[100%]">
+
+              <div className="w-[100%]">
+
+                <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Name</label><br />
+                <input type='text' onChange={(e) => setUpdateTaskName(e.target.value)} defaultValue={updateData?.taskName} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+              </div>
+              <div className="flex gap-[8px]">
+
+                <div className="w-[100%]" >
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Status</label>    <br />
+                  <select
+                    onChange={(e) => setUpdateTaskStatus(e.target.value)} // Set the selected task status ID
+                    value={updateTaskStatus}  // Set current state as the value to stay in sync
+                    className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                  >
+                    <option value="">Please Select Task Status</option>
+                    {allTaskStatus?.map((status) => (
+                      <option key={status.id} value={status.id}>
+                        {status.taskStatusName}
+                      </option>
+                    ))}
+                  </select>
+
+
+
+                </div>
+
+              </div>
+              <div className="flex gap-[8px]">
+                <div className="w-[50%]">
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Start Date</label>    <br />
+                  <input type='date' onChange={(e) => setUpdateStartDate(e.target.value)} defaultValue={updateData?.startDate} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                </div>
+                <div className="w-[50%]">
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>End Date</label>    <br />
+                  <input type='date' onChange={(e) => setUpdateEndDate(e.target.value)} defaultValue={updateData?.endDate} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                </div>
+              </div>
+              <div className="flex gap-[8px]">
+                <div className="w-[50%]">
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Due Date</label>    <br />
+                  <input type='date' onChange={(e) => setUpdateDueDate(e.target.value)} defaultValue={updateData?.dueDate} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                </div>
+                <div className="w-[50%]">
+
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Project</label>    <br />
+                  <select
+                    onChange={(e) => setUpdateSelectProject(e.target.value)} // Update `updateSelectProject` when the selection changes
+                    value={updateSelectProject}  // Use `updateSelectProject` as the value to stay in sync
+                    className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                  >
+                    <option value="">- Select Project -</option>
+                    {projectDetails.map((project) => (
+                      <option key={project.id} value={project.id}>
+                        {project.project_name}
+                      </option>
+                    ))}
+                  </select>
+
+                </div>
+              </div>
+              <div className="w-[100%] flex gap-[10px]">
+                <div className="w-[50%]">
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
+                  <select onChange={(e) => setUpdateDepartment(e.target.value)} defaultValue={updateData?.selectDepartmentId} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
+                    <option>Select Department</option>
+                    {departments.map(department => (
+                      <option key={department.id} value={department.id}>
+                        {department.department_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="w-[50%]">
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Priority</label>    <br />
+                  <select
+                    onChange={(e) => setUpdateTaskPriority(e.target.value)} // Update `updateTaskPriority` on selection change
+                    value={updateTaskPriority}  // Use `updateTaskPriority` as the value to stay in sync
+                    className="border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] hover:bg-[#fff]"
+                  >
+                    <option value="">Select Task Priority</option>
+                    {taskPriority?.map((priority) => (
+                      <option key={priority.id} value={priority.id}>
+                        {priority.taskPriorityName}
+                      </option>
+                    ))}
+                  </select>
+
+                </div>
+              </div>
+              <div className="">
+
+
+                <div className="w-[100%]">
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Assignee</label>    <br />
+                  <Select
+                    isMulti
+                    options={staffDetail?.map(staff => ({
+                      value: staff.id,
+                      label: staff.name
+                    }))}
+                    defaultValue={staffDetail
+                      ?.filter(staff => selectedTaskData?.taskAssign?.includes(staff.id))
+                      .map(staff => ({
+                        value: staff.id,
+                        label: staff.name
+                      }))
+                    }
+                    onChange={(selectedOptions) => {
+                      const selectedIds = selectedOptions?.map(option => option.value) || [];
+                      setUpdateTaskAssigne(selectedIds);  // Update `updateTaskAssigne` with selected IDs
+                    }}
+                    placeholder="Select Members..."
+                    className="w-full"
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        minHeight: '46px',
+                        border: '1px solid #DBDCDE',
+                      }),
+                      multiValue: (provided) => ({
+                        ...provided,
+                        backgroundColor: '#e5e7eb',
+                        borderRadius: '4px',
+                      }),
+                      multiValueLabel: (provided) => ({
+                        ...provided,
+                        fontSize: '0.875rem',
+                      }),
+                      multiValueRemove: (provided) => ({
+                        ...provided,
+                        color: '#4b5563',
+                        cursor: 'pointer',
+                      }),
+                    }}
+                  />
+
+
+                </div>
+                <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
+                <textarea type='text' onChange={(e) => { setUpdateTaskDescription(e.target.value) }} defaultValue={updateData?.taskDescription} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+
+                <div className="w-[100%]">
+                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />
+                  <input type='text' onChange={(e) => { setUpdateTaskTag(e.target.value) }} defaultValue={updateData?.taskTag} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' />    <br />
+                </div>
+              </div>
+
+
+
+
+              <div>
+                <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Attach File</label><br />
+                <div className='relative'>
+                  <input type='file' onChange={(e) => setUpdateTaskAttachFile(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                  <button onClick={addNewDiv} >
+                    <AddIcon className='plus-icon' />
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                {/* Dynamically render each div */}
+                {divs.map((_, index) => (
+                  <div key={index} className='mb-[10px]'>
+                    <label className='text-[13px] xl:text-[14px] font-medium'>Attach File {index + 1}</label><br />
+                    <div className='relative'>
+                      <input
+                        type='file'
+                        className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
+                      />
+
+                      {/* Remove Button for every div */}
+                      <button onClick={() => removeDiv(index)} className='  rounded plus-icon'>
+                        <RemoveIcon />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+
+              </div>
+            </div>
+
+
+          </div>
+
+          <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
+            <button className='first-btn' onClick={closeModal2}>Cancel</button>
+            <button className='second-btn' onClick={updateDataTaskDetails}>Confirm</button>
+          </div>
+        </div>
+      </Modal>
+      {/* onclick Update task */}
+
 
     </div>
   );

@@ -155,6 +155,11 @@
 .interview-card:hover{
    transform: translateY(-6px);
 }
+.react-responsive-modal-modal{
+    width: 550px;
+    border-radius: 10px;
+
+}
 .cached-icon{
     height: 36px !important;
 }

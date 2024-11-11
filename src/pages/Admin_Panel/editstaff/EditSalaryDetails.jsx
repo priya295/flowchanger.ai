@@ -52,6 +52,7 @@ const EditSalaryDetails = () => {
     { state: "West Bengal", employeelwf: .50, employerlwf: 2.5 },
   ];
 
+  const [selectLWF, setSelectLWF] = useState(null)
   const initialOptions = [
     { id: 1, label: 'None' },
     {
@@ -71,7 +72,7 @@ const EditSalaryDetails = () => {
       items: [
         { id: 'basic_var', label: 'BASIC', checked: false },
         { id: 'hra_var', label: 'HRA', checked: false },
-         { id: 'da_var', label: 'Dearness Allowance', checked: false },
+        { id: 'da_var', label: 'Dearness Allowance', checked: false },
         { id: 'overtime_var', label: 'Overtime', checked: false },
         { id: 'incentive_var', label: 'Incentive', checked: false },
       ]
@@ -161,7 +162,7 @@ const EditSalaryDetails = () => {
 
 
   const updateSalaryDetails = async () => {
-    console.log(calEarning, calDeductions, calCompliances);
+    console.log(calEarning, calCompliances, calDeductions);
   };
 
   // console.log(selectedOption1, selectedOption2, selectedOption3, selectedOption4);
@@ -405,6 +406,8 @@ const EditSalaryDetails = () => {
       }
     }
 
+
+
     totalCTC = totalEarnings + totalOtherCompliances;
 
     return parseFloat(totalCTC).toFixed(2);
@@ -414,6 +417,7 @@ const EditSalaryDetails = () => {
   useEffect(() => {
     setTotalCTC(calculateCTC(calEarning, calCompliances, calDeductions))
   }, [calEarning, calCompliances, calDeductions, selectedOption1, selectedOption2, selectedOption3, selectedOption4])
+
 
 
   useEffect(() => {
@@ -565,6 +569,7 @@ const EditSalaryDetails = () => {
     }
   }
 
+  console.log(calEarning, calDeductions, calDeductions);
 
   return (
     <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col">
@@ -842,8 +847,8 @@ const EditSalaryDetails = () => {
                 className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
                 countryid={101}
                 onChange={(e) => {
-                  console.log(e);
-                  handleChange("compliances", "Employer LWF", e.name, "state");
+                  console.log(e.name);
+                  handleChange("compliances", "Employer LWF", e.name, "state")
                 }}
                 placeHolder="Select State"
               />

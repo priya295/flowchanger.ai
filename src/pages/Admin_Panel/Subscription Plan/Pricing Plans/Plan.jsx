@@ -1,5 +1,6 @@
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Monthly from "./Monthly";
 
 const Plan = () => {
   return (
@@ -19,9 +20,11 @@ const Plan = () => {
             <Tab className="bg-[#27004a] text-[white]  px-2 py-2" >Yearly</Tab>
             <Tab className="bg-[#27004a] text-[white]  px-2 py-2">Lifetime</Tab>
           </TabList>
+
           <TabPanel>
-            
+            <Monthly/>
           </TabPanel>
+          
           <TabPanel>
             
           </TabPanel>

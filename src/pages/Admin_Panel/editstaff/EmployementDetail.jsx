@@ -6,9 +6,8 @@ const EmployementDetail = () => {
 
     const [allRoles, setAllRoles] = useState([]);
     const [allDepartments, setAllDepartments] = useState([]);
-    const { selectedStaff } = useGlobalContext();
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
 
-    const { baseUrl } = useGlobalContext();
     const [branch, setBranch] = useState("");
     const [department, setDepartment] = useState("");
     const [role, setRole] = useState("");
@@ -24,33 +23,41 @@ const EmployementDetail = () => {
     // console.log(branch, department, employmentID, role, dateOfJoining, dateOfLeaving, jobTitle, email, esiNumber, pfNumber);
 
     const fetchDepartments = async () => {
-        const result = await fetch(baseUrl + "department")
-        if (result.status == 200) {
-            const res = await result.json();
-            setAllDepartments(res.data)
+        try {
+            const result = await fetch(baseUrl + "department");
+            if (result.status == 200) {
+                const res = await result.json();
+                setAllDepartments(res.data);
+            } else {
+                alert("An error occurred while fetching departments");
+            }
+        } catch (error) {
+            console.error("Error fetching departments:", error);
+            alert("An error occurred while fetching departments");
         }
-        else {
-            alert("An Error Occured")
-        }
-    }
-
+    };
 
     const fetchRoles = async () => {
-        const result = await fetch(baseUrl + "role")
-        if (result.status == 200) {
-            const res = await result.json();
-            setAllRoles(res.data)
+        try {
+            const result = await fetch(baseUrl + "role");
+            if (result.status == 200) {
+                const res = await result.json();
+                setAllRoles(res.data);
+            } else {
+                alert("An error occurred while fetching roles");
+            }
+            console.log("result", result);
+        } catch (error) {
+            console.error("Error fetching roles:", error);
+            alert("An error occurred while fetching roles");
         }
-        else {
-            alert("An Error Occured")
-        }
-        console.log("result", result)
+    };
 
-    }
     useEffect(() => {
-        fetchDepartments()
+        fetchDepartments();
         fetchRoles();
-    }, [])
+    }, []);
+
     async function handlesubmit(e) {
         e.preventDefault();
         const data = {};
@@ -61,20 +68,26 @@ const EmployementDetail = () => {
         if (email !== "") data.official_email = email;
         if (dateOfJoining !== "") data.date_of_joining = dateOfJoining;
 
-        const response = await fetch(baseUrl + "staff/" + selectedStaff.id, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
-        const result = await response.json();
-        if (response.status === 200) {
-            console.log(result);
-            alert("Staff Updated successfully ");
-        } else {
-            console.log(result);
-            alert("An error occurred during update staff");
+        try {
+            const response = await fetch(baseUrl + "staff/" + selectedStaff.id, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            if (response.status === 200) {
+                console.log(result);
+                openToast("Employment Details Updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while updating employment details", "error");
+            }
+        } catch (error) {
+            console.error("Error updating employment details:", error);
+            openToast("An error occurred while updating employment details", "error");
         }
     }
 

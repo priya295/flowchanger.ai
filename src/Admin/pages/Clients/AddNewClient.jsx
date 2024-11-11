@@ -3,7 +3,8 @@ import { useState } from "react";
 import { FiPlus } from "react-icons/fi";
 // import CustomDialog from "./DialougeBox";
 import { MdOutlineDone } from "react-icons/md";
-const EditNewClient = () =>{
+
+const AddNewClient = () =>{
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -165,7 +166,7 @@ const EditNewClient = () =>{
                <option>{option}</option>
               </>
             })}
-          </select>
+           </select>
         </div>
       </div>
 
@@ -202,8 +203,8 @@ const EditNewClient = () =>{
 
     {/* <!-- Submit Button --> */}
     <div class="mt-6  w-full md:w-[45%] flex p-2 justify-between md:justify-around  md:float-right">
-      <button type="submit" class="   px-2 text-gray-400 border border-gray-400 rounded-md shadow-sm  focus:ring-4focus:ring-opacity-50 mr-2 ">save and create contact</button>
-      <button type="submit" class=" bg-[#27004a] text-white px-2 py-1 rounded-md shadow-sm focus:ring-4 focus:ring-black focus:ring-opacity-50">save</button>
+      <button type="submit" class="   px-2 text-gray-400 border border-gray-400 rounded-md shadow-sm  focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 mr-2 ">save and create contact</button>
+      <button type="submit" class=" bg-purple-600 text-white px-2 py-1 rounded-md shadow-sm hover:bg-purple-700 focus:ring-4 focus:ring-black focus:ring-opacity-50">save</button>
     </div>
   </form>
   {/* <!-- Form ends --> */}
@@ -213,6 +214,6 @@ const EditNewClient = () =>{
   );
 }
 
-export default EditNewClient;
+export default AddNewClient;
 
 

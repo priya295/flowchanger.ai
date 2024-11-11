@@ -9,6 +9,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
+
 
 
 
@@ -88,7 +91,7 @@ const ProjectStatus = () => {
     const [projectColor, setProjectColor] = useState();
     const [projectOrder, setProjectOrder] = useState();
     const [filter, setFilter] = useState(false);
-    const [canChanged, setCanChanged] = useState();
+    const [canChanged, setCanChanged] = useState([]);
 
     async function submitProjectStatus() {
         const result = await fetch(baseUrl + "project-status", {
@@ -98,7 +101,10 @@ const ProjectStatus = () => {
             },
             body: JSON.stringify({ project_name: projectName, project_color: projectColor, project_order: projectOrder, default_filter: filter, can_changed: canChanged })
         })
-        if (result.status == 201) {
+        console.log("reusltchecking",result.json())
+        if (result.status == 201) { 
+            const res=await result.json();
+            console.log("res",res)
             alert("Add Project Status Successfully")
         }
         else {
@@ -107,6 +113,7 @@ const ProjectStatus = () => {
     }
 
     const [fetchProjectStatus, setFetchProjectStatus] = useState([]);
+    console.log("fetchProjectStatus",fetchProjectStatus)
     async function fetchProjectDetails() {
         const result = await fetch(baseUrl + "project-status");
         const data = await result.json();
@@ -117,6 +124,43 @@ const ProjectStatus = () => {
     useEffect(() => {
         fetchProjectDetails();
     }, [])
+
+
+    const [exportFormat, setExportFormat] = useState('');
+    const handleExport = () => {
+        if (exportFormat === 'CSV') exportCSV();
+        else if (exportFormat === 'PDF') exportPDF();
+        else if (exportFormat === 'Print') printDepartments();
+    };
+
+    const exportCSV = () => {
+        const csvData = fetchProjectStatus.map(dep => `${dep.project_name}, ${dep.project_color}, ${dep.project_order}`).join('\n');
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'ProjectStatus.csv');
+    };
+
+    const exportPDF = () => {
+        const doc = new jsPDF();
+        doc.text("AllTaskStatus", 20, 10);
+        fetchProjectStatus.forEach((dep, index) => {
+            doc.text(`${index + 1}. ${dep.project_name},${dep.project_color},${dep.project_order}`, 10, 20 + index * 10);
+        });
+        doc.save('ProjectStatus.pdf');
+    };
+
+    const printDepartments = () => {
+        const printContent = fetchProjectStatus.map(dep => `${dep.project_name},${dep.project_color}, ${dep.project_order} (Total Users: 1)`).join('\n');
+        const newWindow = window.open();
+        newWindow.document.write(`<pre>${printContent}</pre>`);
+        newWindow.document.close();
+        newWindow.print();
+    };
+    const [rowsToShow, setRowsToShow] = useState(25);
+    const handleSelectChange = (event) => {
+        setRowsToShow(Number(event.target.value));
+    };
+
+
     return (
         <div className=" w-full  ">
 
@@ -173,7 +217,8 @@ const ProjectStatus = () => {
                                             <div className='w-[100%]  xl:[48%] mb-[20px]'>
                                                 <label className='text-[14px]'>Can be changed to</label><br />
                                                 <select onChange={(e) => setCanChanged(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
+                                                    <option value="Hello">Nothing Selected</option>
+                                                    <option value="new state">Second</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -203,12 +248,14 @@ const ProjectStatus = () => {
                         <div className="flex gap-[10px]">
                             <div className="relative inline-block text-left">
                                 {/* Button to open/close the dropdown */}
-                                <button
-                                    className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                    onClick={toggleDropdown1}
-                                >
-                                    25 <KeyboardArrowDownIcon className="newadd" />
-                                </button>
+                                <select
+                                    onChange={handleSelectChange}
+                                    className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="120">120</option>
+                                </select>
 
                                 {/* Dropdown menu */}
                                 {isOpen1 && (
@@ -241,8 +288,18 @@ const ProjectStatus = () => {
                             </div>
 
 
-                            <p className=" relative p-[7px] text-[12px] w-[100px] font-medium summary-border rounded-md  "> Export <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" /> </p>
-
+                            <select onChange={(e) => setExportFormat(e.target.value)}
+                                className='border border-[#e5e7eb] p-2 pl-0 shadow-sm text-sm rounded-md  focus:outline-none'>
+                                <option value="CSV">CSV</option>
+                                <option value="PDF">PDF</option>
+                                <option value="Print">Print</option>
+                            </select>
+                            <button
+                                onClick={handleExport}
+                                className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
+                            >
+                                Export
+                            </button>
                         </div>
                         <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
                             <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
@@ -297,6 +354,16 @@ const ProjectStatus = () => {
 
                             </tbody>
                         </table>
+
+                        <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+                            <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {fetchProjectStatus?.length} entries</p>
+                            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
+                            </div>
+                        </div>
                     </div>
 
 
@@ -351,7 +418,7 @@ const ProjectStatus = () => {
                         <div className='w-[100%]  xl:[48%] mb-[20px]'>
                             <label className='text-[14px]'>Can be changed to</label><br />
                             <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                <option>Nothing Selected</option>
+                                <option >Nothing Selected</option>
                             </select>
                         </div>
                     </div>

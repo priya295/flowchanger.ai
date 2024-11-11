@@ -4,6 +4,8 @@ import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 
+
+
 const StaffTab = () => {
   const { baseUrl, setSelectedStaff } = useGlobalContext();
 
@@ -12,6 +14,13 @@ const StaffTab = () => {
   function handledrop() {
     setToggleDrop(!toggleDrop)
   }
+
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  // Toggle function to show/hide dropdown
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
 
   const [staffDetail, setStaffDetail] = useState();
   const fetchRoles = async () => {
@@ -39,7 +48,7 @@ const StaffTab = () => {
   return (
     <div className='staff-tab mt-[20px]'>
       <div className='flex justify-between flex-col xl:flex-row lg:flex-col md:flex-col gap-[15px] lg:gap-[0px]'>
-        <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row'>
+        <div className='flex lg:gap-[20px] mb-[20px] flex-col gap-[10px] lg:flex lg:flex-row '>
           <div className='searching-input relative'>
             <img src={Search} className='absolute left-2 top-3' />
             <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' />
@@ -50,11 +59,51 @@ const StaffTab = () => {
             <option>All Departments</option>
           </select>
 
-          <div className='flex gap-[10px] whitespace-nowrap justify-end items-center cursor-pointer'>
-            <img src={Filter} className='w-[40px] h-[40px] bg-[#F4F5F9] rounded-full p-[10px]' />
-            <h2 className='text-[14px] font-normal	'>More Filters</h2>
-          </div>
 
+          <div className='relative'>
+            <button className='flex gap-[10px] whitespace-nowrap justify-end items-center cursor-pointer' onClick={toggleDropdown}>
+              <img src={Filter} className='w-[40px] h-[40px] bg-[#F4F5F9] rounded-full p-[10px]' />
+              <h2 className='text-[14px] font-normal	'>More Filters</h2>
+            </button>
+            {isDropdownOpen && (
+              <div className="absolute w-[325px]  mt-2 md:w-[400px] xl:w-[400px] lg:w-[400px] lg:left-[0px] p-[20px] bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                <h2 className='border-b '>More Filters</h2>
+                <div className='flex gap-[10px] mt-2 items-center'>
+                  <label className='text-[13px] whitespace-nowrap w-[81px]'>Staff Status:</label>
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px]  w-[100%] focus-visible:outline-none text-sm'>
+                    <option>All Staff</option>
+                    <option>Active</option>
+                    <option>InActive</option>
+                  </select>
+                </div>
+                <div className='flex gap-[10px] mt-2 items-center'>
+                  <label className='text-[13px] whitespace-nowrap w-[102px]'>Gender:</label>
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm'>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Others</option>
+                  </select>
+                </div>
+                <div className='flex gap-[10px] mt-2 items-center'>
+                  <label className='text-[13px] whitespace-nowrap w-[102px]'>Employee<br/> Type:</label>
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm'>
+                    <option>All</option>
+                    <option>Full Time</option>
+                    <option>Pemanent</option>
+                    <option>Part Time</option>
+                    <option>Consultant</option>
+                    <option>Temporary</option>
+                    <option>Probation</option>
+                    <option>Contract</option>
+                  </select>
+                </div>
+
+                <div className='text-center mt-2'>
+                  <button className='second-btn'>Close</button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <div className='flex gap-[15px] justify-between lg:justify-start'>
           <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button>
