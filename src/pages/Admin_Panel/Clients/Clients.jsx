@@ -9,7 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { IoIosArrowDown } from "react-icons/io";
@@ -21,9 +21,21 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import SellIcon from '@mui/icons-material/Sell';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import ReactDOM from 'react-dom';
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
+
 
 
 const Clients = () => {
+
+
+    const [allStaff, setAllStaff] = useState();
+    
+
+    
+
+
     const handleSelectChange = (event) => {
         setRowsToShow(Number(event.target.value));
     };
@@ -34,38 +46,71 @@ const Clients = () => {
     const [rowsToShow, setRowsToShow] = useState(25);
 
 
-
+    const fetchAllStaff = async () => {
+        const response = await fetch(baseUrl + 'staff');
+        const data = await response.json();
+        setAllStaff(data?.map((staff) => {
+            return {
+                id: staff?.id,
+                label: staff?.name
+            }
+        }));
+    }
+    const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            backgroundColor: '#F4F5F9',
+            borderColor: '#E2E8F0',
+            minHeight: '38px',
+        }),
+        multiValue: (provided) => ({
+            ...provided,
+            backgroundColor: '#E2E8F0',
+        }),
+        multiValueLabel: (provided) => ({
+            ...provided,
+            fontSize: '14px',
+        }),
+        multiValueRemove: (provided) => ({
+            ...provided,
+            color: '#4A5568',
+            ':hover': {
+                backgroundColor: '#CBD5E0',
+                color: '#2D3748',
+            },
+        }),
+    };
     const handleExport = () => {
         if (exportFormat === 'CSV') exportCSV();
         else if (exportFormat === 'PDF') exportPDF();
         else if (exportFormat === 'Print') printDepartments();
-      };
-    
-      const exportCSV = () => {
+    };
+
+    const exportCSV = () => {
         const csvData = departments.map(dep => `${dep.department_name}, Total Users: 1`).join('\n');
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
         saveAs(blob, 'departments.csv');
-      };
-    
-      const exportPDF = () => {
+    };
+
+    const exportPDF = () => {
         const doc = new jsPDF();
         doc.text("Department List", 20, 10);
         departments.forEach((dep, index) => {
-          doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
+            doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
         });
         doc.save('departments.pdf');
-      };
-    
-      const printDepartments = () => {
+    };
+
+    const printDepartments = () => {
         const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
         const newWindow = window.open();
         newWindow.document.write(`<pre>${printContent}</pre>`);
         newWindow.document.close();
         newWindow.print();
-      };
-    
-  
-  
+    };
+
+
+
 
     const [isOpen15, setIsOpen15] = useState(false);
 
@@ -119,14 +164,18 @@ const Clients = () => {
 
     //Toggle swich off on btn
 
+
+
     const [clientData, setClientData] = useState([]);
+
+
 
     const fetchDetail = async () => {
         const result = await fetch(baseUrl + "client");
         if (result.status == 200) {
             const res = await result.json();
             console.log(res)
-            setClientData(res.data)
+            setClientData(res)
         }
         else {
             alert("An Error Occured")
@@ -184,6 +233,12 @@ const Clients = () => {
     const [selectedClient, setSelectedClient] = useState(null);
 
     // Array of accordion items
+
+
+    const [open, setOpen] = useState(false);
+
+    const onOpenModal = () => setOpen(true);
+    const onCloseModal = () => setOpen(false);
     const accordionItems = [
         {
             title:
@@ -377,6 +432,7 @@ const Clients = () => {
         }
     }, [selectedClient])
 
+    const [deleteClient, setDeleteClient] = useState();
     const updateData = async (e) => {
         e.preventDefault();
         const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
@@ -414,7 +470,7 @@ const Clients = () => {
             <div className="bg-[#fff] p-[10px] ml-[10px]">
                 <div className="mb-[14px] flex gap-[10px] items-center import-customers">
 
-                    <Link to="/addnewclient" className="text-[#fff] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none focus:ring-4 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <Link to="/addnewclient" className="text-[#fff] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none  font-medium rounded-lg  p-[8px] text-center">
                         <AddIcon className="newadd" /> New Clients</Link>
                     <Link to="/" className="text-[#fff] text-[14px] client-add bg-[#27004a]   focus:outline-none font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <AddIcon className="newadd" /> Import Clients</Link>
@@ -427,40 +483,89 @@ const Clients = () => {
 
 
                     <div className="flex justify-between items-center mb-[14px] betwe-cent">
-                    <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
-                        <div className='left-side '>
-                            <select
-                                onChange={handleSelectChange}
-                                className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  focus:outline-none'>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="120">120</option>
+                        <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
+                            <div className='left-side '>
+                                <select
+                                    onChange={handleSelectChange}
+                                    className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  focus:outline-none'>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="120">120</option>
 
-                            </select>
+                                </select>
 
-                            <select onChange={(e) => setExportFormat(e.target.value)}
-                                className='border border-[#e5e7eb] p-[7px]  text-[14px] shadow-sm rounded-md  focus:outline-none'>
-                                <option value="CSV">CSV</option>
-                                <option value="PDF">PDF</option>
-                                <option value="Print">Print</option>
-                            </select>
+                                <select onChange={(e) => setExportFormat(e.target.value)}
+                                    className='border border-[#e5e7eb] p-[7px]  text-[14px] shadow-sm rounded-md  focus:outline-none'>
+                                    <option value="CSV">CSV</option>
+                                    <option value="PDF">PDF</option>
+                                    <option value="Print">Print</option>
+                                </select>
 
-                            <button
-                                onClick={handleExport}
-                                className='ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer'
-                            >
-                                Export File
-                            </button>
-                            <CachedIcon className='border border-[#e5e7eb] shadow-sm ml-2 h-[36px] rounded-md cursor-pointer refresh' />
+                                <button
+                                    onClick={handleExport}
+                                    className='ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer'
+                                >
+                                    Export File
+                                </button>
 
 
+
+                                <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal}>Bulk Action <CachedIcon className="newsidebar-icon" /> </button>
+                                <Modal open={open} onClose={onCloseModal} center>
+                                    <div className="border-b border-[#dbdbdb] pb-[20px]">
+                                        <h2>Bulk Actions</h2>
+                                    </div>
+                                    <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
+                                        <input type="checkbox" />
+                                        <p className="text-[14px]">Mass Delete</p>
+                                    </div>
+                                    <div className="w-[100%]">
+
+
+
+
+                                    <Select
+                                                    isMulti
+                                                    name="isHiddenFor"
+                                                    options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+                                                    className="basic-multi-select"
+                                                    classNamePrefix="select"
+                                                    value={taskStatus.isHiddenFor || []}
+                                                    onChange={(selectedOptions) =>
+                                                        setTaskStatus((prev) => ({
+                                                            ...prev,
+                                                            isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
+                                                        }))
+                                                    }
+                                                    styles={customStyles}
+                                                />
+                                    </div>
+                                    <p className="text-[red] text-[14px]">if you do not select any groups assigned to the selected customers will be removed.</p>
+
+                                    <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
+                                        {/* Button to close the modal */}
+                                        <button
+                                            className="bg-red-500 text-white px-4 py-2 rounded"
+                                            onClick={toggleModal15}
+                                        >
+                                            Close
+                                        </button>
+                                        <button className='second-btn'>Confirm </button>
+                                    </div>
+
+                                </Modal>
+
+
+
+
+
+
+
+                            </div>
 
 
                         </div>
-
-                    
-                    </div>
                         <div className="relative client-add">
                             <input className="p-[6px] client-add rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
                             <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
@@ -487,7 +592,7 @@ const Clients = () => {
                             )}
                         </div>
                     ))}
-                        <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+                    <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
                         <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
                         <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
                             <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
@@ -500,7 +605,7 @@ const Clients = () => {
                 </div>
 
 
-            
+
 
 
 
@@ -655,4 +760,5 @@ const Clients = () => {
     );
 };
 export default Clients
+
 
