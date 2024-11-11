@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/bi_filter.svg'
 import { Link } from 'react-router-dom';
@@ -11,10 +11,10 @@ import qr from '../../../Assets/Images/qr-code.svg'
 import gps from '../../../Assets/Images/gps.svg'
 import biometric from '../../../Assets/Images/biometric.svg'
 import rightimg from '../../../Assets/Images/right.svg'
-
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const AttendanceTab = () => {
-
+    const { baseUrl, openToast } = useGlobalContext();
 
 
     const customStyles = {
@@ -34,6 +34,7 @@ const AttendanceTab = () => {
 
     let subtitle;
     const [modalIsOpen, setIsOpen] = React.useState(false);
+
     function openModal() {
         setIsOpen(true);
     }
@@ -244,7 +245,91 @@ const AttendanceTab = () => {
     }
 
     {/* when onclick update attendance modes  rule for all staff  successfull message*/ }
+    const [shiftName, setShiftName] = useState();
+    const [shiftStartTime, setShiftStartTime] = useState();
+    const [shiftEndTime, setShiftEndTime] = useState();
+    const [punchInType, setPunchInType] = useState("ANYTIME");
+    const [punchOutType, setPunchOutType] = useState("ANYTIME");
+    const [allowPunchInHour, setAllowPunchInHour] = useState();
+    const [allowPunchInMinutes, setAllowPunchInMinutes] = useState();
+    const [allowPunchOutMinutes, setAllowPunchOutMinutes] = useState();
+    const [allowPunchOutHour, setAllowPunchOutHour] = useState();
 
+
+
+
+    const handleTimeChange = (value) => {
+
+        const [hours, minutes] = value.split(":").map(Number);
+
+        // Determine AM or PM
+        const period = hours >= 12 ? "PM" : "AM";
+
+        // Convert to 12-hour format
+        const adjustedHours = hours % 12 || 12; // `12` for midnight and noon
+        const formattedTime = `${adjustedHours}:${minutes < 10 ? `0${minutes}` : minutes} ${period}`;
+
+        return formattedTime
+    };
+
+
+    async function submitShift() {
+        const result = await fetch(baseUrl + "shift", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: allowPunchInHour, allowPunchInMinutes: allowPunchInMinutes, allowPunchOutHours: allowPunchOutHour, allowPunchOutMinutes: allowPunchOutMinutes })
+        })
+        if (result.status == 201) {
+            const data = await result.json();
+            openToast("Add Shift Successfully", "success")
+
+        }
+        else {
+            openToast("An Error Occured", "error")
+        }
+    }
+
+
+    const [shiftDetails, setShiftDetails] = useState();
+    console.log("shiftDetails", shiftDetails);
+
+    async function fetchShiftDetails() {
+        const result = await fetch(baseUrl + "shift");
+        if (result.status == 200) {
+            const data = await result.json();
+            setShiftDetails(data)
+        }
+        else {
+            openToast("No Record Found")
+        }
+
+    }
+
+
+    const [selectedShift, setSelectedShift] = useState([]);
+    console.log("selectedShift", selectedShift)
+
+    const isSelected = (shiftId) => selectedShift.some((s) => s.id === shiftId);
+
+    // Handle checkbox change
+    const handleCheckboxChange = (shift) => {
+        setSelectedShift((prevSelected) => {
+            if (isSelected(shift.id)) {
+                // If already selected, remove from selectedShift
+                return prevSelected.filter((s) => s.id !== shift.id);
+            } else {
+                // Otherwise, add to selectedShift
+                return [...prevSelected, shift];
+            }
+        });
+    };
+
+
+    useEffect(() => {
+        fetchShiftDetails();
+    }, [])
 
     return (
         <div className='attendance-tab mt-[20px]'>
@@ -317,7 +402,7 @@ const AttendanceTab = () => {
                                             <td>Demo</td>
                                             <td>Demo</td>
                                         </tr>
-                                     
+
 
                                     </tbody>
                                 </table>
@@ -362,35 +447,35 @@ const AttendanceTab = () => {
 
                         <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
                             <div className='w-full   '>
-                            <table className='table-section  w-full'>
-                                <thead className='border border-1 '>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Job Title</th>
-                                    <th>SmartPhone Attendance</th>
-                                    <th>Selfie</th>
-                                    <th>QR</th>
-                                    <th>Mark Attendance From</th>
-                                    <th>Biometric</th>
+                                <table className='table-section  w-full'>
+                                    <thead className='border border-1 '>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Job Title</th>
+                                        <th>SmartPhone Attendance</th>
+                                        <th>Selfie</th>
+                                        <th>QR</th>
+                                        <th>Mark Attendance From</th>
+                                        <th>Biometric</th>
 
 
 
-                                </thead>
-                                <tbody className=''>
-                                    <tr className='border'>
-                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    </tr>
+                                    </thead>
+                                    <tbody className=''>
+                                        <tr className='border'>
+                                            <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                        </tr>
 
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
                             </div>
 
 
@@ -445,35 +530,35 @@ const AttendanceTab = () => {
 
                         <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
                             <div className='w-full   '>
-                            <table className='table-section  w-full'>
-                                <thead className='border border-1 '>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Job Title</th>
-                                    <th>Auto Present</th>
-                                    <th>Present On Punch In</th>
-                                    <th>Auto Half Day</th>
-                                    <th>Mandatory Half Day Hours</th>
-                                    <th>Mandatory Full Day Hours</th>
+                                <table className='table-section  w-full'>
+                                    <thead className='border border-1 '>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Job Title</th>
+                                        <th>Auto Present</th>
+                                        <th>Present On Punch In</th>
+                                        <th>Auto Half Day</th>
+                                        <th>Mandatory Half Day Hours</th>
+                                        <th>Mandatory Full Day Hours</th>
 
 
 
-                                </thead>
-                                <tbody className=''>
-                                    <tr className='border'> 
-                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    </tr>
+                                    </thead>
+                                    <tbody className=''>
+                                        <tr className='border'>
+                                            <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                            <td>Demo</td>
+                                        </tr>
 
 
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
                             </div>
 
 
@@ -529,10 +614,19 @@ const AttendanceTab = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
+                                        <td
+                                            className='pr-5 flex items-center'>
+                                            <select onClick={() => selectedShift.length === 0 && openModal1()} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
+                                                <option onClick={openModal1}>Select Shift</option>
+                                                {
+                                                    selectedShift?.map((seo, index) => {
+                                                        return <option>{seo.shiftName} | {seo.shiftStartTime} - {seo.shiftEndTime} </option>
+                                                    })
+                                                }
                                             </select>
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr className=''>
@@ -611,7 +705,8 @@ const AttendanceTab = () => {
                             </table>
 
                             <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
-                                <button className="first-btn" onClick={closeModal}>Cancel</button><button className="second-btn">Confirm</button>
+                                <button className="first-btn" onClick={closeModal}>Cancel</button>
+                                <button className="second-btn">Confirm</button>
                             </div>
                         </div>
                     </TabPanel>
@@ -726,11 +821,34 @@ const AttendanceTab = () => {
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Shifts</h2>
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
-                <div>
-                    <h4 className='p-4 pl-3 border border-b border-l-0 border-r-0 text-[13px] xl:text-[15px]'>No Options Available ....</h4>
+                <div className='h-[400px] overflow-scroll'>
+
+                    {/* {
+                        shiftDetails?.map((op,index)=>{
+                            return  <div className='flex justify-between items-center border-b py-3 px-3'>
+                            <h3 className='text-[13px]'>{op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime} </h3>
+                            <input type="checkbox" value={selectedShift.filter(s=>s.id == op.id)[0]??false} onChange={(e)=>setSelectedShift((prev)=>{
+                                return [...prev , ...shiftDetails?.filter((opt)=>opt.id===op.id)]
+                            })}/>
+                        </div>
+                        })
+                    } */}
+                    {shiftDetails?.map((op) => (
+                        <div key={op.id} className="flex justify-between items-center border-b py-3 px-3">
+                            <h3 className="text-[13px]">
+                                {op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime}
+                            </h3>
+                            <input
+                                type="checkbox"
+                                checked={isSelected(op.id)}
+                                onChange={() => handleCheckboxChange(op)}
+                            />
+                        </div>
+                    ))}
                     <Link to="" className='text-[#8A25B0] p-4 font-medium mt-3 w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
-                    <div className='text-end pr-4 pb-3'>
-                        <button className='second-btn'>Okay</button>
+                    <div className='text-end  flex pr-4 pb-3 gap-[10px] justify-end items-center' >
+                        <button className='first-btn' onClick={closeModal1}>Cancel</button>
+                        <button className='second-btn' onClick={closeModal1}>Confirm</button>
                     </div>
                 </div>
             </Modal>
@@ -750,10 +868,114 @@ const AttendanceTab = () => {
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add New Shifts</h2>
                 <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className=''>
-                    
+                    <div className='modal-field p-[10px] border border-t'>
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift Name</label><br />
+                        <input onChange={(e) => setShiftName(e.target.value)} type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift Start Time</label><br />
+                        <input onChange={(e) => {
+                            setShiftStartTime(handleTimeChange(e.target.value))
+                        }} type="time" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                        <br />
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch In</label><br />
+                        <div className='flex  justify-between'>
+                            <Tabs className="w-full">
+                                <TabList className="w-full flex justify-between w-full gap-[20px]">
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input value="ANYTIME" onChange={(e) => setPunchInType(e.target.value)} type="radio" id="anytime" name="select-timing" />
+                                            <label for="anytime" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Anytime</label><br />
+                                        </div>
+
+                                    </Tab>
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input type="radio" value="ADDLIMIT" onChange={(e) => setPunchInType(e.target.value)} id="limit" name="select-timing" />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Add Limit</label><br />
+                                        </div>
+                                    </Tab>
+                                </TabList>
+
+                                <TabPanel></TabPanel>
+
+                                <TabPanel>
+                                    <label className='text-[13px] xl:text-[14px] font-medium'>Allow Punch In</label><br />
+                                    <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchInHour(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
+
+                                        </div>
+
+
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchInMinutes(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
+
+                                        </div>
+                                    </div>
+
+                                </TabPanel>
+
+                            </Tabs>
+
+                        </div>
+
+
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift End Time</label><br />
+
+                        <input type="time" onChange={(e) => setShiftEndTime(handleTimeChange(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch Out</label><br />
+                        <div className=''>
+
+
+                            <Tabs className="w-full">
+                                <TabList className="w-full flex justify-between w-full gap-[20px]">
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input type="radio" value="ANYTIME" onChange={(e) => setPunchOutType(e.target.value)} id="anytime1" name="punching-timing" />
+                                            <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1">Anytime</label><br />
+                                        </div>
+
+
+                                    </Tab>
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input value="ADDLIMIT" onChange={(e) => setPunchOutType(e.target.value)} type="radio" id="limit1" name="punching-timing" />
+                                            <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1">Add Limit</label><br />
+                                        </div>
+                                    </Tab>
+                                </TabList>
+
+                                <TabPanel>
+
+                                </TabPanel>
+                                <TabPanel>
+                                    <label className='text-[14px] font-medium'>Allow Punch Out</label><br />
+                                    <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchOutHour(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
+
+                                        </div>
+
+
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchOutMinutes(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
+
+                                        </div>
+                                    </div>
+
+                                </TabPanel>
+                            </Tabs>
+
+
+                        </div>
+                    </div>
+
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn'>Confirm</button>
+                        <button className='second-btn' onClick={submitShift}>Confirm</button>
                     </div>
                 </div>
             </Modal>
