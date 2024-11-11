@@ -7,43 +7,45 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyVoterID = () => {
-    
+
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
-    
-    const [aadhaar, setAadhaar] = useState({
-        number: selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_number,
-        status: selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_verification_status,
+
+    const [voter, setVoter] = useState({
+        number: selectedStaff?.staffDetails?.staff_bg_verification?.voter_id_number,
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.voter_id_verification_status,
+        veriicationFile: selectedStaff?.staffDetails?.staff_bg_verification?.voter_id_file,
     });
 
-        const [bgVerification, setBgVerification] = useState("");
+    const [bgVerification, setBgVerification] = useState("");
 
 
-    // async function submitAadhar() {
-    //     const newFormData = new FormData();
-    //     newFormData.append("aadhaar_number", bgVerification);
+    async function submitVoterID() {
+        const newFormData = new FormData();
+        newFormData.append("voter_id_number", voter?.number);
+        newFormData.append("verificationFile", voter?.veriicationFile);
 
-    //     try {
-    //         const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/aadhaar", {
-    //             method: "PUT",
-    //             body: newFormData
-    //         });
+        try {
+            const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/voter_id", {
+                method: "PUT",
+                body: newFormData
+            });
 
-    //         console.log(response);
+            console.log(response);
 
-    //         if (response.status === 201) {
-    //             const result = await response.json();
-    //             console.log(result);
-    //             setAadhaar({ ...aadhaar, number: result?.data?.aadhaar_number, status: result?.data?.aadhaar_verification_status });
-    //             openToast("Aadhaar successfully updated or created", "success");
-    //             closeModal2();
-    //         } else {
-    //             openToast("An error occurred while adding or updating Aadhaar", "error");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error submitting Aadhaar:", error);
-    //         openToast("An error occurred while adding or updating Aadhaar", "error");
-    //     }
-    // }
+            if (response.status === 201) {
+                const result = await response.json();
+                console.log(result);
+                setVoter({ ...voter, number: result?.data?.voter_id_number, status: result?.data?.voter_id_verification_status, veriicationFile: result?.data?.voter_id_file });
+                openToast("Voter ID successfully updated or created", "success");
+                closeModal2();
+            } else {
+                openToast("An error occurred while adding or updating Voter ID", "error");
+            }
+        } catch (error) {
+            console.error("Error submitting Aadhaar:", error);
+            openToast("An error occurred while adding or updating Voter ID", "error");
+        }
+    }
 
 
 
@@ -80,11 +82,14 @@ const VerifyVoterID = () => {
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px]  pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Voter ID Verification</h3>
+                <button className='second-btn' onClick={submitVoterID}>
+                    Update Voter ID
+                </button>
             </div>
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Voter ID</h4>
-                <p className='font-light'>{aadhaar?.number}</p>
+                <p className='font-light'>{voter?.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
                     Add
                 </button>
@@ -95,7 +100,7 @@ const VerifyVoterID = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
-                <p className='font-light'>{aadhaar?.status}</p>
+                <p className='font-light'>{voter?.status}</p>
             </div>
 
 
@@ -107,6 +112,7 @@ const VerifyVoterID = () => {
                     onChange={handleFileChange}
                     style={{ display: "none" }} // Hide the input element
                 />
+                {voter?.veriicationFile && <img src={voter?.veriicationFile} alt="Voter ID" className="w-[100px] h-[50px] rounded-md " />}
                 <button className='second-btn' onClick={handleUploadClick}>
                     Upload
                 </button>
@@ -135,7 +141,7 @@ const VerifyVoterID = () => {
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn' >Save </button>
+                        <button className='second-btn' onClick={submitVoterID} >Save </button>
                     </div>
                 </div>
             </Modal>

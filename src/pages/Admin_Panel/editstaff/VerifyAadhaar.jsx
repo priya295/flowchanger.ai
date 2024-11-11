@@ -7,36 +7,61 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyAadhaar = () => {
-    
+
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
-    
+
     const [aadhaar, setAadhaar] = useState({
         number: selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_number,
         status: selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_verification_status,
+        verificationFile: selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_file
     });
 
-        const [bgVerification, setBgVerification] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.aadhaar_number);
-
-
     async function submitAadhar() {
+
+        if (!aadhaar?.number || !aadhaar?.verificationFile) {
+            openToast("Aadhaar number and file are required", "error");
+            return;
+        }
+
+        // Create a new FormData instance
         const newFormData = new FormData();
-        newFormData.append("aadhaar_number", bgVerification);
+
+        // Append Aadhaar number and file to FormData
+
+
+        newFormData.append("aadhaar_number", aadhaar?.number);
+        newFormData.append("verificationFile", aadhaar?.verificationFile);
+
 
         try {
-            const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/aadhaar", {
-                method: "PUT",
-                body: newFormData
-            });
+            const response = await fetch(
+                `${baseUrl}bg-verification/${selectedStaff.staffDetails.id}/verify/aadhaar`,
+                {
+                    method: "PUT",
+                    body: newFormData,
+                    // Headers are not needed for FormData; fetch will automatically set 'Content-Type' as 'multipart/form-data'
+                }
+            );
 
-            console.log(response);
+            console.log("Response from backend:", response);
 
-            if (response.status === 201) {
+            if (response.ok) {  // Changed to response.ok to handle all 2xx responses
                 const result = await response.json();
-                console.log(result);
-                setAadhaar({ ...aadhaar, number: result?.data?.aadhaar_number, status: result?.data?.aadhaar_verification_status });
+                console.log("Response data:", result);
+
+                // Update Aadhaar state with the new data received from the backend
+                setAadhaar({
+                    ...aadhaar,
+                    number: result?.data?.aadhaar_number,
+                    status: result?.data?.aadhaar_verification_status,
+                    verificationFile: result?.data?.aadhaar_file
+                });
+
+                // Show success toast and close modal
                 openToast("Aadhaar successfully updated or created", "success");
                 closeModal2();
             } else {
+                // Show error toast if response status is not 2xx
                 openToast("An error occurred while adding or updating Aadhaar", "error");
             }
         } catch (error) {
@@ -44,6 +69,7 @@ const VerifyAadhaar = () => {
             openToast("An error occurred while adding or updating Aadhaar", "error");
         }
     }
+
 
 
 
@@ -74,12 +100,16 @@ const VerifyAadhaar = () => {
     const handleFileChange = (event) => {
         const file = event.target.files[0]; // Get the selected file
         console.log("Selected file:", file);
+        setAadhaar({ ...aadhaar, verificationFile: file });
     };
 
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px]  pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Aadhaar Verification</h3>
+                <button className='second-btn' onClick={submitAadhar}>
+                    Update Aadhaar
+                </button>
             </div>
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
@@ -107,7 +137,11 @@ const VerifyAadhaar = () => {
                     onChange={handleFileChange}
                     style={{ display: "none" }} // Hide the input element
                 />
-                <button className='second-btn' onClick={handleUploadClick}>
+                {
+                    aadhaar?.verificationFile &&                 <img src={aadhaar?.verificationFile} alt="" className="w-[100px] h-[50px] rounded-md" />
+
+                }
+                <button disabled={!aadhaar?.verificationFile === null || !aadhaar?.verificationFile !== ""} className='second-btn' onClick={handleUploadClick}>
                     Upload
                 </button>
 
@@ -129,13 +163,13 @@ const VerifyAadhaar = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Aadhaar
                         </label><br />
-                        <input type='text' placeholder="0000-0000-0000" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)} /><br />
+                        <input type='text' placeholder="0000-0000-0000" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={aadhaar?.number} onChange={(e) => setAadhaar({ ...aadhaar, number: e.target.value })} /><br />
 
 
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn' onClick={submitAadhar}>Save </button>
+                        <button className='second-btn' onClick={closeModal2}>Save </button>
                     </div>
                 </div>
             </Modal>

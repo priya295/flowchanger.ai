@@ -28,7 +28,15 @@ import { Modal } from 'react-responsive-modal';
 
 
 const Clients = () => {
+
+
     const [allStaff, setAllStaff] = useState();
+    const [taskStatus, setTaskStatus] = useState();
+    
+
+    
+
+
     const handleSelectChange = (event) => {
         setRowsToShow(Number(event.target.value));
     };
@@ -116,7 +124,7 @@ const Clients = () => {
     };
     const [divs, setDivs] = useState([{}]); // Start with one empty object
 
-    const { baseUrl , openToast} = useGlobalContext();
+    const { baseUrl } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(0);
     let subtitle;
     // Function to handle accordion toggling
@@ -518,7 +526,7 @@ const Clients = () => {
 
 
 
-                                    {/* <Select
+                                    <Select
                                                     isMulti
                                                     name="isHiddenFor"
                                                     options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
@@ -532,7 +540,7 @@ const Clients = () => {
                                                         }))
                                                     }
                                                     styles={customStyles}
-                                                /> */}
+                                                />
                                     </div>
                                     <p className="text-[red] text-[14px]">if you do not select any groups assigned to the selected customers will be removed.</p>
 
@@ -753,3 +761,5 @@ const Clients = () => {
     );
 };
 export default Clients
+
+

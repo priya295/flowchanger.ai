@@ -4,31 +4,60 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyFace = () => {
-    const [bgVerification, setBgVerification] = useState("");
 
-    // const { baseUrl, selectedStaff } = useGlobalContext();
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
 
 
-    // async function submitUan() {
-    //     const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.id + "/verify/face", {
-    //         method: "PUT",
-    //         headers: {
-    //             "Content-Type": "application/form-data",
-    //         },
-    //         body: JSON.stringify({ uan_number: bgVerification })
-    //     });
+    const [face, setFace] = useState({
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.face_verification_status,
+        verificationFile: selectedStaff?.staffDetails?.staff_bg_verification?.face_file
+    });
 
-    //     // console.log(response);
 
-    //     if (response.status === 201) {
-    //         const result = await response.json()
-    //         console.log(result);
-    //         closeModal2();
-    //         alert("UAN successfully updated");
-    //     } else {
-    //         alert("An error occurred");
-    //     }
-    // }
+    async function submitFace() {
+
+        // Create a new FormData instance
+        const newFormData = new FormData();
+
+
+
+        newFormData.append("verificationFile", face?.verificationFile);
+
+
+        try {
+            const response = await fetch(
+                `${baseUrl}bg-verification/${selectedStaff.staffDetails.id}/verify/face`,
+                {
+                    method: "PUT",
+                    body: newFormData,
+                    // Headers are not needed for FormData; fetch will automatically set 'Content-Type' as 'multipart/form-data'
+                }
+            );
+
+            console.log("Response from backend:", response);
+
+            if (response.ok) {  // Changed to response.ok to handle all 2xx responses
+                const result = await response.json();
+                console.log("Response data:", result);
+
+
+                setFace({
+                    status: result?.data?.face_verification_status,
+                    verificationFile: result?.data?.face_file
+                })
+
+                // Show success toast and close modal
+                openToast("Face successfully updated or created", "success");
+                closeModal2();
+            } else {
+                // Show error toast if response status is not 2xx
+                openToast("An error occurred while adding or updating Face", "error");
+            }
+        } catch (error) {
+            console.error("Error submitting Face:", error);
+            openToast("An error occurred while adding or updating Face", "error");
+        }
+    }
 
     let subtitle;
 
@@ -49,12 +78,13 @@ const VerifyFace = () => {
     const fileInputRef = useRef(null);
 
     const handleUploadClick = () => {
-        fileInputRef.current.click(); 
+        fileInputRef.current.click();
     };
 
     // Function to handle file selection
     const handleFileChange = (event) => {
         const file = event.target.files[0];
+        setFace({ ...face, verificationFile: file });
         console.log("Selected file:", file);
     };
 
@@ -62,6 +92,9 @@ const VerifyFace = () => {
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px]  pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Face Verification</h3>
+                <button className='second-btn' onClick={submitFace}>
+                    Update Face
+                </button>
             </div>
 
             {/* <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
@@ -76,6 +109,7 @@ const VerifyFace = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
+                <p className='font-light'>{face?.status}</p>
 
             </div>
 
@@ -88,6 +122,8 @@ const VerifyFace = () => {
                     onChange={handleFileChange}
                     style={{ display: "none" }}
                 />
+
+                {face?.verificationFile && <img src={face?.verificationFile} className="w-[100px] h-[50px] rounded-md" alt="Selected file" />}
                 <button className='second-btn' onClick={handleUploadClick}>
                     Upload
                 </button>
