@@ -17,15 +17,16 @@ import { FiPlus } from "react-icons/fi";
 import Select from "react-select";
 import { MdOutlineDone } from "react-icons/md";
 import CustomDialog from "./DialougeBox";
-import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+import { saveAs } from "file-saver";
+import jsPDF from "jspdf";
 
 const Clients = () => {
   const { baseUrl } = useGlobalContext();
   const [openIndex, setOpenIndex] = useState(null);
+  const [companyName, setComapnyName] = useState("");
+  const [searchClientMessage, setSearchClientMessage] = useState(false);
   let subtitle;
 
- 
   //salary dropdown
   const [isOpen1, setIsOpen1] = useState(false);
 
@@ -51,45 +52,52 @@ const Clients = () => {
     setIsOn1(!isOn1);
   };
 
-  // 
+  //
 
   const handleSelectChange = (event) => {
     setRowsToShow(Number(event.target.value));
-};
+  };
 
-const [departments, setDepartments] = useState([])
-const [exportFormat, setExportFormat] = useState('');
+  const [departments, setDepartments] = useState([]);
+  const [exportFormat, setExportFormat] = useState("");
 
-const [rowsToShow, setRowsToShow] = useState(25);
+  const [rowsToShow, setRowsToShow] = useState(25);
   const handleExport = () => {
-    if (exportFormat === 'CSV') exportCSV();
-    else if (exportFormat === 'PDF') exportPDF();
-    else if (exportFormat === 'Print') printDepartments();
+    if (exportFormat === "CSV") exportCSV();
+    else if (exportFormat === "PDF") exportPDF();
+    else if (exportFormat === "Print") printDepartments();
   };
 
   const exportCSV = () => {
-    const csvData = departments.map(dep => `${dep.department_name}, Total Users: 1`).join('\n');
-    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'departments.csv');
+    const csvData = departments
+      .map((dep) => `${dep.department_name}, Total Users: 1`)
+      .join("\n");
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+    saveAs(blob, "departments.csv");
   };
 
   const exportPDF = () => {
     const doc = new jsPDF();
     doc.text("Department List", 20, 10);
     departments.forEach((dep, index) => {
-      doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
+      doc.text(
+        `${index + 1}. ${dep.department_name} (Total Users: 1)`,
+        10,
+        20 + index * 10
+      );
     });
-    doc.save('departments.pdf');
+    doc.save("departments.pdf");
   };
 
   const printDepartments = () => {
-    const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
+    const printContent = departments
+      .map((dep) => `${dep.department_name} (Total Users: 1)`)
+      .join("\n");
     const newWindow = window.open();
     newWindow.document.write(`<pre>${printContent}</pre>`);
     newWindow.document.close();
     newWindow.print();
   };
-
 
   //Toggle swich off on btn
 
@@ -108,14 +116,32 @@ const [rowsToShow, setRowsToShow] = useState(25);
       alert("An Error Occured");
     }
   };
-
+  //   handle search company
+  const handleSearchCompany = async () => {
+    const queryParams = new URLSearchParams({
+      company: companyName,
+    }).toString();
+    try {
+      const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
+      console.log(response);
+      if (response.ok) {
+        const result = await response.json();
+        setClientData(result.data);
+        setSearchClientMessage(result.data.length === 0);
+      } else {
+        setSearchClientMessage(true);
+      }
+    } catch (error) {
+      console.error("Error searching staff:", error);
+      setSearchClientMessage(true);
+    }
+  };
   useEffect(() => {
     fetchDetail();
-    if(clientData){
-     setIsOpen(true);
+    if (clientData) {
+      setIsOpen(true);
     }
   }, []);
-  
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
   function openModal2() {
@@ -173,7 +199,6 @@ const [rowsToShow, setRowsToShow] = useState(25);
     }
   };
   const [selectedClient, setSelectedClient] = useState(null);
-
 
   // function to toggle the accordian
   const toggleAccordion = () => {
@@ -311,45 +336,46 @@ const [rowsToShow, setRowsToShow] = useState(25);
           </h2>
 
           <div className="flex justify-between items-center mb-[14px] betwe-cent">
-          <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
-                        <div className='left-side '>
-                            <select
-                                onChange={handleSelectChange}
-                                className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  focus:outline-none'>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="120">120</option>
+            <div className="flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
+              <div className="left-side ">
+                <select
+                  onChange={handleSelectChange}
+                  className=" border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  focus:outline-none"
+                >
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="120">120</option>
+                </select>
 
-                            </select>
+                <select
+                  onChange={(e) => setExportFormat(e.target.value)}
+                  className="border border-[#e5e7eb] p-[7px]  text-[14px] shadow-sm rounded-md  focus:outline-none"
+                >
+                  <option value="CSV">CSV</option>
+                  <option value="PDF">PDF</option>
+                  <option value="Print">Print</option>
+                </select>
 
-                            <select onChange={(e) => setExportFormat(e.target.value)}
-                                className='border border-[#e5e7eb] p-[7px]  text-[14px] shadow-sm rounded-md  focus:outline-none'>
-                                <option value="CSV">CSV</option>
-                                <option value="PDF">PDF</option>
-                                <option value="Print">Print</option>
-                            </select>
-
-                            <button
-                                onClick={handleExport}
-                                className='ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer'
-                            >
-                                Export File
-                            </button>
-                            <CachedIcon className='border border-[#e5e7eb] shadow-sm ml-2 h-[36px] rounded-md cursor-pointer refresh' />
-
-
-
-
-                        </div>
-
-                    
-                    </div>
+                <button
+                  onClick={handleExport}
+                  className="ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer"
+                >
+                  Export File
+                </button>
+                <CachedIcon className="border border-[#e5e7eb] shadow-sm ml-2 h-[36px] rounded-md cursor-pointer refresh" />
+              </div>
+            </div>
             <div className="relative client-add">
               <input
                 className="p-[6px] client-add rounded-2xl  summary-border text-[13px] "
                 type="text"
                 placeholder=" Search......."
+                value = {companyName}
+                onChange={(e) => {setComapnyName(e.target.value);
+                                  handleSearchCompany();
+                }}
+               
               />
               <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
             </div>
@@ -423,19 +449,24 @@ const [rowsToShow, setRowsToShow] = useState(25);
                           {item.mobile}
                         </td>
                         <td className="text-[11px] font-medium p-[10px]    whitespace-nowrap	">
-                                        <div className="flex items-center justify-center gap-[6px]">
-                                            {/* Toggle Switch */}
-                                            <div
-                                                className={`${item.status ? 'bg-[#8a25b0]' : 'bg-gray-300'
-                                                    } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
-                                                onClick={toggleSwitch1}
-                                            >
-                                                <span
-                                                    className={`${item.status == "active" ? 'translate-x-6' : 'translate-x-0'
-                                                        } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
-                                                />
-                                            </div>
-                                        </div></td>
+                          <div className="flex items-center justify-center gap-[6px]">
+                            {/* Toggle Switch */}
+                            <div
+                              className={`${
+                                item.status ? "bg-[#8a25b0]" : "bg-gray-300"
+                              } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+                              onClick={toggleSwitch1}
+                            >
+                              <span
+                                className={`${
+                                  item.status == "active"
+                                    ? "translate-x-6"
+                                    : "translate-x-0"
+                                } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
+                              />
+                            </div>
+                          </div>
+                        </td>
                         <td className="p-2 text-xs text-center">
                           {item.groups}
                         </td>
