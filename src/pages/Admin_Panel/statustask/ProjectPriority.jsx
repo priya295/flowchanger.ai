@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from "react-router-dom";
+import { AiOutlineEdit } from "react-icons/ai";
+import { RiDeleteBinLine } from "react-icons/ri";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
@@ -390,34 +392,37 @@ const ProjectPriority = () => {
                                     <th className="p-3 text-center">Status Order</th>
                                     <th className="p-3 text-center">Status Defaulter Filter</th>
                                     <th className="p-3 text-center">Status can be changed to</th>
-                                    <th className="p-3 text-center">Status in hidder for</th>
+                                    <th className="p-3 text-center">action</th>
 
                                 </tr>
                             </thead>
                             {/* Add transition for tbody */}
+
+
+
                             <tbody
                                 className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? 'max-h-screen' : 'max-h-0'}`}
                                 style={{ display: isOpen5 ? 'table-row-group' : 'none' }}
                             >
 
                                 {
-                                    projectPriorityDetail?.map((s, index) => {
-                                        return <tr className="border">
-                                            <td className=" ">{index + 1}</td>
-                                            <td className=" ">{s.Priority_name}</td>
-                                            <td className=" ">{s.Priority_color}</td>
-                                            <td className=" ">{s.Priority_order}</td>
-                                            <td className=" ">Yes</td>
-                                            <td className=" ">In Progress</td>
-                                            <td className=" ">
-                                                <div className="flex gap-2 justify-center">
-                                                    <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6} >Edit</button>
-                                                    <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
-
-                                                </div>
-                                            </td>
-
-                                        </tr>
+                                    projectPriorityDetail?.map((s,index)=>{
+                                        return   <tr className="border">
+                                        <td className=" ">{index+1}</td>
+                                        <td className=" ">{s.Priority_name}</td>
+                                        <td className=" ">{s.Priority_color}</td>
+                                        <td className=" ">{s.Priority_order}</td>
+                                        <td className=" ">Yes</td>
+                                        <td className=" ">In Progress</td>
+                                        <td className=" ">
+                                            <div className="flex  justify-center">
+                                                <button className=" p-3  rounded-md text-white " onClick={openModal6} ><AiOutlineEdit className="text-[#27004a] text-xl" /></button>
+                                                <button className=" p-3  rounded-md text-white "><RiDeleteBinLine className="text-red-600 text-xl"/></button>
+    
+                                            </div>
+                                        </td>
+    
+                                    </tr>
                                     })
                                 }
 

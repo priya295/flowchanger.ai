@@ -26,16 +26,20 @@ const StaffTab = () => {
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
     console.log("reuslt---", result)
-    if (result.status == 200) {
-      const res = await result.json();
-      console.log(res);
-      setStaffDetail(res)
-      // console.log("---",res.name)
+    try{
+      if (result.status == 200) {
+        const res = await result.json();
+        console.log(res);
+        setStaffDetail(res)
+        // console.log("---",res.name)
+      }
+      else {
+        alert("An Error Occured")
+      }
     }
-    else {
-      alert("An Error Occured")
-    }
-
+     catch(error){
+      console.log(error);
+     }
   }
 
 
@@ -135,8 +139,7 @@ const StaffTab = () => {
         </div>
       </div>
 
-
-      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4 '>
         <div className='   '>
           <table className='table-section '>
             <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>

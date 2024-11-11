@@ -1,5 +1,5 @@
 import React,{useEffect, useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate} from 'react-router-dom'
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import profile from '../../../Assets/Images/profile.svg'
 import { useGlobalContext } from '../../../Context/GlobalContext';
@@ -12,7 +12,7 @@ const AddOneStaff = () => {
 
     const[name, setName]= useState("");
     const[jobTitle, setJobTitle]= useState("");
-    const[branch, setBranch]= useState("hello");
+    const[branch, setBranch]= useState("");
     const[mobile, setMobile]= useState("");
     const[otp, setOtp]= useState("");
     const[gender, setGender]= useState("0");
@@ -83,8 +83,7 @@ const AddOneStaff = () => {
         console.log(response);
     
         if (response.status === 201) {
-            // alert("Add Staff Succesfully")
-            openToast("Add staff Successfully", "success")
+            alert("Add Staff Succesfully")
             setName("");
             setJobTitle("");
             setBranch(""); 
@@ -173,9 +172,8 @@ const AddOneStaff = () => {
 
             <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
-                <label className='text-[14px]'>Login OTP</label><br/>
-                <input type='number' value={otp} placeholder='Enter OTP' onChange={(e)=>{setOtp(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
-
+                <label className='text-[14px]'>Login Token</label><br/>
+                <input type='number' value={otp} placeholder='Login Token' onChange={(e)=>{setOtp(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
                 </div>
 
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>

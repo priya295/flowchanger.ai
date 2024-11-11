@@ -116,7 +116,7 @@ const Clients = () => {
     };
     const [divs, setDivs] = useState([{}]); // Start with one empty object
 
-    const { baseUrl } = useGlobalContext();
+    const { baseUrl , openToast} = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(0);
     let subtitle;
     // Function to handle accordion toggling
@@ -753,5 +753,3 @@ const Clients = () => {
     );
 };
 export default Clients
-
-
