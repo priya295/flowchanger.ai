@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+                                                                                                                                                                                           import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 // import DescriptionEditer from './DescriptionEditer';
@@ -6,14 +6,19 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import SellIcon from '@mui/icons-material/Sell';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
+import { AiOutlineEdit } from "react-icons/ai";
+import { RiDeleteBinLine } from "react-icons/ri";
 
 const Task = () => {
   const { baseUrl } = useGlobalContext();
-  const [openIndex, setOpenIndex] = useState(null);
+ 
+    const [isOpen, setIsOpen] = useState(false);
+  
+    const handleToggle = () => {
+      setIsOpen((prevState) => !prevState);
+    };
 
-  const handleToggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+ 
   //modal
   const [isOpen15, setIsOpen15] = useState(false);
 
@@ -102,6 +107,14 @@ const Task = () => {
 
   }
 
+  const [taskCount, setTaskCount] = useState(2);
+  const tasks = [...Array(taskCount)].map((_, index) => ({
+    id: index + 1,
+    name: `Task ${index + 1}`,
+    date: "13-08-2024",
+    priority: index % 2 === 0 ? "High" : "Medium", // Alternating priorities for demonstration
+  }));
+
   const[projectDetails,setProjectDetails]=useState([]);
     async function fetchProjectDetails(){
         const result=await fetch(baseUrl+"project");
@@ -125,137 +138,10 @@ const Task = () => {
   }, [])
 
   const[taskName,setTaskName]=useState();
-  // const
+ 
 
 
-  const accordionItems = [
-    {
-      title:
-        <div>
-          <table className="w-full">
-            <thead className="tablehead">
-              <tr className="rounded-lg">
-
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
-
-
-                <th className="text-[12px] border-r w-[60px]  font-medium p-[8px] ">#</th>
-
-
-                <th className="text-[12px] w-[220px] p-[8px] border-r font-medium whitespace-nowrap">Task Name</th>
-
-
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Start Date</th>
-
-
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Due Date</th>
-
-
-
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">End Date</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Assigned to</th>
-                <th className="text-[12px] font-medium p-[8px] w-[80px] border-r whitespace-nowrap	">Tags</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Priority</th>
-
-
-
-
-
-
-
-
-
-
-              </tr>
-            </thead>
-          </table>
-        </div>,
-      content: (
-        <table className="w-full " >
-          <tbody>
-
-            <tr className="rounded-lg border-b border-[#e5e7eb]">
-
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">Complete</Link></td>
-
-
-              <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
-
-
-              <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	"><button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">Ads</button></td>
-              <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">-</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred">High</Link></td>
-
-
-
-
-
-
-
-
-
-
-            </tr>
-            <tr className="rounded-lg border-b border-[#e5e7eb]">
-
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">Complete</Link></td>
-
-
-              <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">#</td>
-
-
-              <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">Soul relation intro</Link></td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-
-
-
-              <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	"><button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">Ads</button></td>
-              <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">-</td>
-              <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred2">Medium</Link></td>
-
-
-
-
-
-
-
-
-
-
-            </tr>
-
-          </tbody>
-
-
-
-
-
-        </table>
-
-      )
-    },
-
-    //   { title: "2", content: "This is the content for item 2" },
-    //     { title: "3", content: "This is the content for item 3" },
-
-  ];
+  
 
   return (
     <div className="w-full px-4 py-6 overflow-x-auto">
@@ -458,29 +344,96 @@ const Task = () => {
         )}
       </div>
 
-      {accordionItems.map((item, index) => (
-        <div key={index} className="bg-white shadow-cs rounded-lg keyframe1">
-          {/* Accordion Header */}
-          <button
-            onClick={() => handleToggle(index)}
-            className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
-          >
-            <span>{item.title}</span>
+      <div className="bg-white shadow-cs rounded-lg keyframe1">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-max">
+          {/* Table Header - Acts as Toggle Button */}
+          <thead className="tablehead cursor-pointer " onClick={handleToggle}>
+            <tr className="rounded-lg bg-gray-300">
+              <th className="text-[12px] font-medium p-2 min-w-[100px]  whitespace-nowrap">
+                <button className="p-[6px] rounded-lg bg-[orange] mr-2 text-white">
+                  To Do
+                </button>
+                <span className="six-north">{taskCount}</span>
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[60px]  text-left">#</th>
+              <th className="text-[12px] font-medium p-2 min-w-[220px]  text-left">
+                Task Name
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                Start Date
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                Due Date
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                End Date
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[100px]  text-left">
+                Assigned to
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[80px]  text-left">
+                Tags
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[100px] text-left">
+                Priority
+              </th>
+              <th className="text-[12px] font-medium p-2 min-w-[100px] text-center">
+                Actions
+              </th>
+            </tr>
+          </thead>
 
-          </button>
-
-          {/* Accordion Content */}
-          {openIndex === index && (
-            <div className="mb-[10px] text-gray-700 bg-white">
-              {item.content}
-
-            </div>
+          {/* Table Body - Collapsible Content */}
+          {isOpen && (
+            <tbody>
+              {[...Array(taskCount)].map((_, index) => (
+                <tr key={index} className="rounded-lg border-b border-[#e5e7eb]">
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <Link className="textcomplete">Complete</Link>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[60px] text-left">#</td>
+                  <td className="text-[12px] font-medium p-2 min-w-[220px] text-left whitespace-nowrap">
+                    <Link to="/taskview" className="textcomplete">Soul relation intro</Link>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                    13-08-2024
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                    13-08-2024
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                    13-08-2024
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">Ads</button>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[80px] text-left">-</td>
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <Link className={index === 0 ? "highred" : "highred2"}>
+                      {index === 0 ? "High" : "Medium"}
+                    </Link>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                  <div className="flexjustify-center">
+                          <button
+                            className="p-2  rounded-md text-white "
+                          ><AiOutlineEdit className="text-[#27004a] text-xl" /></button>
+                          <button className="p-2  rounded-md text-white ">
+                          <RiDeleteBinLine className="text-red-600 text-xl"/>
+                          </button>
+                        </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           )}
-        </div>
-      ))}
+        </table>
+      </div>
+    </div>
 
     </div>
   );
-};
+}
 
-export default Task;
+export default Task;
