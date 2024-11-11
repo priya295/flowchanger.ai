@@ -83,6 +83,10 @@ const LeaveBalance = () => {
                     <TabList className="flex flex-col gap-[10px] xl:flex-row lg:flex-row mb-[20px]">
                         <Tab><button >Leave Balance</button></Tab>
                         <Tab> <button >Leave Policy</button></Tab>
+                        
+                        <div className='w-full flex justify-end'>
+                        <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn' onClick={openModal10}>Import Leave Balances</button>
+                        </div>
                     </TabList>
 
 
@@ -108,10 +112,10 @@ const LeaveBalance = () => {
                                 </div>
 
                             </div>
-                            <div className='flex gap-[15px] justify-between lg:justify-start'>
-                                <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn' onClick={openModal10}>Import Leave Balances</button>
+                            {/* <div className='flex gap-[15px] justify-between lg:justify-start'>
+                               
 
-                            </div>
+                            </div> */}
                         </div>
 
 
