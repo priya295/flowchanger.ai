@@ -166,6 +166,7 @@ const Task = () => {
       const data = await result.json();
       console.log(data)
       setFetchTaskData(data)
+      setIsTableOpen(true);
     }
     else {
       openToast("Internal Server Error", "error")
