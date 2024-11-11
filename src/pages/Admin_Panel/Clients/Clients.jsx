@@ -28,14 +28,7 @@ import { Modal } from 'react-responsive-modal';
 
 
 const Clients = () => {
-
-
     const [allStaff, setAllStaff] = useState();
-    
-
-    
-
-
     const handleSelectChange = (event) => {
         setRowsToShow(Number(event.target.value));
     };
@@ -525,7 +518,7 @@ const Clients = () => {
 
 
 
-                                    <Select
+                                    {/* <Select
                                                     isMulti
                                                     name="isHiddenFor"
                                                     options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
@@ -539,7 +532,7 @@ const Clients = () => {
                                                         }))
                                                     }
                                                     styles={customStyles}
-                                                />
+                                                /> */}
                                     </div>
                                     <p className="text-[red] text-[14px]">if you do not select any groups assigned to the selected customers will be removed.</p>
 
