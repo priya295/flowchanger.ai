@@ -6,7 +6,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 import { LinkOff } from '@mui/icons-material';
 const AddOneStaff = () => {
 
-    const { baseUrl} = useGlobalContext();
+    const { baseUrl,openToast} = useGlobalContext();
     const [departments, setDepartments] = useState([])
     const [roles,setRoles]=useState([])
 
@@ -83,7 +83,8 @@ const AddOneStaff = () => {
         console.log(response);
     
         if (response.status === 201) {
-            alert("Add Staff Succesfully")
+            // alert("Add Staff Succesfully")
+            openToast("Add staff Successfully", "success")
             setName("");
             setJobTitle("");
             setBranch(""); 
@@ -97,7 +98,8 @@ const AddOneStaff = () => {
             setSelectRole("");
     
         } else {
-            alert("An error occurred");
+            openToast("An Internal Error", "error")
+
         }
       }
 
@@ -105,7 +107,7 @@ const AddOneStaff = () => {
 
   return (
     <div className='add-one-staff'>
-        <Link to="/" className='flex items-center gap-[10px] text-[20px] font-medium		'><KeyboardBackspaceIcon/>Add Staff</Link>
+        <Link to="/staff-menu" className='flex items-center gap-[10px] text-[20px] font-medium		'><KeyboardBackspaceIcon/>Add Staff</Link>
         <form className=' w-[100%] xl:w-[80%] m-auto mt-[60px] shadow-md  xl:p-[24px] p-[12px] border rounded-md  border-1' >
             <div className='flex w-[100%] gap-[10px] justify-between  xl:mb-4 mb-[6px] xl:flex-row flex-col'>
                 <div className='w-[100%] xl:w-[48%] 2xl:w-[48%]  '>
