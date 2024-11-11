@@ -316,13 +316,13 @@ const ProjectStatus = () => {
                       <td className=" ">Yes</td>
                       <td className=" ">In Progress</td>
                       <td className=" ">
-                        <div className="flex gap-2 justify-center">
+                        <div className="flex gap-2  justify-center">
                           <button
-                            className="p-3  rounded-md text-white "
+                            className="  rounded-md text-white "
                             onClick={openModal6}
-                          ><AiOutlineEdit className="text-[#27004a] text-xl" /></button>
-                          <button className="p-3  rounded-md text-white ">
-                          <RiDeleteBinLine className="text-red-600 text-xl"/>
+                          ><BorderColorIcon className="text-[#27004a] text-xl" /></button>
+                          <button className="  rounded-md text-white ">
+                          <DeleteOutlineIcon className="text-red-600 text-xl"/>
                           </button>
                         </div>
                       </td>
