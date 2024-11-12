@@ -168,24 +168,45 @@ const Clients = () => {
 
   const [clientData, setClientData] = useState([]);
 
-    const fetchDetail = async () => {
-        const result = await fetch(baseUrl + "client");
-        if (result.status == 200) {
-            const res = await result.json();
-            console.log(res)
-            setClientData(res)
-        }
-        else {
-            alert("An Error Occured")
-        }
+  const fetchDetail = async () => {
+    const result = await fetch(baseUrl + "client");
+    if (result.status == 200) {
+      const res = await result.json();
+      console.log(res);
+      setClientData(res);
+      if (res && res.length > 0) {
+        setIsOpen(true);
+      }
+    } else {
+      alert("An Error Occured");
     }
-
-    useEffect(() => {
-        fetchDetail();
-        if (clientData) {
-            setIsOpen(true);
-          }
-    }, [])
+  };
+  //   handle search company
+  const handleSearchCompany = async () => {
+    const queryParams = new URLSearchParams({
+      company: companyName,
+    }).toString();
+    try {
+      const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
+      console.log(response);
+      if (response.ok) {
+        const result = await response.json();
+        setClientData(result.data);
+        setSearchClientMessage(result.data.length === 0);
+      } else {
+        setSearchClientMessage(true);
+      }
+    } catch (error) {
+      console.error("Error searching staff:", error);
+      setSearchClientMessage(true);
+    }
+  };
+  useEffect(() => {
+    fetchDetail();
+    if (clientData) {
+      setIsOpen(true);
+    }
+  }, []);
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
   function openModal2() {

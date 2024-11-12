@@ -9,7 +9,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 const StaffTab = () => {
   const { baseUrl, setSelectedStaff } = useGlobalContext();
 
- 
+  const [isLoading , setIsLoading] = useState(false);
 
   const [toggleDrop, setToggleDrop] = useState(false);
   const [staffStatus, setStaffStatus] = useState("All Staff");
@@ -18,7 +18,7 @@ const StaffTab = () => {
   const [selectedDepartmentName, setSelectedDepartmentName] = useState("");
   const [searchStaffName , setSearchStaffName] = useState("");
   const [departments, setDepartments] = useState([]);
-  const [searchStaffMessage , setSearchStaffMessage ] = useState(false);
+ 
 
 
   const FilterStaff = async () => {
@@ -27,18 +27,25 @@ const StaffTab = () => {
       gender: gender,
       type: employeeType,
     }).toString();
+    setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}staff/search-status?${queryParams}`);
       if (response.status === 200) {
         const result = await response.json();
         setStaffDetail(result.data);
-        setSearchStaffMessage(result.data.length === 0);
+        
+   
       } else {
-        setSearchStaffMessage(true);
+        console.log("error while fetching data");
+      
       }
     } catch (error) {
       console.log(error);
-      setSearchStaffMessage(true);
+     
+
+    }
+    finally{
+      setIsLoading(false);
     }
   };
 
@@ -55,10 +62,11 @@ const StaffTab = () => {
     setDropdownOpen((prev) => !prev);
   };
 
-  const [staffDetail, setStaffDetail] = useState([]);
+  const [staffDetail, setStaffDetail] = useState();
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
     console.log("reuslt---", result)
+    setIsLoading(true);
     try{
       if (result.status == 200) {
         const res = await result.json();
@@ -69,10 +77,11 @@ const StaffTab = () => {
       else {
         alert("An Error Occured")
       }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
-     catch(error){
-      console.log(error);
-     }
   }
   //feature for searching the staff
 
@@ -95,19 +104,21 @@ const StaffTab = () => {
       name: searchStaffName,
       department_name: selectedDepartmentName,
     }).toString();
+    setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
       console.log(response);
       if (response.ok) {
         const result = await response.json();
         setStaffDetail(result.data);
-        setSearchStaffMessage(result.data.length === 0);
       } else {
-        setSearchStaffMessage(true);
+         console.log("error while fetching staff")
       }
     } catch (error) {
       console.error('Error searching staff:', error);
-      setSearchStaffMessage(true);
+    }
+    finally{
+      setIsLoading(false);
     }
   };
   const handleFilterButtonClick = () => {
@@ -186,7 +197,7 @@ const StaffTab = () => {
                 </div>
 
                 <div className='flex w-[50%] mx-auto justify-between text-center mt-2'>
-                  <button className='second-btn'>Close</button>
+                  <button className='second-btn' onClick={()=>{setDropdownOpen(false)}}>Close</button>
                   <button className='second-btn' onClick={handleFilterButtonClick}>filter</button>
                 </div>
               </div>
@@ -247,13 +258,16 @@ const StaffTab = () => {
 
             </thead>
             <tbody >
-            {searchStaffMessage ? (
-            <div className='flex justify-between items-center min-w-full'>
-              <div colSpan="11" className="text-center text-red-500 font-semibold w-full">
-                No staff found.
-              </div>
-            </div>
-          ) : (
+            
+
+            {
+              
+              isLoading ? (<tr className="h-[100px]">
+          <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+            Loading staff data...
+          </td>
+        </tr>
+   )  :staffDetail && staffDetail.length > 0 ? (
             staffDetail.map((staff, index) => (
               <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
                 <td><input type="checkbox" className="border border-1 rounded-md" /></td>
@@ -273,7 +287,19 @@ const StaffTab = () => {
                 <td>{staff.staffDetails.emergency_contact_name || "N/A"}</td>
               </tr>
             ))
-          )}
+          )
+   :   (
+    // No Data State
+    <tr className="h-[100px]">
+      <td 
+        colSpan="9" 
+        className="text-center text-red-500 text-xl font-semibold py-4"
+      >
+        No staff found.
+      </td>
+    </tr>
+  )   
+        }
 
 
             </tbody>

@@ -16,6 +16,8 @@ const Main = () => {
   const [roles, setRoles] = useState([])
   const [exportFormat, setExportFormat] = useState('');
   const [rowsToShow, setRowsToShow] = useState(25);
+  const [searchRoleName , setSearchRoleName] = useState('');
+  const [isLoading , setIsLoading] = useState(false);
 
   const handleSelectChange = (event) => {
     setRowsToShow(Number(event.target.value));
@@ -92,7 +94,43 @@ const Main = () => {
     fetchRoles()
   }, [])
 
-
+  const handleSearchRole = async () => {
+    const queryParams = new URLSearchParams({
+    role_name : searchRoleName
+     
+    }).toString();
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${baseUrl}role/search?${queryParams}`);
+      console.log(response);
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        setRoles(result);
+      } else {
+         console.log("error while fetching Roles")
+      }
+    } catch (error) {
+      console.error('Error searching Roles:', error);
+    }
+    finally{
+      setIsLoading(false);
+    }
+  };
+  
+  // Debounced search effect
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchRoleName.trim()) {
+        handleSearchRole();
+      } else {
+        fetchRoles(); // Fetch all projects if search input is cleared
+      }
+    }, 3000); 
+  
+    return () => clearTimeout(delayDebounceFn); // Cleanup function to clear the timeout
+  }, [searchRoleName]);
+  
   return (
     <div className=' pl-[10px] w-[100%] pr-2 mb-3 pb-4 pt-[10px]'>
       <Link to="/addrole" className='bg-[#27004a]  p-2 pr-3 rounded-lg text-white '> <AddIcon /> New Role</Link>
@@ -130,7 +168,7 @@ const Main = () => {
 
           <div className='right-side relative  w-[200px]'>
             <input type='text' placeholder='Search' className='border border-1 pl-3 h-[43px] pr-7
-] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' />
+] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' onChange={(e)=>{setSearchRoleName(e.target.value)}}/>
             <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
 ]'/>
           </div>

@@ -122,9 +122,17 @@ const DepartmentDetail = () => {
     fetchDepartments()
   }, [])
 
-  useEffect(()=>{
-    console.log(searchDepartment)
-  },[searchDepartment]);
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchDepartment.trim()) {
+        handleSearchDepartMent();
+      } else {
+        fetchDepartments(); // Fetch all projects if search input is cleared
+      }
+    }, 3000); 
+  
+    return () => clearTimeout(delayDebounceFn); // Cleanup function to clear the timeout
+  }, [searchDepartment]);
 
   return (
     <div className='p-[10px] top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
