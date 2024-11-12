@@ -28,7 +28,14 @@ import { Modal } from 'react-responsive-modal';
 
 
 const Clients = () => {
+
+
     const [allStaff, setAllStaff] = useState();
+    
+
+    
+
+
     const handleSelectChange = (event) => {
         setRowsToShow(Number(event.target.value));
     };
@@ -40,7 +47,7 @@ const Clients = () => {
 
 
     const fetchAllStaff = async () => {
-        const response = await fetch(baseUrl + 'staff');
+        const response = await fetch(baseUrl + 'client');
         const data = await response.json();
         setAllStaff(data?.map((staff) => {
             return {
@@ -176,7 +183,7 @@ const Clients = () => {
     }
 
     useEffect(() => {
-        fetchDetail();
+        fetchAllStaff();
     }, [])
 
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -436,6 +443,7 @@ const Clients = () => {
             body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, groups: selectedGroups, currency: currency, default_language: language, address: address, country: country, state: state, city: city, zip_code: zipCode })
         })
         if (result.status == 200) {
+            const data = await result.json();
             fetchDetail()
             alert("Details Update Successfully")
         }
@@ -504,8 +512,8 @@ const Clients = () => {
 
 
 
-                                <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal}>Bulk Action <CachedIcon className="newsidebar-icon" /> </button>
-                                <Modal open={open} onClose={onCloseModal} center>
+                                <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal} >Bulk Action  <CachedIcon className="newsidebar-icon" /> </button>
+                                <Modal open={open} onClose={onCloseModal}  center>
                                     <div className="border-b border-[#dbdbdb] pb-[20px]">
                                         <h2>Bulk Actions</h2>
                                     </div>
@@ -518,7 +526,7 @@ const Clients = () => {
 
 
 
-                                    {/* <Select
+                                    <Select
                                                     isMulti
                                                     name="isHiddenFor"
                                                     options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
@@ -532,9 +540,9 @@ const Clients = () => {
                                                         }))
                                                     }
                                                     styles={customStyles}
-                                                /> */}
+                                                />
                                     </div>
-                                    <p className="text-[red] text-[14px]">if you do not select any groups assigned to the selected customers will be removed.</p>
+                                    <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
 
                                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
                                         {/* Button to close the modal */}

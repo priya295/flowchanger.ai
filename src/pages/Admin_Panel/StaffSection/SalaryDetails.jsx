@@ -69,7 +69,7 @@ const SalaryDetails = () => {
         </div>
         <div className="flex gap-[15px] justify-between lg:justify-start">
           <button
-            className="border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn"
+            className="border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 setwer text-sm second-btn"
             onClick={openModal9}
           >
             Update Staff Salary
