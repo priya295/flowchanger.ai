@@ -53,15 +53,15 @@ const PastEmploymentDetail = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                // setPastEmployment({
-                //     companyName: result?.company_name,
-                //     designation: result?.designation,
-                //     joiningDate: result?.joining_date,
-                //     leavingDate: result?.leaving_date,
-                //     currency: result?.currency,
-                //     salary: result?.salary,
-                //     companyGst: result?.company_gst
-                // })
+                setPastEmployment({
+                    companyName: result?.company_name,
+                    designation: result?.designation,
+                    joiningDate: result?.joining_date,
+                    leavingDate: result?.leaving_date,
+                    currency: result?.currency,
+                    salary: result?.salary,
+                    companyGst: result?.company_gst
+                })
                 setPastEmploymentStatus(result?.past_Employment_status);
                 openToast("Past Employment successfully added", "success");
                 setEditPastEmployment(true);
@@ -283,8 +283,10 @@ const PastEmploymentDetail = () => {
                                 id="currency"
                                 name="currency"
                                 options={currencyOptions}
-                                value={currencyOptions.find(option => option.value === pastEmployment.currency)}
-                                onChange={handleCurrencyChange}
+                                value={currencyOptions.filter(option => option.value === pastEmployment?.currency)}
+                                onChange={(selectedOption)=>{
+                                    handleCurrencyChange(selectedOption.value);
+                                }}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
                             />

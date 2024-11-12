@@ -209,7 +209,7 @@ const Attendence_summary = () => {
                                                     <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Present Day </h2>
                                                     <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
                                                 </div>
-                                                <button className="px-4 py-2 bg-[#8a25b0] text-white rounded-md">Add Shift</button>
+                                                <button className="px-4 py-2 bg-[#27004a] text-white rounded-md">Add Shift</button>
 
                                             </div>
 
@@ -243,13 +243,13 @@ const Attendence_summary = () => {
                                             <div className="flex flex-col gap-[10px] ">
                                                 <button
 
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Save
                                                 </button>
                                                 <button
                                                     onClick={closeModal6}
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Cancel
                                                 </button>
@@ -277,7 +277,7 @@ const Attendence_summary = () => {
                                                     <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Half Day </h2>
                                                     <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
                                                 </div>
-                                                <button className="px-4 py-2 bg-[#8a25b0] text-white rounded-md">Add Shift</button>
+                                                <button className="px-4 py-2 bg-[#27004a] text-white rounded-md">Add Shift</button>
 
                                             </div>
 
@@ -310,13 +310,13 @@ const Attendence_summary = () => {
                                             <div className="flex flex-col gap-[10px] ">
                                                 <button
 
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Save
                                                 </button>
                                                 <button
                                                     onClick={closeModal2}
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Cancel
                                                 </button>
@@ -330,15 +330,15 @@ const Attendence_summary = () => {
                                 {/* Button to open modal */}
                                 <button
                                     onClick={openModal0}
-                                    className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
+                                    className=" btns px-6 py-3 text-[14px] text-[#27004a] font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
                                 >
                                     F I Fine
                                 </button>
 
                                 {/* Modal overlay and content */}
                                 {isOpen0 && (
-                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[470px] p-6">
+                                    <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
+                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full overflow-scroll h-[100%] p-6">
                                             <div className=''>
                                                 <div className='mb-[20px]'>
                                                     <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Fine </h2>
@@ -346,16 +346,16 @@ const Attendence_summary = () => {
                                                 </div>
 
                                                 <div className='flex justify-between items-center mb-[10px]'>
-                                                    <p className='text-[14px]'>DAILY SHIFT</p>
+                                                    <p className='text-[16px]  font-medium'>DAILY SHIFT</p>
                                                     <DeleteIcon className='del-icon2 text-[#89868d]' />
                                                 </div>
 
 
                                             </div>
 
-                                            <div className='bg-[#ececec] p-[16px] rounded-md mb-[20px] '>
+                                            <div className=' p-[10px]   '>
                                                 <div className='flex items-center justify-between mb-[5px]'>
-                                                    <p className='text-[14px]'>Late Entry</p>
+                                                    <p className='text-[14px] font-medium'>Late Entry</p>
                                                     <CloseIcon className='close-icon text-[#89868d]' />
                                                 </div>
 
@@ -371,7 +371,7 @@ const Attendence_summary = () => {
                                                         <div className="w-[100%]" >
 
                                                             <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                                <option>Daily Shift</option>
+                                                                <option>1x Salary</option>
                                                                 <option>Option 2</option>
 
                                                             </select>
@@ -383,30 +383,94 @@ const Attendence_summary = () => {
 
                                                     </div>
                                                 </div>
-                                                <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+
+                                             
+                                            </div>
+                                            <div className='p-[10px] '>
+                                                <div className='flex items-center justify-between mb-[5px]'>
+                                                    <p className='text-[14px] font-medium'>Excess Breaks</p>
+                                                    <CloseIcon className='close-icon text-[#89868d]' />
+                                                </div>
+
+                                                <div className='flex items-center gap-[20px]'>
+
+                                                    <div>
+                                                        <p className='text-[12px]'>Hours</p>
+                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                        <p className='text-[12px]' >Amount $ 61.63</p>
                                                     </div>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                    <div className='flex gap-[28px] '>
+
+                                                        <div className="w-[100%]" >
+
+                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                <option>1x Salary</option>
+                                                                <option>Option 2</option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div className=''>
+                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+
+                                                        </div>
+
                                                     </div>
                                                 </div>
+
+                                             
+                                            </div>
+                                            <div className='p-[10px] '>
+                                                <div className='flex items-center justify-between mb-[5px]'>
+                                                    <p className='text-[14px] font-medium'>Early Out</p>
+                                                    <CloseIcon className='close-icon text-[#89868d]' />
+                                                </div>
+
+                                                <div className='flex items-center gap-[20px]'>
+
+                                                    <div>
+                                                        <p className='text-[12px]'>Hours</p>
+                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                        <p className='text-[12px]' >Amount $ 61.63</p>
+                                                    </div>
+                                                    <div className='flex gap-[28px] '>
+
+                                                        <div className="w-[100%]" >
+
+                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                <option>1x Salary</option>
+                                                                <option>Option 2</option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div className=''>
+                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                             
+                                            </div>
+                                            <div className='mt-[10px] mb-[10px]'>
+                                                <span className='text-[12px]'>Total Amount</span>
+                                                <p className='text-[14px]'>$20.92</p>
+                                            </div>
+                                            <div className='flex items-center mb-[20px] gap-[4px] '>
+                                                <input type="checkbox" />
+                                                <p className='text-[14px]'>Send SMS to Staff</p>
                                             </div>
 
                                             <div className="flex flex-col gap-[10px] ">
                                                 <button
 
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
-                                                    Save
+                                                    Apply Fine
                                                 </button>
                                                 <button
                                                     onClick={closeModal0}
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Cancel
                                                 </button>
@@ -429,27 +493,28 @@ const Attendence_summary = () => {
 
                                 {/* Modal overlay and content */}
                                 {isOpen12 && (
-                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[470px] p-6">
+                                    <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
+                                        <div className="bg-white rounded-lg shadow-lg max-w-lg overflow-scroll w-full h-[100%] p-6">
                                             <div className=''>
                                                 <div className='mb-[20px]'>
-                                                    <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Overtime Day </h2>
+                                                    <h2 className="text-xl text-[18px] text-[#27004a] font-semibold  "> Overtime Day </h2>
                                                     <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
                                                 </div>
 
                                                 <div className='flex justify-between items-center mb-[10px]'>
-                                                    <p className='text-[14px]'>DAILY SHIFT</p>
+                                                    <p className='text-[14px] font-medium'>DAILY SHIFT</p>
                                                     <DeleteIcon className='del-icon2 text-[#89868d]' />
                                                 </div>
 
 
                                             </div>
 
-                                            <div className='bg-[#ececec] p-[16px] rounded-md mb-[20px] '>
+                                            <div className=' p-[10px]   '>
                                                 <div className='flex items-center justify-between mb-[5px]'>
-                                                    <p className='text-[14px]'>Late Entry</p>
+                                                    <p className='text-[14px] font-medium'>Late Out</p>
                                                     <CloseIcon className='close-icon text-[#89868d]' />
                                                 </div>
+
                                                 <div className='flex items-center gap-[20px]'>
 
                                                     <div>
@@ -462,7 +527,7 @@ const Attendence_summary = () => {
                                                         <div className="w-[100%]" >
 
                                                             <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                                <option>Daily Shift</option>
+                                                                <option>1x Salary</option>
                                                                 <option>Option 2</option>
 
                                                             </select>
@@ -474,30 +539,63 @@ const Attendence_summary = () => {
 
                                                     </div>
                                                 </div>
-                                                <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+
+                                             
+                                            </div>
+                                         
+                                            <div className='p-[10px] '>
+                                                <div className='flex items-center justify-between mb-[5px]'>
+                                                    <p className='text-[14px] font-medium'>Early In</p>
+                                                    <CloseIcon className='close-icon text-[#89868d]' />
+                                                </div>
+
+                                                <div className='flex items-center gap-[20px]'>
+
+                                                    <div>
+                                                        <p className='text-[12px]'>Hours</p>
+                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                        <p className='text-[12px]' >Amount $ 61.63</p>
                                                     </div>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                    <div className='flex gap-[28px] '>
+
+                                                        <div className="w-[100%]" >
+
+                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                <option>1x Salary</option>
+                                                                <option>Option 2</option>
+
+                                                            </select>
+                                                        </div>
+                                                        <div className=''>
+                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+
+                                                        </div>
+
                                                     </div>
                                                 </div>
+
+                                             
                                             </div>
+                                            <div className='mt-[10px] mb-[10px]'>
+                                                <span className='text-[12px]'>Total Amount</span>
+                                                <p className='text-[14px]'>$20.92</p>
+                                            </div>
+                                            <div className='flex items-center mb-[20px] gap-[4px] '>
+                                                <input type="checkbox" />
+                                                <p className='text-[14px]'>Send SMS to Staff</p>
+                                            </div>
+
 
                                             <div className="flex flex-col gap-[10px] ">
                                                 <button
 
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
-                                                    Save
+                                                    Apply Overtime
                                                 </button>
                                                 <button
                                                     onClick={closeModal12}
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Cancel
                                                 </button>
@@ -525,13 +623,13 @@ const Attendence_summary = () => {
                                             <div className="flex justify-around ">
                                                 <button
 
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Yes , Confirm
                                                 </button>
                                                 <button
                                                     onClick={closeModal14}
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     No , Cancel
                                                 </button>
@@ -559,13 +657,13 @@ const Attendence_summary = () => {
                                             <div className="flex justify-around ">
                                                 <button
 
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     Yes , Confirm
                                                 </button>
                                                 <button
                                                     onClick={closeModal}
-                                                    className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
                                                 >
                                                     No , Cancel
                                                 </button>

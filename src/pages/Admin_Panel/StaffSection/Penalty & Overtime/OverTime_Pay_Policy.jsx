@@ -1,12 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../../../../Assets/Images/search.png";
 import Filter from "../../../../Assets/Images/filter.svg";
 import file from "../../../../Assets/Images/file.png";
 import CloseIcon from "@mui/icons-material/Close";
+import { useGlobalContext } from "../../../../Context/GlobalContext";
+import { saveAs } from 'file-saver';
 
 const OverTime_Pay_Policy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileUpldoad, setFileUpldoad] = useState(false);
+  const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
+
+  useEffect(()=>{
+    fetchStaff();
+  },[])
+
+  const exportToCSV = () => {
+    // Define the CSV headers
+    const headers = [
+        'Index',
+        'Name',
+        'Job Title',
+        'Extra Hours Pay',
+        'Grace Period (mins)',
+        'Public Holidays Pay',
+        'Week Off Pay',
+    ];
+    
+    // Map over the data to create CSV rows
+    const rows = staffDetail.map((item, index) => {
+        const overLeavePolicy = item?.staffDetails?.OverLeavePolicy?.[0] || {};
+        return [
+            index + 1,
+            item?.name || 'N/A',
+            item?.staffDetails?.job_title || 'N/A',
+            overLeavePolicy?.extraHoursPay ?? 'N/A',
+            overLeavePolicy?.gracePeriodMins ?? 'N/A',
+            overLeavePolicy?.publicHolidayPay ?? 'N/A',
+            overLeavePolicy?.weekOffPay ?? 'N/A',
+        ];
+    });
+
+    // Combine headers and rows for CSV format
+    const csvData = [headers, ...rows].map(row => row.join(',')).join('\n');
+
+    // Create a Blob and download the file
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'OverTime Pay.csv'); // Adjusted file name to "OverLeavePolicy.csv"
+};
+
 
   return (
     <div className="Early-Leaving-Policy mt-[20px]">
@@ -65,7 +107,7 @@ const OverTime_Pay_Policy = () => {
                           <h1 className="font-medium">
                           Step 1. Download Overtime Policy template
                           </h1>
-                          <button className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
+                          <button  onClick={exportToCSV} lassName="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
                             Download Template
                           </button>
                         </div>
@@ -135,23 +177,29 @@ const OverTime_Pay_Policy = () => {
             <th>#</th>
             <th>Name</th>
             <th>Job Title</th>
-            <th>Allowed Early Days</th>
+            <th>Extra Hours Pay </th>
             <th>Grace Period (mins)</th>
-            <th>Deduction Rate</th>
-            <th>Deduction Type</th>
+            <th>Public Holidays Pay</th>
+            <th>Week of Pay</th>
           </thead>
           <tbody>
-            <tr className="border">
-            <td>
-              <input type="checkbox" className="border border-1 rounded-md " />
-            </td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            </tr>
+          {
+                staffDetail?.map((items)=>{
+                  const overTime=items?.staffDetails?.OverLeavePolicy[0]
+                  return   <tr className="border">
+                  <td>
+                    <input type="checkbox" className="border border-1 rounded-md " />
+                  </td>
+                  <td>{items.name}</td>
+                  <td>{items?.staffDetails?.job_title}</td>
+                  <td>{overTime?.extraHoursPay?? "N/A"}</td>
+                  <td>{overTime?.gracePeriodMins?? "N/A"}</td>
+                  <td>{overTime?.publicHolidayPay ?? "N/A"}</td>
+                  <td>{overTime?.weekOffPay?? "N/A"}</td>
+                 
+                  </tr>
+                })
+              }
           </tbody>
         </table>
         </div>

@@ -1,12 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../../../../Assets/Images/search.png";
 import Filter from "../../../../Assets/Images/filter.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import file from '../../../../Assets/Images/file.png'
+import { useGlobalContext } from "../../../../Context/GlobalContext";
+import { saveAs } from 'file-saver';
 
 const Early_Leaving_Policy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileUpldoad, setFileUpldoad] = useState(false);
+  const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
+
+  useEffect(() => {
+    fetchStaff();
+  }, [])
+
+  const exportToCSV = () => {
+    // Prepare the CSV headers
+    const headers = [
+      'Index',
+      'Name',
+      'Job Title',
+      'Allowed Early Days',
+      'Grace Period (mins)',
+      'Deduction Rate',
+      'Deduction Type'
+    ];
+
+    // Map over the data to create CSV rows
+    const rows = staffDetail.map((item, index) => {
+      const overTime = item?.staffDetails?.EarlyLeavePolicy?.[0] || {};
+
+      return [
+        index + 1,
+        item?.name || 'N/A',
+        item?.staffDetails?.job_title || 'N/A',
+        overTime?.waiveOffDays ?? 'N/A',
+        overTime?.gracePeriodMins ?? 'N/A',
+        overTime?.fineAmountMins ?? 'N/A',
+        overTime?.fineType ?? 'N/A'
+      ];
+    });
+
+    // Combine headers and rows for CSV format
+    const csvData = [headers, ...rows].map(row => row.join(',')).join('\n');
+
+    // Create a Blob and download the file
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'StaffDetails.csv');
+  };
 
 
   return (
@@ -66,7 +108,7 @@ const Early_Leaving_Policy = () => {
                           <h1 className="font-medium">
                             Step 1. Download Early Leaving Policy template
                           </h1>
-                          <button className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
+                          <button onClick={exportToCSV} className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
                             Download Template
                           </button>
                         </div>
@@ -131,31 +173,40 @@ const Early_Leaving_Policy = () => {
         </div>
       </div>
       <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
-      <div className='w-full   '>
-        <table className="table-section w-full">
-          <thead className="border border-1 ">
-            <th>#</th>
-            <th>Name</th>
-            <th>Job Title</th>
-            <th>Allowed Early Days</th>
-            <th>Grace Period (mins)</th>
-            <th>Deduction Rate</th>
-            <th>Deduction Type</th>
-          </thead>
-          <tbody>
-            <tr className="border">
-            <td>
-              <input type="checkbox" className="border border-1 rounded-md " />
-            </td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className='w-full   '>
+          <table className="table-section w-full">
+            <thead className="border border-1 ">
+              <th>#</th>
+              <th>Name</th>
+              <th>Job Title</th>
+              <th>Allowed Early Days</th>
+              <th>Grace Period (mins)</th>
+              <th>Deduction Rate</th>
+              <th>Deduction Type</th>
+            </thead>
+            <tbody>
+
+              {
+                staffDetail?.map((items) => {
+                  const overTime = items?.staffDetails?.EarlyLeavePolicy[0]
+                  return <tr className="border">
+                    <td>
+                      <input type="checkbox" className="border border-1 rounded-md " />
+                    </td>
+                    <td>{items.name}</td>
+                    <td>{items?.staffDetails?.job_title}</td>
+                    <td>{overTime?.waiveOffDays ?? "N/A"}</td>
+                    <td>{overTime?.gracePeriodMins ?? "N/A"}</td>
+                    <td>{overTime?.fineAmountMins ?? "N/A"}</td>
+                    <td>{overTime?.fineType ?? "N/A"}</td>
+
+                  </tr>
+                })
+              }
+
+
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

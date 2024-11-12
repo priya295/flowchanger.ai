@@ -21,14 +21,81 @@ import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 
 const Clients = () => {
-  const { baseUrl } = useGlobalContext();
-  const [openIndex, setOpenIndex] = useState(null);
-  const [companyName, setComapnyName] = useState("");
-  const [searchClientMessage, setSearchClientMessage] = useState(false);
-  let subtitle;
+    const [allStaff, setAllStaff] = useState();
 
-  //salary dropdown
-  const [isOpen1, setIsOpen1] = useState(false);
+
+    const [departments, setDepartments] = useState([])
+    const [companyName, setComapnyName] = useState("");
+    const [searchClientMessage, setSearchClientMessage] = useState(false);
+
+    const [rowsToShow, setRowsToShow] = useState(25);
+
+
+    const fetchAllStaff = async () => {
+        const response = await fetch(baseUrl + 'staff');
+        const data = await response.json();
+        setAllStaff(data?.map((staff) => {
+            return {
+                id: staff?.id,
+                label: staff?.name
+            }
+        }));
+    }
+    const customStyles = {
+        control: (provided) => ({
+            ...provided,
+            backgroundColor: '#F4F5F9',
+            borderColor: '#E2E8F0',
+            minHeight: '38px',
+        }),
+        multiValue: (provided) => ({
+            ...provided,
+            backgroundColor: '#E2E8F0',
+        }),
+        multiValueLabel: (provided) => ({
+            ...provided,
+            fontSize: '14px',
+        }),
+        multiValueRemove: (provided) => ({
+            ...provided,
+            color: '#4A5568',
+            ':hover': {
+                backgroundColor: '#CBD5E0',
+                color: '#2D3748',
+            },
+        }),
+    };
+ 
+
+
+
+
+    const [isOpen15, setIsOpen15] = useState(false);
+
+    const toggleModal15 = () => {
+        setIsOpen15(!isOpen15);
+    };
+
+    const addNewDiv = () => {
+        setDivs([...divs, {}]); // Add a new empty object to the state array
+    };
+    const [divs, setDivs] = useState([{}]); // Start with one empty object
+
+    const { baseUrl , openToast} = useGlobalContext();
+    const [openIndex, setOpenIndex] = useState(0);
+    let subtitle;
+    // Function to handle accordion toggling
+    const handleToggle = (index) => {
+        if (openIndex === index) {
+            setOpenIndex(null); // Close the accordion if clicked again
+        } else {
+            setOpenIndex(index); // Open the accordion
+        }
+    };
+    //salary dropdown
+    const [isOpen1, setIsOpen1] = useState(false);
+
+
 
   const toggleDropdown1 = () => {
     setIsOpen1(!isOpen1);
@@ -58,11 +125,9 @@ const Clients = () => {
     setRowsToShow(Number(event.target.value));
   };
 
-  const [departments, setDepartments] = useState([]);
   const [exportFormat, setExportFormat] = useState("");
 
-  const [rowsToShow, setRowsToShow] = useState(25);
-  const handleExport = () => {
+   const handleExport = () => {
     if (exportFormat === "CSV") exportCSV();
     else if (exportFormat === "PDF") exportPDF();
     else if (exportFormat === "Print") printDepartments();
@@ -103,19 +168,18 @@ const Clients = () => {
 
   const [clientData, setClientData] = useState([]);
 
-  const fetchDetail = async () => {
-    const result = await fetch(baseUrl + "client");
-    if (result.status == 200) {
-      const res = await result.json();
-      console.log(res);
-      setClientData(res);
-      if (res && res.length > 0) {
-        setIsOpen(true);
-      }
-    } else {
-      alert("An Error Occured");
+    const fetchDetail = async () => {
+        const result = await fetch(baseUrl + "client");
+        if (result.status == 200) {
+            const res = await result.json();
+            console.log(res)
+            setClientData(res)
+        }
+        else {
+            alert("An Error Occured")
+        }
     }
-  };
+  
   //   handle search company
   const handleSearchCompany = async () => {
     const queryParams = new URLSearchParams({
@@ -248,48 +312,41 @@ const Clients = () => {
   );
   const [clientGroup, setClientGroup] = useState([]);
 
-  useEffect(() => {
-    if (selectedClient && selectedClient.clientDetails) {
-      setCompany(selectedClient.clientDetails.company);
-      setVatNumber(selectedClient.clientDetails.vat_number);
-      setPhone(selectedClient.mobile);
-      setWebsite(selectedClient.clientDetails.website);
-      setAddress(selectedClient.clientDetails.address);
-      setCity(selectedClient.clientDetails.city);
-      setState(selectedClient.clientDetails.state);
-      setZipCode(selectedClient.clientDetails.zip_code);
-      setCountry(selectedClient.clientDetails.country);
-      setClientGroup(selectedClient.clientDetails.groups);
-    }
-  }, [selectedClient]);
+    useEffect(() => {
+        if (selectedClient && selectedClient.clientDetails) {
+            setCompany(selectedClient.clientDetails.company)
+            setVatNumber(selectedClient.clientDetails.vat_number)
+            setPhone(selectedClient.mobile)
+            setWebsite(selectedClient.clientDetails.website)
+            setAddress(selectedClient.clientDetails.address)
+            setCity(selectedClient.clientDetails.city)
+            setState(selectedClient.clientDetails.state)
+            setZipCode(selectedClient.clientDetails.zip_code)
+            setCountry(selectedClient.clientDetails.country)
+            setClientGroup(selectedClient.clientDetails.groups)
 
-  const updateData = async (e) => {
-    e.preventDefault();
-    const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        company: company,
-        vat_number: vatNumber,
-        phone: phone,
-        website: website,
-        groups: selectedGroups,
-        currency: currency,
-        default_language: language,
-        address: address,
-        country: country,
-        state: state,
-        city: city,
-        zip_code: zipCode,
-      }),
-    });
-    if (result.status == 200) {
-      fetchDetail();
-      alert("Details Update Successfully");
-    } else alert("An Error Occured");
-  };
+
+        }
+    }, [selectedClient])
+
+    const [deleteClient, setDeleteClient] = useState();
+    const updateData = async (e) => {
+        e.preventDefault();
+        const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, groups: selectedGroups, currency: currency, default_language: language, address: address, country: country, state: state, city: city, zip_code: zipCode })
+        })
+        if (result.status == 200) {
+            fetchDetail()
+            alert("Details Update Successfully")
+        }
+        else (
+            alert("An Error Occured")
+        )
+    }
 
   async function deleteData(id) {
     const result = await fetch(baseUrl + "/client/" + id, {
@@ -302,6 +359,8 @@ const Clients = () => {
       alert("An Error Occurred");
     }
   }
+  
+
 
   return (
     <div className=" w-full  top-[95px] right-[5px] ">
@@ -357,17 +416,52 @@ const Clients = () => {
                   <option value="Print">Print</option>
                 </select>
 
-                <button
-                  onClick={handleExport}
-                  className="ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer"
-                >
-                  Export File
-                </button>
-                <CachedIcon className="border border-[#e5e7eb] shadow-sm ml-2 h-[36px] rounded-md cursor-pointer refresh" />
-              </div>
-            </div>
-            <div className="relative client-add">
-              <input
+                                <button
+                                    onClick={handleExport}
+                                    className='ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer'
+                                >
+                                    Export File
+                                </button>
+
+
+
+                                {/* <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal}>Bulk Action <CachedIcon className="newsidebar-icon" /> </button>
+                                <Modal open={open} onClose={onCloseModal} center>
+                                    <div className="border-b border-[#dbdbdb] pb-[20px]">
+                                        <h2>Bulk Actions</h2>
+                                    </div>
+                                    <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
+                                        <input type="checkbox" />
+                                        <p className="text-[14px]">Mass Delete</p>
+                                    </div>
+                                    <div className="w-[100%]">
+                                    </div>
+                                    <p className="text-[red] text-[14px]">if you do not select any groups assigned to the selected customers will be removed.</p>
+
+                                    <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
+                                        <button
+                                            className="bg-red-500 text-white px-4 py-2 rounded"
+                                            onClick={toggleModal15}
+                                        >
+                                            Close
+                                        </button>
+                                        <button className='second-btn'>Confirm </button>
+                                    </div>
+
+                                </Modal> */}
+
+
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+                        <div className="relative client-add">
+                        <input
                 className="p-[6px] client-add rounded-2xl  summary-border text-[13px] "
                 type="text"
                 placeholder=" Search......."
@@ -377,9 +471,9 @@ const Clients = () => {
                 }}
                
               />
-              <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
-            </div>
-          </div>
+                            <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
+                        </div>
+                    </div>
 
           <div className="bg-white rounded-lg w-full overflow-x-auto">
             <table className="w-full table-auto border-collapse">
@@ -798,4 +892,4 @@ const Clients = () => {
     </div>
   );
 };
-export default Clients;
+export default Clients

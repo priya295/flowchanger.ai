@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { useGlobalContext } from '../../../Context/GlobalContext';
+import { saveAs } from 'file-saver';
+
+
 
 
 const BankDetails = () => {
-
+    const { baseUrl } = useGlobalContext();
     let subtitle;
 
     // toggle switch
@@ -25,8 +29,6 @@ const BankDetails = () => {
         setToggleDrop(!toggleDrop)
     }
 
-
-
     // when onclick update staff
     const [modalIsOpen9, setIsOpen9] = React.useState(false);
     function openModal9() {
@@ -42,10 +44,69 @@ const BankDetails = () => {
         setIsOpen9(false);
     }
     // when onclick update staff
+
+    const [staffDetail, setStaffDetail] = useState([]);
+    const fetchStaff = async () => {
+        const result = await fetch(baseUrl + "staff")
+        console.log("reuslt---", result)
+        try {
+            if (result.status == 200) {
+                const res = await result.json();
+                console.log(res);
+                setStaffDetail(res)
+            }
+            else {
+                alert("An Error Occured")
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    console.log("staff", staffDetail)
+
+    useEffect(() => {
+        fetchStaff();
+    }, [])
+
+    const exportToCSV = () => {
+        // Prepare the CSV headers
+        const headers = [
+            'Index',
+            'Name',
+            'Job Title',
+            'Bank Name',
+            'Account Holder Name',
+            'Bank Account Number',
+            'Bank IFSC Code',
+            'Bank Account Status',
+        ];
+        
+        // Map over the data to create CSV rows
+        const rows = staffDetail.map((item, index) => [
+            index + 1,
+            item?.name || 'N/A',
+            item?.staffDetails?.job_title || 'N/A',
+            item?.staffDetails?.BankDetails?.bank_name || 'N/A',
+            'N/A',  // Replace if you have account holder name data
+            item?.staffDetails?.BankDetails?.account_number || 'N/A',
+            item?.staffDetails?.BankDetails?.ifsc_code || 'N/A',
+            'N/A',  // Replace if you have account status data
+        ]);
+
+        // Combine headers and rows for CSV format
+        const csvData = [headers, ...rows].map(row => row.join(',')).join('\n');
+
+        // Create a Blob and download the file
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'StaffDetails.csv');
+    };
+
     return (
         <div className='staff-tab mt-[20px]'>
-            <div className='flex justify-between flex-col xl:flex-row lg:flex-col  md:flex-col gap-[15px] lg:gap-[0px]'>
-                <div className='flex lg:gap-[20px] flex-col gap-[10px] lg:flex lg:flex-row'>
+            <div className='flex justify-between flex-col xl:flex-row lg:flex-col  md:flex-col gap-[15px] lg:gap-[10px]'>
+                <div className='flex lg:gap-[20px]  flex-col gap-[10px] lg:flex lg:flex-row'>
                     <div className='searching-input relative'>
                         <img src={Search} className='absolute left-2 top-3' />
                         <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' />
@@ -71,30 +132,32 @@ const BankDetails = () => {
 
             <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
                 <div className='w-full   '>
-                    <table className='table-section  w-full'>
-                    <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Job Title</th>
-                            <th>Bank Name</th>
-                            <th>Accound Holder Name</th>
-                            <th>Bank Account Number </th>
-                            <th>Bank IFSC Code</th>
-                            <th>Bank Account Status</th>
-
-
+                    <table className='table-section w-full'>
+                        <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Job Title</th>
+                                <th>Bank Name</th>
+                                <th>Account Holder Name</th>
+                                <th>Bank Account Number</th>
+                                <th>Bank IFSC Code</th>
+                                <th>Bank Account Status</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr className='border'>
-                            <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                            <td>Demo</td>
-                            <td>Demo</td>
-                            <td>Demo</td>
-                            <td>Demo</td>
-                            <td>Demo</td>
-                            <td>Demo</td>
-                            <td>Demo</td>
-                            </tr>
+                            {staffDetail?.map((items, index) => (
+                                <tr className='border' key={index}>
+                                    <td><input type='checkbox' className='border border-1 rounded-md' /></td>
+                                    <td>{items?.name}</td>
+                                    <td>{items?.staffDetails?.job_title}</td>
+                                    <td>{items?.staffDetails?.BankDetails?.bank_name}</td>
+                                    <td>N/A</td>
+                                    <td>{items?.staffDetails?.BankDetails?.account_number}</td>
+                                    <td>{items?.staffDetails?.BankDetails?.ifsc_code}</td>
+                                    <td>N/A</td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
@@ -122,10 +185,10 @@ const BankDetails = () => {
 
                     <div className='flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
                         <div className='flex gap-[0px] items-center '>
-                            <h4 className='m-0 font-medium' >Step 1. Download staff details.</h4>
+                            <h4 className='m-0 font-medium'  >Step 1. Download staff details.</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <Link to="#" className='whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Download Template</Link>
+                            <button onClick={exportToCSV} className='whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Download Template</button>
                         </div>
                     </div>
 

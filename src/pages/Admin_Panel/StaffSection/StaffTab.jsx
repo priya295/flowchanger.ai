@@ -134,7 +134,7 @@ const StaffTab = () => {
   return (
     <div className='staff-tab mt-[20px]'>
       <div className='flex justify-between flex-col xl:flex-row lg:flex-col md:flex-col gap-[15px] lg:gap-[0px]'>
-        <div className='flex lg:gap-[20px] lg:mb-[20px] xl:mb-[0px] flex-col gap-[10px] lg:flex lg:flex-row '>
+        <div className='flex lg:gap-[20px]  flex-col gap-[10px] lg:flex lg:flex-row '>
           <div className='searching-input relative'>
             <img src={Search} className='absolute left-2 top-3' />
             <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' 

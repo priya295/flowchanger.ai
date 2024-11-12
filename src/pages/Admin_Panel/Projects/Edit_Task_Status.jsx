@@ -8,28 +8,53 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import PersonIcon from '@mui/icons-material/Person';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
-import { useGlobalContext } from "../../../Context/GlobalContext";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import Select from 'react-select';
+import { useGlobalContext } from '../../../Context/GlobalContext';
 
 
 const Edit_Task_Status = () => {
     let subtitle;
-    const { baseURL } = useGlobalContext();
+    const { baseUrl } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
     const [allStaff, setAllStaff] = useState([]);
+    const [taskStatus, setTaskStatus] = useState({
+        name: "",
+        color: "#000000",
+        order: "",
+        isHiddenFor: [],
+        canBeChangedTo: [],
+    })
 
-    const fetchAllStaff = async () => {
-        try {
-            const response = await fetch(baseURL + 'staff');
-            const data = await response.json();
-            setAllStaff(data);
-        } catch (error) {
-            console.log(error);
+    const customStyles = {
+        control: (provided) => ({
+        }),
+        multiValue: (provided) => ({
+            ...provided,
+            backgroundColor: '#E2E8F0',
+        }),
+        multiValueLabel: (provided) => ({
+            ...provided,
+            fontSize: '14px',
+        }),
+        multiValueRemove: (provided) => ({
+        }),
+    };
+    const [staffDetail, setStaffDetail] = useState();
+    const fetchStaffDetail = async () => {
+        const result = await fetch(baseUrl + "staff")
+        console.log("reuslt---", result)
+        if (result.status == 200) {
+          const res = await result.json();
+          setStaffDetail(res)
         }
-    }
+        else {
+          alert("An Error Occured")
+        }
+    
+      }
 
-    useEffect(() => {
-        fetchAllStaff();
-    }, [allStaff])
 
     console.log(allStaff);
     // Function to handle accordion toggling
@@ -151,9 +176,21 @@ const Edit_Task_Status = () => {
                                             </div>
                                             <div className='w-[100%]  xl:[48%] mb-[26px]'>
                                                 <label className='text-[14px]'>is hidden for</label><br />
-                                                <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                    <option>Nothing Selected</option>
-                                                </select>
+                                                <Select
+                                                    isMulti
+                                                    name="isHiddenFor"
+                                                    options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+                                                    className="basic-multi-select"
+                                                    classNamePrefix="select"
+                                                    value={taskStatus.isHiddenFor || []}
+                                                    onChange={(selectedOptions) =>
+                                                        setTaskStatus((prev) => ({
+                                                            ...prev,
+                                                            isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
+                                                        }))
+                                                    }
+                                                    styles={customStyles}
+                                                />
                                             </div>
                                             <div className='w-[100%]  xl:[48%] mb-[20px]'>
                                                 <label className='text-[14px]'>Can be changed to</label><br />
@@ -268,8 +305,14 @@ const Edit_Task_Status = () => {
                                     <td className=" ">In Progress</td>
                                     <td className=" ">
                                         <div className="flex gap-2">
-                                            <button className="bg-[#27004a] p-3  rounded-md text-white " onClick={openModal6}>Edit</button>
-                                            <button className="bg-red-600 p-3  rounded-md text-white ">Delete</button>
+                                            <button className=" " onClick={openModal6}>
+                                                <BorderColorIcon className="text-[#27004a]" />
+
+                                            </button>
+                                            <button className=" ">
+                                                <DeleteOutlineIcon className="text-[#ff0000]" />
+
+                                            </button>
 
                                         </div>
                                     </td>
