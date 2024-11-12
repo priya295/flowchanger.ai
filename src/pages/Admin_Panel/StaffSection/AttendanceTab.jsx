@@ -12,6 +12,7 @@ import gps from '../../../Assets/Images/gps.svg'
 import biometric from '../../../Assets/Images/biometric.svg'
 import rightimg from '../../../Assets/Images/right.svg'
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import Select from 'react-select';
 
 const AttendanceTab = () => {
     const { baseUrl, openToast } = useGlobalContext();
@@ -331,6 +332,13 @@ const AttendanceTab = () => {
         fetchShiftDetails();
     }, [])
 
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const options = selectedShift.map((seo) => ({
+        value: seo.shiftName,
+        label: `${seo.shiftName} | ${seo.shiftStartTime} - ${seo.shiftEndTime}`
+    }));
+
     return (
         <div className='attendance-tab mt-[20px]'>
 
@@ -616,88 +624,40 @@ const AttendanceTab = () => {
                                         </td>
                                         <td
                                             className='pr-5 flex items-center'>
-                                            <select onClick={() => selectedShift.length === 0 && openModal1()} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option onClick={openModal1}>Select Shift</option>
-                                                {
-                                                    selectedShift?.map((seo, index) => {
-                                                        return <option>{seo.shiftName} | {seo.shiftStartTime} - {seo.shiftEndTime} </option>
-                                                    })
-                                                }
-                                            </select>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectedOptions}
+                                                onChange={(selected) => setSelectedOptions(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
                                             <button className='bg-[#27004a] rounded-full ml-4'>
                                                 <AddIcon className="text-white" onClick={openModal1} />
                                             </button>
                                         </td>
                                     </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Tue</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Wed</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Thu</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Fri</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sat</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sun</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-
+                                 
 
 
 

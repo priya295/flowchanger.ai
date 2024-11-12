@@ -1,14 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Search from "../../../../Assets/Images/search.png";
 import Filter from "../../../../Assets/Images/filter.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import file from '../../../../Assets/Images/file.png'
+import { useGlobalContext } from "../../../../Context/GlobalContext";
+import { saveAs } from 'file-saver';
 
 
 
 const Late_Coming_Policy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileUpldoad, setFileUpldoad] = useState(false);
+  const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
+
+  useEffect(()=>{
+    fetchStaff();
+  },[])
+
+  const exportToCSV = () => {
+    // Define the CSV headers
+    const headers = [
+        'Index',
+        'Name',
+        'Job Title',
+        'Allowed Early Days',
+        'Grace Period (mins)',
+        'Deduction Rate',
+        'Deduction Type',
+    ];
+    
+    // Map over the data to create CSV rows
+    const rows = staffDetail.map((item, index) => {
+        const earlyLeavePolicy = item?.staffDetails?.LateComingPolicy[0] ?? {}; // Adjusted for Early Leave Policy
+        return [
+            index + 1,
+            item?.name || 'N/A',
+            item?.staffDetails?.job_title || 'N/A',
+            earlyLeavePolicy?.waiveOffDays ?? 'N/A',
+            earlyLeavePolicy?.gracePeriodMins ?? 'N/A',
+            earlyLeavePolicy?.fineAmountMins ?? 'N/A',
+            earlyLeavePolicy?.fineType ?? 'N/A',
+        ];
+    });
+
+    // Combine headers and rows for CSV format
+    const csvData = [headers, ...rows].map(row => row.join(',')).join('\n');
+
+    // Create a Blob and download the file
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'Late Coming Policy.csv');
+  };
+  
+
+
   return (
     <div className="Early-Leaving-Policy mt-[20px]">
       <div className="flex justify-between flex-col xl:flex-row lg:flex-col  md:flex-col gap-[15px] lg:gap-[0px]">
@@ -66,7 +110,7 @@ const Late_Coming_Policy = () => {
                           <h1 className="font-medium">
                           Step 1. Download Late Coming Policy template
                           </h1>
-                          <button className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
+                          <button onClick={exportToCSV} className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
                             Download Template
                           </button>
                         </div>
@@ -143,17 +187,23 @@ const Late_Coming_Policy = () => {
             <th>Deduction Type</th>
           </thead>
           <tbody>
-            <tr className="border">
-            <td>
-              <input type="checkbox" className="border border-1 rounded-md " />
-            </td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
-            </tr>
+          {
+                staffDetail?.map((items)=>{
+                  const overTime=items?.staffDetails?.LateComingPolicy[0]
+                  return   <tr className="border">
+                  <td>
+                    <input type="checkbox" className="border border-1 rounded-md " />
+                  </td>
+                  <td>{items.name}</td>
+                  <td>{items?.staffDetails?.job_title}</td>
+                  <td>{overTime?.waiveOffDays?? "N/A"}</td>
+                  <td>{overTime?.gracePeriodMins?? "N/A"}</td>
+                  <td>{overTime?.fineAmountMins?? "N/A"}</td>
+                  <td>{overTime?.fineType?? "N/A"}</td>
+                 
+                  </tr>
+                })
+              }
           </tbody>
         </table>
         </div>
