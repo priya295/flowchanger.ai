@@ -12,6 +12,7 @@ import { State } from "country-state-city";
 
 const EditSalaryDetails = () => {
 
+  const { baseUrl, selectedStaff, openToast } = useGlobalContext();
   const statesLWF = [
     { state: "Andaman and Nicobar Islands", employeelwf: 0, employerlwf: 0 },
     { state: "Andhra Pradesh", employeelwf: 2.5, employerlwf: 5.83 },
@@ -161,9 +162,7 @@ const EditSalaryDetails = () => {
   };
 
 
-  const updateSalaryDetails = async () => {
-    console.log(calEarning, calCompliances, calDeductions);
-  };
+
 
   // console.log(selectedOption1, selectedOption2, selectedOption3, selectedOption4);
 
@@ -221,8 +220,7 @@ const EditSalaryDetails = () => {
 
 
 
-  const { baseUrl, selectedStaff } = useGlobalContext();
-  // console.log(selectedStaff);
+  console.log(selectedStaff);
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectSalaryType, setSelectSalaryType] = useState("Per Month");
   const [selectSalaryStructure, setSelectSalaryStructure] = useState("");
@@ -301,7 +299,7 @@ const EditSalaryDetails = () => {
     "Miscellaneous Deduction"
   ]);
 
-  const [selectedAllowance, setSelectedAllowance] = useState(["Basic"]);
+  const [selectedAllowance, setSelectedAllowance] = useState([...selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads)]);
   const [selectedDeduction, setSelectedDeduction] = useState([]);
 
 
@@ -394,7 +392,11 @@ const EditSalaryDetails = () => {
       setCalEmployeeESI(calculateCheckedItemsTotal(calEarning, selectedOption4, 3.25))
       totalOtherCompliances = totalOtherCompliances + calculateCheckedItemsTotal(calEarning, selectedOption4, 0.75);
     }
-    if (compliances.length === 1) {
+
+    const pfCompliance = compliances.find(compliance => compliance.name === "PF EDLI & Admin Charges");
+
+    if (pfCompliance) {
+      console.log(compliances);
       const otherCompliances = totalOtherCompliances;
       if (compliances[0]?.calculation === "None") {
         setEmployerPFEDLIAndAdminCharges(0)
@@ -483,6 +485,19 @@ const EditSalaryDetails = () => {
     setSelectedMonth(formattedMonth);
   }, []);
 
+  useEffect(() => {
+    if (selectedStaff?.staffDetails?.Earning) {
+      setCalEarning(
+        selectedStaff.staffDetails.Earning.map((item) => ({
+          name: item.name,
+          calculation: item.calculation,
+          amount: item.amount,
+        }))
+      );
+    }
+  }, [selectedStaff]);
+
+
 
 
   const [stateid, setstateid] = useState(0);
@@ -514,15 +529,56 @@ const EditSalaryDetails = () => {
         employer_esi: Number(calEmployerESI),
         employee_pf: Number(calEmployeePF),
         employee_esi: Number(calEmployeeESI),
+        employer_lwf: Number(calCompliances?.find(item => item?.name === "Employer LWF")?.calculation),
+        employee_lwf: Number(calCompliances?.find(item => item?.name === "Employee LWF")?.calculation),
       },
       earning: calEarning,
       deduction: calDeductions,
     };
-    console.log(data);
+    try {
+      const response = await fetch(
+        `${baseUrl}salary`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data.salaryDetail, staffId: selectedStaff?.staffDetails?.id }),
+        }
+      );
+      const earningResponse = await fetch(
+        `${baseUrl}earnings`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data.salaryDetail, staffId: selectedStaff?.staffDetails?.id }),
+        }
+      );
+
+      console.log("Response from backend:", response);
+
+      if (response.ok) {  // Changed to response.ok to handle all 2xx responses
+        const result = await response.json();
+        console.log("Response data:", result);
+
+        // Show success toast and close modal
+        openToast("Salary details successfully updated or created", "success");
+      }
+      else {
+        // Show error toast if response status is not 2xx
+        openToast("An error occurred while adding or updating Salary", "error");
+      }
+    } catch (error) {
+      console.error("Error submitting Salary:", error);
+      openToast("An error occurred while adding or updating Salary", "error");
+    }
   }
   async function createNewEarningField(heads) {
 
     const data = {};
+    console.log(heads);
     const response = await fetch(baseUrl + "earnings/create", {
       method: "POST",
       headers: {
@@ -569,7 +625,7 @@ const EditSalaryDetails = () => {
     }
   }
 
-  console.log(calEarning, calDeductions, calDeductions);
+  console.log(calEarning, calCompliances, calDeductions);
 
   return (
     <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col">
@@ -680,8 +736,9 @@ const EditSalaryDetails = () => {
                           className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                           onClick={() => {
                             setIsOpenAllowance(false);
-                            createNewEarningField(allowance);
+                            console.log(allowance);
                             if (!selectedAllowance.includes(allowance)) {
+                              createNewEarningField(allowance);
                               setSelectedAllowance(prev => [...prev, allowance]);
                             }
                           }}
@@ -844,11 +901,16 @@ const EditSalaryDetails = () => {
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">Employer LWF</span>
               <StateSelect
+                value={stateid}
                 className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
                 countryid={101}
                 onChange={(e) => {
-                  console.log(e.name);
+                  setstateid(e.id)
+                  // console.log(statesLWF);
                   handleChange("compliances", "Employer LWF", e.name, "state")
+                  handleChange("compliances", "Employer LWF", statesLWF?.filter((state) => state.state === e.name)[0]?.employerlwf, "calculation")
+                  handleChange("compliances", "Employee LWF", e.name, "state")
+                  handleChange("compliances", "Employee LWF", statesLWF?.filter((state) => state.state === e.name)[0]?.employeelwf, "calculation")
                 }}
                 placeHolder="Select State"
               />
@@ -869,7 +931,7 @@ const EditSalaryDetails = () => {
                     <h3>N/A</h3>
                     <div className="relative">
                       <span className="absolute top-[2px] left-[4px]">₹</span>
-                      <input onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
+                      <input value={calEmployerPFEDLIAndAdminCharges} disabled={true} onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
                         type="number" placeholder="Enter Amount" className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
                     </div>
                   </>
@@ -889,7 +951,7 @@ const EditSalaryDetails = () => {
                         value={
                           index === 0 ? calEmployerPF :
                             index === 1 ? calEmployerPFEDLIAndAdminCharges :
-                              index === 2 ? calEmployerESI : ""
+                              index === 2 ? calEmployerESI : calCompliances?.find(({ name }) => name === label)?.calculation
                         }
                         disabled={true}
                         type="number"
@@ -985,11 +1047,16 @@ const EditSalaryDetails = () => {
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">Employee LWF</span>
               <StateSelect
+                value={stateid}
                 className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
                 countryid={101}
                 onChange={(e) => {
                   setstateid(e.id);
-                  handleChange("compliances", "Employee LWF", e.name, "state"); // Track state changes if needed
+                  handleChange("compliances", "Employer LWF", e.name, "state")
+                  handleChange("compliances", "Employer LWF", statesLWF?.filter((state) => state.state === e.name)[0]?.employerlwf, "calculation")
+                  handleChange("compliances", "Employee LWF", e.name, "state")
+                  handleChange("compliances", "Employee LWF", statesLWF?.filter((state) => state.state === e.name)[0]?.employeelwf, "calculation")
+
                 }}
                 placeHolder="Select State"
               />
@@ -1010,7 +1077,9 @@ const EditSalaryDetails = () => {
                   <input
                     value={
                       index === 0 ? calEmployeePF :
-                        index === 1 ? calEmployeeESI : ""
+                        index === 1 ? calEmployeeESI : index === 3 ?
+                          calCompliances?.find(({ name }) => name === "Employee LWF")?.calculation
+                          : ""
                     }
                     disabled={true}
                     type="number"
@@ -1099,7 +1168,7 @@ const EditSalaryDetails = () => {
                   aria-haspopup="true"
                   aria-expanded={isOpenDeduction}
                 >
-                  + Add Allowances
+                  + Add Deductions
                 </button>
                 {isOpenDeduction && (
                   <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg">
