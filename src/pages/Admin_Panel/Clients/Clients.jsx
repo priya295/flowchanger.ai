@@ -122,7 +122,7 @@ const Clients = () => {
       company: companyName,
     }).toString();
     try {
-      const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
+      const response = await fetch(`${baseUrl}client/search?${queryParams}`);
       console.log(response);
       if (response.ok) {
         const result = await response.json();

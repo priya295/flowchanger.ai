@@ -10,6 +10,8 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const Projects = () => {
   const [isOpen1, setIsOpen1] = useState(false);
+  const [isLoading , setIsLoading] = useState(false);
+  const [projectName , setProjectName] = useState("")
  
 
   const toggleDropdown1 = () => setIsOpen1(!isOpen1);
@@ -40,6 +42,44 @@ async function fetchProjectDetails() {
 useEffect(() => {
   fetchProjectDetails();
 }, []);
+
+// handle search projects
+const handleSearchProject = async () => {
+  const queryParams = new URLSearchParams({
+  project_name : projectName
+   
+  }).toString();
+  setIsLoading(true);
+  try {
+    const response = await fetch(`${baseUrl}project/search-projectByName?${queryParams}`);
+    console.log(response);
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result);
+      setProjectDetails(result);
+    } else {
+       console.log("error while fetching project")
+    }
+  } catch (error) {
+    console.error('Error searching project:', error);
+  }
+  finally{
+    setIsLoading(false);
+  }
+};
+
+// Debounced search effect
+useEffect(() => {
+  const delayDebounceFn = setTimeout(() => {
+    if (projectName.trim()) {
+      handleSearchProject();
+    } else {
+      fetchProjectDetails(); // Fetch all projects if search input is cleared
+    }
+  }, 3000); 
+
+  return () => clearTimeout(delayDebounceFn); // Cleanup function to clear the timeout
+}, [projectName]);
 
 return (
   <div className="p-4 bg-white shadow-lg rounded-md">
@@ -89,6 +129,9 @@ return (
             className="p-2 pr-8 rounded-2xl border border-gray-300 text-sm"
             type="text"
             placeholder="Search..."
+            onChange={(e)=>{setProjectName(e.target.value)
+               handleSearchProject();}
+            }
           />
           <SearchIcon className="absolute right-3 top-2 text-gray-500" />
         </div>

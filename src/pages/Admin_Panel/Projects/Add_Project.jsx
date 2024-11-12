@@ -53,7 +53,7 @@ const Add_Project = () => {
   function handleCloseForm() {
     navigate("/project_summary")
   }
-  const [clientData, setClientData] = useState(null);
+  const [clientData, setClientData] = useState([]);
 
   const handleChange = (selectedOptions) => {
     // Extract only the `value` from each selected option
@@ -67,13 +67,17 @@ const Add_Project = () => {
     if (result.status == 200) {
       const res = await result.json();
       console.log(res)
-      setClientData(res.data)
+      setClientData(res)
     }
     else {
       openToast("An Error Occured","error")
       // alert("An Error Occured")
     }
   }
+
+  useEffect(()=>{
+   console.log(clientData)
+  },[]);
 
   useEffect(() => {
     fetchDetail();
@@ -176,6 +180,10 @@ const Add_Project = () => {
     console.log(editorData); // Check if `editorData` updates on every change
   }, [editorData]);
 
+  // useEffect(()=>{
+  //  console.log(clientData.clientInformation)
+  // },[])
+
   return (
     <Tabs className="m-5 shadow rounded-lg">
       <TabList className="flex p-5 pb-[10px] gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
@@ -201,11 +209,10 @@ const Add_Project = () => {
           <div className="space-y-2">
             <h1 className="font-medium">* Customer</h1>
             <select onChange={(e) => { setSelectClient(e.target.value) }} className="w-[100%] h-[46px] bg-white border border-[#DBDCDE] rounded-md pl-5 ">
-              <option value="">Select and begin typing</option>
               {
                 clientData?.map((clientInformation, index) => {
-                  {console.log(clientInformation)}
-                  return <option value={clientInformation.clientDetails?.id}>{clientInformation.name}</option>
+                  {console.log(clientInformation?.name)}
+                  return <option value={clientInformation.clientDetails?.id}>{clientInformation?.name ?? "n/a"}</option>
                 })
               }
 
