@@ -22,12 +22,11 @@ import jsPDF from "jspdf";
 
 const Clients = () => {
     const [allStaff, setAllStaff] = useState();
-    const handleSelectChange = (event) => {
-        setRowsToShow(Number(event.target.value));
-    };
+
 
     const [departments, setDepartments] = useState([])
-    const [exportFormat, setExportFormat] = useState('');
+    const [companyName, setComapnyName] = useState("");
+    const [searchClientMessage, setSearchClientMessage] = useState(false);
 
     const [rowsToShow, setRowsToShow] = useState(25);
 
@@ -66,34 +65,7 @@ const Clients = () => {
             },
         }),
     };
-    const handleExport = () => {
-        if (exportFormat === 'CSV') exportCSV();
-        else if (exportFormat === 'PDF') exportPDF();
-        else if (exportFormat === 'Print') printDepartments();
-    };
-
-    const exportCSV = () => {
-        const csvData = departments.map(dep => `${dep.department_name}, Total Users: 1`).join('\n');
-        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'departments.csv');
-    };
-
-    const exportPDF = () => {
-        const doc = new jsPDF();
-        doc.text("Department List", 20, 10);
-        departments.forEach((dep, index) => {
-            doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
-        });
-        doc.save('departments.pdf');
-    };
-
-    const printDepartments = () => {
-        const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
-        const newWindow = window.open();
-        newWindow.document.write(`<pre>${printContent}</pre>`);
-        newWindow.document.close();
-        newWindow.print();
-    };
+ 
 
 
 
@@ -153,11 +125,9 @@ const Clients = () => {
     setRowsToShow(Number(event.target.value));
   };
 
-  const [departments, setDepartments] = useState([]);
   const [exportFormat, setExportFormat] = useState("");
 
-  const [rowsToShow, setRowsToShow] = useState(25);
-  const handleExport = () => {
+   const handleExport = () => {
     if (exportFormat === "CSV") exportCSV();
     else if (exportFormat === "PDF") exportPDF();
     else if (exportFormat === "Print") printDepartments();
@@ -212,6 +182,9 @@ const Clients = () => {
 
     useEffect(() => {
         fetchDetail();
+        if (clientData) {
+            setIsOpen(true);
+          }
     }, [])
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -366,6 +339,26 @@ const Clients = () => {
       alert("An Error Occurred");
     }
   }
+  const handleSearchCompany = async () => {
+    const queryParams = new URLSearchParams({
+      company: companyName,
+    }).toString();
+    try {
+      const response = await fetch(`${baseUrl}client/search?${queryParams}`);
+      console.log(response);
+      if (response.ok) {
+        const result = await response.json();
+        setClientData(result.data);
+        setSearchClientMessage(result.data.length === 0);
+      } else {
+        setSearchClientMessage(true);
+      }
+    } catch (error) {
+      console.error("Error searching staff:", error);
+      setSearchClientMessage(true);
+    }
+  };
+
 
   return (
     <div className=" w-full  top-[95px] right-[5px] ">
@@ -430,7 +423,7 @@ const Clients = () => {
 
 
 
-                                <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal}>Bulk Action <CachedIcon className="newsidebar-icon" /> </button>
+                                {/* <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal}>Bulk Action <CachedIcon className="newsidebar-icon" /> </button>
                                 <Modal open={open} onClose={onCloseModal} center>
                                     <div className="border-b border-[#dbdbdb] pb-[20px]">
                                         <h2>Bulk Actions</h2>
@@ -440,30 +433,10 @@ const Clients = () => {
                                         <p className="text-[14px]">Mass Delete</p>
                                     </div>
                                     <div className="w-[100%]">
-
-
-
-
-                                    {/* <Select
-                                                    isMulti
-                                                    name="isHiddenFor"
-                                                    options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
-                                                    className="basic-multi-select"
-                                                    classNamePrefix="select"
-                                                    value={taskStatus.isHiddenFor || []}
-                                                    onChange={(selectedOptions) =>
-                                                        setTaskStatus((prev) => ({
-                                                            ...prev,
-                                                            isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
-                                                        }))
-                                                    }
-                                                    styles={customStyles}
-                                                /> */}
                                     </div>
                                     <p className="text-[red] text-[14px]">if you do not select any groups assigned to the selected customers will be removed.</p>
 
                                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
-                                        {/* Button to close the modal */}
                                         <button
                                             className="bg-red-500 text-white px-4 py-2 rounded"
                                             onClick={toggleModal15}
@@ -473,7 +446,7 @@ const Clients = () => {
                                         <button className='second-btn'>Confirm </button>
                                     </div>
 
-                                </Modal>
+                                </Modal> */}
 
 
 
@@ -486,7 +459,16 @@ const Clients = () => {
 
                         </div>
                         <div className="relative client-add">
-                            <input className="p-[6px] client-add rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
+                        <input
+                className="p-[6px] client-add rounded-2xl  summary-border text-[13px] "
+                type="text"
+                placeholder=" Search......."
+                value = {companyName}
+                onChange={(e) => {setComapnyName(e.target.value);
+                                  handleSearchCompany();
+                }}
+               
+              />
                             <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
                         </div>
                     </div>
