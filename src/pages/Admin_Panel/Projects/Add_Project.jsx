@@ -142,7 +142,7 @@ const Add_Project = () => {
   async function projectSubmit() {
     const plainTextDescription = (editorData || '').replace(/<\/?p>/g, '');
     const projectNameString = fetchProjectStatus.length > 0 ? fetchProjectStatus[0].project_name : ''; // Option 1, or use Option 2 as needed
-    const result = await fetch(baseUrl + "project", {
+    const result = await fetch(baseUrl + "project/create", {
       method: "POST",
       headers: {
         "Content-type": "application/json"

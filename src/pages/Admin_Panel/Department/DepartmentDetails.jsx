@@ -13,9 +13,11 @@ import jsPDF from 'jspdf';
 const DepartmentDetail = () => {
 
   const { baseUrl, setDepId, setName } = useGlobalContext();
-  const [departments, setDepartments] = useState([])
+  const [departments, setDepartments] = useState([]);
+  const [searchDepartment , setSearchDepartMent ] = useState('');
+  const [searchDepartmentMessage , setSearchDepartmentMessage] = useState(false);
   const [exportFormat, setExportFormat] = useState('');
-
+   
   const [rowsToShow, setRowsToShow] = useState(25);
 
   // Handle select change for rows to show
@@ -92,12 +94,37 @@ const DepartmentDetail = () => {
     }
   };
 
-
+  // handle search department
+  const handleSearchDepartMent= async () => {
+    const queryParams = new URLSearchParams({
+      department_name: searchDepartment,
+    }).toString();
+    try {
+      const response = await fetch(`${baseUrl}department/search?${queryParams}`);
+      console.log(response);
+      if (response.status === 201) {
+        const result = await response.json();
+        console.log(result);
+        console.log(result.data);
+        setDepartments(result.data);
+        setSearchDepartmentMessage(result.data.length === 0);
+      } else {
+        setSearchDepartmentMessage(true);
+      }
+    } catch (error) {
+      console.error('Error searching staff:', error);
+      setSearchDepartmentMessage(true);
+    }
+  };
 
 
   useEffect(() => {
     fetchDepartments()
   }, [])
+
+  useEffect(()=>{
+    console.log(searchDepartment)
+  },[searchDepartment]);
 
   return (
     <div className='p-[10px] top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
@@ -138,7 +165,13 @@ const DepartmentDetail = () => {
 
           <div className='right-side relative  w-[200px]'>
             <input type='text' placeholder='Search' className='border border-1 pl-3 h-[43px] pr-7
-    ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' />
+    ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' 
+     name = "searchDepartment"
+     value = {searchDepartment} 
+    onChange={(e)=>{
+      setSearchDepartMent(e.target.value);
+      handleSearchDepartMent();}}
+    />
             <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
     ]'/>
           </div>
