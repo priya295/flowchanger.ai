@@ -7,7 +7,7 @@ const VerifyUan = () => {
 
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
 
-    
+
     let subtitle;
 
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -31,23 +31,25 @@ const VerifyUan = () => {
     };
 
     // Function to handle file selection
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        console.log("Selected file:", file);
-    };
 
     const [uan, setUan] = useState({
         number: selectedStaff?.staffDetails?.staff_bg_verification?.uan_number,
         status: selectedStaff?.staffDetails?.staff_bg_verification?.uan_verification_status,
+        verificationFile: selectedStaff?.staffDetails?.staff_bg_verification?.verificationFile
     });
 
-    const [bgVerification, setBgVerification] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.uan_number);
+    // const [bgVerification, setBgVerification] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.uan_number);
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setUan({ ...uan, verificationFile: file });
+        console.log("Selected file:", file);
+    };
 
     async function submitUan() {
         const newFormData = new FormData();
-        newFormData.append("uan_number", bgVerification);
-
+        newFormData.append("uan_number", uan?.number);
+        newFormData.append("verificationFile", uan?.verificationFile);
 
         try {
             const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/uan", {
@@ -60,7 +62,7 @@ const VerifyUan = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                setUan({ ...uan, number: result?.data?.uan_number, status: result?.data?.uan_verification_status });
+                setUan({ ...uan, number: result?.data?.uan_number, status: result?.data?.uan_verification_status, verificationFile: result?.data?.uan_file });
                 openToast("UAN successfully updated or created", "success");
                 closeModal2();
             } else {
@@ -78,6 +80,10 @@ const VerifyUan = () => {
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px]  pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>UAN Verification</h3>
+                <button className='second-btn' onClick={submitUan}>
+                    Update UAN
+                </button>
+
             </div>
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
@@ -106,6 +112,7 @@ const VerifyUan = () => {
                     onChange={handleFileChange}
                     style={{ display: "none" }}
                 />
+                {uan?.verificationFile && <img src={uan?.verificationFile} className="w-[100px] h-[50px] rounded-md" alt="Selected file"/>}
                 <button className='second-btn' onClick={handleUploadClick}>
                     Upload
                 </button>
@@ -127,13 +134,11 @@ const VerifyUan = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>UAN
                         </label><br />
-                        <input type='text' placeholder="Enter UAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)} /><br />
-
-
+                        <input type='text' placeholder="Enter UAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={uan?.number} onChange={(e) => setUan({ ...uan, number: e.target.value })} /><br />
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn' onClick={submitUan}>Save </button>
+                        <button className='second-btn' onClick={closeModal2}>Save </button>
                     </div>
                 </div>
             </Modal>
