@@ -15,7 +15,7 @@ const Edit_Task_Status = () => {
     let subtitle;
     const { baseURL } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
-    const [allStaff, setAllStaff] = useState();
+    const [allStaff, setAllStaff] = useState([]);
 
     const fetchAllStaff = async () => {
         try {

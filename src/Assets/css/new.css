@@ -149,8 +149,23 @@
     transition: all 0.3s linear;
   
 }
+.newsidebar-icon{
+    font-size: 18px !important;
+    margin-left: 10px;
+}
 .interview-card:hover{
    transform: translateY(-6px);
+}
+.setwer{
+    font-size: 10px !important;
+}
+.react-responsive-modal-modal{
+    width: 550px;
+    border-radius: 10px;
+
+}
+.cached-icon{
+    height: 36px !important;
 }
 .bg-label-success{
     background-color: #e8fadf !important;

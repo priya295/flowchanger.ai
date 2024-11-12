@@ -5,8 +5,13 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyDrivingLicense = () => {
 
-    const { baseUrl, selectedStaff,openToast } = useGlobalContext();
-   
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+
+    const [drivingLicense, setDrivingLicense] = useState({
+        number: selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_number,
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_status,
+        verificationFile: selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_file,
+    });
     let subtitle;
 
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -26,26 +31,26 @@ const VerifyDrivingLicense = () => {
     const fileInputRef = useRef(null);
 
     const handleUploadClick = () => {
-        fileInputRef.current.click(); 
+        fileInputRef.current.click();
     };
 
     // Function to handle file selection
     const handleFileChange = (event) => {
         const file = event.target.files[0];
+        setDrivingLicense({ ...drivingLicense, verificationFile: file });
         console.log("Selected file:", file);
     };
 
-    const [drivingLicense, setDrivingLicense] = useState({
-        number: selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_number,
-        status: selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_status,
-    });
-
-        const [bgVerification, setBgVerification] = useState(selectedStaff?.staffDetails?.staff_bg_verification?.driving_license_number);
 
 
     async function submitDrivingLicense() {
+
+        if (!drivingLicense?.number || !drivingLicense?.verificationFile) {
+            openToast("Driving License number and file are required", "error");
+        }
         const newFormData = new FormData();
-        newFormData.append("driving_license_number", bgVerification);
+        newFormData.append("driving_license_number", drivingLicense?.number);
+        newFormData.append("verificationFile", drivingLicense?.verificationFile);
 
         try {
             const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/driving_license", {
@@ -59,7 +64,7 @@ const VerifyDrivingLicense = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                setDrivingLicense({ ...drivingLicense, number: result?.data?.driving_license_number, status: result?.data?.driving_license_status });
+                setDrivingLicense({ ...drivingLicense, number: result?.data?.driving_license_number, status: result?.data?.driving_license_status, verificationFile: result?.data?.driving_license_file });
                 openToast("Driving License successfully updated or created", "success");
                 closeModal2();
             } else {
@@ -77,11 +82,14 @@ const VerifyDrivingLicense = () => {
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Driving License Verification</h3>
+                <button className='second-btn' onClick={submitDrivingLicense}>
+                    Update Driving License
+                </button>
             </div>
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Driving License</h4>
-                <p className='font-light'>{drivingLicense.number}</p>
+                <p className='font-light'>{drivingLicense?.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
                     Add
                 </button>
@@ -92,7 +100,7 @@ const VerifyDrivingLicense = () => {
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
-                <p className='font-light'>{drivingLicense.status}</p>
+                <p className='font-light'>{drivingLicense?.status}</p>
 
             </div>
 
@@ -105,6 +113,8 @@ const VerifyDrivingLicense = () => {
                     onChange={handleFileChange}
                     style={{ display: "none" }}
                 />
+                {
+                    drivingLicense?.verificationFile && <img src={drivingLicense?.verificationFile} alt="" className="w-[100px] h-[50px] rounded-md" />}
                 <button className='second-btn' onClick={handleUploadClick}>
                     Upload
                 </button>
@@ -126,13 +136,17 @@ const VerifyDrivingLicense = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Driving License
                         </label><br />
-                        <input type='text' placeholder="Enter Driving License Number" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)}/><br />
+                        {
+                            drivingLicense?.verificationFile && <img src={drivingLicense?.verificationFile} alt="" className="w-[100px] h-[50px] rounded-md" />
+
+                        }
+                        <input type='text' placeholder="Enter Driving License Number" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={drivingLicense?.number} onChange={(e) => setDrivingLicense({ ...drivingLicense, number: e.target.value })} /><br />
 
 
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn' onClick={submitDrivingLicense}>Save </button>
+                        <button className='second-btn' onClick={closeModal2}>Save </button>
                     </div>
                 </div>
             </Modal>

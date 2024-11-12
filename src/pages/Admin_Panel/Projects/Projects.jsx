@@ -6,236 +6,140 @@ import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { useGlobalContext } from "../../../Context/GlobalContext";
-import { saveAs } from 'file-saver';
-import jsPDF from 'jspdf';
+
 
 const Projects = () => {
+  const [isOpen1, setIsOpen1] = useState(false);
+ 
 
-    const handleSelectChange = (event) => {
-        setRowsToShow(Number(event.target.value));
-    };
+  const toggleDropdown1 = () => setIsOpen1(!isOpen1);
 
-    const handleExport = () => {
-        if (exportFormat === 'CSV') exportCSV();
-        else if (exportFormat === 'PDF') exportPDF();
-        else if (exportFormat === 'Print') printDepartments();
-    };
+  
+  const { baseUrl } = useGlobalContext();
+const [isTableOpen, setIsTableOpen] = useState(false);
+const [projectDetails, setProjectDetails] = useState([]);
 
-    const exportCSV = () => {
-        const csvData = departments.map(dep => `${dep.department_name}, Total Users: 1`).join('\n');
-        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'departments.csv');
-    };
-
-    const exportPDF = () => {
-        const doc = new jsPDF();
-        doc.text("Department List", 20, 10);
-        departments.forEach((dep, index) => {
-            doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
-        });
-        doc.save('departments.pdf');
-    };
-
-    const [departments, setDepartments] = useState([])
-    const [exportFormat, setExportFormat] = useState('');
-
-    const [rowsToShow, setRowsToShow] = useState(25);
-
-    const printDepartments = () => {
-        const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
-        const newWindow = window.open();
-        newWindow.document.write(`<pre>${printContent}</pre>`);
-        newWindow.document.close();
-        newWindow.print();
-    };
-
-    const [openIndex, setOpenIndex] = useState(0);
-    const { baseUrl } = useGlobalContext();
-    // Function to handle accordion toggling
-    const handleToggle = (index) => {
-        if (openIndex === index) {
-            setOpenIndex(null); // Close the accordion if clicked again
-        } else {
-            setOpenIndex(index); // Open the accordion
-        }
-    };
-    //salary dropdown
-    const [isOpen1, setIsOpen1] = useState(false);
-
-
-
-    const toggleDropdown1 = () => {
-        setIsOpen1(!isOpen1);
-    };
-
-    //salary dropdown
-    const [projectDetails, setProjectDetails] = useState([]);
-    async function fetchProjectDetails() {
-        const result = await fetch(baseUrl + "project");
-        console.log("---", result)
-        if (result.status == 200) {
-            const res = await result.json();
-            console.log(res)
-            setProjectDetails(res.data)
-        }
-        else {
-            alert("An Error Occured")
-        }
-    }
-
-
-    useEffect(() => {
-        fetchProjectDetails();
-    }, [])
-    // Array of accordion items
-    const accordionItems = [
-        {
-            title:
-                <div>
-                    <table className="w-full">
-                        <thead className="tablehead">
-                            <tr className="rounded-lg">
-                                <th className="text-[12px] text-center border-r font-medium p-[10px] ">#</th>
-                                <th className="text-[12px] text-center  p-[12px] border-r font-medium whitespace-nowrap">Project Name</th>
-                                <th className="text-[12px] text-center  p-[12px] border-r font-medium whitespace-nowrap">Customer</th>
-                                <th className="text-[12px] text-center  p-[12px] border-r font-medium whitespace-nowrap">Tags</th>
-                                <th className="text-[12px] text-center font-medium p-[12px]  border-r whitespace-nowrap	">Start Date</th>
-                                <th className="text-[12px] text-center font-medium p-[12px]  border-r whitespace-nowrap	">Deadline</th>
-                                <th className="text-[12px] text-center font-medium p-[12px] border-r whitespace-nowrap	">Members</th>
-                                <th className="text-[12px] text-center font-medium p-[12px] border-r whitespace-nowrap	">Status</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>,
-            content: (
-                <table className="w-full " >
-                    <tbody>
-                        {
-                            projectDetails?.map((s, index) => {
-                                return <tr className="">
-                                    <td className="text-center p-2 text-[12px]">{index + 1}</td>
-                                    <td className="text-center p-2 text-[12px]">{s.project_name}</td>
-                                    <td className="text-center p-2 text-[12px]">Customer</td>
-                                    <td className="text-center p-2 text-[12px]">{s.tags.map((s, index) => {
-                                        return <span className="border rounded-md p-2 mr-2">{s}</span>
-                                    })}</td>
-                                    <td className="text-center p-2 text-[12px]">{s.start_date}</td>
-                                    <td className="text-center p-2 text-[12px]">{s.deadline}</td>
-                                    <td className="text-center p-2 text-[12px]">Members</td>
-                                    <td className="text-center p-2 text-[12px]">{s.status}</td>
-                                </tr>
-                            })
-                        }
-
-                    </tbody>
-                </table>
-
-            )
-        },
-
-        //   { title: "2", content: "This is the content for item 2" },
-        //     { title: "3", content: "This is the content for item 3" },
-
-    ];
-    return (
-        <div className="">
-
-            <div className="bg-[#fff] p-[10px] project-fear">
-                <div className="mb-[14px]">
-
-                    <Link to="/create-new-project " className="text-[#fff] text-[14px] bg-[#27004a] focus-visible:outline-none focus:shadow-none mb-[10px]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <AddIcon className="newadd" /> New Project</Link>
-                </div>
-
-                <div className="p-[20px] summary-border rounded-lg w-full  bg-white shadow-cs">
-                    <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Projects</h2>
-
-
-                    <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
-                        <div className='left-side '>
-                            <select
-                                onChange={handleSelectChange}
-                                className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  focus:outline-none'>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
-                                <option value="120">120</option>
-
-                            </select>
-
-                            <select onChange={(e) => setExportFormat(e.target.value)}
-                                className='border border-[#e5e7eb] p-[7px]  text-[14px] shadow-sm rounded-md  focus:outline-none'>
-                                <option value="CSV">CSV</option>
-                                <option value="PDF">PDF</option>
-                                <option value="Print">Print</option>
-                            </select>
-
-                            <button
-                                onClick={handleExport}
-                                className='ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer'
-                            >
-                                Export File
-                            </button>
-                            <CachedIcon className='border  border-[#e5e7eb] h-[36px] text-[14px] shadow-sm ml-2  rounded-md cursor-pointer refresh' />
-
-
-
-
-                        </div>
-
-                        <div className='right-side relative  w-[200px]'>
-                            <input type='text' placeholder='Search' className='border border-1 pl-3 h-[43px] pr-7
-    ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' />
-                            <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
-    ]'/>
-                        </div>
-                    </div>
-
-
-                    {accordionItems.map((item, index) => (
-                        <div key={index} className="bg-white shadow-cs rounded-lg all-setup">
-                            {/* Accordion Header */}
-                            <button
-                                onClick={() => handleToggle(index)}
-                                className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
-                            >
-                                <span className="w-full">{item.title}</span>
-
-                            </button>
-
-                            {/* Accordion Content */}
-                            {openIndex === index && (
-                                <div className="mb-[10px] text-gray-700 bg-white">
-                                    {item.content}
-
-                                </div>
-                            )}
-                        </div>
-                    ))}
-
-
-
-
-                    <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
-                        <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
-                        <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
-                            <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                            <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
-                            <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
-
-                        </div>
-                    </div>
-
-
-
-                </div>
-
-
-
-
-            </div>
-        </div>
-    );
-
+const toggleTable = () => {
+  setIsTableOpen(!isTableOpen);
 };
-export default Projects
+
+async function fetchProjectDetails() {
+  const result = await fetch(baseUrl + "project");
+  if (result.status === 200) {
+    const res = await result.json();
+    setProjectDetails(res.data);
+    if (res.data && res.data.length > 0) {
+      setIsTableOpen(true);
+    }
+  } 
+  // else {
+  //   alert("An Error Occurred");
+  // }
+}
+
+useEffect(() => {
+  fetchProjectDetails();
+}, []);
+
+return (
+  <div className="p-4 bg-white shadow-lg rounded-md">
+    <div className="mb-4">
+    <Link
+          to="/create-new-project"
+          className="text-white text-sm bg-purple-600 hover:bg-purple-700 rounded-lg px-4 py-2 flex items-center gap-2 w-[150px]"
+        >
+          <AddIcon /> New Project
+        </Link>
+    </div>
+
+    <div className="p-4 border rounded-lg bg-white shadow-sm">
+      <h2 className="font-medium mb-4 flex items-center gap-2">
+        <LibraryBooksIcon /> Projects
+      </h2>
+
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex gap-4">
+          <div className="relative">
+            <button
+              className="flex items-center text-sm font-normal text-black rounded-md p-2"
+              onClick={toggleDropdown1}
+            >
+              25 <KeyboardArrowDownIcon />
+            </button>
+            {isOpen1 && (
+              <div className="absolute left-0 w-20 mt-2 bg-white border rounded-md shadow-md z-10">
+                {[30, 40, 50].map((num) => (
+                  <a
+                    key={num}
+                    href="#"
+                    className="block p-2 text-sm text-center text-gray-700 hover:bg-gray-100"
+                  >
+                    {num}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+          <button className="relative p-2 text-sm font-medium border rounded-md flex items-center gap-1">
+            Export <CachedIcon />
+          </button>
+        </div>
+        <div className="relative">
+          <input
+            className="p-2 pr-8 rounded-2xl border border-gray-300 text-sm"
+            type="text"
+            placeholder="Search..."
+          />
+          <SearchIcon className="absolute right-3 top-2 text-gray-500" />
+        </div>
+      </div>
+
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-full">
+          <div className="mb-4 w-full">
+            <div className="w-full">
+              <table className="w-full border-collapse">
+                <thead className="bg-gray-200 cursor-pointer" onClick={toggleTable}>
+                  <tr>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[5%]whitespace-nowrap">#</th>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[20%]whitespace-nowrap">Project Name</th>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[15%]whitespace-nowrap">Customer</th>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[20%]">Tags</th>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[15%]whitespace-nowrap">Start Date</th>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[15%]whitespace-nowrap">Deadline</th>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[10%]whitespace-nowrap">Members</th>
+                    <th className="text-[12px] text-center p-2 border-r font-medium w-[10%]whitespace-nowrap">Status</th>
+                  </tr>
+                </thead>
+                {isTableOpen && (
+                  <tbody>
+                    {projectDetails?.map((project, index) => (
+                      <tr key={index} className="border-b hover:bg-gray-50">
+                        <td className="text-center p-2 text-[12px] w-[5%] whitespace-nowrap">{index + 1}</td>
+                        <td className="text-center p-2 text-[12px] w-[20%]whitespace-nowrap">{project.project_name}</td>
+                        <td className="text-center p-2 text-[12px] w-[15%]whitespace-nowrap">Customer</td>
+                        <td className="text-center p-2 text-[12px] w-[20%]whitespace-nowrap">
+                          {project.tags.map((tag, i) => (
+                            <span key={i} className="border rounded-md p-1 mr-2 text-[12px] inline-block">
+                              {tag}
+                            </span>
+                          ))}
+                        </td>
+                        <td className="text-center p-2 text-[12px] w-[15%]whitespace-nowrap">{project.start_date}</td>
+                        <td className="text-center p-2 text-[12px] w-[15%]whitespace-nowrap">{project.deadline}</td>
+                        <td className="text-center p-2 text-[12px] w-[10%]whitespace-nowrap">Members</td>
+                        <td className="text-center p-2 text-[12px] w-[10%]whitespace-nowrap">{project.status}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                )}
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+}
+export default Projects;

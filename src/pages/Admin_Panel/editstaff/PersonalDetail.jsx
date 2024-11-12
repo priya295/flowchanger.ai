@@ -14,7 +14,7 @@ const PersonalDetail = () => {
         name: selectedStaff?.name,
         mobile: selectedStaff?.mobile,
         official_email: selectedStaff?.staffDetails?.official_email,
-        date_of_birth: new Date(selectedStaff?.staffDetails?.date_of_birth),
+        date_of_birth: selectedStaff?.staffDetails?.date_of_birth,
         gender: selectedStaff?.staffDetails?.gender,
         date_of_joining: selectedStaff?.staffDetails?.date_of_joining,
         emergency_contact_name: selectedStaff?.staffDetails?.emergency_contact_name,
@@ -41,7 +41,7 @@ const PersonalDetail = () => {
         if (personalDetailsUpdate.name) data.name = personalDetailsUpdate.name;
         if (personalDetailsUpdate.mobile) data.mobile = personalDetailsUpdate.mobile;
         if (personalDetailsUpdate.official_email) data.official_email = personalDetailsUpdate.official_email;
-        if (personalDetailsUpdate.date_of_birth) data.date_of_birth = personalDetailsUpdate.date_of_birth;
+        if (personalDetailsUpdate.date_of_birth) data.date_of_birth = new Date(personalDetailsUpdate.date_of_birth).toISOString();
         if (personalDetailsUpdate.gender) data.gender = personalDetailsUpdate.gender;
         if (personalDetailsUpdate.guardian_name) data.guardian_name = personalDetailsUpdate.guardian_name;
         if (personalDetailsUpdate.emergency_contact_name) data.emergency_contact_name = personalDetailsUpdate.emergency_contact_name;
@@ -67,7 +67,7 @@ const PersonalDetail = () => {
                     name: result?.name,
                     mobile: result?.mobile,
                     official_email: result?.staffDetails?.official_email,
-                    date_of_birth: new Date(result?.staffDetails?.date_of_birth),
+                    date_of_birth: result?.staffDetails?.date_of_birth,
                     // gender: result?.staffDetails?.gender,
                     guardian_name: result?.staffDetails?.guardian_name,
                     emergency_contact_name: result?.staffDetails?.emergency_contact_name,
@@ -92,17 +92,20 @@ const PersonalDetail = () => {
     const { id } = useParams();
     // console.log(id)
     const formatDate = (date) => {
+        if (!date) return ''; // Return an empty string if no date is provided
         const d = new Date(date);
+
+        // Extract the date components
         let month = '' + (d.getMonth() + 1);
         let day = '' + d.getDate();
         const year = d.getFullYear();
 
+        // Pad month and day with leading zeros if needed
         if (month.length < 2) month = '0' + month;
         if (day.length < 2) day = '0' + day;
 
-        return [year, month, day].join('-');
+        return [year, month, day].join('-'); // Format as "YYYY-MM-DD"
     };
-
 
     const getData = async (e) => {
         try {
@@ -141,9 +144,11 @@ const PersonalDetail = () => {
 
     const [isEditable, setIsEditable] = useState(false);
     const handleEditClick = (e) => {
+        e.preventDefault();
+        if (isEditable) {
+            updatePersonalDetails(e);
+        }
         setIsEditable(!isEditable);
-        updatePersonalDetails
-            (e);
     };
 
     const [inputValue, setInputValue] = useState("--");
@@ -164,6 +169,51 @@ const PersonalDetail = () => {
     }
 
     console.log(personalDetailsUpdate);
+
+
+
+    async function updateAllGovernmentIds() {
+        const idsToUpdate = [
+            { idType: "aadhaar", value: governmentIds?.aadhaar_number },
+            { idType: "pan", value: governmentIds?.pan_number },
+            { idType: "driving_license", value: governmentIds?.driving_license_number },
+            { idType: "uan", value: governmentIds?.uan_number }
+        ];
+
+        try {
+            for (const { idType, value } of idsToUpdate) {
+                if (value) {  // Only send the request if the value exists
+                    const formData = new FormData();
+                    formData.append(idType === "aadhaar" ? "aadhaar_number" : `${idType}_number`, value);
+
+                    const response = await fetch(`${baseUrl}bg-verification/${selectedStaff.staffDetails.id}/verify/${idType}`, {
+                        method: "PUT",
+                        body: formData
+                    });
+
+                    if (response.status !== 201) {
+                        throw new Error(`Failed to update ${idType}`);
+                    }
+
+                    const result = await response.json();
+                    setGovernmentIds((prev) => ({
+                        ...prev,
+                        [`${idType}_number`]: result?.data?.[`${idType}_number`] || value,
+                        [`${idType}_status`]: result?.data?.[`${idType}_verification_status`]
+                    }));
+                }
+            }
+
+            // Show success toast if all requests succeed
+            openToast("All government IDs successfully updated", "success");
+        } catch (error) {
+            console.error("Error updating government IDs:", error);
+            openToast("An error occurred while updating government IDs", "error");
+        }
+    }
+
+
+
 
     return (
         <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z  '>
@@ -229,7 +279,7 @@ const PersonalDetail = () => {
                         <input
                             type='date'
                             placeholder='Enter Mobile'
-                            value={formatDate(personalDetailsUpdate.date_of_birth)}
+                            value={formatDate(personalDetailsUpdate?.date_of_birth)}
                             onChange={(e) => {
                                 console.log(e.target.value);
                                 setPersonalDetailsUpdate({ ...personalDetailsUpdate, date_of_birth: e.target.value })
@@ -409,7 +459,6 @@ const PersonalDetail = () => {
                     <div className='flex gap-[20px] items-center '>
                         <button type='button' className='second-btn' onClick={
                             (e) => {
-                                setIsEditable(!isEditable)
                                 handleEditClick(e)
                             }
                         }
@@ -526,7 +575,13 @@ const PersonalDetail = () => {
                 <div className='flex justify-end mt-4 p-3'>
 
                     <div className='flex gap-[20px] items-center '>
-                        <button type='button' className='second-btn' onClick={handleEditClick2}>
+                        <button type='button' className='second-btn' onClick={() => {
+                            if (isEditable6) {
+                                updateAllGovernmentIds();
+                            }
+                            handleEditClick2();
+
+                        }}>
                             {isEditable6 ? "Save" : "Edit"}
                         </button>
 

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
@@ -13,12 +14,13 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Task = () => {
-  const { baseUrl } = useGlobalContext();
-  const [openIndex, setOpenIndex] = useState(0);
-
-  const handleToggle = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
+  const { baseUrl,openToast} = useGlobalContext();
+  const [isTableOpen, setIsTableOpen] = useState(false);
+  // handle open the accordian
+  const handleTableOpen = () => {
+    setIsTableOpen((prevState) => !prevState);
   };
+
   //modal
   const [isOpen15, setIsOpen15] = useState(false);
 
@@ -147,7 +149,7 @@ const Task = () => {
       },
       body: JSON.stringify({ taskName: taskName, startDate: startDate, endDate: endDate, dueDate: dueDate, taskDescription: taskDescription, attachFile: attachFile, taskStatusId: selectedTaskStatusId, selectDepartmentId: selectedDepartmentId, taskPriorityId: selectedTaskPriorityId, selectProjectId: selectedProjectId, taskAssign: selectedStaffIds, taskTag: tag })
     })
-    if (result.status == 201) {
+    if (result.status === 201) {
       const data = await result.json();
       openToast("Add Task Successfully", "success")
     }
@@ -160,10 +162,11 @@ const Task = () => {
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
     const result = await fetch(baseUrl + "/task/detail")
-    if (result.status == 200) {
+    if (result.status === 200) {
       const data = await result.json();
       console.log(data)
       setFetchTaskData(data)
+      setIsTableOpen(true);
     }
     else {
       openToast("Internal Server Error", "error")
@@ -194,63 +197,7 @@ const Task = () => {
     }
   }, [selectedTaskData])
 
-  const accordionItems = [
-    {
-      title:
-        <div>
-          <table className="w-full">
-            <thead className="tablehead">
-              <tr className="rounded-lg">
-
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
-                <th className="text-[12px] border-r w-[60px]  font-medium p-[8px] ">#</th>
-                <th className="text-[12px] w-[220px] p-[8px] border-r font-medium whitespace-nowrap">Task Name</th>
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Start Date</th>
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Due Date</th>
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">End Date</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Assigned to</th>
-                <th className="text-[12px] font-medium p-[8px] w-[80px] border-r whitespace-nowrap	">Tags</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Priority</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Actions</th>
-              </tr>
-            </thead>
-          </table>
-        </div>,
-      content: (
-        <table className="w-full " >
-          <tbody>
-            {
-              fetchTaskData?.map((s, index) => {
-                return <tr className="rounded-lg border-b border-[#e5e7eb]">
-
-                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">N/A</Link></td>
-                  <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">{index + 1}</td>
-                  <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">{s.taskName}</Link></td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s.startDate}</td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s.endDate}</td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	">N/A</td>
-                  <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">N/A</td>
-                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred">N/A</Link></td>
-                  <td className="flex gap-[10px]">
-                    <button onClick={() => {
-                      setSelectedTaskData(s);
-                      openModal2(); // Call the function here
-                    }}><BorderColorIcon /></button>
-                    <button className="text-red-600"><DeleteOutlineIcon /></button>
-
-                  </td>
-
-                </tr>
-              })
-            }
-
-          </tbody>
-        </table>
-      )
-    },
-  ];
-
+  
 
   const [updateTaskName, setUpdateTaskName] = useState();
   const [updateTaskStatus, setUpdateTaskStatus] = useState(selectedTaskData?.taskStatusId || "");
@@ -512,26 +459,92 @@ const Task = () => {
         )}
       </div>
 
-      {accordionItems.map((item, index) => (
-        <div key={index} className="bg-white shadow-cs rounded-lg keyframe1">
-          {/* Accordion Header */}
-          <button
-            onClick={() => handleToggle(index)}
-            className="flex justify-between items-center w-full text-left text-gray-800 bg-gray-100 hover:bg-gray-200 focus:outline-none"
-          >
-            <span>{item.title}</span>
+   
+       <div className="bg-white shadow-cs rounded-lg keyframe1">
+       <div className="overflow-x-auto">
+         <table className="w-full min-w-max">
+           {/* Table Header - Acts as Toggle Button */ }          
+           <thead className="tablehead cursor-pointer " onClick={handleTableOpen}>
+             <tr className="rounded-lg bg-gray-300">
+               <th className="text-[12px] font-medium p-2 min-w-[100px]  whitespace-nowrap">
+                 <button className="p-[6px] rounded-lg bg-[orange] mr-2 text-white">                   To Do
+                 </button>
+                 <span className="six-north">6</span>
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[60px]  text-left">#</th>
+               <th className="text-[12px] font-medium p-2 min-w-[150px]  text-left">
+                 Task Name
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                 Start Date
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                 Due Date
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                 End Date
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[100px]  text-left">
+                 Assigned to
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[80px]  text-left">
+                 Tags
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[100px] text-left">
+                 Priority
+               </th>
+               <th className="text-[12px] font-medium p-2 min-w-[100px] text-center">
+                 Actions
+               </th>
+             </tr>
+           </thead>
 
-          </button>
-
-          {/* Accordion Content */}
-          {openIndex === index && (
-            <div className="mb-[10px] text-gray-700 bg-white">
-              {item.content}
-
-            </div>
+          {/* Table Body - Collapsible Content */}
+          {isTableOpen && (
+            <tbody>
+              {fetchTaskData?.map((s, index) => (
+                <tr key={index} className="rounded-lg border-b border-[#e5e7eb]">
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <Link className="textcomplete">N/A</Link>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[60px] text-left">{index + 1}</td>
+                  <td className="text-[12px] font-medium p-2 min-w-[150px] text-left whitespace-nowrap">
+                    <Link to="/taskview" className="textcomplete">{s.taskName}</Link>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                  {s.startDate}
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                  {s.endDate}
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                    13-08-2024
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">N/A</button>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[80px] text-left">N/A</td>
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <Link className="highred">
+                    N/A
+                    </Link>
+                  </td>
+                  <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                  <div className="flexjustify-center">
+                  <button onClick={() => {
+                      setSelectedTaskData(s);
+                      openModal2(); // Call the function here
+                    }}><BorderColorIcon /></button>
+                    <button className="text-red-600"><DeleteOutlineIcon /></button>
+                        </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
           )}
-        </div>
-      ))}
+        </table>
+      </div>
+    </div> 
 
       {/* onclick Update task */}
       <Modal

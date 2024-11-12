@@ -42,7 +42,7 @@ const EditLeavePolicies = () => {
         };
 
         try {
-            const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.staffDetails.id, {
+            const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.staffDetails?.id, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -153,7 +153,7 @@ const EditLeavePolicies = () => {
     async function editLeaveRequest(e) {
         e.preventDefault();
         const data = {
-            staffId: selectedStaff?.id,
+            staffId: selectedStaff?.staffDetails?.id,
             leaveTypeId: editLeaveID,
             request_date: new Date(editLeaveRequestDate).toISOString(),
             start_date: new Date(editLeaveStartDate).toISOString(),
@@ -174,6 +174,15 @@ const EditLeavePolicies = () => {
             const result = await response.json();
             if (response.status === 200) {
                 console.log(result);
+
+                fetchAllLeaveRequest.map((item) => {
+                    if (item.id === saveLeaveRequestEdit) {
+                        item.status = editLeaveStatus;
+                        item.start_date = editLeaveStartDate;
+                        item.end_date = editLeaveEndDate;
+                        item.request_date = editLeaveRequestDate;
+                    }
+                })
                 setEditLeaveID('');
                 setEditLeaveStatus('');
                 setEditLeaveStartDate('');
@@ -629,6 +638,7 @@ const EditLeavePolicies = () => {
                                                             }}>Edit</p>
                                                             <p className='text-red-500 font-bold cursor-pointer' onClick={(e) => {
                                                                 e.preventDefault();
+                                                                console.log(id);
                                                                 setDeleteLeaveID(id);
                                                                 deleteLeaveRequest(e);
                                                             }}>Del</p>
