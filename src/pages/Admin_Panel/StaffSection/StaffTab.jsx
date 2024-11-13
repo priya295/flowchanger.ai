@@ -133,7 +133,7 @@ const StaffTab = () => {
           </div>
 
           <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' onChange={(e) => {
-    setSelectedDepartmentName(e.target.value);
+     setSelectedDepartmentName(e.target.value);
     handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
   }}>
           {departments.map(department => (
