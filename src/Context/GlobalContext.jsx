@@ -27,6 +27,7 @@ export const GlobalContext = ({ children }) => {
   const [roleName, setRoleName] = useState("");
   const [roleId, setRoleId] = useState("");
   const [selectedStaff, setSelectedStaff] = useState(null);
+  console.log(selectedStaff)
 
   const fetchDetails = async () => {
     const response = await fetch(baseUrl + "/staff");
