@@ -93,6 +93,7 @@ import { useAuthContext } from "./Context/AuthContext";
 import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
 import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
 import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
+import Documents from "./pages/Admin_Panel/editstaff/Documents";
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
@@ -288,6 +289,7 @@ const App = () => {
           <Route path="/edit-penalty/:id" element={<EditPenalty />} />
           <Route path="/salary-overview/:id" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
+          <Route path="/documents" element={<Documents />} />
 
           <Route
 
