@@ -394,6 +394,25 @@ const LeaveBalance = () => {
                             </div>
                         </TabPanel>
 
+                        <TabPanel>
+                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+                                <table className='table-section mt-4'>
+                                    <thead className='border border-1 '>
+                                        <th>Leave Type</th>
+                                        <th>Allowed Leaves (Per Month)</th>
+                                        <th>Carry-forward Leaves (On Month End)</th>
+
+                                    </thead>
+                                    <tbody>
+                                        <td>Casual Leave</td>
+                                        <td><input type='text' /></td>
+                                        <td><input type='text' /></td>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </TabPanel>
+
 
                         <TabPanel>
 

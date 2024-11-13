@@ -24,6 +24,7 @@ const EditLeavePolicies = () => {
 
     const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
 
+    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy);
 
     const [updatePolicy, setUpdatePolicy] = useState({
         allowed_leaves: 0,
@@ -54,6 +55,10 @@ const EditLeavePolicies = () => {
             const result = await response.json();
             if (response.status === 201) {
                 console.log(result);
+                setFetchLeavePolicy([...fetchLeavePolicy, result]);
+                setLeavePolicyType("");
+                setAllowedLeavePerYear("");
+                setCarryForwardLeaves("");
                 openToast("Leave Policy created Successfully", "success");
             }
             else {
@@ -456,7 +461,7 @@ const EditLeavePolicies = () => {
                                     <tbody>
 
                                         {
-                                            selectedStaff?.staffDetails?.LeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
+                                            fetchLeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
                                                 <td onClick={() => {
                                                     console.log(id);
                                                     setEditingRow(id);

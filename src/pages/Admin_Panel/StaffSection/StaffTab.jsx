@@ -16,7 +16,7 @@ const StaffTab = () => {
   const [gender, setGender] = useState("Male");
   const [employeeType, setEmployeeType] = useState("All");
   const [selectedDepartmentName, setSelectedDepartmentName] = useState("");
-  const [searchStaffName , setSearchStaffName] = useState("");
+  const [searchStaffName, setSearchStaffName] = useState("");
   const [departments, setDepartments] = useState([]);
  
 
@@ -49,7 +49,7 @@ const StaffTab = () => {
     }
   };
 
- 
+
 
   function handledrop() {
     setToggleDrop(!toggleDrop)
@@ -137,21 +137,21 @@ const StaffTab = () => {
         <div className='flex lg:gap-[20px]  flex-col gap-[10px] lg:flex lg:flex-row '>
           <div className='searching-input relative'>
             <img src={Search} className='absolute left-2 top-3' />
-            <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' 
-            value = {searchStaffName} onChange = {(e)=>{setSearchStaffName(e.target.value)}}
+            <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search'
+              value={searchStaffName} onChange={(e) => { setSearchStaffName(e.target.value) }}
             />
 
           </div>
 
           <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' onChange={(e) => {
-    setSelectedDepartmentName(e.target.value);
-    handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
-  }}>
-          {departments.map(department => (
-          <option key={department.name} value={department.name}>
-            {department.department_name}
-            </option>
-        ))}
+            setSelectedDepartmentName(e.target.value);
+            handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
+          }}>
+            {departments.map(department => (
+              <option key={department.name} value={department.name}>
+                {department.department_name}
+              </option>
+            ))}
           </select>
 
 
@@ -165,7 +165,7 @@ const StaffTab = () => {
                 <h2 className='border-b '>More Filters</h2>
                 <div className='flex gap-[10px] mt-2 items-center'>
                   <label className='text-[13px] whitespace-nowrap w-[81px]'>Staff Status:</label>
-                  <select className='border rounded-md bg-[#F4F5F9] p-[8px]  w-[100%] focus-visible:outline-none text-sm'   value={staffStatus}
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px]  w-[100%] focus-visible:outline-none text-sm' value={staffStatus}
                     onChange={(e) => setStaffStatus(e.target.value)}>
                     <option>All Staff</option>
                     <option>Active</option>
@@ -174,7 +174,7 @@ const StaffTab = () => {
                 </div>
                 <div className='flex gap-[10px] mt-2 items-center'>
                   <label className='text-[13px] whitespace-nowrap w-[102px]'>Gender:</label>
-                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm'  value={gender}
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm' value={gender}
                     onChange={(e) => setGender(e.target.value)}>
                     <option>Male</option>
                     <option>Female</option>
@@ -182,8 +182,8 @@ const StaffTab = () => {
                   </select>
                 </div>
                 <div className='flex gap-[10px] mt-2 items-center'>
-                  <label className='text-[13px] whitespace-nowrap w-[102px]'>Employee<br/> Type:</label>
-                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm'   value={employeeType}
+                  <label className='text-[13px] whitespace-nowrap w-[102px]'>Employee<br /> Type:</label>
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm' value={employeeType}
                     onChange={(e) => setEmployeeType(e.target.value)}>
                     <option>All</option>
                     <option>Full Time</option>
@@ -205,7 +205,7 @@ const StaffTab = () => {
           </div>
         </div>
         <div className='flex gap-[15px] justify-between lg:justify-start'>
-          <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button>
+          {/* <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button> */}
           <div>
             <div className="relative inline-block text-left">
               <div>
