@@ -12,7 +12,7 @@ import jsPDF from 'jspdf';
 
 const DepartmentDetail = () => {
 
-  const { baseUrl, setDepId, setName } = useGlobalContext();
+  const { baseUrl, setDepId, setName ,openToast} = useGlobalContext();
   const [departments, setDepartments] = useState([]);
   const [searchDepartment , setSearchDepartMent ] = useState('');
   const [searchDepartmentMessage , setSearchDepartmentMessage] = useState(false);
@@ -83,14 +83,14 @@ const DepartmentDetail = () => {
       });
 
       if (result.ok) { // Use result.ok instead of checking the status directly
-        alert("Record deleted successfully.");
+        openToast("Record deleted successfully.");
         fetchDepartments()
       } else {
-        alert("An error occurred while deleting the record.");
+        openToast("An error occurred while deleting the record.");
       }
     } catch (error) {
       console.error("Error deleting department:", error);
-      alert("An error occurred during the delete request.");
+      openToast("An error occurred during the delete request.");
     }
   };
 

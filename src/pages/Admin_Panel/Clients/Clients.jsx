@@ -23,7 +23,7 @@ import jsPDF from "jspdf";
 const Clients = () => {
     const [allStaff, setAllStaff] = useState();
 
-
+    const [Loading , setIsLoading]  = useState(true);
     const [departments, setDepartments] = useState([])
     const [companyName, setComapnyName] = useState("");
     const [searchClientMessage, setSearchClientMessage] = useState(false);
@@ -170,13 +170,23 @@ const Clients = () => {
 
     const fetchDetail = async () => {
         const result = await fetch(baseUrl + "client");
-        if (result.status == 200) {
+        setIsLoading(true);
+        try{
+          if (result.status == 200) {
             const res = await result.json();
             console.log(res)
-            setClientData(res)
+            setClientData(res);
         }
         else {
-            alert("An Error Occured")
+          openToast("An Error Occured")
+          setIsLoading(false)
+      }
+        }
+      catch(error){
+        console.log("error:",error)
+      } 
+        finally{
+          setIsLoading(false);
         }
     }
   
@@ -185,27 +195,42 @@ const Clients = () => {
     const queryParams = new URLSearchParams({
       company: companyName,
     }).toString();
+    setIsLoading(true);
     try {
       const response = await fetch(`${baseUrl}client/search?${queryParams}`);
       console.log(response);
       if (response.ok) {
         const result = await response.json();
         setClientData(result.data);
-        setSearchClientMessage(result.data.length === 0);
+      
       } else {
-        setSearchClientMessage(true);
+       console.log("data is not filtered");
       }
     } catch (error) {
       console.error("Error searching staff:", error);
-      setSearchClientMessage(true);
+    }
+    finally{
+      setIsLoading(false);
     }
   };
+   useEffect(() => {
+    const debounceTimer = setTimeout(() => {
+      if (companyName) {
+        handleSearchCompany();
+      } else {
+        fetchDetail();
+      }
+    }, 500);
+
+    return () => clearTimeout(debounceTimer);
+  }, [companyName, handleSearchCompany]);
   useEffect(() => {
     fetchDetail();
     if (clientData) {
       setIsOpen(true);
     }
   }, []);
+
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
   function openModal2() {
@@ -341,10 +366,10 @@ const Clients = () => {
         })
         if (result.status == 200) {
             fetchDetail()
-            alert("Details Update Successfully")
+            openToast("Details Update Successfully")
         }
         else (
-            alert("An Error Occured")
+            openToast("An Error Occured")
         )
     }
 
@@ -353,10 +378,10 @@ const Clients = () => {
       method: "DELETE",
     });
     if (result.status === 200) {
-      alert("Delete Record Successfully");
+      openToast("Delete Record Successfully");
       fetchDetail();
     } else {
-      alert("An Error Occurred");
+      openToast("An Error Occurred");
     }
   }
   
@@ -522,7 +547,8 @@ const Clients = () => {
               {/* Conditionally Rendered Table Body */}
               {isOpen && (
                 <tbody>
-                  {clientData ? (
+                  {
+                  clientData  && clientData.length>0? (
                     clientData.map((item, index) => (
                       <tr key={item.id} className="border-b border-gray-300">
                         <td className="p-2 text-center">

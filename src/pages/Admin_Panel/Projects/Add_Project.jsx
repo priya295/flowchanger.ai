@@ -141,7 +141,7 @@ const Add_Project = () => {
   }));
 
   console.log(staffDetail);
-  
+  console.log(clientData);  
 
 
 
@@ -172,12 +172,12 @@ const Add_Project = () => {
       })
     })
     console.log(result);
+    const data =await result.json()
     if (result.status == 200) {
-      const data = result.json()
-      alert("Add Project Successfully")
+     openToast(data.msg||"Add Project Successfully", "success")
     }
     else {
-     const data =await result.json();
+
      console.log(data.msg);
       openToast(data.msg||"error occured","error")
     }
@@ -190,6 +190,9 @@ const Add_Project = () => {
   // useEffect(()=>{
   //  console.log(clientData.clientInformation)
   // },[])
+  useEffect(()=>{
+  console.log(clientData)
+  },[])
 
   return (
     <Tabs className="m-5 shadow rounded-lg">
@@ -215,15 +218,20 @@ const Add_Project = () => {
 
           <div className="space-y-2">
             <h1 className="font-medium">* Customer</h1>
-            <select onChange={(e) => { setSelectClient(e.target.value) }} className="w-[100%] h-[46px] bg-white border border-[#DBDCDE] rounded-md pl-5 ">
-              {
-                clientData?.map((clientInformation, index) => {
-                  {console.log(clientInformation?.name)}
-                  return <option value={clientInformation.clientDetails?.id}>{clientInformation?.name ?? "n/a"}</option>
-                })
-              }
+            <select
+  onChange={(e) => setSelectClient(e.target.value)}
+  className="w-[100%] h-[46px] bg-white border border-[#DBDCDE] rounded-md pl-5"
+>
+  {clientData?.map((clientInformation, index) => {
+    console.log(clientInformation?.name, clientInformation.clientDetails?.id); // Logs name and clientDetails.id
 
-            </select>
+    return (
+      <option key={index} value={clientInformation.clientDetails?.id }>
+        {clientInformation?.name ?? "n/a"}
+      </option>
+    );
+  })}
+</select>
           </div>
 
           <div className="font-medium flex gap-4 items-center">

@@ -17,7 +17,7 @@ const Projects = () => {
   const toggleDropdown1 = () => setIsOpen1(!isOpen1);
 
   
-  const { baseUrl } = useGlobalContext();
+  const { baseUrl , openToast} = useGlobalContext();
 const [isTableOpen, setIsTableOpen] = useState(false);
 const [projectDetails, setProjectDetails] = useState([]);
 
@@ -34,9 +34,9 @@ async function fetchProjectDetails() {
       setIsTableOpen(true);
     }
   } 
-  // else {
-  //   alert("An Error Occurred");
-  // }
+  else {
+    openToast("An Error Occurred");
+  }
 }
 
 useEffect(() => {
