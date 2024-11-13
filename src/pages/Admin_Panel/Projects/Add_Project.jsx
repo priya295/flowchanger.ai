@@ -15,7 +15,7 @@ import Select from 'react-select';
 
 const Add_Project = () => {
   const { baseUrl,openToast} = useGlobalContext();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [editorData, setEditorData] = useState('');
   const modules = {
     toolbar: [
@@ -140,11 +140,16 @@ const Add_Project = () => {
     label: staff.name,
   }));
 
+  console.log(staffDetail);
+  
 
 
 
   async function projectSubmit() {
     const plainTextDescription = (editorData || '').replace(/<\/?p>/g, '');
+     console.log(
+      selectedClient
+     )
     const projectNameString = fetchProjectStatus.length > 0 ? fetchProjectStatus[0].project_name : ''; // Option 1, or use Option 2 as needed
     const result = await fetch(baseUrl + "project/create", {
       method: "POST",
@@ -172,7 +177,9 @@ const Add_Project = () => {
       alert("Add Project Successfully")
     }
     else {
-      alert("An Error Occured")
+     const data =await result.json();
+     console.log(data.msg);
+      openToast(data.msg||"error occured","error")
     }
   }
 

@@ -129,7 +129,7 @@ const DepartmentDetail = () => {
       } else {
         fetchDepartments(); // Fetch all projects if search input is cleared
       }
-    }, 3000); 
+    }, 800); 
   
     return () => clearTimeout(delayDebounceFn); // Cleanup function to clear the timeout
   }, [searchDepartment]);

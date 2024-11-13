@@ -8,7 +8,7 @@ import NavBar from "./components/Admin_Panel/NavBar";
 import SideBar from "./components/Admin_Panel/SideBar";
 // import Project from "./pages/Admin_Panel/Projects/Project_Data";
 import Role_Details from "./pages/Admin_Panel/Roles/RoleDetails";
-// import Project_Progress from "../src/pages/Client_Panel/Project_Progres
+// import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
 import AddRole from "./pages/Admin_Panel/Roles/Add_Role";
 import AddDepartment from "../src/pages/Admin_Panel/Department/AddDepartment";
 import EditRole from "./pages/Admin_Panel/Roles/EditRole";
@@ -53,7 +53,7 @@ import StaffSalarySummry from "../src/pages/Admin_Panel/editstaff/StaffSalarySum
 import Calender from "./pages/Admin_Panel/Calender/Calender";
 import Editprofile from "../src/pages/Admin_Panel/profile/Editprofile";
 import Task_Status from "./pages/Admin_Panel/Projects/Task_Status";
-import Client_Project from "../src/pages/Client_Panel/Client_Project";
+// import Client_Project from "../src/pages/Client_Panel/Client_Project";
 import Edit_Task_Status from "../src/pages/Admin_Panel/Tasks/Edit_Task_Status";
 import Edit_Project from "./pages/Admin_Panel/Projects/Edit_Project";
 import Project_Progress from "../src/pages/Client_Panel/Project_Progress";
@@ -72,9 +72,7 @@ import CalenderWeekly from './pages/Admin_Panel/Calender/CalenderWeekly';
 // import Task from "./Admin/pages/Project/Task";
 import Task from "./pages/Admin_Panel/Projects/Task";
 import ClientHeader from "./components/Client_Panel/ClientHeader";
-
 import SidebarClient from "./components/Client_Panel/SidebarClient";
-// import SidebarHeader from "./components/Client_Panel/SidebarHeader";
 // import AddNewTask from "./Admin/pages/Projects/AddNewTask";
 import DepartmentDetail from "../src/pages/Admin_Panel/Department/DepartmentDetails";
 import PayrollMenu from "../src/pages/Admin_Panel/payroll/PayrollMenu";
@@ -90,14 +88,17 @@ import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
 import ProtectedRoute from './ProtectedRoute';
 import DashBoard from "./pages/Admin_Panel/DashBoard";
 import { useAuthContext } from "./Context/AuthContext";
-import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
-import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
-import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
+
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
+  const [toggleEditSideBar , setToggleEditSideBar] = useState(false); 
+
+  const handleToggleEditSideBar = () =>{
+    setToggleEditSideBar(toggleEditSideBar=>!toggleEditSideBar)
+  }
 
 
 
@@ -135,10 +136,13 @@ const App = () => {
     return (
       <>
         <div className="">
-          <UpperHeader />
+          <UpperHeader toggleEditSideBar = {toggleEditSideBar} handleToggleEditSideBar = {handleToggleEditSideBar}/>
           <div className="flex">
-            <SidebarEditStaff />
+            <SidebarEditStaff toggleEditSideBar={toggleEditSideBar}/>
+            <div className={`w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    
+        ${!toggleEditSideBar?"xl:pl-[320px]":"xl:pl-[0px]"} flex flex-col set-z`}>
             <Outlet />
+            </div>
           </div>
         </div>
       </>
@@ -161,7 +165,7 @@ const App = () => {
         <div className="flex">
           <div className="">
             {toggleSideBar && <SidebarClient toggleSideBar={toggleSideBar} />}
-          </div>``
+          </div>
 
           {/* container for navbar and outlet */}
           <div className={`flex flex-col  flex-grow overflow-hidden`}>
@@ -201,6 +205,7 @@ const App = () => {
       </>
     );
   }
+
   function Payroll_Summary() {
     return (
       <>
@@ -244,6 +249,7 @@ const App = () => {
             <Route path="/attendence_summary" element={<Attendence_summary />} />
             <Route path="/project_summary" element={<Project_Summary />} />
             <Route path="/projects" element={<Projects />} />
+            <Route path="/overtime" element={<Overtime />} />
             <Route path="/taskview" element={<Taskview />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/projectprogress" element={<Project_Progress />} />
@@ -263,14 +269,13 @@ const App = () => {
             {/* <Route path="/task" element={<Task />} /> */}
             <Route path="/editprofile" element={<Editprofile />} />
             <Route path="/taskstatus" element={<Task_Status />} />
-            <Route path="/clientproject" element={<Client_Project />} />
+            {/* <Route path="/clientproject" element={<Client_Project />} /> */}
             {/* <Route path="/projectprogress" element={<Project_Progress />} /> */}
             <Route path="/note" element={<Note />} />
             <Route path="/expenseedit" element={<ExpenseEdit />} />
             <Route path="/expensepage" element={<ExpensePage />} />
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
-            <Route path="/contact-information" element={<ContactInformation />} />
           </Route>
          
 
@@ -300,15 +305,12 @@ const App = () => {
           <Route path="/uan" element={<VerifyUan />} />
           <Route path="/face" element={<VerifyFace />} />
           <Route path="/address" element={<VerifyAddress />} />
-          <Route path="/voter-id" element={<VerifyVoterID />} />
-          <Route path="/past-employment-details" element={<PastEmploymentDetail />} />
-
 
         </Route>
         <Route element={<Client_Panel />}>
-          <Route path="/sidebarclient" element={<SidebarClient />} />
+          {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
           <Route path="/task" element={<Task />} />
-          {/* <Route path="/sidebarheader" element={<SidebarHeader />} /> */}
+          {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
 
           <Route
             path="/background-verification"

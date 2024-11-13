@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
-const UpperHeader = () => {
+const UpperHeader = ({handleToggleEditSideBar,toggleEditSideBar}) => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     // Use useEffect to add/remove the class to/from the body element
     useEffect(() => {
-      if (isSidebarOpen) {
+      if (toggleEditSideBar) {
         document.body.classList.add("editsidebar");
       } else {
         document.body.classList.remove("editsidebar");
@@ -25,9 +25,9 @@ const UpperHeader = () => {
     }, [isSidebarOpen]);
   
     // Toggle the sidebar state
-    const toggleSidebar = () => {
-      setIsSidebarOpen(!isSidebarOpen);
-    };
+    // const toggleSidebar = () => {
+    //   setIsSidebarOpen(!isSidebarOpen);
+    // };
 
     const [toggleDrop, setToggleDrop] = useState(false);
 
@@ -38,7 +38,7 @@ const UpperHeader = () => {
     return (
         <div className='flex justify-between p-3 border-b shadow-md fixed top-0 w-full z-[1]	 bg-white'>
             <div className='flex gap-2 items-center'>
-                <button  onClick={toggleSidebar} className="toggle-btn-side">
+                <button  onClick={()=>{ handleToggleEditSideBar();}} className="toggle-btn-side">
                 <MenuIcon className="menu-icon"/>
                 <CloseIcon className="close-icon"/>
                  </button>
