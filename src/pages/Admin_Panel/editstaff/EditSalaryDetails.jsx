@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import { CiCircleInfo } from "react-icons/ci";
+
 import {
   CitySelect,
   CountrySelect,
@@ -588,11 +590,11 @@ const EditSalaryDetails = () => {
       <div className="flex justify-between whitespace-normal flex-wrap gap-[10px]">
         <div className="xl:basis-1/5 lg:basis-5/12 md:basis-5/12 sm:basis-5/12 basis-full">
           <label className="text-[14px]">Effective Date of Change</label><br />
-          <input value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} type='month' className="mt-[5px]   border border-[#D9D9D9] bg-white  p-1 rounded-md focus:outline-none w-full" />
+          <input value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} type='month' className="mt-[5px] text-[14px]  border border-[#D9D9D9] bg-white  p-1 rounded-md focus:outline-none w-full" />
         </div>
         <div className="xl:basis-1/5 lg:basis-5/12 md:basis-5/12 sm:basis-5/12 basis-full	">
           <label className="text-[14px]">Salary Type</label><br />
-          <select value={selectSalaryType} onChange={(e) => setSelectSalaryType(e.target.value)} className="mt-[5px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
+          <select value={selectSalaryType} onChange={(e) => setSelectSalaryType(e.target.value)} className="mt-[5px]   border border-[#D9D9D9] bg-white p-1  text-[14px] rounded-md focus:outline-none w-full">
             <option value={"Per Month"}>
               Per Month
             </option>
@@ -607,8 +609,8 @@ const EditSalaryDetails = () => {
         <div className="xl:basis-1/5 lg:basis-5/12 md:basis-5/12 sm:basis-5/12 basis-full">
           <label className="text-[14px]">Salary Structure
           </label><br />
-          <select value={selectSalaryStructure} onChange={(e) => { setSelectSalaryStructure(e.target.value) }} className="mt-[5px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
-            <option value={"Salary Box Provided Breakdown"}>
+          <select value={selectSalaryStructure} onChange={(e) => { setSelectSalaryStructure(e.target.value) }} className="mt-[5px] text-[14px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
+            <option  value={"Salary Box Provided Breakdown"}>
               Salary Box Provided Breakdown
             </option>
             <option value={"Custom"}>
@@ -621,7 +623,7 @@ const EditSalaryDetails = () => {
           <label className="text-[14px]">CTC Amount</label><br />
           <div className="relative">
             <span className="absolute top-[10px] left-[4px]">₹</span>
-            <input value={totalCTC} onChange={(e) => setTotalCTC(e.target.value)} type="number" placeholder="Enter Amount" className="mt-[5px] pl-[20px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full" />
+            <input value={totalCTC} onChange={(e) => setTotalCTC(e.target.value)} type="number" placeholder="Enter Amount" className="mt-[5px] pl-[20px] text-[14px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full" />
           </div>
         </div>
 
@@ -746,13 +748,13 @@ const EditSalaryDetails = () => {
             {selectedAllowance?.map((allowance) => (
               <div className="flex items-center justify-between" key={allowance}>
                 <div className="relative">
-                  <span className="absolute top-[2px] left-[4px]">₹</span>
+                  <span className="absolute top-[5px] left-[4px]">₹</span>
                   <input
                     value={calEarning.find(item => item.name === allowance)?.amount || ""}
                     onChange={(e) => handleChange("earnings", allowance, e.target.value, "amount")}
                     type="number"
                     placeholder="Enter Amount"
-                    className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
+                    className="h-[34px] w-[132px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
                   />
                 </div>
               </div>
@@ -807,7 +809,7 @@ const EditSalaryDetails = () => {
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">PF EDLI & Admin Charges</span>
               <select
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className=" px-4 py-2 w-[160px] text-[12px] font-medium border border-[#D9D9D9] bg-white text-[10px] rounded-md focus:outline-none"
                 onChange={(e) => handleChange("compliances", "PF EDLI & Admin Charges", e.target.value, "calculation")}
               >
                 <option value={"None"}>None</option>
@@ -844,7 +846,7 @@ const EditSalaryDetails = () => {
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">Employer LWF</span>
               <StateSelect
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className="h-[34px] w-[134px] border border-[#D9D9D9] bg-white text-[12px] pl-4 rounded-md focus:outline-none"
                 countryid={101}
                 onChange={(e) => {
                   console.log(e.name);
@@ -854,7 +856,7 @@ const EditSalaryDetails = () => {
               />
             </div>
           </div>
-          <div className="xl:w-[50%] w-[100%] space-y-5 w-full">
+          <div className="xl:w-[50%] w-[100%] space-y-5">
             <div className="flex items-center  justify-between   ">
               <span className="text-[13px] xl:text-[13px] font-semibold">
                 Included in CTC
@@ -863,14 +865,14 @@ const EditSalaryDetails = () => {
             </div>
 
             {["Employer PF", "PF EDLI & Admin Charges", "Employer ESI", "Employer LWF"].map((label, index) => (
-              <div key={index} className="flex items-center justify-between">
+              <div key={index} className="flex role-setup items-center justify-between">
                 {index === 1 ? (
                   <>
                     <h3>N/A</h3>
                     <div className="relative">
-                      <span className="absolute top-[2px] left-[4px]">₹</span>
+                      <span className="absolute top-[5px] left-[4px]">₹</span>
                       <input onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
-                        type="number" placeholder="Enter Amount" className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
+                        type="number" placeholder="Enter Amount" className="h-[34px] w-[132px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
                     </div>
                   </>
                 ) : (
@@ -884,7 +886,7 @@ const EditSalaryDetails = () => {
 
                       } />
                     <div className="relative">
-                      <span className="absolute top-[2px] left-[4px]">₹</span>
+                      <span className="absolute top-[5px] left-[4px]">₹</span>
                       <input
                         value={
                           index === 0 ? calEmployerPF :
@@ -894,7 +896,7 @@ const EditSalaryDetails = () => {
                         disabled={true}
                         type="number"
                         placeholder="Enter Amount"
-                        className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
+                        className="h-[32px] w-[132px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
                         onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
                       />
                     </div>
@@ -909,7 +911,7 @@ const EditSalaryDetails = () => {
         <div className="flex xl:mt-12 mt-[20px] xl:ml-16 ml-0 gap-[30px]">
           {/* Employee Contributions Section */}
           <div className="xl:w-[50%] w-[100%] space-y-5 ml-0 gap-[30px]">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center  justify-between">
               <span className="text-[13px] xl:text-[13px] font-semibold">Employee Contributions</span>
               <h1 className="text-[13px] xl:text-[13px] font-semibold">Calculation</h1>
             </div>
@@ -1006,7 +1008,7 @@ const EditSalaryDetails = () => {
             {[...Array(4)].map((_, index) => (
               <div className={"flex items-center justify-end " + (index === 2 && "invisible")} key={index}>
                 <div className="relative">
-                  <span className="absolute top-[2px] left-[4px]">₹</span>
+                  <span className="absolute top-[5px] left-[4px]">₹</span>
                   <input
                     value={
                       index === 0 ? calEmployeePF :
@@ -1015,14 +1017,23 @@ const EditSalaryDetails = () => {
                     disabled={true}
                     type="number"
                     placeholder="Enter Amount"
-                    className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
+                    className="h-[34px] w-[132px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
                     onChange={(e) => handleChange("deductions", `Amount ${index + 1}`, e.target.value, "amount")}
                   />
                 </div>
               </div>
             ))}
           </div>
+        
         </div>
+          <div className="flex items-center ml-[63px] mt-[15px] justify-between">
+            <h2>TDS</h2>
+            <div className="flex items-center gap-[6px]">
+            <p className="text-[14px]">System Calculated</p>
+            <CiCircleInfo className="circle-tu" />
+
+            </div>
+          </div>
 
 
       </div>
@@ -1047,7 +1058,7 @@ const EditSalaryDetails = () => {
                 onChange={(e) => handleChange("deduction", deduction, e.target.value, "calculation")}
                 name=""
                 id=""
-                className=" h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className=" p-[10px] font-medium border border-[#D9D9D9] bg-white text-[12px] pl-4 rounded-md focus:outline-none"
               >
                 <option value="On Attendance">On Attendance</option>
                 <option value="Flat Rate">Flat Rate</option>
@@ -1189,7 +1200,7 @@ const EditSalaryDetails = () => {
                 <span className="absolute top-[2px] left-[4px]">₹</span>
                 <input value={calDeductions.find(item => item.name === deduction)?.amount || ""}
                   onChange={(e) => handleChange("deductions", deduction, e.target.value, "amount")}
-                  type="number" placeholder="Enter Amount" className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
+                  type="number" placeholder="Enter Amount" className="h-[34px] w-[132px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
               </div>
             </div>)}
             {/* <div className="flex items-center justify-between">

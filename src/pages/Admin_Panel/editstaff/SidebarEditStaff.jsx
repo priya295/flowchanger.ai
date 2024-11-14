@@ -31,7 +31,8 @@ const SidebarEditStaff = () => {
         <NavLink to={`/salary-details-edit/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Details <KeyboardArrowRightIcon /></NavLink>
         <NavLink to={`/leavepolicy-detail/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Leave & Balance Details <KeyboardArrowRightIcon /></NavLink>
         <NavLink to={`/edit-penalty/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Penalty & Overtime Details <KeyboardArrowRightIcon /></NavLink>
-        <NavLink to={`/salary-overview/${id}`} className='p-5 pb-10 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Overview<KeyboardArrowRightIcon /></NavLink>
+        <NavLink to={`/salary-overview/${id}`} className='p-5 pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Overview<KeyboardArrowRightIcon /></NavLink>
+        <NavLink to={`/documents`} className='p-5 pb-10 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Documents<KeyboardArrowRightIcon /></NavLink>
         {/* <NavLink to="#" className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Tax Declarations<KeyboardArrowRightIcon/></NavLink>  */}
         {/* <NavLink to="#" className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Details<KeyboardArrowRightIcon/></NavLink>  */}
 

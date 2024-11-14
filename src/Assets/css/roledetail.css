@@ -414,9 +414,12 @@ input[type=radio]{
     position: relative;
  
 }
+.role-setup{
+    margin-top: 29px !important;
+}
 .stsearch-box{
     display: flex;
-    padding: 5px;
+    padding: 8px;
 }
 .stsearch-box input:focus{
     outline: none;

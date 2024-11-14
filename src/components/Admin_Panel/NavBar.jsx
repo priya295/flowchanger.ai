@@ -12,6 +12,8 @@ import ring from "../../Assets/Images/ring.png";
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
+import { TbLogout2 } from "react-icons/tb";
+
 
 
 const NavBar = ({ handleToggleSideBar, toggleSideBar }) => {
@@ -55,13 +57,13 @@ const NavBar = ({ handleToggleSideBar, toggleSideBar }) => {
           
           <img  onClick={handleProfileDropDown} class="flex  justify-center items-center gap-x-1.5 rounded-[120%] w-6 h-10 p-4 bg-black text-white  text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-900" id="menu-button" aria-expanded="true" aria-haspopup="true" src={photo} alt="" className="cursor-pointer" />
          
-          {profileDropdown && <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-black  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-            <div class="py-1" role="none">
+          {profileDropdown && <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-[#27004a]  shadow-lg ring-1 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+            <div class="p-[10px]" role="none">
               <div class="block  text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
-                <p className="text-white hover:bg-slate-500 p-2">tp</p>
-                <p className="text-white hover:bg-slate-500 p-2">Role - Admin</p>
+                <p className="text-white hover:bg-white rounded-md hover:text-[#8a25b0] font-medium p-2">Tp</p>
+                <p className="text-white hover:bg-white rounded-md hover:text-[#8a25b0] font-medium p-2">Role - Admin</p>
               </div>
-              <button type="submit" class="block bg-gray-800 w-full px-4 py-2 text-left text-sm  text-white hover:bg-slate-500" role="menuitem" tabindex="-1" id="menu-item-3" onClick={handleLogout}>Log out</button>
+              <button type="submit" class=" flex items-center justify-between w-full p-2 text-left text-sm font-medium text-white hover:bg-[white] hover:text-[red] rounded-md " role="menuitem" tabindex="-1" id="menu-item-3" onClick={handleLogout}>Log out <TbLogout2 className="hover:text-[red]" /> </button>
 
             </div>
           </div>

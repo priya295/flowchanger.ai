@@ -54,7 +54,7 @@ const Main = () => {
 
 
 
-  const fetchRoles = async () => {
+  const  fetchRoles = async  () => {
     const result = await fetch(baseUrl + "role")
 
     if (result.status == 200) {
@@ -147,7 +147,7 @@ const Main = () => {
 
 
             {
-              roles.slice(0,rowsToShow).map((role, index) => {
+              roles.slice(0, rowsToShow).map((role, index) => {
                 return <tr className='border-b pb-2 border-[#f1f5f9]'>
                   <td className='pt-4 pb-3 pl-3'>
                     <Link to="/" className='text-[#27004a] text-[14px]'>{role.role_name}</Link>
