@@ -17,6 +17,9 @@ const PersonalDetail = () => {
         date_of_birth: selectedStaff?.staffDetails?.date_of_birth,
         gender: selectedStaff?.staffDetails?.gender,
         date_of_joining: selectedStaff?.staffDetails?.date_of_joining,
+        marital_status: selectedStaff?.staffDetails?.marital_status,
+        guardian_name: selectedStaff?.staffDetails?.guardian_name,
+        blood_group: selectedStaff?.staffDetails?.blood_group,
         emergency_contact_name: selectedStaff?.staffDetails?.emergency_contact_name,
         emergency_contact_mobile: selectedStaff?.staffDetails?.emergency_contact_mobile,
         emergency_contact_relation: selectedStaff?.staffDetails?.emergency_contact_relation,
@@ -44,6 +47,8 @@ const PersonalDetail = () => {
         if (personalDetailsUpdate.date_of_birth) data.date_of_birth = new Date(personalDetailsUpdate.date_of_birth).toISOString();
         if (personalDetailsUpdate.gender) data.gender = personalDetailsUpdate.gender;
         if (personalDetailsUpdate.guardian_name) data.guardian_name = personalDetailsUpdate.guardian_name;
+        if (personalDetailsUpdate.blood_group) data.blood_group = personalDetailsUpdate.blood_group;
+        if (personalDetailsUpdate.marital_status) data.marital_status = personalDetailsUpdate.marital_status;
         if (personalDetailsUpdate.emergency_contact_name) data.emergency_contact_name = personalDetailsUpdate.emergency_contact_name;
         if (personalDetailsUpdate.emergency_contact_mobile) data.emergency_contact_mobile = personalDetailsUpdate.emergency_contact_mobile;
         if (personalDetailsUpdate.emergency_contact_relation) data.emergency_contact_relation = personalDetailsUpdate.emergency_contact_relation;
@@ -68,7 +73,6 @@ const PersonalDetail = () => {
                     mobile: result?.mobile,
                     official_email: result?.staffDetails?.official_email,
                     date_of_birth: result?.staffDetails?.date_of_birth,
-                    date_of_joining: result?.staffDetails?.date_of_joining,
                     gender: result?.staffDetails?.gender,
                     blood_group: result?.staffDetails?.blood_group,
                     marital_status: result?.staffDetails?.marital_status,
@@ -219,7 +223,8 @@ const PersonalDetail = () => {
 
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z  '>
+        <>
+         {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z  '> */}
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0 xl:pr-[0px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Personal Details</h3>
             </div>
@@ -328,6 +333,8 @@ const PersonalDetail = () => {
                     <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
                         <label className='text-[14px]'>Maritial Status</label><br />
                         <select
+                            value={personalDetailsUpdate?.marital_status}
+                            onChange={(e) => setPersonalDetailsUpdate({ ...personalDetailsUpdate, marital_status: e.target.value })}
                             className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
                             style={{
                                 backgroundColor: isEditable ? "#f4f5f9" : "#fff", // Background color bhi change hoga
@@ -347,7 +354,8 @@ const PersonalDetail = () => {
                 <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
                     <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
                         <label className='text-[14px]'>Blood Group</label><br />
-                        <select
+                        <select value={personalDetailsUpdate?.blood_group}
+                            onChange={(e) => setPersonalDetailsUpdate({ ...personalDetailsUpdate, blood_group: e.target.value })}
                             className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
                             style={{
                                 backgroundColor: isEditable ? "#f4f5f9" : "#fff", // Background color bhi change hoga
@@ -355,13 +363,13 @@ const PersonalDetail = () => {
                             }}
 
                         >
-                            <option>A+</option>
-                            <option>A+</option>
-                            <option>A+</option>
-                            <option>A+</option>
-                            <option>A+</option>
-                            <option>A+</option>
-                            <option>A+</option>
+                            <option value={"A+"}>A+</option>
+                            <option value={"A+"}>A+</option>
+                            <option value={"A+"}>A+</option>
+                            <option value={"A+"}>A+</option>
+                            <option value={"A+"}>A+</option>
+                            <option value={"A+"}>A+</option>
+                            <option value={"A+"}>A+</option>
                         </select>
                     </div>
                     <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
@@ -659,7 +667,8 @@ const PersonalDetail = () => {
 
             </form>
 
-        </div>
+        {/* // </div> */}
+        </>
     )
 }
 

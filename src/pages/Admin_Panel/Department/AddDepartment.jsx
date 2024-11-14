@@ -7,12 +7,15 @@ import { Link } from 'react-router-dom';
 const AddDepartment = () => {
     const [department, setDepartment] = useState("");
 
-    const { baseUrl } = useGlobalContext();
+    const { baseUrl ,openToast} = useGlobalContext();
 
 
-    async function submitRole() {
-
-
+    async function submitDepartment() {
+// showed message for empty department field
+        if (!department.trim()) {
+            openToast("Department name cannot be empty", "error");
+            return;
+        }
         const response = await fetch(baseUrl + "department", {
             method: "POST",
             headers: {
@@ -22,13 +25,13 @@ const AddDepartment = () => {
         });
 
         console.log(response);
-
+        const result = await response.json();
         if (response.status === 200) {
-            const result = await response.json()
+          
             console.log(result);
-            alert("Department successfully added");
+            openToast(result.message||"Department successfully added","success");
         } else {
-            alert("An error occurred");
+            openToast(result.error||"An error occurred","error");
         }
     }
 
@@ -170,7 +173,7 @@ const AddDepartment = () => {
                         <Link to="/department-details" className='first-btn flex items-center pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>
                             Cancel
                         </Link>
-                        <button className='second-btn pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]' onClick={submitRole}>Save</button>
+                        <button className='second-btn pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]' onClick={submitDepartment}>Save</button>
                     </div>
                 </div>
             </div>

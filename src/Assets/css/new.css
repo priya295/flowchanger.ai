@@ -159,6 +159,11 @@
 .setwer{
     font-size: 10px !important;
 }
+.salary-detail-setup{
+    height: 36px;
+    width: 160px;
+    font-size: 14px;
+}
 .react-responsive-modal-modal{
     width: 550px;
     border-radius: 10px;
@@ -244,6 +249,17 @@
     box-shadow: 0 0 5px #cfcfcf;
     border-radius: 10px;
 }
+.circle-tu{
+    color: blue;
+}
+/* .tblogout{
+    color:white !important;
+}
+
+ .logoutw .tblogout:hover{
+    color:red !important;
+
+ } */
 .active-set2{
     color: white;
 }

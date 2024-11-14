@@ -317,7 +317,8 @@ const EditAttendanceDetail = () => {
 
 
     return (
-        <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '>
+        <>
+         {/* <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '> */}
             <h2 className='bg-[#f6f9fa] pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow'>Attendance Details</h2>
 
             <div className='mt-5'>
@@ -1219,7 +1220,9 @@ const EditAttendanceDetail = () => {
 
             {/* onclick mandatory full day minutes  button */}
 
-        </div>
+      
+            {/* </div> */}
+            </>
     )
 }
 

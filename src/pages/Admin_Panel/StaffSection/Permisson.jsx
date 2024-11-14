@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
+import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const Permission = () => {
-
+  const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
   const [toggleDrop, setToggleDrop] = useState(false);
 
   function handledrop() {
     setToggleDrop(!toggleDrop)
   }
 
+  
+  useEffect(() => {
+    fetchStaff();
+  }, [])
 
   return (
     <div className='permisson-tab mt-[20px]'>
@@ -48,12 +53,18 @@ const Permission = () => {
 
           </thead>
           <tbody>
-            <tr className='border'>
+        {
+          staffDetail?.map((items,index)=>{
+            return  <tr className='border'>
             <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-            <td>Demo</td>
-            <td>Demo</td>
-            <td>Demo</td>
+            <td>{items?.name}</td>
+            <td>{items?.staffDetails?.job_title}</td>
+            <td>{items?.staffDetails?.role?.role_name}</td>
             </tr>
+          })
+        }
+
+           
 
           </tbody>
         </table>

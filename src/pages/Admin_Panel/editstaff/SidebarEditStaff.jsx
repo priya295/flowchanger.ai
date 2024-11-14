@@ -5,7 +5,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 import { useParams } from 'react-router';
 
 
-const SidebarEditStaff = () => {
+const SidebarEditStaff = ({toggleEditSideBar}) => {
   const { selectedStaff } = useGlobalContext();
   const navigate = useNavigate()
   const {id}= useParams();
@@ -17,7 +17,7 @@ const SidebarEditStaff = () => {
     }
   }, [])
   return (
-    <div className='edit-sidebar h-lvh shadow mt-[60px]  fixed top-[6px] bg-white p-[30px] pl-[5px] pr-[5px] overflow-scroll w-[300px] z-10 pb-10'>
+    <div className={`${toggleEditSideBar?"-ml-[300px]":"ml-[0px]"} edit-sidebar h-lvh shadow mt-[60px]  fixed top-[6px] bg-white p-[30px] pl-[5px] pr-[5px] overflow-scroll w-[300px] z-10 pb-10`}>
       <div className='flex flex-col sidelinks'>
         <NavLink to={`/personal-detail/${id}`} className='p-5 pb-5 flex justify-between text-[12px] whitespace-nowra
         
@@ -31,7 +31,8 @@ const SidebarEditStaff = () => {
         <NavLink to={`/salary-details-edit/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Details <KeyboardArrowRightIcon /></NavLink>
         <NavLink to={`/leavepolicy-detail/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Leave & Balance Details <KeyboardArrowRightIcon /></NavLink>
         <NavLink to={`/edit-penalty/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Penalty & Overtime Details <KeyboardArrowRightIcon /></NavLink>
-        <NavLink to={`/salary-overview/${id}`} className='p-5 pb-10 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Overview<KeyboardArrowRightIcon /></NavLink>
+        <NavLink to={`/salary-overview/${id}`} className='p-5 pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Overview<KeyboardArrowRightIcon /></NavLink>
+        <NavLink to={`/documents`} className='p-5 pb-10 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Documents<KeyboardArrowRightIcon /></NavLink>
         {/* <NavLink to="#" className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Tax Declarations<KeyboardArrowRightIcon/></NavLink>  */}
         {/* <NavLink to="#" className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Salary Details<KeyboardArrowRightIcon/></NavLink>  */}
 
