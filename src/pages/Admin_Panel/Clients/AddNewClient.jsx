@@ -7,6 +7,8 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { label } from "framer-motion/client";
+import { FaArrowLeft } from "react-icons/fa";
+import {Link} from "react-router-dom";
 
 const AddNewClient = () => {
   const animatedComponents = makeAnimated();
@@ -77,11 +79,12 @@ const AddNewClient = () => {
       body: JSON.stringify({ name:clientName,company: company, vat_number: vatNumber, phone: phone, website: website, address: address, country: country, state: state, city: city, zip_code: zipCode, default_language: language, groups: selectedGroups, currency: currency, email: email })
     })
     console.log(result)
+    const data = await result.json(); 
     if (result.status == 201) {
-      openToast("Add Client Successfully")
+      openToast(data.msg || "Add Client Successfully" , "success")
     }
     else {
-      openToast("An Error Accured")
+      openToast(data.error||"An Error occured","error")
     }
   }
 
@@ -90,6 +93,7 @@ const AddNewClient = () => {
     <div className="bg-gray-100 flex justify-center items-center min-h-screen">
 
       <div className="w-full max-w-3xl bg-white shadow-md rounded-lg p-6">
+      <Link to = "/clients"><FaArrowLeft /></Link>
         <div className="mb-6">
           {/* <!-- Tabs for form sections --> */}
           <nav className="flex space-x-4 border-b">

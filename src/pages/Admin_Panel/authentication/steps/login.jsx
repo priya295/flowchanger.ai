@@ -61,41 +61,7 @@ const LoginPage = () => {
     console.log(error);
     }
   }
-  // const handleLoggedIn = async (loginInfo) => {
-  //   console.log(loginInfo);
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await fetch( baseUrl + "admin/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(loginInfo),
-  //     });
-  //     const result = await response.json();
-  //     const {token} = result
-  //     if (response.status === 200 && token) {
-  //       openToast('You have successfully logged in', "success");
-  //         console.log("You have logged in");
-  //          Cookies.set('flowChangerAuthToken',token)
-  //          setIsLoading(false);
-  //         return true;
-  //       }
-  //    else{
-  //         console.log("there is no token");
-  //       openToast(result.message || 'Login failed', "error");
-  //       console.log("can't logged in")
-  //       setIsLoading(false);
-  //       return false;
-  //       }
-      
-  //   } catch (error) {
-  //     console.error("Login error:", error);
-  //     openToast('An error occurred. Please try again.', "error");
-  //     setIsLoading(false);
-  //     return false;
-  //   }
-  // };
+
 
   const onSubmit = async (data) => {
     try {

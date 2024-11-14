@@ -30,7 +30,7 @@ const Worktime = () => {
         <>
             <div className='w-full p-[20px]'>
                 <div className=''>
-                    <Link className='text-[14px]' to="/"> <ArrowBackIcon className='back-arrow text-[blue]' /> Back</Link>
+                    <Link className='text-[14px]' to="/attendence_summary"> <ArrowBackIcon className='back-arrow text-[blue]' /> Back</Link>
                 </div>
                 <div className='flex justify-between items-center mt-[20px] mb-[20px]'>
                     <h2 className='font-medium'>Daily Work Time</h2>
@@ -46,9 +46,12 @@ const Worktime = () => {
                     workEntry?.map((item, index) => {
                         return <div className='mt-[20px] mb-[20px] set-shadow rounded-md'>
                             <div className='p-[16px] font-medium '>
-                                <h2 className='text-[16px]'>AMAN DESIGNER FC</h2>
-                                <p>{item.work_name}</p>
-                                <p>{item.description}</p>
+                                <h2 className='text-[16px] pb-2'>AMAN DESIGNER FC</h2>
+                                <p className='text-[13px] pb-1 font-normal'><span>Work Name:-</span>   {item.work_name}</p>
+                                <p className='text-[13px] pb-1 font-normal'><span>Work Description:-</span> {item.description}</p>
+                                <p className='text-[13px] pb-1 font-normal'><span>Details:-</span> {item.units}</p>
+                                <p className='text-[13px] pb-1 font-normal'><span>Entry Time:-</span> {new Date(item.createdAt).toLocaleString('en-US', {day:"numeric", month:"long", year:"numeric",  hour: 'numeric', minute: 'numeric', hour12: true })} </p>
+
                             </div>
                            
                         </div>

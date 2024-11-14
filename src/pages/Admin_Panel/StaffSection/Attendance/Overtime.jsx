@@ -46,7 +46,7 @@ const Overtime = () => {
     return (
         <div className='w-full p-[20px]'>
             <div className=''>
-                <Link className='text-[14px]' to="/"> <ArrowBackIcon className='back-arrow text-[blue]' /> Back</Link>
+                <Link className='text-[14px]' to="/attendence_summary"> <ArrowBackIcon className='back-arrow text-[blue]' /> Back</Link>
             </div>
             <div className='flex justify-between items-center mt-[20px] mb-[20px]'>
                 <h2 className='font-medium daily-heading'>Daily Work Time</h2>
