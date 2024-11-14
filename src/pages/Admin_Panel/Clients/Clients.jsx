@@ -30,10 +30,6 @@ const Clients = () => {
   const [searchedClients, setSearchClients] = useState(null);
   const [rowsToShow, setRowsToShow] = useState(25);
 
-  const [open, setOpen] = useState(false);
-
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
 
   const [taskStatus, setTaskStatus] = useState({
     name: "",
@@ -397,27 +393,30 @@ const Clients = () => {
   }
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 3000);
-}, []);
+  }, []);
 
+  const [open, setOpen] = useState(false);
 
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
   return (
     <div className=" w-full  top-[95px] right-[5px] ">
       <div className="bg-[#fff] p-[10px] ml-[10px]">
         <div className="mb-[14px] flex gap-[10px] items-center import-customers">
           <Link
             to="/addnewclient"
-            className="text-[#fff] client-add text-[14px] bg-[#8a25b0] newcustomers  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-[#fff] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <AddIcon className="newadd" /> New Clients
           </Link>
           <Link
             to="/"
-            className="text-[#fff] text-[14px] client-add bg-[#8a25b0]   focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-[#fff] text-[14px] client-add bg-[#27004a]   focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <AddIcon className="newadd" /> Import Clients
           </Link>
           <Link
-            to="/"
+            to="/contact-information"
             className="text-[#000] text-[14px] client-add bg-[#f4f2f2]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <PersonIcon className="newadd mr-[5px]" />
@@ -463,49 +462,8 @@ const Clients = () => {
 
 
                 <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal} >Bulk Action  <CachedIcon className="newsidebar-icon" /> </button>
-                <Modal open={open} onClose={onCloseModal} center>
-                  <div className="border-b border-[#dbdbdb] pb-[20px]">
-                    <h2>Bulk Actions</h2>
-                  </div>
-                  <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
-                    <input type="checkbox" />
-                    <p className="text-[14px]">Mass Delete</p>
-                  </div>
-                  <div className="w-[100%]">
 
 
-
-
-                    <Select
-                      isMulti
-                      name="isHiddenFor"
-                      options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
-                      value={taskStatus.isHiddenFor || []}
-                      onChange={(selectedOptions) =>
-                        setTaskStatus((prev) => ({
-                          ...prev,
-                          isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
-                        }))
-                      }
-                      styles={customStyles}
-                    />
-                  </div>
-                  <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
-
-                  <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
-                    {/* Button to close the modal */}
-                    <button
-                      className="bg-red-500 text-white px-4 py-2 rounded"
-                      onClick={toggleModal15}
-                    >
-                      Close
-                    </button>
-                    <button className='second-btn'>Confirm </button>
-                  </div>
-
-                </Modal>
                 {/* <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal}>Bulk Action <CachedIcon className="newsidebar-icon" /> </button>
                                 <Modal open={open} onClose={onCloseModal} center>
                                     <div className="border-b border-[#dbdbdb] pb-[20px]">
@@ -612,10 +570,10 @@ const Clients = () => {
                   {
                     isLoading && clientData.length === 0 ? (<tr className="h-[100px]">
                       <td colSpan="9" className="text-center text-gray-600 text-sm font-semibold py-4">
-                      <ClipLoader isLoading={isLoading} size={50} color="#000" />
+                        <ClipLoader isLoading={isLoading} size={50} color="#000" />
                       </td>
                     </tr>
-                    ): 
+                    ) :
                       clientData && clientData.length > 0 ? (
                         clientData.map((item, index) => (
                           <tr key={item.id} className="border-b border-gray-300">
@@ -646,8 +604,8 @@ const Clients = () => {
                                 >
                                   <span
                                     className={`${item.status == "active"
-                                        ? "translate-x-6"
-                                        : "translate-x-0"
+                                      ? "translate-x-6"
+                                      : "translate-x-0"
                                       } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
                                   />
                                 </div>
@@ -983,6 +941,51 @@ const Clients = () => {
           </form>
         </div>
       </Modal>
+
+      <Modal open={open} onClose={onCloseModal} center>
+        <div className="border-b border-[#dbdbdb] pb-[20px]">
+          <h2>Bulk Actions</h2>
+        </div>
+        <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
+          <input type="checkbox" />
+          <p className="text-[14px]">Mass Delete</p>
+        </div>
+        <div className="w-[100%]">
+
+
+
+
+          <Select
+            isMulti
+            name="isHiddenFor"
+            options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            value={taskStatus.isHiddenFor || []}
+            onChange={(selectedOptions) =>
+              setTaskStatus((prev) => ({
+                ...prev,
+                isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
+              }))
+            }
+            styles={customStyles}
+          />
+        </div>
+        <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
+
+        <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
+          {/* Button to close the modal */}
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded"
+            onClick={toggleModal15}
+          >
+            Close
+          </button>
+          <button className='second-btn'>Confirm </button>
+        </div>
+
+      </Modal>
+
     </div>
   );
 };
