@@ -12,10 +12,12 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Task = () => {
   const { baseUrl,openToast} = useGlobalContext();
   const [isTableOpen, setIsTableOpen] = useState(false);
+  const [isLoading , setIsLoading] = useState(false);
   // handle open the accordian
   const handleTableOpen = () => {
     setIsTableOpen((prevState) => !prevState);
@@ -162,15 +164,23 @@ const Task = () => {
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
     const result = await fetch(baseUrl + "/task/detail")
-    if (result.status === 200) {
-      const data = await result.json();
-      console.log(data)
-      setFetchTaskData(data)
-      setIsTableOpen(true);
+    try{
+      if (result.status === 200) {
+        const data = await result.json();
+        console.log(data)
+        setFetchTaskData(data)
+        setIsTableOpen(true);
+      }
+      else {
+        openToast("Internal Server Error", "error")
+      }
     }
-    else {
-      openToast("Internal Server Error", "error")
-    }
+   catch(error){
+    console.log("error",error)
+   }
+   finally{
+    setIsLoading(false);
+   }
   }
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -502,7 +512,14 @@ const Task = () => {
           {/* Table Body - Collapsible Content */}
           {isTableOpen && (
             <tbody>
-              {fetchTaskData?.map((s, index) => (
+              {
+              isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                <ClipLoader color="#4A90E2" size={50} />
+                </td>
+              </tr>
+         )  :
+              fetchTaskData?.map((s, index) => (
                 <tr key={index} className="rounded-lg border-b border-[#e5e7eb]">
                   <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
                     <Link className="textcomplete">N/A</Link>

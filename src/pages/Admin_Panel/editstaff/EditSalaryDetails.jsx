@@ -574,7 +574,8 @@ const EditSalaryDetails = () => {
   console.log(calEarning, calDeductions, calDeductions);
 
   return (
-    <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col">
+    <>
+    {/* // <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col"> */}
       <div className="flex items-center justify-between  xl:pb-6  ">
         <h1 className="  font-medium ">
           Salary Details Import Settings
@@ -1233,7 +1234,8 @@ const EditSalaryDetails = () => {
           </button>
         </div>
       </div>
-    </div>
+    {/* </div> */}
+    </>
   )
 }
 
