@@ -16,6 +16,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 const Task = () => {
   const { baseUrl, openToast } = useGlobalContext();
   const [isTableOpen, setIsTableOpen] = useState(false);
+  const [isLoading , setIsLoading] = useState(false);
   // handle open the accordian
   const handleTableOpen = () => {
     setIsTableOpen((prevState) => !prevState);
@@ -159,15 +160,23 @@ const Task = () => {
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
     const result = await fetch(baseUrl + "/task/detail")
-    if (result.status === 200) {
-      const data = await result.json();
-      console.log(data)
-      setFetchTaskData(data)
-      setIsTableOpen(true);
+    try{
+      if (result.status === 200) {
+        const data = await result.json();
+        console.log(data)
+        setFetchTaskData(data)
+        setIsTableOpen(true);
+      }
+      else {
+        openToast("Internal Server Error", "error")
+      }
     }
-    else {
-      openToast("Internal Server Error", "error")
-    }
+   catch(error){
+    console.log("error",error)
+   }
+   finally{
+    setIsLoading(false);
+   }
   }
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
