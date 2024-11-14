@@ -26,7 +26,7 @@ const   StaffMenu = () => {
 
       <div className="tab-section mt-[30px]">
       <Tabs selectedIndex={staffTab} onSelect={(index) => setStaffTab(index)}>
-          <TabList className="flex   w-[100%] overflow-x-scroll  bg-[#FFFFFF]  rounded-[12px]  p-[4px] pb-[4px]  set-shadow ">
+          <TabList className="flex   w-[100%] overflow-x-auto  bg-[#FFFFFF]  rounded-[12px]  p-[4px] pb-[4px]  set-shadow ">
             <Tab>
               <div className="flex items-center  gap-[10px] whitespace-nowrap ml-[10px] mr-[10px]">
                 {/* <img src={group} /> */}

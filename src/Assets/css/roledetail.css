@@ -399,7 +399,7 @@ input[type=radio]{
 .table-status tbody td{
     white-space: nowrap;
     font-size: 14px;
-    padding: 4px;
+    padding: 14px;
     text-align: center;
 }
 .main-table-status{

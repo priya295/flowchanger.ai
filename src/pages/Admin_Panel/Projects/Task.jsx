@@ -13,7 +13,7 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Task = () => {
-  const { baseUrl,openToast} = useGlobalContext();
+  const { baseUrl } = useGlobalContext();
   const [openIndex, setOpenIndex] = useState(0);
 
   const handleToggle = (index) => {
@@ -531,10 +531,6 @@ const Task = () => {
             </div>
           )}
         </div>
-
-
-
-
       ))}
 
       {/* onclick Update task */}

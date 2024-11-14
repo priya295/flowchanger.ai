@@ -9,7 +9,7 @@ export const GlobalContext = ({ children }) => {
   const baseUrl = "https://fc-prod-testing.onrender.com/api/"
   console.log(baseUrl)
   const [staffTab, setStaffTab] = useState(0);
-  const [name, setName] = useState(""); 
+  const [name, setName] = useState("");
   const [depId, setDepId] = useState("");
   const [editPermissions, setEditPermissions] = useState({
     clients_permissions: { view_global: false, create: false, edit: false, delete: false },
@@ -25,14 +25,15 @@ export const GlobalContext = ({ children }) => {
   });
 
   const [roleName, setRoleName] = useState("");
-  const [roleId,setRoleId] = useState("");
-  const [selectedStaff,setSelectedStaff] = useState(null);
-  
-  const fetchDetails= async()=>{
-    const response =  await fetch(baseUrl+"/staff");
+  const [roleId, setRoleId] = useState("");
+  const [selectedStaff, setSelectedStaff] = useState(null);
+  console.log(selectedStaff)
 
-    if(response.status==200){
-      const data=response.json();
+  const fetchDetails = async () => {
+    const response = await fetch(baseUrl + "/staff");
+
+    if (response.status == 200) {
+      const data = response.json();
       setSelectedStaff(data)
     }
   }
@@ -41,12 +42,35 @@ export const GlobalContext = ({ children }) => {
     toast(msg, { type: flag });
   };
 
+  const [staffDetail, setStaffDetail] = useState([]);
+  const fetchStaff = async () => {
+    const result = await fetch(baseUrl + "staff")
+    console.log("reuslt---", result)
+    try {
+      if (result.status == 200) {
+        const res = await result.json();
+        console.log(res);
+        setStaffDetail(res)
+      }
+      else {
+        alert("An Error Occured")
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
-  
+  console.log("staff", staffDetail)
+
+  useEffect(() => {
+    fetchStaff();
+  }, [])
+
   return (
-    <MainContext.Provider value={{ selectedTab,setSelectedTab,staffTab,openToast, setStaffTab,baseUrl, name,setName ,depId,setDepId, roleName,setRoleName,roleId,setRoleId,editPermissions,setEditPermissions,selectedStaff,setSelectedStaff,fetchDetails}}>
+    <MainContext.Provider value={{ selectedTab, setSelectedTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails,fetchStaff,staffDetail}}>
       {children}
-      <ToastContainer/>
+      <ToastContainer />
     </MainContext.Provider>
   );
 };
