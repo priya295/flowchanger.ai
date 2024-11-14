@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const Main = () => {
@@ -58,14 +59,22 @@ const Main = () => {
 
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "role")
-
-    if (result.status == 200) {
-      const res = await result.json();
-      setRoles(res.data)
+    setIsLoading(true);
+    try{
+      if (result.status == 200) {
+        const res = await result.json();
+        setRoles(res.data)
+      }
+      else {
+        alert("An Error Occured")
+      }
     }
-    else {
-      alert("An Error Occured")
-    }
+  catch(error){
+    console.log("error:" , error);
+  } 
+   finally{
+    setIsLoading(false);
+   }
 
   }
 
@@ -184,35 +193,44 @@ const Main = () => {
           <tbody>
 
 
-            {
-              roles.slice(0,rowsToShow).map((role, index) => {
-                return <tr className='border-b pb-2 border-[#f1f5f9]'>
-                  <td className='pt-4 pb-3 pl-3'>
-                    <Link to="/" className='text-[#27004a] text-[14px]'>{role.role_name}</Link>
-                    <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-                  </td>
-                  <td className='flex pt-4 gap-2 justify-center'>
-                    <Link to="/editrole" onClick={() => {
-                      setRoleId(role.id)
-                      setRoleName(role.role_name)
-                      setEditPermissions(role.permissions)
-                    }} >
-                      <BorderColorIcon className='text-[#511992] font-light cursor-pointer text-[10px]]' />
-                    </Link>
-                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]]' onClick={() => { deleteRole(role.id) }} />
-                  </td>
-                </tr>
+          {
+    isLoading && roles.length === 0 ? (
+      <tr className="h-[100px]">
+          <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+          <ClipLoader color="#4A90E2" size={50} />
+          </td>
+        </tr>
+    ) : roles.length > 0 ? (
+      roles.slice(0, rowsToShow).map((role, index) => {
+        return (
+          <tr key={role.id} className="border-b pb-2 border-[#f1f5f9]">
+            <td className="pt-4 pb-3 pl-3">
+              <Link to="/" className="text-[#27004a] text-[14px]">{role.role_name}</Link>
+              <h6 className="text-[13px] pt-2 text-[#a5a1a1]">Total Users: <span>1</span></h6>
+            </td>
+            <td className="flex pt-4 gap-2 justify-center">
+              <Link to="/editrole" onClick={() => {
+                setRoleId(role.id)
+                setRoleName(role.role_name)
+                setEditPermissions(role.permissions)
+              }}>
+                <BorderColorIcon className="text-[#511992] font-light cursor-pointer text-[10px]]" />
+              </Link>
+              <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]]" onClick={() => { deleteRole(role.id) }} />
+            </td>
+          </tr>
+        )
+      })
+    ) : (
+      <tr className="h-[100px]">
+        <td colSpan="2" className="text-center text-red-500 text-xl font-semibold py-4">
+          No roles found.
+        </td>
+      </tr>
+    )
+  }
 
-
-              })
-
-            }
-
-
-
-
-
-          </tbody>
+</tbody>
         </table>
         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
           <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {roles.length} entries </p>

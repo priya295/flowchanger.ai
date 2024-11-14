@@ -3,6 +3,7 @@ import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 
@@ -33,7 +34,7 @@ const StaffTab = () => {
       const response = await fetch(`${baseUrl}staff/search-status?${queryParams}`);
       if (response.status === 200) {
         const result = await response.json();
-        setStaffDetail(result.data);
+        setStaffDetail(result);
         } else {
         console.log("error while fetching data");
 
@@ -111,7 +112,7 @@ const StaffTab = () => {
       console.log(response.status);
       if (response.status === 200) {
         const result = await response.json();
-        setStaffDetail(result.data);
+        setStaffDetail(result);
       } else {
          console.log("error while fetching staff")
       }
@@ -226,7 +227,7 @@ const StaffTab = () => {
           </div>
           <button
       onClick={resetFilters}
-      className="bg-gray-500 text-white p-2 rounded-md mx-2"
+      className="bg-[#27004a] text-white p-1 rounded-md mx-1"
     >
       Reset Filters
     </button>
@@ -290,7 +291,7 @@ const StaffTab = () => {
             {
               isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
           <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
-            Loading staff data...
+          <ClipLoader color="#4A90E2" size={50} />
           </td>
         </tr>
    )  :staffDetail && staffDetail.length > 0 ? (

@@ -14,13 +14,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const NavBar = ({ handleToggleSideBar, toggleSideBar }) => {
+const NavBar = () => {
   const [profileDropdown, setProfileDropDown] = useState(false);
   const { setIsAuthenticated } = useAuthContext();
 
-  const handleProfileDropDown = () => {
-    setProfileDropDown(!profileDropdown);
-  }
+
 
   const handleLogout = () => {
     if (Cookies.get('flowChangerAuthToken')) {
@@ -32,6 +30,8 @@ const NavBar = ({ handleToggleSideBar, toggleSideBar }) => {
   const handleAddClass = () => {
     document.body.classList.toggle('custom-body-class');
   };
+  const showDropdown = () => setProfileDropDown(true);
+  const hideDropdown = () => setProfileDropDown(false);
 
   return (
     <div className="w-[100%]  pt-[10px] pb-[10px] xl:pl-[31px] lg:pl-[31px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px] navbar">
@@ -53,9 +53,11 @@ const NavBar = ({ handleToggleSideBar, toggleSideBar }) => {
 
           {/* profile dropdown */}
           
-          <img  onClick={handleProfileDropDown} class="flex  justify-center items-center gap-x-1.5 rounded-[120%] w-6 h-10 p-4 bg-black text-white  text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-900" id="menu-button" aria-expanded="true" aria-haspopup="true" src={photo} alt="" className="cursor-pointer" />
+          <img  onMouseEnter={showDropdown}  class="flex  justify-center items-center gap-x-1.5 rounded-[120%] w-6 h-10 p-4 bg-black text-white  text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-900" id="menu-button" aria-expanded="true" aria-haspopup="true" src={photo} alt="" className="cursor-pointer" />
          
-          {profileDropdown && <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-black  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+          {profileDropdown && <div  onMouseEnter={showDropdown}
+              onMouseLeave={hideDropdown}
+           class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-black  shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="py-1" role="none">
               <div class="block  text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
                 <p className="text-white hover:bg-slate-500 p-2">tp</p>
