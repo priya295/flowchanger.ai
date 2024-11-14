@@ -10,14 +10,14 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const ContactInformation = () => {
 
-const [clientData,setClientData] = useState([])
-const {baseUrl} = useGlobalContext()
+    const [clientData, setClientData] = useState([])
+    const { baseUrl } = useGlobalContext()
     const fetchDetail = async () => {
         const result = await fetch(baseUrl + "client");
         if (result.status == 200) {
             const res = await result.json();
             console.log(res)
-            setClientData(res.data)
+            setClientData(res)
         }
         else {
             alert("An Error Occured")
@@ -96,31 +96,31 @@ const {baseUrl} = useGlobalContext()
 
                         </thead>
                         <tbody>
-                           
-                           {clientData.map((client,index)=>{
-                            return  <tr className='border'>
 
-                            <td>{client.name}</td>
-                            <td>pa</td>
-                            <td>{client.email}</td>
-                            <td>brandpa</td>
-                            <td>{client.mobile}</td>
-                            <td>Demo</td>
-                            <td>4 Weeks ago</td>
-                            <td> 
-                                  <div
-                                className={`${isOn3 ? 'bg-[#27004a]' : 'bg-[#e6e0e0]'
-                                    } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
-                                onClick={toggleSwitch3}
-                            >
-                                <span
-                                    className={`${isOn3 ? 'translate-x-6 mr-[21px] '  : 'translate-x-0 mr-[21px]'
-                                        } inline-block w-6 h-6 bg-[#d5cdcd] rounded-full transform transition-transform duration-300 ease-in-out`}
-                                />
-                            </div>
-                            </td>
-                        </tr>
-                           })}
+                            {clientData?.map((client, index) => {
+                                return <tr className='border'>
+
+                                    <td>{client.name}</td>
+                                    <td>pa</td>
+                                    <td>{client.email}</td>
+                                    <td>brandpa</td>
+                                    <td>{client.mobile}</td>
+                                    <td>Demo</td>
+                                    <td>4 Weeks ago</td>
+                                    <td>
+                                        <div
+                                            className={`${isOn3 ? 'bg-[#27004a]' : 'bg-[#e6e0e0]'
+                                                } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+                                            onClick={toggleSwitch3}
+                                        >
+                                            <span
+                                                className={`${isOn3 ? 'translate-x-6 mr-[21px] ' : 'translate-x-0 mr-[21px]'
+                                                    } inline-block w-6 h-6 bg-[#d5cdcd] rounded-full transform transition-transform duration-300 ease-in-out`}
+                                            />
+                                        </div>
+                                    </td>
+                                </tr>
+                            })}
                         </tbody>
                     </table>
                 </div>
