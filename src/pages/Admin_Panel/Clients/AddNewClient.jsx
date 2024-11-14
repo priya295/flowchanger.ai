@@ -77,11 +77,12 @@ const AddNewClient = () => {
       body: JSON.stringify({ name:clientName,company: company, vat_number: vatNumber, phone: phone, website: website, address: address, country: country, state: state, city: city, zip_code: zipCode, default_language: language, groups: selectedGroups, currency: currency, email: email })
     })
     console.log(result)
+    const data = await result.json(); 
     if (result.status == 201) {
-      openToast("Add Client Successfully")
+      openToast(data.msg || "Add Client Successfully" , "success")
     }
     else {
-      openToast("An Error Accured")
+      openToast(data.error||"An Error occured","error")
     }
   }
 

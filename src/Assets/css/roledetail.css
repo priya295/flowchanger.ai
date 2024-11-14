@@ -290,9 +290,9 @@ input[type=radio]{
 .edit-sidebar{
     transition: all 0.3s linear;
 }
-.toggle-btn-side{
+/* .toggle-btn-side{
     display: none;
-}
+} */
 .close-icon{
     display: none !important; 
     transition: all 0.3s linear;
@@ -446,11 +446,12 @@ input[type=radio]{
 
 @media screen and (max-width:1280px){
     .edit-sidebar{
-        left: -300px;
+        left: 0px;
         
     }
     .toggle-btn-side{
         display: block;
+
     }
 
     .editsidebar .edit-sidebar{

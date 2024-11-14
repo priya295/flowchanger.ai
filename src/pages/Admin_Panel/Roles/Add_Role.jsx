@@ -3,7 +3,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
 
 const AddNewRole = () => {
-    const { baseUrl } = useGlobalContext()
+    const { baseUrl , openToast } = useGlobalContext();
     // State for role name and permissions
     const [roleName, setRoleName] = useState('');
     const [permissions, setPermissions] = useState({
@@ -55,12 +55,14 @@ const AddNewRole = () => {
     
         console.log(response);
     
+        const result = await response.json();
+        console.log(result);
         if (response.status === 200) {
-            const result = await response.json();
+           
             console.log(result);
-            alert("Role successfully added");
+            openToast(result.message || "Role successfully added");
         } else {
-            alert("An error occurred");
+            openToast("An error occurred");
         }
     }
 

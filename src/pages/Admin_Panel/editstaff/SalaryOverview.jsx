@@ -5,7 +5,8 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const SalaryOverview = () => {
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
+        <>
+        {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
             <div className='flex justify-between items-center  w-[100%] p-[20px]  pr-0 xl:pr-[0px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Salary Overview</h3>
                 <button className='second-btn'>Update Details</button>
@@ -74,7 +75,8 @@ const SalaryOverview = () => {
                 <button className='second-btn'>Load More</button>
             </div>
 
-        </div>
+        {/* </div> */}
+        </>
     )
 }
 

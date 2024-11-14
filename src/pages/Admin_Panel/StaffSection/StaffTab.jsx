@@ -9,47 +9,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 const StaffTab = () => {
   const { baseUrl, setSelectedStaff } = useGlobalContext();
 
-  const [isLoading , setIsLoading] = useState(false);
-
   const [toggleDrop, setToggleDrop] = useState(false);
-  const [staffStatus, setStaffStatus] = useState("All Staff");
-  const [gender, setGender] = useState("Male");
-  const [employeeType, setEmployeeType] = useState("All");
-  const [selectedDepartmentName, setSelectedDepartmentName] = useState("");
-  const [searchStaffName, setSearchStaffName] = useState("");
-  const [departments, setDepartments] = useState([]);
- 
-
-
-  const FilterStaff = async () => {
-    const queryParams = new URLSearchParams({
-      status: staffStatus,
-      gender: gender,
-      type: employeeType,
-    }).toString();
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${baseUrl}staff/search-status?${queryParams}`);
-      if (response.status === 200) {
-        const result = await response.json();
-        setStaffDetail(result.data);
-        
-   
-      } else {
-        console.log("error while fetching data");
-      
-      }
-    } catch (error) {
-      console.log(error);
-     
-
-    }
-    finally{
-      setIsLoading(false);
-    }
-  };
-
-
 
   function handledrop() {
     setToggleDrop(!toggleDrop)
@@ -66,92 +26,37 @@ const StaffTab = () => {
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
     console.log("reuslt---", result)
-    setIsLoading(true);
-    try{
-      if (result.status == 200) {
-        const res = await result.json();
-        console.log(res);
-        setStaffDetail(res)
-        // console.log("---",res.name)
-      }
-      else {
-        alert("An Error Occured")
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-  //feature for searching the staff
-
-  const fetchDepartments = async () => {
-    const result = await fetch(baseUrl + "department")
-
     if (result.status == 200) {
       const res = await result.json();
-      setDepartments(res.data)
-
+      console.log(res);
+      setStaffDetail(res)
+      // console.log("---",res.name)
     }
     else {
       alert("An Error Occured")
     }
 
   }
-  // handle search the staff
-  const handleSearchStaff = async () => {
-    const queryParams = new URLSearchParams({
-      name: searchStaffName,
-      department_name: selectedDepartmentName,
-    }).toString();
-    setIsLoading(true);
-    try {
-      const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
-      console.log(response);
-      if (response.ok) {
-        const result = await response.json();
-        setStaffDetail(result.data);
-      } else {
-         console.log("error while fetching staff")
-      }
-    } catch (error) {
-      console.error('Error searching staff:', error);
-    }
-    finally{
-      setIsLoading(false);
-    }
-  };
-  const handleFilterButtonClick = () => {
-    FilterStaff();
-    setToggleDrop(false);
-  };
+
+
+
   useEffect(() => {
     fetchRoles()
-    fetchDepartments();
   }, [])
 
 
   return (
     <div className='staff-tab mt-[20px]'>
       <div className='flex justify-between flex-col xl:flex-row lg:flex-col md:flex-col gap-[15px] lg:gap-[0px]'>
-        <div className='flex lg:gap-[20px]  flex-col gap-[10px] lg:flex lg:flex-row '>
+        <div className='flex lg:gap-[20px] mb-[20px] flex-col gap-[10px] lg:flex lg:flex-row '>
           <div className='searching-input relative'>
             <img src={Search} className='absolute left-2 top-3' />
-            <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search'
-              value={searchStaffName} onChange={(e) => { setSearchStaffName(e.target.value) }}
-            />
+            <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' />
 
           </div>
 
-          <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' onChange={(e) => {
-            setSelectedDepartmentName(e.target.value);
-            handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
-          }}>
-            {departments.map(department => (
-              <option key={department.name} value={department.name}>
-                {department.department_name}
-              </option>
-            ))}
+          <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'>
+            <option>All Departments</option>
           </select>
 
 
@@ -165,8 +70,7 @@ const StaffTab = () => {
                 <h2 className='border-b '>More Filters</h2>
                 <div className='flex gap-[10px] mt-2 items-center'>
                   <label className='text-[13px] whitespace-nowrap w-[81px]'>Staff Status:</label>
-                  <select className='border rounded-md bg-[#F4F5F9] p-[8px]  w-[100%] focus-visible:outline-none text-sm' value={staffStatus}
-                    onChange={(e) => setStaffStatus(e.target.value)}>
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px]  w-[100%] focus-visible:outline-none text-sm'>
                     <option>All Staff</option>
                     <option>Active</option>
                     <option>InActive</option>
@@ -174,17 +78,15 @@ const StaffTab = () => {
                 </div>
                 <div className='flex gap-[10px] mt-2 items-center'>
                   <label className='text-[13px] whitespace-nowrap w-[102px]'>Gender:</label>
-                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm' value={gender}
-                    onChange={(e) => setGender(e.target.value)}>
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm'>
                     <option>Male</option>
                     <option>Female</option>
                     <option>Others</option>
                   </select>
                 </div>
                 <div className='flex gap-[10px] mt-2 items-center'>
-                  <label className='text-[13px] whitespace-nowrap w-[102px]'>Employee<br /> Type:</label>
-                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm' value={employeeType}
-                    onChange={(e) => setEmployeeType(e.target.value)}>
+                  <label className='text-[13px] whitespace-nowrap w-[102px]'>Employee<br/> Type:</label>
+                  <select className='border rounded-md bg-[#F4F5F9] p-[8px] w-full  focus-visible:outline-none text-sm'>
                     <option>All</option>
                     <option>Full Time</option>
                     <option>Pemanent</option>
@@ -196,16 +98,15 @@ const StaffTab = () => {
                   </select>
                 </div>
 
-                <div className='flex w-[50%] mx-auto justify-between text-center mt-2'>
-                  <button className='second-btn' onClick={()=>{setDropdownOpen(false)}}>Close</button>
-                  <button className='second-btn' onClick={handleFilterButtonClick}>filter</button>
+                <div className='text-center mt-2'>
+                  <button className='second-btn'>Close</button>
                 </div>
               </div>
             )}
           </div>
         </div>
         <div className='flex gap-[15px] justify-between lg:justify-start'>
-          {/* <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button> */}
+          <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button>
           <div>
             <div className="relative inline-block text-left">
               <div>
@@ -234,7 +135,8 @@ const StaffTab = () => {
         </div>
       </div>
 
-      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4 '>
+
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
         <div className='   '>
           <table className='table-section '>
             <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
@@ -258,48 +160,32 @@ const StaffTab = () => {
 
             </thead>
             <tbody >
-            
+              {
+                staffDetail?.map((staff, index) => {
+                  return <tr key={index} onClick={() => { setSelectedStaff(staff) }} className='border'>
+                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                    <td>
+                      <Link to={`/personal-detail/${staff.id}`} className='text-[#8A25B0] font-medium'>{staff.name}</Link>
+                    </td>
+                    <td>{staff.staffDetails.job_title ? staff.staffDetails.job_title : "N/A"}</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>{staff.staffDetails.date_of_joining ? new Date(staff.date_of_joining).toLocaleDateString() : "N/A"}</td>
+                    <td>{staff.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() : "N/A"}</td>
+                    <td>{staff.mobile}</td>
+                    <td>{staff.staffDetails.official_email}</td>
+                    <td>N/A</td>
+                    <td>{staff.staffDetails.gender ? staff.staffDetails.gender : "N/A"}</td>
+                    <td>{staff.staffDetails.current_address ? staff.staffDetails.current_address : "N/A"}</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>{staff.staffDetails.emergency_contact_name ? staff.staffDetails.emergency_contact_name : "N/A"}</td>
+                  </tr>
 
-            {
-              
-              isLoading ? (<tr className="h-[100px]">
-          <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
-            Loading staff data...
-          </td>
-        </tr>
-   )  :staffDetail && staffDetail.length > 0 ? (
-            staffDetail.map((staff, index) => (
-              <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
-                <td><input type="checkbox" className="border border-1 rounded-md" /></td>
-                <td>
-                  <Link to={`/personal-detail/${staff.id}`} className="text-[#8A25B0] font-medium">
-                    {staff.name}
-                  </Link>
-                </td>
-                <td>{staff.staffDetails.job_title || "N/A"}</td>
-                <td>N/A</td>
-                <td>{staff.staffDetails.date_of_joining ? new Date(staff.date_of_joining).toLocaleDateString() : "N/A"}</td>
-                <td>{staff.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() : "N/A"}</td>
-                <td>{staff.mobile}</td>
-                <td>{staff.staffDetails.official_email}</td>
-                <td>{staff.staffDetails.gender || "N/A"}</td>
-                <td>{staff.staffDetails.current_address || "N/A"}</td>
-                <td>{staff.staffDetails.emergency_contact_name || "N/A"}</td>
-              </tr>
-            ))
-          )
-   :   (
-    // No Data State
-    <tr className="h-[100px]">
-      <td 
-        colSpan="9" 
-        className="text-center text-red-500 text-xl font-semibold py-4"
-      >
-        No staff found.
-      </td>
-    </tr>
-  )   
-        }
+                })
+              }
+
 
 
             </tbody>
