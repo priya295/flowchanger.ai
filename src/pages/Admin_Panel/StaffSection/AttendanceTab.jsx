@@ -598,7 +598,7 @@ const AttendanceTab = () => {
                                 <div>
                                     <div className="relative inline-block text-left">
                                         <div>
-                                            <button type="button" onClick={handleUpdate}
+                                            <button type="button" disabled={selectedId.length === 0} onClick={handleUpdate}
                                                 className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
                                                 Update Attendance Modes
 
@@ -683,7 +683,7 @@ const AttendanceTab = () => {
                                 <div>
                                     <div className="relative inline-block text-left">
                                         <div>
-                                            <button type="button" onClick={handleUpdateAutoMation} className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            <button type="button" disabled={selectedId.length === 0} onClick={handleUpdateAutoMation} className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
                                                 Update Automation Rules
 
                                             </button>
@@ -959,7 +959,7 @@ const AttendanceTab = () => {
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Shifts</h2>
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
-                <div className='h-[400px] overflow-scroll'>
+                <div className=''>
 
                     {/* {
                         shiftDetails?.map((op,index)=>{
@@ -971,6 +971,8 @@ const AttendanceTab = () => {
                         </div>
                         })
                     } */}
+                    
+                    <div className="h-[100px] overflow-y-scroll">
                     {shiftDetails?.map((op) => (
                         <div key={op.id} className="flex justify-between items-center border-b py-3 px-3">
                             <h3 className="text-[13px]">
@@ -983,6 +985,7 @@ const AttendanceTab = () => {
                             />
                         </div>
                     ))}
+                    </div>
                     <Link to="" className='text-[#8A25B0] p-4 font-medium mt-3 w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
                     <div className='text-end  flex pr-4 pb-3 gap-[10px] justify-end items-center' >
                         <button className='first-btn' onClick={closeModal1}>Cancel</button>
@@ -1504,7 +1507,6 @@ const AttendanceTab = () => {
                                 value={time.hours}
                                 name="hours"
                                 className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                                placeholder="Hours"
                             />
                             <label htmlFor="limit" className="text-[13px] xl:text-[14px] font-medium cursor-pointer">Hours</label><br />
                         </div>
@@ -1515,7 +1517,6 @@ const AttendanceTab = () => {
                                 value={time.minutes}
                                 name="minutes"
                                 className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                                placeholder="Minutes"
                             />
                             <label htmlFor="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium cursor-pointer">Minutes</label><br />
                         </div>
@@ -1561,7 +1562,6 @@ const AttendanceTab = () => {
                                 value={duration.hrs}
                                 name="hrs"
                                 className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                                placeholder="Hours"
                             />
                             <label htmlFor="limit" className="text-[13px] xl:text-[14px] font-medium cursor-pointer">Hours</label><br />
                         </div>
@@ -1572,7 +1572,6 @@ const AttendanceTab = () => {
                                 value={duration.mins}
                                 name="mins"
                                 className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                                placeholder="Minutes"
                             />
                             <label htmlFor="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium cursor-pointer">Minutes</label><br />
                         </div>
