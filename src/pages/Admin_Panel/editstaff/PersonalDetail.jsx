@@ -22,7 +22,7 @@ const PersonalDetail = () => {
         emergency_contact_relation: selectedStaff?.staffDetails?.emergency_contact_relation,
         emergency_contact_address: selectedStaff?.staffDetails?.emergency_contact_address,
         current_address: selectedStaff?.staffDetails?.current_address,
-        permanent_address: selectedStaff?.staffDetails?.permanent_address
+        permanent_address: selectedStaff?.staffDetails?.permanent_address,
     });
 
     const [governmentIds, setGovernmentIds] = useState({
@@ -68,7 +68,10 @@ const PersonalDetail = () => {
                     mobile: result?.mobile,
                     official_email: result?.staffDetails?.official_email,
                     date_of_birth: result?.staffDetails?.date_of_birth,
-                    // gender: result?.staffDetails?.gender,
+                    date_of_joining: result?.staffDetails?.date_of_joining,
+                    gender: result?.staffDetails?.gender,
+                    blood_group: result?.staffDetails?.blood_group,
+                    marital_status: result?.staffDetails?.marital_status,
                     guardian_name: result?.staffDetails?.guardian_name,
                     emergency_contact_name: result?.staffDetails?.emergency_contact_name,
                     emergency_contact_mobile: result?.staffDetails?.emergency_contact_mobile,

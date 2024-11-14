@@ -54,7 +54,6 @@ const EditSalaryDetails = () => {
     { state: "West Bengal", employeelwf: .50, employerlwf: 2.5 },
   ];
 
-  const [selectLWF, setSelectLWF] = useState(null)
   const initialOptions = [
     { id: 1, label: 'None' },
     {
@@ -240,6 +239,7 @@ const EditSalaryDetails = () => {
   const [customAllowance, setCustomAllowance] = useState('');
   const [customDeduction, setCustomDeduction] = useState('');
   const [allowances, setAllowances] = useState([
+    "Basic",
     "HRA",
     "Dearness Allowance",
     "Accommodation and Food",
@@ -303,8 +303,8 @@ const EditSalaryDetails = () => {
     "Miscellaneous Deduction"
   ]);
 
-  const [selectedAllowance, setSelectedAllowance] = useState(["Basic"]);
-  const [selectedDeduction, setSelectedDeduction] = useState([]);
+  const [selectedAllowance, setSelectedAllowance] = useState([...selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads)]);
+  const [selectedDeduction, setSelectedDeduction] = useState([...selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads)]);
 
 
   const [calEarning, setCalEarning] = useState([]);
@@ -354,16 +354,16 @@ const EditSalaryDetails = () => {
   const calculateCheckedItemsTotal = (calEarning = [], selectedOption, percentage = 100) => {
     // Extract checked items' labels from `selectedOption.items` if available
     const checkedItemIds = (selectedOption?.items || [])
-      .filter(item => item.checked) // Only include items where `checked` is true
-      .map(item => item.label.toLowerCase()); // Get the labels of checked items
+      ?.filter(item => item?.checked) // Only include items where `checked` is true
+      ?.map(item => item?.label?.toLowerCase()); // Get the labels of checked items
 
 
     // Filter `calEarning` to include only items with IDs that are in `checkedItemIds`
-    const filteredEarnings = calEarning.filter(item => checkedItemIds.includes(item.name.toLowerCase()));
+    const filteredEarnings = calEarning?.filter(item => checkedItemIds?.includes(item?.name?.toLowerCase()));
 
     // Calculate the total with the percentage applied
-    const total = filteredEarnings.reduce((sum, item) => {
-      return sum + ((parseFloat(item.amount) || 0) * (percentage / 100));
+    const total = filteredEarnings?.reduce((sum, item) => {
+      return sum + ((parseFloat(item?.amount) || 0) * (percentage / 100));
     }, 0);
 
     return total;
@@ -488,6 +488,7 @@ const EditSalaryDetails = () => {
 
 
   const [stateid, setstateid] = useState(0);
+  const [stateName, setstateName] = useState("");
   const [toggleButton, settoggleButton] = useState({
     addAllowances1: false,
     Employer_PF_Contribution: false,
@@ -508,19 +509,48 @@ const EditSalaryDetails = () => {
 
   async function createORUpdateSalaryDetails(e) {
     const data = {
-      salaryDetail: {
-        effective_date: selectedMonth,
-        salary_type: selectSalaryType,
-        ctc_amount: Number(totalCTC),
-        employer_pf: Number(calEmployerPF),
-        employer_esi: Number(calEmployerESI),
-        employee_pf: Number(calEmployeePF),
-        employee_esi: Number(calEmployeeESI),
-      },
-      earning: calEarning,
-      deduction: calDeductions,
+      effective_date: selectedMonth,
+      salary_type: selectSalaryType,
+      ctc_amount: Number(totalCTC),
+      employer_pf: Number(calEmployerPF),
+      employer_esi: Number(calEmployerESI),
+      employee_pf: Number(calEmployeePF),
+      employee_esi: Number(calEmployeeESI),
+      employer_lwf: Number(calCompliances?.find(item => item?.name === "Employer LWF")?.calculation),
+      employee_lwf: Number(calCompliances?.find(item => item?.name === "Employee LWF")?.calculation),
+      earnings: calEarning?.map((item) => ({ heads: item?.name, calculation: item?.calculation, amount: item?.amount })),
+      deductions: calDeductions?.map((item) => ({ heads: item?.name, calculation: item?.calculation, amount: item?.amount })),
     };
     console.log(data);
+    try {
+      const response = await fetch(
+        `${baseUrl}salary`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data, staffId: selectedStaff?.staffDetails?.id }),
+        }
+      );
+
+      console.log("Response from backend:", response);
+
+      if (response.ok) {  // Changed to response.ok to handle all 2xx responses
+        const result = await response.json();
+        console.log("Response data:", result);
+
+        // Show success toast and close modal
+        openToast("Salary details successfully updated or created", "success");
+      }
+      else {
+        // Show error toast if response status is not 2xx
+        openToast("An error occurred while adding or updating Salary", "error");
+      }
+    } catch (error) {
+      console.error("Error submitting Salary:", error);
+      openToast("An error occurred while adding or updating Salary", "error");
+    }
   }
   async function createNewEarningField(heads) {
 
@@ -538,9 +568,9 @@ const EditSalaryDetails = () => {
 
     console.log(response);
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       const result = await response.json()
-      console.log(result.data);
+      console.log(result);
       // alert("edit Custom Field Successfully");
     } else {
       // alert("An error occurred");
@@ -562,7 +592,7 @@ const EditSalaryDetails = () => {
 
     console.log(response);
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       const result = await response.json()
       console.log(result.data);
       // alert("edit Custom Field Successfully");
@@ -575,7 +605,7 @@ const EditSalaryDetails = () => {
 
   return (
     <>
-    {/* // <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col"> */}
+      {/* // <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col"> */}
       <div className="flex items-center justify-between  xl:pb-6  ">
         <h1 className="  font-medium ">
           Salary Details Import Settings
@@ -611,7 +641,7 @@ const EditSalaryDetails = () => {
           <label className="text-[14px]">Salary Structure
           </label><br />
           <select value={selectSalaryStructure} onChange={(e) => { setSelectSalaryStructure(e.target.value) }} className="mt-[5px] text-[14px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
-            <option  value={"Salary Box Provided Breakdown"}>
+            <option value={"Salary Box Provided Breakdown"}>
               Salary Box Provided Breakdown
             </option>
             <option value={"Custom"}>
@@ -624,7 +654,7 @@ const EditSalaryDetails = () => {
           <label className="text-[14px]">CTC Amount</label><br />
           <div className="relative">
             <span className="absolute top-[10px] left-[4px]">₹</span>
-            <input value={totalCTC} onChange={(e) => setTotalCTC(e.target.value)} type="number" placeholder="Enter Amount" className="mt-[5px] pl-[20px] text-[14px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full" />
+            <input disabled={true} value={totalCTC} onChange={(e) => setTotalCTC(e.target.value)} type="number" placeholder="Enter Amount" className="mt-[5px] pl-[20px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full" />
           </div>
         </div>
 
@@ -846,15 +876,29 @@ const EditSalaryDetails = () => {
 
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">Employer LWF</span>
-              <StateSelect
-                className="h-[34px] w-[134px] border border-[#D9D9D9] bg-white text-[12px] pl-4 rounded-md focus:outline-none"
+              {/* <StateSelect
+                value={stateid}
+                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
                 countryid={101}
                 onChange={(e) => {
                   console.log(e.name);
                   handleChange("compliances", "Employer LWF", e.name, "state")
                 }}
                 placeHolder="Select State"
-              />
+              /> */}
+              <select value={stateName} onChange={(e) => {
+                setstateName(e.target.value)
+                handleChange("compliances", "Employer LWF", e.target.value, "state")
+                handleChange("compliances", "Employer LWF", statesLWF?.filter((state) => state.state === e.target.value)[0]?.employerlwf, "calculation")
+                handleChange("compliances", "Employee LWF", e.target.value, "state")
+                handleChange("compliances", "Employee LWF", statesLWF?.filter((state) => state.state === e.target.value)[0]?.employeelwf, "calculation")
+              }} placeHolder="Select State"
+                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+              >
+                {statesLWF?.map((state) => (
+                  <option value={state.state}>{state.state}</option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="xl:w-[50%] w-[100%] space-y-5">
@@ -987,7 +1031,8 @@ const EditSalaryDetails = () => {
             {/* Employee LWF Dropdown */}
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">Employee LWF</span>
-              <StateSelect
+              {/* <StateSelect
+                value={stateid}
                 className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
                 countryid={101}
                 onChange={(e) => {
@@ -995,7 +1040,20 @@ const EditSalaryDetails = () => {
                   handleChange("compliances", "Employee LWF", e.name, "state"); // Track state changes if needed
                 }}
                 placeHolder="Select State"
-              />
+              /> */}
+              <select value={stateName} onChange={(e) => {
+                setstateName(e.target.value)
+                handleChange("compliances", "Employer LWF", e.target.value, "state")
+                handleChange("compliances", "Employer LWF", statesLWF?.filter((state) => state.state === e.target.value)[0]?.employerlwf, "calculation")
+                handleChange("compliances", "Employee LWF", e.target.value, "state")
+                handleChange("compliances", "Employee LWF", statesLWF?.filter((state) => state.state === e.target.value)[0]?.employeelwf, "calculation")
+              }} placeHolder="Select State"
+                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+              >
+                {statesLWF?.map((state) => (
+                  <option value={state.state}>{state.state}</option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -1025,16 +1083,16 @@ const EditSalaryDetails = () => {
               </div>
             ))}
           </div>
-        
+
         </div>
-          <div className="flex items-center ml-[63px] mt-[15px] justify-between">
-            <h2>TDS</h2>
-            <div className="flex items-center gap-[6px]">
+        <div className="flex items-center ml-[63px] mt-[15px] justify-between">
+          <h2>TDS</h2>
+          <div className="flex items-center gap-[6px]">
             <p className="text-[14px]">System Calculated</p>
             <CiCircleInfo className="circle-tu" />
 
-            </div>
           </div>
+        </div>
 
 
       </div>
@@ -1234,7 +1292,7 @@ const EditSalaryDetails = () => {
           </button>
         </div>
       </div>
-    {/* </div> */}
+      {/* </div> */}
     </>
   )
 }

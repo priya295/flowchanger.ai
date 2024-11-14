@@ -324,7 +324,7 @@ const EditLeavePolicies = () => {
 
             <Modal
                 isOpen={modalIsOpen10}
-                onAfterOpen={afterOpenModal10}
+                onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal10}
                 // style={customStyles}
                 contentLabel="Example Modal"
@@ -353,53 +353,36 @@ const EditLeavePolicies = () => {
                             <div className="text-gray-700 font-medium text-[14px]">Remaining Balance</div>
                         </div>
                     </div>
-
-                    
-                        <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
-                            <div className="text-gray-700 font-medium text-[15px]">Privileged Leave</div>
-                            <div className="flex items-center gap-2">
-                                <input 
-                                    type="text"
-                                   placeholder='1'
-                                    className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
-                                />
-                                <span className="text-gray-600 text-[15px] font-medium">leaves</span>
+                    {
+                        selectedStaff?.staffDetails?.LeavePolicy?.map((item, index) => (
+                            <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
+                                <div className="text-gray-700 font-medium text-[15px] capitalize">{item.name} Leaves</div>
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        value={((item?.allowed_leaves) / 12).toFixed(2)}
+                                        type="number"
+                                        placeholder='1'
+                                        className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
+                                    />
+                                    <span className="text-gray-600 text-[15px] font-medium">leaves</span>
+                                </div>
                             </div>
+                        ))
+                    }
+                    {/* <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
+                        <div className="text-gray-700 font-medium text-[15px]">Privileged Leave</div>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="text"
+                                placeholder='1'
+                                className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
+                            />
+                            <span className="text-gray-600 text-[15px] font-medium">leaves</span>
                         </div>
-                        <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
-                            <div className="text-gray-700 font-medium text-[15px]">Privileged Leave</div>
-                            <div className="flex items-center gap-2">
-                                <input 
-                                    type="text"
-                                   placeholder='1'
-                                    className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
-                                />
-                                <span className="text-gray-600 text-[15px] font-medium">leaves</span>
-                            </div>
-                        </div>
-                        <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
-                            <div className="text-gray-700 font-medium text-[15px]">Privileged Leave</div>
-                            <div className="flex items-center gap-2">
-                                <input 
-                                    type="text"
-                                   placeholder='1'
-                                    className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
-                                />
-                                <span className="text-gray-600 text-[15px] font-medium">leaves</span>
-                            </div>
-                        </div>
-                   
-
-
-
-
-
-
-
-
-
+                    </div> */}
                 </div>
-            </Modal>
+            </Modal >
+
             {/* when onclick update staff
              */}
 
@@ -412,7 +395,6 @@ const EditLeavePolicies = () => {
                 isOpen={modalIsOpen12}
                 onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal12}
-                // style={customStyles}
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
@@ -715,8 +697,8 @@ const EditLeavePolicies = () => {
 
                 </div>
             </Modal>
-{/* // </div> */}
-       </>
+
+        </ >
     )
 }
 
