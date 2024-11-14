@@ -222,7 +222,7 @@ const EditSalaryDetails = () => {
 
 
 
-  const { baseUrl, selectedStaff } = useGlobalContext();
+  const { baseUrl, selectedStaff, openToast } = useGlobalContext();
   // console.log(selectedStaff);
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectSalaryType, setSelectSalaryType] = useState("Per Month");
@@ -303,8 +303,10 @@ const EditSalaryDetails = () => {
     "Miscellaneous Deduction"
   ]);
 
-  const [selectedAllowance, setSelectedAllowance] = useState([...selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads)]);
-  const [selectedDeduction, setSelectedDeduction] = useState([...selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads)]);
+  // const [selectedAllowance, setSelectedAllowance] = useState([...selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads)]);
+  // const [selectedDeduction, setSelectedDeduction] = useState([...selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads)]);
+  const [selectedAllowance, setSelectedAllowance] = useState([]);
+  const [selectedDeduction, setSelectedDeduction] = useState([]);
 
 
   const [calEarning, setCalEarning] = useState([]);
