@@ -225,7 +225,7 @@ const SideBar = ({ toggleSideBar }) => {
   {/* Main Staff Tab */}
   <Link
     to="/staff-menu"
-    onClick={() => {setSelectedTab("staff"); handleArrowClick();}}
+    onClick={() => { setSelectedTab("staff"); handleArrowClick(); }}
     className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
       selectedTab === "staff" ? "bg-white text-[#8a25b0]" : "text-white"
     }`}
@@ -247,11 +247,9 @@ const SideBar = ({ toggleSideBar }) => {
       <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
     </svg>
-    <div className="flex justify-between items-center gap-3 w-[80%]">
+    <div className="flex justify-between items-center gap-3 w-full">
       Staff
-      <button
-        className="ml-auto focus:outline-none"
-      >
+      <button className="ml-auto focus:outline-none">
         {isStaffSubmenuOpen ? (
           <FaChevronDown className="text-sm" />
         ) : (
@@ -263,41 +261,35 @@ const SideBar = ({ toggleSideBar }) => {
 
   {/* Submenu */}
   {isStaffSubmenuOpen && (
-    <div className="overflow-x-hidden transition-max-height duration-300 ease-in-out mt-[5px]">
+    <div className="transition-all duration-300 ease-in-out mt-[5px] overflow-hidden">
       <div>
-      <Link
-        to="/payroll-menu"
-        onClick={() => {
-        
-          setSelectedTab("payroll");
-        
-        }}
-        className={`w-[80%] ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap hover:bg-white rounded-md hover:text-[#8a25b0] transition-all mr-[10px] overflow-x-hidden  ${
-          selectedTab === "payroll" ? "bg-white text-[#8a25b0]" : "text-white"
-        }`}
-      >
-        <ArrowForwardIosIcon className="arrow-icon-sidebar" />
-        Payroll
-      </Link>
+        <Link
+          to="/payroll-menu"
+          onClick={() => setSelectedTab("payroll")}
+          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] whitespace-nowrap transition-all rounded-md overflow-hidden ${
+            selectedTab === "payroll" ? "bg-white text-[#8a25b0]" : "text-white"
+          }`}
+        >
+          <ArrowForwardIosIcon className="arrow-icon-sidebar" />
+          Payroll
+        </Link>
       </div>
-<div>
-      <Link
-        to="/attendence_summary"
-        onClick={() => {
-        setSelectedTab("attendance");
-        
-        }}
-        className={`w-[80%] ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap transition-all rounded-md  overflow-x-hidden mr-[10px] ${
-          selectedTab === "attendance" ? "bg-white text-[#8a25b0]" : "text-white"
-        }`}
-      >
-        <ArrowForwardIosIcon className="arrow-icon-sidebar" />
-        Attendance
-      </Link>
+      <div>
+        <Link
+          to="/attendence_summary"
+          onClick={() => setSelectedTab("attendance")}
+          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] whitespace-nowrap transition-all rounded-md overflow-hidden ${
+            selectedTab === "attendance" ? "bg-white text-[#8a25b0]" : "text-white"
+          }`}
+        >
+          <ArrowForwardIosIcon className="arrow-icon-sidebar" />
+          Attendance
+        </Link>
       </div>
     </div>
   )}
 </div>
+
  
 
 

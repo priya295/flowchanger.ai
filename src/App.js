@@ -88,6 +88,7 @@ import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
 import ProtectedRoute from './ProtectedRoute';
 import DashBoard from "./pages/Admin_Panel/DashBoard";
 import { useAuthContext } from "./Context/AuthContext";
+import ContactInformation from "./pages/Admin_Panel/Clients/ContactInformation";
 
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
@@ -276,6 +277,7 @@ const App = () => {
             <Route path="/expensepage" element={<ExpensePage />} />
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
+            <Route path = "/contact-information" element = {<ContactInformation/>}  />
           </Route>
          
 

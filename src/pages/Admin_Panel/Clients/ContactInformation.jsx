@@ -11,16 +11,16 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 const ContactInformation = () => {
 
 const [clientData,setClientData] = useState([])
-const {baseUrl} = useGlobalContext()
+const {baseUrl , openToast} = useGlobalContext()
     const fetchDetail = async () => {
         const result = await fetch(baseUrl + "client");
         if (result.status == 200) {
             const res = await result.json();
             console.log(res)
-            setClientData(res.data)
+            setClientData(res)
         }
         else {
-            alert("An Error Occured")
+            openToast("An Error Occured")
         }
     }
 
@@ -43,7 +43,7 @@ const {baseUrl} = useGlobalContext()
         setIsOn3(!isOn3);
     }
     return (
-        <div className='table-section mt-5 bg-white shadow-cs p-[20px] rounded-lg pr-0'>
+        <div className='table-section mt-5  shadow-cs p-[20px] rounded-lg pr-0 '>
 
 
 
@@ -81,18 +81,18 @@ const {baseUrl} = useGlobalContext()
                     </div>
                 </div>
 
-                <div className='w-full   '>
-                    <table className='table-section new-worth p-[10px]  w-full'>
-                        <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
-                            <th>First Name</th>
-                            <th>Last Name </th>
-                            <th>Email</th>
-                            <th>Company</th>
-                            <th>Phone</th>
-                            <th>Positon</th>
-                            <th>Last Login</th>
-                            <th>Active</th>
-
+                <div className='w-full rounded-xl'>
+                    <div className='w-full overflow-x-auto  '>
+                    <table className='table-section new-worth p-[10px]  w-full  !border-0 !border-spacing-0 '>
+                        <thead className=' sticky bg-gray-200 set-shadow top-[-1px] !border-0'>
+                            <th className='  p-2 text-xs font-medium text-center !border-0 !bg-white'>First Name</th>
+                            <th className=' p-2 text-xs font-medium text-center !border-0 !bg-white'>Last Name </th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Email</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Company</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Phone</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Positon</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Last Login</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Active</th>
 
                         </thead>
                         <tbody>
@@ -123,6 +123,7 @@ const {baseUrl} = useGlobalContext()
                            })}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
             <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>

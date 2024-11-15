@@ -414,13 +414,7 @@ const Clients = () => {
             <AddIcon className="newadd" /> New Clients
           </Link>
           <Link
-            to="/"
-            className="text-[#fff] text-[14px] client-add bg-[#8a25b0]   focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            <AddIcon className="newadd" /> Import Clients
-          </Link>
-          <Link
-            to="/"
+            to="/contact-information"
             className="text-[#000] text-[14px] client-add bg-[#f4f2f2]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <PersonIcon className="newadd mr-[5px]" />
