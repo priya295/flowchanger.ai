@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const DepartmentDetail = () => {
@@ -15,9 +16,8 @@ const DepartmentDetail = () => {
   const { baseUrl, setDepId, setName ,openToast} = useGlobalContext();
   const [departments, setDepartments] = useState([]);
   const [searchDepartment , setSearchDepartMent ] = useState('');
-  const [searchDepartmentMessage , setSearchDepartmentMessage] = useState(false);
   const [exportFormat, setExportFormat] = useState('');
-   
+   const [isLoading , setIsLoading] = useState(true);
   const [rowsToShow, setRowsToShow] = useState(25);
 
   // Handle select change for rows to show
@@ -61,15 +61,23 @@ const DepartmentDetail = () => {
 
   const fetchDepartments = async () => {
     const result = await fetch(baseUrl + "department")
+    setIsLoading(true)
+try{
+  if (result.status == 200) {
+    const res = await result.json();
+    setDepartments(res.data)
 
-    if (result.status == 200) {
-      const res = await result.json();
-      setDepartments(res.data)
-
-    }
-    else {
-      alert("An Error Occured")
-    }
+  }
+  else {
+    openToast("An Error Occured")
+  }
+}
+ catch(error){
+  console.log("error:", error)
+ }  
+ finally{
+  setIsLoading(false);
+ }  
 
   }
 
@@ -99,21 +107,21 @@ const DepartmentDetail = () => {
     const queryParams = new URLSearchParams({
       department_name: searchDepartment,
     }).toString();
+    setIsLoading(true)
     try {
       const response = await fetch(`${baseUrl}department/search?${queryParams}`);
       console.log(response);
       if (response.status === 201) {
         const result = await response.json();
-        console.log(result);
-        console.log(result.data);
-        setDepartments(result.data);
-        setSearchDepartmentMessage(result.data.length === 0);
+       
+        setDepartments(result);
+       
       } else {
-        setSearchDepartmentMessage(true);
+      
       }
     } catch (error) {
       console.error('Error searching staff:', error);
-      setSearchDepartmentMessage(true);
+      setIsLoading(false);
     }
   };
 
@@ -177,8 +185,7 @@ const DepartmentDetail = () => {
      name = "searchDepartment"
      value = {searchDepartment} 
     onChange={(e)=>{
-      setSearchDepartMent(e.target.value);
-      handleSearchDepartMent();}}
+      setSearchDepartMent(e.target.value);}}
     />
             <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
     ]'/>
@@ -192,30 +199,40 @@ const DepartmentDetail = () => {
             </tr>
           </thead>
           <tbody>
-            {
-              departments.slice(0, rowsToShow).map((dep) => (
-                <tr key={dep.id} className='border-b pb-2 border-[#f1f5f9]'>
-                  <td className='pt-4 pb-3 pl-3'>
-                    <Link to="/" className='text-[#27004a] text-[14px]'>{dep.department_name}</Link>
-                    <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-                  </td>
-                  <td className='flex pt-4 gap-2 justify-center'>
-                    <Link to="/editdepartment" onClick={()=>{
-                      setDepId(dep.id)
-                      setName(dep.department_name)
-                      }}>
-                      <BorderColorIcon className='text-[#27004a] font-light cursor-pointer text-[10px]]' />
-                    </Link>
-                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]' onClick={() => deleteDepartments(dep.id)} />
-                  </td>
-                </tr>
-              ))
-            }
-
-
-
-
-          </tbody>
+  {
+    isLoading && departments.length === 0 ? (
+      <tr className="h-[100px]">
+          <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+          <ClipLoader color="#4A90E2" size={50} />
+          </td>
+        </tr>
+    ) : departments && departments.length > 0 ? (
+      departments.slice(0, rowsToShow).map((dep) => (
+        <tr key={dep.id} className="border-b pb-2 border-[#f1f5f9]">
+          <td className="pt-4 pb-3 pl-3">
+            <Link to="/" className="text-[#27004a] text-[14px]">{dep.department_name}</Link>
+            <h6 className="text-[13px] pt-2 text-[#a5a1a1]">Total Users: <span>1</span></h6>
+          </td>
+          <td className="flex pt-4 gap-2 justify-center">
+            <Link to="/editdepartment" onClick={() => {
+              setDepId(dep.id)
+              setName(dep.department_name)
+            }}>
+              <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
+            </Link>
+            <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]" onClick={() => deleteDepartments(dep.id)} />
+          </td>
+        </tr>
+      ))
+    ) : (
+      <tr className="h-[100px]">
+        <td colSpan="2" className="text-center text-red-500 text-xl font-semibold py-4">
+          No departments found.
+        </td>
+      </tr>
+    )
+  }
+</tbody>
         </table>
         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
           <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>

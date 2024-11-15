@@ -421,6 +421,25 @@ const EditSalaryDetails = () => {
   }, [calEarning, calCompliances, calDeductions, selectedOption1, selectedOption2, selectedOption3, selectedOption4])
 
 
+  // useEffect(() => {
+  //   if (includeEmployerPF) {
+  //     setTotalCTC(totalCTC + calculateCheckedItemsTotal(calEarning, selectedOption1, 12)
+  //     )
+  //   }
+  //   else {
+  //     setTotalCTC(totalCTC - calculateCheckedItemsTotal(calEarning, selectedOption1, 12))
+  //   }
+  // }, [includeEmployerPF])
+
+  // useEffect(() => {
+  //   if (includeEmployerESI) {
+  //     setTotalCTC(totalCTC + calculateCheckedItemsTotal(calEarning, selectedOption2, 3.25)
+  //     )
+  //   }
+  //   else {
+  //     setTotalCTC(totalCTC - calculateCheckedItemsTotal(calEarning, selectedOption2, 3.25))
+  //   }
+  // }, [includeEmployerESI])
 
   useEffect(() => {
     function handleClickOutside(event) {

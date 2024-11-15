@@ -44,9 +44,6 @@ const {baseUrl} = useGlobalContext()
     }
     return (
         <div className='table-section mt-5 bg-white shadow-cs p-[20px] rounded-lg pr-0'>
-
-
-
             <div className='w-[100%] p-0 h-[auto]  rounded-md shadow  border border-1 mt-4 '>
 
 
