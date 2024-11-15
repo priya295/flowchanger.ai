@@ -68,7 +68,7 @@ export const GlobalContext = ({ children }) => {
   }, [])
 
   return (
-    <MainContext.Provider value={{ selectedTab, setSelectedTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails, fetchStaff }}>
+    <MainContext.Provider value={{ selectedTab, setSelectedTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails, fetchStaff , staffDetail }}>
       {children}
       <ToastContainer />
     </MainContext.Provider>

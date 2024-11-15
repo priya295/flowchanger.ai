@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
@@ -10,11 +10,13 @@ import qr from '../../../Assets/Images/qr-code.svg';
 import rightimg from '../../../Assets/Images/right.svg';
 import selfie from '../../../Assets/Images/selfie-img.svg';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import Select from 'react-select';
 
 
 const EditAttendanceDetail = () => {
 
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+    const [toogleStaffAttendance, setToogleStaffAttendance] = useState(selectedStaff?.staffDetails?.status || false);
     const [toggleSelfieAttendance, setToggleSelfieAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.selfie_attendance || false);
     const [toggleAllowPunchInMobile, setToggleAllowPunchInMobile] = useState(selectedStaff?.staffDetails?.AttendenceMode?.allow_punch_in_for_mobile || false);
     const [toggleQRAttendance, setToggleQRAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.qr_attendance || false);
@@ -38,7 +40,47 @@ const EditAttendanceDetail = () => {
     const [autoHalfDay, setAutoHalfDay] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.auto_half_day));
     const [mandatoryFullDayHour, setMandatoryFullDayHour] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.manadatory_full_day));
     const [mandatoryHalfDayHour, setMandatoryHalfDayHour] = useState(parseTimeString(selectedStaff?.staffDetails?.attendanceAutomationRule?.manadatory_half_day));
-    console.log(selectedStaff?.staffDetails);
+    const [shiftDetails, setShiftDetails] = useState(selectedStaff?.staffDetails?.shifts || []);
+    const [selectMonShift, setSelectMonShift] = useState([]);
+    const [selectTueShift, setSelectTueShift] = useState([]);
+    const [selectWedShift, setSelectWedShift] = useState([]);
+    const [selectThuShift, setSelectThuShift] = useState([]);
+    const [selectFriShift, setSelectFriShift] = useState([]);
+    const [selectSatShift, setSelectSatShift] = useState([]);
+    const [selectSunShift, setSelectSunShift] = useState([]);
+
+
+    async function fetchShiftDetails() {
+        const result = await fetch(baseUrl + "shift");
+        if (result.status == 200) {
+            const data = await result.json();
+            setShiftDetails(data)
+        }
+        else {
+            openToast("No Record Found")
+        }
+
+    }
+
+
+    const [newShift, setNewShift] = useState({
+        shiftName: "",
+        shiftStartTime: "",
+        shiftEndTime: "",
+        punchInType: "ANYTIME",
+        punchOutType: "ANYTIME",
+        allowPunchInHours: 0,
+        allowPunchInMinutes: 0,
+        allowPunchOutHours: 0,
+        allowPunchOutMinutes: 0,
+    })
+
+    const [selectedShift, setSelectedShift] = useState([]);
+    const options = selectedShift?.map((seo) => ({
+        value: seo?.shiftName,
+        label: `${seo?.shiftName} | ${seo?.shiftStartTime} - ${seo?.shiftEndTime}`
+    }));
+    const isSelected = (shiftId) => selectedShift.some((s) => s.id === shiftId);
 
     async function updateAttendanceMode(e) {
         e.preventDefault();
@@ -206,9 +248,11 @@ const EditAttendanceDetail = () => {
     // toggle switch
     const [isOn, setIsOn] = useState(false);
 
-    const handleToggle = () => {
-        setIsOn(!isOn);
-    };
+    // const handleToggle = () => {
+    //     setToogleStaffAttendance(!toogleStaffAttendance);
+    //     console.log(toogleStaffAttendance);
+    //     setIsOn(!isOn);
+    // };
     // toggle switch
 
     {/* when onclick update attendance modes for all staff */ }
@@ -315,10 +359,60 @@ const EditAttendanceDetail = () => {
     }
     // onclick mandatory half day button
 
+    const handleTimeChange = (value) => {
 
+        const [hours, minutes] = value.split(":").map(Number);
+
+        // Determine AM or PM
+        const period = hours >= 12 ? "PM" : "AM";
+
+        // Convert to 12-hour format
+        const adjustedHours = hours % 12 || 12; // `12` for midnight and noon
+        const formattedTime = `${adjustedHours}:${minutes < 10 ? `0${minutes}` : minutes} ${period}`;
+
+        return formattedTime
+    };
+
+    console.log(newShift);
+
+    const handleCheckboxChange = (shift) => {
+        setSelectedShift((prevSelected) => {
+            if (isSelected(shift.id)) {
+                // If already selected, remove from selectedShift
+                return prevSelected.filter((s) => s.id !== shift.id);
+            } else {
+                // Otherwise, add to selectedShift
+                return [...prevSelected, shift];
+            }
+        });
+    };
+    async function submitShift() {
+        const result = await fetch(baseUrl + "shift", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(newShift)
+        })
+        if (result.status == 201) {
+            const data = await result.json();
+            console.log(data);
+            openToast("Add Shift Successfully", "success")
+
+        }
+        else {
+            openToast("An Error Occured", "error")
+        }
+    }
+
+    useEffect(() => {
+        fetchShiftDetails();
+    }, [])
+
+    console.log(shiftDetails, selectedShift);
     return (
         <>
-         {/* <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '> */}
+            {/* <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '> */}
             <h2 className='bg-[#f6f9fa] pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow'>Attendance Details</h2>
 
             <div className='mt-5'>
@@ -342,12 +436,12 @@ const EditAttendanceDetail = () => {
                     </div>
                     <div className="flex items-center  ">
                         <div
-                            onClick={handleToggle}
-                            className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
+                            onClick={() => setToogleStaffAttendance(!toogleStaffAttendance)}
+                            className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${toogleStaffAttendance ? 'bg-[#27004a]' : 'bg-gray-300'
                                 }`}
                         >
                             <div
-                                className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${toogleStaffAttendance ? 'translate-x-6' : 'translate-x-0'
                                     }`}
                             ></div>
                         </div>
@@ -368,7 +462,7 @@ const EditAttendanceDetail = () => {
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>Bulk Update Work Timings for All Staff</h2>
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'> Update Work Timings</h2>
                 <button onClick={closeModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <Tabs className="p-[s0px] fixed-tab-section">
                     <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
@@ -397,10 +491,38 @@ const EditAttendanceDetail = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectMonShift}
+                                                onChange={(selected) => setSelectMonShift(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr className=''>
@@ -408,10 +530,38 @@ const EditAttendanceDetail = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectTueShift}
+                                                onChange={(selected) => setSelectTueShift(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr className=''>
@@ -419,10 +569,38 @@ const EditAttendanceDetail = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectWedShift}
+                                                onChange={(selected) => setSelectWedShift(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr className=''>
@@ -430,10 +608,38 @@ const EditAttendanceDetail = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectThuShift}
+                                                onChange={(selected) => setSelectThuShift(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
                                     <tr className=''>
@@ -441,10 +647,38 @@ const EditAttendanceDetail = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectFriShift}
+                                                onChange={(selected) => setSelectFriShift(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
 
@@ -453,10 +687,38 @@ const EditAttendanceDetail = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectSatShift}
+                                                onChange={(selected) => setSelectSatShift(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
 
@@ -465,10 +727,38 @@ const EditAttendanceDetail = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectSunShift}
+                                                onChange={(selected) => setSelectSunShift(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
 
@@ -586,16 +876,42 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal1}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Shifts</h2>
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
-                <div>
-                    <h4 className='p-4 pl-3 border border-b border-l-0 border-r-0 text-[13px] xl:text-[15px]'>No Options Available ....</h4>
-                    <Link to="" className='text-[#27004a] p-4 font-medium mt-3 block w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
-                    <div className='text-end pr-4 pb-3'>
-                        <button className='second-btn'>Okay</button>
+                <div className=''>
+
+                    {/* {
+                        shiftDetails?.map((op,index)=>{
+                            return  <div className='flex justify-between items-center border-b py-3 px-3'>
+                            <h3 className='text-[13px]'>{op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime} </h3>
+                            <input type="checkbox" value={selectedShift.filter(s=>s.id == op.id)[0]??false} onChange={(e)=>setSelectedShift((prev)=>{
+                                return [...prev , ...shiftDetails?.filter((opt)=>opt.id===op.id)]
+                            })}/>
+                        </div>
+                        })
+                    } */}
+
+                    <div className="h-[100px] overflow-y-scroll">
+                        {shiftDetails?.map((op) => (
+                            <div key={op.id} className="flex justify-between items-center border-b py-3 px-3">
+                                <h3 className="text-[13px]">
+                                    {op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime}
+                                </h3>
+                                <input
+                                    type="checkbox"
+                                    checked={isSelected(op.id)}
+                                    onChange={() => handleCheckboxChange(op)}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <Link to="" className='text-[#8A25B0] p-4 font-medium mt-3 w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
+                    <div className='text-end  flex pr-4 pb-3 gap-[10px] justify-end items-center' >
+                        <button className='first-btn' onClick={closeModal1}>Cancel</button>
+                        <button className='second-btn' onClick={closeModal1}>Confirm</button>
                     </div>
                 </div>
             </Modal>
@@ -615,27 +931,27 @@ const EditAttendanceDetail = () => {
                 <div className=''>
                     <div className='modal-field p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Shift Name</label><br />
-                        <input type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <input value={newShift?.shiftName} onChange={(e) => setNewShift({ ...newShift, shiftName: e.target.value })} type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
                         <label className='text-[13px] xl:text-[14px] font-medium'>Shift Start Time</label><br />
-                        <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <option>Please Select Time</option>
-                        </select><br />
+                        <input onChange={(e) => {
+                            const selectedTime = handleTimeChange(e.target.value);
+                            setNewShift({ ...newShift, shiftStartTime: selectedTime });
+                        }} type="time" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                        <br />
                         <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch In</label><br />
                         <div className='flex  justify-between'>
-
-
                             <Tabs className="w-full">
                                 <TabList className="w-full flex justify-between w-full gap-[20px]">
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="anytime" name="select-timing" />
+                                            <input value="ANYTIME" onChange={(e) => setNewShift({ ...newShift, punchInType: e.target.value })} type="radio" id="anytime" name="select-timing" />
                                             <label for="anytime" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Anytime</label><br />
                                         </div>
 
                                     </Tab>
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="limit" name="select-timing" />
+                                            <input type="radio" value="ADDLIMIT" onChange={(e) => setNewShift({ ...newShift, punchInType: e.target.value })} id="limit" name="select-timing" />
                                             <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Add Limit</label><br />
                                         </div>
                                     </Tab>
@@ -647,14 +963,14 @@ const EditAttendanceDetail = () => {
                                     <label className='text-[13px] xl:text-[14px] font-medium'>Allow Punch In</label><br />
                                     <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <input value={newShift?.allowPunchInHours} type='number' onChange={(e) => setNewShift({ ...newShift, allowPunchInHours: Number(e.target.value) })} className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                                             <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
 
                                         </div>
 
 
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <input value={newShift?.allowPunchInMinutes} type='number' onChange={(e) => setNewShift({ ...newShift, allowPunchInMinutes: Number(e.target.value) })} className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                                             <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
 
                                         </div>
@@ -664,17 +980,12 @@ const EditAttendanceDetail = () => {
 
                             </Tabs>
 
-
-
                         </div>
 
 
                         <label className='text-[13px] xl:text-[14px] font-medium'>Shift End Time</label><br />
 
-                        <select onClick={openModal3} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                            <option>Please Select Time</option>
-                        </select><br />
-
+                        <input type="time" onChange={(e) => setNewShift({ ...newShift, shiftEndTime: e.target.value })} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                         <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch Out</label><br />
                         <div className=''>
 
@@ -683,7 +994,7 @@ const EditAttendanceDetail = () => {
                                 <TabList className="w-full flex justify-between w-full gap-[20px]">
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="anytime1" name="punching-timing" />
+                                            <input type="radio" value="ANYTIME" onChange={(e) => setNewShift({ ...newShift, punchOutType: e.target.value })} id="anytime1" name="punching-timing" />
                                             <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1">Anytime</label><br />
                                         </div>
 
@@ -691,7 +1002,7 @@ const EditAttendanceDetail = () => {
                                     </Tab>
                                     <Tab className="w-[48%]">
                                         <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                            <input type="radio" id="limit1" name="punching-timing" />
+                                            <input value="ADDLIMIT" onChange={(e) => setNewShift({ ...newShift, punchOutType: e.target.value })} type="radio" id="limit1" name="punching-timing" />
                                             <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1">Add Limit</label><br />
                                         </div>
                                     </Tab>
@@ -701,17 +1012,17 @@ const EditAttendanceDetail = () => {
 
                                 </TabPanel>
                                 <TabPanel>
-                                    <label className='text-[14px] font-medium'>Allow Punch In</label><br />
+                                    <label className='text-[14px] font-medium'>Allow Punch Out</label><br />
                                     <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <input value={newShift?.allowPunchOutHours} type='number' onChange={(e) => setNewShift({ ...newShift, allowPunchOutHours: Number(e.target.value) })} className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                                             <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
 
                                         </div>
 
 
                                         <div className='flex items-center gap-2'>
-                                            <input type='number' className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <input value={newShift?.allowPunchOutMinutes} type='number' onChange={(e) => setNewShift({ ...newShift, allowPunchOutMinutes: Number(e.target.value) })} className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
                                             <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
 
                                         </div>
@@ -721,17 +1032,12 @@ const EditAttendanceDetail = () => {
                             </Tabs>
 
 
-
-
-
-
-
-
                         </div>
                     </div>
+
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn'>Confirm</button>
+                        <button className='second-btn' onClick={submitShift}>Confirm</button>
                     </div>
                 </div>
             </Modal>
@@ -782,8 +1088,10 @@ const EditAttendanceDetail = () => {
                     </table>
 
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
-                        <button className='first-btn' onClick={closeModal3}>Cancel</button>
-                        <button className='second-btn'>Okay</button>
+                        <button className='first-btn' onClick={() => {
+                            closeModal3();
+                        }}>Cancel</button>
+                        <button className='second-btn' >Okay</button>
                     </div>
                 </div>
             </Modal>
@@ -932,7 +1240,7 @@ const EditAttendanceDetail = () => {
                 <div className='flex items-center justify-center flex-col gap-[10px] pt-[20px] pb-[20px]'>
                     <img src={rightimg} className='w-[65px]' />
                     <h3 className='text-center'>You have Successfully updated attendance modes</h3>
-                    <button className='second-btn ' onClick={()=>{
+                    <button className='second-btn ' onClick={() => {
                         closeModal6();
                         closeModal5();
                     }}>Okay</button>
@@ -1051,7 +1359,7 @@ const EditAttendanceDetail = () => {
                 <div className='flex items-center justify-center flex-col gap-[10px] pt-[20px] pb-[20px]'>
                     <img src={rightimg} className='w-[65px]' />
                     <h3 className='text-center'>You have Successfully updated attendance modes</h3>
-                    <button className='second-btn' onClick={()=>{
+                    <button className='second-btn' onClick={() => {
                         closeModal8();
                         closeModal7();
                     }}>Okay</button>
@@ -1220,9 +1528,9 @@ const EditAttendanceDetail = () => {
 
             {/* onclick mandatory full day minutes  button */}
 
-      
+
             {/* </div> */}
-            </>
+        </>
     )
 }
 
