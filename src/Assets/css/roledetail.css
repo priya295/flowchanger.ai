@@ -297,11 +297,11 @@ input[type=radio]{
     display: none !important; 
     transition: all 0.3s linear;
 }
-.editsidebar .close-icon{
+/* .editsidebar .close-icon{
     display: block !important;
-}
+} */
 .editsidebar .menu-icon{
-    display: none;
+    display: block;
     transition: all 0.3s linear;
 }
 /* .ReactModal__Content {

@@ -18,6 +18,7 @@ import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 const SideBar = ({ toggleSideBar }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isStaffSubmenuOpen, setIsStaffSubmenuOpen] = useState(false);
+  const [selectedSubmenuItem, setSelectedSubmenuItem] = useState(null);
   const [selectedTab , setSelectedTab] = useState(null);
    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -78,7 +79,10 @@ const SideBar = ({ toggleSideBar }) => {
     }
   }, [selectedTab]);
   
-
+   const handleStaffClick = () => {
+    setSelectedTab("staff");
+    setIsStaffSubmenuOpen(!isStaffSubmenuOpen);
+  };
 
   return (
     // <div className="sidebar w-[250px] xl:w-[244px] lg:w-[300px] md:w-[300px] bg-[#27004a] h-full p-[10px] ">
