@@ -9,12 +9,57 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import ClipLoader from "react-spinners/ClipLoader";
+import { Modal } from 'react-responsive-modal';
+import Select from "react-select";
 
 
 const Projects = () => {
   const [isOpen1, setIsOpen1] = useState(false);
   const [isLoading , setIsLoading] = useState(false);
   const [projectName , setProjectName] = useState("")
+
+  const [isOpen15, setIsOpen15] = useState(false);
+
+  const toggleModal15 = () => {
+    setIsOpen15(!isOpen15);
+  };
+  const [allStaff, setAllStaff] = useState();
+  const [open, setOpen] = useState(false);
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: '#F4F5F9',
+      borderColor: '#E2E8F0',
+      minHeight: '38px',
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: '#E2E8F0',
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      fontSize: '14px',
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      color: '#4A5568',
+      ':hover': {
+        backgroundColor: '#CBD5E0',
+        color: '#2D3748',
+      },
+    }),
+  };
+  const [taskStatus, setTaskStatus] = useState({
+    name: "",
+    color: "#000000",
+    order: "",
+    isHiddenFor: [],
+    canBeChangedTo: [],
+  })
+
+
  
 
 const toggleDropdown1 = () => setIsOpen1(!isOpen1);
@@ -132,7 +177,7 @@ return (
         </Link>
     </div>
 
-    <div className="p-4 border rounded-lg bg-white shadow-sm">
+    <div className="p-4 border rounded-lg bg-white shadow-cs">
     <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Projects</h2>
 
 
@@ -161,7 +206,51 @@ return (
         >
             Export File
         </button>
-        <CachedIcon className='border  border-[#e5e7eb] cached-icon text-[14px] shadow-sm ml-2  rounded-md cursor-pointer refresh' />
+        <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal} >Bulk Action  <CachedIcon className="newsidebar-icon" /> </button>
+                <Modal open={open} onClose={onCloseModal} center>
+                  <div className="border-b border-[#dbdbdb] pb-[20px]">
+                    <h2>Bulk Actions</h2>
+                  </div>
+                  <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
+                    <input type="checkbox" />
+                    <p className="text-[14px]">Mass Delete</p>
+                  </div>
+                  <div className="w-[100%]">
+
+
+              
+
+
+                    <Select
+                      isMulti
+                      name="isHiddenFor"
+                      options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      value={taskStatus.isHiddenFor || []}
+                      onChange={(selectedOptions) =>
+                        setTaskStatus((prev) => ({
+                          ...prev,
+                          isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
+                        }))
+                      }
+                      styles={customStyles}
+                    />
+                  </div>
+                  <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
+
+                  <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
+                    {/* Button to close the modal */}
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                      onClick={toggleModal15}
+                    >
+                      Close
+                    </button>
+                    <button className='second-btn'>Confirm </button>
+                  </div>
+
+                </Modal>
 
 
 
@@ -181,7 +270,7 @@ return (
           <div className="mb-4 w-full">
             <div className="w-full">
               <table className="w-full border-collapse">
-                <thead className="bg-gray-200 cursor-pointer" onClick={toggleTable}>
+                <thead className="bg-[white] rounded-lg shadow-lg border border-[#dbdbdb] cursor-pointer" onClick={toggleTable}>
                   <tr>
                     <th className="text-[12px] text-center p-2 border-r font-medium w-[5%]whitespace-nowrap">#</th>
                     <th className="text-[12px] text-center p-2 border-r font-medium w-[20%]whitespace-nowrap">Project Name</th>

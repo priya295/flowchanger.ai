@@ -421,12 +421,7 @@ const Clients = () => {
           >
             <AddIcon className="newadd" /> New Clients
           </Link>
-          <Link
-            to="/"
-            className="text-[#fff] text-[14px] client-add bg-[#27004a]   focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            <AddIcon className="newadd" /> Import Clients
-          </Link>
+
           <Link
             to="/contact-information"
             className="text-[#000] text-[14px] client-add bg-[#f4f2f2]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -436,7 +431,8 @@ const Clients = () => {
           </Link>
         </div>
 
-        <div className="p-[20px] summary-border w-full bg-white  rounded-lg">
+
+        <div className="border border-[#dbdbdb] shadow-cs rounded-lg p-[20px]">
           <h2 className="font-medium mb-[10px] flex gap-[6px] items-center">
             {" "}
             <LibraryBooksIcon />
@@ -485,7 +481,7 @@ const Clients = () => {
                   <div className="w-[100%]">
 
 
-              
+
 
 
                     <Select
@@ -574,11 +570,11 @@ const Clients = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg w-full overflow-x-auto">
-            <table className="w-full table-auto border-collapse">
+          <div className="bg-white  w-full overflow-x-auto">
+            <table className="w-full table-auto border border-[#dbdbdb] border-collapse">
               {/* Header with Toggle */}
               <thead
-                className="cursor-pointer bg-gray-200 border border-gray-300"
+                className="cursor-pointer bg-[white] shadow-lg border border-gray-300"
                 onClick={toggleAccordion}
               >
                 <tr>
@@ -709,6 +705,8 @@ const Clients = () => {
             </div>
           </div>
         </div>
+
+
       </div>
 
       <Modal
@@ -996,50 +994,7 @@ const Clients = () => {
         </div>
       </Modal>
 
-      <button onClick={onOpenModal}>Open modal</button>
-      <Modal open={open} onClose={onCloseModal} center>
-        <div className="border-b border-[#dbdbdb] pb-[20px]">
-          <h2>Bulk Actions</h2>
-        </div>
-        <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
-          <input type="checkbox" />
-          <p className="text-[14px]">Mass Delete</p>
-        </div>
-        <div className="w-[100%]">
 
-
-
-
-          <Select
-            isMulti
-            name="isHiddenFor"
-            options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
-            className="basic-multi-select"
-            classNamePrefix="select"
-            value={taskStatus.isHiddenFor || []}
-            onChange={(selectedOptions) =>
-              setTaskStatus((prev) => ({
-                ...prev,
-                isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
-              }))
-            }
-            styles={customStyles}
-          />
-        </div>
-        <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
-
-        <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
-          {/* Button to close the modal */}
-          {/* <button
-            className="bg-red-500 text-white px-4 py-2 rounded"
-            onClick={toggleModal15}
-          >
-            Close
-          </button> */}
-          <button className='second-btn'>Confirm </button>
-        </div>
-
-      </Modal>
 
 
 

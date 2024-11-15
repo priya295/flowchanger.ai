@@ -11,12 +11,87 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import ClipLoader from "react-spinners/ClipLoader";
+import CachedIcon from '@mui/icons-material/Cached';
+import SearchIcon from '@mui/icons-material/Search';
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 
 const Task = () => {
+  const handleExport = () => {
+    if (exportFormat === 'CSV') exportCSV();
+    else if (exportFormat === 'PDF') exportPDF();
+    else if (exportFormat === 'Print') printDepartments();
+  };
+  const handleSelectChange = (event) => {
+    setRowsToShow(Number(event.target.value));
+  };
+  const exportCSV = () => {
+    const csvData = departments.map(dep => `${dep.department_name}, Total Users: 1`).join('\n');
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'departments.csv');
+  };
+  
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.text("Department List", 20, 10);
+    departments.forEach((dep, index) => {
+        doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
+    });
+    doc.save('departments.pdf');
+  };
+  
+  
+  
+  const printDepartments = () => {
+    const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
+    const newWindow = window.open();
+    newWindow.document.write(`<pre>${printContent}</pre>`);
+    newWindow.document.close();
+    newWindow.print();
+  };
+  const [exportFormat, setExportFormat] = useState('');
+  const [rowsToShow, setRowsToShow] = useState(25);
+  const [allStaff, setAllStaff] = useState();
+  const [open, setOpen] = useState(false);
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: '#F4F5F9',
+      borderColor: '#E2E8F0',
+      minHeight: '38px',
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: '#E2E8F0',
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      fontSize: '14px',
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      color: '#4A5568',
+      ':hover': {
+        backgroundColor: '#CBD5E0',
+        color: '#2D3748',
+      },
+    }),
+  };
+  const [taskStatus, setTaskStatus] = useState({
+    name: "",
+    color: "#000000",
+    order: "",
+    isHiddenFor: [],
+    canBeChangedTo: [],
+  })
+
   const { baseUrl, openToast } = useGlobalContext();
   const [isTableOpen, setIsTableOpen] = useState(false);
-  const [isLoading , setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // handle open the accordian
   const handleTableOpen = () => {
     setIsTableOpen((prevState) => !prevState);
@@ -160,7 +235,7 @@ const Task = () => {
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
     const result = await fetch(baseUrl + "/task/detail")
-    try{
+    try {
       if (result.status === 200) {
         const data = await result.json();
         console.log(data)
@@ -171,12 +246,12 @@ const Task = () => {
         openToast("Internal Server Error", "error")
       }
     }
-   catch(error){
-    console.log("error",error)
-   }
-   finally{
-    setIsLoading(false);
-   }
+    catch (error) {
+      console.log("error", error)
+    }
+    finally {
+      setIsLoading(false);
+    }
   }
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -313,7 +388,7 @@ const Task = () => {
     fetchTaskDetails();
   }, [])
   return (
-    <div className="w-full px-4 py-6 overflow-x-auto">
+    <div className="w-full px-4 py-6 overflow-x-auto bg-[white] rounded-md shadow-lg">
       <div className=" h-[30px] mb-5">
         {/* Button to open the modal */}
         <button
@@ -522,40 +597,122 @@ const Task = () => {
       </div>
 
 
-      <div className="bg-white shadow-cs rounded-lg keyframe1">
+      <div className="bg-white border border-[#e5e7eb] shadow-cs rounded-lg p-[14px] ">
+
+        <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Task</h2>
+        <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
+          <div className='left-side '>
+            <select
+              onChange={handleSelectChange}
+              className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  focus:outline-none'>
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="120">120</option>
+
+            </select>
+
+            <select onChange={(e) => setExportFormat(e.target.value)}
+              className='border border-[#e5e7eb] p-[7px]  text-[14px] shadow-sm rounded-md  focus:outline-none'>
+              <option value="CSV">CSV</option>
+              <option value="PDF">PDF</option>
+              <option value="Print">Print</option>
+            </select>
+
+            <button
+              onClick={handleExport}
+              className='ml-2 bg-[#27004a] text-white p-[7px] text-[14px] rounded-md cursor-pointer'
+            >
+              Export File
+            </button>
+            <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal} >Bulk Action  <CachedIcon className="newsidebar-icon" /> </button>
+            <Modal open={open} onClose={onCloseModal} center>
+              <div className="border-b border-[#dbdbdb] pb-[20px]">
+                <h2>Bulk Actions</h2>
+              </div>
+              <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
+                <input type="checkbox" />
+                <p className="text-[14px]">Mass Delete</p>
+              </div>
+              <div className="w-[100%]">
+
+
+                <Select
+                  isMulti
+                  name="isHiddenFor"
+                  options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  value={taskStatus.isHiddenFor || []}
+                  onChange={(selectedOptions) =>
+                    setTaskStatus((prev) => ({
+                      ...prev,
+                      isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
+                    }))
+                  }
+                  styles={customStyles}
+                />
+              </div>
+              <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
+
+              <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
+                {/* Button to close the modal */}
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  onClick={toggleModal15}
+                >
+                  Close
+                </button>
+                <button className='second-btn'>Confirm </button>
+              </div>
+
+            </Modal>
+
+
+
+
+          </div>
+
+          <div className='right-side relative  w-[200px]'>
+            <input type='text' placeholder='Search' className='border border-1 pl-3 h-[43px] pr-7
+] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' />
+            <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
+]'/>
+          </div>
+        </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-max">
             {/* Table Header - Acts as Toggle Button */}
             <thead className="tablehead cursor-pointer " onClick={handleTableOpen}>
-              <tr className="rounded-lg bg-gray-300">
-                <th className="text-[12px] font-medium p-2 min-w-[100px]  whitespace-nowrap">
+              <tr className="rounded-lg shadow-lg bg-[white]">
+                <th className="text-[12px] font-medium border-r border-[#dbdbdb] p-[5px] min-w-[100px]  whitespace-nowrap">
                   <button className="p-[6px] rounded-lg bg-[orange] mr-2 text-white">                   To Do
                   </button>
                   <span className="six-north">6</span>
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[60px]  text-left">#</th>
-                <th className="text-[12px] font-medium p-2 min-w-[150px]  text-left">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[60px]  text-left">#</th>
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[150px]  text-left">
                   Task Name
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[120px]  text-left">
                   Start Date
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[120px]  text-left">
                   Due Date
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[120px]  text-left">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[120px]  text-left">
                   End Date
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[100px]  text-left">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[100px]  text-left">
                   Assigned to
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[80px]  text-left">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[80px]  text-left">
                   Tags
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[100px] text-left">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[100px] text-left">
                   Priority
                 </th>
-                <th className="text-[12px] font-medium p-2 min-w-[100px] text-center">
+                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[100px] text-center">
                   Actions
                 </th>
               </tr>
@@ -605,6 +762,16 @@ const Task = () => {
               </tbody>
             )}
           </table>
+
+          <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+                        <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
+                        <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+                            <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+                            <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
+                            <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
+                        </div>
+                    </div>
 
 
 

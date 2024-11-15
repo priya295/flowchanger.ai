@@ -140,8 +140,8 @@ const ContactInformation = () => {
             <div className='w-[100%] p-0 h-[auto]  rounded-md shadow  border border-1 mt-4 '>
 
 
-                <div className="flex justify-between items-center mb-[14px] betwe-cent">
-                    <div className="flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
+                <div className="flex justify-between items-center  betwe-cent">
+                    <div className="flex  justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
                         <div className="left-side ">
                             <select
                                 onChange={handleSelectChange}
