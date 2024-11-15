@@ -470,12 +470,12 @@ const Task = () => {
       </div>
 
    
-       <div className="bg-white shadow-cs rounded-lg keyframe1">
-       <div className="overflow-x-auto">
+       <div className="bg-white border border-gray-300 shadow-cs rounded-lg keyframe1 ">
+       <div className="overflow-x-auto rounded-lg">
          <table className="w-full min-w-max">
            {/* Table Header - Acts as Toggle Button */ }          
-           <thead className="tablehead cursor-pointer " onClick={handleTableOpen}>
-             <tr className="rounded-lg bg-gray-300">
+           <thead className="tablehead     cursor-pointer bg-gray-200 border border-1" onClick={handleTableOpen}>
+             <tr className=" bg-gray-200 h-[20px] ">
                <th className="text-[12px] font-medium p-2 min-w-[100px]  whitespace-nowrap">
                  <button className="p-[6px] rounded-lg bg-[orange] mr-2 text-white">                   To Do
                  </button>

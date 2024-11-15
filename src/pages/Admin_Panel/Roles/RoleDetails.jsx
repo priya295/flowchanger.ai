@@ -58,9 +58,10 @@ const Main = () => {
 
 
   const fetchRoles = async () => {
-    const result = await fetch(baseUrl + "role")
     setIsLoading(true);
+   
     try{
+      const result = await fetch(baseUrl + "role")
       if (result.status == 200) {
         const res = await result.json();
         setRoles(res.data)

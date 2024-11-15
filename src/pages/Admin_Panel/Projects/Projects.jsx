@@ -177,11 +177,11 @@ return (
 </div>
 
       <div className="w-full overflow-x-auto">
-        <div className="min-w-full">
-          <div className="mb-4 w-full">
-            <div className="w-full">
-              <table className="w-full border-collapse">
-                <thead className="bg-gray-200 cursor-pointer" onClick={toggleTable}>
+        <div className="min-w-full  rounded-lg">
+          <div className="mb-4 w-full border border-gray-300  rounded-lg">
+            <div className="w-full rounded-lg bg-white">
+              <table className="w-full border-collapse table-auto ">
+                <thead className="bg-gray-200 cursor-pointer border border-gray-300 rounded-md" onClick={toggleTable}>
                   <tr>
                     <th className="text-[12px] text-center p-2 border-r font-medium w-[5%]whitespace-nowrap">#</th>
                     <th className="text-[12px] text-center p-2 border-r font-medium w-[20%]whitespace-nowrap">Project Name</th>

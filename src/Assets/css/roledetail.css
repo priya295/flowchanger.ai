@@ -202,10 +202,10 @@ table{
     display: none !important;
  }
  .custom-body-class .cancel-icon{
-    display: block !important;
+    display: none !important;
  }
  .custom-body-class .menu-icon{
-    display: none;
+    display: block;
  }
  
 

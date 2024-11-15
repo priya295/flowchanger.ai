@@ -38,13 +38,14 @@ const UpperHeader = ({handleToggleEditSideBar,toggleEditSideBar}) => {
     return (
         <div className='flex justify-between p-3 border-b shadow-md fixed top-0 w-full z-[1]	 bg-white'>
             <div className='flex gap-2 items-center'>
+            <Link to='/staff-menu'>
+                <ArrowBackIcon />
+                </Link>
                 <button  onClick={()=>{ handleToggleEditSideBar();}} className="toggle-btn-side">
                 <MenuIcon className="menu-icon"/>
                 <CloseIcon className="close-icon"/>
                  </button>
-                 <Link to='/staff-menu'>
-                <ArrowBackIcon />
-                </Link>
+                 
                 <img src={photo} className='h-[40px] w-[40px]' />
             </div>
             <div className='flex gap-2 items-center'>
@@ -53,7 +54,6 @@ const UpperHeader = ({handleToggleEditSideBar,toggleEditSideBar}) => {
                 <button className='' onClick={handledrop} >
                     <MoreVertIcon/>
                 </button>
-
                 {
                 toggleDrop &&
                 <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">

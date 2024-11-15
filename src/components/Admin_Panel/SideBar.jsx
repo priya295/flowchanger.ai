@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import logo from "../../Assets/Images/logo.png";
 import home from "../../Assets/Images/home.png";
 import project from "../../Assets/Images/project.png";
@@ -69,9 +69,15 @@ const SideBar = ({ toggleSideBar }) => {
 
   const [selectedPage, setSelectedPage] = useState(""); // Track active page
  
-  const handleToggleSubmenu = () => {
-    setIsStaffSubmenuOpen(!isStaffSubmenuOpen);
+  const handleArrowClick = () => {
+    setIsStaffSubmenuOpen(  !isStaffSubmenuOpen);
   };
+  useEffect(() => {
+    if (selectedTab === "staff") {
+      setIsStaffSubmenuOpen(true);
+    }
+  }, [selectedTab]);
+  
 
 
   return (
@@ -215,64 +221,83 @@ const SideBar = ({ toggleSideBar }) => {
 
        
 
-    <div>
-      {/* Main Staff Tab */}
+        <div>
+  {/* Main Staff Tab */}
+  <Link
+    to="/staff-menu"
+    onClick={() => {setSelectedTab("staff"); handleArrowClick();}}
+    className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
+      selectedTab === "staff" ? "bg-white text-[#8a25b0]" : "text-white"
+    }`}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-users"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+    <div className="flex justify-between items-center gap-3 w-[80%]">
+      Staff
+      <button
+        className="ml-auto focus:outline-none"
+      >
+        {isStaffSubmenuOpen ? (
+          <FaChevronDown className="text-sm" />
+        ) : (
+          <FaChevronRight className="text-sm" />
+        )}
+      </button>
+    </div>
+  </Link>
+
+  {/* Submenu */}
+  {isStaffSubmenuOpen && (
+    <div className="overflow-x-hidden transition-max-height duration-300 ease-in-out mt-[5px]">
+      <div>
       <Link
-        to="/staff-menu"
-        onClick={() => { 
-          setSelectedTab("staff");
-          handleToggleSubmenu(); // Only toggles when "Staff" is clicked, not submenu items
+        to="/payroll-menu"
+        onClick={() => {
+        
+          setSelectedTab("payroll");
+        
         }}
-        className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
-          selectedTab === "staff" ? "bg-white text-[#8a25b0]" : "text-white"
+        className={`w-[80%] ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap hover:bg-white rounded-md hover:text-[#8a25b0] transition-all mr-[10px] overflow-x-hidden  ${
+          selectedTab === "payroll" ? "bg-white text-[#8a25b0]" : "text-white"
         }`}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-        <button
-          onClick={(e) => {
-            e.preventDefault(); // Prevents the button's onClick from causing unwanted re-renders
-            handleToggleSubmenu();
-          }}
-          className="flex justify-between items-center gap-3"
-        >
-          Staff
-          {isStaffSubmenuOpen ? (
-            <FaChevronDown className="ml-auto text-sm" /> // Down arrow icon
-          ) : (
-            <FaChevronRight className="ml-auto text-sm" /> // Right arrow icon
-          )}
-        </button>
+        <ArrowForwardIosIcon className="arrow-icon-sidebar" />
+        Payroll
       </Link>
-
-      {/* Submenu for Staff */}
-      <div
-        className={`overflow-x-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${
-          isStaffSubmenuOpen ? 'max-h-screen' : 'max-h-0'
+      </div>
+<div>
+      <Link
+        to="/attendence_summary"
+        onClick={() => {
+        setSelectedTab("attendance");
+        
+        }}
+        className={`w-[80%] ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap transition-all rounded-md  overflow-x-hidden mr-[10px] ${
+          selectedTab === "attendance" ? "bg-white text-[#8a25b0]" : "text-white"
         }`}
       >
-        <Link
-          to="/payroll-menu"
-          onClick={() => setSelectedTab("payroll")}
-          className={`w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap hover:bg-white rounded- hover:text-[#8a25b0] transition-all rounded-md mr-3 ${
-            selectedTab === "payroll" ? "bg-white text-[#8a25b0]" : "text-white"
-          }`}
-        >
-          <ArrowForwardIosIcon className="arrow-icon-sidebar" />
-          Payroll
-        </Link>
-
-        <Link
-          to="/attendence_summary"
-          onClick={() => setSelectedTab("attendance")}
-          className={`w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap transition-all rounded-md mr- ${
-            selectedTab === "attendance" ? "bg-white text-[#8a25b0]" : "text-white"
-          }`}
-        >
-          <ArrowForwardIosIcon className="arrow-icon-sidebar" />
-          Attendance
-        </Link>
+        <ArrowForwardIosIcon className="arrow-icon-sidebar" />
+        Attendance
+      </Link>
       </div>
     </div>
+  )}
+</div>
  
 
 

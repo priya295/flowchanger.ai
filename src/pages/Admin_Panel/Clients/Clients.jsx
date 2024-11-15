@@ -26,7 +26,7 @@ const Clients = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [departments, setDepartments] = useState([])
-  const [companyName, setComapnyName] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [searchedClients, setSearchClients] = useState(null);
   const [rowsToShow, setRowsToShow] = useState(25);
 
@@ -212,7 +212,7 @@ const Clients = () => {
       if (response.status === 200) {
         const result = await response.json();
         console.log(result);
-        setClientData(result);
+        setSearchClients(result);
 
       } else {
         console.log("data is not filtered");
@@ -228,19 +228,22 @@ const Clients = () => {
     const debounceTimer = setTimeout(() => {
       if (companyName) {
         handleSearchCompany();
-      } else {
-        fetchDetail();
       }
-    }, 4000);
-
+    }, 3000);
+  
     return () => clearTimeout(debounceTimer);
-  }, [companyName, handleSearchCompany]);
+  }, [companyName]);
+
   useEffect(() => {
     fetchDetail();
     if (clientData) {
       setIsOpen(true);
     }
   }, []);
+
+  useEffect(()=>{
+    console.log(searchedClients)
+  },[searchedClients]);
 
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
@@ -548,13 +551,12 @@ const Clients = () => {
                 placeholder=" Search......."
                 value={companyName}
                 onChange={(e) => {
-                  if (e.target.value === null) {
+                  const value = e.target.value;
+                  setCompanyName(value);
+                  if (value === "") {
                     setSearchClients(null);
+                    fetchDetail(); // Fetch all clients when the input is cleared
                   }
-                  else {
-                    setComapnyName(e.target.value);
-                  }
-
                 }}
 
               />
@@ -609,81 +611,128 @@ const Clients = () => {
               {/* Conditionally Rendered Table Body */}
               {isOpen && (
                 <tbody>
-                  {
-                    isLoading && clientData.length === 0 ? (<tr className="h-[100px]">
-                      <td colSpan="9" className="text-center text-gray-600 text-sm font-semibold py-4">
-                      <ClipLoader isLoading={isLoading} size={50} color="#000" />
-                      </td>
-                    </tr>
-                    ): 
-                      clientData && clientData.length > 0 ? (
-                        clientData.map((item, index) => (
-                          <tr key={item.id} className="border-b border-gray-300">
-                            <td className="p-2 text-center">
-                              <input type="checkbox" className="text-xs h-4" />
-                            </td>
-                            <td className="p-2 text-xs text-center">{index + 1}</td>
-                            <td className="p-2 text-xs text-center">{item.name}</td>
-                            <td className="p-2 text-xs text-center">
-                              {item.clientDetails?.company}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.mobile}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.email}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.mobile}
-                            </td>
-                            <td className="text-[11px] font-medium p-[10px]    whitespace-nowrap	">
-                              <div className="flex items-center justify-center gap-[6px]">
-                                {/* Toggle Switch */}
-                                <div
-                                  className={`${item.status ? "bg-[#8a25b0]" : "bg-gray-300"
-                                    } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
-                                  onClick={toggleSwitch1}
-                                >
-                                  <span
-                                    className={`${item.status == "active"
-                                        ? "translate-x-6"
-                                        : "translate-x-0"
-                                      } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.groups}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {new Date(
-                                item.clientDetails?.created_at
-                              ).toDateString()}
-                            </td>
-                            <td className="p-2 flex justify-center gap-2">
-                              <BorderColorIcon
-                                className="text-purple-600 cursor-pointer"
-                                onClick={() => setSelectedClient(item)}
-                              />
-                              <DeleteIcon
-                                className="text-red-500 cursor-pointer"
-                                onClick={() => deleteData(item.id)}
-                              />
-                            </td>
-                          </tr>
-                        ))
-                      )
-                        :  // No Data State
-                        (<tr className="h-[100px]">
-                          <td
-                            colSpan="9"
-                            className="text-center text-gray-900 text-sm font-semibold py-4"
-                          >
-                            No client found.
-                          </td>
-                        </tr>)}
-                </tbody>
+                  {isLoading && clientData.length === 0 ? (
+  <tr className="h-[100px]">
+    <td colSpan="9" className="text-center text-gray-600 text-sm font-semibold py-4">
+      <ClipLoader isLoading={isLoading} size={50} color="#000" />
+    </td>
+  </tr>
+) : searchedClients === null && clientData && clientData.length > 0 ? (
+  clientData.map((item, index) => (
+    <tr key={item.id} className="border-b border-gray-300">
+      <td className="p-2 text-center">
+        <input type="checkbox" className="text-xs h-4" />
+      </td>
+      <td className="p-2 text-xs text-center">{index + 1}</td>
+      <td className="p-2 text-xs text-center">{item.name}</td>
+      <td className="p-2 text-xs text-center">
+        {item.clientDetails?.company}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {item.mobile}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {item.email}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {item.mobile}
+      </td>
+      <td className="text-[11px] font-medium p-[10px] whitespace-nowrap">
+        <div className="flex items-center justify-center gap-[6px]">
+          <div
+            className={`${item.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+            onClick={toggleSwitch1}
+          >
+            <span
+              className={`${
+                item.status == "active" ? "translate-x-6" : "translate-x-0"
+              } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
+            />
+          </div>
+        </div>
+      </td>
+      <td className="p-2 text-xs text-center">
+        {item.groups}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {new Date(item.clientDetails?.created_at).toDateString()}
+      </td>
+      <td className="p-2 flex justify-center gap-2">
+        <BorderColorIcon
+          className="text-purple-600 cursor-pointer"
+          onClick={() => setSelectedClient(item)}
+        />
+        <DeleteIcon
+          className="text-red-500 cursor-pointer"
+          onClick={() => deleteData(item.id)}
+        />
+      </td>
+    </tr>
+  ))
+) : searchedClients && searchedClients.length > 0 ? (
+  searchedClients.map((client, index) => (
+    <tr key={client.id} className="border-b border-gray-300">
+      {/* Same structure as above, just using client instead of item */}
+      <td className="p-2 text-center">
+        <input type="checkbox" className="text-xs h-4" />
+      </td>
+      <td className="p-2 text-xs text-center">{index + 1}</td>
+      <td className="p-2 text-xs text-center">{client.name}</td>
+      <td className="p-2 text-xs text-center">
+        {client.company}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {client.mobile}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {client.email}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {client.mobile}
+      </td>
+      <td className="text-[11px] font-medium p-[10px] whitespace-nowrap">
+        <div className="flex items-center justify-center gap-[6px]">
+          <div
+            className={`${client.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+            onClick={toggleSwitch1}
+          >
+            <span
+              className={`${
+                client.status == "active" ? "translate-x-6" : "translate-x-0"
+              } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
+            />
+          </div>
+        </div>
+      </td>
+      <td className="p-2 text-xs text-center">
+        {client.groups}
+      </td>
+      <td className="p-2 text-xs text-center">
+        {new Date(client.clientDetails?.created_at).toDateString()}
+      </td>
+      <td className="p-2 flex justify-center gap-2">
+        <BorderColorIcon
+          className="text-purple-600 cursor-pointer"
+          onClick={() => setSelectedClient(client)}
+        />
+        <DeleteIcon
+          className="text-red-500 cursor-pointer"
+          onClick={() => deleteData(client.id)}
+        />
+      </td>
+    </tr>
+  ))
+) : (
+  <tr className="h-[100px]">
+    <td
+      colSpan="9"
+      className="text-center text-gray-900 text-sm font-semibold py-4"
+    >
+      No client found.
+    </td>
+  </tr>
+)}
+</tbody>
               )}
             </table>
             <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
