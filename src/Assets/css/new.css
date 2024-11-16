@@ -150,7 +150,8 @@
   
 }
 .newsidebar-icon{
-    font-size: 22px !important;
+    font-size: 18px !important;
+    margin-left: 5px;
     
 }
 .interview-card:hover{
@@ -171,6 +172,7 @@
 }
 .cached-icon{
     height: 36px !important;
+    
 }
 .bg-label-success{
     background-color: #e8fadf !important;

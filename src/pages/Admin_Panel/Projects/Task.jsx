@@ -9,7 +9,7 @@ import Select from 'react-select';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Modal from 'react-modal';
+import { Modal } from 'react-responsive-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import ClipLoader from "react-spinners/ClipLoader";
@@ -653,16 +653,11 @@ const Task = () => {
                   styles={customStyles}
                 />
               </div>
+              
               <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
 
               <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
-                {/* Button to close the modal */}
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                  onClick={toggleModal15}
-                >
-                  Close
-                </button>
+             
                 <button className='second-btn'>Confirm </button>
               </div>
 
@@ -674,7 +669,7 @@ const Task = () => {
           </div>
 
           <div className='right-side relative  w-[200px]'>
-            <input type='text' placeholder='Search' className='border border-1 pl-3 h-[43px] pr-7
+            <input type='text' placeholder='Search' className='border border-1 p-[10px] h-[40px] pr-7
 ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' />
             <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
 ]'/>

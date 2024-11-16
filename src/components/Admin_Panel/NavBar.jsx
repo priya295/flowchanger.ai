@@ -18,11 +18,14 @@ import { Link } from "react-router-dom";
 
 
 const NavBar = () => {
+  
+  
   const handleProfileDropDown = () => {
     setProfileDropDown(!profileDropdown);
   }
   const [profileDropdown, setProfileDropDown] = useState(false);
   const { setIsAuthenticated } = useAuthContext();
+  
 
 
 
@@ -59,9 +62,10 @@ const NavBar = () => {
 
           {/* profile dropdown */}
           
-          <img  onClick={handleProfileDropDown} class="flex  justify-center items-center gap-x-1.5 rounded-[120%] w-6 h-10 p-4 bg-black text-white  text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-900" id="menu-button" aria-expanded="true" aria-haspopup="true" src={photo} alt="" className="cursor-pointer" />
+          <img  onMouseEnter={showDropdown} onClick={handleProfileDropDown} class="flex  justify-center items-center gap-x-1.5 rounded-[120%] w-6 h-10 p-4 bg-black text-white  text-sm font-semibold shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-900" id="menu-button" aria-expanded="true" aria-haspopup="true" src={photo} alt="" className="cursor-pointer" />
          
-          {profileDropdown && <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-[#27004a]  shadow-lg ring-1 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+          {profileDropdown && <div onMouseEnter={showDropdown}
+              onMouseLeave={hideDropdown} class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-[#27004a]  shadow-lg  focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
             <div class="p-[10px]" role="none">
               <div class="block  text-sm text-gray-700" role="menuitem" tabindex="-1" id="menu-item-0">
                 <p className="text-white hover:bg-white rounded-md hover:text-[#8a25b0] font-medium p-2">Tp</p>

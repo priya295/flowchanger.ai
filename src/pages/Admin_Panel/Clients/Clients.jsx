@@ -504,12 +504,7 @@ const Clients = () => {
 
                   <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
                     {/* Button to close the modal */}
-                    <button
-                      className="bg-red-500 text-white px-4 py-2 rounded"
-                      onClick={toggleModal15}
-                    >
-                      Close
-                    </button>
+                 
                     <button className='second-btn'>Confirm </button>
                   </div>
 
