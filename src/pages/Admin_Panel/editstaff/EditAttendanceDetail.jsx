@@ -23,7 +23,7 @@ const EditAttendanceDetail = () => {
     const [toggleGPSAttendance, setToggleGPSAttendance] = useState(selectedStaff?.staffDetails?.AttendenceMode?.gps_attendance || false);
     const [markLocation, setMarkLocation] = useState(selectedStaff?.staffDetails?.AttendenceMode?.mark_attendance || "Office");
     // console.log(markLocation, toggleAllowPunchInMobile, toggleGPSAttendance, toggleQRAttendance, toggleSelfieAttendance);
-
+    const [openWeekDay, setOpenWeekDay] = useState("");
     const parseTimeString = (timeString) => {
         // Check if the timeString is valid and formatted correctly
         if (!timeString || !timeString.includes(" hr : ")) {
@@ -49,7 +49,132 @@ const EditAttendanceDetail = () => {
     const [selectSatShift, setSelectSatShift] = useState([]);
     const [selectSunShift, setSelectSunShift] = useState([]);
 
+    const [hasWeekOff, setHasWeekOff] = useState({
+        MonWeekOff: false,
+        TueWeekOff: false,
+        WedWeekOff: false,
+        ThuWeekOff: false,
+        FriWeekOff: false,
+        SatWeekOff: false,
+        SunWeekOff: false
+    });
 
+    function getWeekOffSummary() {
+        let weekOffSummary = [];
+
+        dayWiseWeekOff.forEach(dayData => {
+            let weekOffDays = [];
+            Object.keys(dayData.weekOff).forEach(week => {
+                if (dayData.weekOff[week]) {
+                    weekOffDays.push(week);
+                }
+            });
+
+            if (weekOffDays.length > 0) {
+                weekOffSummary.push(`${dayData.day}: ${weekOffDays.join(", ")}`);
+            }
+        });
+
+        return weekOffSummary.length > 0 ? weekOffSummary.join(" | ") : "No week offs selected";
+    }
+
+
+    const [dayWiseWeekOff, setDayWiseWeekOff] = useState([
+        {
+            day: "Mon",
+            weekOff: {
+                firstWeek: false,
+                secondWeek: false,
+                thirdWeek: false,
+                fourthWeek: false,
+                fifthWeek: false
+
+            }
+        },
+        {
+            day: "Tue",
+            weekOff: {
+                firstWeek: false,
+                secondWeek: false,
+                thirdWeek: false,
+                fourthWeek: false,
+                fifthWeek: false
+            }
+        },
+        {
+            day: "Wed",
+            weekOff: {
+                firstWeek: false,
+                secondWeek: false,
+                thirdWeek: false,
+                fourthWeek: false,
+                fifthWeek: false
+            }
+        },
+        {
+            day: "Thu",
+            weekOff: {
+                firstWeek: false,
+                secondWeek: false,
+                thirdWeek: false,
+                fourthWeek: false,
+                fifthWeek: false
+            }
+        },
+        {
+            day: "Fri",
+            weekOff: {
+                firstWeek: false,
+                secondWeek: false,
+                thirdWeek: false,
+                fourthWeek: false,
+                fifthWeek: false
+            }
+        },
+        {
+            day: "Sat",
+            weekOff: {
+                firstWeek: false,
+                secondWeek: false,
+                thirdWeek: false,
+                fourthWeek: false,
+                fifthWeek: false
+            }
+        },
+        {
+            day: "Sun",
+            weekOff: {
+                firstWeek: false,
+                secondWeek: false,
+                thirdWeek: false,
+                fourthWeek: false,
+                fifthWeek: false
+            }
+        }
+    ]);
+
+    const handleDayWeekOffChange = (day, week, checked) => {
+        setDayWiseWeekOff(prevState => {
+            // Update the specific day and week within the `dayWiseWeekOff` array
+            const updatedDayWiseWeekOff = prevState.map(item => {
+                if (item.day === day) {
+                    return {
+                        ...item,
+                        weekOff: {
+                            ...item.weekOff,
+                            [week]: checked // Update the selected week for the day
+                        }
+                    };
+                }
+                return item;
+            });
+            return updatedDayWiseWeekOff;
+        });
+    };
+
+
+
+    console.log(dayWiseWeekOff);
     async function fetchShiftDetails() {
         const result = await fetch(baseUrl + "shift");
         if (result.status == 200) {
@@ -59,10 +184,9 @@ const EditAttendanceDetail = () => {
         else {
             openToast("No Record Found")
         }
-
     }
 
-
+    const [openWeekOff, setOpenWeekOff] = useState(false);
     const [newShift, setNewShift] = useState({
         shiftName: "",
         shiftStartTime: "",
@@ -409,7 +533,118 @@ const EditAttendanceDetail = () => {
         fetchShiftDetails();
     }, [])
 
-    console.log(shiftDetails, selectedShift);
+    function getMatchingShiftIds(selectedShift, selectMonShift) {
+        // Map to extract labels from selectMonShift
+        const selectMonShiftlabel = selectMonShift?.map((shift) => shift?.label);
+        const matchingShiftIds = selectedShift
+            ?.filter((shift) => {
+                const label = `${shift?.shiftName} | ${shift?.shiftStartTime} - ${shift?.shiftEndTime}`;
+                return selectMonShiftlabel?.includes(label); // Check if label exists in selectMonShiftlabel
+            })
+            ?.map((shift) => shift?.id); // Extract only the id
+
+        return matchingShiftIds;
+    }
+
+
+    async function createFixedShift(e) {
+        const data = [
+            {
+                day: "Mon",
+                weekOff: false,
+                shifts: getMatchingShiftIds(selectedShift, selectMonShift),
+                staffId: selectedStaff?.staffDetails?.id,
+            },
+            {
+                day: "Tue",
+                weekOff: false,
+                shifts: getMatchingShiftIds(selectedShift, selectTueShift),
+                staffId: selectedStaff?.staffDetails?.id,
+            },
+            {
+                day: "Wed",
+                weekOff: false,
+                shifts: getMatchingShiftIds(selectedShift, selectWedShift),
+                staffId: selectedStaff?.staffDetails?.id,
+            },
+            {
+                day: "Thu",
+                weekOff: false,
+                shifts: getMatchingShiftIds(selectedShift, selectThuShift),
+                staffId: selectedStaff?.staffDetails?.id,
+            },
+            {
+                day: "Fri",
+                weekOff: false,
+                shifts: getMatchingShiftIds(selectedShift, selectFriShift),
+                staffId: selectedStaff?.staffDetails?.id,
+            },
+            {
+                day: "Sat",
+                weekOff: false,
+                shifts: getMatchingShiftIds(selectedShift, selectSatShift),
+                staffId: selectedStaff?.staffDetails?.id,
+            },
+            {
+                day: "Sun",
+                weekOff: false,
+                shifts: getMatchingShiftIds(selectedShift, selectSunShift),
+                staffId: selectedStaff?.staffDetails?.id,
+            },
+        ];
+
+        console.log(data);
+
+        try {
+            for (const shiftData of data) {
+                const response = await fetch(`${baseUrl}shift/fixed-shift`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(shiftData),
+                });
+
+                console.log("Response from backend for", shiftData.day, ":", response);
+
+                if (response.ok) {
+                    const result = await response.json();
+                    console.log(`Response data for ${shiftData.day}:`, result);
+                } else {
+                    openToast(
+                        `An error occurred while adding or updating Work Timing for ${shiftData.day}`,
+                        "error"
+                    );
+                    return; // Exit on the first error
+                }
+            }
+
+            // Show success toast after all API calls succeed
+            openToast("Work Timing successfully updated or created for all days", "success");
+            closeModal();
+        } catch (error) {
+            console.error("Error submitting Work Timing:", error);
+            openToast("An error occurred while adding or updating Work Timing", "error");
+        }
+    }
+
+    const setDefaultWeekOffForDay = (day) => {
+        setDayWiseWeekOff(prevState => {
+            const updatedDayWiseWeekOff = prevState.map(item => {
+                if (item.day === day) {
+                    // Set all weeks to false for the specific day
+                    return {
+                        ...item,
+                        weekOff: { allweek: false, firstWeek: false, secondWeek: false, thirdWeek: false, fourthWeek: false, fifthWeek: false }
+                    };
+                }
+                return item;
+            });
+            return updatedDayWiseWeekOff;
+        });
+    };
+
+    console.log(hasWeekOff);
     return (
         <>
             {/* <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '> */}
@@ -448,11 +683,6 @@ const EditAttendanceDetail = () => {
                     </div>
                 </div>
             </div>
-
-
-
-
-
             {/* update work timing */}
             <Modal
                 isOpen={modalIsOpen}
@@ -489,7 +719,14 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Mon</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input checked={hasWeekOff.MonWeekOff} onChange={() => {
+                                                if (hasWeekOff.MonWeekOff === false) {
+                                                    setDefaultWeekOffForDay("Mon");
+                                                }
+                                                setOpenWeekDay("Monday");
+                                                setHasWeekOff({ ...hasWeekOff, "MonWeekOff": !hasWeekOff.MonWeekOff });
+                                                setOpenWeekOff(!openWeekOff);
+                                            }} type="checkbox" />
                                         </td>
                                         <td className='pr-5 flex items-center'>
                                             <Select
@@ -504,6 +741,11 @@ const EditAttendanceDetail = () => {
                                                     control: (base) => ({
                                                         ...base,
                                                         minHeight: '40px',
+                                                        // maxHeight: '30px',
+                                                        // overflow: "scroll",
+                                                        // scrollBehavior: "smooth",
+                                                        // scrollbarWidth: "none",
+                                                        // overflowX: "hidden",
                                                     }),
                                                     multiValue: (base) => ({
                                                         ...base,
@@ -512,6 +754,11 @@ const EditAttendanceDetail = () => {
                                                     multiValueLabel: (base) => ({
                                                         ...base,
                                                         color: '#000',
+                                                        // height: '30px',
+                                                        // display:"flex",
+                                                        // flexDirection:"column",
+                                                        // justifyContent:"center",
+                                                        // alignItems: 'center',
                                                     }),
                                                     multiValueRemove: (base) => ({
                                                         ...base,
@@ -528,7 +775,14 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Tue</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value={hasWeekOff.TueWeekOff} onChange={() => {
+                                                if (hasWeekOff.TueWeekOff === false) {
+                                                    setDefaultWeekOffForDay("Tue");
+                                                }
+                                                setOpenWeekDay("Tuesday");
+                                                setHasWeekOff({ ...hasWeekOff, "TueWeekOff": !hasWeekOff.TueWeekOff });
+                                                setOpenWeekOff(!openWeekOff);
+                                            }} />
                                         </td>
                                         <td className='pr-5 flex items-center'>
                                             <Select
@@ -567,7 +821,14 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Wed</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value={hasWeekOff.WedWeekOff} onChange={() => {
+                                                if (hasWeekOff.WedWeekOff === false) {
+                                                    setDefaultWeekOffForDay("Wed");
+                                                }
+                                                setOpenWeekDay("Wednesday");
+                                                setHasWeekOff({ ...hasWeekOff, "WedWeekOff": !hasWeekOff.WedWeekOff });
+                                                setOpenWeekOff(!openWeekOff);
+                                            }} />
                                         </td>
                                         <td className='pr-5 flex items-center'>
                                             <Select
@@ -606,7 +867,12 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Thu</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value={hasWeekOff.ThuWeekOff} onChange={() => {
+                                                if (hasWeekOff.WedWeekOff === false) {
+                                                    setDefaultWeekOffForDay("Thu");
+                                                }
+                                                setOpenWeekDay("Thursday"); setHasWeekOff({ ...hasWeekOff, "ThuWeekOff": !hasWeekOff.ThuWeekOff });
+                                            }} />
                                         </td>
                                         <td className='pr-5 flex items-center'>
                                             <Select
@@ -645,7 +911,12 @@ const EditAttendanceDetail = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Fri</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value={hasWeekOff.FriWeekOff} onChange={() => {
+                                                if (hasWeekOff.WedWeekOff === false) {
+                                                    setDefaultWeekOffForDay("Fri");
+                                                }
+                                                setOpenWeekDay("Friday"); setHasWeekOff({ ...hasWeekOff, "FriWeekOff": !hasWeekOff.FriWeekOff });
+                                            }} />
                                         </td>
                                         <td className='pr-5 flex items-center'>
                                             <Select
@@ -681,11 +952,15 @@ const EditAttendanceDetail = () => {
                                             </button>
                                         </td>
                                     </tr>
-
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Sat</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value={hasWeekOff.SatWeekOff} onChange={() => {
+                                                if (hasWeekOff.WedWeekOff === false) {
+                                                    setDefaultWeekOffForDay("Sat");
+                                                }
+                                                setOpenWeekDay("Saturday"); setHasWeekOff({ ...hasWeekOff, "SatWeekOff": !hasWeekOff.SatWeekOff });
+                                            }} />
                                         </td>
                                         <td className='pr-5 flex items-center'>
                                             <Select
@@ -721,11 +996,15 @@ const EditAttendanceDetail = () => {
                                             </button>
                                         </td>
                                     </tr>
-
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Sun</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" value={hasWeekOff.SunWeekOff} onChange={() => {
+                                                if (hasWeekOff.WedWeekOff === false) {
+                                                    setDefaultWeekOffForDay("Sun");
+                                                }
+                                                setOpenWeekDay("Sunday"); setHasWeekOff({ ...hasWeekOff, "SunWeekOff": !hasWeekOff.SunWeekOff });
+                                            }} />
                                         </td>
                                         <td className='pr-5 flex items-center'>
                                             <Select
@@ -761,15 +1040,12 @@ const EditAttendanceDetail = () => {
                                             </button>
                                         </td>
                                     </tr>
-
-
-
-
                                 </tbody>
                             </table>
 
                             <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
-                                <button className="first-btn" onClick={closeModal}>Cancel</button><button className="second-btn">Confirm</button>
+                                <button className="first-btn" onClick={closeModal}>Cancel</button>
+                                <button className="second-btn" onClick={(e) => createFixedShift(e)}>Confirm</button>
                             </div>
                         </div>
                     </TabPanel>
@@ -782,71 +1058,10 @@ const EditAttendanceDetail = () => {
                                     <th className='p-3 text-[13px]  font-medium'>Day </th>
                                     <th className='p-3 text-[13px] font-medium w-[45px]'>Weekoff </th>
                                     <th className='p-3 text-[13px] font-medium text-left pl-[8px]'>Shifts</th>
-
                                 </thead>
                                 <tbody>
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal	'>Sep 01 | Mon</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Tue</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Wed</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Thu</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Fri</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Sat</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Sun</td>
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
@@ -866,6 +1081,64 @@ const EditAttendanceDetail = () => {
 
                 </Tabs>
             </Modal>
+            {/* Week Off Modal */}
+            <Modal
+                isOpen={openWeekOff}
+                onAfterOpen={() => {
+                    subtitle.style.color = '#000';
+                }}
+                onRequestClose={() => { setOpenWeekOff(false) }}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'>{openWeekDay} - Week Offs</h2>
+                <button onClick={() => setOpenWeekOff(false)} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div class="space-y-4 my-3 px-3">
+                    {
+                        [
+                            { key: 'allweek', label: 'All Week' },
+                            { key: 'firstWeek', label: '1st Week' },
+                            { key: 'secondWeek', label: '2nd Week' },
+                            { key: 'thirdWeek', label: '3rd Week' },
+                            { key: 'fourthWeek', label: '4th Week' },
+                            { key: 'fifthWeek', label: '5th Week' },
+                        ].map((week) => {
+                            const currentDay = dayWiseWeekOff.find(item => item.day === openWeekDay.slice(0, 3));  // Find the current day's weekOff data
+                            console.log(currentDay);
+                            return (
+                                <div className="flex items-center justify-between space-x-2" key={week.key}>
+                                    <label htmlFor={week.key} className="text-sm font-medium text-black">
+                                        {week?.label}
+                                    </label>
+                                    <input
+                                        type="checkbox"
+                                        id={week.key}
+                                        checked={currentDay ? currentDay.weekOff[week.key] : false} // Ensure we check for `currentDay`
+                                        onChange={(e) => handleDayWeekOffChange(
+                                            openWeekDay.slice(0, 3),
+                                            week?.key,
+                                            !currentDay?.weekOff[week.key]
+                                        )}
+                                        className="w-4 h-4"
+                                    />
+                                </div>
+                            );
+                        })
+                    }
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse rounded-b-lg">
+                    <button onClick={() => { setOpenWeekOff(false) }} id="confirmBtn" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#511992] text-base font-medium text-white focus:outline-none  sm:ml-3 sm:w-auto sm:text-sm">
+                        Confirm
+                    </button>
+                    <button onClick={() => {
+                        console.log(dayWiseWeekOff);
+                        setOpenWeekOff(false)
+                    }} id="cancelBtn" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2  sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </Modal>
             {/* update work timing */}
 
 
@@ -879,7 +1152,7 @@ const EditAttendanceDetail = () => {
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
 
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Shifts</h2>
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>{openWeekDay} - Shifts</h2>
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className=''>
 
