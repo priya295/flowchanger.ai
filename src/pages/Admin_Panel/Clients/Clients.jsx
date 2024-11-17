@@ -35,7 +35,7 @@ const Clients = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [departments, setDepartments] = useState([])
-  const [companyName, setComapnyName] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [searchedClients, setSearchClients] = useState(null);
   const [rowsToShow, setRowsToShow] = useState(25);
 
@@ -212,7 +212,7 @@ const Clients = () => {
       if (response.status === 200) {
         const result = await response.json();
         console.log(result);
-        setClientData(result);
+        setSearchClients(result);
 
       } else {
         console.log("data is not filtered");
@@ -228,13 +228,12 @@ const Clients = () => {
     const debounceTimer = setTimeout(() => {
       if (companyName) {
         handleSearchCompany();
-      } else {
-        fetchDetail();
       }
-    }, 4000);
-
+    }, 3000);
+  
     return () => clearTimeout(debounceTimer);
-  }, [companyName, handleSearchCompany]);
+  }, [companyName]);
+
   useEffect(() => {
     fetchDetail();
     if (clientData) {
@@ -542,13 +541,12 @@ const Clients = () => {
                 placeholder=" Search......."
                 value={companyName}
                 onChange={(e) => {
-                  if (e.target.value === null) {
+                  const value = e.target.value;
+                  setCompanyName(value);
+                  if (value === "") {
                     setSearchClients(null);
+                    fetchDetail(); // Fetch all clients when the input is cleared
                   }
-                  else {
-                    setComapnyName(e.target.value);
-                  }
-
                 }}
 
               />

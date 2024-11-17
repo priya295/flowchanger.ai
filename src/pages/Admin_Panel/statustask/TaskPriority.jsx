@@ -103,7 +103,8 @@ const TaskPriority = () => {
             body: JSON.stringify({ taskPriorityName: priorityName })
         })
         if (result.status == 201) {
-            openToast("Add Priority Successfuly", "success")
+            openToast("Add Priority Successfuly", "success");
+            toggleModal();
         }
         else {
             openToast("Internal Server Error", "error")

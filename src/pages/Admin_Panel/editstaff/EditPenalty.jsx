@@ -87,8 +87,9 @@ const EditPenalty = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                closeModal12();
+                
                 openToast("Late Coming Policy created Successfully", "success");
+                closeModal13();
             }
             else {
                 openToast("An error occurred while creating late coming policy", "error");
@@ -120,8 +121,9 @@ const EditPenalty = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                closeModal12();
+                
                 openToast("Overtime Policy created Successfully", "success");
+                closeModal14();
             }
             else {
                 openToast("An error occurred while creating Overtime policy", "error");

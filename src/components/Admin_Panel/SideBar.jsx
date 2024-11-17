@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import logo from "../../Assets/Images/logo.png";
 import home from "../../Assets/Images/home.png";
 import project from "../../Assets/Images/project.png";
@@ -18,6 +18,7 @@ import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 const SideBar = ({ toggleSideBar }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isStaffSubmenuOpen, setIsStaffSubmenuOpen] = useState(false);
+  const [selectedSubmenuItem, setSelectedSubmenuItem] = useState(null);
   const [selectedTab , setSelectedTab] = useState(null);
    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -69,10 +70,19 @@ const SideBar = ({ toggleSideBar }) => {
 
   const [selectedPage, setSelectedPage] = useState(""); // Track active page
  
-  const handleToggleSubmenu = () => {
+  const handleArrowClick = () => {
+    setIsStaffSubmenuOpen(  !isStaffSubmenuOpen);
+  };
+  useEffect(() => {
+    if (selectedTab === "staff") {
+      setIsStaffSubmenuOpen(true);
+    }
+  }, [selectedTab]);
+  
+   const handleStaffClick = () => {
+    setSelectedTab("staff");
     setIsStaffSubmenuOpen(!isStaffSubmenuOpen);
   };
-
 
   return (
     // <div className="sidebar w-[250px] xl:w-[244px] lg:w-[300px] md:w-[300px] bg-[#27004a] h-full p-[10px] ">
@@ -215,56 +225,64 @@ const SideBar = ({ toggleSideBar }) => {
 
        
 
-    <div>
-      {/* Main Staff Tab */}
-      <Link
-        to="/staff-menu"
-        onClick={() => { 
-          setSelectedTab("staff");
-          handleToggleSubmenu(); // Only toggles when "Staff" is clicked, not submenu items
-        }}
-        className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
-          selectedTab === "staff" ? "bg-white text-[#8a25b0]" : "text-white"
-        }`}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
-        <button
-          onClick={(e) => {
-            e.preventDefault(); // Prevents the button's onClick from causing unwanted re-renders
-            handleToggleSubmenu();
-          }}
-          className="flex justify-between items-center gap-3"
-        >
-          Staff
-          {isStaffSubmenuOpen ? (
-            <FaChevronDown className="ml-auto text-sm" /> // Down arrow icon
-          ) : (
-            <FaChevronRight className="ml-auto text-sm" /> // Right arrow icon
-          )}
-        </button>
-      </Link>
+        <div>
+  {/* Main Staff Tab */}
+  <Link
+    to="/staff-menu"
+    onClick={() => { setSelectedTab("staff"); handleArrowClick(); }}
+    className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
+      selectedTab === "staff" ? "bg-white text-[#8a25b0]" : "text-white"
+    }`}
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-users"
+    >
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+    <div className="flex justify-between items-center gap-3 w-full">
+      Staff
+      <button className="ml-auto focus:outline-none">
+        {isStaffSubmenuOpen ? (
+          <FaChevronDown className="text-sm" />
+        ) : (
+          <FaChevronRight className="text-sm" />
+        )}
+      </button>
+    </div>
+  </Link>
 
-      {/* Submenu for Staff */}
-      <div
-        className={`overflow-x-hidden transition-max-height duration-300 ease-in-out mt-[5px] ${
-          isStaffSubmenuOpen ? 'max-h-screen' : 'max-h-0'
-        }`}
-      >
+  {/* Submenu */}
+  {isStaffSubmenuOpen && (
+    <div className="transition-all duration-300 ease-in-out mt-[5px] overflow-hidden">
+      <div>
         <Link
           to="/payroll-menu"
           onClick={() => setSelectedTab("payroll")}
-          className={`w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap hover:bg-white rounded- hover:text-[#8a25b0] transition-all rounded-md mr-3 ${
+          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] whitespace-nowrap transition-all rounded-md overflow-hidden ${
             selectedTab === "payroll" ? "bg-white text-[#8a25b0]" : "text-white"
           }`}
         >
           <ArrowForwardIosIcon className="arrow-icon-sidebar" />
           Payroll
         </Link>
-
+      </div>
+      <div>
         <Link
           to="/attendence_summary"
           onClick={() => setSelectedTab("attendance")}
-          className={`w-full ml-[40px] text-left py-[10px] flex items-center gap-[10px] pl-[0px] whitespace-nowrap transition-all rounded-md mr- ${
+          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] whitespace-nowrap transition-all rounded-md overflow-hidden ${
             selectedTab === "attendance" ? "bg-white text-[#8a25b0]" : "text-white"
           }`}
         >
@@ -273,6 +291,9 @@ const SideBar = ({ toggleSideBar }) => {
         </Link>
       </div>
     </div>
+  )}
+</div>
+
  
 
 

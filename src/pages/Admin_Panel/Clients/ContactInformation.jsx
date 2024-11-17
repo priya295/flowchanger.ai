@@ -113,7 +113,7 @@ const ContactInformation = () => {
             setClientData(res)
         }
         else {
-            alert("An Error Occured")
+            openToast("An Error Occured")
         }
     }
 
@@ -271,18 +271,18 @@ const ContactInformation = () => {
                     </div>
                 </div>
 
-                <div className='w-full   '>
-                    <table className='table-section new-worth p-[10px]  w-full'>
-                        <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
-                            <th>First Name</th>
-                            <th>Last Name </th>
-                            <th>Email</th>
-                            <th>Company</th>
-                            <th>Phone</th>
-                            <th>Positon</th>
-                            <th>Last Login</th>
-                            <th>Active</th>
-
+                <div className='w-full rounded-xl'>
+                    <div className='w-full overflow-x-auto  '>
+                    <table className='table-section new-worth p-[10px]  w-full  !border-0 !border-spacing-0 '>
+                        <thead className=' sticky bg-gray-200 set-shadow top-[-1px] !border-0'>
+                            <th className='  p-2 text-xs font-medium text-center !border-0 !bg-white'>First Name</th>
+                            <th className=' p-2 text-xs font-medium text-center !border-0 !bg-white'>Last Name </th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Email</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Company</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Phone</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Positon</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Last Login</th>
+                            <th className='p-2 text-xs font-medium text-center !border-0 bg-white'>Active</th>
 
                         </thead>
                         <tbody>
@@ -313,6 +313,7 @@ const ContactInformation = () => {
                             })}
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
             <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>

@@ -5,7 +5,7 @@ import profile from '../../../Assets/Images/profile.svg'
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { LinkOff } from '@mui/icons-material';
 const AddOneStaff = () => {
-
+    const navigate = useNavigate();
     const { baseUrl,openToast} = useGlobalContext();
     const [departments, setDepartments] = useState([])
     const [roles,setRoles]=useState([])
@@ -34,7 +34,7 @@ const AddOneStaff = () => {
           setDepartments(res.data)
         }
         else {
-          alert("An Error Occured")
+         openToast("An Error Occured")
         }
       }
 
@@ -83,7 +83,8 @@ const AddOneStaff = () => {
         console.log(response);
     
         if (response.status === 201) {
-            alert("Add Staff Succesfully")
+            openToast("Add Staff Succesfully");
+            navigate("/staff-menu")
             setName("");
             setJobTitle("");
             setBranch(""); 
