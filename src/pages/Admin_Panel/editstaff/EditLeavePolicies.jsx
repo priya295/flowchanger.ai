@@ -9,8 +9,9 @@ const EditLeavePolicies = () => {
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState('leave-requests')
     const [activeSubTab, setActiveSubTab] = useState('pending')
-    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
-    const [selectDuration, setSelectDuration] = useState();
+    const { baseUrl, openToast, selectedStaff } = useGlobalContext();
+    // const [selectedStaff, setSelectedStaff] = useState({});
+    const [selectDuration, setSelectDuration] = useState("");
     const [editingRow, setEditingRow] = useState(null);
     const [leavePolicyType, setLeavePolicyType] = useState();
     const [allowedLeavesPerYear, setAllowedLeavePerYear] = useState();
@@ -25,7 +26,45 @@ const EditLeavePolicies = () => {
 
     const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
 
-    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy);
+
+
+
+    console.log(selectedStaff);
+
+    const [updateLeaveBalance, setUpdateLeaveBalance] = useState(selectedStaff?.staffDetails?.LeaveBalance?.map(item => ({ balance: item?.balance, leaveName: selectedStaff?.staffDetails?.LeavePolicy?.find(policy => policy?.id === item?.leavePolicyId)?.name, used: item?.used, id: item?.id })));
+
+    console.log(updateLeaveBalance);
+
+    const updatedLeaveBalance = async () => {
+        try {
+            const allData = [];
+            for (const data of updateLeaveBalance) {
+                const response = await fetch(baseUrl + "leave-balance/" + data?.id, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({...data, balance: Number(data?.balance), used: Number(data?.used)})
+                });
+                const result = await response.json();
+                if (response.status === 200) {
+                    allData.push(result);
+                }
+            }
+            if (allData.length > 0) {
+                console.log(allData);
+                openToast("Leave Balance updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while updating leave balance", "error");
+            }
+        } catch (error) {
+            console.error("Error updating leave balance:", error);
+            openToast("An error occurred while updating leave balance", "error");
+        }
+    }
+
+    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy || []);
 
     const [updatePolicy, setUpdatePolicy] = useState({
         allowed_leaves: 0,
@@ -446,11 +485,11 @@ const EditLeavePolicies = () => {
                         <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
                             <label className='text-[14px]'>Select Type</label>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
+                                <input checked={selectDuration === "MONTHLY"} onChange={(e) => setSelectDuration("MONTHLY")} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
                                 <label for="fixed" className='text-[14px]'> Monthly</label><br />
                             </Tab>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
+                                <input checked={selectDuration === "YEARLY"} onChange={(e) => setSelectDuration("YEARLY")} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
                                 <label for="flexible" className='text-[14px]'> Yearly</label><br />
                             </Tab>
                         </TabList>
