@@ -151,7 +151,8 @@
 }
 .newsidebar-icon{
     font-size: 18px !important;
-    margin-left: 10px;
+    margin-left: 5px;
+    
 }
 .interview-card:hover{
    transform: translateY(-6px);
@@ -171,6 +172,7 @@
 }
 .cached-icon{
     height: 36px !important;
+    
 }
 .bg-label-success{
     background-color: #e8fadf !important;

@@ -20,7 +20,7 @@ import jsPDF from 'jspdf';
 
 
 const ProjectPriority = () => {
-    const { baseUrl } = useGlobalContext();
+    const { baseUrl ,openToast } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
     // Function to handle accordion toggling
     const handleToggle = (index) => {
@@ -161,7 +161,7 @@ const ProjectPriority = () => {
             alert("Added Project Priority Sucessfully")
         }
         else {
-            alert("An Occor Error")
+            openToast("An Error Occured")
         }
     }
 

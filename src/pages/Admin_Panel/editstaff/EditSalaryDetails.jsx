@@ -299,13 +299,8 @@ const EditSalaryDetails = () => {
     "Miscellaneous Deduction"
   ]);
 
-  const [selectedAllowance, setSelectedAllowance] = useState(
-    selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads) || []
-  );
-
-  const [selectedDeduction, setSelectedDeduction] = useState(
-    selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads) || []
-  );
+  const [selectedAllowance, setSelectedAllowance] = useState([...selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads)]);
+  const [selectedDeduction, setSelectedDeduction] = useState([...selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads)]);
 
 
   const [calEarning, setCalEarning] = useState([]);
