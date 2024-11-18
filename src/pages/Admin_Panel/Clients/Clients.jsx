@@ -367,7 +367,7 @@ const Clients = () => {
   const [deleteClient, setDeleteClient] = useState();
   const updateData = async (e) => {
     e.preventDefault();
-    const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
+    const result = await fetch(baseUrl + "client/" + selectedClient.id, {
       method: "PUT",
       headers: {
         "Content-type": "application/json"

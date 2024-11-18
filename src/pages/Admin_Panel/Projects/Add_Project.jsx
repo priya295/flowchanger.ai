@@ -14,7 +14,7 @@ import CreatableSelect from "react-select/creatable";
 import Select from 'react-select';
 
 const Add_Project = () => {
-  const { baseUrl,openToast} = useGlobalContext();
+  const { baseUrl, openToast } = useGlobalContext();
   const navigate = useNavigate();
   const [editorData, setEditorData] = useState('');
   const modules = {
@@ -70,14 +70,14 @@ const Add_Project = () => {
       setClientData(res)
     }
     else {
-      openToast("An Error Occured","error")
+      openToast("An Error Occured", "error")
       // alert("An Error Occured")
     }
   }
 
-  useEffect(()=>{
-   console.log(clientData)
-  },[]);
+  useEffect(() => {
+    console.log(clientData)
+  }, []);
 
   useEffect(() => {
     fetchDetail();
@@ -92,7 +92,7 @@ const Add_Project = () => {
     if (result.status == 200) {
       const res = await result.json();
       setStaffDetail(res)
-      console.log("---",res.name)
+      console.log("---", res.name)
     }
     else {
       // openToast("An Error Occured")
@@ -141,15 +141,15 @@ const Add_Project = () => {
   }));
 
   console.log(staffDetail);
-  console.log(clientData);  
+  console.log(clientData);
 
 
 
   async function projectSubmit() {
     const plainTextDescription = (editorData || '').replace(/<\/?p>/g, '');
-     console.log(
+    console.log(
       selectedClient
-     )
+    )
     const projectNameString = fetchProjectStatus.length > 0 ? fetchProjectStatus[0].project_name : ''; // Option 1, or use Option 2 as needed
     const result = await fetch(baseUrl + "project/create", {
       method: "POST",
@@ -172,14 +172,14 @@ const Add_Project = () => {
       })
     })
     console.log(result);
-    const data =await result.json()
+    const data = await result.json()
     if (result.status == 200) {
-     openToast(data.msg||"Add Project Successfully", "success")
+      openToast(data.msg || "Add Project Successfully", "success")
     }
     else {
 
-     console.log(data.msg);
-      openToast(data.msg||"error occured","error")
+      console.log(data.msg);
+      openToast(data.msg || "error occured", "error")
     }
   }
 
@@ -190,9 +190,9 @@ const Add_Project = () => {
   // useEffect(()=>{
   //  console.log(clientData.clientInformation)
   // },[])
-  useEffect(()=>{
-  console.log(clientData)
-  },[])
+  useEffect(() => {
+    console.log(clientData)
+  }, [])
 
   return (
     <Tabs className="m-5 shadow rounded-lg">
@@ -209,7 +209,7 @@ const Add_Project = () => {
         <div className="w-[100%] space-y-5">
           <div className="space-y-2">
             <h1 className="font-medium">* Project Name</h1>
-            <input  
+            <input
               className="h-[46px] w-[100%] border border-[#DBDCDE]  rounded-md pl-2"
               type="text"
               onChange={(e) => { setProjectName(e.target.value) }}
@@ -218,24 +218,26 @@ const Add_Project = () => {
 
           <div className="space-y-2">
             <h1 className="font-medium">* Customer</h1>
+            
             <select
-  onChange={(e) => setSelectClient(e.target.value)}
-  className="w-[100%] h-[46px] bg-white border border-[#DBDCDE] rounded-md pl-5"
->
-  {clientData?.map((clientInformation, index) => {
-    console.log(clientInformation?.name, clientInformation.clientDetails?.id); // Logs name and clientDetails.id
+              onChange={(e) => setSelectClient(e.target.value)}
+              className="w-[100%] h-[46px] bg-white border border-[#DBDCDE] rounded-md pl-5"
+            >
+              <option value="">Select Client</option>
+              {clientData?.map((clientInformation, index) => {
+                console.log(clientInformation?.name, clientInformation.clientDetails?.id); // Logs name and clientDetails.id
 
-    return (
-      <option key={index} value={clientInformation.clientDetails?.id }>
-        {clientInformation?.name ?? "n/a"}
-      </option>
-    );
-  })}
-</select>
+                return (
+                  <option key={index} value={clientInformation.clientDetails?.id}>
+                    {clientInformation?.name ?? "n/a"}
+                  </option>
+                );
+              })}
+            </select>
           </div>
 
           <div className="font-medium flex gap-4 items-center">
-            <input type="checkbox"  />
+            <input type="checkbox" />
             <h1>Calculate progress through tasks</h1>
           </div>
 
@@ -333,7 +335,7 @@ const Add_Project = () => {
                 <input
                   className="h-[46px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
-                  
+
                   onChange={(e) => { setDate(e.target.value) }}
                 />
               </div>

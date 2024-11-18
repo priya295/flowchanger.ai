@@ -9,10 +9,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const StaffTab = () => {
   const { baseUrl, setSelectedStaff } = useGlobalContext();
-
-
   const [isLoading, setIsLoading] = useState(true);
-
   const [toggleDrop, setToggleDrop] = useState(false);
   const [staffStatus, setStaffStatus] = useState("All Staff");
   const [gender, setGender] = useState("Male");
@@ -73,11 +70,8 @@ const StaffTab = () => {
         const res = await result.json();
         console.log(res);
         setStaffDetail(res)
-        // console.log("---",res.name)
-      }
-      else {
-        // openToast("An Error Occured")
-      }
+       }
+      
     } catch (error) {
       console.error("Error:", error);
     } finally {

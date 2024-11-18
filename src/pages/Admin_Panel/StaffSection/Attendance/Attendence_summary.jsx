@@ -1,5 +1,5 @@
 import { div } from 'framer-motion/client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WarningIcon from '@mui/icons-material/Warning';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -10,8 +10,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AvTimerIcon from '@mui/icons-material/AvTimer';
 import CloseIcon from '@mui/icons-material/Close';
+import { useGlobalContext } from '../../../../Context/GlobalContext';
 const Attendence_summary = () => {
-
+    const { baseUrl, openToast } = useGlobalContext();
     const [isOpen, setIsOpen] = useState(false);
 
     // Function to open the modal
@@ -107,6 +108,57 @@ const Attendence_summary = () => {
         setIsOpen14(false);
     };
 
+    const [attendance, setAttendance] = useState();
+    const [loading, setLoading] = useState(false);
+    console.log(attendance)
+    async function fetchAttendanceDetail() {
+        const result = await fetch(baseUrl + "attendance/summary");
+        if (result.status == 200) {
+            const res = await result.json();
+            setAttendance(res);
+        }
+
+    }
+    useEffect(() => {
+        fetchAttendanceDetail();
+    }, [])
+    const [selectedStatus, setSelectedStatus] = useState("");
+    async function confirmation(item) {
+        setLoading(true)
+        try {
+            if (selectedStatus == "") {
+                openToast("Please Select Status", "error")
+                return
+            }
+
+            if (selectedStatus == item.status) {
+                openToast("Please Select Different Status", "error")
+                return
+            }
+            const result = await fetch(baseUrl + `attendance/status/${item.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ status: selectedStatus })
+            })
+            if (result.status == 200) {
+                openToast("Updated Status Successfully", "success")
+                fetchAttendanceDetail();
+            }
+            else {
+                openToast("Something went wrong", "error")
+            }
+        } catch (error) {
+            openToast("Something went wrong", "error")
+        } finally {
+            setLoading(false);
+            closeModal();  // Close the modal after completion
+
+        }
+    }
+   
+
     return (
         <div className='p-[20px] w-full work-fine'>
             <div className='flex  justify-between satisfy-summary  '>
@@ -178,519 +230,543 @@ const Attendence_summary = () => {
                 <p className='bg-[#fff] shadow-cs four'>4</p>
             </div>
 
-            <div className='shadow p-[20px] mt-[18px] rounded-md shadow-cs'>
-                <div className='flex items-start justify-between  flex-col xl:flex-row lg:flex-row md:flex-row xl:items-center lg:items-center md:items-center gap-4 xl:gap-0 lg:gap-0 md:gap-0'>
-                    <div>
-                        <div>
-                            <p className='text-[16px]'>Akash</p>
-                            <p className='text-[red] text-[14px]'>Absent</p>
-                        </div>
-                        <p className='text-[#27004a] font-medium text-[14px] mt-[10px] w-[150px]'>Add Note - Login</p>
 
-                    </div>
-                    <div className='flex gap-[18px] xl:flex-col flex-row md:flex-col lg:flex-col set-workd w-full justify-between xl:justify-start md:justify-start lg:justify-start '>
-                        <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
+            {
+                attendance?.map((item, index) => {
+                    return <>
+                        <div className='shadow p-[20px] mt-[18px] rounded-md shadow-cs'>
+                            <div className='flex items-start justify-between  flex-col xl:flex-row lg:flex-row md:flex-row xl:items-center lg:items-center md:items-center gap-4 xl:gap-0 lg:gap-0 md:gap-0'>
+                                <div>
+                                    <p className='text-[16px]'>Piyush</p>
+                                    <p className='text-[red] text-[14px]'>{item?.status}</p>
+                                    <p className='text-[#27004a] font-medium text-[14px] mt-[10px] w-[150px]'>Add Note - Login</p>
 
-                            <div className="flex xl:justify-center justify-start items-center">
-                                {/* Button to open modal */}
-                                <button
-                                    onClick={openModal6}
-                                    className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px]  lg:w-[200px] md:w-[140px] whitespace-nowrap  shadow-md "
-                                >
-                                    P I Present
-                                </button>
+                                </div>
 
-                                {/* Modal overlay and content */}
-                                {isOpen6 && (
-                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
-                                            <div className='flex items-center justify-between'>
-                                                <div className='mb-[20px]'>
-                                                    <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Present Day </h2>
-                                                    <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                </div>
-                                                <button className="px-4 py-2 bg-[#27004a] text-white rounded-md">Add Shift</button>
 
-                                            </div>
+                                <div className='flex gap-[18px] xl:flex-col flex-row md:flex-col lg:flex-col set-workd w-full justify-between xl:justify-start md:justify-start lg:justify-start '>
+                                    <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
 
-                                            <div className='bg-[#ececec] p-[10px] rounded-md mb-[20px] '>
-                                                <div className='text-right'>
-                                                    <DeleteIcon className='del-icon text-[#89868d]' />
-                                                </div>
-                                                <div className="w-[100%]" >
-                                                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Shift Time</label>    <br />
-                                                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                        <option>Daily Shift</option>
-                                                        <option>Option 2</option>
+                                        <div className="flex xl:justify-center justify-start items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedStatus("PRESENT")
+                                                    openModal()
+                                                }}
+                                                className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
+                                                    focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
+                                                    ${item?.status === "PRESENT" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+                                                    
+                                            >
+                                                P I Present
+                                            </button>
 
-                                                    </select>
-                                                </div>
-                                                <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                            {/* Modal overlay and content */}
+                                            {/* {isOpen6 && (
+                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
+                                                    <div className='flex items-center justify-between'>
+                                                        <div className='mb-[20px]'>
+                                                            <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Present Day </h2>
+                                                            <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
+                                                        </div>
+                                                        <button className="px-4 py-2 bg-[#27004a] text-white rounded-md">Add Shift</button>
+
                                                     </div>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
-                                                    </div>
-                                                </div>
-                                            </div>
 
-
-                                            <div className="flex flex-col gap-[10px] ">
-                                                <button
-
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Save
-                                                </button>
-                                                <button
-                                                    onClick={closeModal6}
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="flex justify-center items-center">
-                                {/* Button to open modal */}
-                                <button
-                                    onClick={openModal2}
-                                    className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
-                                >
-                                    HD I HalfDay
-                                </button>
-
-                                {/* Modal overlay and content */}
-                                {isOpen2 && (
-                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
-                                            <div className='flex items-center justify-between'>
-                                                <div className='mb-[20px]'>
-                                                    <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Half Day </h2>
-                                                    <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                </div>
-                                                <button className="px-4 py-2 bg-[#27004a] text-white rounded-md">Add Shift</button>
-
-                                            </div>
-
-                                            <div className='bg-[#ececec] p-[16px] rounded-md mb-[20px] '>
-                                                <div className='text-right'>
-                                                    <DeleteIcon className='del-icon text-[#89868d]' />
-                                                </div>
-                                                <div className="w-[100%]" >
-                                                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Shift Time</label>    <br />
-                                                    <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                        <option>Daily Shift</option>
-                                                        <option>Option 2</option>
-
-                                                    </select>
-                                                </div>
-                                                <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
-                                                    </div>
-                                                    <div className='w-[50%] relative'>
-                                                        <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                        <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
-                                                        <AvTimerIcon className='absolute avitimer text-[#89868d]' />
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="flex flex-col gap-[10px] ">
-                                                <button
-
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Save
-                                                </button>
-                                                <button
-                                                    onClick={closeModal2}
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="flex xl:justify-center justify-start items-center">
-                                {/* Button to open modal */}
-                                <button
-                                    onClick={openModal0}
-                                    className=" btns px-6 py-3 text-[14px] text-[#27004a] font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
-                                >
-                                    F I Fine
-                                </button>
-
-                                {/* Modal overlay and content */}
-                                {isOpen0 && (
-                                    <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full overflow-scroll h-[100%] p-6">
-                                            <div className=''>
-                                                <div className='mb-[20px]'>
-                                                    <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Fine </h2>
-                                                    <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                </div>
-
-                                                <div className='flex justify-between items-center mb-[10px]'>
-                                                    <p className='text-[16px]  font-medium'>DAILY SHIFT</p>
-                                                    <DeleteIcon className='del-icon2 text-[#89868d]' />
-                                                </div>
-
-
-                                            </div>
-
-                                            <div className=' p-[10px]   '>
-                                                <div className='flex items-center justify-between mb-[5px]'>
-                                                    <p className='text-[14px] font-medium'>Late Entry</p>
-                                                    <CloseIcon className='close-icon text-[#89868d]' />
-                                                </div>
-
-                                                <div className='flex items-center gap-[20px]'>
-
-                                                    <div>
-                                                        <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
-                                                        <p className='text-[12px]' >Amount $ 61.63</p>
-                                                    </div>
-                                                    <div className='flex gap-[28px] '>
-
+                                                    <div className='bg-[#ececec] p-[10px] rounded-md mb-[20px] '>
+                                                        <div className='text-right'>
+                                                            <DeleteIcon className='del-icon text-[#89868d]' />
+                                                        </div>
                                                         <div className="w-[100%]" >
-
-                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                                <option>1x Salary</option>
+                                                            <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Shift Time</label>    <br />
+                                                            <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                <option>Daily Shift</option>
                                                                 <option>Option 2</option>
 
                                                             </select>
                                                         </div>
-                                                        <div className=''>
-                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
-
+                                                        <div className='w-[100%] mt-[14px] gap-[64px] flex '>
+                                                            <div className='w-[50%] relative'>
+                                                                <label className='text-[#89868d] text-[14px]'>Start Time</label>
+                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
+                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                            </div>
+                                                            <div className='w-[50%] relative'>
+                                                                <label className='text-[#89868d] text-[14px]'>End Time</label>
+                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
+                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                            </div>
                                                         </div>
+                                                    </div>
 
+
+                                                    <div className="flex flex-col gap-[10px] ">
+                                                        <button
+
+                                                            className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                        >
+                                                            Save
+                                                        </button>
+                                                        <button
+                                                            onClick={closeModal6}
+                                                            className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                        >
+                                                            Cancel
+                                                        </button>
                                                     </div>
                                                 </div>
-
-                                             
                                             </div>
-                                            <div className='p-[10px] '>
-                                                <div className='flex items-center justify-between mb-[5px]'>
-                                                    <p className='text-[14px] font-medium'>Excess Breaks</p>
-                                                    <CloseIcon className='close-icon text-[#89868d]' />
-                                                </div>
+                                        )} */}
+                                        </div>
 
-                                                <div className='flex items-center gap-[20px]'>
+                                        <div className="flex justify-center items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedStatus("HALFDAY")
+                                                    openModal()
+                                                }}
+                                                className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
+                                                    focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
+                                                    ${item?.status === "HALFDAY" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+                                            >
+                                                HD I HalfDay
+                                            </button>
 
-                                                    <div>
-                                                        <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
-                                                        <p className='text-[12px]' >Amount $ 61.63</p>
+                                            {/* Modal overlay and content */}
+                                            {/* {isOpen2 && (
+                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
+                                                    <div className='flex items-center justify-between'>
+                                                        <div className='mb-[20px]'>
+                                                            <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Half Day </h2>
+                                                            <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
+                                                        </div>
+                                                        <button className="px-4 py-2 bg-[#27004a] text-white rounded-md">Add Shift</button>
+
                                                     </div>
-                                                    <div className='flex gap-[28px] '>
 
+                                                    <div className='bg-[#ececec] p-[16px] rounded-md mb-[20px] '>
+                                                        <div className='text-right'>
+                                                            <DeleteIcon className='del-icon text-[#89868d]' />
+                                                        </div>
                                                         <div className="w-[100%]" >
-
-                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                                <option>1x Salary</option>
+                                                            <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Shift Time</label>    <br />
+                                                            <select className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                <option>Daily Shift</option>
                                                                 <option>Option 2</option>
 
                                                             </select>
                                                         </div>
+                                                        <div className='w-[100%] mt-[14px] gap-[64px] flex '>
+                                                            <div className='w-[50%] relative'>
+                                                                <label className='text-[#89868d] text-[14px]'>Start Time</label>
+                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
+                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                            </div>
+                                                            <div className='w-[50%] relative'>
+                                                                <label className='text-[#89868d] text-[14px]'>End Time</label>
+                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
+                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex flex-col gap-[10px] ">
+                                                        <button
+
+                                                            className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                        >
+                                                            Save
+                                                        </button>
+                                                        <button
+                                                            onClick={closeModal2}
+                                                            className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )} */}
+                                        </div>
+
+                                        <div className="flex xl:justify-center justify-start items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={openModal0}
+                                                className=" btns px-6 py-3 text-[14px] text-[#27004a] font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
+                                            >
+                                                F I Fine
+                                            </button>
+
+                                            {/* Modal overlay and content */}
+                                            {isOpen0 && (
+                                                <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full overflow-scroll h-[100%] p-6">
                                                         <div className=''>
-                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+                                                            <div className='mb-[20px]'>
+                                                                <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Fine </h2>
+                                                                <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
+                                                            </div>
+
+                                                            <div className='flex justify-between items-center mb-[10px]'>
+                                                                <p className='text-[16px]  font-medium'>DAILY SHIFT</p>
+                                                                <DeleteIcon className='del-icon2 text-[#89868d]' />
+                                                            </div>
+
 
                                                         </div>
 
-                                                    </div>
-                                                </div>
+                                                        <div className=' p-[10px]   '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Late Entry</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
 
-                                             
-                                            </div>
-                                            <div className='p-[10px] '>
-                                                <div className='flex items-center justify-between mb-[5px]'>
-                                                    <p className='text-[14px] font-medium'>Early Out</p>
-                                                    <CloseIcon className='close-icon text-[#89868d]' />
-                                                </div>
+                                                            <div className='flex items-center gap-[20px]'>
 
-                                                <div className='flex items-center gap-[20px]'>
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                                    <p className='text-[12px]' >Amount $ 61.63</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
 
-                                                    <div>
-                                                        <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
-                                                        <p className='text-[12px]' >Amount $ 61.63</p>
-                                                    </div>
-                                                    <div className='flex gap-[28px] '>
+                                                                    <div className="w-[100%]" >
 
-                                                        <div className="w-[100%]" >
+                                                                        <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option>1x Salary</option>
+                                                                            <option>Option 2</option>
 
-                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                                <option>1x Salary</option>
-                                                                <option>Option 2</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
 
-                                                            </select>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
                                                         </div>
-                                                        <div className=''>
-                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+                                                        <div className='p-[10px] '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Excess Breaks</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
+
+                                                            <div className='flex items-center gap-[20px]'>
+
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                                    <p className='text-[12px]' >Amount $ 61.63</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option>1x Salary</option>
+                                                                            <option>Option 2</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
 
                                                         </div>
+                                                        <div className='p-[10px] '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Early Out</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
 
+                                                            <div className='flex items-center gap-[20px]'>
+
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                                    <p className='text-[12px]' >Amount $ 61.63</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option>1x Salary</option>
+                                                                            <option>Option 2</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className='mt-[10px] mb-[10px]'>
+                                                            <span className='text-[12px]'>Total Amount</span>
+                                                            <p className='text-[14px]'>$20.92</p>
+                                                        </div>
+                                                        <div className='flex items-center mb-[20px] gap-[4px] '>
+                                                            <input type="checkbox" />
+                                                            <p className='text-[14px]'>Send SMS to Staff</p>
+                                                        </div>
+
+                                                        <div className="flex flex-col gap-[10px] ">
+                                                            <button
+
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Apply Fine
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal0}
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-
-                                             
-                                            </div>
-                                            <div className='mt-[10px] mb-[10px]'>
-                                                <span className='text-[12px]'>Total Amount</span>
-                                                <p className='text-[14px]'>$20.92</p>
-                                            </div>
-                                            <div className='flex items-center mb-[20px] gap-[4px] '>
-                                                <input type="checkbox" />
-                                                <p className='text-[14px]'>Send SMS to Staff</p>
-                                            </div>
-
-                                            <div className="flex flex-col gap-[10px] ">
-                                                <button
-
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Apply Fine
-                                                </button>
-                                                <button
-                                                    onClick={closeModal0}
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
+                                            )}
                                         </div>
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                        <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
+                                    <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
 
-                            <div className="flex justify-center items-center">
-                                {/* Button to open modal */}
-                                <button
-                                    onClick={openModal12}
-                                    className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
-                                >
-                                    OT I Overtime
-                                </button>
+                                        <div className="flex justify-center items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={openModal12}
+                                                className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
+                                            >
+                                                OT I Overtime
+                                            </button>
 
-                                {/* Modal overlay and content */}
-                                {isOpen12 && (
-                                    <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg overflow-scroll w-full h-[100%] p-6">
-                                            <div className=''>
-                                                <div className='mb-[20px]'>
-                                                    <h2 className="text-xl text-[18px] text-[#27004a] font-semibold  "> Overtime Day </h2>
-                                                    <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                </div>
-
-                                                <div className='flex justify-between items-center mb-[10px]'>
-                                                    <p className='text-[14px] font-medium'>DAILY SHIFT</p>
-                                                    <DeleteIcon className='del-icon2 text-[#89868d]' />
-                                                </div>
-
-
-                                            </div>
-
-                                            <div className=' p-[10px]   '>
-                                                <div className='flex items-center justify-between mb-[5px]'>
-                                                    <p className='text-[14px] font-medium'>Late Out</p>
-                                                    <CloseIcon className='close-icon text-[#89868d]' />
-                                                </div>
-
-                                                <div className='flex items-center gap-[20px]'>
-
-                                                    <div>
-                                                        <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
-                                                        <p className='text-[12px]' >Amount $ 61.63</p>
-                                                    </div>
-                                                    <div className='flex gap-[28px] '>
-
-                                                        <div className="w-[100%]" >
-
-                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                                <option>1x Salary</option>
-                                                                <option>Option 2</option>
-
-                                                            </select>
-                                                        </div>
+                                            {/* Modal overlay and content */}
+                                            {isOpen12 && (
+                                                <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg overflow-scroll w-full h-[100%] p-6">
                                                         <div className=''>
-                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+                                                            <div className='mb-[20px]'>
+                                                                <h2 className="text-xl text-[18px] text-[#27004a] font-semibold  "> Overtime Day </h2>
+                                                                <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
+                                                            </div>
+
+                                                            <div className='flex justify-between items-center mb-[10px]'>
+                                                                <p className='text-[14px] font-medium'>DAILY SHIFT</p>
+                                                                <DeleteIcon className='del-icon2 text-[#89868d]' />
+                                                            </div>
+
 
                                                         </div>
 
-                                                    </div>
-                                                </div>
+                                                        <div className=' p-[10px]   '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Late Out</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
 
-                                             
-                                            </div>
-                                         
-                                            <div className='p-[10px] '>
-                                                <div className='flex items-center justify-between mb-[5px]'>
-                                                    <p className='text-[14px] font-medium'>Early In</p>
-                                                    <CloseIcon className='close-icon text-[#89868d]' />
-                                                </div>
+                                                            <div className='flex items-center gap-[20px]'>
 
-                                                <div className='flex items-center gap-[20px]'>
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                                    <p className='text-[12px]' >Amount $ 61.63</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
 
-                                                    <div>
-                                                        <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
-                                                        <p className='text-[12px]' >Amount $ 61.63</p>
-                                                    </div>
-                                                    <div className='flex gap-[28px] '>
+                                                                    <div className="w-[100%]" >
 
-                                                        <div className="w-[100%]" >
+                                                                        <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option>1x Salary</option>
+                                                                            <option>Option 2</option>
 
-                                                            <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
-                                                                <option>1x Salary</option>
-                                                                <option>Option 2</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
 
-                                                            </select>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
                                                         </div>
-                                                        <div className=''>
-                                                            <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+
+                                                        <div className='p-[10px] '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Early In</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
+
+                                                            <div className='flex items-center gap-[20px]'>
+
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                                    <p className='text-[12px]' >Amount $ 61.63</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option>1x Salary</option>
+                                                                            <option>Option 2</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>00:00 Per Hours</p>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
 
                                                         </div>
+                                                        <div className='mt-[10px] mb-[10px]'>
+                                                            <span className='text-[12px]'>Total Amount</span>
+                                                            <p className='text-[14px]'>$20.92</p>
+                                                        </div>
+                                                        <div className='flex items-center mb-[20px] gap-[4px] '>
+                                                            <input type="checkbox" />
+                                                            <p className='text-[14px]'>Send SMS to Staff</p>
+                                                        </div>
 
+
+                                                        <div className="flex flex-col gap-[10px] ">
+                                                            <button
+
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Apply Overtime
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal12}
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-
-                                             
-                                            </div>
-                                            <div className='mt-[10px] mb-[10px]'>
-                                                <span className='text-[12px]'>Total Amount</span>
-                                                <p className='text-[14px]'>$20.92</p>
-                                            </div>
-                                            <div className='flex items-center mb-[20px] gap-[4px] '>
-                                                <input type="checkbox" />
-                                                <p className='text-[14px]'>Send SMS to Staff</p>
-                                            </div>
-
-
-                                            <div className="flex flex-col gap-[10px] ">
-                                                <button
-
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Apply Overtime
-                                                </button>
-                                                <button
-                                                    onClick={closeModal12}
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
+                                            )}
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="flex justify-center items-center">
-                                {/* Button to open modal */}
-                                <button
-                                    onClick={openModal14}
-                                    className=" btns px-6 py-3 text-[14px] text-white bg-[#008000] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[143px] whitespace-nowrap"
-                                >
-                                    L I Paid Leave
-                                </button>
+                                        <div className="flex justify-center items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedStatus("PAIDLEAVE")
+                                                    openModal()
+                                                }}
+                                                className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
+                                                    focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
+                                                    ${item?.status === "PAIDLEAVE" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+                                            >
+                                                L I Paid Leave
+                                            </button>
 
-                                {/* Modal overlay and content */}
-                                {isOpen14 && (
-                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
-                                            <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
-                                            <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
+                                            {/* Modal overlay and content */}
+                                            {isOpen14 && (
+                                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                        <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                        <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
 
-                                            <div className="flex justify-around ">
-                                                <button
+                                                        <div className="flex justify-around ">
+                                                            <button
 
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Yes , Confirm
-                                                </button>
-                                                <button
-                                                    onClick={closeModal14}
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    No , Cancel
-                                                </button>
-                                            </div>
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Yes , Confirm
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal14}
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                No , Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="flex xl:justify-center lg:justify-center md:justify-center items-center justify-end">
-                                {/* Button to open modal */}
-                                <button
-                                    onClick={openModal}
-                                    className=" btns px-6 py-3 text-[14px] text-black bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow"
-                                >
-                                    A I Absent
-                                </button>
+                                        <div className="flex xl:justify-center lg:justify-center md:justify-center items-center justify-end">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedStatus("ABSENT")
+                                                    openModal()
+                                                }}
+                                                className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
+                                                    focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
+                                                    ${item?.status === "ABSENT" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+                                            >
+                                                A I Absent
+                                            </button>
 
-                                {/* Modal overlay and content */}
-                                {isOpen && (
-                                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
-                                            <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
-                                            <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
+                                            {/* Modal overlay and content */}
+                                            {isOpen && (
+                                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                        <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                        <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
 
-                                            <div className="flex justify-around ">
-                                                <button
-
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    Yes , Confirm
-                                                </button>
-                                                <button
-                                                    onClick={closeModal}
-                                                    className="px-4 py-2 bg-[#27004a] text-white rounded-md"
-                                                >
-                                                    No , Cancel
-                                                </button>
-                                            </div>
+                                                        <div className="flex justify-around ">
+                                                            <button
+                                                                onClick={() => {
+                                                                    confirmation(item)
+                                                                }}
+                                                                disabled={loading}
+                                                                className={`px-4 py-2 bg-[#27004a] text-white rounded-md ${loading ? "opacity-50" : ""}`}
+                                                            >
+                                                                {loading ? "Confirming..." : " Yes , Confirm"}
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal}
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                No , Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
+
                                     </div>
-                                )}
+
+                                </div>
                             </div>
-
-                        </div>
-
-
-
-
+                        </div >
+                    </>
+                })
+            }
 
 
 
 
+        </div >
 
-
-
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
 
     );
 }
