@@ -138,16 +138,14 @@ const VerifyAadhaar = () => {
                     style={{ display: "none" }} // Hide the input element
                 />
                 {
-                    aadhaar?.verificationFile &&                 <img src={aadhaar?.verificationFile} alt="" className="w-[100px] h-[50px] rounded-md" />
+                    aadhaar?.verificationFile && <img src={aadhaar?.verificationFile} alt="" className="w-[100px] h-[50px] rounded-md" />
 
                 }
-                <button disabled={!aadhaar?.verificationFile === null || !aadhaar?.verificationFile !== ""} className='second-btn' onClick={handleUploadClick}>
+                <button className='second-btn' onClick={handleUploadClick}>
                     Upload
                 </button>
 
             </div>
-
-
             <Modal
                 isOpen={modalIsOpen2}
                 onAfterOpen={afterOpenModal2}

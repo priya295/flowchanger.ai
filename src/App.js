@@ -88,8 +88,10 @@ import LoginPage from "../src/pages/Admin_Panel/authentication/steps/login";
 import ProtectedRoute from './ProtectedRoute';
 import DashBoard from "./pages/Admin_Panel/DashBoard";
 import { useAuthContext } from "./Context/AuthContext";
-import ContactInformation from "./pages/Admin_Panel/Clients/ContactInformation";
-
+import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
+import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
+import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
+import Documents from "./pages/Admin_Panel/editstaff/Documents";
 
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
@@ -277,7 +279,7 @@ const App = () => {
             <Route path="/expensepage" element={<ExpensePage />} />
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
-            <Route path = "/contact-information" element = {<ContactInformation/>}  />
+            <Route path="/contact-information" element={<ContactInformation />} />
           </Route>
          
 
@@ -295,6 +297,7 @@ const App = () => {
           <Route path="/edit-penalty/:id" element={<EditPenalty />} />
           <Route path="/salary-overview/:id" element={<SalaryOverview />} />
           <Route path="/staff-salary-summary" element={<StaffSalarySummry />} />
+          <Route path="/documents" element={<Documents />} />
 
           <Route
 

@@ -151,13 +151,19 @@
 }
 .newsidebar-icon{
     font-size: 18px !important;
-    margin-left: 10px;
+    margin-left: 5px;
+    
 }
 .interview-card:hover{
    transform: translateY(-6px);
 }
 .setwer{
     font-size: 10px !important;
+}
+.salary-detail-setup{
+    height: 36px;
+    width: 160px;
+    font-size: 14px;
 }
 .react-responsive-modal-modal{
     width: 550px;
@@ -166,6 +172,7 @@
 }
 .cached-icon{
     height: 36px !important;
+    
 }
 .bg-label-success{
     background-color: #e8fadf !important;
@@ -244,6 +251,17 @@
     box-shadow: 0 0 5px #cfcfcf;
     border-radius: 10px;
 }
+.circle-tu{
+    color: blue;
+}
+/* .tblogout{
+    color:white !important;
+}
+
+ .logoutw .tblogout:hover{
+    color:red !important;
+
+ } */
 .active-set2{
     color: white;
 }

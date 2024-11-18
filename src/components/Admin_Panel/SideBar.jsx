@@ -459,8 +459,8 @@ const SideBar = ({ toggleSideBar }) => {
     >
       <div className="w-64 h-full bg-[#27004a] opacity-100">
         {/* Close Button */}
-        <div className="p-4 flex items-center justify-between text-lg font-bold">
-          Sidebar
+        <div className="p-4 flex items-center justify-end text-lg font-bold">
+         
           <button onClick={toggleSidebar}>
             <CloseIcon />
           </button>
@@ -471,17 +471,17 @@ const SideBar = ({ toggleSideBar }) => {
           <Link
             to="/status-main-page"
             onClick={() => handlePageClick("status")}
-            className={`p-2 flex items-center gap-[6px] text-[13px] mb-[10px] rounded-lg cursor-pointer ${selectedPage === "status"
+            className={`p-2 flex items-center gap-[6px]  mb-[10px] rounded-lg cursor-pointer ${selectedPage === "status"
                 ? "bg-white text-[purple]"
                 : "hover:bg-white hover:text-[purple]"
               }`}
           >
             <HomeIcon className="newsidebar-icon" />
-            Advanced Status Manager
+            Status Manager
           </Link>
           <Link
             onClick={() => handlePageClick("home")}
-            className={`p-2 flex items-center text-[13px] gap-[6px] mb-[10px] rounded-lg cursor-pointer ${selectedPage === "home"
+            className={`p-2 flex items-center  gap-[6px] mb-[10px] rounded-lg cursor-pointer ${selectedPage === "home"
                 ? "bg-white text-[purple]"
                 : "hover:bg-white hover:text-[purple]"
               }`}
