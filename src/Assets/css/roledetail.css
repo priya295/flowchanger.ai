@@ -202,10 +202,10 @@ table{
     display: none !important;
  }
  .custom-body-class .cancel-icon{
-    display: block !important;
+    display: none !important;
  }
  .custom-body-class .menu-icon{
-    display: none;
+    display: block;
  }
  
 
@@ -297,11 +297,11 @@ input[type=radio]{
     display: none !important; 
     transition: all 0.3s linear;
 }
-.editsidebar .close-icon{
+/* .editsidebar .close-icon{
     display: block !important;
-}
+} */
 .editsidebar .menu-icon{
-    display: none;
+    display: block;
     transition: all 0.3s linear;
 }
 /* .ReactModal__Content {

@@ -9,9 +9,8 @@ const EditLeavePolicies = () => {
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState('leave-requests')
     const [activeSubTab, setActiveSubTab] = useState('pending')
-    const { baseUrl, openToast, selectedStaff } = useGlobalContext();
-    // const [selectedStaff, setSelectedStaff] = useState({});
-    const [selectDuration, setSelectDuration] = useState("");
+    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+    const [selectDuration, setSelectDuration] = useState();
     const [editingRow, setEditingRow] = useState(null);
     const [leavePolicyType, setLeavePolicyType] = useState();
     const [allowedLeavesPerYear, setAllowedLeavePerYear] = useState();
@@ -26,45 +25,7 @@ const EditLeavePolicies = () => {
 
     const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
 
-
-
-
-    console.log(selectedStaff);
-
-    const [updateLeaveBalance, setUpdateLeaveBalance] = useState(selectedStaff?.staffDetails?.LeaveBalance?.map(item => ({ balance: item?.balance, leaveName: selectedStaff?.staffDetails?.LeavePolicy?.find(policy => policy?.id === item?.leavePolicyId)?.name, used: item?.used, id: item?.id })));
-
-    console.log(updateLeaveBalance);
-
-    const updatedLeaveBalance = async () => {
-        try {
-            const allData = [];
-            for (const data of updateLeaveBalance) {
-                const response = await fetch(baseUrl + "leave-balance/" + data?.id, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({...data, balance: Number(data?.balance), used: Number(data?.used)})
-                });
-                const result = await response.json();
-                if (response.status === 200) {
-                    allData.push(result);
-                }
-            }
-            if (allData.length > 0) {
-                console.log(allData);
-                openToast("Leave Balance updated Successfully", "success");
-            }
-            else {
-                openToast("An error occurred while updating leave balance", "error");
-            }
-        } catch (error) {
-            console.error("Error updating leave balance:", error);
-            openToast("An error occurred while updating leave balance", "error");
-        }
-    }
-
-    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy || []);
+    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy);
 
     const [updatePolicy, setUpdatePolicy] = useState({
         allowed_leaves: 0,
@@ -77,7 +38,6 @@ const EditLeavePolicies = () => {
     async function createLeavePolicy(e) {
         e.preventDefault();
         const data = {
-            policy_type: selectDuration,
             name: leavePolicyType,
             allowed_leaves: Number(allowedLeavesPerYear),
             carry_forward_leaves: Number(carryForwardLeaves)
@@ -111,6 +71,7 @@ const EditLeavePolicies = () => {
             openToast("An error occurred while creating leave policy", "error");
         }
     }
+
     async function updateLeavePolicy(e) {
         e.preventDefault();
         const data = {
@@ -287,7 +248,7 @@ const EditLeavePolicies = () => {
     }
     function afterOpenModal10() {
         // references are now sync'd and can be accessed.
-        // subtitle.style.color = '#000';
+        subtitle.style.color = '#000';
 
     }
 
@@ -369,8 +330,7 @@ const EditLeavePolicies = () => {
     ])
 
     return (
-        // <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
-        <div>
+        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Leave & Balance Details
@@ -486,11 +446,11 @@ const EditLeavePolicies = () => {
                         <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
                             <label className='text-[14px]'>Select Type</label>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input checked={selectDuration === "MONTHLY"} onChange={(e) => setSelectDuration("MONTHLY")} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
+                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
                                 <label for="fixed" className='text-[14px]'> Monthly</label><br />
                             </Tab>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input checked={selectDuration === "YEARLY"} onChange={(e) => setSelectDuration("YEARLY")} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
+                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
                                 <label for="flexible" className='text-[14px]'> Yearly</label><br />
                             </Tab>
                         </TabList>
@@ -816,7 +776,8 @@ const EditLeavePolicies = () => {
 
                 </div>
             </Modal>
-        </div>
+
+        </div >
     )
 }
 

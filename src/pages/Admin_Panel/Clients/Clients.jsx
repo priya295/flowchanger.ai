@@ -1,3 +1,6 @@
+
+
+
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
@@ -9,7 +12,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Modal from "react-modal";
+// import Modal from "react-modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { IoIosArrowDown } from "react-icons/io";
@@ -20,20 +23,22 @@ import CustomDialog from "./DialougeBox";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import ClipLoader from 'react-spinners/ClipLoader';
+import ReactDOM from 'react-dom';
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
+
 
 const Clients = () => {
+
+
   const [allStaff, setAllStaff] = useState();
 
   const [isLoading, setIsLoading] = useState(true);
   const [departments, setDepartments] = useState([])
-  const [companyName, setComapnyName] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [searchedClients, setSearchClients] = useState(null);
   const [rowsToShow, setRowsToShow] = useState(25);
 
-  const [open, setOpen] = useState(false);
-
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
 
   const [taskStatus, setTaskStatus] = useState({
     name: "",
@@ -42,6 +47,9 @@ const Clients = () => {
     isHiddenFor: [],
     canBeChangedTo: [],
   })
+
+
+
   const fetchAllStaff = async () => {
     const response = await fetch(baseUrl + 'staff');
     const data = await response.json();
@@ -181,25 +189,17 @@ const Clients = () => {
 
   const fetchDetail = async () => {
     const result = await fetch(baseUrl + "client");
-    setIsLoading(true);
-    try {
-      if (result.status == 200) {
-        const res = await result.json();
-        console.log(res)
-        setClientData(res);
+    if (result.status == 200) {
+      const res = await result.json();
+      console.log(res);
+      setClientData(res);
+      if (res && res.length > 0) {
+        setIsOpen(true);
       }
-      else {
-        openToast("An Error Occured")
-      }
+    } else {
+      alert("An Error Occured");
     }
-    catch (error) {
-      console.log("error:", error)
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }
-
+  };
   //   handle search company
   const handleSearchCompany = async () => {
     const queryParams = new URLSearchParams({
@@ -207,12 +207,12 @@ const Clients = () => {
     }).toString();
     setIsLoading(true);
     try {
-      const response = await fetch(`${baseUrl}client/search?${queryParams}`);
+      const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
       console.log(response);
       if (response.status === 200) {
         const result = await response.json();
         console.log(result);
-        setClientData(result);
+        setSearchClients(result);
 
       } else {
         console.log("data is not filtered");
@@ -228,20 +228,18 @@ const Clients = () => {
     const debounceTimer = setTimeout(() => {
       if (companyName) {
         handleSearchCompany();
-      } else {
-        fetchDetail();
       }
-    }, 4000);
-
+    }, 3000);
+  
     return () => clearTimeout(debounceTimer);
-  }, [companyName, handleSearchCompany]);
+  }, [companyName]);
+
   useEffect(() => {
     fetchDetail();
     if (clientData) {
       setIsOpen(true);
     }
   }, []);
-
 
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
   function openModal2() {
@@ -397,27 +395,25 @@ const Clients = () => {
   }
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 3000);
-}, []);
+  }, []);
 
+  const [open, setOpen] = useState(false);
 
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
   return (
     <div className=" w-full  top-[95px] right-[5px] ">
       <div className="bg-[#fff] p-[10px] ml-[10px]">
         <div className="mb-[14px] flex gap-[10px] items-center import-customers">
           <Link
             to="/addnewclient"
-            className="text-[#fff] client-add text-[14px] bg-[#8a25b0] newcustomers  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-[#fff] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <AddIcon className="newadd" /> New Clients
           </Link>
+
           <Link
-            to="/"
-            className="text-[#fff] text-[14px] client-add bg-[#8a25b0]   focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            <AddIcon className="newadd" /> Import Clients
-          </Link>
-          <Link
-            to="/"
+            to="/contact-information"
             className="text-[#000] text-[14px] client-add bg-[#f4f2f2]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <PersonIcon className="newadd mr-[5px]" />
@@ -425,7 +421,8 @@ const Clients = () => {
           </Link>
         </div>
 
-        <div className="p-[20px] summary-border w-full bg-white  rounded-lg">
+
+        <div className="border border-[#dbdbdb] shadow-cs rounded-lg p-[20px]">
           <h2 className="font-medium mb-[10px] flex gap-[6px] items-center">
             {" "}
             <LibraryBooksIcon />
@@ -476,6 +473,7 @@ const Clients = () => {
 
 
 
+
                     <Select
                       isMulti
                       name="isHiddenFor"
@@ -496,12 +494,7 @@ const Clients = () => {
 
                   <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
                     {/* Button to close the modal */}
-                    <button
-                      className="bg-red-500 text-white px-4 py-2 rounded"
-                      onClick={toggleModal15}
-                    >
-                      Close
-                    </button>
+                 
                     <button className='second-btn'>Confirm </button>
                   </div>
 
@@ -548,13 +541,12 @@ const Clients = () => {
                 placeholder=" Search......."
                 value={companyName}
                 onChange={(e) => {
-                  if (e.target.value === null) {
+                  const value = e.target.value;
+                  setCompanyName(value);
+                  if (value === "") {
                     setSearchClients(null);
+                    fetchDetail(); // Fetch all clients when the input is cleared
                   }
-                  else {
-                    setComapnyName(e.target.value);
-                  }
-
                 }}
 
               />
@@ -562,11 +554,11 @@ const Clients = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg w-full overflow-x-auto">
-            <table className="w-full table-auto border-collapse">
+          <div className="bg-white  w-full overflow-x-auto">
+            <table className="w-full table-auto border border-[#dbdbdb] border-collapse">
               {/* Header with Toggle */}
               <thead
-                className="cursor-pointer bg-gray-200 border border-gray-300"
+                className="cursor-pointer bg-[white] shadow-lg border border-gray-300"
                 onClick={toggleAccordion}
               >
                 <tr>
@@ -612,10 +604,10 @@ const Clients = () => {
                   {
                     isLoading && clientData.length === 0 ? (<tr className="h-[100px]">
                       <td colSpan="9" className="text-center text-gray-600 text-sm font-semibold py-4">
-                      <ClipLoader isLoading={isLoading} size={50} color="#000" />
+                        <ClipLoader isLoading={isLoading} size={50} color="#000" />
                       </td>
                     </tr>
-                    ): 
+                    ) :
                       clientData && clientData.length > 0 ? (
                         clientData.map((item, index) => (
                           <tr key={item.id} className="border-b border-gray-300">
@@ -646,8 +638,8 @@ const Clients = () => {
                                 >
                                   <span
                                     className={`${item.status == "active"
-                                        ? "translate-x-6"
-                                        : "translate-x-0"
+                                      ? "translate-x-6"
+                                      : "translate-x-0"
                                       } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
                                   />
                                 </div>
@@ -697,6 +689,8 @@ const Clients = () => {
             </div>
           </div>
         </div>
+
+
       </div>
 
       <Modal
@@ -983,6 +977,11 @@ const Clients = () => {
           </form>
         </div>
       </Modal>
+
+
+
+
+
     </div>
   );
 };

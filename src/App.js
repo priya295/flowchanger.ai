@@ -143,7 +143,7 @@ const App = () => {
           <div className="flex">
             <SidebarEditStaff toggleEditSideBar={toggleEditSideBar}/>
             <div className={`w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    
-        ${!toggleEditSideBar?"xl:pl-[320px]":"xl:pl-[0px]"} flex flex-col set-z`}>
+        ${!toggleEditSideBar?"xl:pl-[320px]":"xl:pl-[0px]"} flex flex-col set-z ml-[20px]`}>
             <Outlet />
             </div>
           </div>
@@ -279,6 +279,7 @@ const App = () => {
             <Route path="/expensepage" element={<ExpensePage />} />
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
+            <Route path="/contact-information" element={<ContactInformation />} />
           </Route>
          
 

@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const AddDepartment = () => {
     const [department, setDepartment] = useState("");
+    const navigate = useNavigate();
 
     const { baseUrl ,openToast} = useGlobalContext();
 
@@ -30,8 +32,9 @@ const AddDepartment = () => {
           
             console.log(result);
             openToast(result.message||"Department successfully added","success");
+            navigate("/department-details");
         } else {
-            openToast(result.error||"An error occurred","error");
+            openToast("An error occurred","error");
         }
     }
 
