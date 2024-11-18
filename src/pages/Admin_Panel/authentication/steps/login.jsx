@@ -61,41 +61,7 @@ const LoginPage = () => {
     console.log(error);
     }
   }
-  // const handleLoggedIn = async (loginInfo) => {
-  //   console.log(loginInfo);
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await fetch( baseUrl + "admin/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(loginInfo),
-  //     });
-  //     const result = await response.json();
-  //     const {token} = result
-  //     if (response.status === 200 && token) {
-  //       openToast('You have successfully logged in', "success");
-  //         console.log("You have logged in");
-  //          Cookies.set('flowChangerAuthToken',token)
-  //          setIsLoading(false);
-  //         return true;
-  //       }
-  //    else{
-  //         console.log("there is no token");
-  //       openToast(result.message || 'Login failed', "error");
-  //       console.log("can't logged in")
-  //       setIsLoading(false);
-  //       return false;
-  //       }
-      
-  //   } catch (error) {
-  //     console.error("Login error:", error);
-  //     openToast('An error occurred. Please try again.', "error");
-  //     setIsLoading(false);
-  //     return false;
-  //   }
-  // };
+
 
   const onSubmit = async (data) => {
     try {
@@ -105,7 +71,8 @@ const LoginPage = () => {
         setIsAuthenticated(true);
         navigate("/");
       }
-    } catch (error) {
+    }
+     catch (error) {
       console.error("Login error:", error);
     }
   };
@@ -135,8 +102,8 @@ const LoginPage = () => {
                 placeholder="Email"
                 aria-label="Email"
                 className="w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"
-                {...register('email', { required: "email is required"}
-            )}
+              {...register('email', { required: "email is required"})}
+    
               />
               {errors.email && <p className="text-red-500">{errors.email.message}</p>}
             </div>
@@ -146,7 +113,7 @@ const LoginPage = () => {
                 placeholder="Password"
                 aria-label="Password"
                 className="w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"
-                {...register('password', { required: "password is required"})}
+                    {...register('password', { required: "password is required"})}
               />
             </div>
             <button
@@ -176,3 +143,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

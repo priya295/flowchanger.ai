@@ -8,14 +8,16 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const DepartmentDetail = () => {
 
-  const { baseUrl, setDepId, setName } = useGlobalContext();
-  const [departments, setDepartments] = useState([])
+  const { baseUrl, setDepId, setName ,openToast} = useGlobalContext();
+  const [departments, setDepartments] = useState([]);
+  const [searchDepartment , setSearchDepartMent ] = useState('');
   const [exportFormat, setExportFormat] = useState('');
-
+   const [isLoading , setIsLoading] = useState(true);
   const [rowsToShow, setRowsToShow] = useState(25);
 
   // Handle select change for rows to show
@@ -59,15 +61,23 @@ const DepartmentDetail = () => {
 
   const fetchDepartments = async () => {
     const result = await fetch(baseUrl + "department")
+    setIsLoading(true)
+try{
+  if (result.status == 200) {
+    const res = await result.json();
+    setDepartments(res.data)
 
-    if (result.status == 200) {
-      const res = await result.json();
-      setDepartments(res.data)
-
-    }
-    else {
-      alert("An Error Occured")
-    }
+  }
+  else {
+    openToast("An Error Occured")
+  }
+}
+ catch(error){
+  console.log("error:", error)
+ }  
+ finally{
+  setIsLoading(false);
+ }  
 
   }
 
@@ -81,23 +91,56 @@ const DepartmentDetail = () => {
       });
 
       if (result.ok) { // Use result.ok instead of checking the status directly
-        alert("Record deleted successfully.");
+        openToast("Record deleted successfully.");
         fetchDepartments()
       } else {
-        alert("An error occurred while deleting the record.");
+        openToast("An error occurred while deleting the record.");
       }
     } catch (error) {
       console.error("Error deleting department:", error);
-      alert("An error occurred during the delete request.");
+      openToast("An error occurred during the delete request.");
     }
   };
 
-
+  // handle search department
+  const handleSearchDepartMent= async () => {
+    const queryParams = new URLSearchParams({
+      department_name: searchDepartment,
+    }).toString();
+    setIsLoading(true)
+    try {
+      const response = await fetch(`${baseUrl}department/search?${queryParams}`);
+      console.log(response);
+      if (response.status === 201) {
+        const result = await response.json();
+       
+        setDepartments(result);
+       
+      } else {
+      
+      }
+    } catch (error) {
+      console.error('Error searching staff:', error);
+      setIsLoading(false);
+    }
+  };
 
 
   useEffect(() => {
     fetchDepartments()
   }, [])
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (searchDepartment.trim()) {
+        handleSearchDepartMent();
+      } else {
+        fetchDepartments(); // Fetch all projects if search input is cleared
+      }
+    }, 800); 
+  
+    return () => clearTimeout(delayDebounceFn); // Cleanup function to clear the timeout
+  }, [searchDepartment]);
 
   return (
     <div className='p-[10px] top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
@@ -138,7 +181,12 @@ const DepartmentDetail = () => {
 
           <div className='right-side relative  w-[200px]'>
             <input type='text' placeholder='Search' className='border border-1 pl-3 h-[43px] pr-7
-    ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' />
+    ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' 
+     name = "searchDepartment"
+     value = {searchDepartment} 
+    onChange={(e)=>{
+      setSearchDepartMent(e.target.value);}}
+    />
             <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
     ]'/>
           </div>
@@ -146,35 +194,45 @@ const DepartmentDetail = () => {
         <table class="table-auto w-[100%]">
           <thead className='bg-[#f1f5f9] '>
             <tr>
-              <th className='text-left p-4 text-sm font-medium '>Department Name</th>
-              <th className='text-left p-4 text-sm font-medium '>Options</th>
+              <th className='text-center p-4 text-sm font-medium '>Department Name</th>
+              <th className='text-center p-4 text-sm font-medium '>Options</th>
             </tr>
           </thead>
           <tbody>
-            {
-              departments.slice(0, rowsToShow).map((dep) => (
-                <tr key={dep.id} className='border-b pb-2 border-[#f1f5f9]'>
-                  <td className='pt-4 pb-3 pl-3'>
-                    <Link to="/" className='text-[#27004a] text-[14px]'>{dep.department_name}</Link>
-                    <h6 className='text-[13px] pt-2 text-[#a5a1a1]'>Total Users: <span>1</span></h6>
-                  </td>
-                  <td className='flex pt-4 gap-2 justify-center'>
-                    <Link to="/editdepartment" onClick={()=>{
-                      setDepId(dep.id)
-                      setName(dep.department_name)
-                      }}>
-                      <BorderColorIcon className='text-[#27004a] font-light cursor-pointer text-[10px]]' />
-                    </Link>
-                    <DeleteOutlineIcon className='text-red-500 font-light cursor-pointer text-[10px]' onClick={() => deleteDepartments(dep.id)} />
-                  </td>
-                </tr>
-              ))
-            }
-
-
-
-
-          </tbody>
+  {
+    isLoading && departments.length === 0 ? (
+      <tr className="h-[100px]">
+          <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+          <ClipLoader color="#4A90E2" size={50} />
+          </td>
+        </tr>
+    ) : departments && departments.length > 0 ? (
+      departments.slice(0, rowsToShow).map((dep) => (
+        <tr key={dep.id} className="border-b pb-2 border-[#f1f5f9]">
+          <td className="pt-4 pb-3 pl-3">
+            <Link to="/" className="text-[#27004a] text-[14px]">{dep.department_name}</Link>
+            <h6 className="text-[13px] pt-2 text-[#a5a1a1]">Total Users: <span>1</span></h6>
+          </td>
+          <td className="flex pt-4 gap-2 justify-center">
+            <Link to="/editdepartment" onClick={() => {
+              setDepId(dep.id)
+              setName(dep.department_name)
+            }}>
+              <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
+            </Link>
+            <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]" onClick={() => deleteDepartments(dep.id)} />
+          </td>
+        </tr>
+      ))
+    ) : (
+      <tr className="h-[100px]">
+        <td colSpan="2" className="text-center text-red-500 text-xl font-semibold py-4">
+          No departments found.
+        </td>
+      </tr>
+    )
+  }
+</tbody>
         </table>
         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
           <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>

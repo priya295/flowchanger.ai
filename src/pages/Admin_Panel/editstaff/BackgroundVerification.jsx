@@ -10,7 +10,8 @@ const BackgroundVerification = () => {
 
     },[])
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
+        <>
+        {/* // <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
             <div className='flex justify-between items-center  w-[100%] p-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Background Verification</h3>
             </div>
@@ -35,6 +36,10 @@ const BackgroundVerification = () => {
                     <h4 className='font-normal'>UAN</h4>
                     <ArrowForwardIosIcon />
                 </Link>
+                <Link className='flex justify-between items-center p-4  hover:bg-[#f0f8fd]' to="/voter-id">
+                    <h4 className='font-normal'>Voter ID</h4>
+                    <ArrowForwardIosIcon />
+                </Link>
                 <Link className='flex justify-between items-center p-4  hover:bg-[#f0f8fd]' to="/face">
                     <h4 className='font-normal'>Face</h4>
                     <ArrowForwardIosIcon />
@@ -42,12 +47,13 @@ const BackgroundVerification = () => {
                 <Link className='flex justify-between items-center p-4  hover:bg-[#f0f8fd]' to="/address">
                     <h4 className='font-normal'>Address</h4>
                     <ArrowForwardIosIcon />
-                </Link> <Link className='flex justify-between items-center p-4  hover:bg-[#f0f8fd]' to="/past-employment">
+                </Link> <Link className='flex justify-between items-center p-4  hover:bg-[#f0f8fd]' to="/past-employment-details">
                     <h4 className='font-normal'>Past Employment</h4>
                     <ArrowForwardIosIcon />
                 </Link>
             </div>
-        </div>
+        {/* </div> */}
+        </>
     )
 }
 

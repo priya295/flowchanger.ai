@@ -87,8 +87,9 @@ const EditPenalty = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                closeModal12();
+                
                 openToast("Late Coming Policy created Successfully", "success");
+                closeModal13();
             }
             else {
                 openToast("An error occurred while creating late coming policy", "error");
@@ -120,8 +121,9 @@ const EditPenalty = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                closeModal12();
+                
                 openToast("Overtime Policy created Successfully", "success");
+                closeModal14();
             }
             else {
                 openToast("An error occurred while creating Overtime policy", "error");
@@ -190,7 +192,8 @@ const EditPenalty = () => {
 
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
+        <>
+        {/* // <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Penalty & Overtime Details
@@ -362,7 +365,8 @@ const EditPenalty = () => {
 
 
 
-        </div>
+        {/* </div> */}
+        </>
     )
 }
 

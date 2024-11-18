@@ -4,23 +4,28 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const VerifyPan = () => {
-    
+
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
-    
-    
-    
-        let subtitle;
-        const [pan, setPan] = useState({
-            number: selectedStaff?.staffDetails?.staff_bg_verification?.pan_number,
-            status: selectedStaff?.staffDetails?.staff_bg_verification?.pan_verification_status,
+
+
+
+    let subtitle;
+    const [pan, setPan] = useState({
+        number: selectedStaff?.staffDetails?.staff_bg_verification?.pan_number,
+        status: selectedStaff?.staffDetails?.staff_bg_verification?.pan_verification_status,
+        verificationFile: selectedStaff?.staffDetails?.staff_bg_verification?.verificationFile
     });
 
-    const [bgVerification, setBgVerification] = useState(pan?.number);
-    
-    
+
+
     async function submitPan() {
+        if (!pan?.number || !pan?.verificationFile) {
+            openToast("Pan number and file are required", "error");
+            return;
+        }
         const newFormData = new FormData();
-        newFormData.append("pan_number", bgVerification);
+        newFormData.append("pan_number", pan?.number);
+        newFormData.append("verificationFile", pan?.verificationFile);
 
         try {
             const response = await fetch(baseUrl + "bg-verification/" + selectedStaff.staffDetails.id + "/verify/pan", {
@@ -33,7 +38,7 @@ const VerifyPan = () => {
             if (response.status === 201) {
                 const result = await response.json();
                 console.log(result);
-                setPan({ ...pan, number: result?.data?.pan_number, status: result?.data?.pan_verification_status });
+                setPan({ ...pan, number: result?.data?.pan_number, status: result?.data?.pan_verification_status, verificationFile: result?.data?.pan_file });
                 openToast("Pan successfully updated or created", "success");
                 closeModal2();
             } else {
@@ -70,12 +75,16 @@ const VerifyPan = () => {
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         console.log("Selected file:", file);
+        setPan({ ...pan, verificationFile: file });
     };
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
+        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]   flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>PAN Verification</h3>
+                <button className='second-btn' onClick={submitPan}>
+                    Update Pan
+                </button>
             </div>
 
             <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
@@ -105,6 +114,12 @@ const VerifyPan = () => {
                     onChange={handleFileChange}
                     style={{ display: "none" }}
                 />
+                {
+                    pan?.verificationFile && <img src={pan?.verificationFile} alt="Selected File" className="w-[100px] h-[50px] rounded-md" />
+
+                }
+
+
                 <button className='second-btn' onClick={handleUploadClick}>
                     Upload
                 </button>
@@ -126,13 +141,11 @@ const VerifyPan = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>PAN
                         </label><br />
-                        <input type='text' placeholder="Enter PAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)} /><br />
-
-
+                        <input type='text' placeholder="Enter PAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={pan?.number} onChange={(e) => setPan({ ...pan, number: e.target.value })} /><br />
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn' onClick={submitPan}>Save </button>
+                        <button className='second-btn' onClick={closeModal2}>Save </button>
                     </div>
                 </div>
             </Modal>

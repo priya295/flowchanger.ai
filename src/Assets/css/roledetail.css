@@ -202,10 +202,10 @@ table{
     display: none !important;
  }
  .custom-body-class .cancel-icon{
-    display: block !important;
+    display: none !important;
  }
  .custom-body-class .menu-icon{
-    display: none;
+    display: block;
  }
  
 
@@ -290,18 +290,18 @@ input[type=radio]{
 .edit-sidebar{
     transition: all 0.3s linear;
 }
-.toggle-btn-side{
+/* .toggle-btn-side{
     display: none;
-}
+} */
 .close-icon{
     display: none !important; 
     transition: all 0.3s linear;
 }
-.editsidebar .close-icon{
+/* .editsidebar .close-icon{
     display: block !important;
-}
+} */
 .editsidebar .menu-icon{
-    display: none;
+    display: block;
     transition: all 0.3s linear;
 }
 /* .ReactModal__Content {
@@ -399,7 +399,7 @@ input[type=radio]{
 .table-status tbody td{
     white-space: nowrap;
     font-size: 14px;
-    padding: 4px;
+    padding: 14px;
     text-align: center;
 }
 .main-table-status{
@@ -414,9 +414,12 @@ input[type=radio]{
     position: relative;
  
 }
+.role-setup{
+    margin-top: 29px !important;
+}
 .stsearch-box{
     display: flex;
-    padding: 5px;
+    padding: 8px;
 }
 .stsearch-box input:focus{
     outline: none;
@@ -443,11 +446,12 @@ input[type=radio]{
 
 @media screen and (max-width:1280px){
     .edit-sidebar{
-        left: -300px;
+        left: 0px;
         
     }
     .toggle-btn-side{
         display: block;
+
     }
 
     .editsidebar .edit-sidebar{

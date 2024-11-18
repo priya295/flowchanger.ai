@@ -7,12 +7,15 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { label } from "framer-motion/client";
+import { FaArrowLeft } from "react-icons/fa";
+import {Link , useNavigate} from "react-router-dom";
 
 const AddNewClient = () => {
   const animatedComponents = makeAnimated();
   const { baseUrl,openToast } = useGlobalContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
 
   const [defaultLanguages, setDefaultLanguages] = useState(["portuguese", "German", "indonesia", "catlan", "Spanish", "Turkish", "Slovak", "Vitnamese", "Swedish", "Portguese_br", "ukrainian", "polish"])
@@ -67,6 +70,7 @@ const AddNewClient = () => {
 
 
   const handleSubmit = async (e) => {
+    console.log("Selected Groups:", selectedGroups);
     e.preventDefault();
     const result = await fetch(baseUrl + "client", {
       method: "POST",
@@ -76,19 +80,22 @@ const AddNewClient = () => {
       body: JSON.stringify({ name:clientName,company: company, vat_number: vatNumber, phone: phone, website: website, address: address, country: country, state: state, city: city, zip_code: zipCode, default_language: language, groups: selectedGroups, currency: currency, email: email })
     })
     console.log(result)
+    const data = await result.json(); 
     if (result.status == 201) {
-      openToast("Add Client Successfully")
+      openToast(data.msg || "Add Client Successfully" , "success")
+      navigate("/clients");
     }
     else {
-      openToast("An Error Accured")
+      openToast(data.error||"An Error occured","error")
     }
   }
 
 
   return (
-    <div className="bg-gray-100 flex justify-center items-center min-h-screen">
+    <div className=" flex justify-center items-center min-h-screen ">
 
-      <div className="w-full max-w-3xl bg-white shadow-md rounded-lg p-6">
+      <div className="w-full max-w-3xl bg-white shadow-xl border border-gray-100 rounded-lg p-6 mt-4">
+      <Link to = "/clients"><FaArrowLeft /></Link>
         <div className="mb-6">
           {/* <!-- Tabs for form sections --> */}
           <nav className="flex space-x-4 border-b">

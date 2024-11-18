@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useGlobalContext } from '../../../Context/GlobalContext';
+import { saveAs } from 'file-saver';
 
 const LeaveBalance = () => {
+    const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
+
+    useEffect(() => {
+        fetchStaff()
+    }, [])
+    console.log("leave", staffDetail)
 
     let subtitle;
 
@@ -75,6 +83,41 @@ const LeaveBalance = () => {
         setIsOpen12(false);
     }
     // when on click update leave policy
+    const exportToCSV = () => {
+        // Check and get headers dynamically only if LeavePolicy exists and is an array
+        const leavePolicyHeaders = Array.isArray(staffDetail[0]?.staffDetails?.LeavePolicy)
+            ? staffDetail[0].staffDetails.LeavePolicy.map(policy => `${policy?.name} Leave Balance`)
+            : [];
+
+        const headers = [
+            'Index',
+            'Name',
+            'Job Title',
+            ...leavePolicyHeaders,
+        ];
+
+        const rows = staffDetail.map((item, index) => {
+            return [
+                index + 1,
+                item?.name || 'N/A',
+                item?.staffDetails?.job_title || 'N/A',
+                ...(Array.isArray(item?.staffDetails?.LeavePolicy)
+                    ? item.staffDetails.LeavePolicy.map(policy => policy.allowed_leaves)
+                    : []),
+            ];
+        });
+
+        console.log('Headers:', headers);
+        console.log('Rows:', rows);
+
+        const csvData = [headers, ...rows].map(row => row.join(',')).join('\n');
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'StaffDetails.csv');
+    };
+
+
+
+
     return (
         <div className='staff-tab mt-[20px]'>
 
@@ -83,6 +126,10 @@ const LeaveBalance = () => {
                     <TabList className="flex flex-col gap-[10px] xl:flex-row lg:flex-row mb-[20px]">
                         <Tab><button >Leave Balance</button></Tab>
                         <Tab> <button >Leave Policy</button></Tab>
+
+                        <div className='w-full flex justify-end'>
+                            <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn' onClick={openModal10}>Import Leave Balances</button>
+                        </div>
                     </TabList>
 
 
@@ -108,10 +155,10 @@ const LeaveBalance = () => {
                                 </div>
 
                             </div>
-                            <div className='flex gap-[15px] justify-between lg:justify-start'>
-                                <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn' onClick={openModal10}>Import Leave Balances</button>
+                            {/* <div className='flex gap-[15px] justify-between lg:justify-start'>
+                               
 
-                            </div>
+                            </div> */}
                         </div>
 
 
@@ -119,24 +166,51 @@ const LeaveBalance = () => {
                             <div className='w-full   '>
                                 <table className='table-section w-full'>
                                     <thead className='border border-1 '>
+
+
                                         <th>#</th>
                                         <th>Name</th>
                                         <th>Job Title</th>
-                                        <th>Privileged Leave Balance</th>
-                                        <th>Casual Leave Balance</th>
-                                        <th>Sick Leave Balance </th>
 
+                                        {
+                                            staffDetail?.map((items, index) => {
+                                                { console.log(items?.staffDetails?.LeavePolicy) }
+                                                return (<>
+                                                    {items?.staffDetails?.LeavePolicy?.map((item) => (
+                                                        <>
 
+                                                            <th>{item?.name} Leave Balance</th>
+                                                        </>)
+                                                    )}</>)
+                                            })
+                                        }
                                     </thead>
                                     <tbody>
-                                        <tr className="border">
-                                        <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                        <td>Demo</td>
-                                        <td>Demo</td>
-                                        <td>Demo</td>
-                                        <td>Demo</td>
-                                        <td>Demo</td>
-                                        </tr>
+
+                                        {
+                                            staffDetail?.map((items, index) => {
+                                                return <tr className="border">
+                                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                    <td>{items?.name}</td>
+                                                    <td>{items?.staffDetails?.job_title}</td>
+                                                    {
+                                                        staffDetail?.map((items, index) => {
+                                                            { console.log(items?.staffDetails?.LeavePolicy) }
+                                                            return (<>
+                                                                {items?.staffDetails?.LeavePolicy?.map((item) => (
+                                                                    <>
+                                                                        <td>{item?.allowed_leaves} </td>
+                                                                    </>)
+                                                                )}</>)
+                                                        })
+                                                    }
+                                                </tr>
+                                            })
+                                        }
+
+
+
+
                                     </tbody>
                                 </table>
                             </div>
@@ -174,36 +248,49 @@ const LeaveBalance = () => {
 
 
                         <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
-                        <div className='w-full   '>
-                            <table className='table-section  w-full'>
-                                <thead className='border border-1 '>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Duration</th>
-                                    <th>Privileged Leave Allowed</th>
-                                    <th>Privileged Leave Carry Forward</th>
-                                    <th>Casual Leave Allowed </th>
-                                    <th>Casual Leave Carry Forward </th>
-                                    <th>Sick Leave Allowed </th>
-                                    <th>Sick Leave Carry Forward </th>
+                            <div className='w-full   '>
+                                <table className='table-section  w-full'>
+                                    <thead className='border border-1 '>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        {
+                                            staffDetail?.map((items, index) => {
+                                                { console.log(items?.staffDetails?.LeavePolicy) }
+                                                return (<>
+                                                    {items?.staffDetails?.LeavePolicy?.map((item) => (
+                                                        <>
+                                                            <th>{item?.name} Leave Policy</th>
+                                                        </>)
+                                                    )}</>)
+                                            })
+                                        }
 
 
-                                </thead>
-                                <tbody>
-                                    <tr className="border">
-                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            staffDetail?.map((items, index) => {
+                                                return <tr className="border">
+                                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                    <td>{items?.name}</td>
+                                                    {
+                                                        staffDetail?.map((items, index) => {
+                                                            { console.log(items?.staffDetails?.LeavePolicy) }
+                                                            return (<>
+                                                                {items?.staffDetails?.LeavePolicy?.map((item) => (
+                                                                    <>
+                                                                        <td>{item?.allowed_leaves} </td>
+                                                                    </>)
+                                                                )}</>)
+                                                        })
+                                                    }
+                                                </tr>
+                                            })
+                                        }
 
-                                </tbody>
-                            </table>
+
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </TabPanel>
@@ -235,7 +322,7 @@ const LeaveBalance = () => {
                             <h4 className='m-0 font-medium text-[10px] xl:text-[14px]' >Step 1. Download SalaryBox Template</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <Link to="#" className='whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Download Template</Link>
+                            <button onClick={exportToCSV} className='whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Download Template</button>
                         </div>
                     </div>
 
@@ -288,6 +375,25 @@ const LeaveBalance = () => {
                                 <label for="flexible" className='text-[14px]'> Yearly</label><br />
                             </Tab>
                         </TabList>
+                        <TabPanel>
+                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+                                <table className='table-section mt-4'>
+                                    <thead className='border border-1 '>
+                                        <th>Leave Type</th>
+                                        <th>Allowed Leaves (Per Month)</th>
+                                        <th>Carry-forward Leaves (On Month End)</th>
+
+                                    </thead>
+                                    <tbody>
+                                        <td>Casual Leave</td>
+                                        <td><input type='text' /></td>
+                                        <td><input type='text' /></td>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </TabPanel>
+
                         <TabPanel>
                             <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
                                 <table className='table-section mt-4'>

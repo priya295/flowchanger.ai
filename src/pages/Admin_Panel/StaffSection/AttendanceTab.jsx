@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/bi_filter.svg'
 import { Link } from 'react-router-dom';
@@ -11,11 +11,16 @@ import qr from '../../../Assets/Images/qr-code.svg'
 import gps from '../../../Assets/Images/gps.svg'
 import biometric from '../../../Assets/Images/biometric.svg'
 import rightimg from '../../../Assets/Images/right.svg'
-
+import { useGlobalContext } from '../../../Context/GlobalContext';
+import Select from 'react-select';
 
 const AttendanceTab = () => {
+    const { baseUrl, openToast, fetchStaff, staffDetail } = useGlobalContext();
+    console.log(staffDetail)
 
-
+    useEffect(() => {
+        fetchStaff();
+    }, [])
 
     const customStyles = {
         content: {
@@ -34,6 +39,7 @@ const AttendanceTab = () => {
 
     let subtitle;
     const [modalIsOpen, setIsOpen] = React.useState(false);
+
     function openModal() {
         setIsOpen(true);
     }
@@ -188,6 +194,31 @@ const AttendanceTab = () => {
         setIsOn(!isOn);
     };
     // toggle switch
+    const [isOnSelfie, setIsOnSelfie] = useState(false);
+    const selfieAttendance = () => {
+        setIsOnSelfie(!isOnSelfie);
+    };
+    const [qrCode, setQrCode] = useState(false);
+    const qrAttendance = () => {
+        setQrCode(!qrCode);
+    };
+    const [gpsCode, setGpsCode] = useState(false);
+    const gpsAttendance = () => {
+        setGpsCode(!gpsCode);
+    };
+
+    const [autoPresent, setAutoPresent] = useState(false);
+    const autoPresentFn = () => {
+        setAutoPresent(!autoPresent);
+    };
+    const [presentPunch, setPresentPunch] = useState(false);
+    const PresentPunchFn = () => {
+        setPresentPunch(!presentPunch);
+    };
+
+
+
+    // toggle switch
 
 
     {/* when onclick update attendance modes for all staff */ }
@@ -244,7 +275,228 @@ const AttendanceTab = () => {
     }
 
     {/* when onclick update attendance modes  rule for all staff  successfull message*/ }
+    const [shiftName, setShiftName] = useState();
+    const [shiftStartTime, setShiftStartTime] = useState();
+    const [shiftEndTime, setShiftEndTime] = useState();
+    const [punchInType, setPunchInType] = useState("ANYTIME");
+    const [punchOutType, setPunchOutType] = useState("ANYTIME");
+    const [allowPunchInHour, setAllowPunchInHour] = useState();
+    const [allowPunchInMinutes, setAllowPunchInMinutes] = useState();
+    const [allowPunchOutMinutes, setAllowPunchOutMinutes] = useState();
+    const [allowPunchOutHour, setAllowPunchOutHour] = useState();
 
+
+
+
+    const handleTimeChange = (value) => {
+
+        const [hours, minutes] = value.split(":").map(Number);
+
+        // Determine AM or PM
+        const period = hours >= 12 ? "PM" : "AM";
+
+        // Convert to 12-hour format
+        const adjustedHours = hours % 12 || 12; // `12` for midnight and noon
+        const formattedTime = `${adjustedHours}:${minutes < 10 ? `0${minutes}` : minutes} ${period}`;
+
+        return formattedTime
+    };
+
+
+    async function submitShift() {
+        const result = await fetch(baseUrl + "shift", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: allowPunchInHour, allowPunchInMinutes: allowPunchInMinutes, allowPunchOutHours: allowPunchOutHour, allowPunchOutMinutes: allowPunchOutMinutes })
+        })
+        if (result.status == 201) {
+            const data = await result.json();
+            openToast("Add Shift Successfully", "success")
+
+        }
+        else {
+            openToast("An Error Occured", "error")
+        }
+    }
+
+
+    const [shiftDetails, setShiftDetails] = useState();
+    console.log("shiftDetails", shiftDetails);
+
+    async function fetchShiftDetails() {
+        const result = await fetch(baseUrl + "shift");
+        if (result.status == 200) {
+            const data = await result.json();
+            setShiftDetails(data)
+        }
+        else {
+            openToast("No Record Found")
+        }
+
+    }
+
+
+    const [selectedShift, setSelectedShift] = useState([]);
+    console.log("selectedShift", selectedShift)
+
+    const isSelected = (shiftId) => selectedShift.some((s) => s.id === shiftId);
+
+    // Handle checkbox change
+    const handleCheckboxChange = (shift) => {
+        setSelectedShift((prevSelected) => {
+            if (isSelected(shift.id)) {
+                // If already selected, remove from selectedShift
+                return prevSelected.filter((s) => s.id !== shift.id);
+            } else {
+                // Otherwise, add to selectedShift
+                return [...prevSelected, shift];
+            }
+        });
+    };
+
+
+    useEffect(() => {
+        fetchShiftDetails();
+    }, [])
+
+
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const options = selectedShift.map((seo) => ({
+        value: seo.shiftName,
+        label: `${seo.shiftName} | ${seo.shiftStartTime} - ${seo.shiftEndTime}`
+    }));
+    const [selectedId, setSelectedId] = useState([]);
+    console.log("selectedId", selectedId)
+
+
+    const handleUpdate = () => {
+        console.log(selectedId)
+        // setSelectedId([]); // Call the first function
+        openModal5(); // Call the second function
+    };
+
+    const [markAttendanceOffice, setMarkAttendanceOffice] = useState();
+    async function updateDetails() {
+
+        const data = {
+            staff_ids: [
+                ...selectedId
+            ],
+            attendence_mode: {
+                "selfie_attendance": isOnSelfie,
+                "qr_attendance": qrCode,
+                "gps_attendance": gpsCode,
+                "mark_attendance": markAttendanceOffice,
+                "allow_punch_in_for_mobile": isOn
+            }
+        };
+
+        const result = await fetch(baseUrl + "attendance/mode", {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        if (result.status == 200) {
+            openToast("Update Details Successfully", "success");
+            openModal6()
+        }
+        else {
+            openToast("Internal Server Error", "error")
+        }
+    }
+
+
+    const handleUpdateAutoMation = () => {
+        console.log(selectedId)
+        // setSelectedId([]); // Call the first function
+        openModal7(); // Call the second function
+    };
+
+    const [time, setTime] = useState({ hours: '', minutes: '' });
+    const [confirmedTime, setConfirmedTime] = useState(null); // Holds confirmed time values
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setTime(prevTime => ({
+            ...prevTime,
+            [name]: value,
+        }));
+    };
+
+
+    const handleConfirm = () => {
+        setConfirmedTime(time); // Set the confirmed values
+        closeModal16(); // Open modal or any other action needed
+    };
+
+    const [duration, setDuration] = useState({ hrs: '', mins: '' }); // Renamed state
+    const [savedDuration, setSavedDuration] = useState(null); // Renamed confirmed state
+
+    const handleDurationChange = (e) => {
+        const { name, value } = e.target;
+        setDuration(prevDuration => ({
+            ...prevDuration,
+            [name]: value,
+        }));
+    };
+
+    const handleSaveDuration = () => {
+        setSavedDuration(duration); // Save current values
+        closeModal17(); // Open modal or any other action needed
+    };
+
+    const [selectedTime, setSelectedTime] = useState({ hourValue: '', minuteValue: '' }); // New state names
+    const [confirmedSelection, setConfirmedSelection] = useState(null); // New confirmed state name
+
+
+    const handleTimeChangeSet = (e) => {
+        const { name, value } = e.target;
+        setSelectedTime(prevSelectedTime => ({
+            ...prevSelectedTime,
+            [name]: value,
+        }));
+    };
+
+    const handleSaveSelection = () => {
+        setConfirmedSelection(selectedTime); // Save current values to confirmed selection
+        closeModal18(); // Open the modal for showing confirmed time
+    };
+
+
+    async function updateAutomationDetail() {
+
+        const data = {
+            staff_ids: [
+                ...selectedId
+            ],
+            automation_rules : {
+                "auto_absent": autoPresent,
+                "present_on_punch": presentPunch,
+                "auto_half_day": `${confirmedTime?.hours} hours, ${confirmedTime?.minutes} minutes`,
+                "mandatory_half_day": `${savedDuration?.hours} hours, ${savedDuration?.minutes} minutes`,
+                "mandatory_full_day": `${confirmedSelection?.hours} hours, ${confirmedSelection?.minutes} minutes`
+            }
+        };
+
+        const result = await fetch(baseUrl + "attendance/automation", {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        if (result.status == 200) {
+            openToast("Update Details Successfully", "success");
+            openModal6()
+        }
+        else {
+            openToast("Internal Server Error", "error")
+        }
+    }
 
     return (
         <div className='attendance-tab mt-[20px]'>
@@ -317,7 +569,7 @@ const AttendanceTab = () => {
                                             <td>Demo</td>
                                             <td>Demo</td>
                                         </tr>
-                                     
+
 
                                     </tbody>
                                 </table>
@@ -330,7 +582,6 @@ const AttendanceTab = () => {
                                 <div className='searching-input relative'>
                                     <img src={Search} className='absolute left-2 top-3' />
                                     <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' />
-
                                 </div>
 
                                 <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'>
@@ -347,7 +598,8 @@ const AttendanceTab = () => {
                                 <div>
                                     <div className="relative inline-block text-left">
                                         <div>
-                                            <button type="button" onClick={openModal5} className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            <button type="button" disabled={selectedId.length === 0} onClick={handleUpdate}
+                                                className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
                                                 Update Attendance Modes
 
                                             </button>
@@ -362,35 +614,42 @@ const AttendanceTab = () => {
 
                         <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
                             <div className='w-full   '>
-                            <table className='table-section  w-full'>
-                                <thead className='border border-1 '>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Job Title</th>
-                                    <th>SmartPhone Attendance</th>
-                                    <th>Selfie</th>
-                                    <th>QR</th>
-                                    <th>Mark Attendance From</th>
-                                    <th>Biometric</th>
+                                <table className='table-section  w-full'>
+                                    <thead className='border border-1 '>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Job Title</th>
+                                        <th>SmartPhone Attendance</th>
+                                        <th>Selfie</th>
+                                        <th>QR</th>
+                                        <th>Mark Attendance From</th>
+                                        {/* <th>Biometric</th> */}
 
 
 
-                                </thead>
-                                <tbody className=''>
-                                    <tr className='border'>
-                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    </tr>
+                                    </thead>
+                                    <tbody className=''>
+
+                                        {
+                                            staffDetail?.map((item, index) => {
+                                                return <> <tr className='border'>
+                                                    <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
+                                                        type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                    <td>{item?.name}</td>
+                                                    <td>{item?.staffDetails?.job_title}</td>
+                                                    <td>{item?.staffDetails?.AttendenceMode?.allow_punch_in_for_mobile ? "Active" : "InActive"}</td>
+                                                    <td>{item?.staffDetails?.AttendenceMode?.selfie_attendance ? "Active" : "InActive"}</td>
+                                                    <td>{item?.staffDetails?.AttendenceMode?.qr_attendance ? "Active" : "InActive"}</td>
+                                                    <td>{item?.staffDetails?.AttendenceMode?.mark_attendance}</td>
+
+                                                </tr>
+                                                </>
 
 
-                                </tbody>
-                            </table>
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
 
 
@@ -424,7 +683,7 @@ const AttendanceTab = () => {
                                 <div>
                                     <div className="relative inline-block text-left">
                                         <div>
-                                            <button type="button" onClick={openModal7} className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            <button type="button" disabled={selectedId.length === 0} onClick={handleUpdateAutoMation} className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
                                                 Update Automation Rules
 
                                             </button>
@@ -445,35 +704,47 @@ const AttendanceTab = () => {
 
                         <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
                             <div className='w-full   '>
-                            <table className='table-section  w-full'>
-                                <thead className='border border-1 '>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Job Title</th>
-                                    <th>Auto Present</th>
-                                    <th>Present On Punch In</th>
-                                    <th>Auto Half Day</th>
-                                    <th>Mandatory Half Day Hours</th>
-                                    <th>Mandatory Full Day Hours</th>
+                                <table className='table-section  w-full'>
+                                    <thead className='border border-1 '>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Job Title</th>
+                                        <th>Auto Present</th>
+                                        <th>Present On Punch In</th>
+                                        <th>Auto Half Day</th>
+                                        <th>Mandatory Half Day Hours</th>
+                                        <th>Mandatory Full Day Hours</th>
 
 
 
-                                </thead>
-                                <tbody className=''>
-                                    <tr className='border'> 
-                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    <td>Demo</td>
-                                    </tr>
+                                    </thead>
+                                    <tbody className=''>
 
 
-                                </tbody>
-                            </table>
+
+                                        {
+                                            staffDetail?.map((item, index) => {
+                                                return <> <tr className='border'>
+                                                    <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
+                                                        type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                    <td>{item?.name}</td>
+                                                    <td>{item?.staffDetails?.job_title}</td>
+                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.auto_absent ? "Active" : "InActive"}</td>
+                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.present_on_punch ? "Active" : "InActive"}</td>
+                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.auto_half_day}</td>
+                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_half_day ? "" : "N/A"}</td>
+                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_full_day ? "" : "N/A"}</td>
+
+
+                                                </tr>
+                                                </>
+
+
+                                            })
+                                        }
+
+                                    </tbody>
+                                </table>
                             </div>
 
 
@@ -529,78 +800,39 @@ const AttendanceTab = () => {
                                         <td className='p-3 text-center'>
                                             <input type="checkbox" />
                                         </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Tue</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Wed</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Thu</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Fri</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sat</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sun</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>
-                                                <option>Select Shift</option>
-                                            </select>
+                                        <td
+                                            className='pr-5 flex items-center'>
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                placeholder="Select Shift"
+                                                value={selectedOptions}
+                                                onChange={(selected) => setSelectedOptions(selected)}
+                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                styles={{
+                                                    control: (base) => ({
+                                                        ...base,
+                                                        minHeight: '40px',
+                                                    }),
+                                                    multiValue: (base) => ({
+                                                        ...base,
+                                                        backgroundColor: '#e5e7eb',
+                                                    }),
+                                                    multiValueLabel: (base) => ({
+                                                        ...base,
+                                                        color: '#000',
+                                                    }),
+                                                    multiValueRemove: (base) => ({
+                                                        ...base,
+                                                        color: '#ff0000',
+                                                        cursor: 'pointer',
+                                                    }),
+                                                }}
+                                            />
+                                            <button className='bg-[#27004a] rounded-full ml-4'>
+                                                <AddIcon className="text-white" onClick={openModal1} />
+                                            </button>
                                         </td>
                                     </tr>
 
@@ -611,7 +843,8 @@ const AttendanceTab = () => {
                             </table>
 
                             <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
-                                <button className="first-btn" onClick={closeModal}>Cancel</button><button className="second-btn">Confirm</button>
+                                <button className="first-btn" onClick={closeModal}>Cancel</button>
+                                <button className="second-btn">Confirm</button>
                             </div>
                         </div>
                     </TabPanel>
@@ -726,11 +959,37 @@ const AttendanceTab = () => {
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Shifts</h2>
                 <button onClick={closeModal1} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
-                <div>
-                    <h4 className='p-4 pl-3 border border-b border-l-0 border-r-0 text-[13px] xl:text-[15px]'>No Options Available ....</h4>
+                <div className=''>
+
+                    {/* {
+                        shiftDetails?.map((op,index)=>{
+                            return  <div className='flex justify-between items-center border-b py-3 px-3'>
+                            <h3 className='text-[13px]'>{op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime} </h3>
+                            <input type="checkbox" value={selectedShift.filter(s=>s.id == op.id)[0]??false} onChange={(e)=>setSelectedShift((prev)=>{
+                                return [...prev , ...shiftDetails?.filter((opt)=>opt.id===op.id)]
+                            })}/>
+                        </div>
+                        })
+                    } */}
+                    
+                    <div className="h-[100px] overflow-y-scroll">
+                    {shiftDetails?.map((op) => (
+                        <div key={op.id} className="flex justify-between items-center border-b py-3 px-3">
+                            <h3 className="text-[13px]">
+                                {op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime}
+                            </h3>
+                            <input
+                                type="checkbox"
+                                checked={isSelected(op.id)}
+                                onChange={() => handleCheckboxChange(op)}
+                            />
+                        </div>
+                    ))}
+                    </div>
                     <Link to="" className='text-[#8A25B0] p-4 font-medium mt-3 w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
-                    <div className='text-end pr-4 pb-3'>
-                        <button className='second-btn'>Okay</button>
+                    <div className='text-end  flex pr-4 pb-3 gap-[10px] justify-end items-center' >
+                        <button className='first-btn' onClick={closeModal1}>Cancel</button>
+                        <button className='second-btn' onClick={closeModal1}>Confirm</button>
                     </div>
                 </div>
             </Modal>
@@ -750,10 +1009,114 @@ const AttendanceTab = () => {
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add New Shifts</h2>
                 <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className=''>
-                    
+                    <div className='modal-field p-[10px] border border-t'>
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift Name</label><br />
+                        <input onChange={(e) => setShiftName(e.target.value)} type='text' className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift Start Time</label><br />
+                        <input onChange={(e) => {
+                            setShiftStartTime(handleTimeChange(e.target.value))
+                        }} type="time" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                        <br />
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch In</label><br />
+                        <div className='flex  justify-between'>
+                            <Tabs className="w-full">
+                                <TabList className="w-full flex justify-between w-full gap-[20px]">
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input value="ANYTIME" onChange={(e) => setPunchInType(e.target.value)} type="radio" id="anytime" name="select-timing" />
+                                            <label for="anytime" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Anytime</label><br />
+                                        </div>
+
+                                    </Tab>
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-full flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input type="radio" value="ADDLIMIT" onChange={(e) => setPunchInType(e.target.value)} id="limit" name="select-timing" />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Add Limit</label><br />
+                                        </div>
+                                    </Tab>
+                                </TabList>
+
+                                <TabPanel></TabPanel>
+
+                                <TabPanel>
+                                    <label className='text-[13px] xl:text-[14px] font-medium'>Allow Punch In</label><br />
+                                    <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchInHour(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
+
+                                        </div>
+
+
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchInMinutes(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
+
+                                        </div>
+                                    </div>
+
+                                </TabPanel>
+
+                            </Tabs>
+
+                        </div>
+
+
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Shift End Time</label><br />
+
+                        <input type="time" onChange={(e) => setShiftEndTime(handleTimeChange(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Can Punch Out</label><br />
+                        <div className=''>
+
+
+                            <Tabs className="w-full">
+                                <TabList className="w-full flex justify-between w-full gap-[20px]">
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input type="radio" value="ANYTIME" onChange={(e) => setPunchOutType(e.target.value)} id="anytime1" name="punching-timing" />
+                                            <label className='text-[13px] xl:text-[14px] cursor-pointer font-medium' for="anytime1">Anytime</label><br />
+                                        </div>
+
+
+                                    </Tab>
+                                    <Tab className="w-[48%]">
+                                        <div className='border border-1 cursor-pointer rounded-md w-[100%] flex items-center gap-[10px] p-[8px] pl-[15px] mt-1 mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                            <input value="ADDLIMIT" onChange={(e) => setPunchOutType(e.target.value)} type="radio" id="limit1" name="punching-timing" />
+                                            <label className='text-[13px] xl:text-[14px]  cursor-pointer font-medium' for="limit1">Add Limit</label><br />
+                                        </div>
+                                    </Tab>
+                                </TabList>
+
+                                <TabPanel>
+
+                                </TabPanel>
+                                <TabPanel>
+                                    <label className='text-[14px] font-medium'>Allow Punch Out</label><br />
+                                    <div className='flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row'>
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchOutHour(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] xl:text-[14px] font-medium  cursor-pointer'>Hours</label><br />
+
+                                        </div>
+
+
+                                        <div className='flex items-center gap-2'>
+                                            <input type='number' onChange={(e) => setAllowPunchOutMinutes(Number(e.target.value))} className='border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                                            <label for="limit" className='text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer'>Minutes <span className='pl-[10px] xl:pl-[15px]'>Before Shift Start Time</span></label><br />
+
+                                        </div>
+                                    </div>
+
+                                </TabPanel>
+                            </Tabs>
+
+
+                        </div>
+                    </div>
+
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn'>Confirm</button>
+                        <button className='second-btn' onClick={submitShift}>Confirm</button>
                     </div>
                 </div>
             </Modal>
@@ -907,12 +1270,12 @@ const AttendanceTab = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                onClick={selfieAttendance}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOnSelfie ? 'bg-[#8A25B0]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOnSelfie ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -926,12 +1289,12 @@ const AttendanceTab = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                onClick={qrAttendance}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${qrCode ? 'bg-[#8A25B0]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${qrCode ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -946,12 +1309,12 @@ const AttendanceTab = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                onClick={gpsAttendance}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${gpsCode ? 'bg-[#8A25B0]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${gpsCode ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -963,11 +1326,11 @@ const AttendanceTab = () => {
 
                         <div className='flex gap-[12px] pt-3'>
                             <div className='flex items-center gap-[10px] border pl-3 pt-2 pb-2 pr-3 rounded-md'>
-                                <input type="radio" id="foroffice" name="office" value="office" />
+                                <input onChange={(e) => { setMarkAttendanceOffice(e.target.value) }} type="radio" id="foroffice" name="office" value="Office" />
                                 <label for="foroffice" className='text-[13px] xl:text-[14px]'>Office</label><br />
                             </div>
                             <div className='flex items-center gap-[10px] border pl-3 pt-2 pb-2 pr-3 rounded-md'>
-                                <input type="radio" id="anywhere" name="office" value="anywhere" />
+                                <input onChange={(e) => { setMarkAttendanceOffice(e.target.value) }} type="radio" id="anywhere" name="office" value="Anywhere" />
                                 <label for="anywhere" className='text-[13px] xl:text-[14px]'>Anywhere</label><br />
                             </div>
                         </div>
@@ -985,7 +1348,7 @@ const AttendanceTab = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                         <button className="first-btn" onClick={closeModal5}>Cancel</button>
-                        <button className="second-btn" onClick={openModal6}>Update Attendance Modes for All Staff</button>
+                        <button className="second-btn" onClick={updateDetails}>Update Attendance Modes for All Staff</button>
                     </div>
 
                 </div>
@@ -1037,12 +1400,12 @@ const AttendanceTab = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                onClick={autoPresentFn}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${autoPresent ? 'bg-[#8A25B0]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${autoPresent ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -1056,12 +1419,12 @@ const AttendanceTab = () => {
                         </div>
                         <div className="flex items-center  ">
                             <div
-                                onClick={handleToggle}
-                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${isOn ? 'bg-[#8A25B0]' : 'bg-gray-300'
+                                onClick={PresentPunchFn}
+                                className={`w-14 h-8 flex items-center rounded-full p-1 cursor-pointer transition-colors ${presentPunch ? 'bg-[#8A25B0]' : 'bg-gray-300'
                                     }`}
                             >
                                 <div
-                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${isOn ? 'translate-x-6' : 'translate-x-0'
+                                    className={`bg-white w-6 h-6 rounded-full shadow-md transform transition-transform ${presentPunch ? 'translate-x-6' : 'translate-x-0'
                                         }`}
                                 ></div>
                             </div>
@@ -1075,7 +1438,9 @@ const AttendanceTab = () => {
                             <h4 className='m-0'>Auto half day if late by</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal16}>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal16}>
+                                {confirmedTime ? `${confirmedTime?.hours} hours, ${confirmedTime?.minutes} minutes` : 'Not Set'}
+                            </button>
                         </div>
                     </div>
 
@@ -1085,7 +1450,9 @@ const AttendanceTab = () => {
                             <h4 className='m-0'>Mandatory half day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal17}>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal17}>
+                                {savedDuration ? `${savedDuration?.hrs} hours, ${savedDuration?.mins} minutes` : 'Not Set'}
+                            </button>
                         </div>
                     </div>
 
@@ -1095,7 +1462,9 @@ const AttendanceTab = () => {
                             <h4 className='m-0'>Mandatory full day hours</h4>
                         </div>
                         <div className="flex items-center  ">
-                            <button className='first-btn' onClick={openModal18}>10 Minutes</button>
+                            <button className='first-btn' onClick={openModal18}>
+                                {confirmedSelection ? `${confirmedSelection?.hourValue} hours, ${confirmedSelection?.minuteValue} minutes` : 'Not Set'}
+                            </button>
                         </div>
                     </div>
 
@@ -1103,7 +1472,7 @@ const AttendanceTab = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal7}>Cancel</button>
-                        <button className="second-btn" onClick={openModal8} >Update Automation Rules for All Staff</button>
+                        <button className="second-btn" onClick={updateAutomationDetail} >Update Automation Rules for All Staff</button>
                     </div>
 
                 </div>
@@ -1132,12 +1501,24 @@ const AttendanceTab = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
-                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                            <input
+                                type="number"
+                                onChange={handleChange}
+                                value={time.hours}
+                                name="hours"
+                                className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                            />
+                            <label htmlFor="limit" className="text-[13px] xl:text-[14px] font-medium cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
-                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                            <input
+                                type="number"
+                                onChange={handleChange}
+                                value={time.minutes}
+                                name="minutes"
+                                className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                            />
+                            <label htmlFor="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
 
@@ -1145,7 +1526,7 @@ const AttendanceTab = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal16}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                        <button className="second-btn" onClick={handleConfirm} >Confirm</button>
                     </div>
 
                 </div>
@@ -1175,12 +1556,24 @@ const AttendanceTab = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
-                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                            <input
+                                type="number"
+                                onChange={handleDurationChange}
+                                value={duration.hrs}
+                                name="hrs"
+                                className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                            />
+                            <label htmlFor="limit" className="text-[13px] xl:text-[14px] font-medium cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
-                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                            <input
+                                type="number"
+                                onChange={handleDurationChange}
+                                value={duration.mins}
+                                name="mins"
+                                className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                            />
+                            <label htmlFor="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
 
@@ -1188,7 +1581,7 @@ const AttendanceTab = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal17}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal16} >Confirm</button>
+                        <button className="second-btn" onClick={handleSaveDuration} >Confirm</button>
                     </div>
 
                 </div>
@@ -1218,12 +1611,24 @@ const AttendanceTab = () => {
 
                     <div className="flex gap-[3px] xl:gap-[30px] flex-col xl:flex-row lg:flex-row">
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
-                            <label for="limit" className="text-[13px] xl:text-[14px] font-medium  cursor-pointer">Hours</label><br />
+                            <input
+                                type="number"
+                                onChange={handleTimeChangeSet}
+                                value={selectedTime.hourValue}
+                                name="hourValue"
+                                className="border border-1 rounded-md p-[5px] mt-1 w-[40px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                            />
+                            <label htmlFor="hourValue" className="text-[13px] xl:text-[14px] font-medium cursor-pointer">Hours</label><br />
                         </div>
                         <div className="flex items-center gap-2">
-                            <input type="number" className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]" />
-                            <label for="limit" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium  cursor-pointer">Minutes</label><br />
+                            <input
+                                type="number"
+                                onChange={handleTimeChangeSet}
+                                value={selectedTime.minuteValue}
+                                name="minuteValue"
+                                className="border border-1 rounded-md p-[5px] mt-1 w-[100px] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                            />
+                            <label htmlFor="minuteValue" className="text-[13px] flex whitespace-nowrap xl:text-[14px] font-medium cursor-pointer">Minutes</label><br />
                         </div>
                     </div>
 
@@ -1231,7 +1636,7 @@ const AttendanceTab = () => {
 
                     <div className="pr-[10px] pb-3 flex gap-[10px] justify-end  pt-3">
                         <button className="first-btn" onClick={closeModal18}>Turn Off</button>
-                        <button className="second-btn" onClick={openModal18} >Confirm</button>
+                        <button className="second-btn" onClick={handleSaveSelection} >Confirm</button>
                     </div>
 
                 </div>

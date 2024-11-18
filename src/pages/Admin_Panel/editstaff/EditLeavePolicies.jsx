@@ -24,6 +24,7 @@ const EditLeavePolicies = () => {
 
     const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
 
+    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy);
 
     const [updatePolicy, setUpdatePolicy] = useState({
         allowed_leaves: 0,
@@ -42,7 +43,7 @@ const EditLeavePolicies = () => {
         };
 
         try {
-            const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.staffDetails.id, {
+            const response = await fetch(baseUrl + "leave-policy/" + selectedStaff?.staffDetails?.id, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -54,6 +55,10 @@ const EditLeavePolicies = () => {
             const result = await response.json();
             if (response.status === 201) {
                 console.log(result);
+                setFetchLeavePolicy([...fetchLeavePolicy, result]);
+                setLeavePolicyType("");
+                setAllowedLeavePerYear("");
+                setCarryForwardLeaves("");
                 openToast("Leave Policy created Successfully", "success");
             }
             else {
@@ -153,7 +158,7 @@ const EditLeavePolicies = () => {
     async function editLeaveRequest(e) {
         e.preventDefault();
         const data = {
-            staffId: selectedStaff?.id,
+            staffId: selectedStaff?.staffDetails?.id,
             leaveTypeId: editLeaveID,
             request_date: new Date(editLeaveRequestDate).toISOString(),
             start_date: new Date(editLeaveStartDate).toISOString(),
@@ -174,6 +179,15 @@ const EditLeavePolicies = () => {
             const result = await response.json();
             if (response.status === 200) {
                 console.log(result);
+
+                fetchAllLeaveRequest.map((item) => {
+                    if (item.id === saveLeaveRequestEdit) {
+                        item.status = editLeaveStatus;
+                        item.start_date = editLeaveStartDate;
+                        item.end_date = editLeaveEndDate;
+                        item.request_date = editLeaveRequestDate;
+                    }
+                })
                 setEditLeaveID('');
                 setEditLeaveStatus('');
                 setEditLeaveStartDate('');
@@ -309,43 +323,65 @@ const EditLeavePolicies = () => {
 
             <Modal
                 isOpen={modalIsOpen10}
-                onAfterOpen={afterOpenModal10}
+                onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal10}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%]  h-[auto]  absolute top-[50%] left-[50%] bottom-auto p-[20px] bg-[#fff] shadow-cs rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none'>Update Leave Balances for all Staff</h2>
-                <button onClick={closeModal10} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
-                <div className='pb-2'>
+                {/* <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none'>Update Leave Balances for all Staff</h2> */}
+                <button onClick={closeModal10} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className='mt-[20px]'>
 
 
-                    <div className='flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
-                        <div className='flex gap-[0px] items-center '>
-                            <h4 className='m-0 font-medium text-[10px] xl:text-[14px]' >Step 1. Download SalaryBox Template</h4>
+                    <div className='flex justify-between items-center mb-[24px] border-t-0 border-r-0  text-[13px] xl:text-[14px] '>
+                        <div className='flex gap-[6px] items-center '>
+                            <h4 className='m-0 font-medium text-[12px] xl:text-[14px] text-[27004a] ' >Leave & Balance Details </h4>
+                            <p className='font-medium '> Leave Balance</p>
+
                         </div>
                         <div className="flex items-center  ">
-                            <Link to="#" className='whitespace-nowrap outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Download Template</Link>
+                            <button className='whitespace-nowrap bg-[#27004a] p-[8px] text-[white] rounded-md text-[13px] outline-1 outline-offset-1'>Update Details</button>
                         </div>
                     </div>
 
 
-
-
-                    <div className='flex justify-between items-center p-[10px] border border-b border-l-0  border-t-0 border-r-0 pl-[20px] text-[13px] xl:text-[14px] '>
-                        <div className='flex gap-[0px] items-center '>
-                            <h4 className='m-0 font-medium text-[10px] xl:text-[14px]' >Step 2. Upload Leave Balances</h4>
-                        </div>
-                        <div className="flex items-center  ">
-                            <button className='outline-dashed p-1 rounded-md text-[13px] outline-1 outline-offset-1'>Upload Staff List</button>
-                            {/* <input type='file' placeholder='ddjfksj'/> */}
+                    <div className="border border-[#18181826] rounded-md bg-[#f0f8fd] p-[8px] mb-6">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="text-gray-700 text-[14px] font-medium">Leave Type</div>
+                            <div className="text-gray-700 font-medium text-[14px]">Remaining Balance</div>
                         </div>
                     </div>
-
-
-
+                    {
+                        selectedStaff?.staffDetails?.LeavePolicy?.map((item, index) => (
+                            <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
+                                <div className="text-gray-700 font-medium text-[15px] capitalize">{item.name} Leaves</div>
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        value={((item?.allowed_leaves) / 12).toFixed(2)}
+                                        type="number"
+                                        placeholder='1'
+                                        className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
+                                    />
+                                    <span className="text-gray-600 text-[15px] font-medium">leaves</span>
+                                </div>
+                            </div>
+                        ))
+                    }
+                    {/* <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
+                        <div className="text-gray-700 font-medium text-[15px]">Privileged Leave</div>
+                        <div className="flex items-center gap-2">
+                            <input
+                                type="text"
+                                placeholder='1'
+                                className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
+                            />
+                            <span className="text-gray-600 text-[15px] font-medium">leaves</span>
+                        </div>
+                    </div> */}
                 </div>
-            </Modal>
+            </Modal >
+
             {/* when onclick update staff
              */}
 
@@ -358,7 +394,6 @@ const EditLeavePolicies = () => {
                 isOpen={modalIsOpen12}
                 onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal12}
-                // style={customStyles}
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
@@ -408,7 +443,7 @@ const EditLeavePolicies = () => {
                                     <tbody>
 
                                         {
-                                            selectedStaff?.staffDetails?.LeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
+                                            fetchLeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
                                                 <td onClick={() => {
                                                     console.log(id);
                                                     setEditingRow(id);
@@ -629,6 +664,7 @@ const EditLeavePolicies = () => {
                                                             }}>Edit</p>
                                                             <p className='text-red-500 font-bold cursor-pointer' onClick={(e) => {
                                                                 e.preventDefault();
+                                                                console.log(id);
                                                                 setDeleteLeaveID(id);
                                                                 deleteLeaveRequest(e);
                                                             }}>Del</p>
@@ -661,7 +697,7 @@ const EditLeavePolicies = () => {
                 </div>
             </Modal>
 
-        </div>
+        </div >
     )
 }
 

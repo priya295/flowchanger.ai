@@ -3,6 +3,7 @@ import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 
@@ -43,7 +44,6 @@ const StaffTab = () => {
   useEffect(() => {
     fetchRoles()
   }, [])
-
 
   return (
     <div className='staff-tab mt-[20px]'>
