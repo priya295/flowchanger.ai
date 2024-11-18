@@ -8,7 +8,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 
 const StaffTab = () => {
-  const { baseUrl, setSelectedStaff } = useGlobalContext();
+  const { baseUrl, setSelectedStaff , openToast} = useGlobalContext();
 
   const [toggleDrop, setToggleDrop] = useState(false);
 
@@ -27,14 +27,14 @@ const StaffTab = () => {
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "staff")
     console.log("reuslt---", result)
+    const res = await result.json();
     if (result.status == 200) {
-      const res = await result.json();
       console.log(res);
       setStaffDetail(res)
       // console.log("---",res.name)
     }
     else {
-      alert("An Error Occured")
+     openToast(res.message);
     }
 
   }
@@ -196,4 +196,4 @@ const StaffTab = () => {
   )
 }
 
-export default StaffTab
+export default StaffTab;

@@ -124,41 +124,68 @@ const Task = () => {
 
   const [allTaskStatus, setAllTaskStatus] = useState();
   const fetchAllTaskStatus = async () => {
-    const response = await fetch(baseUrl + 'task/status');
-    const data = await response.json();
-    setAllTaskStatus(data)
-
+    
+    try{
+      const response = await fetch(baseUrl + 'task/status');
+      if(response.status === 200){
+      const data = await response.json();
+      console.log("taskData:" , data);
+      setAllTaskStatus(data.taskStatus);
+      }
+     else{
+     const error = await response.json();
+      throw new Error(error.message || `HTTP Error: ${response.status}`);
+  }
+  }
+      catch (error) {
+        console.error("Error fetching task status:", error);
+    
+        if (error.message === "Failed to fetch") {
+          openToast("Network error: Unable to connect to the server", "error");
+        } else {
+          openToast(error.message || "An unexpected error occurred", "error");
+        }
+    }
   }
 
   const [departments, setDepartments] = useState([])
   const fetchDepartments = async () => {
     const result = await fetch(baseUrl + "department")
-
     if (result.status == 200) {
-      const res = await result.json();
-      setDepartments(res.data)
-
-    }
-    else {
-      alert("An Error Occured")
-    }
+    const res = await result.json();
+    setDepartments(res.data)
 
   }
+  else {
+    const error = await result.json();
+    throw new Error(error.message || `HTTP Error: ${result.status}`);
+  }
+}
+    
+   
+
+  
 
   const [taskPriority, setTaskPriority] = useState([]);
   const fetchTaskPriority = async () => {
-    const result = await fetch(baseUrl + "task/priority")
-
-    if (result.status == 200) {
-      const res = await result.json();
-      setTaskPriority(res)
-
+    try{
+      const result = await fetch(baseUrl + "task/priority")
+      if (result.status == 200) {
+        const res = await result.json();
+        console.log(res);
+        setTaskPriority(res.data)
+  
+      }
+      else {
+        const error = await result.json();
+        throw new Error(error.message || `HTTP Error: ${result.status}`);
+      }
+     
     }
-    else {
-      alert("An Error Occured")
-    }
-
-  }
+   catch(error){
+    console.log("error",error);
+   } 
+}
 
   const [selectedTag, setSelectedTag] = useState([])
   const [staffDetail, setStaffDetail] = useState();
@@ -234,8 +261,9 @@ const Task = () => {
 
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
-    const result = await fetch(baseUrl + "/task/detail")
-    try {
+  try {
+        const result = await fetch(baseUrl + "/task/detail")
+      const response = await result.json();
       if (result.status === 200) {
         const data = await result.json();
         console.log(data)
@@ -369,13 +397,13 @@ const Task = () => {
       },
       body: JSON.stringify({ taskName: updateTaskName, startDate: updateStartDate, endDate: updateEndDate, dueDate: updateDueDate, selectProjectId: updateSelectProject, taskDescription: updateTaskDescription, taskTag: updateTaskTag, attachFile: updateTaskAttachFile, selectDepartmentId: updateDepartment, taskStatusId: updateTaskStatus, taskPriorityId: updateTaskPriority, taskAssign: updateTaskAssigne })
     })
+    const data = await result.json();
     if (result.status = 200) {
-      const data = await result.json();
       console.log(data)
-      openToast("Add Task Successfully", "success")
+      openToast(data.message, "success")
     }
     else {
-      openToast("Internal Server Error", "error")
+      openToast(data.message, "error")
     }
   }
 
@@ -423,8 +451,8 @@ const Task = () => {
                       <option value="">Please Select Task Status</option>
                       {allTaskStatus?.map((status) => (
 
-                        <option key={status.id} value={status.id}>
-                          {status.taskStatusName}
+                        <option key={status?.id} value={status?.id}>
+                          {status?.taskStatusName}
                         </option>
                       ))}
                     </select>
@@ -456,7 +484,7 @@ const Task = () => {
                       className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
                     required>
                       <option value="">- Select Project -</option> {/* Placeholder option */}
-                      {projectDetails.map((project) => (
+                      {projectDetails?.map((project) => (
                         <option key={project.id} value={project.id}>
                           {project.project_name}
                         </option>
@@ -470,7 +498,7 @@ const Task = () => {
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
                     <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]' required>
                       <option>Select Department</option>
-                      {departments.map(department => (
+                      {departments?.map(department => (
                         <option key={department.id} value={department.id}>
                           {department.department_name}
                         </option>
@@ -873,8 +901,8 @@ const Task = () => {
                     >
                       <option value="">Select Task Priority</option>
                       {taskPriority?.map((priority) => (
-                        <option key={priority.id} value={priority.id}>
-                          {priority.taskPriorityName}
+                        <option key={priority?.id} value={priority?.id}>
+                          {priority?.taskPriorityName}
                         </option>
                       ))}
                     </select>

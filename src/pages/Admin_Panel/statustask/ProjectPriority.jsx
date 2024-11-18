@@ -158,10 +158,10 @@ const ProjectPriority = () => {
             body: JSON.stringify({ Priority_name: prorityName, Priority_color: priorityColor, Priority_order: priorityOrder, default_filter: filter, is_hidden: selectStaffId, can_changed: canChanged })
         })
         if (result.status == 201) {
-            alert("Added Project Priority Sucessfully")
+            openToast(result.message || "Add project priority successfully" , "success")
         }
         else {
-            openToast("An Error Occured")
+            openToast(result.message || "An unexpected error occcured" , "error")
         }
     }
 
@@ -170,10 +170,21 @@ const ProjectPriority = () => {
     const [projectPriorityDetail, setProjectPriorityDetail] = useState();
     console.log("ProjectPriority Detail",projectPriorityDetail)
     async function fetchProjectPriority() {
-        const result = await fetch(baseUrl + "project-Priority/")
-        const data = await result.json();
-        console.log("+++++---", data)
-        setProjectPriorityDetail(data?.data)
+        try{
+            const result = await fetch(baseUrl + "project-Priority/")
+            if(result.status === 200){
+                const data = await result.json();
+                console.log("+++++---", data)
+                setProjectPriorityDetail(data?.data)
+            }
+            else{
+                const data = await result.json();
+                throw new Error(data.message||"An unexpected error occured")
+            }
+        }
+       catch(error){
+         console.log("some error occured" , error)
+       }
     }
 
     useEffect(() => {

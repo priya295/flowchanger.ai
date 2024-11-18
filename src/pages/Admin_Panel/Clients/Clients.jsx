@@ -186,20 +186,35 @@ const Clients = () => {
   //Toggle swich off on btn
 
   const [clientData, setClientData] = useState([]);
+  useEffect(()=>{
+    console.log(clientData);
+    if(clientData){
+      clientData.map(client=>{
+        console.log(client.id);
+      })
+    }
+  },[clientData]);
 
   const fetchDetail = async () => {
     const result = await fetch(baseUrl + "client");
-    if (result.status == 200) {
-      const res = await result.json();
-      console.log(res);
-      setClientData(res);
-      if (res && res.length > 0) {
-        setIsOpen(true);
+
+    const res = await result.json();
+    try{
+      if (result.status == 200) {
+        console.log(res);
+        setClientData(res);
+        if (res && res.length > 0) {
+          setIsOpen(true);
+        }
+      } else {
+        openToast(res.message);
       }
-    } else {
-      alert("An Error Occured");
     }
-  };
+    catch(error){
+      console.log(error , "error");
+    }
+    }
+  
   //   handle search company
   const handleSearchCompany = async () => {
     const queryParams = new URLSearchParams({
@@ -207,15 +222,16 @@ const Clients = () => {
     }).toString();
     setIsLoading(true);
     try {
-      const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
+      const response = await fetch(`${baseUrl}client/search?${queryParams}`);
+      const result = await response.json();
       console.log(response);
       if (response.status === 200) {
-        const result = await response.json();
         console.log(result);
         setSearchClients(result);
 
       } else {
         console.log("data is not filtered");
+        openToast(result.message);
       }
     } catch (error) {
       console.error("Error searching staff:", error);
@@ -307,6 +323,7 @@ const Clients = () => {
 
   useEffect(() => {
     if (selectedClient) {
+      console.log(selectedClient);
       setCompany(selectedClient.company || "");
       setVatNumber(selectedClient.vat_number || "");
       setPhone(selectedClient.phone || "");
@@ -366,31 +383,40 @@ const Clients = () => {
   const [deleteClient, setDeleteClient] = useState();
   const updateData = async (e) => {
     e.preventDefault();
-    const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, groups: selectedGroups, currency: currency, default_language: language, address: address, country: country, state: state, city: city, zip_code: zipCode })
-    })
-    if (result.status == 200) {
-      fetchDetail()
-      openToast("Details Update Successfully")
+    try{
+      const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, groups: selectedGroups, currency: currency, default_language: language, address: address, country: country, state: state, city: city, zip_code: zipCode })
+      })
+      const res = await result.json();
+      if (result.status == 200) {
+        fetchDetail()
+        openToast(res.message)
+      }
+      else (
+        openToast(res.message)
+      )
     }
-    else (
-      openToast("An Error Occured")
-    )
+   catch(error){
+    console.log("error" , error);
+   }
   }
 
   async function deleteData(id) {
-    const result = await fetch(baseUrl + "/client/" + id, {
+    console.log(id);
+    const result = await fetch(baseUrl + "client/" + id, {
       method: "DELETE",
     });
+
+    const res = await result.json();
     if (result.status === 200) {
-      openToast("Delete Record Successfully");
+      openToast(res.message);
       fetchDetail();
     } else {
-      openToast("An Error Occurred");
+      openToast(res.message);
     }
   }
   useEffect(() => {
@@ -654,7 +680,7 @@ const Clients = () => {
         />
         <DeleteIcon
           className="text-red-500 cursor-pointer"
-          onClick={() => deleteData(item.id)}
+          onClick={() =>   {console.log("Client data for delete:", item.id); deleteData(item.id)}}
         />
       </td>
     </tr>

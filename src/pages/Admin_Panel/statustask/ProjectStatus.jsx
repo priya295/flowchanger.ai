@@ -20,7 +20,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 
 const ProjectStatus = () => {
-  const { baseUrl } = useGlobalContext();
+  const { baseUrl , openToast} = useGlobalContext();
   const [openIndex, setOpenIndex] = useState(null);
   // Function to handle accordion toggling
   const handleToggle = (index) => {
@@ -108,10 +108,13 @@ const ProjectStatus = () => {
         can_changed: canChanged,
       }),
     });
+    const data = await result.json();
     if (result.status == 201) {
-      alert("Add Project Status Successfully");
+      openToast(data.message ||"Add Project Status Successfully","success");
+      closeModal6();
     } else {
-      alert("An Error Occured");
+
+      openToast(data.message || "An internal server error occured" , "error");
     }
   }
 

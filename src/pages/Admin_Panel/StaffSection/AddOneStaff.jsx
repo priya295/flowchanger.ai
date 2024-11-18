@@ -29,12 +29,12 @@ const AddOneStaff = () => {
 
     const fetchDepartments = async () => {
          const result = await fetch(baseUrl + "department")
+         const res = await result.json();
          if (result.status == 200) {
-          const res = await result.json();
           setDepartments(res.data)
         }
         else {
-         openToast("An Error Occured")
+         openToast(result.message);
         }
       }
 
@@ -46,7 +46,7 @@ const AddOneStaff = () => {
           setRoles(res.data)
         }
         else {
-          alert("An Error Occured")
+        console.log("failed to fetch roles");
         }
         console.log("result",result)
 
@@ -81,7 +81,7 @@ const AddOneStaff = () => {
         });
     
         console.log(response);
-    
+       const result = await response.json();
         if (response.status === 201) {
             openToast("Add Staff Succesfully");
             navigate("/staff-menu")
@@ -98,7 +98,7 @@ const AddOneStaff = () => {
             setSelectRole("");
     
         } else {
-            openToast("An Internal Error", "error")
+            openToast(result.message||"An Internal Error", "error")
 
         }
       }

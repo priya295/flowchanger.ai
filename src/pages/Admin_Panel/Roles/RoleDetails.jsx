@@ -13,7 +13,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const Main = () => {
 
-  const { baseUrl, setRoleName, setRoleId, setEditPermissions } = useGlobalContext();
+  const { baseUrl, setRoleName, setRoleId, setEditPermissions ,openToast} = useGlobalContext();
   const [roles, setRoles] = useState([])
   const [exportFormat, setExportFormat] = useState('');
   const [rowsToShow, setRowsToShow] = useState(25);
@@ -58,6 +58,8 @@ const Main = () => {
 
 
   const fetchRoles = async () => {
+
+    const result = await fetch(baseUrl + "role")
     setIsLoading(true);
     try {
       if (result.status == 200) {
@@ -80,21 +82,21 @@ const Main = () => {
 
   const deleteRole = async (id) => {
     try {
-      const result = await fetch(`${baseUrl}/role/${id}`, {
+      const result = await fetch(`${baseUrl}role/${id}`, {
         method: "DELETE",
         headers: {
           'Content-Type': "application/json", // Corrected the header spelling for consistency
         }
       });
+      const res = await result.json(); 
       if (result.ok) { // Use result.ok instead of checking the status directly
-        alert("Record deleted successfully.");
+        openToast(res.messsage);
         fetchRoles()
       } else {
-        alert("An error occurred while deleting the record.");
+       openToast(res.message);
       }
     } catch (error) {
       console.error("Error deleting department:", error);
-      alert("An error occurred during the delete request.");
     }
   };
 
