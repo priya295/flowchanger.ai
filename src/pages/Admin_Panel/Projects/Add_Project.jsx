@@ -196,7 +196,7 @@ const Add_Project = () => {
   },[])
 
   return (
-    <div className="max-w-[65%] mx-auto">
+    <div className="max-w-[100%] mx-auto">
     <Tabs className="m-5 shadow rounded-lg">
       <TabList className="flex p-5 pb-[10px] gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
         <Tab className="hover:text-[#2568EC] project-tab hover:border-b pb-2 border-[#2568EC]">

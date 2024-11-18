@@ -12,7 +12,10 @@ import { Modal } from 'react-responsive-modal';
 import Select from "react-select";
 
 
+
 const ContactInformation = () => {
+  
+ const {openToast}  = useGlobalContext()
 
     const toggleModal15 = () => {
         setIsOpen15(!isOpen15);
