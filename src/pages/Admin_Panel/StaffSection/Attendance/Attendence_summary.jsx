@@ -157,7 +157,6 @@ const Attendence_summary = () => {
 
         }
     }
-   
 
     return (
         <div className='p-[20px] w-full work-fine'>
@@ -171,7 +170,6 @@ const Attendence_summary = () => {
                     <Link className='text-[blue] text-[14px] font-semibold' to="/">Daily Report <DownloadIcon className='icon-filter' /></Link>
                     <Link className='text-[blue] text-[14px] font-semibold ' to="/">Setting <SettingsIcon className='icon-filter' /></Link>
                 </div>
-
             </div>
 
             <div className='bg-[#fff] shadow-cs p-[20px] rounded-md mt-[24px] '>

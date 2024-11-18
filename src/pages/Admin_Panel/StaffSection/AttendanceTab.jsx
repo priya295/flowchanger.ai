@@ -567,6 +567,18 @@ const AttendanceTab = () => {
         closeModal22();
     };
 
+    // 
+        const [weekoff,setWeekOff]=useState({
+            "Mon":false,
+            "Tue":false,
+            "Wed":false,
+            "Thu":false,
+            "Fri":false,
+            "Sat":false,
+            "Sun":false
+        })
+    
+    // 
 
     async function submitShifts() {
         console.log("HELLO",selectedOptions.map((s)=>s.value) )
@@ -575,7 +587,7 @@ const AttendanceTab = () => {
             headers: {
                 "Content-type": "application/json"
             },
-            body: JSON.stringify({  weekOff: isCheckboxChecked,weekId:selectedWeeks,  shifts:selectedOptions.map((s)=>s.value) })
+            body: JSON.stringify({  weekOff: isCheckboxChecked,  shifts:selectedOptions.map((s)=>s.value), weekOne: weeks.firstWeek, weekTwo: weeks.secondWeek, weekThree: weeks.thirdWeek, weekFour: weeks.fourthWeek, weekFive: weeks.fifthWeek,staffId:selectedId,day:"Mon" } )
         })
         if (result.status == 200) {
             openToast("Update Details Successfully", "success")
@@ -927,12 +939,13 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Mon</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={handleCheckboxChange2} checked={isCheckboxChecked} />
+                                            <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Mon:!weekoff.Mon}))} checked={weekoff.Mon} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
                                             {isCheckboxChecked ? (
                                                 <td>
-                                                    <select onClick={openModal22}>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
                                                         {selectedWeeks ? (
                                                             <option>{selectedWeeks}</option> // Display the single string directly
                                                         ) : (
@@ -979,7 +992,342 @@ const AttendanceTab = () => {
                                             </td>
                                         </div>
                                     </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Tue</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Tue:!weekoff.Tue}))} checked={weekoff.Tue} />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
 
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Wed</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Wed:!weekoff.Wed}))} checked={weekoff.Wed}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Thu</td>
+                                        <td className='p-3 text-center'>
+                                        <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Thu:!weekoff.Thu}))} checked={weekoff.Thu}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Fri</td>
+                                        <td className='p-3 text-center'>
+                                        <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Fri:!weekoff.Fri}))} checked={weekoff.Fri}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Sat</td>
+                                        <td className='p-3 text-center'>
+                                        <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Sat:!weekoff.Sat}))} checked={weekoff.Sat}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Sun</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" onChange={handleCheckboxChange2} checked={isCheckboxChecked} />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
 
 
 
