@@ -95,7 +95,6 @@ const DepartmentDetail = () => {
         openToast(result.message);
         setDepartments(result);
       } else {
-        console.log(result.status);
         console.log(result.message);
         openToast(result.message);
       }
@@ -117,7 +116,6 @@ const DepartmentDetail = () => {
       console.log(response);
       if (response.status === 201) {
         const result = await response.json();
-
         setDepartments(result);
       } else {
       }

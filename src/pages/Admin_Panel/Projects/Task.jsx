@@ -134,31 +134,33 @@ const Task = () => {
       }
      else{
      const error = await response.json();
-      throw new Error(error.message || `HTTP Error: ${response.status}`);
+      console.error(error.message || `HTTP Error: ${response.status}`);
+      setAllTaskStatus([]);
   }
   }
       catch (error) {
         console.error("Error fetching task status:", error);
-    
-        if (error.message === "Failed to fetch") {
-          openToast("Network error: Unable to connect to the server", "error");
-        } else {
-          openToast(error.message || "An unexpected error occurred", "error");
-        }
+        setAllTaskStatus([]);
     }
   }
 
   const [departments, setDepartments] = useState([])
   const fetchDepartments = async () => {
-    const result = await fetch(baseUrl + "department")
-    if (result.status == 200) {
-    const res = await result.json();
-    setDepartments(res.data)
-
-  }
-  else {
-    const error = await result.json();
-    throw new Error(error.message || `HTTP Error: ${result.status}`);
+    try{
+      const result = await fetch(baseUrl + "department")
+      if (result.status == 200) {
+      const res = await result.json();
+      setDepartments(res.data)
+  
+    }
+    else {
+      console.error("Error fetching departments:", result.status);
+      setDepartments([]);
+    }
+    }
+    catch (error) {
+    console.error("Error fetching departments:", error);
+    setDepartments([]);
   }
 }
     
@@ -174,16 +176,18 @@ const Task = () => {
         const res = await result.json();
         console.log(res);
         setTaskPriority(res.data)
-  
+        
       }
       else {
         const error = await result.json();
-        throw new Error(error.message || `HTTP Error: ${result.status}`);
+        console.log(error.message, "error")
+        setTaskPriority([]);
       }
      
     }
    catch(error){
     console.log("error",error);
+    setTaskPriority([]);
    } 
 }
 
@@ -198,31 +202,47 @@ const Task = () => {
   }));
 
   const fetchStaffDetail = async () => {
-    const result = await fetch(baseUrl + "staff")
-    console.log("reuslt---", result)
-    if (result.status == 200) {
-      const res = await result.json();
-      setStaffDetail(res)
+    try{
+      const result = await fetch(baseUrl + "staff")
+      console.log("reuslt---", result)
+      if (result.status == 200) {
+        const res = await result.json();
+        setStaffDetail(res)
+      }
+      else {
+        const res = await result.json();
+       console.log("error while fetching satff" , res.message);
+        setStaffDetail([]);
+      }
+    
     }
-    else {
-      alert("An Error Occured")
+    catch(error){
+      console.error("error" , error.message);
+      setStaffDetail([]);
     }
-
+    
   }
 
   const [projectDetails, setProjectDetails] = useState([]);
   async function fetchProjectDetails() {
-    const result = await fetch(baseUrl + "project");
-    console.log("---", result)
-    if (result.status == 200) {
-      const res = await result.json();
-      console.log(res)
-      setProjectDetails(res.data)
+    try{
+      const result = await fetch(baseUrl + "project");
+      console.log("---", result)
+      if (result.status == 200) {
+        const res = await result.json();
+        console.log(res)
+        setProjectDetails(res.data)
+      }
+      else {
+        console.error("Error fetching projects:", result.status);
+        setProjectDetails([]);
+      }
     }
-    else {
-      alert("An Error Occured")
-    }
-  }
+catch(error){
+  console.error("Error fetching Projects" , error);
+  setProjectDetails([]);
+}
+ }
 
 
   let subtitle;
@@ -251,31 +271,35 @@ const Task = () => {
     })
     if (result.status == 201) {
       const data = await result.json();
-      openToast("Add Task Successfully", "success")
+      openToast(data.message, "success")
     }
     else {
-      openToast("Internal Server Error", "error")
+      const error = await result.json();
+      openToast(error.message, "error")
     }
   }
 
 
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
+    setIsLoading(true);
   try {
         const result = await fetch(baseUrl + "/task/detail")
-      const response = await result.json();
       if (result.status === 200) {
         const data = await result.json();
-        console.log(data)
-        setFetchTaskData(data)
+        console.log(data.taskDetail)
+        setFetchTaskData(data.taskDetail);
         setIsTableOpen(true);
       }
       else {
-        openToast("Internal Server Error", "error")
+        const error = await result.json();
+        console.log(error.message, "error")
+        setFetchTaskData([]);
       }
     }
     catch (error) {
       console.log("error", error)
+      setFetchTaskData([]);
     }
     finally {
       setIsLoading(false);
