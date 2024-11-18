@@ -105,42 +105,42 @@ const AddNewClient = () => {
         </div>
 
         {/* <!-- Form starts --> */}
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-1 gap-6">
 
              {/* <!-- Company --> */}
              <div>
-              <label for="company" className="block text-sm font-medium text-gray-700">Name *</label>
-              <input type="text" onChange={(e) => { setClientName(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required />
+              <label for="name" className="block text-sm font-medium text-gray-700">Name *</label>
+              <input type="text" onChange={(e) => { setClientName(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"  name = "name" required />
             </div>
             {/* <!-- Company --> */}
             <div>
               <label for="company" className="block text-sm font-medium text-gray-700">Company *</label>
-              <input type="text" onChange={(e) => { setCompany(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" required />
+              <input type="text" onChange={(e) => { setCompany(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "company" required />
             </div>
 
             {/* <!-- VAT Number --> */}
             <div>
               <label for="vat" className="block text-sm font-medium text-gray-700">VAT Number</label>
-              <input type="text" onChange={(e) => { setVatNumber(e.target.value) }} id="vat" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="text" onChange={(e) => { setVatNumber(e.target.value) }} id="vat" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "vat" required/>
             </div>
 
             {/* <!-- email --> */}
             <div>
               <label for="email" className="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" onChange={(e) => { setEmail(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="email" onChange={(e) => { setEmail(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "email" required/>
             </div>
 
             {/* <!-- Phone --> */}
             <div>
               <label for="phone" className="block text-sm font-medium text-gray-700">Phone</label>
-              <input type="tel" onChange={(e) => { setPhone(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="tel" onChange={(e) => { setPhone(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "phone" required/>
             </div>
 
             {/* <!-- Website --> */}
             <div>
               <label for="website" className="block text-sm font-medium text-gray-700">Website</label>
-              <input type="url" onChange={(e) => { setWebsite(e.target.value) }} id="website" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="url" onChange={(e) => { setWebsite(e.target.value) }} id="website" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "website" required/>
             </div>
 
             {/* <!-- Groups --> */}
@@ -165,8 +165,9 @@ const AddNewClient = () => {
               {/* <!-- Currency --> */}
 
               <div className="relative inline-block text-left w-1/2">
-                <label htmlFor="" className="block text-sm font-medium text-gray-700 ">currency</label>
+                <label htmlFor="currency" className="block text-sm font-medium text-gray-700 ">currency</label>
                 <Select
+                name = "currency"
                   closeMenuOnSelect={false}
                   isMulti
                   onChange={(o) => {
@@ -174,6 +175,7 @@ const AddNewClient = () => {
                     setCurrency(arr)
                   }}
                   options={[{ label: "USD", value: "$" }, { label: "INR", value: "₹" }]}
+                  required
                 />
               </div>
 
@@ -182,6 +184,7 @@ const AddNewClient = () => {
               <div className="w-1/2">
                 <label for="language" className="block text-sm font-medium text-gray-700">Default Language</label>
                 <Select
+                name = "language"
                   closeMenuOnSelect={false}
                   isMulti
                   onChange={(o) => {
@@ -191,6 +194,7 @@ const AddNewClient = () => {
                   options={defaultLanguages.map((op) => {
                     return { label: op, value: op }
                   })}
+                  required
                 />
               </div>
             </div>
@@ -198,39 +202,40 @@ const AddNewClient = () => {
             {/* <!-- Address --> */}
             <div>
               <label for="address" className="block text-sm font-medium text-gray-700">Address</label>
-              <input type="text" onChange={(e) => { setAddress(e.target.value) }} id="address" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="text" onChange={(e) => { setAddress(e.target.value) }} id="address" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "address" required/>
             </div>
 
             {/* <!-- City --> */}
             <div>
               <label for="city" className="block text-sm font-medium text-gray-700">City</label>
-              <input type="text" onChange={(e) => { setCity(e.target.value) }} id="city" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="text" onChange={(e) => { setCity(e.target.value) }} id="city" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "city" required/>
             </div>
 
             {/* <!-- State --> */}
             <div>
               <label for="state" className="block text-sm font-medium text-gray-700">State</label>
-              <input type="text" onChange={(e) => { setState(e.target.value) }} id="state" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="text" onChange={(e) => { setState(e.target.value) }} id="state" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "state" required/>
             </div>
 
             {/* <!-- Zip Code --> */}
             <div>
               <label for="zip" className="block text-sm font-medium text-gray-700">Zip Code</label>
-              <input type="text" onChange={(e) => { setZipCode(e.target.value) }} id="zip" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="text" onChange={(e) => { setZipCode(e.target.value) }} id="zip" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "zip" required/>
             </div>
 
             {/* <!-- Country --> */}
             <div>
               <label for="country" className="block text-sm font-medium text-gray-700">Country</label>
-              <input type="text" onChange={(e) => { setCountry(e.target.value) }} id="country" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" />
+              <input type="text" onChange={(e) => { setCountry(e.target.value) }} id="country" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "country" required/>
             </div>
           </div>
 
           {/* <!-- Submit Button --> */}
-          <div className="mt-6  w-full md:w-[45%] flex p-2 justify-between md:justify-end  md:float-right">
-            <button type="submit" onClick={handleSubmit} className=" bg-[#27004a] text-white px-2 py-1 rounded-md shadow-sm  focus:ring-4 focus:ring-opacity-50">
-              Save</button>
-          </div>
+          <div className="mt-6 w-full md:w-[45%] flex p-2 justify-between md:justify-end md:float-right">
+  <button type="submit" className="bg-[#27004a] text-white px-2 py-1 rounded-md shadow-sm focus:ring-4 focus:ring-opacity-50">
+    Save
+  </button>
+</div>
         </form>
         {/* <!-- Form ends --> */}
       </div>

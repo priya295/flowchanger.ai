@@ -276,12 +276,13 @@ const Task = () => {
           <div className="fixed inset-0 flex items-center justify-center p-[14px] z-50 bg-gray-800 bg-opacity-75">
             <div className="bg-white p-6 rounded shadow-cs w-[550px] relative h-[100%] overflow-scroll">
               <h2 className="text-lg font-semibold mb-[16px]">Add new Task</h2>
+              <form action="" onSubmit={submitTask}>
               <div className="w-[100%]">
 
                 <div className="w-[100%]">
 
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Name</label><br />
-                  <input type='text' onChange={(e) => setTaskName(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                  <input type='text' onChange={(e) => setTaskName(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
                 </div>
                 <div className="flex gap-[8px]">
 
@@ -290,6 +291,7 @@ const Task = () => {
                     <select
                       onChange={(e) => setSelectedTaskStatusId(e.target.value)} // Store only the selected ID as a string
                       className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                      required
                     >
                       <option value="">Please Select Task Status</option>
                       {allTaskStatus?.map((status) => (
@@ -307,7 +309,7 @@ const Task = () => {
                 <div className="flex gap-[8px]">
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Start Date</label>    <br />
-                    <input type='date' onChange={(e) => setStartDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    <input type='date' onChange={(e) => setStartDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
                   </div>
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>End Date</label>    <br />
@@ -325,7 +327,7 @@ const Task = () => {
                     <select
                       onChange={(e) => setSelectedProjectId(e.target.value)}
                       className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                    >
+                    required>
                       <option value="">- Select Project -</option> {/* Placeholder option */}
                       {projectDetails.map((project) => (
                         <option key={project.id} value={project.id}>
@@ -339,7 +341,7 @@ const Task = () => {
                 <div className="w-[100%] flex gap-[10px]">
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
-                    <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
+                    <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]' required>
                       <option>Select Department</option>
                       {departments.map(department => (
                         <option key={department.id} value={department.id}>
@@ -353,7 +355,7 @@ const Task = () => {
                     <select
                       onChange={(e) => setSelectedTaskPriorityId(e.target.value)} // Set only the selected ID
                       className="border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] hover:bg-[#fff]"
-                    >
+                   required >
                       <option value="">Select Task Priority</option> {/* Placeholder option */}
                       {taskPriority?.map((priority) => (
                         <option key={priority.id} value={priority.id}>
@@ -402,14 +404,14 @@ const Task = () => {
                           cursor: 'pointer',
                         }),
                       }}
-                    />
+                    required/>
 
                   </div>
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
-                  <textarea type='text' onChange={(e) => setTaskDescription(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                  <textarea type='text' onChange={(e) => setTaskDescription(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
                   <div className="w-[100%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />
-                    <input type='text' onChange={(e) => setTag(e.target.value)} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' />    <br />
+                    <input type='text' onChange={(e) => setTag(e.target.value)} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' required/>    <br />
                   </div>
 
 
@@ -437,7 +439,7 @@ const Task = () => {
                         <input
                           type='file'
                           className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
-                        />
+                        required/>
 
                         {/* Remove Button for every div */}
                         <button onClick={() => removeDiv(index)} className='  rounded plus-icon'>
@@ -459,10 +461,10 @@ const Task = () => {
                   >
                     Close
                   </button>
-                  <button className='second-btn' onClick={submitTask}>Save </button>
+                  <button className='second-btn' >Save </button>
                 </div>
               </div>
-
+              </form>
 
             </div>
           </div>
@@ -642,7 +644,7 @@ const Task = () => {
               <div className="w-[100%] flex gap-[10px]">
                 <div className="w-[50%]">
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
-                  <select onChange={(e) => setUpdateDepartment(e.target.value)} defaultValue={updateData?.selectDepartmentId} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
+                  <select onChange={(e) => setUpdateDepartment(e.target.value)} defaultValue={updateData?.selectDepartmentId} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]' required>
                     <option>Select Department</option>
                     {departments.map(department => (
                       <option key={department.id} value={department.id}>
@@ -657,7 +659,7 @@ const Task = () => {
                     onChange={(e) => setUpdateTaskPriority(e.target.value)} // Update `updateTaskPriority` on selection change
                     value={updateTaskPriority}  // Use `updateTaskPriority` as the value to stay in sync
                     className="border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] hover:bg-[#fff]"
-                  >
+                  required>
                     <option value="">Select Task Priority</option>
                     {taskPriority?.map((priority) => (
                       <option key={priority.id} value={priority.id}>
@@ -713,12 +715,12 @@ const Task = () => {
                         cursor: 'pointer',
                       }),
                     }}
-                  />
+                  required/>
 
 
                 </div>
                 <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
-                <textarea type='text' onChange={(e) => { setUpdateTaskDescription(e.target.value) }} defaultValue={updateData?.taskDescription} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                <textarea type='text' onChange={(e) => { setUpdateTaskDescription(e.target.value) }} defaultValue={updateData?.taskDescription} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
 
                 <div className="w-[100%]">
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />

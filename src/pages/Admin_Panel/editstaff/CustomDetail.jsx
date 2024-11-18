@@ -174,11 +174,11 @@ const CustomDetail = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Custom Field Name
                         </label><br />
-                        <input type='text' value={fieldName} onChange={(e) => { setFieldName(e.target.value) }} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <input type='text' required value={fieldName} onChange={(e) => { setFieldName(e.target.value) }} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
 
                         <label className='text-[13px] xl:text-[14px] font-medium'>Description
                         </label><br />
-                        <textarea type='text' value={description} onChange={(e) => { setDescription(e.target.value) }} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
+                        <textarea type='text' required value={description} onChange={(e) => { setDescription(e.target.value) }} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' /><br />
 
 
                     </div>

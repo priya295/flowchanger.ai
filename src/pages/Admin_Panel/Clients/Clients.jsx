@@ -607,8 +607,8 @@ const Clients = () => {
                 <tbody>
                   {isLoading && clientData.length === 0 ? (
   <tr className="h-[100px]">
-    <td colSpan="9" className="text-center text-gray-600 text-sm font-semibold py-4">
-      <ClipLoader isLoading={isLoading} size={50} color="#000" />
+    <td colSpan="10" className="text-center text-gray-600 text-sm font-semibold py-4">
+    <ClipLoader color="#4A90E2" size={50} />
     </td>
   </tr>
 ) : searchedClients === null && clientData && clientData.length > 0 ? (
@@ -719,7 +719,7 @@ const Clients = () => {
 ) : (
   <tr className="h-[100px]">
     <td
-      colSpan="9"
+      colSpan="10"
       className="text-center text-gray-900 text-sm font-semibold py-4"
     >
       No client found.

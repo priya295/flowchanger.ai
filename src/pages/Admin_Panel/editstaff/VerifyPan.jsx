@@ -113,6 +113,7 @@ const VerifyPan = () => {
                     ref={fileInputRef}
                     onChange={handleFileChange}
                     style={{ display: "none" }}
+                    required
                 />
                 {
                     pan?.verificationFile && <img src={pan?.verificationFile} alt="Selected File" className="w-[100px] h-[50px] rounded-md" />
@@ -139,9 +140,9 @@ const VerifyPan = () => {
                 <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className=''>
                     <div className='modal-field field-modal p-[10px] border border-t'>
-                        <label className='text-[13px] xl:text-[14px] font-medium'>PAN
+                        <label className='text-[13px] xl:text-[14px] font-medium' >PAN
                         </label><br />
-                        <input type='text' placeholder="Enter PAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={pan?.number} onChange={(e) => setPan({ ...pan, number: e.target.value })} /><br />
+                        <input type='text' placeholder="Enter PAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={pan?.number} onChange={(e) => setPan({ ...pan, number: e.target.value })} required/><br />
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>

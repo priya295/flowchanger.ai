@@ -4,7 +4,8 @@ import { toast, ToastContainer } from 'react-toastify';
 
 export const MainContext = createContext();
 export const GlobalContext = ({ children }) => {
-
+  const [activeSubmenu, setActiveSubmenu] = useState(false);
+  const [selectedSidebarTab, setSelectedSidebarTab] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
   const baseUrl = "https://fc-prod-testing.onrender.com/api/"
   console.log(baseUrl)
@@ -65,9 +66,13 @@ export const GlobalContext = ({ children }) => {
   useEffect(() => {
     fetchStaff();
   }, [])
+  useEffect(()=>{
+    console.log(staffTab);
+    console.log(selectedTab);
+  },[ selectedTab,staffTab]);
 
   return (
-    <MainContext.Provider value={{ selectedTab, setSelectedTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails,fetchStaff,staffDetail}}>
+    <MainContext.Provider value={{ selectedTab, setSelectedTab, selectedSidebarTab,setSelectedSidebarTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails,fetchStaff,staffDetail,activeSubmenu,setActiveSubmenu}}>
       {children}
       <ToastContainer />
     </MainContext.Provider>

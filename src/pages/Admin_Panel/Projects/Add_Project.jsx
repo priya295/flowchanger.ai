@@ -146,7 +146,8 @@ const Add_Project = () => {
 
 
 
-  async function projectSubmit() {
+  async function projectSubmit(e) {
+    e.preventDefault();
     const plainTextDescription = (editorData || '').replace(/<\/?p>/g, '');
      console.log(
       selectedClient
@@ -208,13 +209,18 @@ const Add_Project = () => {
       </TabList>
 
       <TabPanel className="m-5">
+      <form action="" onSubmit = {projectSubmit}>
         <div className="w-[100%]  space-y-5">
+          
           <div className="space-y-2">
             <h1 className="font-medium">* Project Name</h1>
             <input  
               className="h-[35px] w-[100%] border border-[#DBDCDE]  rounded-md pl-2 "
               type="text"
               onChange={(e) => { setProjectName(e.target.value) }}
+             name = "projectname"
+             required
+    
             />
           </div>
 
@@ -237,8 +243,8 @@ const Add_Project = () => {
           </div>
 
           <div className="font-medium flex gap-4 items-center">
-            <input type="checkbox"  />
-            <h1>Calculate progress through tasks</h1>
+            <input type="checkbox" name = "progress" required/>
+            <label for = "progress">Calculate progress through tasks</label>  
           </div>
 
           <div className="space-y-2">
@@ -249,7 +255,7 @@ const Add_Project = () => {
           <div className="flex w-[100%] gap-10">
             <div className="w-[50%] space-y-2">
               <h1>* Billing Type</h1>
-              <select onChange={(e) => { setBillingType(e.target.value) }} className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5">
+              <select onChange={(e) => { setBillingType(e.target.value) }} className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5" name = "billingType" required>
                 <option value="Fixed Rate">Fixed rate</option>
                 <option value="Project Hours">Project Hours</option>
                 <option value="Task Hours Based on task hourly rate">Task Hours Based on task hourly rate</option>
@@ -257,8 +263,8 @@ const Add_Project = () => {
             </div>
 
             <div className="w-[50%] space-y-2">
-              <h1>Status</h1>
-              <select className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5">
+              <label>Status</label>
+              <select className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5" name = "status" required>
                 <option value="">In Progress</option>
                 {
                   fetchProjectStatus?.map((s) => {
@@ -272,11 +278,13 @@ const Add_Project = () => {
           </div>
 
           <div className="space-y-2">
-            <h1 className="font-medium">Total Rate</h1>
+            <label className="font-medium">Total Rate</label>
             <input
+            name = "totalRate"
               className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
               type="number"
               onChange={(e) => { setRate(parseInt(e.target.value) || 0) }}
+                required
 
             />
           </div>
@@ -284,16 +292,18 @@ const Add_Project = () => {
           <div className="grid grid-rows-2 space-y-2">
             <div className="flex w-[100%] gap-10">
               <div className="w-[50%] space-y-2">
-                <h1>Estimated Hours</h1>
+                <label>Estimated Hours</label>
                 <input
                   className="h-[40px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
                   type="number"
+                  name = "estimatedHours"
                   onChange={(e) => { setHours(parseInt(e.target.value) || 0) }}
+                required
                 />
               </div>
 
               <div className="w-[50%] space-y-2">
-                <h1>Members</h1>
+                <label>Members</label>
 
                 <Select
                   isMulti
@@ -301,6 +311,7 @@ const Add_Project = () => {
                   onChange={(op) => { setMembers(op.map(o => o.value)) }}
                   placeholder="Select Members..."
                   className=""
+                  name = "membersF"
                   styles={{
                     control: (provided) => ({
                       ...provided,
@@ -322,6 +333,7 @@ const Add_Project = () => {
                       cursor: 'pointer',
                     }),
                   }}
+                  required
                 />
 
 
@@ -331,21 +343,24 @@ const Add_Project = () => {
 
             <div className="flex w-[100%] gap-10">
               <div className="w-[50%] space-y-2">
-                <h1>* Start Date</h1>
+                <label>* Start Date</label>
                 <input
                   className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
-                  
+                  name = "startDate"
                   onChange={(e) => { setDate(e.target.value) }}
+                  required
                 />
               </div>
 
               <div className="w-[50%] space-y-2">
-                <h1>Deadline</h1>
+                <label>Deadline</label>
                 <input
                   className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
+                  name = "deadline"
                   onChange={(e) => { setDeadLine(e.target.value) }}
+                  required
                 />
               </div>
             </div>
@@ -381,11 +396,12 @@ const Add_Project = () => {
                   cursor: 'pointer',
                 }),
               }}
+              required
             />
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-[18px] font-semibold">Description</h1>
+            <label className="text-[18px] font-semibold">Description</label>
             <ReactQuill
               value={editorData}
               onChange={setEditorData}
@@ -401,9 +417,10 @@ const Add_Project = () => {
 
           <div className="flex justify-end gap-5 pb-10">
             <button onClick={handleCloseForm} className="bg-white text-[#511992] border border-[#511992] h-10 w-20 rounded-md">Cancel</button>
-            <button className="bg-[#511992] text-white h-10 w-20 rounded-md" onClick={projectSubmit}>Save</button>
+            <button type= "submit" className="bg-[#511992] text-white h-10 w-20 rounded-md" >Save</button>
           </div>
         </div>
+        </form>
       </TabPanel>
 
       <TabPanel className="m-5">
