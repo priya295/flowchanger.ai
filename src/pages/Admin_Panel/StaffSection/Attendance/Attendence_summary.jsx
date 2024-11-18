@@ -108,20 +108,47 @@ const Attendence_summary = () => {
         setIsOpen14(false);
     };
 
-    const [attendance, setAttendance] = useState();
+    const [attendance, setAttendance] = useState([]);
     const [loading, setLoading] = useState(false);
-    console.log(attendance)
+    const [summaryDate, setSummaryDate] = useState(null)
+
+    const inputDate = summaryDate;
+
+     const date = new Date(inputDate);
+
+    const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+    const year = date.getFullYear();
+
+    const formattedDate = `${day}/${month}/${year}`;
+
+    console.log(formattedDate)
+   
     async function fetchAttendanceDetail() {
-        const result = await fetch(baseUrl + "attendance/summary");
+        const inputDate = summaryDate;
+
+        const date = new Date(inputDate);
+   
+       const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
+       const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+       const year = date.getFullYear();
+   
+       const formattedDate = `${day}/${month}/${year}`;
+               const result = await fetch(baseUrl + `attendance/summary?type=day&date=${formattedDate}`);
+        console.log(result)
         if (result.status == 200) {
             const res = await result.json();
-            setAttendance(res);
+            console.log("------",res)
+            setAttendance(res.records);
         }
 
     }
     useEffect(() => {
-        fetchAttendanceDetail();
-    }, [])
+        if(summaryDate){
+            fetchAttendanceDetail();
+            
+        }
+    }, [summaryDate])
     const [selectedStatus, setSelectedStatus] = useState("");
     async function confirmation(item) {
         setLoading(true)
@@ -131,11 +158,8 @@ const Attendence_summary = () => {
                 return
             }
 
-            if (selectedStatus == item.status) {
-                openToast("Please Select Different Status", "error")
-                return
-            }
-            const result = await fetch(baseUrl + `attendance/status/${item.id}`, {
+            
+            const result = await fetch(baseUrl + `attendance/status/${item.punchRecord.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-type": "application/json"
@@ -175,7 +199,7 @@ const Attendence_summary = () => {
             <div className='bg-[#fff] shadow-cs p-[20px] rounded-md mt-[24px] '>
                 <div className='flex gap-[14px] justify-between items-center review-summary  '>
                     <div className='flex '>
-                        <input className='bg-transparent font-medium text-[14px]' type="date" />
+                        <input className='bg-transparent font-medium text-[14px]'type="date"  onChange={(e) => setSummaryDate(e.target.value)} />
                     </div>
                     <div className='flex items-center justify-between gap-[14px] approval-new '>
                         <h2 className='text-[14px] font-medium'>Total Pending for Approval : 10</h2>
@@ -228,6 +252,14 @@ const Attendence_summary = () => {
                 <p className='bg-[#fff] shadow-cs four'>4</p>
             </div>
 
+            {
+                !summaryDate && attendance.length === 0 &&
+                <div className="text-center">
+                    <h2 className='text-[#ff0000] font-medium py-9 text-[20px]'>Please Select Date</h2>
+                </div>
+
+            }
+
 
             {
                 attendance?.map((item, index) => {
@@ -235,8 +267,9 @@ const Attendence_summary = () => {
                         <div className='shadow p-[20px] mt-[18px] rounded-md shadow-cs'>
                             <div className='flex items-start justify-between  flex-col xl:flex-row lg:flex-row md:flex-row xl:items-center lg:items-center md:items-center gap-4 xl:gap-0 lg:gap-0 md:gap-0'>
                                 <div>
-                                    <p className='text-[16px]'>Piyush</p>
-                                    <p className='text-[red] text-[14px]'>{item?.status}</p>
+                                    <p className='text-[16px]'>{item?.punchRecord?.staff?.User?.name}</p>
+                                    <p className='text-[16px]'>{item?.punchRecord?.staff?.User?.email}</p>
+                                    <p className='text-[red] text-[14px]'>{item?.punchRecord.status}</p>
                                     <p className='text-[#27004a] font-medium text-[14px] mt-[10px] w-[150px]'>Add Note - Login</p>
 
                                 </div>
@@ -254,8 +287,8 @@ const Attendence_summary = () => {
                                                 }}
                                                 className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
                                                     focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
-                                                    ${item?.status === "PRESENT" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
-                                                    
+                                                    ${item?.punchRecord.status === "PRESENT" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+
                                             >
                                                 P I Present
                                             </button>
@@ -328,7 +361,7 @@ const Attendence_summary = () => {
                                                 }}
                                                 className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
                                                     focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
-                                                    ${item?.status === "HALFDAY" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+                                                    ${item?.punchRecord.status === "HALFDAY" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
                                             >
                                                 HD I HalfDay
                                             </button>
@@ -678,14 +711,14 @@ const Attendence_summary = () => {
                                                 }}
                                                 className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
                                                     focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
-                                                    ${item?.status === "PAIDLEAVE" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+                                                    ${item?.punchRecord.status === "PAIDLEAVE" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
                                             >
                                                 L I Paid Leave
                                             </button>
 
                                             {/* Modal overlay and content */}
                                             {isOpen14 && (
-                                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50">
                                                     <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
                                                         <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
                                                         <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
@@ -717,14 +750,14 @@ const Attendence_summary = () => {
                                                 }}
                                                 className={`btns px-6 py-3 text-[14px]  font-medium rounded-md 
                                                     focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-md 
-                                                    ${item?.status === "ABSENT" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
+                                                    ${item?.punchRecord.status === "ABSENT" ? "bg-[#008000] text-white" : "bg-[#fff] text-[#000]"}`}
                                             >
                                                 A I Absent
                                             </button>
 
                                             {/* Modal overlay and content */}
                                             {isOpen && (
-                                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                <div className="fixed inset-0 z-50 flex items-center justify-center  bg-opacity-50">
                                                     <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
                                                         <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
                                                         <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
