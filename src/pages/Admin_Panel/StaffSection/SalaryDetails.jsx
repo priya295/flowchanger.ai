@@ -91,7 +91,7 @@ const SalaryDetails = () => {
 
     // Create a Blob and initiate download
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'StaffDetails.csv');
+    saveAs(blob, 'SalaryDetails.csv');
   };
 
 
