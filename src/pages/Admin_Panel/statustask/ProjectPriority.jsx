@@ -150,19 +150,33 @@ const ProjectPriority = () => {
     const [selectStaffId, setSelectStaffId] = useState();
 
     async function submitProjectPriority() {
-        const result = await fetch(baseUrl + "project-Priority/", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({ Priority_name: prorityName, Priority_color: priorityColor, Priority_order: priorityOrder, default_filter: filter, is_hidden: selectStaffId, can_changed: canChanged })
-        })
-        if (result.status == 201) {
-            openToast(result.message || "Add project priority successfully" , "success")
+        try{
+            const result = await fetch(baseUrl + "project-Priority", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ Priority_name: prorityName, Priority_color: priorityColor, Priority_order: priorityOrder, default_filter: filter, is_hidden: selectStaffId, can_changed: canChanged })
+            })
+            console.log(result);
+            const response = await result.json()
+            if (result.status == 201) {
+                openToast(response.message || "Add project priority successfully" , "success")
+            }
+            else {
+                openToast(response.message || "An unexpected error occcured" , "error")
+            }
         }
-        else {
-            openToast(result.message || "An unexpected error occcured" , "error")
+      catch(error){
+        if (error.message === "Failed to fetch") {
+            console.error("Network error or server unavailable:", error);
+            openToast("Unable to connect to the server. Please check your network or try again later.", "error");
+        } else {
+            console.error("Unexpected error:", error);
+            openToast("An unexpected error occurred. Please try again.", "error");
         }
+
+      }
     }
 
 
@@ -171,15 +185,16 @@ const ProjectPriority = () => {
     console.log("ProjectPriority Detail",projectPriorityDetail)
     async function fetchProjectPriority() {
         try{
-            const result = await fetch(baseUrl + "project-Priority/")
+            const result = await fetch(baseUrl + "project-Priority")
             if(result.status === 200){
                 const data = await result.json();
-                console.log("+++++---", data)
+                console.log("+++++---priority", data.data)
                 setProjectPriorityDetail(data?.data)
             }
             else{
                 const data = await result.json();
-                throw new Error(data.message||"An unexpected error occured")
+                console.error(data.message||"An unexpected error occured")
+                setProjectPriorityDetail([]);
             }
         }
        catch(error){
@@ -418,6 +433,7 @@ const ProjectPriority = () => {
 
                                 {
                                     projectPriorityDetail?.map((s,index)=>{
+                                        console.log(s);
                                         return   <tr className="border">
                                         <td className=" ">{index+1}</td>
                                         <td className=" ">{s.Priority_name}</td>

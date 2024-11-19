@@ -90,7 +90,7 @@ const SideBar = ({ toggleSideBar }) => {
     // <div className="sidebar w-[250px] xl:w-[244px] lg:w-[300px] md:w-[300px] bg-[#27004a] h-full p-[10px] ">
 
 
-    <div className="sidebar flex-shrink-0 w-[100%] xl:w-[20%] lg:w-[20%] md:w-[300px] bg-[#27004a] h-full p-[10px]">
+    <div className="sidebar flex-shrink-0 w-[100%] xl:w-[20%] lg:w-[20%] md:w-[300px] bg-[#27004a] h-full p-[10px] transition-all duration-300 ease-in-out">
 
 
       <div className="flex xl:justify-center lg:justify-center  p-[20px]">
