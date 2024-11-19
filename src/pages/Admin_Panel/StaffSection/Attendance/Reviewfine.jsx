@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from "react-router-dom";
 import WarningIcon from '@mui/icons-material/Warning';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { useGlobalContext } from '../../../../Context/GlobalContext';
 
 const ReviewFine = () => {
   const [isOn, setIsOn] = useState(false);
@@ -12,9 +11,19 @@ const ReviewFine = () => {
   const [isOpen1, setIsOpen1] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
 
-const Reviewfine = () => {
-    const { baseUrl, openToast } = useGlobalContext();
-    const [isOn, setIsOn] = useState(false);
+  const toggleSwitch = () => setIsOn(!isOn);
+  const toggleDropdown = () => setIsOpen(!isOpen);
+  const toggleDropdown1 = () => setIsOpen1(!isOpen1);
+  const toggleDropdown2 = () => setIsOpen2(!isOpen2);
+
+  return (
+    <div className="w-full p-5">
+      {/* Back Link */}
+      <div>
+        <Link className="text-sm" to="/attendence_summary">
+          <ArrowBackIcon className="text-blue-500" /> Back
+        </Link>
+      </div>
 
       {/* Header Section */}
       <div className="flex justify-between items-center mt-5 mb-5">
@@ -45,72 +54,29 @@ const Reviewfine = () => {
         </p>
       </div>
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
-
-    //salary dropdown
-    const [isOpen1, setIsOpen1] = useState(false);
-
-
-
-    const toggleDropdown1 = () => {
-        setIsOpen1(!isOpen1);
-    };
-
-    //salary dropdown
-
-    //salary2 dropdown
-    const [isOpen2, setIsOpen2] = useState(false);
-
-
-
-    const toggleDropdown2 = () => {
-        setIsOpen2(!isOpen2);
-    };
-
-    //salary2 dropdown
-    const [workTimeDate, setWorkTimeDate] = useState({
-        year: "",
-        month: "",
-        date: "",
-    });
-
-    const handleDateChange = (e) => {
-        const selectedDate = new Date(e.target.value); // Parse the selected date
-        setWorkTimeDate({
-            year: selectedDate.getFullYear(),
-            month: selectedDate.getMonth() + 1, // Month is 0-based, so add 1
-            date: selectedDate.getDate(),
-        });
-    };
-    const [fineDetail, setFineDetail] = useState()
-    console.log(fineDetail)
-    async function fetchFineDetails() {
-        try {
-            const result = await fetch(baseUrl + `fine?date=${workTimeDate.year}-${workTimeDate.month}-${workTimeDate.date}`)
-            if (result.status == 200) {
-                const res = await result.json();
-                console.log("res",res)
-                setFineDetail(res)
-            }
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-
-    useEffect(() => {
-        if (!workTimeDate.year || !workTimeDate.month || !workTimeDate.date) {
-            return;
-        }
-        fetchFineDetails()
-    }, [workTimeDate])
-
-    return (
-        <div className='w-full p-[20px]'>
-            <div className=''>
-                <Link className='text-[14px]' to="/attendence_summary"> <ArrowBackIcon className='back-arrow text-[blue]' /> Back</Link>
+      {/* Fixed Amount Dropdown */}
+      <div className="flex items-center gap-2 mb-5">
+        <div className="flex items-center gap-2">
+          <input value="Valid Content" type="checkbox" />
+          <p className="text-sm">Select All</p>
+        </div>
+        <div className="relative">
+          <button
+            className="flex items-center gap-1 p-1 text-sm font-medium text-black rounded-md"
+            onClick={toggleDropdown}
+          >
+            Fixed Amount <KeyboardArrowDownIcon />
+          </button>
+          {isOpen && (
+            <div className="absolute z-10 mt-2 w-56 bg-white border rounded-md shadow-md">
+              <div className="py-1">
+                <a href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Option 1
+                </a>
+                <a href="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                  Option 2
+                </a>
+              </div>
             </div>
           )}
         </div>
@@ -119,168 +85,19 @@ const Reviewfine = () => {
         </button>
       </div>
 
+      {/* Staff Entries */}
+      <div className="shadow-md rounded-md p-5 mb-5">
+        <div className="flex items-center gap-4">
+          <input value="Valid Content" type="checkbox" />
+          <div>
+            <h5 className="text-sm">Rishi Flowchanger</h5>
+            <p className="text-xs text-gray-500">In 10:37 AM | Out 6:52 PM</p>
+          </div>
+          <div className="flex gap-4 ml-12">
+            <div>
+              <h5 className="text-xs font-medium">37 min late</h5>
+              <p className="text-xs text-gray-500">37 min</p>
             </div>
-            <div className='p-[8px] shadow-md rounded-md flex items-center justify-between mb-[20px]'>
-                <input className='text-[14px]' type="date" onChange={handleDateChange} />
-                <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className='text-[blue] ml-[10px]' to="/">View</Link> </p>
-            </div>
-            <div className='flex items-center gap-[10px] mb-[20px] '>
-                <div className='flex items-center gap-[10px] w-[105px] rounded-md p-[6px] font-medium select-pe'>
-                    <input type="checkbox" />
-                    <p className='text-[14px]'>Select All</p>
-
-
-                </div>
-
-                <div className="relative inline-block text-left">
-                    {/* Button to open/close the dropdown */}
-                    <button
-                        className="flex items-center gap-[5px] p-[6px] text-[14px]  w-full  text-sm font-medium text-[black] select-pe  rounded-md  focus:outline-none"
-                        onClick={toggleDropdown}
-                    >
-                        Fixed Amount <KeyboardArrowDownIcon />
-                    </button>
-
-                    {/* Dropdown menu */}
-                    {isOpen && (
-                        <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
-                            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 1
-                                </a>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 2
-                                </a>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 3
-                                </a>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                <div>
-                    <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Apply</button>
-                </div>
-
-
-
-            </div>
-            <div className='flex gap-[10px] items-center mb-[20px]'>
-                <input type="checkbox" />
-                <p className='text-[14px]'>DAILY SHIFT I 10:00 AM - 6:30 PM</p>
-            </div>
-
-            {/* {
-                fineDetail?.map((item, index) => {
-                    return <div className='shadow-md rounded-md p-[20px] mb-[20px]  '>
-                        <div className='flex items-center gap-[16px] w-full'>
-                            <input className='h-[12px]' type="checkbox" />
-                            <div>
-                                <h5 className='text-[14px]'>{item?.name || "N/A"}</h5>
-                                <p className='text-[12px] text-[#ad9f9f]' >in {new Date(item?.punchRecord?.punchIn?.punchInDate).toLocaleTimeString()} I Out {new Date(item?.punchRecord?.punchIn?.punchOut).toLocaleTimeString()}</p>
-                            </div>
-                            <div className='flex gap-[20px] ml-[50px]'>
-                                <div>
-                                    <h5 className='text-[12px] font-medium'>37 min late</h5>
-                                    <p className='text-[12px] text-[#ad9f9f]' >37 min</p>
-                                </div>
-                                <div>
-                                    <h5 className='text-[12px] font-medium'>23 Sep, 2024</h5>
-                                    <p className='text-[12px] text-[#ad9f9f]' >DAILY SHIFT</p>
-                                </div>
-                            </div>
-                        </div>
-        
-                        <div className='p-[30px] flex justify-between  mb-20px '>
-                            <div className='flex gap-[50px]'>
-                                <div className='flex items-center gap-[10px]'>
-                                    <input type="checkbox" />
-                                    <p className='text-[14px] font-medium'>Late Entry</p>
-        
-                                </div>
-                                <div className='flex gap-[26px]'>
-                                    <div>
-                                        <p className='text-[12px]'>Hours</p>
-                                        <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md'>00:37      hrs</p>
-                                        <p className='text-[12px]' >Amount $ 48.37</p>
-                                    </div>
-                                    <div>
-                                        <p className='text-[12px]'>Fine Amount</p>
-                                        <div className="relative inline-block text-left">
-                                            <button
-                                                className=" w-[164px] items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                                onClick={toggleDropdown1}
-                                            >
-                                                1x Salary <KeyboardArrowDownIcon className='new-arrow1' />
-                                            </button>
-        
-                                            {isOpen1 && (
-                                                <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
-                                                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                        <a
-                                                            href="#"
-                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem"
-                                                        >
-                                                            Option 1
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem"
-                                                        >
-                                                            Option 2
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem"
-                                                        >
-                                                            Option 3
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </div>
-        
-        
-        
-                                    </div>
-                                    <div className='flex items-center'>
-                                        <p className='text-[14px] select-pe p-[5px] w-[124px] bg-[#eeeeee] rounded-md'>$ 78.44  Per Hour</p>
-                                    </div>
-        
-        
-        
-                                </div>
-                            </div>
-                            <div className='flex items-center'>
-                                <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Save</button>
-                            </div>
-        
-                        </div>
-                    </div>
-                    
-                })
-            } */}
-
-           
-
-
-          
             <div>
               <h5 className="text-xs font-medium">23 Sep, 2024</h5>
               <p className="text-xs text-gray-500">DAILY SHIFT</p>
