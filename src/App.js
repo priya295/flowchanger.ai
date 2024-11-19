@@ -97,10 +97,10 @@ import Documents from "./pages/Admin_Panel/editstaff/Documents";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
-  const [toggleEditSideBar , setToggleEditSideBar] = useState(false); 
+  const [toggleEditSideBar, setToggleEditSideBar] = useState(false);
 
-  const handleToggleEditSideBar = () =>{
-    setToggleEditSideBar(toggleEditSideBar=>!toggleEditSideBar)
+  const handleToggleEditSideBar = () => {
+    setToggleEditSideBar(toggleEditSideBar => !toggleEditSideBar)
   }
 
 
@@ -139,12 +139,12 @@ const App = () => {
     return (
       <>
         <div className="">
-          <UpperHeader toggleEditSideBar = {toggleEditSideBar} handleToggleEditSideBar = {handleToggleEditSideBar}/>
+          <UpperHeader toggleEditSideBar={toggleEditSideBar} handleToggleEditSideBar={handleToggleEditSideBar} />
           <div className="flex">
-            <SidebarEditStaff toggleEditSideBar={toggleEditSideBar}/>
+            <SidebarEditStaff toggleEditSideBar={toggleEditSideBar} />
             <div className={`w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    
-        ${!toggleEditSideBar?"xl:pl-[320px]":"xl:pl-[0px]"} flex flex-col set-z ml-[20px]`}>
-            <Outlet />
+        ${!toggleEditSideBar ? "xl:pl-[320px]" : "xl:pl-[0px]"} flex flex-col set-z`}>
+              <Outlet />
             </div>
           </div>
         </div>
@@ -181,7 +181,7 @@ const App = () => {
                 <Outlet />
               </div>
             </main>
-            
+
           </div>
         </div>
       </>
@@ -232,12 +232,12 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-          <Route path="/" element={<DashBoard />} />
+            <Route path="/" element={<DashBoard />} />
             <Route path="/project-overview" element={<ProjectsOverview />} />
             <Route path="/new-ticket" element={<NewTicket />} />
             <Route path="/addnewclient" element={<AddNewClient />} />
             <Route path="/editclient" element={<EditClient />} />
-            <Route path = "/staff-menu" element = {<StaffMenu/>}/>
+            <Route path="/staff-menu" element={<StaffMenu />} />
             <Route path="/addrole" element={<AddRole />} />
             {/* <Route path="/role" element={<Role_Details />} /> */}
             <Route path="/editrole" element={<EditRole />} />
@@ -260,7 +260,7 @@ const App = () => {
             {/* <Route path="/taskdata" element={<Task_Data />} /> */}
             <Route path="/task" element={<Task />} />
             <Route path="/adddepartment" element={<AddDepartment />} />
-            <Route path="/create-new-project" element={<Add_Project />}/>
+            <Route path="/create-new-project" element={<Add_Project />} />
             <Route path="/department-details" element={<Department_Details />} />
             <Route path="/taskstatus" element={<Task_Status />} />
             <Route path="chats/admin" element={<AdminChatInterface />} />
@@ -281,7 +281,7 @@ const App = () => {
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
             <Route path="/contact-information" element={<ContactInformation />} />
           </Route>
-         
+
 
         </Route>
 
@@ -338,7 +338,7 @@ const App = () => {
         </Route>
 
         <Route element={<AuthLayout />}>
-        <Route path="/authentication" element={<MultiStepForm />} />
+          <Route path="/authentication" element={<MultiStepForm />} />
           <Route path="/authentication/login" element={<LoginPage />} />
           <Route path="/authentication/reset" element={<ResetPassword />} />
           <Route path="/authentication/request-password" element={<RequestPassword />} />

@@ -733,7 +733,8 @@ const EditAttendanceDetail = () => {
         return date.toLocaleDateString("en-US", { weekday: "short" });
     };
 
-    console.log(daysInMonth);
+    // console.log(daysInMonth);
+    
     console.log(flexibleDays);
 
     // console.log(hasWeekOff);
@@ -1259,7 +1260,7 @@ const EditAttendanceDetail = () => {
                                     </thead>
                                     <tbody>
                                         {daysInMonth?.map((day) => {
-                                            const date = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day);
+                                            const date = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day+1);
                                             // console.log(flexibleDays.filter((item) => item.day === date.toISOString()));
                                             return (
                                                 <tr key={date}>
@@ -1269,6 +1270,7 @@ const EditAttendanceDetail = () => {
                                                     <td className="p-3 text-center">
                                                         <input onChange={(e) => {
                                                             const updateWeekOff = flexibleDays.filter((item) => item.day !== date.toISOString());
+                                                            console.log(updateWeekOff);
                                                             if (updateWeekOff.length > 0) {
                                                                 setFlexibleDays([...flexibleDays.filter((item) => item.day !== date.toISOString()), { day: date.toISOString(), weekOff: false }]);
                                                             }

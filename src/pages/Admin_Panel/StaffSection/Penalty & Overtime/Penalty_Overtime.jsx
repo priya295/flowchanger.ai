@@ -5,11 +5,9 @@ import Late_Coming_Policy from './Late_Coming_Policy';
 import OverTime_Pay_Policy from './OverTime_Pay_Policy';
 import { useGlobalContext } from '../../../../Context/GlobalContext';
 
-
 const Penalty_Overtime = () => {
 
   const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
-
   useEffect(()=>{
     fetchStaff();
   },[])

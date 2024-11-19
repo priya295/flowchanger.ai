@@ -13,6 +13,7 @@ import biometric from '../../../Assets/Images/biometric.svg'
 import rightimg from '../../../Assets/Images/right.svg'
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import Select from 'react-select';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const AttendanceTab = () => {
     const { baseUrl, openToast, fetchStaff, staffDetail } = useGlobalContext();
@@ -39,6 +40,7 @@ const AttendanceTab = () => {
 
     let subtitle;
     const [modalIsOpen, setIsOpen] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     function openModal() {
         setIsOpen(true);
@@ -364,7 +366,7 @@ const AttendanceTab = () => {
 
     const [selectedOptions, setSelectedOptions] = useState([]);
     const options = selectedShift.map((seo) => ({
-        value: seo.shiftName,
+        value: seo.id,
         label: `${seo.shiftName} | ${seo.shiftStartTime} - ${seo.shiftEndTime}`
     }));
     const [selectedId, setSelectedId] = useState([]);
@@ -473,7 +475,7 @@ const AttendanceTab = () => {
             staff_ids: [
                 ...selectedId
             ],
-            automation_rules : {
+            automation_rules: {
                 "auto_absent": autoPresent,
                 "present_on_punch": presentPunch,
                 "auto_half_day": `${confirmedTime?.hours} hours, ${confirmedTime?.minutes} minutes`,
@@ -495,6 +497,104 @@ const AttendanceTab = () => {
         }
         else {
             openToast("Internal Server Error", "error")
+        }
+    }
+
+    const [modalIsOpen22, setIsOpen22] = React.useState(false);
+    function openModal22() {
+        setIsOpen22(true);
+    }
+    function afterOpenModal22() {
+        subtitle.style.color = '#000';
+
+    }
+
+    function closeModal22() {
+        setIsOpen22(false);
+    }
+
+    const [allWeeksSelected, setAllWeeksSelected] = useState(false);
+    const [weeks, setWeeks] = useState({
+        firstWeek: false,
+        secondWeek: false,
+        thirdWeek: false,
+        fourthWeek: false,
+        fifthWeek: false,
+    });
+    const [selectedWeeks, setSelectedWeeks] = useState([]); // To store selected weeks
+    const [isModalOpen, setIsModalOpen] = useState(false); // Modal open/close state
+
+    const handleAllWeeksToggle = () => {
+        const newStatus = !allWeeksSelected;
+        setAllWeeksSelected(newStatus);
+        setWeeks({
+            firstWeek: newStatus,
+            secondWeek: newStatus,
+            thirdWeek: newStatus,
+            fourthWeek: newStatus,
+            fifthWeek: newStatus,
+        });
+    };
+
+    const handleWeekToggle = (week) => {
+        const updatedWeeks = {
+            ...weeks,
+            [week]: !weeks[week],
+        };
+        setWeeks(updatedWeeks);
+
+        // Check if all weeks are selected after this update
+        const allSelected = Object.values(updatedWeeks).every((selected) => selected);
+        setAllWeeksSelected(allSelected);
+    };
+
+    // const closeModal22 = () => setIsModalOpen(false);
+
+    // const openModal22 = () => setIsModalOpen(true);
+    const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+    const handleCheckboxChange2 = () => {
+        setIsCheckboxChecked((prev) => !prev);
+    };
+    const handleConfirm2 = () => {
+        const selected = Object.keys(weeks)
+            .filter((week) => weeks[week])
+            .map((week, index) => {
+                const weekIndex = index + 1;
+                return `${weekIndex}${weekIndex === 1 ? 'st' : weekIndex === 2 ? 'nd' : weekIndex === 3 ? 'rd' : 'th'}`;
+            });
+
+        setSelectedWeeks(selected.length > 0 ? `${selected.join(', ')} Week is Off` : '');
+        closeModal22();
+    };
+
+    // 
+        const [weekoff,setWeekOff]=useState({
+            "Mon":false,
+            "Tue":false,
+            "Wed":false,
+            "Thu":false,
+            "Fri":false,
+            "Sat":false,
+            "Sun":false
+        })
+    
+    // 
+
+    async function submitShifts() {
+        console.log("HELLO",selectedOptions.map((s)=>s.value) )
+        const result = await fetch(baseUrl + "shift/fixed-shift/update", {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({  weekOff: isCheckboxChecked,  shifts:selectedOptions.map((s)=>s.value), weekOne: weeks.firstWeek, weekTwo: weeks.secondWeek, weekThree: weeks.thirdWeek, weekFour: weeks.fourthWeek, weekFive: weeks.fifthWeek,staffId:selectedId,day:"Mon" } )
+        })
+        if (result.status == 200) {
+            openToast("Update Details Successfully", "success")
+        }
+        else {
+            openToast("No Data Updated", "error")
+
         }
     }
 
@@ -533,20 +633,12 @@ const AttendanceTab = () => {
                                 <div>
                                     <div className="relative inline-block text-left">
                                         <div>
-                                            <button type="button" onClick={openModal} className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                                            <button type="button" onClick={openModal} disabled={selectedId.length === 0} className=" second-btn w-full    text-white shadow-sm" id="menu-button" aria-expanded="true" aria-haspopup="true">
                                                 Update Work Timings
 
                                             </button>
                                         </div>
-
-
-
-
-
-
                                     </div>
-
-
                                 </div>
                             </div>
                         </div>
@@ -563,14 +655,17 @@ const AttendanceTab = () => {
 
                                     </thead>
                                     <tbody>
-                                        <tr className='border'>
-                                            <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                            <td>Demo</td>
-                                            <td>Demo</td>
-                                            <td>Demo</td>
-                                        </tr>
-
-
+                                        {
+                                            staffDetail?.map((item) => {
+                                                return <tr className='border'>
+                                                    <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
+                                                        type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                    <td>{item?.name}</td>
+                                                    <td>{item?.staffDetails?.job_title}</td>
+                                                    {/* <td>Demo</td> */}
+                                                </tr>
+                                            })
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -630,23 +725,47 @@ const AttendanceTab = () => {
                                     </thead>
                                     <tbody className=''>
 
+
+
                                         {
-                                            staffDetail?.map((item, index) => {
-                                                return <> <tr className='border'>
-                                                    <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
-                                                        type='checkbox' className='border border-1 rounded-md ' /></td>
-                                                    <td>{item?.name}</td>
-                                                    <td>{item?.staffDetails?.job_title}</td>
-                                                    <td>{item?.staffDetails?.AttendenceMode?.allow_punch_in_for_mobile ? "Active" : "InActive"}</td>
-                                                    <td>{item?.staffDetails?.AttendenceMode?.selfie_attendance ? "Active" : "InActive"}</td>
-                                                    <td>{item?.staffDetails?.AttendenceMode?.qr_attendance ? "Active" : "InActive"}</td>
-                                                    <td>{item?.staffDetails?.AttendenceMode?.mark_attendance}</td>
 
-                                                </tr>
-                                                </>
+                                            isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                                                <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                                                    <ClipLoader color="#4A90E2" size={50} />
+                                                </td>
+                                            </tr>
+                                            ) : staffDetail && staffDetail.length > 0 ? (
+
+                                                staffDetail?.map((item, index) => {
+                                                    return <> <tr className='border'>
+                                                        <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
+                                                            type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                        <td>{item?.name}</td>
+                                                        <td>{item?.staffDetails?.job_title}</td>
+                                                        <td>{item?.staffDetails?.AttendenceMode?.allow_punch_in_for_mobile ? "Active" : "InActive"}</td>
+                                                        <td>{item?.staffDetails?.AttendenceMode?.selfie_attendance ? "Active" : "InActive"}</td>
+                                                        <td>{item?.staffDetails?.AttendenceMode?.qr_attendance ? "Active" : "InActive"}</td>
+                                                        <td>{item?.staffDetails?.AttendenceMode?.mark_attendance}</td>
+
+                                                    </tr>
+                                                    </>
 
 
-                                            })
+                                                })
+
+
+                                            )
+                                                : (
+                                                    // No Data State
+                                                    <tr className="h-[100px]">
+                                                        <td
+                                                            colSpan="9"
+                                                            className="text-center text-red-500 text-xl font-semibold py-4"
+                                                        >
+                                                            No staff found.
+                                                        </td>
+                                                    </tr>
+                                                )
                                         }
                                     </tbody>
                                 </table>
@@ -723,24 +842,46 @@ const AttendanceTab = () => {
 
 
                                         {
-                                            staffDetail?.map((item, index) => {
-                                                return <> <tr className='border'>
-                                                    <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
-                                                        type='checkbox' className='border border-1 rounded-md ' /></td>
-                                                    <td>{item?.name}</td>
-                                                    <td>{item?.staffDetails?.job_title}</td>
-                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.auto_absent ? "Active" : "InActive"}</td>
-                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.present_on_punch ? "Active" : "InActive"}</td>
-                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.auto_half_day}</td>
-                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_half_day ? "" : "N/A"}</td>
-                                                    <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_full_day ? "" : "N/A"}</td>
+                                            isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                                                <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                                                    <ClipLoader color="#4A90E2" size={50} />
+                                                </td>
+                                            </tr>
+                                            ) : staffDetail && staffDetail.length > 0 ? (
 
 
-                                                </tr>
-                                                </>
+                                                staffDetail?.map((item, index) => {
+                                                    return <> <tr className='border'>
+                                                        <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
+                                                            type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                        <td>{item?.name}</td>
+                                                        <td>{item?.staffDetails?.job_title}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.auto_absent ? "Active" : "InActive"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.present_on_punch ? "Active" : "InActive"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.auto_half_day}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_half_day ? "" : "N/A"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_full_day ? "" : "N/A"}</td>
 
 
-                                            })
+                                                    </tr>
+                                                    </>
+
+
+                                                })
+
+
+                                            )
+                                                : (
+                                                    // No Data State
+                                                    <tr className="h-[100px]">
+                                                        <td
+                                                            colSpan="9"
+                                                            className="text-center text-red-500 text-xl font-semibold py-4"
+                                                        >
+                                                            No staff found.
+                                                        </td>
+                                                    </tr>
+                                                )
                                         }
 
                                     </tbody>
@@ -798,44 +939,395 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Mon</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" />
+                                            <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Mon:!weekoff.Mon}))} checked={weekoff.Mon} />
                                         </td>
-                                        <td
-                                            className='pr-5 flex items-center'>
-                                            <Select
-                                                options={options}
-                                                isMulti
-                                                placeholder="Select Shift"
-                                                value={selectedOptions}
-                                                onChange={(selected) => setSelectedOptions(selected)}
-                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                styles={{
-                                                    control: (base) => ({
-                                                        ...base,
-                                                        minHeight: '40px',
-                                                    }),
-                                                    multiValue: (base) => ({
-                                                        ...base,
-                                                        backgroundColor: '#e5e7eb',
-                                                    }),
-                                                    multiValueLabel: (base) => ({
-                                                        ...base,
-                                                        color: '#000',
-                                                    }),
-                                                    multiValueRemove: (base) => ({
-                                                        ...base,
-                                                        color: '#ff0000',
-                                                        cursor: 'pointer',
-                                                    }),
-                                                }}
-                                            />
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
 
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Tue</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Tue:!weekoff.Tue}))} checked={weekoff.Tue} />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Wed</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Wed:!weekoff.Wed}))} checked={weekoff.Wed}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Thu</td>
+                                        <td className='p-3 text-center'>
+                                        <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Thu:!weekoff.Thu}))} checked={weekoff.Thu}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Fri</td>
+                                        <td className='p-3 text-center'>
+                                        <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Fri:!weekoff.Fri}))} checked={weekoff.Fri}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Sat</td>
+                                        <td className='p-3 text-center'>
+                                        <input type="checkbox" onChange={()=>setWeekOff(()=>({...weekoff,Sat:!weekoff.Sat}))} checked={weekoff.Sat}  />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
+                                    <tr className=''>
+                                        <td className='text-center text-[12px] font-normal'>Sun</td>
+                                        <td className='p-3 text-center'>
+                                            <input type="checkbox" onChange={handleCheckboxChange2} checked={isCheckboxChecked} />
+                                        </td>
+                                        <div className="flex flex-col p-[5px]">
+                                            {isCheckboxChecked ? (
+                                                <td>
+                                                    <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
+                                                        <option>Please Select Week</option>
+                                                        {selectedWeeks ? (
+                                                            <option>{selectedWeeks}</option> // Display the single string directly
+                                                        ) : (
+                                                            <option>All Monday Week Off</option> // Default message if no weeks are selected
+                                                        )}
+                                                    </select>
+                                                </td>
+
+                                            ) : null
+                                            }
+                                            <td
+                                                className='pr-5 flex items-center'>
+                                                <Select
+                                                    options={options}
+                                                    isMulti
+                                                    placeholder="Select Shift"
+                                                    value={selectedOptions}
+                                                    onChange={(selected) => setSelectedOptions(selected)}
+                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                    className="w-[94%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                    styles={{
+                                                        control: (base) => ({
+                                                            ...base,
+                                                            minHeight: '40px',
+                                                        }),
+                                                        multiValue: (base) => ({
+                                                            ...base,
+                                                            backgroundColor: '#e5e7eb',
+                                                        }),
+                                                        multiValueLabel: (base) => ({
+                                                            ...base,
+                                                            color: '#000',
+                                                        }),
+                                                        multiValueRemove: (base) => ({
+                                                            ...base,
+                                                            color: '#ff0000',
+                                                            cursor: 'pointer',
+                                                        }),
+                                                    }}
+                                                />
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </div>
+                                    </tr>
 
 
 
@@ -844,7 +1336,7 @@ const AttendanceTab = () => {
 
                             <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button className="first-btn" onClick={closeModal}>Cancel</button>
-                                <button className="second-btn">Confirm</button>
+                                <button className="second-btn" onClick={submitShifts}>Confirm</button>
                             </div>
                         </div>
                     </TabPanel>
@@ -971,20 +1463,20 @@ const AttendanceTab = () => {
                         </div>
                         })
                     } */}
-                    
+
                     <div className="h-[100px] overflow-y-scroll">
-                    {shiftDetails?.map((op) => (
-                        <div key={op.id} className="flex justify-between items-center border-b py-3 px-3">
-                            <h3 className="text-[13px]">
-                                {op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime}
-                            </h3>
-                            <input
-                                type="checkbox"
-                                checked={isSelected(op.id)}
-                                onChange={() => handleCheckboxChange(op)}
-                            />
-                        </div>
-                    ))}
+                        {shiftDetails?.map((op) => (
+                            <div key={op.id} className="flex justify-between items-center border-b py-3 px-3">
+                                <h3 className="text-[13px]">
+                                    {op.shiftName} | {op.shiftStartTime} - {op.shiftEndTime}
+                                </h3>
+                                <input
+                                    type="checkbox"
+                                    checked={isSelected(op.id)}
+                                    onChange={() => handleCheckboxChange(op)}
+                                />
+                            </div>
+                        ))}
                     </div>
                     <Link to="" className='text-[#8A25B0] p-4 font-medium mt-3 w-full flex items-center text-[16px] xl:text-[15px]' onClick={openModal2} ><AddIcon /> Add Shift</Link><br />
                     <div className='text-end  flex pr-4 pb-3 gap-[10px] justify-end items-center' >
@@ -1664,9 +2156,55 @@ const AttendanceTab = () => {
                     <button className='second-btn' onClick={closeModal8}>Okay</button>
                 </div>
             </Modal>
-
-
             {/* when onclick update attendance mods for aall staff successfull msg */}
+
+            <Modal
+                isOpen={modalIsOpen22}
+                onAfterOpen={afterOpenModal22}
+                onRequestClose={closeModal22}
+                // style={customStyles}
+                contentLabel="Example Modal"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+
+            >
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Monday - Week Offs                </h2>
+                <button onClick={closeModal22} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <div className=''>
+
+
+                    <div className="p-3">
+                        <div className="flex justify-between items-center py-2 border-b">
+                            <h4>All Weeks Off</h4>
+                            <input
+                                type="checkbox"
+                                checked={allWeeksSelected}
+                                onChange={handleAllWeeksToggle}
+                            />
+                        </div>
+                        {Object.keys(weeks).map((week, index) => (
+                            <div
+                                key={index}
+                                className="flex justify-between items-center py-2 border-b"
+                            >
+                                <h4>{`${index + 1}${index === 0 ? 'st' : index === 1 ? 'nd' : index === 2 ? 'rd' : 'th'} Week`}</h4>
+                                <input
+                                    type="checkbox"
+                                    checked={weeks[week]}
+                                    onChange={() => handleWeekToggle(week)}
+                                />
+                            </div>
+                        ))}
+                        <div className="text-end flex pr-4 pb-3 gap-[10px] justify-end items-center py-2">
+                            <button className="first-btn" onClick={closeModal22}>
+                                Cancel
+                            </button>
+                            <button className="second-btn" onClick={handleConfirm2}>
+                                Confirm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
 
         </div>
 

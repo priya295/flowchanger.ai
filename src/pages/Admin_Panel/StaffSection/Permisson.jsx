@@ -3,11 +3,11 @@ import Search from '../../../Assets/Images/search.svg'
 import Filter from '../../../Assets/Images/filter.svg'
 import { Link } from 'react-router-dom';
 import { useGlobalContext } from "../../../Context/GlobalContext";
-
+import ClipLoader from "react-spinners/ClipLoader";
 const Permission = () => {
   const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
   const [toggleDrop, setToggleDrop] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(true);
   function handledrop() {
     setToggleDrop(!toggleDrop)
   }
@@ -54,6 +54,12 @@ const Permission = () => {
           </thead>
           <tbody>
         {
+            isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+              <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                  <ClipLoader color="#4A90E2" size={50} />
+              </td>
+          </tr>
+          ) : staffDetail && staffDetail.length > 0 ? (
           staffDetail?.map((items,index)=>{
             return  <tr className='border'>
             <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
@@ -62,6 +68,19 @@ const Permission = () => {
             <td>{items?.staffDetails?.role?.role_name}</td>
             </tr>
           })
+        )
+        : (
+            // No Data State
+            <tr className="h-[100px]">
+              <td
+                colSpan="9"
+                className="text-center text-red-500 text-xl font-semibold py-4"
+              >
+                No staff found.
+              </td>
+            </tr>
+          )
+
         }
 
            

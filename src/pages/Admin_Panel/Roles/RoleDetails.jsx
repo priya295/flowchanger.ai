@@ -59,7 +59,7 @@ const Main = () => {
 
 
   const fetchRoles = async () => {
-    const result = await fetch(`${baseUrl}role`);
+    const result = await fetch(baseUrl + "role")
     setIsLoading(true);
     try {
       if (result.status == 200) {
