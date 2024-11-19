@@ -157,9 +157,7 @@
 .interview-card:hover{
    transform: translateY(-6px);
 }
-.setwer{
-    font-size: 10px !important;
-}
+
 .salary-detail-setup{
     height: 36px;
     width: 160px;

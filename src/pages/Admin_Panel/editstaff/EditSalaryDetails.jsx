@@ -423,8 +423,8 @@ const EditSalaryDetails = () => {
 
   // useEffect(() => {
   //   if (includeEmployerPF) {
-  //     setTotalCTC(totalCTC + calculateCheckedItemsTotal(calEarning, selectedOption1, 12)
-  //     )
+  //     setTotalCTC(Number(totalCTC) + Number(calculateCheckedItemsTotal(calEarning, selectedOption1, 12)))
+
   //   }
   //   else {
   //     setTotalCTC(totalCTC - calculateCheckedItemsTotal(calEarning, selectedOption1, 12))
@@ -440,6 +440,14 @@ const EditSalaryDetails = () => {
   //     setTotalCTC(totalCTC - calculateCheckedItemsTotal(calEarning, selectedOption2, 3.25))
   //   }
   // }, [includeEmployerESI])
+  // useEffect(() => {
+  //   if (includeEmployerLWF) {
+  //     setTotalCTC(Number(totalCTC) + Number(statesLWF.find(state => state.name === stateName)?.employeelwf) + Number(statesLWF.find(state => state.name === stateName)?.employerlwf))
+  //   }
+  //   else {
+  //     setTotalCTC(Number(totalCTC) + Number(statesLWF.find(state => state.name === stateName)?.employeelwf) + Number(statesLWF.find(state => state.name === stateName)?.employerlwf))
+  //   }
+  // }, [includeEmployerLWF])
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -625,7 +633,7 @@ const EditSalaryDetails = () => {
   console.log(calEarning, calCompliances, calDeductions);
 
   return (
-    <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]  relative xl:pt-[100px]    xl:pl-[320px] flex flex-col">
+    <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]      flex flex-col">
       <div className="flex items-center justify-between  xl:pb-6  ">
         <h1 className="  font-medium ">
           Salary Details Import Settings
@@ -938,7 +946,7 @@ const EditSalaryDetails = () => {
               <div key={index} className="flex items-center justify-between">
                 {index === 1 ? (
                   <>
-                    <h3>N/A</h3>
+                    <h3> {includeEmployerPF ? "Yes" : "No"}</h3>
                     <div className="relative">
                       <span className="absolute top-[2px] left-[4px]">₹</span>
                       <input value={calEmployerPFEDLIAndAdminCharges} disabled={true} onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
