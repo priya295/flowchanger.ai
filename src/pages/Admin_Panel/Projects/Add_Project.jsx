@@ -196,16 +196,16 @@ const Add_Project = () => {
   }, [])
 
   return (
-    <div className="max-w-[65%] mx-auto">
-      <Tabs className="m-5 shadow rounded-lg">
-        <TabList className="flex p-5 pb-[10px] gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
-          <Tab className="hover:text-[#2568EC] project-tab hover:border-b pb-2 border-[#2568EC]">
-            Project
-          </Tab>
-          <Tab className="hover:text-[#2568EC] hover:border-b pb-2 border-[#2568EC]">
-            Project Settings
-          </Tab>
-        </TabList>
+    <div className="max-w-[100%] mx-auto">
+    <Tabs className="m-5 shadow rounded-lg">
+      <TabList className="flex p-5 pb-[10px] gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
+        <Tab className="hover:text-[#2568EC] project-tab hover:border-b pb-2 border-[#2568EC]">
+          Project
+        </Tab>
+        <Tab className="hover:text-[#2568EC] hover:border-b pb-2 border-[#2568EC]">
+          Project Settings
+        </Tab>
+      </TabList>
 
         <TabPanel className="m-5">
           <div className="w-[100%]  space-y-5">

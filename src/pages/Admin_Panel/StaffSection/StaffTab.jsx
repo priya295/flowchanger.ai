@@ -126,7 +126,7 @@ const StaffTab = () => {
           </div>
         </div>
         <div className='flex gap-[15px] justify-between lg:justify-start'>
-          <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button>
+          <button className='border border-1 pl-3 pr-3 h-[43px] rounded-md pt-2 pb-2 text-sm'>Update Staff</button>
           <div>
             <div className="relative inline-block text-left">
               <div>
