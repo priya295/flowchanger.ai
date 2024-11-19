@@ -52,4 +52,4 @@ const Worktime = () => {
   )
 }
 
-export default Worktime
+export default Worktime;

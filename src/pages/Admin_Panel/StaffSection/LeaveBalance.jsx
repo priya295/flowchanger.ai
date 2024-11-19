@@ -7,15 +7,15 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { saveAs } from 'file-saver';
-
+import ClipLoader from "react-spinners/ClipLoader";
 const LeaveBalance = () => {
-    const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
+    const { baseUrl, fetchStaff, staffDetail, openToast } = useGlobalContext();
 
     useEffect(() => {
         fetchStaff()
     }, [])
     console.log("leave", staffDetail)
-
+    const [isLoading, setIsLoading] = useState(true);
     let subtitle;
 
     // toggle switch
@@ -114,9 +114,28 @@ const LeaveBalance = () => {
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
         saveAs(blob, 'StaffDetails.csv');
     };
+    const [selectedId, setSelectedId] = useState([]);
+    console.log("selec", selectedId)
+    const [leaveName, setLeaveName] = useState();
+    const [allowLeave, setAllowLeave] = useState();
+    const [carryLeave, setCarryLeave] = useState();
+    const [policyType, setPolicyType] = useState();
 
-
-
+    async function updateBalance() {
+        const result = await fetch(baseUrl + "leave-policy/bulk", {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify({ name: leaveName, allowed_leaves: Number(allowLeave), carry_forward_leaves: Number(carryLeave), policy_type: policyType, staffIds: selectedId })
+        })
+        if (result.status == 201) {
+            openToast("Leave Policy Created Successfully", "success")
+        }
+        else {
+            openToast("Internal Server Error", "error")
+        }
+    }
 
     return (
         <div className='staff-tab mt-[20px]'>
@@ -186,26 +205,49 @@ const LeaveBalance = () => {
                                         }
                                     </thead>
                                     <tbody>
-
                                         {
-                                            staffDetail?.map((items, index) => {
-                                                return <tr className="border">
-                                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                                    <td>{items?.name}</td>
-                                                    <td>{items?.staffDetails?.job_title}</td>
-                                                    {
-                                                        staffDetail?.map((items, index) => {
-                                                            { console.log(items?.staffDetails?.LeavePolicy) }
-                                                            return (<>
-                                                                {items?.staffDetails?.LeavePolicy?.map((item) => (
-                                                                    <>
-                                                                        <td>{item?.allowed_leaves} </td>
-                                                                    </>)
-                                                                )}</>)
-                                                        })
-                                                    }
-                                                </tr>
-                                            })
+
+                                            isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                                                <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                                                    <ClipLoader color="#4A90E2" size={50} />
+                                                </td>
+                                            </tr>
+                                            ) : staffDetail && staffDetail.length > 0 ? (
+
+
+                                                staffDetail?.map((items, index) => {
+                                                    return <tr className="border">
+                                                        <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                        <td>{items?.name}</td>
+                                                        <td>{items?.staffDetails?.job_title}</td>
+                                                        {
+                                                            staffDetail?.map((items, index) => {
+                                                                { console.log(items?.staffDetails?.LeavePolicy) }
+                                                                return (<>
+                                                                    {items?.staffDetails?.LeavePolicy?.map((item) => (
+                                                                        <>
+                                                                            <td>{item?.allowed_leaves} </td>
+                                                                        </>)
+                                                                    )}</>)
+                                                            })
+                                                        }
+                                                    </tr>
+                                                })
+
+                                            )
+                                                : (
+                                                    // No Data State
+                                                    <tr className="h-[100px]">
+                                                        <td
+                                                            colSpan="9"
+                                                            className="text-center text-red-500 text-xl font-semibold py-4"
+                                                        >
+                                                            No staff found.
+                                                        </td>
+                                                    </tr>
+                                                )
+
+
                                         }
 
 
@@ -238,7 +280,7 @@ const LeaveBalance = () => {
 
                             </div>
                             <div className='flex gap-[15px] justify-between lg:justify-start'>
-                                <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn' onClick={openModal12}>Update Leave Policy</button>
+                                <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm second-btn' disabled={selectedId.length === 0} onClick={openModal12}>Update Leave Policy</button>
 
                             </div>
                         </div>
@@ -266,23 +308,49 @@ const LeaveBalance = () => {
                                     </thead>
                                     <tbody>
                                         {
-                                            staffDetail?.map((items, index) => {
-                                                return <tr className="border">
-                                                    <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                                    <td>{items?.name}</td>
-                                                    {
-                                                        staffDetail?.map((items, index) => {
-                                                            { console.log(items?.staffDetails?.LeavePolicy) }
-                                                            return (<>
-                                                                {items?.staffDetails?.LeavePolicy?.map((item) => (
-                                                                    <>
-                                                                        <td>{item?.allowed_leaves} </td>
-                                                                    </>)
-                                                                )}</>)
-                                                        })
-                                                    }
-                                                </tr>
-                                            })
+
+                                            isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                                                <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                                                    <ClipLoader color="#4A90E2" size={50} />
+                                                </td>
+                                            </tr>
+                                            ) : staffDetail && staffDetail.length > 0 ? (
+
+
+                                                staffDetail?.map((items, index) => {
+                                                    return <tr className="border">
+                                                        <td><input type='checkbox' className='border border-1 rounded-md '
+                                                            onChange={(e) => setSelectedId([...selectedId, items.staffDetails.id])}
+                                                        /></td>
+                                                        <td>{items?.name}</td>
+                                                        {
+                                                            staffDetail?.map((items, index) => {
+                                                                { console.log(items?.staffDetails?.LeavePolicy) }
+                                                                return (<>
+                                                                    {items?.staffDetails?.LeavePolicy?.map((item) => (
+                                                                        <>
+                                                                            <td>{item?.allowed_leaves} </td>
+                                                                        </>)
+                                                                    )}</>)
+                                                            })
+                                                        }
+                                                    </tr>
+                                                })
+
+                                            )
+                                                : (
+                                                    // No Data State
+                                                    <tr className="h-[100px]">
+                                                        <td
+                                                            colSpan="9"
+                                                            className="text-center text-red-500 text-xl font-semibold py-4"
+                                                        >
+                                                            No staff found.
+                                                        </td>
+                                                    </tr>
+                                                )
+
+
                                         }
 
 
@@ -360,62 +428,43 @@ const LeaveBalance = () => {
                 <button onClick={closeModal12} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
 
-                    <Tabs className="p-[s0px] fixed-tab-section">
-                        <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
-                            <label className='text-[14px]'>Select Type</label>
-                            <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input type="radio" id="fixed" name='fixed' className='rounded-full ' />
-                                <label for="fixed" className='text-[14px]'> Monthly</label><br />
-                            </Tab>
-                            <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input type="radio" id="flexible" name='fixed' className='rounded-full ' />
-                                <label for="flexible" className='text-[14px]'> Yearly</label><br />
-                            </Tab>
-                        </TabList>
-                        <TabPanel>
-                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                                <table className='table-section mt-4'>
-                                    <thead className='border border-1 '>
-                                        <th>Leave Type</th>
-                                        <th>Allowed Leaves (Per Month)</th>
-                                        <th>Carry-forward Leaves (On Month End)</th>
-
-                                    </thead>
-                                    <tbody>
-                                        <td>Casual Leave</td>
-                                        <td><input type='text' /></td>
-                                        <td><input type='text' /></td>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </TabPanel>
-
-                        <TabPanel>
-                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
-                                <table className='table-section mt-4'>
-                                    <thead className='border border-1 '>
-                                        <th>Leave Type</th>
-                                        <th>Allowed Leaves (Per Month)</th>
-                                        <th>Carry-forward Leaves (On Month End)</th>
-
-                                    </thead>
-                                    <tbody>
-                                        <td>Casual Leave</td>
-                                        <td><input type='text' /></td>
-                                        <td><input type='text' /></td>
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </TabPanel>
+                    <div className='flex py-[15px] gap-[20px] pl-[20px]'>
+                        <label className='text-[14px]'>Select Type</label>
+                        <div className="cursor-pointer flex items-center gap-[10px]">
+                            <input type="radio" id="fixed" value="MONTHLY" name='fixed' onChange={(e) => setPolicyType(e.target.value)} className='rounded-full ' />
+                            <label for="fixed" className='text-[14px]'> Monthly</label><br />
+                        </div>
+                        <div className="cursor-pointer flex items-center gap-[10px]">
+                            <input type="radio" id="flexible" name='fixed' value="YEARLY" onChange={(e) => setPolicyType(e.target.value)} className='rounded-full ' />
+                            <label for="flexible" className='text-[14px]'> Yearly</label><br />
+                        </div>
+                    </div>
 
 
-                        <TabPanel>
+                    <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 pl-3 pr-3'>
+                        <table className='table-section mt-4'>
+                            <thead className='border border-1 '>
+                                <th>Leave Name</th>
+                                <th>Allowed Leaves (Per Month)</th>
+                                <th>Carry-forward Leaves (On Month End)</th>
 
-                        </TabPanel>
+                            </thead>
+                            <tbody>
+                                <td><input type='text' onChange={(e) => setLeaveName(e.target.value)} className="border rounded-md focus:outline-none p-2" /></td>
+                                <td><input type='text' onChange={(e) => setAllowLeave(e.target.value)} className="border rounded-md focus:outline-none p-2" /></td>
+                                <td><input type='text' onChange={(e) => setCarryLeave(e.target.value)} className="border rounded-md focus:outline-none p-2" /></td>
 
-                    </Tabs>
+                            </tbody>
+                            <button className='second-btn mb-2' onClick={updateBalance}>Update Leave Balances</button>
+                        </table>
+                    </div>
+
+
+
+
+
+
+
 
 
 

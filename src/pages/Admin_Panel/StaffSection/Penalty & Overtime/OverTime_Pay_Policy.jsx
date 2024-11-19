@@ -5,40 +5,40 @@ import file from "../../../../Assets/Images/file.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { useGlobalContext } from "../../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
-
+import ClipLoader from "react-spinners/ClipLoader";
 const OverTime_Pay_Policy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileUpldoad, setFileUpldoad] = useState(false);
   const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
-
-  useEffect(()=>{
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
     fetchStaff();
-  },[])
+  }, [])
 
   const exportToCSV = () => {
     // Define the CSV headers
     const headers = [
-        'Index',
-        'Name',
-        'Job Title',
-        'Extra Hours Pay',
-        'Grace Period (mins)',
-        'Public Holidays Pay',
-        'Week Off Pay',
+      'Index',
+      'Name',
+      'Job Title',
+      'Extra Hours Pay',
+      'Grace Period (mins)',
+      'Public Holidays Pay',
+      'Week Off Pay',
     ];
-    
+
     // Map over the data to create CSV rows
     const rows = staffDetail.map((item, index) => {
-        const overLeavePolicy = item?.staffDetails?.OverLeavePolicy?.[0] || {};
-        return [
-            index + 1,
-            item?.name || 'N/A',
-            item?.staffDetails?.job_title || 'N/A',
-            overLeavePolicy?.extraHoursPay ?? 'N/A',
-            overLeavePolicy?.gracePeriodMins ?? 'N/A',
-            overLeavePolicy?.publicHolidayPay ?? 'N/A',
-            overLeavePolicy?.weekOffPay ?? 'N/A',
-        ];
+      const overLeavePolicy = item?.staffDetails?.OverLeavePolicy?.[0] || {};
+      return [
+        index + 1,
+        item?.name || 'N/A',
+        item?.staffDetails?.job_title || 'N/A',
+        overLeavePolicy?.extraHoursPay ?? 'N/A',
+        overLeavePolicy?.gracePeriodMins ?? 'N/A',
+        overLeavePolicy?.publicHolidayPay ?? 'N/A',
+        overLeavePolicy?.weekOffPay ?? 'N/A',
+      ];
     });
 
     // Combine headers and rows for CSV format
@@ -47,7 +47,7 @@ const OverTime_Pay_Policy = () => {
     // Create a Blob and download the file
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'OverTime Pay.csv'); // Adjusted file name to "OverLeavePolicy.csv"
-};
+  };
 
 
   return (
@@ -95,7 +95,7 @@ const OverTime_Pay_Policy = () => {
                     <div className="bg-white 2xl:w-[40%] xl:w-[55%] lg:w-[65%] md:w-[84%] sm:w-[100%] rounded-lg border border-[#B1B1B1]">
                       <div className="flex items-center justify-around h-[75px] shadow bg-[#F0F6FE]">
                         <h1 className="text-[25px] text-[#0E2040] font-medium">
-                        Import Overtime Policy for all Staff
+                          Import Overtime Policy for all Staff
                         </h1>
                         <button onClick={() => setIsOpen(false)}>
                           <CloseIcon />
@@ -105,16 +105,16 @@ const OverTime_Pay_Policy = () => {
                       <div className="space-y-7 mx-10 my-6">
                         <div className="flex items-center justify-between">
                           <h1 className="font-medium">
-                          Step 1. Download Overtime Policy template
+                            Step 1. Download Overtime Policy template
                           </h1>
-                          <button  onClick={exportToCSV} lassName="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
+                          <button onClick={exportToCSV} lassName="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
                             Download Template
                           </button>
                         </div>
 
                         <div className="flex items-center justify-between ">
                           <h1 className="font-medium">
-                          Step 2. Edit downloaded file and add Overtime Policy details
+                            Step 2. Edit downloaded file and add Overtime Policy details
                           </h1>
                         </div>
 
@@ -135,7 +135,7 @@ const OverTime_Pay_Policy = () => {
                             <div className="bg-white 2xl:w-[40%] xl:w-[55%] lg:w-[65%] md:w-[84%] sm:w-[100%] rounded-lg border border-[#B1B1B1]">
                               <div className="flex items-center justify-around h-[75px] shadow bg-[#F0F6FE]">
                                 <h1 className="text-[25px] text-[#0E2040] font-medium">
-                                Import Overtime Policy for all Staff
+                                  Import Overtime Policy for all Staff
                                 </h1>
                                 <button onClick={() => setFileUpldoad(false)}>
                                   <CloseIcon />
@@ -171,37 +171,58 @@ const OverTime_Pay_Policy = () => {
         </div>
       </div>
       <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
-      <div className='w-full   '>
-        <table className="table-section  w-full">
-          <thead className="border border-1 ">
-            <th>#</th>
-            <th>Name</th>
-            <th>Job Title</th>
-            <th>Extra Hours Pay </th>
-            <th>Grace Period (mins)</th>
-            <th>Public Holidays Pay</th>
-            <th>Week of Pay</th>
-          </thead>
-          <tbody>
-          {
-                staffDetail?.map((items)=>{
-                  const overTime=items?.staffDetails?.OverLeavePolicy[0]
-                  return   <tr className="border">
-                  <td>
-                    <input type="checkbox" className="border border-1 rounded-md " />
+        <div className='w-full   '>
+          <table className="table-section  w-full">
+            <thead className="border border-1 ">
+              <th>#</th>
+              <th>Name</th>
+              <th>Job Title</th>
+              <th>Extra Hours Pay </th>
+              <th>Grace Period (mins)</th>
+              <th>Public Holidays Pay</th>
+              <th>Week of Pay</th>
+            </thead>
+            <tbody>
+              {
+                isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                  <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                    <ClipLoader color="#4A90E2" size={50} />
                   </td>
-                  <td>{items.name}</td>
-                  <td>{items?.staffDetails?.job_title}</td>
-                  <td>{overTime?.extraHoursPay?? "N/A"}</td>
-                  <td>{overTime?.gracePeriodMins?? "N/A"}</td>
-                  <td>{overTime?.publicHolidayPay ?? "N/A"}</td>
-                  <td>{overTime?.weekOffPay?? "N/A"}</td>
-                 
-                  </tr>
-                })
+                </tr>
+                ) : staffDetail && staffDetail.length > 0 ? (
+
+                  staffDetail?.map((items) => {
+                    const overTime = items?.staffDetails?.OverLeavePolicy[0]
+                    return <tr className="border">
+                      <td>
+                        <input type="checkbox" className="border border-1 rounded-md " />
+                      </td>
+                      <td>{items.name}</td>
+                      <td>{items?.staffDetails?.job_title}</td>
+                      <td>{overTime?.extraHoursPay ?? "N/A"}</td>
+                      <td>{overTime?.gracePeriodMins ?? "N/A"}</td>
+                      <td>{overTime?.publicHolidayPay ?? "N/A"}</td>
+                      <td>{overTime?.weekOffPay ?? "N/A"}</td>
+
+                    </tr>
+                  })
+
+                )
+                  : (
+                    // No Data State
+                    <tr className="h-[100px]">
+                      <td
+                        colSpan="9"
+                        className="text-center text-red-500 text-xl font-semibold py-4"
+                      >
+                        No staff found.
+                      </td>
+                    </tr>
+                  )
+
               }
-          </tbody>
-        </table>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

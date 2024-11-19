@@ -17,6 +17,7 @@ const ContactInformation = () => {
   
  const {openToast}  = useGlobalContext()
 
+    const { openToast } = useGlobalContext();
     const toggleModal15 = () => {
         setIsOpen15(!isOpen15);
       };
@@ -107,7 +108,7 @@ const ContactInformation = () => {
       };
 
     const [clientData, setClientData] = useState([])
-    const { baseUrl } = useGlobalContext()
+    const { baseUrl,openToast } = useGlobalContext()
     const fetchDetail = async () => {
         const result = await fetch(baseUrl + "client");
         if (result.status == 200) {
