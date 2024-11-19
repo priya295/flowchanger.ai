@@ -199,11 +199,11 @@ const Add_Project = () => {
   return (
     <div className="max-w-[100%] mx-auto">
     <Tabs className="m-5 shadow rounded-lg">
-      <TabList className="flex p-5 pb-[10px] gap-4 text-[20px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
-        <Tab className="hover:text-[#2568EC] project-tab hover:border-b pb-2 border-[#2568EC]">
+      <TabList className="flex p-5 pb-[10px] gap-4 text-[16px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
+        <Tab className="hover:text-[#27004a] project-tab text-[#27004a] focus-visible:outline-none newsetup-tab text-[17px] hover:border-b pb-1  border-[#27004a]">
           Project
         </Tab>
-        <Tab className="hover:text-[#2568EC] hover:border-b pb-2 border-[#2568EC]">
+        <Tab className="hover:text-[#27004a] focus-visible:outline-none   newsetup-tab text-[17px] hover:border-b  pb-2 border-[#27004a]">
           Project Settings
         </Tab>
       </TabList>
@@ -416,8 +416,8 @@ const Add_Project = () => {
           </div>
 
           <div className="flex justify-end gap-5 pb-10">
-            <button onClick={handleCloseForm} className="bg-white text-[#511992] border border-[#511992] h-10 w-20 rounded-md">Cancel</button>
-            <button type= "submit" className="bg-[#511992] text-white h-10 w-20 rounded-md" >Save</button>
+            <button onClick={handleCloseForm} className="bg-white text-[#27004a] border border-[#27004a] h-10 w-20 rounded-md">Cancel</button>
+            <button type= "submit" className="bg-[#27004a] text-white h-10 w-20 rounded-md" >Save</button>
           </div>
         </div>
         </form>
