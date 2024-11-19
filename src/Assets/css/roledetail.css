@@ -178,7 +178,7 @@ table{
 }
 
 .custom-body-class .admin-sidebar-set{
-    width: 100%;
+    width: 100% !important;
 }
 .custom-body-class .navbar{
     padding-left: 10px;
@@ -198,14 +198,17 @@ table{
     
 }
 
- .cancel-icon{
+.menu-icon-navbar{
     display: none !important;
+}
+ .cancel-icon{
+    display: block !important;
  }
  .custom-body-class .cancel-icon{
     display: none !important;
  }
- .custom-body-class .menu-icon{
-    display: block;
+ .custom-body-class .menu-icon-navbar{
+    display: block !important;
  }
  
 
@@ -293,15 +296,18 @@ input[type=radio]{
 /* .toggle-btn-side{
     display: none;
 } */
+ .menu-icon{
+    display: none !important;
+ }
 .close-icon{
-    display: none !important; 
+    display: block !important; 
     transition: all 0.3s linear;
 }
-/* .editsidebar .close-icon{
-    display: block !important;
-} */
+.editsidebar .close-icon{
+    display: none !important;
+}
 .editsidebar .menu-icon{
-    display: block;
+    display: block !important;
     transition: all 0.3s linear;
 }
 /* .ReactModal__Content {

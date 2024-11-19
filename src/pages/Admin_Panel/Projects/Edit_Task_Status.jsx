@@ -16,7 +16,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const Edit_Task_Status = () => {
     let subtitle;
-    const { baseUrl } = useGlobalContext();
+    const { baseUrl , openToast } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
     const [allStaff, setAllStaff] = useState([]);
     const [taskStatus, setTaskStatus] = useState({
@@ -43,16 +43,26 @@ const Edit_Task_Status = () => {
     };
     const [staffDetail, setStaffDetail] = useState();
     const fetchStaffDetail = async () => {
-        const result = await fetch(baseUrl + "staff")
-        console.log("reuslt---", result)
-        if (result.status == 200) {
-          const res = await result.json();
-          setStaffDetail(res)
+        try{
+            const result = await fetch(baseUrl + "staff")
+            console.log("reuslt---", result)
+            if (result.status == 200) {
+              const res = await result.json();
+              setStaffDetail(res)
+            }
+            else {
+                const error = await result.json();
+                throw new Error(error.message || `HTTP Error: ${result.status}`);
+            }
         }
-        else {
-          alert("An Error Occured")
+        catch (error) {
+            console.error("Error fetching staff Details:", error);
+            if (error.message === "Failed to fetch") {
+              openToast("Network error: Unable to connect to the server", "error");
+            } else {
+              openToast(error.message || "An unexpected error occurred", "error");
+            }
         }
-    
       }
 
 

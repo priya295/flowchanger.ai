@@ -34,7 +34,7 @@ const AddDepartment = () => {
             openToast(result.message||"Department successfully added","success");
             navigate("/department-details");
         } else {
-            openToast("An error occurred","error");
+            openToast(result.message || "An error occurred","error");
         }
     }
 

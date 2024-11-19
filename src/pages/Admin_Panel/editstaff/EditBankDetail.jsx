@@ -29,7 +29,8 @@ const PersonalDetail = () => {
     const [inputValue6, setInputValue6] = useState(selectedStaff?.staffDetails?.UpiDetails?.UpiId);
 
     // Function to toggle between editable and readonly mode
-    const handleEditClick = async () => {
+    const handleEditClick = async (e) => {
+        e.preventDefault();
         if (isEditable) {
             try {
                 const response = await fetch(baseUrl + "bank-details/" + selectedStaff.staffDetails.id, {
@@ -148,7 +149,7 @@ const PersonalDetail = () => {
             </div>
 
             <h2 className='bg-[#f6f9fa] pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow'>Bank Details</h2>
-            <form className=' w-[100%] xl:w-[100%] m-auto mt-[30px] shadow-md  xl:p-[24px] p-[12px] border rounded-md  border-1' >
+            <form className=' w-[100%] xl:w-[100%] m-auto mt-[30px] shadow-md  xl:p-[24px] p-[12px] border rounded-md  border-1' onSubmit={handleEditClick}>
                 <div className='flex w-[100%] gap-[10px] justify-between  xl:mb-4 mb-[6px] xl:flex-row flex-col'>
                     <div className='w-[100%] xl:w-[48%] 2xl:w-[48%]  '>
                         <label className='text-[14px]'>Name of Bank</label><br />
@@ -162,7 +163,7 @@ const PersonalDetail = () => {
                                 border: isEditable ? "1px solid #F4F5F9" : '#000'
                             }}
                             className=' rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
-                        />
+                        required/>
                     </div>
 
                     <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
@@ -177,7 +178,7 @@ const PersonalDetail = () => {
                                 border: isEditable ? "1px solid #F4F5F9" : '#000'
                             }}
                             className=' rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
-                        />
+                        required/>
                     </div>
 
 
@@ -199,7 +200,7 @@ const PersonalDetail = () => {
                                 border: isEditable ? "1px solid #F4F5F9" : '#000'
                             }}
                             className=' rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
-                        />
+                       required />
                     </div>
 
                     <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
@@ -214,7 +215,7 @@ const PersonalDetail = () => {
                                 border: isEditable ? "1px solid #F4F5F9" : '#000'
                             }}
                             className=' rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
-                        />
+                        required/>
                     </div>
 
 

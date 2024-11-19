@@ -8,7 +8,8 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 const PayrollSummary = () => {
-    const { setSelectedTab, setStaffTab } = useGlobalContext()
+    const { setSelectedTab, setStaffTab } = useGlobalContext();
+    
     const [toggleDrop, setToggleDrop] = useState(false);
 
     function handledrop() {

@@ -62,9 +62,9 @@ const AddNewRole = () => {
            
             console.log(result);
             openToast(result.message || "Role successfully added");
-            navigate("/role-details")
+            navigate("/role-detail")
         } else {
-            openToast("An error occurred");
+            openToast(result.message);
         }
     }
 
