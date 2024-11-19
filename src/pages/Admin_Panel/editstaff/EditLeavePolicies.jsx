@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const EditLeavePolicies = () => {
+    const { id } = useParams();
     const [activeTab, setActiveTab] = useState('leave-requests')
     const [activeSubTab, setActiveSubTab] = useState('pending')
-    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
-    const [selectDuration, setSelectDuration] = useState();
+    const { baseUrl, openToast, selectedStaff } = useGlobalContext();
+    // const [selectedStaff, setSelectedStaff] = useState({});
+    const [selectDuration, setSelectDuration] = useState("");
     const [editingRow, setEditingRow] = useState(null);
     const [leavePolicyType, setLeavePolicyType] = useState();
     const [allowedLeavesPerYear, setAllowedLeavePerYear] = useState();
@@ -24,7 +26,45 @@ const EditLeavePolicies = () => {
 
     const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
 
-    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy);
+
+
+
+    console.log(selectedStaff);
+
+    const [updateLeaveBalance, setUpdateLeaveBalance] = useState(selectedStaff?.staffDetails?.LeaveBalance?.map(item => ({ balance: item?.balance, leaveName: selectedStaff?.staffDetails?.LeavePolicy?.find(policy => policy?.id === item?.leavePolicyId)?.name, used: item?.used, id: item?.id })));
+
+    console.log(updateLeaveBalance);
+
+    const updatedLeaveBalance = async () => {
+        try {
+            const allData = [];
+            for (const data of updateLeaveBalance) {
+                const response = await fetch(baseUrl + "leave-balance/" + data?.id, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({...data, balance: Number(data?.balance), used: Number(data?.used)})
+                });
+                const result = await response.json();
+                if (response.status === 200) {
+                    allData.push(result);
+                }
+            }
+            if (allData.length > 0) {
+                console.log(allData);
+                openToast("Leave Balance updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while updating leave balance", "error");
+            }
+        } catch (error) {
+            console.error("Error updating leave balance:", error);
+            openToast("An error occurred while updating leave balance", "error");
+        }
+    }
+
+    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy || []);
 
     const [updatePolicy, setUpdatePolicy] = useState({
         allowed_leaves: 0,
@@ -53,7 +93,8 @@ const EditLeavePolicies = () => {
             console.log(response);
 
             const result = await response.json();
-            if (response.status === 201) {
+            console.log(result);
+            if (response.ok) {
                 console.log(result);
                 setFetchLeavePolicy([...fetchLeavePolicy, result]);
                 setLeavePolicyType("");
@@ -73,6 +114,7 @@ const EditLeavePolicies = () => {
     async function updateLeavePolicy(e) {
         e.preventDefault();
         const data = {
+            policy_type: selectDuration,
             name: selectedStaff?.staffDetails?.LeavePolicy?.filter(({ id }) => id === editingRow)[0]?.name,
             allowed_leaves: Number(updatePolicy?.allowed_leaves),
             carry_forward_leaves: Number(updatePolicy?.carry_forward_leaves)
@@ -93,6 +135,8 @@ const EditLeavePolicies = () => {
             const result = await response.json();
             if (response.status === 200) {
                 console.log(result);
+
+                setFetchLeavePolicy([...fetchLeavePolicy, result]);
                 openToast("Leave Policy updated Successfully", "success");
             }
             else {
@@ -103,6 +147,35 @@ const EditLeavePolicies = () => {
             openToast("An error occurred while updating leave policy", "error");
         }
         setEditingRow(null);
+    }
+    async function updateLeaveLeaveBalance(e, leaveBalanceData) {
+        e.preventDefault();
+        console.log(leaveBalanceData);
+        // try {
+        //     const response = await fetch(baseUrl + "leave-policy/" + editingRow, {
+        //         method: "PUT",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(data)
+        //     });
+        //     console.log(response);
+
+        //     const result = await response.json();
+        //     if (response.status === 200) {
+        //         console.log(result);
+
+        //         setFetchLeavePolicy([...fetchLeavePolicy, result]);
+        //         openToast("Leave Policy updated Successfully", "success");
+        //     }
+        //     else {
+        //         openToast("An error occurred while updating leave policy", "error");
+        //     }
+        // } catch (error) {
+        //     console.error("Error updating leave policy:", error);
+        //     openToast("An error occurred while updating leave policy", "error");
+        // }
+        // setEditingRow(null);
     }
 
     async function getAllLeaveRequest() {
@@ -341,7 +414,7 @@ const EditLeavePolicies = () => {
 
                         </div>
                         <div className="flex items-center  ">
-                            <button className='whitespace-nowrap bg-[#27004a] p-[8px] text-[white] rounded-md text-[13px] outline-1 outline-offset-1'>Update Details</button>
+                            <button onClick={updatedLeaveBalance} className='whitespace-nowrap bg-[#27004a] p-[8px] text-[white] rounded-md text-[13px] outline-1 outline-offset-1'>Update Details</button>
                         </div>
                     </div>
 
@@ -353,12 +426,19 @@ const EditLeavePolicies = () => {
                         </div>
                     </div>
                     {
-                        selectedStaff?.staffDetails?.LeavePolicy?.map((item, index) => (
-                            <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
-                                <div className="text-gray-700 font-medium text-[15px] capitalize">{item.name} Leaves</div>
+                        updateLeaveBalance?.map((item, index) => (
+                            <div key={item?.id} className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
+                                <div className="text-gray-700 font-medium text-[15px] capitalize"> {item?.leaveName} Leaves</div>
                                 <div className="flex items-center gap-2">
                                     <input
-                                        value={((item?.allowed_leaves) / 12).toFixed(2)}
+                                        value={item?.balance}
+                                        onChange={(e) => setUpdateLeaveBalance((prev) =>
+                                            prev.map((obj, idx) =>
+                                                idx === index
+                                                    ? { ...obj, balance: e.target.value }
+                                                    : obj
+                                            )
+                                        )}
                                         type="number"
                                         placeholder='1'
                                         className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
@@ -405,11 +485,11 @@ const EditLeavePolicies = () => {
                         <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
                             <label className='text-[14px]'>Select Type</label>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
+                                <input checked={selectDuration === "MONTHLY"} onChange={(e) => setSelectDuration("MONTHLY")} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
                                 <label for="fixed" className='text-[14px]'> Monthly</label><br />
                             </Tab>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
+                                <input checked={selectDuration === "YEARLY"} onChange={(e) => setSelectDuration("YEARLY")} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
                                 <label for="flexible" className='text-[14px]'> Yearly</label><br />
                             </Tab>
                         </TabList>
@@ -423,10 +503,49 @@ const EditLeavePolicies = () => {
 
                                     </thead>
                                     <tbody>
-                                        <td>Casual Leave</td>
-                                        <td><input type='text' /></td>
-                                        <td><input type='text' /></td>
+                                        {
+                                            fetchLeavePolicy?.filter(({ policy_type }) => policy_type === "MONTHLY")?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
+                                                <td onClick={() => {
+                                                    console.log(id);
+                                                    setEditingRow(id);
+                                                    setUpdatePolicy({ carry_forward_leaves, allowed_leaves })
+                                                }}>{name}</td>
+                                                <td>
+                                                    {editingRow === id ? (
+                                                        <input
+                                                            className='text-center'
+                                                            type="number"
+                                                            value={updatePolicy.allowed_leaves}
+                                                            onChange={(e) => setUpdatePolicy((prev) => {
+                                                                return { ...prev, allowed_leaves: e.target.value }
+                                                            })} autoFocus
+                                                        />
+                                                    ) : (
+                                                        allowed_leaves
+                                                    )}
+                                                </td>
 
+                                                {/* Editable Carry Forward Leaves Field */}
+                                                <td>
+                                                    {editingRow === id ? (
+                                                        <input
+                                                            className='text-center'
+                                                            type="number"
+                                                            value={updatePolicy.carry_forward_leaves}
+                                                            onChange={(e) => setUpdatePolicy((prev) => {
+                                                                return { ...prev, carry_forward_leaves: e.target.value }
+                                                            })}
+                                                        />
+                                                    ) : (
+                                                        carry_forward_leaves
+                                                    )}
+                                                </td>
+                                            </tr>)}
+                                        <tr>
+                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='New Policy Type' value={leavePolicyType} onChange={(e) => setLeavePolicyType(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='Set Allowed Leaves' value={allowedLeavesPerYear} onChange={(e) => setAllowedLeavePerYear(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 w-2/3 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='Set Carry Forward Leaves' value={carryForwardLeaves} onChange={(e) => setCarryForwardLeaves(e.target.value)} type='text' /></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -443,7 +562,7 @@ const EditLeavePolicies = () => {
                                     <tbody>
 
                                         {
-                                            fetchLeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
+                                            fetchLeavePolicy?.filter(({ policy_type }) => policy_type === "YEARLY")?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
                                                 <td onClick={() => {
                                                     console.log(id);
                                                     setEditingRow(id);
