@@ -213,7 +213,7 @@ const Add_Project = () => {
         <div className="w-[100%]  space-y-5">
           
           <div className="space-y-2">
-            <h1 className="font-medium">* Project Name</h1>
+            <label className="font-medium">* Project Name</label>
             <input  
               className="h-[35px] w-[100%] border border-[#DBDCDE]  rounded-md pl-2 "
               type="text"
@@ -225,7 +225,7 @@ const Add_Project = () => {
           </div>
 
           <div className="space-y-2">
-            <h1 className="font-medium">* Customer</h1>
+            <label className="font-medium">* Customer</label>
             <select
   onChange={(e) => setSelectClient(e.target.value)}
   className="w-[100%]  bg-white border border-[#DBDCDE] rounded-md pl-5 h-[35px]"
@@ -254,7 +254,7 @@ const Add_Project = () => {
 
           <div className="flex w-[100%] gap-10">
             <div className="w-[50%] space-y-2">
-              <h1>* Billing Type</h1>
+              <label>* Billing Type</label>
               <select onChange={(e) => { setBillingType(e.target.value) }} className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5" name = "billingType" required>
                 <option value="Fixed Rate">Fixed rate</option>
                 <option value="Project Hours">Project Hours</option>

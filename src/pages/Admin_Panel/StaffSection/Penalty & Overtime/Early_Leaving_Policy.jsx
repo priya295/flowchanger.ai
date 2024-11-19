@@ -5,11 +5,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import file from '../../../../Assets/Images/file.png'
 import { useGlobalContext } from "../../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
-
+import ClipLoader from "react-spinners/ClipLoader";
 const Early_Leaving_Policy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileUpldoad, setFileUpldoad] = useState(false);
   const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     fetchStaff();
@@ -187,21 +189,45 @@ const Early_Leaving_Policy = () => {
             <tbody>
 
               {
-                staffDetail?.map((items) => {
-                  const overTime = items?.staffDetails?.EarlyLeavePolicy[0]
-                  return <tr className="border">
-                    <td>
-                      <input type="checkbox" className="border border-1 rounded-md " />
-                    </td>
-                    <td>{items.name}</td>
-                    <td>{items?.staffDetails?.job_title}</td>
-                    <td>{overTime?.waiveOffDays ?? "N/A"}</td>
-                    <td>{overTime?.gracePeriodMins ?? "N/A"}</td>
-                    <td>{overTime?.fineAmountMins ?? "N/A"}</td>
-                    <td>{overTime?.fineType ?? "N/A"}</td>
 
-                  </tr>
-                })
+                isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                  <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                    <ClipLoader color="#4A90E2" size={50} />
+                  </td>
+                </tr>
+                ) : staffDetail && staffDetail.length > 0 ? (
+
+
+                  staffDetail?.map((items) => {
+                    const overTime = items?.staffDetails?.EarlyLeavePolicy[0]
+                    return <tr className="border">
+                      <td>
+                        <input type="checkbox" className="border border-1 rounded-md " />
+                      </td>
+                      <td>{items.name}</td>
+                      <td>{items?.staffDetails?.job_title}</td>
+                      <td>{overTime?.waiveOffDays ?? "N/A"}</td>
+                      <td>{overTime?.gracePeriodMins ?? "N/A"}</td>
+                      <td>{overTime?.fineAmountMins ?? "N/A"}</td>
+                      <td>{overTime?.fineType ?? "N/A"}</td>
+
+                    </tr>
+                  })
+
+                )
+                : (
+                    // No Data State
+                    <tr className="h-[100px]">
+                      <td
+                        colSpan="9"
+                        className="text-center text-red-500 text-xl font-semibold py-4"
+                      >
+                        No staff found.
+                      </td>
+                    </tr>
+                  )
+
+
               }
 
 

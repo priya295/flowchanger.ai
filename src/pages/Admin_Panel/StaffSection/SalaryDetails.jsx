@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const SalaryDetails = () => {
   const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
@@ -30,7 +31,7 @@ const SalaryDetails = () => {
   function handledrop() {
     setToggleDrop(!toggleDrop);
   }
-
+  const [isLoading, setIsLoading] = useState(true);
   // when onclick update staff
   const [modalIsOpen9, setIsOpen9] = React.useState(false);
   function openModal9() {
@@ -156,29 +157,53 @@ const SalaryDetails = () => {
             <tbody>
 
               {
-                staffDetail?.map((item, index) => {
-                  const salaryDetail = item?.staffDetails.SalaryDetails[item.staffDetails?.SalaryDetails?.length - 1]
-                  console.log(salaryDetail)
-                  return <tr className='border'>
-                    <td>
-                      <input type="checkbox" className="border border-1 rounded-md " />
-                    </td>
-                    <td>{item?.name}</td>
-                    <td>{item?.staffDetails?.job_title}</td>
-                    <td>₹ {salaryDetail?.ctc_amount ?? "N/A"}</td>
-                    <td>Basic</td>
-                    <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employer_esi ?? "N/A"}</td>
-                    <td>N/A</td>
-                    <td>₹ {salaryDetail?.employer_lwf ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employee_esi ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.tds ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+
+                isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                  <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                    <ClipLoader color="#4A90E2" size={50} />
+                  </td>
+                </tr>
+                ) : staffDetail && staffDetail.length > 0 ? (
 
 
-                  </tr>
-                })
+                  staffDetail?.map((item, index) => {
+                    const salaryDetail = item?.staffDetails.SalaryDetails[item.staffDetails?.SalaryDetails?.length - 1]
+                    console.log(salaryDetail)
+                    return <tr className='border'>
+                      <td>
+                        <input type="checkbox" className="border border-1 rounded-md " />
+                      </td>
+                      <td>{item?.name}</td>
+                      <td>{item?.staffDetails?.job_title}</td>
+                      <td>₹ {salaryDetail?.ctc_amount ?? "N/A"}</td>
+                      <td>Basic</td>
+                      <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+                      <td>₹ {salaryDetail?.employer_esi ?? "N/A"}</td>
+                      <td>N/A</td>
+                      <td>₹ {salaryDetail?.employer_lwf ?? "N/A"}</td>
+                      <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+                      <td>₹ {salaryDetail?.employee_esi ?? "N/A"}</td>
+                      <td>₹ {salaryDetail?.tds ?? "N/A"}</td>
+                      <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+
+
+                    </tr>
+                  })
+
+                )
+                  : (
+                    // No Data State
+                    <tr className="h-[100px]">
+                      <td
+                        colSpan="9"
+                        className="text-center text-red-500 text-xl font-semibold py-4"
+                      >
+                        No staff found.
+                      </td>
+                    </tr>
+                  )
+
+
               }
 
 
