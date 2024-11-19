@@ -107,6 +107,26 @@ const Attendence_summary = () => {
         setIsOpen14(false);
     };
 
+   const [newFine, setNewfine]=useState({
+    lateEntryFineAmount:0,
+    lateEntryAmount:0,
+    excessBreakFineAmount:0,
+    excessBreakAmount:0,
+    earlyOutFineAmount:0,
+    earlyOutAmount:0,
+    totalAmount:0,
+
+
+   })
+
+    const createnewfine = async ()=>{
+        try {
+            
+        } catch (error) {
+            
+        }
+    }
+
     return (
         <div className='p-[20px] w-full work-fine'>
             <div className='flex  justify-between satisfy-summary  '>
@@ -363,7 +383,7 @@ const Attendence_summary = () => {
 
                                                     <div>
                                                         <p className='text-[12px]'>Hours</p>
-                                                        <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p>
+                                                        <input type='text' className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</input>
                                                         <p className='text-[12px]' >Amount $ 61.63</p>
                                                     </div>
                                                     <div className='flex gap-[28px] '>
