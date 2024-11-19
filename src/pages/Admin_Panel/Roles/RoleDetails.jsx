@@ -167,7 +167,7 @@ const Main = () => {
 
             <button
               onClick={handleExport}
-              className='ml-2 bg-[#511992] text-white p-2 rounded-md cursor-pointer'
+              className='ml-2 bg-[#27004a] text-white p-2 rounded-md cursor-pointer'
             >
               Export File
             </button>
@@ -217,7 +217,7 @@ const Main = () => {
                 setRoleName(role.role_name)
                 setEditPermissions(role.permissions)
               }}>
-                <BorderColorIcon className="text-[#511992] font-light cursor-pointer text-[10px]]" />
+                <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
               </Link>
               <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]]" onClick={() => { deleteRole(role.id) }} />
             </td>

@@ -440,11 +440,11 @@ catch(error){
     fetchTaskDetails();
   }, [])
   return (
-    <div className="w-full px-4 py-6 overflow-x-auto bg-[white] rounded-md shadow-lg">
+    <div className="w-full px-4 py-6">
       <div className=" h-[30px] mb-5">
         {/* Button to open the modal */}
         <button
-          className="bg-[#27004a] p-[8px] text-white flex items-center text-[12px] focus-visible:outline-none  rounded-md "
+          className="bg-[#27004a] gap-[4px] p-[8px] text-white flex items-center text-[14px] focus-visible:outline-none  rounded-md "
           onClick={toggleModal15}
         >
           <AddIcon className="newadd" /> New Task
@@ -453,7 +453,7 @@ catch(error){
         {/* Modal */}
         {isOpen15 && (
           <div className="fixed inset-0 flex items-center justify-center p-[14px] z-50 bg-gray-800 bg-opacity-75">
-            <div className="bg-white p-6 rounded shadow-cs w-[550px] relative h-[100%] overflow-scroll">
+            <div className="bg-white p-6 rounded-lg shadow-cs w-[550px] relative h-[100%] overflow-y-scroll ">
               <h2 className="text-lg font-semibold mb-[16px]">Add new Task</h2>
               <form action="" onSubmit={submitTask}>
               <div className="w-[100%]">
@@ -723,9 +723,9 @@ catch(error){
           </div>
 
           <div className='right-side relative  w-[200px]'>
-            <input type='text' placeholder='Search' className='border border-1 p-[10px] h-[40px] pr-7
-] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' />
-            <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
+            <input type='text' placeholder='Search' className='border border-1 p-[10px] h-[38px] pr-7
+] rounded-3xl focus:outline-none w-[100%] text-[15px] text-[#000]' />
+            <SearchIcon className='absolute right-[10px] search-icon    text-[#000]  font-thin text-[#dddddd;
 ]'/>
           </div>
         </div>

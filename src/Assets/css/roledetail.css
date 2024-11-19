@@ -1,6 +1,6 @@
 .search-icon{
     font-size: 17px !important;
-    top: 16px;
+    top: 12px;
     position: absolute
     ;
 }
@@ -24,7 +24,7 @@
     font-weight: 500;
     padding: 10px 24px;
     /* border-right: 1px solid #DBDBDB; */
-    background: #ededed !important;
+    background: #fff !important;
 }
 .table-section 
 table{
