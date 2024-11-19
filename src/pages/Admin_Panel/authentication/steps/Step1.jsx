@@ -17,7 +17,9 @@ const Step1 = () => {
     setSearchParams({ step: 1 });
 
     if (user) {
-      updateAdminInfo({ email: user.email });
+      const userEmail = user.email.toLowerCase();
+      console.log(userEmail);
+      updateAdminInfo({ email: userEmail });
       setSearchParams({ step: 2, email: user.email });
       nextStep();
     }
@@ -37,8 +39,9 @@ const Step1 = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data);
     try {
-      await updateAdminInfo(data);
+      await updateAdminInfo({email:data.email.toLowerCase()});
       setSearchParams({ step: 2, email: data.email });
       nextStep();
     } catch (error) {

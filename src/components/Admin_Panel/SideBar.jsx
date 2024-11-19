@@ -15,16 +15,15 @@ import CloseIcon from '@material-ui/icons/Close';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { FaChevronDown, FaChevronRight } from "react-icons/fa";
 import { useGlobalContext } from "../../Context/GlobalContext";
+import { motion } from "framer-motion";
 
 const SideBar = ({ toggleSideBar }) => {
-
-  useEffect(()=>{
+   useEffect(()=>{
     console.log("sidebar open");
   })
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-
-   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
    const [isMenuOpen1, setIsMenuOpen1] = useState(false);
    const toggleMenu1 = () => setIsMenuOpen1(!isMenuOpen1);

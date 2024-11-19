@@ -166,12 +166,10 @@ table{
     .custom-body-class .sidebar{
         left: 0 !important;
         z-index: 999 !important;
-
     }
 }
 
 .sidebar{
-    transition: all 0.3s linear;
     height: auto;
     min-height: 100vh;
     left: -100%;
@@ -179,6 +177,7 @@ table{
 
 .custom-body-class .admin-sidebar-set{
     width: 100% !important;
+    transition: left 0.3s ease-in-out;
 }
 .custom-body-class .navbar{
     padding-left: 10px;
@@ -195,6 +194,7 @@ table{
     left: -300px;
     z-index: -1111;
     position: absolute;
+    
     
 }
 
