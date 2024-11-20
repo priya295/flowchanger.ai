@@ -92,7 +92,6 @@ import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
 import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
 import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 import Documents from "./pages/Admin_Panel/editstaff/Documents";
-
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
 const App = () => {

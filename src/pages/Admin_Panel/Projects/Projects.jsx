@@ -11,12 +11,19 @@ import jsPDF from 'jspdf';
 import ClipLoader from "react-spinners/ClipLoader";
 import { Modal } from 'react-responsive-modal';
 import Select from "react-select";
+import { IoMdArrowDropright } from "react-icons/io";
 
 
 const Projects = () => {
   const [isOpen1, setIsOpen1] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [projectName, setProjectName] = useState("")
+
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
+  const [isOpen, setIsOpen] = useState(false);
+ 
 
   const [isOpen15, setIsOpen15] = useState(false);
 
@@ -175,11 +182,11 @@ const Projects = () => {
   }, [projectName]);
 
   return (
-    <div className="p-4 bg-white ">
+    <div className="w-full px-4 py-6 bg-white ">
       <div className="mb-4">
         <Link
           to="/create-new-project"
-          className="text-white text-sm bg-[#27004a]  rounded-lg px-4 py-2 flex items-center gap-[4px] w-[144px]"
+          className=" text-sm  px-4 py-2 flex items-center gap-[4px] allcrm-btn w-[124px]"
         >
           <AddIcon className="addicon-all" /> New Project
         </Link>
@@ -189,7 +196,7 @@ const Projects = () => {
         <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Projects</h2>
 
 
-        <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
+        <div className='flex mb-4 pl-[0px] justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
           <div className='left-side '>
             <select
               onChange={handleSelectChange}
@@ -268,66 +275,98 @@ const Projects = () => {
           </div>
         </div>
 
-        <div className="w-full overflow-x-auto">
-          <div className="min-w-full">
-            <div className="mb-4 w-full">
-              <div className="w-full">
-                <table className="w-full border-collapse">
-                  <thead className="bg-[white] rounded-lg shadow-lg border border-[#dbdbdb] cursor-pointer" onClick={toggleTable}>
-                    <tr>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[5%]whitespace-nowrap">#</th>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[20%]whitespace-nowrap">Project Name</th>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[15%]whitespace-nowrap">Customer</th>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[20%]">Tags</th>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[15%]whitespace-nowrap">Start Date</th>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[15%]whitespace-nowrap">Deadline</th>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[10%]whitespace-nowrap">Members</th>
-                      <th className="text-[12px] text-center p-2 border-r font-medium w-[10%]whitespace-nowrap">Status</th>
-                    </tr>
-                  </thead>
-                  {isTableOpen && (
-                    <tbody>
-                      {
-                        isLoading && projectDetails?.length === 0 ? (
+        <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
 
-                          <tr className="h-[100px]">
-                            <td colSpan="9" className="text-center py-4">
-                              <ClipLoader color="#4A90E2" size={50} />
-                            </td>
-                          </tr>
-                        ) : projectDetails?.length > 0 ? (
-                          projectDetails.map((project, index) => (
-                            <tr key={index} className="border-b hover:bg-gray-50">
-                              <td className="text-center p-2 text-[12px] w-[5%] whitespace-nowrap">{index + 1}</td>
-                              <td className="text-center p-2 text-[12px] w-[20%] whitespace-nowrap">{project.project_name}</td>
-                              <td className="text-center p-2 text-[12px] w-[15%] whitespace-nowrap">Customer</td>
-                              <td className="text-center p-2 text-[12px] w-[20%] whitespace-nowrap">
-                                {project.tags.map((tag, i) => (
-                                  <span key={i} className="border rounded-md p-1 mr-2 text-[12px] inline-block">
-                                    {tag}
-                                  </span>
-                                ))}
-                              </td>
-                              <td className="text-center p-2 text-[12px] w-[15%] whitespace-nowrap">{project.start_date}</td>
-                              <td className="text-center p-2 text-[12px] w-[15%] whitespace-nowrap">{project.deadline}</td>
-                              <td className="text-center p-2 text-[12px] w-[10%] whitespace-nowrap">Members</td>
-                              <td className="text-center p-2 text-[12px] w-[10%] whitespace-nowrap">{project.status}</td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr className="h-[100px]">
-                            <td colSpan="8" className="text-center text-red-500 text-sm font-semibold py-4">
-                              No projects found.
-                            </td>
-                          </tr>)
-                      }
-                    </tbody>
-                  )}
-                </table>
-              </div>
-            </div>
-          </div>
-          <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+
+
+          <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
+            <thead
+              className="cursor-pointer  border border-gray-300 shadow-md"
+              onClick={toggleAccordion}
+            >
+              <tr>
+                <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                  <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen ? "rotate-90 text-[black]" : "rotate-0"}`}
+                  />
+
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  #
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Name
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Company
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Primary Contact
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Primary Email
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Phone
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Active
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Groups
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Date Created
+                </th>
+                <th className="p-2 text-xs font-medium text-center">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            {isOpen && (
+              <tbody>
+                {
+                  isLoading && projectDetails?.length === 0 ? (
+
+                    <tr className="h-[100px]">
+                      <td colSpan="9" className="text-center py-4">
+                        <ClipLoader color="#4A90E2" size={50} />
+                      </td>
+                    </tr>
+                  ) : projectDetails?.length > 0 ? (
+                    projectDetails.map((project, index) => (
+                      <tr key={index} className="border-b hover:bg-gray-50">
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">{index + 1}</td>
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">{project.project_name}</td>
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">Customer</td>
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">
+                          {project.tags.map((tag, i) => (
+                            <span key={i} className="border rounded-md p-1 mr-2 text-[12px] inline-block">
+                              {tag}
+                            </span>
+                          ))}
+                        </td>
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">{project.start_date}</td>
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">{project.deadline}</td>
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">Members</td>
+                        <td className="text-center p-2 text-[12px]  whitespace-nowrap">{project.status}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr className="h-[100px]">
+                      <td colSpan="12" className="text-center text-red-500 text-sm font-semibold py-4">
+                        No projects found.
+                      </td>
+                    </tr>)
+                }
+              </tbody>
+            )}
+          </table>
+
+
+
+       
+        </div>
+        <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
             <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
             <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
               <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
@@ -336,7 +375,6 @@ const Projects = () => {
 
             </div>
           </div>
-        </div>
       </div>
     </div>
   );

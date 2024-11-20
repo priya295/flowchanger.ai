@@ -17,6 +17,7 @@ import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import { IoMdArrowDropright } from "react-icons/io";
 
 const Task = () => {
   const handleExport = () => {
@@ -32,18 +33,23 @@ const Task = () => {
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'departments.csv');
   };
-  
+
   const exportPDF = () => {
     const doc = new jsPDF();
     doc.text("Department List", 20, 10);
     departments.forEach((dep, index) => {
-        doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
+      doc.text(`${index + 1}. ${dep.department_name} (Total Users: 1)`, 10, 20 + index * 10);
     });
     doc.save('departments.pdf');
   };
-  
-  
-  
+
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
+
+
+
+
   const printDepartments = () => {
     const printContent = departments.map(dep => `${dep.department_name} (Total Users: 1)`).join('\n');
     const newWindow = window.open();
@@ -51,7 +57,12 @@ const Task = () => {
     newWindow.document.close();
     newWindow.print();
   };
+
+  const [isOpen, setIsOpen] = useState(false);
+
+
   const [exportFormat, setExportFormat] = useState('');
+  
   const [rowsToShow, setRowsToShow] = useState(25);
   const [allStaff, setAllStaff] = useState();
   const [open, setOpen] = useState(false);
@@ -124,72 +135,72 @@ const Task = () => {
 
   const [allTaskStatus, setAllTaskStatus] = useState();
   const fetchAllTaskStatus = async () => {
-    
-    try{
+
+    try {
       const response = await fetch(baseUrl + 'task/status');
-      if(response.status === 200){
-      const data = await response.json();
-      console.log("taskData:" , data);
-      setAllTaskStatus(data.taskStatus);
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log("taskData:", data);
+        setAllTaskStatus(data.taskStatus);
       }
-     else{
-     const error = await response.json();
-      console.error(error.message || `HTTP Error: ${response.status}`);
-      setAllTaskStatus([]);
-  }
-  }
-      catch (error) {
-        console.error("Error fetching task status:", error);
+      else {
+        const error = await response.json();
+        console.error(error.message || `HTTP Error: ${response.status}`);
         setAllTaskStatus([]);
+      }
+    }
+    catch (error) {
+      console.error("Error fetching task status:", error);
+      setAllTaskStatus([]);
     }
   }
 
   const [departments, setDepartments] = useState([])
   const fetchDepartments = async () => {
-    try{
+    try {
       const result = await fetch(baseUrl + "department")
       if (result.status == 200) {
-      const res = await result.json();
-      setDepartments(res.data)
-  
-    }
-    else {
-      console.error("Error fetching departments:", result.status);
-      setDepartments([]);
-    }
+        const res = await result.json();
+        setDepartments(res.data)
+
+      }
+      else {
+        console.error("Error fetching departments:", result.status);
+        setDepartments([]);
+      }
     }
     catch (error) {
-    console.error("Error fetching departments:", error);
-    setDepartments([]);
+      console.error("Error fetching departments:", error);
+      setDepartments([]);
+    }
   }
-}
-    
-   
 
-  
+
+
+
 
   const [taskPriority, setTaskPriority] = useState([]);
   const fetchTaskPriority = async () => {
-    try{
+    try {
       const result = await fetch(baseUrl + "task/priority")
       if (result.status == 200) {
         const res = await result.json();
         console.log(res);
         setTaskPriority(res.data)
-        
+
       }
       else {
         const error = await result.json();
         console.log(error.message, "error")
         setTaskPriority([]);
       }
-     
+
     }
-   catch(error){
-    console.log("error",error);
-    setTaskPriority([]);
-   } 
-}
+    catch (error) {
+      console.log("error", error);
+      setTaskPriority([]);
+    }
+  }
 
   const [selectedTag, setSelectedTag] = useState([])
   const [staffDetail, setStaffDetail] = useState();
@@ -202,7 +213,7 @@ const Task = () => {
   }));
 
   const fetchStaffDetail = async () => {
-    try{
+    try {
       const result = await fetch(baseUrl + "staff")
       console.log("reuslt---", result)
       if (result.status == 200) {
@@ -211,21 +222,21 @@ const Task = () => {
       }
       else {
         const res = await result.json();
-       console.log("error while fetching satff" , res.message);
+        console.log("error while fetching satff", res.message);
         setStaffDetail([]);
       }
-    
+
     }
-    catch(error){
-      console.error("error" , error.message);
+    catch (error) {
+      console.error("error", error.message);
       setStaffDetail([]);
     }
-    
+
   }
 
   const [projectDetails, setProjectDetails] = useState([]);
   async function fetchProjectDetails() {
-    try{
+    try {
       const result = await fetch(baseUrl + "project");
       console.log("---", result)
       if (result.status == 200) {
@@ -238,11 +249,11 @@ const Task = () => {
         setProjectDetails([]);
       }
     }
-catch(error){
-  console.error("Error fetching Projects" , error);
-  setProjectDetails([]);
-}
- }
+    catch (error) {
+      console.error("Error fetching Projects", error);
+      setProjectDetails([]);
+    }
+  }
 
 
   let subtitle;
@@ -283,8 +294,8 @@ catch(error){
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
     setIsLoading(true);
-  try {
-        const result = await fetch(baseUrl + "/task/detail")
+    try {
+      const result = await fetch(baseUrl + "task/detail")
       if (result.status === 200) {
         const data = await result.json();
         console.log(data.taskDetail)
@@ -361,9 +372,9 @@ catch(error){
 
                   <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">N/A</Link></td>
                   <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">{index + 1}</td>
-                  <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">{s.taskName}</Link></td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s.startDate}</td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s.endDate}</td>
+                  <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">{s?.taskName}</Link></td>
+                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s?.startDate}</td>
+                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s?.endDate}</td>
                   <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
                   <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	">N/A</td>
                   <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">N/A</td>
@@ -444,7 +455,7 @@ catch(error){
       <div className=" h-[30px] mb-5">
         {/* Button to open the modal */}
         <button
-          className="bg-[#27004a] gap-[4px] p-[8px] text-white flex items-center text-[14px] focus-visible:outline-none  rounded-md "
+          className=" gap-[4px] p-[8px]  allcrm-btn flex items-center text-[14px] focus-visible:outline-none"
           onClick={toggleModal15}
         >
           <AddIcon className="newadd" /> New Task
@@ -456,193 +467,193 @@ catch(error){
             <div className="bg-white p-6 rounded-lg shadow-cs w-[550px] relative h-[100%] overflow-y-scroll ">
               <h2 className="text-lg font-semibold mb-[16px]">Add new Task</h2>
               <form action="" onSubmit={submitTask}>
-              <div className="w-[100%]">
-
                 <div className="w-[100%]">
 
-                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Name</label><br />
-                  <input type='text' onChange={(e) => setTaskName(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
-                </div>
-                <div className="flex gap-[8px]">
-
-                  <div className="w-[100%]" >
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Status</label>    <br />
-                    <select
-                      onChange={(e) => setSelectedTaskStatusId(e.target.value)} // Store only the selected ID as a string
-                      className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                      required
-                    >
-                      <option value="">Please Select Task Status</option>
-                      {allTaskStatus?.map((status) => (
-
-                        <option key={status?.id} value={status?.id}>
-                          {status?.taskStatusName}
-                        </option>
-                      ))}
-                    </select>
-
-
-                  </div>
-
-                </div>
-                <div className="flex gap-[8px]">
-                  <div className="w-[50%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Start Date</label>    <br />
-                    <input type='date' onChange={(e) => setStartDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
-                  </div>
-                  <div className="w-[50%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>End Date</label>    <br />
-                    <input type='date' onChange={(e) => setEndDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
-                  </div>
-                </div>
-                <div className="flex gap-[8px]">
-                  <div className="w-[50%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Due Date</label>    <br />
-                    <input type='date' onChange={(e) => setUpdateDueDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
-                  </div>
-                  <div className="w-[50%]">
-
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Project</label>    <br />
-                    <select
-                      onChange={(e) => setSelectedProjectId(e.target.value)}
-                      className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                    required>
-                      <option value="">- Select Project -</option> {/* Placeholder option */}
-                      {projectDetails?.map((project) => (
-                        <option key={project.id} value={project.id}>
-                          {project.project_name}
-                        </option>
-                      ))}
-                    </select>
-
-                  </div>
-                </div>
-                <div className="w-[100%] flex gap-[10px]">
-                  <div className="w-[50%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
-                    <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]' required>
-                      <option>Select Department</option>
-                      {departments?.map(department => (
-                        <option key={department.id} value={department.id}>
-                          {department.department_name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="w-[50%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Priority</label>    <br />
-                    <select
-                      onChange={(e) => setSelectedTaskPriorityId(e.target.value)} // Set only the selected ID
-                      className="border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] hover:bg-[#fff]"
-                   required >
-                      <option value="">Select Task Priority</option> {/* Placeholder option */}
-                      {taskPriority?.map((priority) => (
-                        <option key={priority.id} value={priority.id}>
-                          {priority.taskPriorityName}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="">
-
-
                   <div className="w-[100%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Assignee</label>    <br />
-                    <Select
-                      isMulti
-                      options={staffDetail?.map(staff => ({
-                        value: staff.id,
-                        label: staff.name,
-                      }))}
-                      onChange={(selectedOptions) => {
-                        const selectedIds = selectedOptions?.map(option => option.value) || [];
-                        console.log("Selected IDs:", selectedIds);
-                        setUpdateTaskAssigne(selectedIds);
-                      }}
-                      placeholder="Select Members..."
-                      className="w-full"
-                      styles={{
-                        control: (provided) => ({
-                          ...provided,
-                          minHeight: '46px',
-                          border: '1px solid #DBDCDE',
-                        }),
-                        multiValue: (provided) => ({
-                          ...provided,
-                          backgroundColor: '#e5e7eb',
-                          borderRadius: '4px',
-                        }),
-                        multiValueLabel: (provided) => ({
-                          ...provided,
-                          fontSize: '0.875rem',
-                        }),
-                        multiValueRemove: (provided) => ({
-                          ...provided,
-                          color: '#4b5563',
-                          cursor: 'pointer',
-                        }),
-                      }}
-                    required/>
 
+                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Name</label><br />
+                    <input type='text' onChange={(e) => setTaskName(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required />    <br />
                   </div>
-                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
-                  <textarea type='text' onChange={(e) => setTaskDescription(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
-                  <div className="w-[100%]">
-                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />
-                    <input type='text' onChange={(e) => setTag(e.target.value)} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' required/>    <br />
-                  </div>
+                  <div className="flex gap-[8px]">
+
+                    <div className="w-[100%]" >
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Status</label>    <br />
+                      <select
+                        onChange={(e) => setSelectedTaskStatusId(e.target.value)} // Store only the selected ID as a string
+                        className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                        required
+                      >
+                        <option value="">Please Select Task Status</option>
+                        {allTaskStatus?.map((status) => (
+
+                          <option key={status?.id} value={status?.id}>
+                            {status?.taskStatusName}
+                          </option>
+                        ))}
+                      </select>
 
 
-                </div>
-
-
-
-
-                <div>
-                  <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Attach File</label><br />
-                  <div className='relative'>
-                    <input type='file' onChange={(e) => setAttachFile(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
-                    <button onClick={addNewDiv} >
-                      <AddIcon className='plus-icon' />
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  {/* Dynamically render each div */}
-                  {divs.map((_, index) => (
-                    <div key={index} className='mb-[10px]'>
-                      <label className='text-[13px] xl:text-[14px] font-medium'>Attach File {index + 1}</label><br />
-                      <div className='relative'>
-                        <input
-                          type='file'
-                          className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
-                        required/>
-
-                        {/* Remove Button for every div */}
-                        <button onClick={() => removeDiv(index)} className='  rounded plus-icon'>
-                          <RemoveIcon />
-                        </button>
-                      </div>
                     </div>
-                  ))}
+
+                  </div>
+                  <div className="flex gap-[8px]">
+                    <div className="w-[50%]">
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Start Date</label>    <br />
+                      <input type='date' onChange={(e) => setStartDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required />    <br />
+                    </div>
+                    <div className="w-[50%]">
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>End Date</label>    <br />
+                      <input type='date' onChange={(e) => setEndDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    </div>
+                  </div>
+                  <div className="flex gap-[8px]">
+                    <div className="w-[50%]">
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Due Date</label>    <br />
+                      <input type='date' onChange={(e) => setUpdateDueDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    </div>
+                    <div className="w-[50%]">
+
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Project</label>    <br />
+                      <select
+                        onChange={(e) => setSelectedProjectId(e.target.value)}
+                        className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                        required>
+                        <option value="">- Select Project -</option> {/* Placeholder option */}
+                        {projectDetails?.map((project) => (
+                          <option key={project.id} value={project.id}>
+                            {project.project_name}
+                          </option>
+                        ))}
+                      </select>
+
+                    </div>
+                  </div>
+                  <div className="w-[100%] flex gap-[10px]">
+                    <div className="w-[50%]">
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
+                      <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]' required>
+                        <option>Select Department</option>
+                        {departments?.map(department => (
+                          <option key={department.id} value={department.id}>
+                            {department.department_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="w-[50%]">
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Priority</label>    <br />
+                      <select
+                        onChange={(e) => setSelectedTaskPriorityId(e.target.value)} // Set only the selected ID
+                        className="border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] hover:bg-[#fff]"
+                        required >
+                        <option value="">Select Task Priority</option> {/* Placeholder option */}
+                        {taskPriority?.map((priority) => (
+                          <option key={priority.id} value={priority.id}>
+                            {priority.taskPriorityName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="">
 
 
+                    <div className="w-[100%]">
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Assignee</label>    <br />
+                      <Select
+                        isMulti
+                        options={staffDetail?.map(staff => ({
+                          value: staff.id,
+                          label: staff.name,
+                        }))}
+                        onChange={(selectedOptions) => {
+                          const selectedIds = selectedOptions?.map(option => option.value) || [];
+                          console.log("Selected IDs:", selectedIds);
+                          setUpdateTaskAssigne(selectedIds);
+                        }}
+                        placeholder="Select Members..."
+                        className="w-full"
+                        styles={{
+                          control: (provided) => ({
+                            ...provided,
+                            minHeight: '46px',
+                            border: '1px solid #DBDCDE',
+                          }),
+                          multiValue: (provided) => ({
+                            ...provided,
+                            backgroundColor: '#e5e7eb',
+                            borderRadius: '4px',
+                          }),
+                          multiValueLabel: (provided) => ({
+                            ...provided,
+                            fontSize: '0.875rem',
+                          }),
+                          multiValueRemove: (provided) => ({
+                            ...provided,
+                            color: '#4b5563',
+                            cursor: 'pointer',
+                          }),
+                        }}
+                        required />
+
+                    </div>
+                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
+                    <textarea type='text' onChange={(e) => setTaskDescription(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required />    <br />
+                    <div className="w-[100%]">
+                      <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />
+                      <input type='text' onChange={(e) => setTag(e.target.value)} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' required />    <br />
+                    </div>
+
+
+                  </div>
+
+
+
+
+                  <div>
+                    <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Attach File</label><br />
+                    <div className='relative'>
+                      <input type='file' onChange={(e) => setAttachFile(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />
+                      <button onClick={addNewDiv} >
+                        <AddIcon className='plus-icon' />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div>
+                    {/* Dynamically render each div */}
+                    {divs.map((_, index) => (
+                      <div key={index} className='mb-[10px]'>
+                        <label className='text-[13px] xl:text-[14px] font-medium'>Attach File {index + 1}</label><br />
+                        <div className='relative'>
+                          <input
+                            type='file'
+                            className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
+                            required />
+
+                          {/* Remove Button for every div */}
+                          <button onClick={() => removeDiv(index)} className='  rounded plus-icon'>
+                            <RemoveIcon />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+
+
+                  </div>
+                  {/* <DescriptionEditer /> */}
+
+                  <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
+                    {/* Button to close the modal */}
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                      onClick={toggleModal15}
+                    >
+                      Close
+                    </button>
+                    <button className='second-btn' >Save </button>
+                  </div>
                 </div>
-                {/* <DescriptionEditer /> */}
-
-                <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
-                  {/* Button to close the modal */}
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                    onClick={toggleModal15}
-                  >
-                    Close
-                  </button>
-                  <button className='second-btn' >Save </button>
-                </div>
-              </div>
               </form>
 
             </div>
@@ -654,7 +665,7 @@ catch(error){
       <div className="bg-white border border-[#e5e7eb] shadow-cs rounded-lg p-[14px] ">
 
         <h2 className="font-medium mb-[10px] flex gap-[6px] items-center"> <LibraryBooksIcon />Task</h2>
-        <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
+        <div className='flex mb-4 justify-between p-3 flex-col gap-2 pl-[0] sm:flex-row sm:gap-0'>
           <div className='left-side '>
             <select
               onChange={handleSelectChange}
@@ -707,11 +718,11 @@ catch(error){
                   styles={customStyles}
                 />
               </div>
-              
+
               <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
 
               <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
-             
+
                 <button className='second-btn'>Confirm </button>
               </div>
 
@@ -729,48 +740,55 @@ catch(error){
 ]'/>
           </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-max">
+        <div className=" bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb]  overflow-x-auto">
+          <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
             {/* Table Header - Acts as Toggle Button */}
-            <thead className="tablehead cursor-pointer " onClick={handleTableOpen}>
-              <tr className="rounded-lg shadow-lg bg-[white]">
-                <th className="text-[12px] font-medium border-r border-[#dbdbdb] p-[5px] min-w-[100px]  whitespace-nowrap">
-                  <button className="p-[6px] rounded-lg bg-[orange] mr-2 text-white">                   To Do
-                  </button>
-                  <span className="six-north">6</span>
+            <thead className=" cursor-pointer border border-gray-300 shadow-md " onClick={toggleAccordion}
+            >
+              <tr>
+                <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                  <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen ? "rotate-90 text-[black]" : "rotate-0"}`}
+                  />
+
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[60px]  text-left">#</th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[150px]  text-left">
-                  Task Name
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  #
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[120px]  text-left">
-                  Start Date
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Name
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[120px]  text-left">
-                  Due Date
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Company
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[120px]  text-left">
-                  End Date
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Primary Contact
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[100px]  text-left">
-                  Assigned to
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Primary Email
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[80px]  text-left">
-                  Tags
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Phone
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[100px] text-left">
-                  Priority
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Active
                 </th>
-                <th className="text-[12px] border-r border-[#dbdbdb] font-medium p-[5px] min-w-[100px] text-center">
-                  Actions
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Groups
+                </th>
+                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+                  Date Created
+                </th>
+                <th className="p-2 text-xs font-medium text-center">
+                  Action
                 </th>
               </tr>
             </thead>
 
             {/* Table Body - Collapsible Content */}
-            {isTableOpen && (
-              <tbody>
-                {fetchTaskData?.map((s, index) => (
+
+            {isOpen && (
+              <tbody className={`transition-body ${isOpen ? "open" : ""}`}  >
+                {/* {fetchTaskData?.map((s, index) => (
                   <tr key={index} className="rounded-lg border-b border-[#e5e7eb]">
                     <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
                       <Link className="textcomplete">N/A</Link>
@@ -807,24 +825,41 @@ catch(error){
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))} */}
+                {/* <tr>
+                  <td>Hello</td>
+                  <td>Hello</td>
+                  <td>Hello</td>
+                  <td>Hello</td>
+                  <td>Hello</td>
+                  <td>Hello</td>
+                  <td>Hello</td>
+                  <td>Hello</td>
+                  
+                </tr> */}
               </tbody>
+
+              
+         
             )}
+
+          
           </table>
 
-          <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
-                        <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
-                        <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
-                            <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                            <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
-                            <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
-
-                        </div>
-                    </div>
+       
 
 
 
         </div>
+        <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+            <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
+            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+              <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+              <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
+              <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
+            </div>
+          </div>
 
 
 

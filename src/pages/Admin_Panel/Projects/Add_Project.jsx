@@ -197,13 +197,13 @@ const Add_Project = () => {
   },[])
 
   return (
-    <div className="max-w-[100%] mx-auto">
-    <Tabs className="m-5 shadow rounded-lg">
+    <div className="max-w-[80%] mx-auto">
+    <Tabs className="m-5 shadow-cs rounded-lg">
       <TabList className="flex p-5 pb-[10px] gap-4 text-[16px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
-        <Tab className="hover:text-[#27004a] project-tab text-[#27004a] focus-visible:outline-none newsetup-tab text-[17px] hover:border-b pb-1  border-[#27004a]">
+        <Tab className="py-2 hover:border-b-1 hover:border-[#27004a] text-md font-medium">
           Project
         </Tab>
-        <Tab className="hover:text-[#27004a] focus-visible:outline-none   newsetup-tab text-[17px] hover:border-b  pb-2 border-[#27004a]">
+        <Tab className="text-gray-600 py-2 text-md font-medium hover:border-b-1 hover:border-[#27004a]">
           Project Settings
         </Tab>
       </TabList>
@@ -213,7 +213,7 @@ const Add_Project = () => {
         <div className="w-[100%]  space-y-5">
           
           <div className="space-y-2">
-            <label className="font-medium">* Project Name</label>
+            <label className="text-sm font-medium text-gray-700">* Project Name</label>
             <input  
               className="h-[35px] w-[100%] border border-[#DBDCDE]  rounded-md pl-2 "
               type="text"
@@ -225,7 +225,7 @@ const Add_Project = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="font-medium">* Customer</label>
+            <label className="text-sm font-medium text-gray-700">* Customer</label>
             <select
   onChange={(e) => setSelectClient(e.target.value)}
   className="w-[100%]  bg-white border border-[#DBDCDE] rounded-md pl-5 h-[35px]"
@@ -242,19 +242,19 @@ const Add_Project = () => {
 </select>
           </div>
 
-          <div className="font-medium flex gap-4 items-center">
+          <div className="font-medium flex gap-3 items-center">
             <input type="checkbox" name = "progress" required/>
-            <label for = "progress">Calculate progress through tasks</label>  
+            <label for = "text-[14px] font-medium text-gray-700">Calculate progress through tasks</label>  
           </div>
 
           <div className="space-y-2">
-            <h1>Progress 0%</h1>
+            <h1 className="text-sm font-medium text-gray-700">Progress 0%</h1>
             <div className="h-7 bg-[#FBFBFB] border border-[#D9D9D9] rounded-md"></div>
           </div>
 
           <div className="flex w-[100%] gap-10">
             <div className="w-[50%] space-y-2">
-              <label>* Billing Type</label>
+              <label className="text-sm font-medium text-gray-700">* Billing Type</label>
               <select onChange={(e) => { setBillingType(e.target.value) }} className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5" name = "billingType" required>
                 <option value="Fixed Rate">Fixed rate</option>
                 <option value="Project Hours">Project Hours</option>
@@ -263,7 +263,7 @@ const Add_Project = () => {
             </div>
 
             <div className="w-[50%] space-y-2">
-              <label>Status</label>
+              <label className="text-sm font-medium text-gray-700">Status</label>
               <select className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5" name = "status" required>
                 <option value="">In Progress</option>
                 {
@@ -278,7 +278,7 @@ const Add_Project = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="font-medium">Total Rate</label>
+            <label className="text-sm font-medium text-gray-700">Total Rate</label>
             <input
             name = "totalRate"
               className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
@@ -292,7 +292,7 @@ const Add_Project = () => {
           <div className="grid grid-rows-2 space-y-2">
             <div className="flex w-[100%] gap-10">
               <div className="w-[50%] space-y-2">
-                <label>Estimated Hours</label>
+                <label className="text-sm font-medium text-gray-700">Estimated Hours</label>
                 <input
                   className="h-[40px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
                   type="number"
@@ -303,7 +303,7 @@ const Add_Project = () => {
               </div>
 
               <div className="w-[50%] space-y-2">
-                <label>Members</label>
+                <label className="text-sm font-medium text-gray-700">Members</label>
 
                 <Select
                   isMulti
@@ -343,7 +343,7 @@ const Add_Project = () => {
 
             <div className="flex w-[100%] gap-10">
               <div className="w-[50%] space-y-2">
-                <label>* Start Date</label>
+                <label className="text-sm font-medium text-gray-700">* Start Date</label>
                 <input
                   className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
@@ -354,7 +354,7 @@ const Add_Project = () => {
               </div>
 
               <div className="w-[50%] space-y-2">
-                <label>Deadline</label>
+                <label className="text-sm font-medium text-gray-700">Deadline</label>
                 <input
                   className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
@@ -401,7 +401,7 @@ const Add_Project = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-[18px] font-semibold">Description</label>
+            <label className="text-sm font-medium text-gray-700">Description</label>
             <ReactQuill
               value={editorData}
               onChange={setEditorData}
@@ -412,12 +412,12 @@ const Add_Project = () => {
 
           <div className="space-x-3 border-b border-t border-[#B1B1B1] py-4">
             <input type="checkbox" onChange={(e) => setSendEmail(e.target.checked)} />
-            <span className="font-medium">Send project created email</span>
+            <span className="text-sm font-medium text-gray-700">Send project created email</span>
           </div>
 
           <div className="flex justify-end gap-5 pb-10">
             <button onClick={handleCloseForm} className="bg-white text-[#27004a] border border-[#27004a] h-10 w-20 rounded-md">Cancel</button>
-            <button type= "submit" className="bg-[#27004a] text-white h-10 w-20 rounded-md" >Save</button>
+            <button type= "submit" className="allcrm-btn" >Save</button>
           </div>
         </div>
         </form>

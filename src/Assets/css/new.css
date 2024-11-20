@@ -114,6 +114,7 @@
     transition: all 0.5s linear ;
 
 }
+
 .newadd{
     font-size: 18px !important;
 }
@@ -269,6 +270,21 @@
  } */
 .active-set2{
     color: white;
+}
+.allcrm-btn{
+    background: #27004a;
+    color: #fff;
+    transition: all 0.3s linear;
+    border: 1px solid #27004a;
+    padding: 7px;
+    border-radius: 7px;
+    font-size: 14px;
+}
+.allcrm-btn:hover{  
+    transition: all 0.3s linear;
+    background: none;
+    color: #27004a;
+    
 }
 .tab-span{
     font-size: 14px;
@@ -611,3 +627,16 @@
     }
 }
 
+
+.transition-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+  }
+  
+  .transition-body.open {
+    max-height: 1000px; /* Adjust to a sufficiently large value */
+  }
+.all-btns-crm{
+    transition: all 0.5s linear !important;
+}  
