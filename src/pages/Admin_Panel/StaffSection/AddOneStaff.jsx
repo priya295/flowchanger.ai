@@ -29,12 +29,12 @@ const AddOneStaff = () => {
 
     const fetchDepartments = async () => {
          const result = await fetch(baseUrl + "department")
+         const res = await result.json();
          if (result.status == 200) {
-          const res = await result.json();
           setDepartments(res.data)
         }
         else {
-         openToast("An Error Occured")
+         openToast(result.message);
         }
       }
 
@@ -46,7 +46,7 @@ const AddOneStaff = () => {
           setRoles(res.data)
         }
         else {
-          alert("An Error Occured")
+        console.log("failed to fetch roles");
         }
         console.log("result",result)
 
@@ -81,7 +81,7 @@ const AddOneStaff = () => {
         });
     
         console.log(response);
-    
+       const result = await response.json();
         if (response.status === 201) {
             openToast("Add Staff Succesfully");
             navigate("/staff-menu")
@@ -98,7 +98,7 @@ const AddOneStaff = () => {
             setSelectRole("");
     
         } else {
-            openToast("An Internal Error", "error")
+            openToast(result.message||"An Internal Error", "error")
 
         }
       }
@@ -107,17 +107,17 @@ const AddOneStaff = () => {
 
   return (
     <div className='add-one-staff'>
-        <Link to="/staff-menu" className='flex items-center gap-[10px] text-[20px] font-medium		'><KeyboardBackspaceIcon/>Add Staff</Link>
-        <form className=' w-[100%] xl:w-[80%] m-auto mt-[60px] shadow-md  xl:p-[24px] p-[12px] border rounded-md  border-1' >
-            <div className='flex w-[100%] gap-[10px] justify-between  xl:mb-4 mb-[6px] xl:flex-row flex-col'>
+        <Link to="/staff-menu" className='flex items-center gap-[10px] text-[20px] font-medium'><KeyboardBackspaceIcon/>Add Staff</Link>
+        <form onSubmit={handlesubmit} className=' w-[100%] xl:w-[80%] m-auto mt-[60px] shadow-md  xl:p-[24px] p-[12px] border rounded-md  border-1' >
+            <div  className='flex w-[100%] gap-[10px] justify-between  xl:mb-4 mb-[6px] xl:flex-row flex-col'>
                 <div className='w-[100%] xl:w-[48%] 2xl:w-[48%]  '>
                 <label className='text-[14px]'>Name</label><br/>
-                <input type='text' value={name} placeholder='Enter Name' onChange={(e)=>{setName(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] 	  placeholder:font-font-normal text-[14px]'/>
+                <input type='text' value={name} placeholder='Enter Name' onChange={(e)=>{setName(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] 	  placeholder:font-font-normal text-[14px]' required/>
                 </div>
               
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
-                <label className='text-[14px]'>Job Tittle</label><br/>
-                <input type='text' value={jobTitle} placeholder='Enter Job Title' onChange={(e)=>{setJobTitle(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
+                <label className='text-[14px]' required>Job Tittle</label><br/>
+                <input type='text' value={jobTitle} placeholder='Enter Job Title' onChange={(e)=>{setJobTitle(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>
                 </div>
 
 
@@ -126,14 +126,14 @@ const AddOneStaff = () => {
             <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
                 <label className='text-[14px]'>Branch</label><br/>
-                <select  className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                <select  className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'  required>
                     <option>Please Select Branch</option>
                 </select>
                 </div>
 
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
                 <label className='text-[14px]'>Department</label><br/>
-                <select value={selectDepartment} onChange={(e)=>setSelectDepartment(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                <select value={selectDepartment} onChange={(e)=>setSelectDepartment(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required>
                 <option value={"0"}>Select</option>
                 {
                     departments?.map((dep,index)=>{
@@ -150,7 +150,7 @@ const AddOneStaff = () => {
             <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
                 <label className='text-[14px]'>Role</label><br/>
-                <select value={selectRole}  onChange={(e)=>setSelectRole(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                <select value={selectRole}  onChange={(e)=>setSelectRole(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'  required>
 
                     <option value={"0"}> Select Role</option>
                 {
@@ -165,7 +165,7 @@ const AddOneStaff = () => {
 
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
                 <label className='text-[14px]'>Mobile</label><br/>
-                <input type='number' value={mobile} placeholder='Enter Mobile ' onChange={(e)=>{setMobile(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
+                <input type='number' value={mobile} placeholder='Enter Mobile ' onChange={(e)=>{setMobile(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>
                 </div>
 
 
@@ -174,12 +174,12 @@ const AddOneStaff = () => {
             <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
                 <label className='text-[14px]'>Login Token</label><br/>
-                <input type='number' value={otp} placeholder='Login Token' onChange={(e)=>{setOtp(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
+                <input type='number' value={otp} placeholder='Login Token' onChange={(e)=>{setOtp(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>
                 </div>
 
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%] '>
                 <label className='text-[14px]'>Gender</label><br/>
-                <select value={gender} onChange={(e)=>{setGender(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                <select value={gender} onChange={(e)=>{setGender(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required>
                    <option value={"0"}>Select Gender</option>
                     <option value={"Male"}>Male</option>
                     <option value={"Female"}>Female</option>
@@ -193,13 +193,13 @@ const AddOneStaff = () => {
             <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
                 <label className='text-[14px]'>Official Email ID</label><br/>
-                <input type='email' value={email} placeholder='Enter Email' onChange={(e)=>{setEmail(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
+                <input type='email' value={email} placeholder='Enter Email' onChange={(e)=>{setEmail(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>
 
                 </div>
 
                 <div className='w-[100%]  xl:w-[48%] 2xl:w-[48%]'>
                 <label className='text-[14px]'>Date of Joining</label><br/>
-                <input type='date' value={date} placeholder='Select Date' onChange={(e)=>{setDate(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
+                <input type='date' value={date} placeholder='Select Date' onChange={(e)=>{setDate(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>
 
                 
                 </div>
@@ -211,7 +211,7 @@ const AddOneStaff = () => {
             <div className='flex xl:flex-row flex-col w-[100%] gap-[10px] justify-between mb-[10px] '>
                 <div className='w-[100%] xl:[48%] '>
                 <label className='text-[14px]'>Address</label><br/>
-                <input type='text' value={address} placeholder='Enter Address' onChange={(e)=>{setAddress(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'/>
+                <input type='text' value={address} placeholder='Enter Address' onChange={(e)=>{setAddress(e.target.value)}} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>
 
                 </div>
 
@@ -225,7 +225,7 @@ const AddOneStaff = () => {
            
             <div className='flex gap-[20px] items-center'>
                 <Link to ="/" className='first-btn flex items-center'>Cancel</Link>
-                <button className='second-btn' onClick={handlesubmit}>Save</button>
+                <button className='second-btn'>Save</button>
                 
             </div>
 

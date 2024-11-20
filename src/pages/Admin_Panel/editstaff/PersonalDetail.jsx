@@ -672,4 +672,4 @@ const PersonalDetail = () => {
     )
 }
 
-export default PersonalDetail
+export default PersonalDetail;

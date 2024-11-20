@@ -95,6 +95,7 @@ const TaskPriority = () => {
 
     const [priorityName, setPriorityName] = useState();
     async function submitPriority() {
+        try{
         const result = await fetch(baseUrl + "task/priority", {
             method: "POST",
             headers: {
@@ -103,27 +104,46 @@ const TaskPriority = () => {
             body: JSON.stringify({ taskPriorityName: priorityName })
         })
         if (result.status == 201) {
-            openToast("Add Priority Successfuly", "success");
+            const data = await result.json();
+            openToast(data.message, "success");
             toggleModal();
         }
         else {
-            openToast("Internal Server Error", "error")
+            const error = await result.json();
+            openToast(error.message || "internal server error", "error")
         }
+        }
+        catch (error) {
+            console.error("Error in POST request:", error);
+        
+            // Specific handling for "Failed to fetch"
+            if (error.message === "Failed to fetch") {
+              openToast("Network error: Unable to connect to the server", "error");
+            } else {
+              openToast(error.message || "An unexpected error occurred", "error");
+            }
+          }
     }
 
 
     const [priorityHeading, setPriorityHeading] = useState([]);
     console.log("priority", priorityHeading)
     async function fetchPriority() {
-        const result = await fetch(baseUrl + "task/priority");
+        try{
+          const result = await fetch(baseUrl + "task/priority");
         if (result.status == 200) {
             const res = await result.json()
             console.log("---", res)
-            setPriorityHeading(res);
+            setPriorityHeading(res.taskPriority);
 
         } else {
-            openToast("Internal Server Error", "error")
+             const error = await result.json()
+           throw new Error(error.message||"Internal Server Error", "error")
         }
+        }
+       catch (error){
+        console.log(error);
+       }
 
     }
 
@@ -192,7 +212,8 @@ const TaskPriority = () => {
     async function updateTaskPriority(){
         const taskPriorityId=selectedPriority.id;
         console.log(taskPriorityId)
-        const result=await fetch(baseUrl+`task/priority/${taskPriorityId}`,{
+        try{
+          const result=await fetch(baseUrl+`task/priority/${taskPriorityId}`,{
             method:"PUT",
             headers:{
                 "Content-type":"application/json"   
@@ -205,9 +226,13 @@ const TaskPriority = () => {
             openToast("Update Task Name Successfully","success")
         }
         else{
-            openToast("Internal Server Error","error")
+           const error = await result.json();
+      throw new Error(error.message || `HTTP Error: ${result.status}`);
         }
-        
+        }
+       catch(error){
+         console.error("Error fetching task status:", error);
+       }   
     }
 
     return (

@@ -50,8 +50,8 @@ const SalaryOverview = () => {
     // console.log(selectedStaff);
     return (
         <>
-            {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
-            <div className='flex justify-between items-center  w-[100%] p-[20px]  pr-0 xl:pr-[0px] pl-[0] top-0 bg-white'>
+        {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
+            <div className='flex justify-between items-center  w-[100%] p-[20px] mt-[30px]  pr-0 xl:pr-[0px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Salary Overview</h3>
                 <button className='second-btn'>Update Details</button>
             </div>

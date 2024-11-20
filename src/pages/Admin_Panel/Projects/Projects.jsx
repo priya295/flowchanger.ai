@@ -111,16 +111,24 @@ const printDepartments = () => {
 };
 
 async function fetchProjectDetails() {
-  const result = await fetch(baseUrl + "project");
-  if (result.status === 200) {
-    const res = await result.json();
-    setProjectDetails(res.data);
-    if (res.data && res.data.length > 0) {
-      setIsTableOpen(true);
+  try{
+    const result = await fetch(baseUrl + "project");
+    if (result.status === 200) {
+      const res = await result.json();
+      setProjectDetails(res.data);
+      if (res.data && res.data.length > 0) {
+        setIsTableOpen(true);
+      }
+    } 
+    else {
+      const res = await result.json();
+      console.log("an internal server error occured" , res.message);
+      setProjectDetails([]);
     }
-  } 
-  else {
-    openToast("An Error Occurred");
+  }
+  catch(error){
+    console.error("failed to fetch projects" , error);
+    setProjectDetails([])
   }
 }
 
