@@ -40,11 +40,11 @@ const AddDepartment = () => {
 
 
     return (
-        <div className='addnewrole  pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
-            <h2 className='xl:w-[50%] xl:m-auto'>Add New Department</h2>
+        <div className='addnewrole  pl-[10px] w-[70%] pr-2 mb-3 pb-4 mx-auto'>
+            <h2 className='xl:w-[50%] '>Add New Department</h2>
 
             <div className='w-[100%]'>
-                <div className='bg-[#fff] w-[80%] set-shadow p-3 lg:w-[100%] xl:w-[80%]  mt-2 rounded-md'>
+                <div className='bg-[#fff] w-full set-shadow shadow-sm p-3 lg:w-[100%]   mt-2 rounded-md'>
                     <label>Department Name</label><br />
                     <input type='text' value={department} onChange={(e) => setDepartment(e.target.value)} className='mt-2 border border-1 pl-3 h-[43px] pr-7
 ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'/>

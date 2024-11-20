@@ -129,11 +129,14 @@ const LeaveBalance = () => {
             },
             body: JSON.stringify({ name: leaveName, allowed_leaves: Number(allowLeave), carry_forward_leaves: Number(carryLeave), policy_type: policyType, staffIds: selectedId })
         })
+
+        const response = await result.json();
+
         if (result.status == 201) {
-            openToast("Leave Policy Created Successfully", "success")
+            openToast(response.message || "Leave Policy Created Successfully", "success")
         }
         else {
-            openToast("Internal Server Error", "error")
+            openToast(response.message || "Internal Server Error", "error")
         }
     }
 

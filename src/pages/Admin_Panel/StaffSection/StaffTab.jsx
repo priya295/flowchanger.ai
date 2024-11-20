@@ -23,7 +23,7 @@ const StaffTab = () => {
   const [searchStaffMessage, setSearchStaffMessage] = useState(false);
 
 
-
+// function to filter the staff
   const FilterStaff = async () => {
     const queryParams = new URLSearchParams({
       status: staffStatus,
@@ -38,12 +38,12 @@ const StaffTab = () => {
         setStaffDetail(result);
       } else {
         console.log("error while fetching data");
+        setStaffDetail([]);
 
       }
     } catch (error) {
       console.log(error);
-
-
+      setStaffDetail([]);
     }
     finally {
       setIsLoading(false);
@@ -88,17 +88,22 @@ const StaffTab = () => {
 
 
   const fetchDepartments = async () => {
-    const result = await fetch(baseUrl + "department")
-
-    if (result.status == 200) {
-      const res = await result.json();
-      setDepartments(res.data)
-
+    try{
+      const result = await fetch(baseUrl + "department")
+      if (result.status == 200) {
+        const res = await result.json();
+        setDepartments(res.data)
+  
+      }
+      else {
+        console.log("failed to fetch department" , result.status)
+        setDepartments([]);
+      }
     }
-    else {
-      setDepartments([]);
-    }
-
+   catch(error){
+    console.log("error while fetching department" , error)
+    setDepartments([]);
+   }
   }
   // handle search the staff
   const handleSearchStaff = async () => {
@@ -141,6 +146,7 @@ const StaffTab = () => {
 
     return () => clearTimeout(debounceTimer);
   }, [searchStaffName, selectedDepartmentName])
+  // function to reset all filters
   const resetFilters = () => {
     console.log("Reset filters");
     setIsLoading(true);

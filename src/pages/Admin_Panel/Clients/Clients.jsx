@@ -580,11 +580,11 @@ const Clients = () => {
             </div>
           </div>
 
-          <div className="bg-white  w-full overflow-x-auto">
-            <table className="w-full table-auto border border-[#dbdbdb] border-collapse">
+          <div className="bg-white rounded-lg w-full overflow-x-auto">
+            <table className="w-full table-auto border border-[#dcdbdb] border-collapse">
               {/* Header with Toggle */}
               <thead
-                className="cursor-pointer bg-[white] shadow-lg border border-gray-300"
+                className="cursor-pointer bg-gray-200 border border-gray-300 shadow-md"
                 onClick={toggleAccordion}
               >
                 <tr>
