@@ -28,7 +28,7 @@
 }
 .table-section 
 table{
-    border-collapse: unset;
+    /* border-collapse: unset; */
 }
 
 .table-body-set label{
@@ -600,3 +600,16 @@ input[type=radio]{
         align-items: center;
     }
    }
+
+.arrow-back-icon{
+    background: #27004a;
+    color: white;
+    padding: 3px;
+    border-radius: 25px;
+    font-size: 25px;
+}
+
+.role-row th{
+    background:  none !important;
+}
+

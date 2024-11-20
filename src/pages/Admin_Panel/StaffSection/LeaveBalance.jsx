@@ -277,7 +277,7 @@ const LeaveBalance = () => {
 
                                 <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' />
 
-                              
+
 
                             </div>
                             <div className='flex gap-[15px] justify-between lg:justify-start'>
@@ -446,8 +446,8 @@ const LeaveBalance = () => {
                         <table className='table-section mt-4'>
                             <thead className='border border-1 '>
                                 <th>Leave Name</th>
-                                <th>Allowed Leaves (Per {policyType=== "MONTHLY" ? "Month" : "Year"})</th>
-                                <th>Carry-forward Leaves (On {policyType=== "MONTHLY" ? "Month" : "Year"} End)</th>
+                                <th>Allowed Leaves (Per {policyType === "MONTHLY" ? "Month" : "Year"})</th>
+                                <th>Carry-forward Leaves (On {policyType === "MONTHLY" ? "Month" : "Year"} End)</th>
 
                             </thead>
                             <tbody>

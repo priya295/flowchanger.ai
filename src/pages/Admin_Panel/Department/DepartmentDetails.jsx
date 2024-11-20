@@ -71,12 +71,12 @@ const DepartmentDetail = () => {
       if (result.status === 200) {
         setDepartments(res.data);
       } else {
-        console.log(res.message||"An unexpected error occured","error");
+        console.log(res.message || "An unexpected error occured", "error");
       }
-    } 
-  catch (error) {
-        console.log("Fetch error:", error.message || error);
-        console.log(error.message || "An unexpected error occurred.");
+    }
+    catch (error) {
+      console.log("Fetch error:", error.message || error);
+      console.log(error.message || "An unexpected error occurred.");
     } finally {
       setIsLoading(false);
     }
@@ -92,7 +92,7 @@ const DepartmentDetail = () => {
         },
       });
       console.log(result);
-    if (result.status === true) {
+      if (result.status === true) {
         // Use result.ok instead of checking the status directly
         openToast(result.message);
         setDepartments(result);
@@ -196,8 +196,8 @@ const DepartmentDetail = () => {
         <AddIcon /> New Department
       </Link>
 
-      <div className="table-section mt-5 bg-white shadow-cs p-4 pl-0 rounded-lg pr-0">
-        <div className="flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
+      <div className="table-section mt-5 bg-white shadow-cs p-[14px]  rounded-sm ">
+        <div className="flex mb-4 justify-between flex-col gap-2  sm:flex-row sm:gap-0">
           <div className="left-side ">
             <select
               onChange={handleSelectChange}
@@ -224,45 +224,45 @@ const DepartmentDetail = () => {
               Export File
             </button>
             <button className="border border-[#e5e7eb] text-[14px] ml-[10px] rounded-lg shadow-sm p-[7px] " onClick={onOpenModal} >Bulk Action  <CachedIcon className="newsidebar-icon" /> </button>
-                <Modal open={open} onClose={onCloseModal} center>
-                  <div className="border-b border-[#dbdbdb] pb-[20px]">
-                    <h2>Bulk Actions</h2>
-                  </div>
-                  <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
-                    <input type="checkbox" />
-                    <p className="text-[14px]">Mass Delete</p>
-                  </div>
-                  <div className="w-[100%]">
+            <Modal open={open} onClose={onCloseModal} center>
+              <div className="border-b border-[#dbdbdb] pb-[20px]">
+                <h2>Bulk Actions</h2>
+              </div>
+              <div className="flex items-center gap-[8px] mt-[32px] mb-[32px]">
+                <input type="checkbox" />
+                <p className="text-[14px]">Mass Delete</p>
+              </div>
+              <div className="w-[100%]">
 
 
 
 
 
-                    <Select
-                      isMulti
-                      name="isHiddenFor"
-                      options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
-                      value={taskStatus.isHiddenFor || []}
-                      onChange={(selectedOptions) =>
-                        setTaskStatus((prev) => ({
-                          ...prev,
-                          isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
-                        }))
-                      }
-                      styles={customStyles}
-                    />
-                  </div>
-                  <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
+                <Select
+                  isMulti
+                  name="isHiddenFor"
+                  options={allStaff?.map(({ id, label }) => ({ label: label, value: id }))}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  value={taskStatus.isHiddenFor || []}
+                  onChange={(selectedOptions) =>
+                    setTaskStatus((prev) => ({
+                      ...prev,
+                      isHiddenFor: selectedOptions || [] // ensures an array even if no options are selected
+                    }))
+                  }
+                  styles={customStyles}
+                />
+              </div>
+              <p className="text-[red] text-[14px] mt-[10px]">if you do not select any groups assigned to the selected customers will be removed.</p>
 
-                  <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
-                    {/* Button to close the modal */}
+              <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
+                {/* Button to close the modal */}
 
-                    <button className='second-btn'>Confirm </button>
-                  </div>
+                <button className='second-btn'>Confirm </button>
+              </div>
 
-                </Modal>
+            </Modal>
           </div>
 
           <div className="right-side relative  w-[200px]">
@@ -283,63 +283,66 @@ const DepartmentDetail = () => {
             />
           </div>
         </div>
-        <table class="table-auto w-[100%] p-[10px]">
-          <thead className="bg-[#ffff] ">
-            <tr>
-              <th className="text-center p-4  shadow-cs text-sm font-medium ">
-                Department Name
-              </th>
-              <th className="text-center shadow-cs p-4 text-sm font-medium ">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {isLoading && departments.length === 0 ? (
-              <tr className="h-[70px]">
-                <td
-                  colSpan="9"
-                  className="text-center text-gray-600 text-xl font-semibold py-4"
-                >
-                  <ClipLoader color="#4A90E2" size={50} />
-                </td>
+        <div className='bg-white rounded-lg w-full shadow-cs  overflow-x-auto'>
+          <table class="table-auto w-[100%] p-[10px]">
+            <thead className="bg-[#ffff] ">
+              <tr>
+                <th className="text-center p-4  shadow-cs text-sm font-medium ">
+                  Department Name
+                </th>
+                <th className="text-center shadow-cs p-4 text-sm font-medium ">Options</th>
               </tr>
-            ) : departments && departments.length > 0 ? (
-              departments.slice(0, rowsToShow).map((dep) => (
-                <tr key={dep.id} className="border-b pb-2 border-[#f1f5f9]">
-                  <td className="pt-4 pb-3 pl-3">
-                    <Link to="/" className="text-[#27004a] text-[14px]">
-                      {dep.department_name}
-                    </Link>
-                 
-                  </td>
-                  <td className="flex pt-4 gap-2 justify-center">
-                    <Link
-                      to="/editdepartment"
-                      onClick={() => {
-                        setDepId(dep.id);
-                        setName(dep.department_name);
-                      }}
-                    >
-                      <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
-                    </Link>
-                    <DeleteOutlineIcon
-                      className="text-red-500 font-light cursor-pointer text-[10px]"
-                      onClick={() => deleteDepartments(dep.id)}
-                    />
+            </thead>
+            <tbody>
+              {isLoading && departments.length === 0 ? (
+                <tr className="h-[70px]">
+                  <td
+                    colSpan="9"
+                    className="text-center text-gray-600 text-xl font-semibold py-4"
+                  >
+                    <ClipLoader color="#4A90E2" size={50} />
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr className="h-[70px]">
-                <td
-                  colSpan="2"
-                  className="text-center text-red-500 text-xl font-semibold py-4"
-                >
-                  No departments found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ) : departments && departments.length > 0 ? (
+                departments.slice(0, rowsToShow).map((dep) => (
+                  <tr key={dep.id} className="border-b pb-2 border-[#f1f5f9]">
+                    <td className="pt-4 pb-3 pl-3">
+                      <Link to="/" className="text-[#27004a] text-[14px]">
+                        {dep.department_name}
+                      </Link>
+
+                    </td>
+                    <td className="flex pt-4 gap-2 justify-center">
+                      <Link
+                        to="/editdepartment"
+                        onClick={() => {
+                          setDepId(dep.id);
+                          setName(dep.department_name);
+                        }}
+                      >
+                        <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
+                      </Link>
+                      <DeleteOutlineIcon
+                        className="text-red-500 font-light cursor-pointer text-[10px]"
+                        onClick={() => deleteDepartments(dep.id)}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr className="h-[70px]">
+                  <td
+                    colSpan="2"
+                    className="text-center text-red-500 text-xl font-semibold py-4"
+                  >
+                    No departments found.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
         <div className="flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0">
           <p className=" text-[#a5a1a1] text-[14px]">
             Showing 1 to {rowsToShow} of {departments.length} entries
