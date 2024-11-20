@@ -55,10 +55,10 @@ const SideBar = ({ toggleSideBar }) => {
     // <div className="sidebar w-[250px] xl:w-[244px] lg:w-[300px] md:w-[300px] bg-[#27004a] h-full p-[10px] ">
 
 
-    <div className="sidebar w-[100%] xl:w-[20%] lg:w-[20%] md:w-[300px] bg-[#27004a] h-full p-[10px]">
+    <div className="sidebar w-[100%] xl:w-[20%] lg:w-[20%] md:w-[300px] bg-[#27004a] h-full p-[10px] flex-shrink-0">
 
 
-      <div className="flex xl:justify-center lg:justify-center  p-[20px]">
+      <div className="flex xl:justify-center lg:justify-center  p-[20px] ">
         <img src={logo} alt="" className="w-[120px]" />
       </div>
       <ul className="pl-[2px] pr-[2px] pt-[0px] pb-[20px]">

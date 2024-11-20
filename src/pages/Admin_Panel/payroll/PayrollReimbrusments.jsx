@@ -5,8 +5,15 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { IoMdArrowDropright } from 'react-icons/io';
  
 const PayrollReimbrusments = () => {
+
+  const [isOpen , setIsOpen] = useState(false);
+  
+  const toggleAccordion = () =>{
+    setIsOpen((isOpen) => !isOpen)
+  }
       
     let subtitle;
 
@@ -97,25 +104,36 @@ const PayrollReimbrusments = () => {
                 <SearchIcon className='absolute right-[10px] top-[10px] ' />
             </div>
 
-            <div>
+            <div className='mr-2'>
                 <input type="checkbox" onClick={handledrop11} id="breakdown" name="breakdown" value="breakdown" />
-                <label for="breakdown" > Show Incentive Staff</label>
+                <label for="breakdown " > Show Incentive Staff</label>
             </div>
 
 
         </div>
     </div>
 
-    <div className='text-end'>
+    <div className='text-end mb-2'>
         <button className='p-[10px] second-btn mt-[10px]' onClick={openModal9}>
             <UploadFileIcon/>
             Import Reimbursements
         </button>
         </div>
-    <div className='w-[100%] overflow-scroll flex rounded-md shadow  border border-1 mt-4 pl-3 pr-3'>
-        <table className='table-section mt-4 w-full'>
-        <thead className='border border-1 '>
-                        <th>
+        <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
+            <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
+              {/* Header with Toggle */}
+              <thead
+                className="cursor-pointer  border border-gray-300 shadow-md"
+                onClick={toggleAccordion}
+              >
+                  <tr>
+
+                  <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                   #
+</th>
+
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Name
                                 <div className='relative dropdown-container'>
@@ -134,7 +152,8 @@ const PayrollReimbrusments = () => {
                                 </div>
                             </div>
                         </th>
-                        <th>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Job Title
                                 <div className='relative dropdown-container'>
@@ -153,7 +172,8 @@ const PayrollReimbrusments = () => {
                                 </div>
                             </div>
                         </th>
-                        <th>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 CTC
                                 <div className='relative dropdown-container'>
@@ -173,7 +193,8 @@ const PayrollReimbrusments = () => {
                             </div>
                         </th>
                         
-                        <th className=''>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Payroll Finalized
                                
@@ -181,7 +202,8 @@ const PayrollReimbrusments = () => {
 
                         </th>
 
-                        <th className=''>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Total Reimbrusments
                                 <div className='relative dropdown-container'>
@@ -202,20 +224,28 @@ const PayrollReimbrusments = () => {
 
                         </th>
 
-                        <th className=''>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Action
                               
                             </div>
 
                         </th>
+                        </tr>
                     </thead>
 
             <tbody className='w-full'>
 
-                <tr className='h-[300px]'>
-                    Hello
-                </tr>
+            <tr className="border">
+                      <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                    </tr>
 
 
             </tbody>

@@ -123,7 +123,7 @@ const App = () => {
       <>
         <div className="flex ">
           <SideBar />
-          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
+          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set">
             <NavBar />
             <div className="p-[10px]  w-full ">
               <Outlet />
@@ -212,12 +212,12 @@ const App = () => {
   function Payroll_Summary() {
     return (
       <>
-        <div className="flex w-full">
+        <div className="flex max-w-screen box-border">
           <SideBar />
-          <div className="w-full">
-            <NavBar />
-            <div className="p-[20px] pb-10 w-full h-lvh overflow-scroll">
-              <PayrollMenu />
+          <div className={`${!toggleSideBar?"w-[calc(100%-20%)]":"w-full"}`}>
+            <NavBar className = "w-full"/>
+            <div className=" pb-10 w-full h-lvh payroll-menu overflow-y-auto">
+              <PayrollMenu className = "w-full" toggleSideBar = {toggleSideBar}/>
               {/* <Outlet /> */}
             </div>
 

@@ -16,7 +16,7 @@ import PayrollReimbrusments from "./PayrollReimbrusments";
 import PaymentHistory from "./PaymentHistory";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
-const PayrollMenu = () => {
+const PayrollMenu = ({toggleSideBar}) => {
   const {selectedTab,setSelectedTab,activeSubmenu , setActiveSubmenu} = useGlobalContext();
   useEffect(() => {
     if (!activeSubmenu) {
@@ -25,7 +25,7 @@ const PayrollMenu = () => {
   }, []);
 
   return (
-    <div className="staff-menu payroll-menus">
+    <div className="staff-menu payroll-menus py-[10px] px-[20px] ">
       <h3 className="text-[20px]  font-[Nunito]">Pay Roll</h3>
 
       <div className="tab-section mt-[30px]">
@@ -79,7 +79,7 @@ const PayrollMenu = () => {
           </TabPanel>
 
           <TabPanel>
-            <RunPayroll />
+            <RunPayroll toggleSideBar = {toggleSideBar}/>
           </TabPanel>
 
           <TabPanel>

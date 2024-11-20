@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { IoMdArrowDropright } from 'react-icons/io';
 
 
 const AdvancePayroll = () => {
 
-
+    const [isOpen , setIsOpen] = useState(false); 
+    const toggleAccordion = () => {
+        setIsOpen(!isOpen);
+      };     
     const [activeDropdown, setActiveDropdown] = useState(null);
 
     const handleDrop = (dropdown) => {
@@ -61,15 +65,28 @@ const AdvancePayroll = () => {
             </div>
 
 
-            <div className='relative  xl:w-[240px] lg:w-[240px] w-full mt-2'>
+            <div className='relative  xl:w-[240px] lg:w-[240px] w-full mt-2 mb-4'>
                 <input type="text" placeholder='Search' className='border rounded-md pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none' />
                 <SearchIcon className='absolute right-[10px] top-[10px] ' />
             </div>
 
-            <div className='w-[100%] overflow-scroll flex rounded-md shadow  border border-1 mt-4 pl-3 pr-3'>
-                <table className='table-section mt-4 w-full'>
-                    <thead className='border border-1 '>
-                        <th>
+            <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
+
+            <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
+
+            <thead
+                className="cursor-pointer  border border-gray-300 shadow-md"
+                onClick={toggleAccordion}
+              >
+
+                        <tr>
+                        <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                  #
+
+                  </th>
+
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Name
                                 <div className='relative dropdown-container'>
@@ -88,7 +105,8 @@ const AdvancePayroll = () => {
                                 </div>
                             </div>
                         </th>
-                        <th>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 CTC
                                 <div className='relative dropdown-container'>
@@ -107,7 +125,8 @@ const AdvancePayroll = () => {
                                 </div>
                             </div>
                         </th>
-                        <th className=''>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Advance Paid
                                 <div className='relative dropdown-container'>
@@ -127,7 +146,8 @@ const AdvancePayroll = () => {
                             </div>
 
                         </th>
-                        <th className=''>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Payroll Finalized
                                
@@ -135,7 +155,8 @@ const AdvancePayroll = () => {
 
                         </th>
 
-                        <th className=''>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Bank/UPI Verfied
                                 <div className='relative dropdown-container'>
@@ -156,20 +177,28 @@ const AdvancePayroll = () => {
 
                         </th>
 
-                        <th className=''>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
                             <div className='flex'>
                                 Action
                               
                             </div>
 
                         </th>
-                    </thead>
+                        </tr>
+                        </thead>
 
                     <tbody className='w-full'>
 
-                        <tr className='h-[300px]'>
-                            Hello
-                        </tr>
+                    <tr className="border">
+                      <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                    </tr>
 
 
                     </tbody>

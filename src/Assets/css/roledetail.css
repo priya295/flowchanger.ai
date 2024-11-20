@@ -106,6 +106,10 @@ table{
     padding: 7px 6px 7px 6px !important;
 
 }
+
+.payroll-menu::-webkit-scrollbar{
+ display: none;
+}
  
 .tab-section .react-tabs ::-webkit-scrollbar {
     width: 2px;
