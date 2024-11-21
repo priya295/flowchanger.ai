@@ -8,8 +8,6 @@ export const GlobalContext = ({ children }) => {
   const [selectedSidebarTab, setSelectedSidebarTab] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
   const baseUrl = "https://fc-prod-testing.onrender.com/api/"
-  // const baseUrl = "https://fc-production-testing.onrender.com/api/"
-  // const baseUrl = "http://localhost:5000/api/"
   console.log(baseUrl)
   const [staffTab, setStaffTab] = useState(0);
   const [name, setName] = useState("");

@@ -68,10 +68,10 @@ const Project_Setting = ({closeform}) => {
       </div>
 
       <div className="flex justify-end gap-5 py-10">
-        <button onClick={closeform} className="bg-white text-[#511992] border border-[#511992] h-10 w-20 rounded-md">
+        <button onClick={closeform} className="bg-white text-[#27004a] border border-[#27004a] h-10 w-20 rounded-md">
           Cancel
         </button>
-        <button className="bg-[#511992] text-white h-10 w-20 rounded-md">
+        <button className="allcrm-btn">
           Save
         </button>
       </div>

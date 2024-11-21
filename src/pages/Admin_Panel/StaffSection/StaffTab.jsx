@@ -156,7 +156,7 @@ const StaffTab = () => {
   };
   return (
     <div className='staff-tab mt-[20px]'>
-      <div className='flex justify-between flex-col xl:flex-row lg:flex-col md:flex-col gap-[15px] lg:gap-[0px]'>
+          <div className='flex justify-between flex-col xl:flex-row lg:flex-col md:flex-col gap-[15px] lg:gap-[0px]'>
         <div className='flex lg:gap-[20px]  flex-col gap-[10px] lg:flex lg:flex-row '>
           <div className='searching-input relative'>
             <img src={Search} className='absolute left-2 top-3' />
@@ -167,7 +167,8 @@ const StaffTab = () => {
           </div>
 
           <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' onChange={(e) => {
-            setSelectedDepartmentName(e.target.value); // calling the searchStaff function here to prevent unnecessery API calls
+            setSelectedDepartmentName(e.target.value);
+            handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
           }}>
             {departments.map(department => (
               <option key={department.name} value={department.name}>
@@ -182,7 +183,6 @@ const StaffTab = () => {
               <img src={Filter} className='w-[40px] h-[40px] bg-[#F4F5F9] rounded-full p-[10px]' />
               <h2 className='text-[14px] font-normal	'>More Filters</h2>
             </button>
-
             {isDropdownOpen && (
               <div className="absolute w-[325px]  mt-2 md:w-[400px] xl:w-[400px] lg:w-[400px] lg:left-[0px] p-[20px] bg-white border border-gray-200 rounded-md shadow-lg z-10">
                 <h2 className='border-b '>More Filters</h2>
@@ -220,21 +220,15 @@ const StaffTab = () => {
                 </div>
 
                 <div className='flex w-[50%] mx-auto justify-between text-center mt-2'>
-                  <button className='second-btn' onClick={() => { setDropdownOpen(false) }}>Close</button>
+                  <button className='second-btn'>Close</button>
                   <button className='second-btn' onClick={handleFilterButtonClick}>filter</button>
                 </div>
               </div>
             )}
           </div>
-          <button
-            onClick={resetFilters}
-            className="bg-[#27004a] text-white p-1 rounded-md mx-1"
-          >
-            Reset Filters
-          </button>
         </div>
         <div className='flex gap-[15px] justify-between lg:justify-start'>
-          <button className='border border-1 pl-3 pr-3 h-[43px] rounded-md pt-2 pb-2 text-sm'>Update Staff</button>
+          {/* <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button> */}
           <div>
             <div className="relative inline-block text-left">
               <div>

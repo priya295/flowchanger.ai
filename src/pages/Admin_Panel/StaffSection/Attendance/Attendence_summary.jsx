@@ -185,12 +185,12 @@ const Attendence_summary = () => {
             <div className='flex  justify-between satisfy-summary  '>
                 <div className='flex gap-[10px] summary-bold'>
                     <h1 className='font-semibold'>Attendence Summary</h1>
-                    <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className='text-[blue] ml-[10px]' to="/">View</Link> </p>
+                    <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className='#27004a ml-[10px]' to="/">View</Link> </p>
                 </div>
                 <div className='flex gap-[10px] summary-bold2'>
-                    <Link className='text-[blue] text-[14px] font-semibold' to="/">Unprocessed Logs <FilterListIcon className='icon-filter' /></Link>
-                    <Link className='text-[blue] text-[14px] font-semibold' to="/">Daily Report <DownloadIcon className='icon-filter' /></Link>
-                    <Link className='text-[blue] text-[14px] font-semibold ' to="/">Setting <SettingsIcon className='icon-filter' /></Link>
+                    <Link className='#27004a text-[14px] font-semibold' to="/">Unprocessed Logs <FilterListIcon className='icon-filter' /></Link>
+                    <Link className='#27004a text-[14px] font-semibold' to="/">Daily Report <DownloadIcon className='icon-filter' /></Link>
+                    <Link className='#27004a text-[14px] font-semibold ' to="/">Setting <SettingsIcon className='icon-filter' /></Link>
                 </div>
             </div>
 
@@ -222,7 +222,7 @@ const Attendence_summary = () => {
                         <p className='text-[14px] font-semibold'>0</p>
                     </div>
                     <div className='total-staff w-[15%] new-staff3'>
-                        <h2 className='text-[14px] font-normal text-[#000000bf]'>Overtime Hours</h2>
+                        <h2 className='text-[14px] font-normal whitespace-nowrap text-[#000000bf]'>Overtime Hours</h2>
                         <p className='text-[14px] font-semibold'>00.00</p>
                     </div>
                     <div className='total-staff w-[15%] new-staff3'>
@@ -237,9 +237,9 @@ const Attendence_summary = () => {
 
             </div>
             <div className='bg-[#ffff] shadow-cs p-[20px] rounded-md mt-[24px] flex gap-[10px] over-new'>
-                <Link to="/worktime" className='total-staff text-[blue]  text-[14px] font-medium'>Daily Work Entry</Link>
-                <Link to="/reviewfine" className='total-staff text-[blue]  text-[14px] font-medium'>Fine</Link>
-                <Link to="/overtime" className=' total-staff text-[blue] text-[14px] font-medium'>Overtime</Link>
+                <Link to="/worktime" className='total-staff #27004a  text-[14px] font-medium'>Daily Work Entry</Link>
+                <Link to="/reviewfine" className='total-staff #27004a  text-[14px] font-medium'>Fine</Link>
+                <Link to="/overtime" className=' total-staff #27004a text-[14px] font-medium'>Overtime</Link>
             </div>
             <div className="relative">
                 <SearchIcon className='absolute top-[34px] right-[7px]' />

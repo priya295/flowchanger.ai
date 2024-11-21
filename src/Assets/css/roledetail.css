@@ -1,6 +1,6 @@
 .search-icon{
     font-size: 17px !important;
-    top: 16px;
+    top: 12px;
     position: absolute
     ;
 }
@@ -24,7 +24,7 @@
     font-weight: 500;
     padding: 10px 24px;
     /* border-right: 1px solid #DBDBDB; */
-    background: #ededed !important;
+    background: #fff !important;
 }
 .table-section 
 table{
@@ -174,11 +174,14 @@ table{
     transition: all 0.3s linear;
     height: auto;
     min-height: 100vh;
-    left: -100%;
+    left: 0;
+    position: relative;
 }
 
 .custom-body-class .admin-sidebar-set{
     width: 100% !important;
+    /* transition: all 0.3s linear; */
+    /* transition-delay: 5s; */
 }
 .custom-body-class .navbar{
     padding-left: 10px;
@@ -193,7 +196,7 @@ table{
 
 .custom-body-class .sidebar{
     left: -300px;
-    z-index: -1111;
+    z-index: 999;
     position: absolute;
     
 }
@@ -598,5 +601,17 @@ input[type=radio]{
         font-size: 12px;
         display: flex;
         align-items: center;
+    }
+   }
+
+
+   @media(max-width:992px){
+    .sidebar{
+        left: -100%;
+        z-index: 99;
+    }
+    .admin-sidebar-set{
+        width: 100%;
+        position: absolute;
     }
    }

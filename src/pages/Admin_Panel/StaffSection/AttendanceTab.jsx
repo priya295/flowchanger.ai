@@ -479,8 +479,8 @@ const AttendanceTab = () => {
                 "auto_absent": autoPresent,
                 "present_on_punch": presentPunch,
                 "auto_half_day": `${confirmedTime?.hours} hours, ${confirmedTime?.minutes} minutes`,
-                "mandatory_half_day": `${savedDuration?.hours} hours, ${savedDuration?.minutes} minutes`,
-                "mandatory_full_day": `${confirmedSelection?.hours} hours, ${confirmedSelection?.minutes} minutes`
+                "mandatory_half_day": `${savedDuration?.hrs} hours, ${savedDuration?.mins} minutes`,
+                "mandatory_full_day": `${confirmedSelection?.hourValue} hours, ${confirmedSelection?.minuteValue} minutes`
             }
         };
 
@@ -493,7 +493,7 @@ const AttendanceTab = () => {
         })
         if (result.status == 200) {
             openToast("Update Details Successfully", "success");
-            openModal6()
+            closeModal7()
         }
         else {
             openToast("Internal Server Error", "error")
@@ -848,8 +848,6 @@ const AttendanceTab = () => {
                                                 </td>
                                             </tr>
                                             ) : staffDetail && staffDetail.length > 0 ? (
-
-
                                                 staffDetail?.map((item, index) => {
                                                     return <> <tr className='border'>
                                                         <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
@@ -858,9 +856,9 @@ const AttendanceTab = () => {
                                                         <td>{item?.staffDetails?.job_title}</td>
                                                         <td>{item?.staffDetails?.attendanceAutomationRule?.auto_absent ? "Active" : "InActive"}</td>
                                                         <td>{item?.staffDetails?.attendanceAutomationRule?.present_on_punch ? "Active" : "InActive"}</td>
-                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.auto_half_day}</td>
-                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_half_day ? "" : "N/A"}</td>
-                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_full_day ? "" : "N/A"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.auto_half_day ?? "N/A"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_half_day ?? "N/A"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_full_day ?? "N/A"}</td>
 
 
                                                     </tr>
@@ -868,8 +866,6 @@ const AttendanceTab = () => {
 
 
                                                 })
-
-
                                             )
                                                 : (
                                                     // No Data State
@@ -1863,7 +1859,7 @@ const AttendanceTab = () => {
                 <div className='flex items-center justify-center flex-col gap-[10px] pt-[20px] pb-[20px]'>
                     <img src={rightimg} className='w-[65px]' />
                     <h3 className='text-center'>You have Successfully updated attendance modes</h3>
-                    <button className='second-btn '>Okay</button>
+                    <button className='second-btn'  onClick={closeModal6}>Okay</button>
                 </div>
             </Modal>
 
