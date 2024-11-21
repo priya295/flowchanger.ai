@@ -46,15 +46,15 @@ const NavBar = () => {
     <div className="w-[100%]  pt-[10px] pb-[10px] xl:pl-[31px] lg:pl-[31px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px] navbar">
       <button onClick={handleAddClass}>
 
-        <MenuIcon className="menu-icon-navbar hidden" />
+        <MenuIcon className="menu-icon-navbar hidden " />
         <CloseIcon className="cancel-icon" />
       </button>
 
       <div className="flex justify-between items-center">
         <div className=" items-center gap-4 mr-7 flex ml-3">
           <div className="relative">
-            <input className="h-[42px] w-[150px] xl:w-[200px] lg:w-[200px] md:w-[200px] pr-[36px] pl-3 bg-[#F4F5F9] rounded-md border-[#DBDCDE] border focus:outline-none" type="text" placeholder="Search...." />
-            <SearchIcon className="absolute right-[8px] top-[10px] cursor-pointer" />
+            <input className="h-[42px] w-[150px] xl:w-[200px] lg:w-[200px] md:w-[200px] pr-[36px] pl-3  rounded-lg border-[#DBDCDE] border focus:outline-none" type="text" placeholder="Search...." />
+            <SearchIcon className="absolute right-[8px] newsearch-icon top-[11px] cursor-pointer" />
           </div>
          
         </div>

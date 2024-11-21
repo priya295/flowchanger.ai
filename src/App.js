@@ -92,7 +92,7 @@ import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
 import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
 import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 import Documents from "./pages/Admin_Panel/editstaff/Documents";
-
+import TaskForm from "./pages/Admin_Panel/Tasks/Task_deatail/TaskForm";
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
 const App = () => {
@@ -280,6 +280,7 @@ const App = () => {
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
             <Route path="/contact-information" element={<ContactInformation />} />
+            <Route path="/taskform" element={<TaskForm />} />
           </Route>
 
 
