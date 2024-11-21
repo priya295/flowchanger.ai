@@ -16,7 +16,7 @@ import PayrollReimbrusments from "./PayrollReimbrusments";
 import PaymentHistory from "./PaymentHistory";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
-const PayrollMenu = ({toggleSideBar}) => {
+const PayrollMenu = ({toggleRunTab}) => {
   const {selectedTab,setSelectedTab,activeSubmenu , setActiveSubmenu} = useGlobalContext();
   useEffect(() => {
     if (!activeSubmenu) {
@@ -24,20 +24,22 @@ const PayrollMenu = ({toggleSideBar}) => {
     }
   }, []);
 
+
+
   return (
     <div className="staff-menu payroll-menus py-[10px] px-[20px] ">
       <h3 className="text-[20px]  font-[Nunito]">Pay Roll</h3>
 
       <div className="tab-section mt-[30px]">
       <Tabs selectedIndex={selectedTab} onSelect={(index) => setSelectedTab(index)}>
-          <TabList className="flex   w-[100%] overflow-x-scroll bg-[#FFFFFF]  rounded-[12px]  p-[8px] set-shadow ">
+          <TabList className={`flex ${toggleRunTab?"w-[90%]":"w-[100%]"}   overflow-x-scroll bg-[#FFFFFF]  rounded-[12px]  p-[8px] set-shadow`}>
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">Payroll Summary</h2>
               </div>
             </Tab>
             <Tab>
-              <div className="flex items-center  whitespace-nowrap mr-[20px]">
+              <div className="flex items-center  whitespace-nowrap mr-[20px]" >
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Run Payroll
                 </h2>
@@ -79,7 +81,7 @@ const PayrollMenu = ({toggleSideBar}) => {
           </TabPanel>
 
           <TabPanel>
-            <RunPayroll toggleSideBar = {toggleSideBar}/>
+            <RunPayroll  toggleRunTab = {toggleRunTab}/>
           </TabPanel>
 
           <TabPanel>

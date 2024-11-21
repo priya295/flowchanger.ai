@@ -16,14 +16,22 @@ import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PrintIcon from "@mui/icons-material/Print";
 import { IoMdArrowDropright } from "react-icons/io";
 
-const RunPayroll = ({ toggleSideBar }) => {
+const RunPayroll = ({toggleRunTab}) => {
   let subtitle;
+
+ useEffect(()=>{
+ console.log(toggleRunTab);
+ },[toggleRunTab])
 
   const [toggleDrop11, setToggleDrop11] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(()=>{
+   console.log(toggleRunTab)
+  },[toggleRunTab])
 
   function handledrop11() {
     setToggleDrop11(!toggleDrop11);
@@ -131,10 +139,13 @@ const RunPayroll = ({ toggleSideBar }) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+  // useEffect(() =>{
+  //   console.log(toggleSideBar)
+  // },[toggleSideBar])
 
   return (
     <div className="mt-[20px] overflow-scroll w-[100%] ">
-      <div className="flex justify-between items-start flex-col xl:flex-row lg:flex-row  xl:items-center lg:items-center md:flex-col gap-[15px] lg:gap-[0px]">
+      <div className="flex justify-between items-start  flex-col xl:flex-row lg:flex-row  xl:items-center lg:items-center md:flex-col gap-[15px] lg:gap-[0px]">
         <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row w-full">
           <button
             className="text-[14px] font-normal flex items-center gap-[8px] whitespace-nowrap xl:p-[0] lg:p-[0]  xl:bg-[#fff] lg:bg-[#fff]  bg-[#f4f5f9] p-[9px] rounded-[9px]"
@@ -258,8 +269,9 @@ const RunPayroll = ({ toggleSideBar }) => {
         </button>
       </div>
 
-      <div className="mt-5 ">
-        <div className="flex justify-between items-start  xl:items-center lg:items-center gap-[10px] flex-col xl:flex-row lg:flex-row mb-4">
+      <div className={`mt-5 ${toggleRunTab?"w-[90%]":"w-[100%]"}`}>
+      {/* <div className="mt-5"> */}
+        <div className="flex justify-between items-start   xl:items-center lg:items-center gap-[10px] flex-col xl:flex-row lg:flex-row mb-4">
           <div className="relative xl:w-[240px] lg:w-[240px] w-full">
             <input
               type="text"
@@ -281,7 +293,7 @@ const RunPayroll = ({ toggleSideBar }) => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto min-h-[300px]">
+        <div className="bg-white  rounded-lg  shadow-cs border border-[#dcdbdb] overflow-x-auto  min-h-[300px]">
         <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
               <thead
                 className="cursor-pointer  border border-gray-300 shadow-md"
@@ -1497,14 +1509,7 @@ const RunPayroll = ({ toggleSideBar }) => {
                     {" "}
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
+                  
                 </tr>
                 <tr className="border">
                   <td className="p-2 whitespace-nowrap text-xs text-center">
@@ -1567,6 +1572,7 @@ const RunPayroll = ({ toggleSideBar }) => {
                   Grand Total
                 </h2>
               </div>
+      {/* </div> */}
       </div>
 
       <Modal

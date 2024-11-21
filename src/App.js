@@ -98,6 +98,7 @@ import Documents from "./pages/Admin_Panel/editstaff/Documents";
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
   const [toggleEditSideBar, setToggleEditSideBar] = useState(false);
+  const [toggleRunTab , setToggleRunTab ] = useState(false);
 
   const handleToggleEditSideBar = () => {
     setToggleEditSideBar(toggleEditSideBar => !toggleEditSideBar)
@@ -215,9 +216,9 @@ const App = () => {
         <div className="flex max-w-screen box-border">
           <SideBar />
           <div className={`${!toggleSideBar?"w-[calc(100%-20%)]":"w-full"}`}>
-            <NavBar className = "w-full"/>
+            <NavBar className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab}/>
             <div className=" pb-10 w-full h-lvh payroll-menu overflow-y-auto">
-              <PayrollMenu className = "w-full" toggleSideBar = {toggleSideBar}/>
+              <PayrollMenu className = "w-full" toggleRunTab = {toggleRunTab} />
               {/* <Outlet /> */}
             </div>
 

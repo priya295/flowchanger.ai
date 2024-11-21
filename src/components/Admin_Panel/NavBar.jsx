@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../../Context/AuthContext";
 import Cookies from 'js-cookie';
 import menu from "../../Assets/Images/menu-fill.png";
@@ -17,8 +17,11 @@ import { Link } from "react-router-dom";
 
 
 
-const NavBar = () => {
+const NavBar = ({toggleRunTab,setToggleRunTab}) => {
   
+  useEffect(()=>{
+    console.log(toggleRunTab)
+  },[toggleRunTab]);
   
   const handleProfileDropDown = () => {
     setProfileDropDown(!profileDropdown);
@@ -43,11 +46,15 @@ const NavBar = () => {
   const hideDropdown = () => setProfileDropDown(false);
 
   return (
-    <div className="w-[100%]  pt-[10px] pb-[10px] xl:pl-[31px] lg:pl-[31px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px] navbar">
+    <div className={`${toggleRunTab?"w-[90%]":"w-[100%]"}  pt-[10px]  pb-[10px] xl:pl-[31px] lg:pl-[31px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px] navbar`}>
       <button onClick={handleAddClass}>
 
-        <MenuIcon className="menu-icon-navbar hidden" />
-        <CloseIcon className="cancel-icon" />
+        <MenuIcon className="menu-icon-navbar hidden" 
+        onClick = {() =>{ setToggleRunTab(true)}}
+        />
+        <CloseIcon className="cancel-icon"
+         onClick = {() =>{ setToggleRunTab(false)}}
+         />
       </button>
 
       <div className="flex justify-between items-center ">
