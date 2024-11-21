@@ -110,20 +110,23 @@ const PaymentHistory = () => {
       </div>
 
       <div className="mt-5">
-        <div className="flex  items-start gap-[10px] flex-col  ">
+        <div className="flex   gap-[10px] flex-row  justify-between items-center">
+          <div className="flex flex-row justify-between items-center w-[35%]">
           <div className="relative  xl:w-[240px] lg:w-[240px] w-full mt-2">
             <input
               type="text"
               placeholder="Search"
-              className="border rounded-md pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none"
+              className="border rounded-full pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none"
             />
-            <SearchIcon className="absolute right-[10px] top-[10px] " />
+            <SearchIcon className="absolute right-[10px] top-[10px] text-gray-500" />
           </div>
-
-          <div className="flex gap-[10px] w-full justify-between">
-            <button className="first-btn">Refresh</button>
-            <button className="second-btn mr-3">Download Report</button>
+          <button className="first-btn mt-3  allcrm-btn">Refresh</button>
           </div>
+          <button className="second-btn mr-3">Download Report</button>
+          {/* <div className="flex gap-[10px] w-full justify-between">
+           
+           
+          </div> */}
         </div>
       </div>
 
@@ -133,7 +136,7 @@ const PaymentHistory = () => {
           Import Reimbursements
         </button>
       </div>
-      <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
+      <div className="bg-white min-h-[300px] rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
 
         <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
           {/* Header with Toggle */}
@@ -143,11 +146,7 @@ const PaymentHistory = () => {
           >
             <tr>
               <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
-                <IoMdArrowDropright
-                  className={`text-[20px] transition-transform duration-200 ${
-                    isOpen ? "rotate-90 text-[black]" : "rotate-0"
-                  }`}
-                />
+              #
               </th>
 
               <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
@@ -392,13 +391,28 @@ const PaymentHistory = () => {
                       <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
                       <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
                     </tr>
+          <tr className="border">
+                      <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                    </tr>
           </tbody>
-
+{/* 
           <div className="w-full">
             <h2 className="whitespace-nowrap p-[10px]  pl-0">Grand Total</h2>
-          </div>
+          </div> */}
         </table>
       </div>
+      <div className='w-full'>
+  <h2 className='whitespace-nowrap p-[10px]  pl-2'>Grand Total</h2>
+</div>
     </div>
   );
 };

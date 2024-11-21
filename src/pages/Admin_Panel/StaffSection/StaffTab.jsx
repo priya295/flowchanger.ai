@@ -274,7 +274,7 @@ const StaffTab = () => {
         </div>
       </div>
 
-      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4 '>
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4'>
         <div className='bg-white'>
           <table className='table-section w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse'>
             <thead  onClick={toggleAccordion} className='sticky bg-white set-shadow top-[-1px]  className="cursor-pointer  border border-gray-300 shadow-md"

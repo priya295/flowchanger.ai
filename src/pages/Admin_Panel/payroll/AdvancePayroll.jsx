@@ -66,11 +66,11 @@ const AdvancePayroll = () => {
 
 
             <div className='relative  xl:w-[240px] lg:w-[240px] w-full mt-2 mb-4'>
-                <input type="text" placeholder='Search' className='border rounded-md pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none' />
-                <SearchIcon className='absolute right-[10px] top-[10px] ' />
+                <input type="text" placeholder='Search' className='border rounded-full pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none' />
+                <SearchIcon className='absolute right-[10px] top-[10px] text-gray-500' />
             </div>
 
-            <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
+            <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto min-h-[300px]">
 
             <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
 
@@ -87,7 +87,7 @@ const AdvancePayroll = () => {
 
                   <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Name
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('name')}>
@@ -107,7 +107,7 @@ const AdvancePayroll = () => {
                         </th>
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 CTC
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('ctc')}>
@@ -127,7 +127,7 @@ const AdvancePayroll = () => {
                         </th>
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Advance Paid
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('payroll')}>
@@ -148,7 +148,7 @@ const AdvancePayroll = () => {
                         </th>
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Payroll Finalized
                                
                             </div>
@@ -157,7 +157,7 @@ const AdvancePayroll = () => {
 
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Bank/UPI Verfied
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('bank')}>
@@ -179,7 +179,7 @@ const AdvancePayroll = () => {
 
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Action
                               
                             </div>
@@ -188,9 +188,18 @@ const AdvancePayroll = () => {
                         </tr>
                         </thead>
 
-                    <tbody className='w-full'>
+                    <tbody className='w-full border-b'>
 
-                    <tr className="border">
+                    <tr className="border-b border-1">
+                      <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                    </tr>
+                    <tr className=" border-b">
                       <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
                       <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
                       <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
@@ -203,13 +212,15 @@ const AdvancePayroll = () => {
 
                     </tbody>
 
-                    <div className='w-full'>
+                    {/* <div className='w-full mb-0'>
                         <h2 className='whitespace-nowrap p-[10px]  pl-0'>Grand Total</h2>
-                    </div>
+                    </div> */}
 
                 </table>
             </div>
-
+            <div className='w-full'>
+  <h2 className='whitespace-nowrap p-[10px]  pl-2'>Grand Total</h2>
+</div>
 
         </div>
     )

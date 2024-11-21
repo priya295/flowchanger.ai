@@ -52,9 +52,10 @@ const NavBar = () => {
 
       <div className="flex justify-between items-center ">
         <div className=" items-center gap-4 mr-7 flex ml-3">
-          <div className="relative">
-            <input className="h-[42px] w-[150px] xl:w-[200px] lg:w-[200px] md:w-[200px] pr-[36px] pl-3 bg-[#F4F5F9] rounded-md border-[#DBDCDE] border focus:outline-none" type="text" placeholder="Search...." />
-            <SearchIcon className="absolute right-[8px] top-[10px] cursor-pointer" />
+          <div className="relative client-add">
+            <input  className="py-2.5 client-add  rounded-2xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] "
+ type="text" placeholder="Search...." />
+            <SearchIcon className="absolute newadd2 right-[8px] text-[10px] top-[14px] text-gray-500 h-8" />
           </div>
          
         </div>

@@ -181,21 +181,19 @@ const DepartmentDetail = () => {
             <CachedIcon className="border border-[#e5e7eb] shadow-sm ml-2 rounded-md cursor-pointer refresh" />
           </div>
 
-          <div className="right-side relative  w-[200px]">
+          <div className="relative client-add">
             <input
               type="text"
-              placeholder="Search"
-              className="border border-1 pl-3 h-[43px] pr-7
-    ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]"
+              placeholder="Search..."
+              className="p-[6px] client-add  rounded-2xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] "
+
               name="searchDepartment"
               value={searchDepartment}
               onChange={(e) => {
                 setSearchDepartMent(e.target.value);
               }}
             />
-            <SearchIcon
-              className="absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
-    ]"
+            <SearchIcon className="absolute newadd2 right-[8px] top-[8px] text-gray-500" 
             />
           </div>
         </div>

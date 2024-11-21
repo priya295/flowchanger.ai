@@ -14,15 +14,14 @@ import LockIcon from "@mui/icons-material/Lock";
 import PaidIcon from "@mui/icons-material/Paid";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import PrintIcon from "@mui/icons-material/Print";
- import { IoMdArrowDropright } from "react-icons/io";
+import { IoMdArrowDropright } from "react-icons/io";
 
-const RunPayroll = ({toggleSideBar}) => {
- 
+const RunPayroll = ({ toggleSideBar }) => {
   let subtitle;
 
   const [toggleDrop11, setToggleDrop11] = useState(false);
-  const [isOpen , setIsOpen] = useState(false);
-   const toggleAccordion = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleAccordion = () => {
     setIsOpen(!isOpen);
   };
 
@@ -265,9 +264,9 @@ const RunPayroll = ({toggleSideBar}) => {
             <input
               type="text"
               placeholder="Search"
-              className="border rounded-md pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none"
+              className="border rounded-full pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none"
             />
-            <SearchIcon className="absolute right-[10px] top-[10px] " />
+            <SearchIcon className="absolute right-[10px] top-[10px] text-gray-500" />
           </div>
 
           <div className="flex items-center gap-[10px]">
@@ -282,14 +281,13 @@ const RunPayroll = ({toggleSideBar}) => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
-          <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
-            <thead
-              className="cursor-pointer  border border-gray-300 shadow-md"
-              onClick={toggleAccordion}
-            >
-                 <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
-                 #
+        <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto min-h-[300px]">
+        <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
+              <thead
+                className="cursor-pointer  border border-gray-300 shadow-md"
+              >
+                <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                  #
                 </th>
 
                 <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
@@ -1454,33 +1452,121 @@ const RunPayroll = ({toggleSideBar}) => {
                     </th>
                   </>
                 )}
+              </thead>
+              <tbody>
+                <tr className="border">
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    <input
+                      type="checkbox"
+                      className="border border-1 rounded-md"
+                    />
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                </tr>
+                <tr className="border">
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    <input
+                      type="checkbox"
+                      className="border border-1 rounded-md"
+                    />
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                    {" "}
+                    N/A
+                  </td>
+                </tr>
+              </tbody>
               
-            </thead>
-
-            <tr  className="border">
-                      <td  className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      
-                    </tr>
-
-            <div className="w-full">
-              <h2 className="whitespace-nowrap pt-[10px] pb-[10px]  text-center">
-                Grand Total
-              </h2>
-            </div>
-          </table>
-        </div>
+            </table>
+          </div>
+          <div className="w-full mb-0">
+                <h2 className="whitespace-nowrap pt-[10px] pb-[10px]  text-left pl-2">
+                  Grand Total
+                </h2>
+              </div>
       </div>
 
       <Modal

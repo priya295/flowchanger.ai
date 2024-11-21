@@ -122,8 +122,8 @@ const PayrollIncentives = () => {
             <div className='mt-5'>
                 <div className='flex justify-between items-start  xl:items-center lg:items-center gap-[10px] flex-col xl:flex-row lg:flex-row '>
                     <div className='relative  xl:w-[240px] lg:w-[240px] w-full mt-2'>
-                        <input type="text" placeholder='Search' className='border rounded-md pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none' />
-                        <SearchIcon className='absolute right-[10px] top-[10px] ' />
+                        <input type="text" placeholder='Search' className='border rounded-full pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none ' />
+                        <SearchIcon className='absolute right-[10px] top-[10px] text-gray-500' />
                     </div>
 
                     <div className='mr-3'>
@@ -141,7 +141,7 @@ const PayrollIncentives = () => {
                     Import Incentives
                 </button>
                 </div>
-                <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
+                <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto min-h-[300px]">
             <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
               {/* Header with Toggle */}
               <thead
@@ -157,7 +157,7 @@ const PayrollIncentives = () => {
 
                   <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Name
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('name')}>
@@ -177,7 +177,7 @@ const PayrollIncentives = () => {
                         </th>
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Job Title
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('job')}>
@@ -197,7 +197,7 @@ const PayrollIncentives = () => {
                         </th>
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 CTC
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('ctc')}>
@@ -218,7 +218,7 @@ const PayrollIncentives = () => {
                         
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Payroll Finalized
                                
                             </div>
@@ -227,7 +227,7 @@ const PayrollIncentives = () => {
 
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Total Incentives
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('total')}>
@@ -249,7 +249,7 @@ const PayrollIncentives = () => {
 
                         <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
 
-                            <div className='flex'>
+                            <div className='flex justify-center items-center'>
                                 Action
                               
                             </div>
@@ -270,16 +270,29 @@ const PayrollIncentives = () => {
                       <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
                       
                     </tr>
+                    <tr className="border">
+                      <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      
+                    </tr>
 
 
                     </tbody>
 
-                    <div className='w-full'>
+                    {/* <div className='w-full'>
                         <h2 className='whitespace-nowrap p-[10px]  pl-0'>Grand Total</h2>
-                    </div>
+                    </div> */}
 
                 </table>
             </div>
+            <div className='w-full'>
+  <h2 className='whitespace-nowrap p-[10px]  pl-2'>Grand Total</h2>
+</div>
 
 
 

@@ -58,8 +58,11 @@ const SideBar = ({ toggleSideBar }) => {
     <div className="sidebar w-[100%] xl:w-[20%] lg:w-[20%] md:w-[300px] bg-[#27004a] h-full p-[10px] flex-shrink-0">
 
 
-      <div className="flex xl:justify-center lg:justify-center  p-[20px] ">
+      <div className="flex xl:justify-center lg:justify-center -ml-[40px] py-[20px] ">
+        <Link to = "/">
         <img src={logo} alt="" className="w-[120px]" />
+        </Link>
+      
       </div>
       <ul className="pl-[2px] pr-[2px] pt-[0px] pb-[20px]">
         <li onClick={() => { setSelectedSidebarTab("dashboard") }} className={`flex items-center gap-[10px] hover:bg-[#fff] mb-[5px] hover:text-[#8a25b0] p-[10px]   rounded-md  transition-all ${selectedSidebarTab === "dashboard" ? "bg-white text-[#8a25b0]" : "text-white"}`}>
@@ -217,12 +220,10 @@ const SideBar = ({ toggleSideBar }) => {
     </svg>
     <div className="flex justify-between items-center gap-3 w-full">
       Staff
-      <button onClick={handleActiveSubmenu} className="ml-auto focus:outline-none">
-        {activeSubmenu ? (
-          <FaChevronDown className="text-sm" />
-        ) : (
-          <FaChevronRight className="text-sm" />
-        )}
+      <button onClick={handleActiveSubmenu} className="ml-auto focus:outline-none w-[20px]">
+       
+          <FaChevronRight className={`text-sm ${activeSubmenu? "rotate-90":"rotate-0"}`} />
+
       </button>
     </div>
   </Link>
