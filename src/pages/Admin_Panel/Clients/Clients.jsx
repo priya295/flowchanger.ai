@@ -31,7 +31,11 @@ import { IoMdArrowDropright } from "react-icons/io";
 
 
 const Clients = () => {
+  const [isOn3, setIsOn3] = useState(false);
 
+  const toggleSwitch3 = () => {
+      setIsOn3(!isOn3);
+  }
 
   const [allStaff, setAllStaff] = useState();
 
@@ -564,7 +568,7 @@ const Clients = () => {
             </div>
             <div className="relative client-add">
               <input
-                className="p-[6px] client-add  rounded-2xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] "
+                className="p-[8px] client-add  rounded-3xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] "
                 type="text"
                 placeholder=" Search......."
                 value={companyName}
@@ -578,7 +582,7 @@ const Clients = () => {
                 }}
 
               />
-              <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
+              <SearchIcon className="absolute newadd2 right-[8px] top-[11px]" />
             </div>
           </div>
 
@@ -711,7 +715,7 @@ const Clients = () => {
                         </td>
                         <td className="text-[11px] font-medium p-[10px] whitespace-nowrap">
                           <div className="flex items-center justify-center gap-[6px]">
-                            <div
+                            {/* <div
                               className={`${client?.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
                               onClick={toggleSwitch1}
                             >
@@ -719,7 +723,7 @@ const Clients = () => {
                                 className={`${client?.status == "active" ? "translate-x-6" : "translate-x-0"
                                   } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
                               />
-                            </div>
+                            </div> */}
                           </div>
                         </td>
                         <td className="p-2 text-xs text-center whitespace-nowrap ">

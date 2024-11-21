@@ -12,6 +12,8 @@ import 'react-quill/dist/quill.snow.css'; // Quill styling
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import CreatableSelect from "react-select/creatable";
 import Select from 'react-select';
+import { FaArrowLeft } from "react-icons/fa";
+import {Link} from "react-router-dom";
 import { div } from "framer-motion/client";
 
 const Add_Project = () => {
@@ -198,7 +200,11 @@ const Add_Project = () => {
 
   return (
     <div className="max-w-[80%] mx-auto">
+      
     <Tabs className="m-5 shadow-cs rounded-lg">
+      <div className="pt-[20px] pl-[20px]">
+    <Link to = "/clients"><FaArrowLeft /></Link>
+    </div>
       <TabList className="flex p-5 pb-[10px] gap-4 text-[16px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
         <Tab className="py-2 hover:border-b-1 hover:border-[#27004a] text-md font-medium">
           Project
@@ -244,7 +250,7 @@ const Add_Project = () => {
 
           <div className="font-medium flex gap-3 items-center">
             <input type="checkbox" name = "progress" required/>
-            <label for = "text-[14px] font-medium text-gray-700">Calculate progress through tasks</label>  
+            <label for = "text-[13px] font-medium progress-through ">Calculate progress through tasks</label>  
           </div>
 
           <div className="space-y-2">

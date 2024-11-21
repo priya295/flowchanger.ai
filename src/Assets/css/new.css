@@ -286,6 +286,13 @@
     color: #27004a;
     
 }
+.newsearch-icon{
+    font-size: 20px !important;
+}
+.progress-through{
+    color: #374151 !important;
+    font-size: 13px !important;
+}
 .tab-span{
     font-size: 14px;
     margin-left: 5px !important;

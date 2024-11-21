@@ -230,7 +230,7 @@ const SideBar = ({ toggleSideBar }) => {
   <Link
     to="/staff-menu"
     onClick={() => { setSelectedTab("staff"); handleArrowClick(); }}
-    className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
+    className={`flex items-center gap-[10px] p-[10px] mb-[5px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
       selectedTab === "staff" ? "bg-white text-[#8a25b0]" : "text-white"
     }`}
   >
