@@ -116,7 +116,7 @@ const StaffSalarySummry = () => {
     const [selectedMonth, setSelectedMonth] = useState(() => {
         const currentMonth = new Date();
         return {
-            original: currentMonth.toISOString().slice(0, 7),  // yyyy-MM
+            original: currentMonth.toISOString().slice(0, 7).split('-').reverse().join('/'),
             formatted: `${currentMonth.toLocaleString('default', { month: 'short' })}, ${currentMonth.getFullYear()}`  // Oct, 2024
         };
     });
@@ -138,7 +138,7 @@ const StaffSalarySummry = () => {
         currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
 
         setSelectedMonth({
-            original: currentMonthDate.toISOString().slice(0, 7),
+            original: currentMonthDate.toISOString().slice(0, 7).split('-').reverse().join('/'),
             formatted: `${currentMonthDate.toLocaleString('default', { month: 'short' })}, ${currentMonthDate.getFullYear()}`
         });
     };
@@ -146,18 +146,14 @@ const StaffSalarySummry = () => {
     // console.log(selectedMonth);
     console.log(selectedMonth);
     const [shiftDetails, setShiftDetails] = useState([]);
-    const [presentDay, setPresentDay] = useState({
-        id: "",
-        shift: "",
-        startTime: "",
-        endTime: ""
-    });
-    const [halfDay, setHalfDay] = useState({
-        id: "",
-        shift: "",
-        startTime: "",
-        endTime: ""
-    });
+
+    const [commmenStatus, setCommonStatus] = useState();
+    // const [halfDay, setHalfDay] = useState({
+    //     id: "",
+    //     shift: "",
+    //     startTime: "",
+    //     endTime: ""
+    // });
 
     const [attendanceRecord, setAttendanceRecord] = useState([]);
     async function fetchAttendanceSummary() {
@@ -209,6 +205,53 @@ const StaffSalarySummry = () => {
 
     // console.log(selectedMonth);
     // console.log(shiftDetails);
+    const [loading, setLoading] = useState(false);
+
+    async function updateAttendanceStatus(id, commmenStatus) {
+        setLoading(true)
+        try {
+            if (commmenStatus === "") {
+                openToast("Please Select Status", "error")
+                return
+            }
+
+            // console.log(commmenStatus);
+
+            const result = await fetch(baseUrl + `attendance/status/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ status: commmenStatus })
+            })
+            if (result.status == 200) {
+                openToast("Updated Status Successfully", "success")
+                setCommonStatus("");
+                setAttendanceRecord([]);
+                fetchAttendanceSummary();
+            }
+            else {
+                openToast("Something went wrong", "error")
+            }
+        } catch (error) {
+            openToast("Something went wrong", "error")
+        } finally {
+            setLoading(false);
+            if (commmenStatus === "PRESENT") {
+                closeModal6();
+            }
+            if (commmenStatus === "ABSENT") {
+                closeModal6();
+            }
+            if (commmenStatus === "HALFDAY") {
+                closeModal6();
+            }
+            if (commmenStatus === "PAIDLEAVE") {
+                closeModal6();
+            }
+        }
+    }
+
     useEffect(() => {
         fetchShiftDetails();
     }, [])
@@ -240,7 +283,7 @@ const StaffSalarySummry = () => {
                         </div>
                     </div>
                     <div className='flex xl:items-center lg:items-end justify-between gap-[14px] flex-col xl:flex-row'>
-                        <h2 className='text-[14px] font-medium'>Total Pending for Approval : 10</h2>
+                        <h2 className='text-[14px] font-medium'>Total Pending for Approval : {attendanceRecord?.filter(item => item?.isApproved === false)?.length}</h2>
                         <Link className='bg-[#8a25b0] text-center  text-[white] review-btn rounded-md' to="/">Approve All</Link>
                     </div>
                 </div>
@@ -249,15 +292,15 @@ const StaffSalarySummry = () => {
                     <div className="flex xl:gap-[20px] lg:gap-[20px] md:gap-[20px] justify-between xl:flex-row lg:flex-row md:flex-row flex-col gap-[10px]">
                         <div className=' total-staff-salary'>
                             <h2 className='text-[14px] font-normal text-[#000000bf]'>Day</h2>
-                            <p className='text-[14px] font-medium'>13</p>
+                            <p className='text-[14px] font-medium'>{attendanceRecord?.length}</p>
                         </div>
                         <div className=' total-staff-salary'>
                             <h2 className='text-[14px] font-normal text-[#000000bf]'>Present</h2>
-                            <p className='text-[14px] font-medium'>0(+ 10)</p>
+                            <p className='text-[14px] font-medium'>{attendanceRecord?.filter((record) => record?.status === "PRESENT")?.length}</p>
                         </div>
                         <div className=' total-staff-salary'>
                             <h2 className='text-[14px] font-normal text-[#000000bf]'>Absent</h2>
-                            <p className='text-[14px] font-medium'>1</p>
+                            <p className='text-[14px] font-medium'>{attendanceRecord?.filter((record) => record?.status === "ABSENT")?.length}</p>
                         </div>
                     </div>
 
@@ -279,8 +322,10 @@ const StaffSalarySummry = () => {
             </div>
 
             {
-                attendanceRecord.length > 0 ? attendanceRecord?.map((record, index) => (
-                    <div className='shadow p-[20px] mt-[18px] rounded-md'>
+                attendanceRecord?.length > 0 && loading === false ? attendanceRecord?.map((record, index) => {
+                    // console.log(record.id);
+                    return (
+                    <div key={record?.id} className='shadow p-[20px] mt-[18px] rounded-md'>
                         <div className='flex items-start justify-between  flex-col xl:flex-row lg:flex-row md:flex-row xl:items-center lg:items-center md:items-center gap-4 xl:gap-0 lg:gap-0 md:gap-0'>
                             <div>
                                 <h2 className='text-[16px]'>{formatDate(record.punchDate)}</h2>
@@ -296,114 +341,139 @@ const StaffSalarySummry = () => {
                                         {/* Button to open modal */}
                                         <button
                                             onClick={openModal6}
-                                            className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px]  lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-lg "
+                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px]  lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-lg " + (record?.status === "PRESENT" ? "bg-[#008000] text-white" : "bg-white text-black")}
                                         >
                                             P I Present
                                         </button>
 
                                         {/* Modal overlay and content */}
-                                        {isOpen6 && (
-                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
-                                                    <div className='flex items-center justify-between'>
-                                                        <div className='mb-[20px]'>
-                                                            <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Present Day </h2>
-                                                            <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                        </div>
-                                                        {/* <button className="px-4 py-2 bg-[#8a25b0] text-white rounded-md">Add Shift</button> */}
-                                                    </div>
+                                        {isOpen6 && (<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
 
-                                                    <div className='bg-[#ececec] p-[10px] rounded-md mb-[20px] '>
-                                                        <div className='text-right'>
-                                                            <DeleteIcon className='del-icon text-[#89868d]' />
-                                                        </div>
-                                                        <div className='gap-[5px] flex flex-col'>
-                                                            <label className='text-[#89868d] text-[14px]'>Shift Time</label>
+                                                <div className="flex justify-around ">
+                                                    <button
+                                                        onClick={() => {
+                                                            // setCommonStatus("PRESENT");
+                                                            updateAttendanceStatus(record?.id, "PRESENT");
+                                                        }}
 
-                                                            <div className="relative inline-block text-left w-[100%]">
-                                                                {/* Button to open/close the dropdown */}
-                                                                <button
-                                                                    className=" w-[100%] bg-[white] text-[#89868d] flex justify-between items-center p-[6px] text-left text-[12px] text-sm font-normal  select-pe  rounded-md  focus:outline-none"
-                                                                    onClick={toggleDropdown3}
-                                                                >
-                                                                    {presentDay.shift === "" ? "DAILY SHIFT" : shiftDetails?.find((item) => item?.id === presentDay?.shift)?.shiftName} <KeyboardArrowDownIcon className='new-arrow2' />
-                                                                </button>
-
-                                                                {/* Dropdown menu */}
-                                                                {isOpen3 && (
-                                                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                        <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                            {shiftDetails.map((item, index) => (
-                                                                                <div key={item.id}
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                    onClick={() => {
-                                                                                        setPresentDay(() => ({ ...presentDay, shift: item.id }));
-                                                                                        setIsOpen3(false);
-                                                                                    }}
-
-                                                                                >
-                                                                                    {item.shiftName}
-                                                                                </div>
-                                                                            ))}
-                                                                            {/* <a
-                                                                href="#"
-                                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem"
-                                                            >
-                                                                Option 1
-                                                            </a>
-                                                            <a
-                                                                href="#"
-                                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem"
-                                                            >
-                                                                Option 2
-                                                            </a>
-                                                            <a
-                                                                href="#"
-                                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem"
-                                                            >
-                                                                Option 3
-                                                            </a> */}
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-
-                                                        </div>
-                                                        <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                            <div className='w-[50%] relative flex gap-1 items-center'>
-                                                                <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='Start Time' />
-                                                                {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
-                                                            </div>
-                                                            <div className='w-[50%] relative flex gap-1 items-center'>
-                                                                <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='End Time' />
-                                                                {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div className="flex flex-col gap-[10px] ">
-                                                        <button
-
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Save
-                                                        </button>
-                                                        <button
-                                                            onClick={closeModal6}
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                    </div>
+                                                        className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    >
+                                                        Yes , Confirm
+                                                    </button>
+                                                    <button
+                                                        onClick={closeModal6}
+                                                        className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                    >
+                                                        No , Cancel
+                                                    </button>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                            // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                            //     <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
+                                            //         <div className='flex items-center justify-between'>
+                                            //             <div className='mb-[20px]'>
+                                            //                 <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Present Day </h2>
+                                            //                 <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
+                                            //             </div>
+                                            //             {/* <button className="px-4 py-2 bg-[#8a25b0] text-white rounded-md">Add Shift</button> */}
+                                            //         </div>
+
+                                            //         <div className='bg-[#ececec] p-[10px] rounded-md mb-[20px] '>
+                                            //             <div className='text-right'>
+                                            //                 <DeleteIcon className='del-icon text-[#89868d]' />
+                                            //             </div>
+                                            //             <div className='gap-[5px] flex flex-col'>
+                                            //                 <label className='text-[#89868d] text-[14px]'>Shift Time</label>
+
+                                            //                 <div className="relative inline-block text-left w-[100%]">
+                                            //                     {/* Button to open/close the dropdown */}
+                                            //                     <button
+                                            //                         className=" w-[100%] bg-[white] text-[#89868d] flex justify-between items-center p-[6px] text-left text-[12px] text-sm font-normal  select-pe  rounded-md  focus:outline-none"
+                                            //                         onClick={toggleDropdown3}
+                                            //                     >
+                                            //                         {presentDay.shift === "" ? "DAILY SHIFT" : shiftDetails?.find((item) => item?.id === presentDay?.shift)?.shiftName} <KeyboardArrowDownIcon className='new-arrow2' />
+                                            //                     </button>
+
+                                            //                     {/* Dropdown menu */}
+                                            //                     {isOpen3 && (
+                                            //                         <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                            //                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                            //                                 {shiftDetails.map((item, index) => (
+                                            //                                     <div key={item.id}
+                                            //                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            //                                         role="menuitem"
+                                            //                                         onClick={() => {
+                                            //                                             setPresentDay(() => ({ ...presentDay, shift: item.id }));
+                                            //                                             setIsOpen3(false);
+                                            //                                         }}
+
+                                            //                                     >
+                                            //                                         {item.shiftName}
+                                            //                                     </div>
+                                            //                                 ))}
+                                            //                                 {/* <a
+                                            //                     href="#"
+                                            //                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            //                     role="menuitem"
+                                            //                 >
+                                            //                     Option 1
+                                            //                 </a>
+                                            //                 <a
+                                            //                     href="#"
+                                            //                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            //                     role="menuitem"
+                                            //                 >
+                                            //                     Option 2
+                                            //                 </a>
+                                            //                 <a
+                                            //                     href="#"
+                                            //                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            //                     role="menuitem"
+                                            //                 >
+                                            //                     Option 3
+                                            //                 </a> */}
+                                            //                             </div>
+                                            //                         </div>
+                                            //                     )}
+                                            //                 </div>
+
+                                            //             </div>
+                                            //             <div className='w-[100%] mt-[14px] gap-[64px] flex '>
+                                            //                 <div className='w-[50%] relative flex gap-1 items-center'>
+                                            //                     <label className='text-[#89868d] text-[14px]'>Start Time</label>
+                                            //                     <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='Start Time' />
+                                            //                     {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
+                                            //                 </div>
+                                            //                 <div className='w-[50%] relative flex gap-1 items-center'>
+                                            //                     <label className='text-[#89868d] text-[14px]'>End Time</label>
+                                            //                     <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='End Time' />
+                                            //                     {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
+                                            //                 </div>
+                                            //             </div>
+                                            //         </div>
+
+
+                                            //         <div className="flex flex-col gap-[10px] ">
+                                            //             <button
+
+                                            //                 className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                            //             >
+                                            //                 Save
+                                            //             </button>
+                                            //             <button
+                                            //                 onClick={closeModal6}
+                                            //                 className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                            //             >
+                                            //                 Cancel
+                                            //             </button>
+                                            //         </div>
+                                            //     </div>
+                                            // </div>
                                         )}
                                     </div>
 
@@ -411,7 +481,7 @@ const StaffSalarySummry = () => {
                                         {/* Button to open modal */}
                                         <button
                                             onClick={openModal2}
-                                            className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
+                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow " + (record?.status === "HALFDAY" ? "bg-[#008000] text-white" : "bg-white text-black")}
                                         >
                                             HD I HalfDay
                                         </button>
@@ -419,102 +489,26 @@ const StaffSalarySummry = () => {
                                         {/* Modal overlay and content */}
                                         {isOpen2 && (
                                             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
-                                                    <div className='flex items-center justify-between'>
-                                                        <div className='mb-[20px]'>
-                                                            <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Half Day </h2>
-                                                            <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                        </div>
-                                                        {/* <button className="px-4 py-2 bg-[#8a25b0] text-white rounded-md">Add Shift</button> */}
+                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                    <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                    <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
 
-                                                    </div>
-
-                                                    <div className='bg-[#ececec] p-[16px] rounded-md mb-[20px] '>
-                                                        <div className='text-right'>
-                                                            <DeleteIcon className='del-icon text-[#89868d]' />
-                                                        </div>
-                                                        <div className='gap-[5px] flex flex-col'>
-                                                            <label className='text-[#89868d] text-[14px]'>Shift Time</label>
-
-                                                            <div className="relative inline-block text-left w-[100%]">
-                                                                {/* Button to open/close the dropdown */}
-                                                                <button
-                                                                    className=" w-[100%] bg-[white] text-[#89868d] flex justify-between items-center p-[6px] text-left text-[12px] text-sm font-normal  select-pe  rounded-md  focus:outline-none"
-                                                                    onClick={toggleDropdown3}
-                                                                >
-                                                                    {presentDay.shift === "" ? "DAILY SHIFT" : shiftDetails?.find((item) => item?.id === presentDay?.shift)?.shiftName} <KeyboardArrowDownIcon className='new-arrow2' />
-                                                                </button>
-
-                                                                {/* Dropdown menu */}
-                                                                {isOpen3 && (
-                                                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                        <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                            {shiftDetails.map((item, index) => (
-                                                                                <div key={item.id}
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                    onClick={() => {
-                                                                                        setPresentDay(() => ({ ...presentDay, shift: item.id }));
-                                                                                        setIsOpen3(false);
-                                                                                    }}
-
-                                                                                >
-                                                                                    {item.shiftName}
-                                                                                </div>
-                                                                            ))}
-                                                                            {/* <a
-                                                                href="#"
-                                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem"
-                                                            >
-                                                                Option 1
-                                                            </a>
-                                                            <a
-                                                                href="#"
-                                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem"
-                                                            >
-                                                                Option 2
-                                                            </a>
-                                                            <a
-                                                                href="#"
-                                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                role="menuitem"
-                                                            >
-                                                                Option 3
-                                                            </a> */}
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-
-                                                        </div>
-                                                        <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                            <div className='w-[50%] relative flex gap-1 items-center'>
-                                                                <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='Start Time' />
-                                                                {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
-                                                            </div>
-                                                            <div className='w-[50%] relative flex gap-1 items-center'>
-                                                                <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='End Time' />
-                                                                {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="flex flex-col gap-[10px] ">
+                                                    <div className="flex justify-around ">
                                                         <button
+                                                            onClick={() => {
+                                                                // setCommonStatus("HALFDAY");
+                                                                updateAttendanceStatus(record?.id, "HALFDAY");
+                                                            }}
 
                                                             className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
                                                         >
-                                                            Save
+                                                            Yes , Confirm
                                                         </button>
                                                         <button
                                                             onClick={closeModal2}
                                                             className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
                                                         >
-                                                            Cancel
+                                                            No , Cancel
                                                         </button>
                                                     </div>
                                                 </div>
@@ -526,7 +520,7 @@ const StaffSalarySummry = () => {
                                         {/* Button to open modal */}
                                         <button
                                             onClick={openModal0}
-                                            className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
+                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow " + (record?.Fine?.length > 0 ? "bg-[#008000] text-white" : "bg-white text-black")}
                                         >
                                             F I Fine
                                         </button>
@@ -649,7 +643,7 @@ const StaffSalarySummry = () => {
                                         {/* Button to open modal */}
                                         <button
                                             onClick={openModal12}
-                                            className=" btns px-6 py-3 text-[14px] text-black font-medium bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow"
+                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow " + (record?.Overtime?.length > 0 ? "bg-[#008000] text-white" : "bg-white text-black")}
                                         >
                                             OT I Overtime
                                         </button>
@@ -769,7 +763,7 @@ const StaffSalarySummry = () => {
                                         {/* Button to open modal */}
                                         <button
                                             onClick={openModal14}
-                                            className=" btns px-6 py-3 text-[14px] text-white bg-[#008000] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[143px] whitespace-nowrap"
+                                            className={"btns px-6 py-3 text-[14px] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow " + (record?.status === "PAIDLEAVE" ? "bg-[#008000] text-white" : "bg-white text-black")}
                                         >
                                             L I Paid Leave
                                         </button>
@@ -783,7 +777,10 @@ const StaffSalarySummry = () => {
 
                                                     <div className="flex justify-around ">
                                                         <button
-
+                                                            onClick={() => {
+                                                                updateAttendanceStatus(record?.id, "PAIDLEAVE");
+                                                                // setCommonStatus("PAIDLEAVE")
+                                                            }}
                                                             className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
                                                         >
                                                             Yes , Confirm
@@ -802,8 +799,11 @@ const StaffSalarySummry = () => {
                                     <div className="flex xl:justify-center lg:justify-center md:justify-center items-center justify-end">
                                         {/* Button to open modal */}
                                         <button
-                                            onClick={openModal}
-                                            className=" btns px-6 py-3 text-[14px] text-black bg-[white] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow"
+                                            onClick={() => {
+                                                updateAttendanceStatus(record?.id, "ABSENT");
+                                                setCommonStatus("ABSENT");
+                                            }}
+                                            className={" btns px-6 py-3 text-[14px] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow " + (record?.status === "ABSENT" ? "bg-[#DC3545] text-white" : "bg-white text-black")}
                                         >
                                             A I Absent
                                         </button>
@@ -837,7 +837,7 @@ const StaffSalarySummry = () => {
                             </div>
                         </div>
                     </div>
-                ))
+                )})
                     : (<div>No Record Present</div>)
             }
         </div>
