@@ -38,7 +38,6 @@ const Clients = () => {
   }
 
   const [allStaff, setAllStaff] = useState();
-
   const [isLoading, setIsLoading] = useState(true);
   const [departments, setDepartments] = useState([])
   const [companyName, setCompanyName] = useState("");
