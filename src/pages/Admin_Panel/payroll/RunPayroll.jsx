@@ -715,7 +715,6 @@ const RunPayroll = ({toggleRunTab}) => {
                     </div>
                   </div>
                 </th>
-
                 {toggleDrop11 && (
                   <>
                     <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
