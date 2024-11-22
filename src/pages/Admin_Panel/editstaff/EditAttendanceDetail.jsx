@@ -566,6 +566,7 @@ const EditAttendanceDetail = () => {
         setFlexibleDays([]);
     }, [selectedMonth])
 
+
     function getMatchingShiftIds(selectedShift, selectMonShift) {
         // Map to extract labels from selectMonShift
         const selectMonShiftlabel = selectMonShift?.map((shift) => shift?.label);
@@ -701,6 +702,48 @@ const EditAttendanceDetail = () => {
             openToast("An error occurred while adding or updating Work Timing", "error");
         }
     }
+    async function createFlexibleShift(e) {
+        const data = {
+            staffId: selectedStaff?.staffDetails?.id,
+            shifts: flexibleDays.map(({ day, shifts, weekOff }) => ({
+                dateTime: day,
+                weekOff: weekOff,
+                shifts: getMatchingShiftIds(selectedShift, shifts),
+            })),
+        };
+
+        // console.log(data);
+        try {
+            const response = await fetch(`${baseUrl}shift/flexible/update`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            if (response.status === 200) {
+                // console.log(`Response data for ${shiftData.day}:`, result);
+                openToast(
+                    `Flexible Shift Updated or Added Successfully`,
+                    "success"
+                );
+
+                setFlexibleDays([]);
+                closeModal()
+            } else {
+                openToast(
+                    `An error occurred while adding or updating Flexible Shift Work Timing`,
+                    "error"
+                );
+            }
+            closeModal();
+        } catch (error) {
+            console.error("Error submitting Flexible Shift Work Timing:", error);
+            openToast("An error occurred while adding or updating Flexible Shift Work Timing", "error");
+        }
+    }
 
     const setDefaultWeekOffForDay = (day) => {
         setDayWiseWeekOff(prevState => {
@@ -718,6 +761,7 @@ const EditAttendanceDetail = () => {
         });
     };
 
+    console.log(selectedMonth);
     useEffect(() => {
         const year = selectedMonth.getFullYear();
         const month = selectedMonth.getMonth();
@@ -734,8 +778,8 @@ const EditAttendanceDetail = () => {
     };
 
     // console.log(daysInMonth);
-    
-    console.log(flexibleDays);
+
+    // console.log(flexibleDays);
 
     // console.log(hasWeekOff);
     return (
@@ -801,391 +845,395 @@ const EditAttendanceDetail = () => {
                     </TabList>
                     <TabPanel>
                         <div className='first-panel'>
-                            <table className='w-full'>
-                                <thead className='border-b border-[#000] '>
-                                    <th className='p-3 text-[13px] font-medium'>Day </th>
-                                    <th className='p-3 text-[13px] font-medium w-[45px]'>Weekoff </th>
-                                    <th className='p-3 text-[13px] font-medium text-left'>Shifts</th>
+                            <div className="overflow-y-scroll h-[50vh]">
+                                <table className='w-full'>
+                                    <thead className='border-b border-[#000] '>
+                                        <th className='p-3 text-[13px] font-medium'>Day </th>
+                                        <th className='p-3 text-[13px] font-medium w-[45px]'>Weekoff </th>
+                                        <th className='p-3 text-[13px] font-medium text-left'>Shifts</th>
 
-                                </thead>
-                                <tbody>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Mon</td>
-                                        <td className='p-3 text-center'>
-                                            <input checked={hasWeekOff.MonWeekOff} onChange={() => {
-                                                if (hasWeekOff.MonWeekOff === false) {
-                                                    setDefaultWeekOffForDay("Mon");
-                                                }
-                                                setOpenWeekDay("Monday");
-                                                setHasWeekOff({ ...hasWeekOff, "MonWeekOff": !hasWeekOff.MonWeekOff });
-                                                setOpenWeekOff(!openWeekOff);
-                                            }} type="checkbox" />
-                                        </td>
-                                        <td className='pr-5 flex items-center '>
-                                            <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
-                                                {hasWeekOff.MonWeekOff === true && (
-                                                    <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    >{getWeekOffSummaryForDay("Mon")}</div>
+                                    </thead>
+                                    <tbody>
+                                        <tr className=''>
+                                            <td className='text-center text-[12px] font-normal'>Mon</td>
+                                            <td className='p-3 text-center'>
+                                                <input checked={hasWeekOff.MonWeekOff} onChange={() => {
+                                                    if (hasWeekOff.MonWeekOff === false) {
+                                                        setDefaultWeekOffForDay("Mon");
+                                                    }
+                                                    setOpenWeekDay("Monday");
+                                                    setHasWeekOff({ ...hasWeekOff, "MonWeekOff": !hasWeekOff.MonWeekOff });
+                                                    setOpenWeekOff(!openWeekOff);
+                                                }} type="checkbox" />
+                                            </td>
+                                            <td className='pr-5 flex items-center '>
+                                                <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
+                                                    {hasWeekOff.MonWeekOff === true && (
+                                                        <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >{getWeekOffSummaryForDay("Mon")}</div>
+                                                    )} 
+                                                    <Select
+                                                        options={options}
+                                                        isMulti
+                                                        placeholder="Select Shift"
+                                                        value={selectMonShift}
+                                                        onChange={(selected) => setSelectMonShift(selected)}
+                                                        onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        styles={{
+                                                            control: (base) => ({
+                                                                ...base,
+                                                                minHeight: '40px',
+                                                                // maxHeight: '30px',
+                                                                // overflow: "scroll",
+                                                                // scrollBehavior: "smooth",
+                                                                // scrollbarWidth: "none",
+                                                                // overflowX: "hidden",
+                                                            }),
+                                                            multiValue: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: '#e5e7eb',
+                                                            }),
+                                                            multiValueLabel: (base) => ({
+                                                                ...base,
+                                                                color: '#000',
+                                                                // height: '30px',
+                                                                // display:"flex",
+                                                                // flexDirection:"column",
+                                                                // justifyContent:"center",
+                                                                // alignItems: 'center',
+                                                            }),
+                                                            multiValueRemove: (base) => ({
+                                                                ...base,
+                                                                color: '#ff0000',
+                                                                cursor: 'pointer',
+                                                            }),
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr className=''>
+                                            <td className='text-center text-[12px] font-normal'>Tue</td>
+                                            <td className='p-3 text-center'>
+                                                <input type="checkbox" value={hasWeekOff.TueWeekOff} onChange={() => {
+                                                    if (hasWeekOff.TueWeekOff === false) {
+                                                        setDefaultWeekOffForDay("Tue");
+                                                    }
+                                                    setOpenWeekDay("Tuesday");
+                                                    setHasWeekOff({ ...hasWeekOff, "TueWeekOff": !hasWeekOff.TueWeekOff });
+                                                    setOpenWeekOff(!openWeekOff);
+                                                }} />
+                                            </td>
+                                            <td className='pr-5 flex items-center'>
+                                                <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
+                                                    {hasWeekOff.TueWeekOff === true && (
+                                                        <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >{getWeekOffSummaryForDay("Tue")}</div>
 
-                                                )}
-                                                <Select
-                                                    options={options}
-                                                    isMulti
-                                                    placeholder="Select Shift"
-                                                    value={selectMonShift}
-                                                    onChange={(selected) => setSelectMonShift(selected)}
-                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                    className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            minHeight: '40px',
-                                                            // maxHeight: '30px',
-                                                            // overflow: "scroll",
-                                                            // scrollBehavior: "smooth",
-                                                            // scrollbarWidth: "none",
-                                                            // overflowX: "hidden",
-                                                        }),
-                                                        multiValue: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: '#e5e7eb',
-                                                        }),
-                                                        multiValueLabel: (base) => ({
-                                                            ...base,
-                                                            color: '#000',
-                                                            // height: '30px',
-                                                            // display:"flex",
-                                                            // flexDirection:"column",
-                                                            // justifyContent:"center",
-                                                            // alignItems: 'center',
-                                                        }),
-                                                        multiValueRemove: (base) => ({
-                                                            ...base,
-                                                            color: '#ff0000',
-                                                            cursor: 'pointer',
-                                                        }),
-                                                    }}
-                                                />
-                                            </div>
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Tue</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value={hasWeekOff.TueWeekOff} onChange={() => {
-                                                if (hasWeekOff.TueWeekOff === false) {
-                                                    setDefaultWeekOffForDay("Tue");
-                                                }
-                                                setOpenWeekDay("Tuesday");
-                                                setHasWeekOff({ ...hasWeekOff, "TueWeekOff": !hasWeekOff.TueWeekOff });
-                                                setOpenWeekOff(!openWeekOff);
-                                            }} />
-                                        </td>
-                                        <td className='pr-5 flex items-center'>
-                                            <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
-                                                {hasWeekOff.TueWeekOff === true && (
-                                                    <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    >{getWeekOffSummaryForDay("Tue")}</div>
+                                                    )}
+                                                    <Select
+                                                        options={options}
+                                                        isMulti
+                                                        placeholder="Select Shift"
+                                                        value={selectTueShift}
+                                                        onChange={(selected) => setSelectTueShift(selected)}
+                                                        onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        styles={{
+                                                            control: (base) => ({
+                                                                ...base,
+                                                                minHeight: '40px',
+                                                            }),
+                                                            multiValue: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: '#e5e7eb',
+                                                            }),
+                                                            multiValueLabel: (base) => ({
+                                                                ...base,
+                                                                color: '#000',
+                                                            }),
+                                                            multiValueRemove: (base) => ({
+                                                                ...base,
+                                                                color: '#ff0000',
+                                                                cursor: 'pointer',
+                                                            }),
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr className=''>
+                                            <td className='text-center text-[12px] font-normal'>Wed</td>
+                                            <td className='p-3 text-center'>
+                                                <input type="checkbox" value={hasWeekOff.WedWeekOff} onChange={() => {
+                                                    if (hasWeekOff.WedWeekOff === false) {
+                                                        setDefaultWeekOffForDay("Wed");
+                                                    }
+                                                    setOpenWeekDay("Wednesday");
+                                                    setHasWeekOff({ ...hasWeekOff, "WedWeekOff": !hasWeekOff.WedWeekOff });
+                                                    setOpenWeekOff(!openWeekOff);
+                                                }} />
+                                            </td>
+                                            <td className='pr-5 flex items-center'>
+                                                <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
+                                                    {hasWeekOff.WedWeekOff === true && (
+                                                        <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >{getWeekOffSummaryForDay("Wed")}</div>
 
-                                                )}
-                                                <Select
-                                                    options={options}
-                                                    isMulti
-                                                    placeholder="Select Shift"
-                                                    value={selectTueShift}
-                                                    onChange={(selected) => setSelectTueShift(selected)}
-                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                    className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            minHeight: '40px',
-                                                        }),
-                                                        multiValue: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: '#e5e7eb',
-                                                        }),
-                                                        multiValueLabel: (base) => ({
-                                                            ...base,
-                                                            color: '#000',
-                                                        }),
-                                                        multiValueRemove: (base) => ({
-                                                            ...base,
-                                                            color: '#ff0000',
-                                                            cursor: 'pointer',
-                                                        }),
-                                                    }}
-                                                />
-                                            </div>
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Wed</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value={hasWeekOff.WedWeekOff} onChange={() => {
-                                                if (hasWeekOff.WedWeekOff === false) {
-                                                    setDefaultWeekOffForDay("Wed");
-                                                }
-                                                setOpenWeekDay("Wednesday");
-                                                setHasWeekOff({ ...hasWeekOff, "WedWeekOff": !hasWeekOff.WedWeekOff });
-                                                setOpenWeekOff(!openWeekOff);
-                                            }} />
-                                        </td>
-                                        <td className='pr-5 flex items-center'>
-                                            <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
-                                                {hasWeekOff.WedWeekOff === true && (
-                                                    <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    >{getWeekOffSummaryForDay("Wed")}</div>
+                                                    )}
+                                                    <Select
+                                                        options={options}
+                                                        isMulti
+                                                        placeholder="Select Shift"
+                                                        value={selectWedShift}
+                                                        onChange={(selected) => setSelectWedShift(selected)}
+                                                        onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        styles={{
+                                                            control: (base) => ({
+                                                                ...base,
+                                                                minHeight: '40px',
+                                                            }),
+                                                            multiValue: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: '#e5e7eb',
+                                                            }),
+                                                            multiValueLabel: (base) => ({
+                                                                ...base,
+                                                                color: '#000',
+                                                            }),
+                                                            multiValueRemove: (base) => ({
+                                                                ...base,
+                                                                color: '#ff0000',
+                                                                cursor: 'pointer',
+                                                            }),
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr className=''>
+                                            <td className='text-center text-[12px] font-normal'>Thu</td>
+                                            <td className='p-3 text-center'>
+                                                <input type="checkbox" value={hasWeekOff.ThuWeekOff} onChange={() => {
+                                                    if (hasWeekOff.WedWeekOff === false) {
+                                                        setDefaultWeekOffForDay("Thu");
+                                                    }
+                                                    setOpenWeekDay("Thursday");
+                                                    setHasWeekOff({ ...hasWeekOff, "ThuWeekOff": !hasWeekOff.ThuWeekOff });
+                                                    setOpenWeekOff(!openWeekOff);
+                                                }} />
+                                            </td>
+                                            <td className='pr-5 flex items-center'>
+                                                <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
+                                                    {hasWeekOff.ThuWeekOff === true && (
+                                                        <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >{getWeekOffSummaryForDay("Thu")}</div>
 
-                                                )}
-                                                <Select
-                                                    options={options}
-                                                    isMulti
-                                                    placeholder="Select Shift"
-                                                    value={selectWedShift}
-                                                    onChange={(selected) => setSelectWedShift(selected)}
-                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                    className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            minHeight: '40px',
-                                                        }),
-                                                        multiValue: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: '#e5e7eb',
-                                                        }),
-                                                        multiValueLabel: (base) => ({
-                                                            ...base,
-                                                            color: '#000',
-                                                        }),
-                                                        multiValueRemove: (base) => ({
-                                                            ...base,
-                                                            color: '#ff0000',
-                                                            cursor: 'pointer',
-                                                        }),
-                                                    }}
-                                                />
-                                            </div>
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Thu</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value={hasWeekOff.ThuWeekOff} onChange={() => {
-                                                if (hasWeekOff.WedWeekOff === false) {
-                                                    setDefaultWeekOffForDay("Thu");
-                                                }
-                                                setOpenWeekDay("Thursday");
-                                                setHasWeekOff({ ...hasWeekOff, "ThuWeekOff": !hasWeekOff.ThuWeekOff });
-                                                setOpenWeekOff(!openWeekOff);
-                                            }} />
-                                        </td>
-                                        <td className='pr-5 flex items-center'>
-                                            <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
-                                                {hasWeekOff.ThuWeekOff === true && (
-                                                    <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    >{getWeekOffSummaryForDay("Thu")}</div>
+                                                    )}
+                                                    <Select
+                                                        options={options}
+                                                        isMulti
+                                                        placeholder="Select Shift"
+                                                        value={selectThuShift}
+                                                        onChange={(selected) => setSelectThuShift(selected)}
+                                                        onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        styles={{
+                                                            control: (base) => ({
+                                                                ...base,
+                                                                minHeight: '40px',
+                                                            }),
+                                                            multiValue: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: '#e5e7eb',
+                                                            }),
+                                                            multiValueLabel: (base) => ({
+                                                                ...base,
+                                                                color: '#000',
+                                                            }),
+                                                            multiValueRemove: (base) => ({
+                                                                ...base,
+                                                                color: '#ff0000',
+                                                                cursor: 'pointer',
+                                                            }),
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr className=''>
+                                            <td className='text-center text-[12px] font-normal'>Fri</td>
+                                            <td className='p-3 text-center'>
+                                                <input type="checkbox" value={hasWeekOff.FriWeekOff} onChange={() => {
+                                                    if (hasWeekOff.WedWeekOff === false) {
+                                                        setDefaultWeekOffForDay("Fri");
+                                                    }
+                                                    setOpenWeekDay("Friday");
+                                                    setHasWeekOff({ ...hasWeekOff, "FriWeekOff": !hasWeekOff.FriWeekOff });
+                                                    setOpenWeekOff(!openWeekOff);
+                                                }} />
+                                            </td>
+                                            <td className='pr-5 flex items-center'>
+                                                <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
+                                                    {hasWeekOff.FriWeekOff === true && (
+                                                        <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >{getWeekOffSummaryForDay("Fri")}</div>
 
-                                                )}
-                                                <Select
-                                                    options={options}
-                                                    isMulti
-                                                    placeholder="Select Shift"
-                                                    value={selectThuShift}
-                                                    onChange={(selected) => setSelectThuShift(selected)}
-                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                    className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            minHeight: '40px',
-                                                        }),
-                                                        multiValue: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: '#e5e7eb',
-                                                        }),
-                                                        multiValueLabel: (base) => ({
-                                                            ...base,
-                                                            color: '#000',
-                                                        }),
-                                                        multiValueRemove: (base) => ({
-                                                            ...base,
-                                                            color: '#ff0000',
-                                                            cursor: 'pointer',
-                                                        }),
-                                                    }}
-                                                />
-                                            </div>
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Fri</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value={hasWeekOff.FriWeekOff} onChange={() => {
-                                                if (hasWeekOff.WedWeekOff === false) {
-                                                    setDefaultWeekOffForDay("Fri");
-                                                }
-                                                setOpenWeekDay("Friday");
-                                                setHasWeekOff({ ...hasWeekOff, "FriWeekOff": !hasWeekOff.FriWeekOff });
-                                                setOpenWeekOff(!openWeekOff);
-                                            }} />
-                                        </td>
-                                        <td className='pr-5 flex items-center'>
-                                            <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
-                                                {hasWeekOff.FriWeekOff === true && (
-                                                    <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    >{getWeekOffSummaryForDay("Fri")}</div>
-
-                                                )}
-                                                <Select
-                                                    options={options}
-                                                    isMulti
-                                                    placeholder="Select Shift"
-                                                    value={selectFriShift}
-                                                    onChange={(selected) => setSelectFriShift(selected)}
-                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                    className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            minHeight: '40px',
-                                                        }),
-                                                        multiValue: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: '#e5e7eb',
-                                                        }),
-                                                        multiValueLabel: (base) => ({
-                                                            ...base,
-                                                            color: '#000',
-                                                        }),
-                                                        multiValueRemove: (base) => ({
-                                                            ...base,
-                                                            color: '#ff0000',
-                                                            cursor: 'pointer',
-                                                        }),
-                                                    }}
-                                                />
-                                            </div>
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sat</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value={hasWeekOff.SatWeekOff} onChange={() => {
-                                                if (hasWeekOff.WedWeekOff === false) {
-                                                    setDefaultWeekOffForDay("Sat");
-                                                }
-                                                setOpenWeekDay("Saturday"); setHasWeekOff({ ...hasWeekOff, "SatWeekOff": !hasWeekOff.SatWeekOff });
-                                            }} />
-                                        </td>
-                                        <td className='pr-5 flex items-center'>
-                                            {hasWeekOff.SatWeekOff === true && (
-                                                <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                >{getWeekOffSummaryForDay("Sat")}</div>
-                                            )}
-                                            <Select
-                                                options={options}
-                                                isMulti
-                                                placeholder="Select Shift"
-                                                value={selectSatShift}
-                                                onChange={(selected) => setSelectSatShift(selected)}
-                                                onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                styles={{
-                                                    control: (base) => ({
-                                                        ...base,
-                                                        minHeight: '40px',
-                                                    }),
-                                                    multiValue: (base) => ({
-                                                        ...base,
-                                                        backgroundColor: '#e5e7eb',
-                                                    }),
-                                                    multiValueLabel: (base) => ({
-                                                        ...base,
-                                                        color: '#000',
-                                                    }),
-                                                    multiValueRemove: (base) => ({
-                                                        ...base,
-                                                        color: '#ff0000',
-                                                        cursor: 'pointer',
-                                                    }),
-                                                }}
-                                            />
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal'>Sun</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" value={hasWeekOff.SunWeekOff} onChange={() => {
-                                                if (hasWeekOff.WedWeekOff === false) {
-                                                    setDefaultWeekOffForDay("Sun");
-                                                }
-                                                setOpenWeekDay("Sunday"); setHasWeekOff({ ...hasWeekOff, "SunWeekOff": !hasWeekOff.SunWeekOff });
-                                                setOpenWeekOff(!openWeekOff);
-                                            }} />
-                                        </td>
-                                        <td className='pr-5 flex items-center'>
-                                            <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
-                                                {hasWeekOff.SunWeekOff === true && (
-                                                    <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    >{getWeekOffSummaryForDay("Sun")}</div>
-                                                )}
-                                                <Select
-                                                    options={options}
-                                                    isMulti
-                                                    placeholder="Select Shift"
-                                                    value={selectSunShift}
-                                                    onChange={(selected) => setSelectSunShift(selected)}
-                                                    onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                    className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
-                                                    styles={{
-                                                        control: (base) => ({
-                                                            ...base,
-                                                            minHeight: '40px',
-                                                        }),
-                                                        multiValue: (base) => ({
-                                                            ...base,
-                                                            backgroundColor: '#e5e7eb',
-                                                        }),
-                                                        multiValueLabel: (base) => ({
-                                                            ...base,
-                                                            color: '#000',
-                                                        }),
-                                                        multiValueRemove: (base) => ({
-                                                            ...base,
-                                                            color: '#ff0000',
-                                                            cursor: 'pointer',
-                                                        }),
-                                                    }}
-                                                />
-                                            </div>
-                                            <button className='bg-[#27004a] rounded-full ml-4'>
-                                                <AddIcon className="text-white" onClick={openModal1} />
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+                                                    )}
+                                                    <Select
+                                                        options={options}
+                                                        isMulti
+                                                        placeholder="Select Shift"
+                                                        value={selectFriShift}
+                                                        onChange={(selected) => setSelectFriShift(selected)}
+                                                        onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        styles={{
+                                                            control: (base) => ({
+                                                                ...base,
+                                                                minHeight: '40px',
+                                                            }),
+                                                            multiValue: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: '#e5e7eb',
+                                                            }),
+                                                            multiValueLabel: (base) => ({
+                                                                ...base,
+                                                                color: '#000',
+                                                            }),
+                                                            multiValueRemove: (base) => ({
+                                                                ...base,
+                                                                color: '#ff0000',
+                                                                cursor: 'pointer',
+                                                            }),
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr className=''>
+                                            <td className='text-center text-[12px] font-normal'>Sat</td>
+                                            <td className='p-3 text-center'>
+                                                <input type="checkbox" value={hasWeekOff.SatWeekOff} onChange={() => {
+                                                    if (hasWeekOff.WedWeekOff === false) {
+                                                        setDefaultWeekOffForDay("Sat");
+                                                    }
+                                                    setOpenWeekDay("Saturday");
+                                                    setHasWeekOff({ ...hasWeekOff, "SatWeekOff": !hasWeekOff.SatWeekOff });
+                                                    setOpenWeekOff(!openWeekOff);
+                                                }} />
+                                            </td>
+                                            <td className='pr-5 flex items-center'>
+                                                <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
+                                                    {hasWeekOff.SatWeekOff === true && (
+                                                        <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >{getWeekOffSummaryForDay("Sat")}</div>
+                                                    )}
+                                                    <Select
+                                                        options={options}
+                                                        isMulti
+                                                        placeholder="Select Shift"
+                                                        value={selectSatShift}
+                                                        onChange={(selected) => setSelectSatShift(selected)}
+                                                        onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        styles={{
+                                                            control: (base) => ({
+                                                                ...base,
+                                                                minHeight: '40px',
+                                                            }),
+                                                            multiValue: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: '#e5e7eb',
+                                                            }),
+                                                            multiValueLabel: (base) => ({
+                                                                ...base,
+                                                                color: '#000',
+                                                            }),
+                                                            multiValueRemove: (base) => ({
+                                                                ...base,
+                                                                color: '#ff0000',
+                                                                cursor: 'pointer',
+                                                            }),
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr className=''>
+                                            <td className='text-center text-[12px] font-normal'>Sun</td>
+                                            <td className='p-3 text-center'>
+                                                <input type="checkbox" value={hasWeekOff.SunWeekOff} onChange={() => {
+                                                    if (hasWeekOff.WedWeekOff === false) {
+                                                        setDefaultWeekOffForDay("Sun");
+                                                    }
+                                                    setOpenWeekDay("Sunday"); setHasWeekOff({ ...hasWeekOff, "SunWeekOff": !hasWeekOff.SunWeekOff });
+                                                    setOpenWeekOff(!openWeekOff);
+                                                }} />
+                                            </td>
+                                            <td className='pr-5 flex items-center'>
+                                                <div className='w-[94%] flex flex-col gap-1 p-[5px]'>
+                                                    {hasWeekOff.SunWeekOff === true && (
+                                                        <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >{getWeekOffSummaryForDay("Sun")}</div>
+                                                    )}
+                                                    <Select
+                                                        options={options}
+                                                        isMulti
+                                                        placeholder="Select Shift"
+                                                        value={selectSunShift}
+                                                        onChange={(selected) => setSelectSunShift(selected)}
+                                                        onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        styles={{
+                                                            control: (base) => ({
+                                                                ...base,
+                                                                minHeight: '40px',
+                                                            }),
+                                                            multiValue: (base) => ({
+                                                                ...base,
+                                                                backgroundColor: '#e5e7eb',
+                                                            }),
+                                                            multiValueLabel: (base) => ({
+                                                                ...base,
+                                                                color: '#000',
+                                                            }),
+                                                            multiValueRemove: (base) => ({
+                                                                ...base,
+                                                                color: '#ff0000',
+                                                                cursor: 'pointer',
+                                                            }),
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button className='bg-[#27004a] rounded-full ml-4'>
+                                                    <AddIcon className="text-white" onClick={openModal1} />
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button className="first-btn" onClick={closeModal}>Cancel</button>
                                 <button className="second-btn" onClick={(e) => createFixedShift(e)}>Confirm</button>
@@ -1260,8 +1308,8 @@ const EditAttendanceDetail = () => {
                                     </thead>
                                     <tbody>
                                         {daysInMonth?.map((day) => {
-                                            const date = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day+1);
-                                            // console.log(flexibleDays.filter((item) => item.day === date.toISOString()));
+                                            const date = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day + 1);
+                                            const updateWeekOff = flexibleDays.filter((item) => item.day === date.toISOString());
                                             return (
                                                 <tr key={date}>
                                                     <td className="text-center text-[12px] font-normal">
@@ -1269,23 +1317,31 @@ const EditAttendanceDetail = () => {
                                                     </td>
                                                     <td className="p-3 text-center">
                                                         <input onChange={(e) => {
-                                                            const updateWeekOff = flexibleDays.filter((item) => item.day !== date.toISOString());
-                                                            console.log(updateWeekOff);
+                                                            // console.log(updateWeekOff);
                                                             if (updateWeekOff.length > 0) {
-                                                                setFlexibleDays([...flexibleDays.filter((item) => item.day !== date.toISOString()), { day: date.toISOString(), weekOff: false }]);
+                                                                setFlexibleDays([...flexibleDays.filter((item) => item.day !== date.toISOString()), { day: date.toISOString(), weekOff: !updateWeekOff[0].weekOff, shifts: [] }]);
                                                             }
                                                             else {
-                                                                setFlexibleDays([...flexibleDays, { day: date.toISOString(), weekOff: true }])
+                                                                setFlexibleDays([...flexibleDays, { day: date.toISOString(), weekOff: true, shifts: [] }])
                                                             }
                                                         }} type="checkbox" />
                                                     </td>
                                                     <td className="pr-5">
-                                                        <Select
+                                                        {updateWeekOff.length > 0 && updateWeekOff[0].weekOff ? <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >Week Off</div> : <Select
+                                                            isDisabled={updateWeekOff.weekOff}
                                                             options={options}
                                                             isMulti
                                                             placeholder="Select Shift"
-                                                            value={selectMonShift}
-                                                            onChange={(selected) => setSelectMonShift(selected)}
+                                                            value={updateWeekOff.length > 0 ? updateWeekOff[0].shifts : []}
+                                                            onChange={(selected) => {
+                                                                if (updateWeekOff.length > 0) {
+                                                                    setFlexibleDays([...flexibleDays.filter((item) => item.day !== date.toISOString()), { day: date.toISOString(), weekOff: false, shifts: selected }]);
+                                                                }
+                                                                else {
+                                                                    setFlexibleDays([...flexibleDays, { day: date.toISOString(), weekOff: false, shifts: selected }])
+                                                                }
+                                                            }}
                                                             onMenuOpen={() => selectedShift.length === 0 && openModal1()}
                                                             className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
                                                             styles={{
@@ -1317,7 +1373,8 @@ const EditAttendanceDetail = () => {
                                                                     cursor: 'pointer',
                                                                 }),
                                                             }}
-                                                        />
+                                                        />}
+
                                                         {/* <select className="border rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] xl:text-[14px] text-[12px] ml-[7px] hover:bg-[#fff]">
                                                             <option>Select Shift</option>
                                                         </select> */}
@@ -1330,7 +1387,7 @@ const EditAttendanceDetail = () => {
                             </div>
                             <div class="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button class="first-btn" onClick={closeModal}>Cancel</button>
-                                <button class="second-btn">Update Work Timings for All Staff</button></div>
+                                <button class="second-btn" onClick={() => createFlexibleShift()}>Update Flexible Shift Work Timings </button></div>
                         </div>
                     </TabPanel>
 

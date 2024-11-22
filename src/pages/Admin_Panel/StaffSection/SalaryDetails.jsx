@@ -152,9 +152,10 @@ const SalaryDetails = () => {
 
               {
 
-                isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
-                  <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
-                    <ClipLoader color="#4A90E2" size={50} />
+                isLoading && staffDetail.length === 0 ? (
+                  <tr className="h-[100px]">
+                  <td colSpan="8" className="text-center text-gray-600 text-sm font-semibold py-4 mx-auto">
+                  <ClipLoader color="#4A90E2" size={50} />
                   </td>
                 </tr>
                 ) : staffDetail && staffDetail.length > 0 ? (

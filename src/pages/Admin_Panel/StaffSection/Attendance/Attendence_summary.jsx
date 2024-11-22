@@ -808,12 +808,3 @@ const Attendence_summary = () => {
 
 
 export default Attendence_summary
-
-
-
-
-
-
-
-
-

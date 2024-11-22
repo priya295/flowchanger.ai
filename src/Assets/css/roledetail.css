@@ -106,6 +106,10 @@ table{
     padding: 7px 6px 7px 6px !important;
 
 }
+
+.payroll-menu::-webkit-scrollbar{
+ display: none;
+}
  
 .tab-section .react-tabs ::-webkit-scrollbar {
     width: 2px;
@@ -166,12 +170,10 @@ table{
     .custom-body-class .sidebar{
         left: 0 !important;
         z-index: 999 !important;
-
     }
 }
 
 .sidebar{
-    transition: all 0.3s linear;
     height: auto;
     min-height: 100vh;
     left: 0;
@@ -198,6 +200,7 @@ table{
     left: -300px;
     z-index: 999;
     position: absolute;
+    
     
 }
 
@@ -627,4 +630,3 @@ input[type=radio]{
         position: absolute;
     }
    }
- 

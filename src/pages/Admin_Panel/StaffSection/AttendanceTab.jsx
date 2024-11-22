@@ -395,6 +395,7 @@ const AttendanceTab = () => {
             }
         };
 
+       try{
         const result = await fetch(baseUrl + "attendance/mode", {
             method: "PUT",
             headers: {
@@ -402,13 +403,24 @@ const AttendanceTab = () => {
             },
             body: JSON.stringify(data)
         })
+        const res = await result.json();
         if (result.status == 200) {
-            openToast("Update Details Successfully", "success");
+            openToast(res.message||"Update Details Successfully", "success");
             openModal6()
         }
         else {
-            openToast("Internal Server Error", "error")
+            openToast(res.message||"Internal Server Error", "error")
         }
+       }
+       catch(error){
+        if (error.message === "Failed to fetch") {
+            console.error("Network error or server unavailable:", error);
+            openToast("Unable to connect to the server. Please check your network or try again later.", "error");
+        } else {
+            console.error("Unexpected error:", error);
+            openToast("An unexpected error occurred. Please try again.", "error");
+        }
+       }
     }
 
 

@@ -1,16 +1,21 @@
 import React from "react";
 import CachedIcon from "@mui/icons-material/Cached";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { FiSearch } from "react-icons/fi";
 
 const Subscription_History = () => {
   return (
     <div className="m-4 ">
       <div className="flex items-center gap-2 justify-end">
+        <div className="relative client-add">
         <input
-          className="h-[40px] rounded-md border border-[#d9dee3] pl-2 max-[600px]:text-[10px]"
+          className="p-[6px] client-add  rounded-2xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] py-2.5"
+
           type="text"
           placeholder="Search"
         />
+        <FiSearch  className="absolute newadd2 right-[8px] top-[14px] text-gray-500"/>
+        </div>
 
         <div className="bg-[#8592a3] text-white px-7 py-[8px] rounded-md space-x-6 max-[463px]:flex max-[463px]:h-[40px]">
           <button>

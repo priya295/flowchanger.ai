@@ -12,12 +12,10 @@ import 'react-quill/dist/quill.snow.css'; // Quill styling
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import CreatableSelect from "react-select/creatable";
 import Select from 'react-select';
-import { FaArrowLeft } from "react-icons/fa";
-import {Link} from "react-router-dom";
 import { div } from "framer-motion/client";
 
 const Add_Project = () => {
-  const { baseUrl,openToast} = useGlobalContext();
+  const { baseUrl, openToast } = useGlobalContext();
   const navigate = useNavigate();
   const [editorData, setEditorData] = useState('');
   const modules = {
@@ -73,14 +71,14 @@ const Add_Project = () => {
       setClientData(res)
     }
     else {
-      openToast("An Error Occured","error")
+      openToast("An Error Occured", "error")
       // alert("An Error Occured")
     }
   }
 
-  useEffect(()=>{
-   console.log(clientData)
-  },[]);
+  useEffect(() => {
+    console.log(clientData)
+  }, []);
 
   useEffect(() => {
     fetchDetail();
@@ -95,7 +93,7 @@ const Add_Project = () => {
     if (result.status == 200) {
       const res = await result.json();
       setStaffDetail(res)
-      console.log("---",res.name)
+      console.log("---", res.name)
     }
     else {
       // openToast("An Error Occured")
@@ -144,16 +142,16 @@ const Add_Project = () => {
   }));
 
   console.log(staffDetail);
-  console.log(clientData);  
+  console.log(clientData);
 
 
 
   async function projectSubmit(e) {
     e.preventDefault();
     const plainTextDescription = (editorData || '').replace(/<\/?p>/g, '');
-     console.log(
+    console.log(
       selectedClient
-     )
+    )
     const projectNameString = fetchProjectStatus.length > 0 ? fetchProjectStatus[0].project_name : ''; // Option 1, or use Option 2 as needed
     const result = await fetch(baseUrl + "project/create", {
       method: "POST",
@@ -176,14 +174,14 @@ const Add_Project = () => {
       })
     })
     console.log(result);
-    const data =await result.json()
+    const data = await result.json()
     if (result.status == 200) {
-     openToast(data.msg||"Add Project Successfully", "success")
+      openToast(data.msg || "Add Project Successfully", "success")
     }
     else {
 
-     console.log(data.msg);
-      openToast(data.msg||"error occured","error")
+      console.log(data.msg);
+      openToast(data.msg || "error occured", "error")
     }
   }
 
@@ -194,22 +192,18 @@ const Add_Project = () => {
   // useEffect(()=>{
   //  console.log(clientData.clientInformation)
   // },[])
-  useEffect(()=>{
-  console.log(clientData)
-  },[])
+  useEffect(() => {
+    console.log(clientData)
+  }, [])
 
   return (
-    <div className="max-w-[80%] mx-auto">
-      
-    <Tabs className="m-5 shadow-cs rounded-lg">
-      <div className="pt-[20px] pl-[20px]">
-    <Link to = "/clients"><FaArrowLeft /></Link>
-    </div>
+    <div className="max-w-[100%] mx-auto">
+    <Tabs className="m-5 shadow rounded-lg">
       <TabList className="flex p-5 pb-[10px] gap-4 text-[16px] font-medium border-b border-[#B1B1B1] cursor-pointer ">
-        <Tab className="py-2 hover:border-b-1 hover:border-[#27004a] text-md font-medium">
+        <Tab className="hover:text-[#27004a] project-tab text-[#27004a] focus-visible:outline-none newsetup-tab text-[17px] hover:border-b pb-1  border-[#27004a]">
           Project
         </Tab>
-        <Tab className="text-gray-600 py-2 text-md font-medium hover:border-b-1 hover:border-[#27004a]">
+        <Tab className="hover:text-[#27004a] focus-visible:outline-none   newsetup-tab text-[17px] hover:border-b  pb-2 border-[#27004a]">
           Project Settings
         </Tab>
       </TabList>
@@ -219,7 +213,7 @@ const Add_Project = () => {
         <div className="w-[100%]  space-y-5">
           
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">* Project Name</label>
+            <label className="font-medium">* Project Name</label>
             <input  
               className="h-[35px] w-[100%] border border-[#DBDCDE]  rounded-md pl-2 "
               type="text"
@@ -231,7 +225,7 @@ const Add_Project = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">* Customer</label>
+            <label className="font-medium">* Customer</label>
             <select
   onChange={(e) => setSelectClient(e.target.value)}
   className="w-[100%]  bg-white border border-[#DBDCDE] rounded-md pl-5 h-[35px]"
@@ -239,28 +233,28 @@ const Add_Project = () => {
   {clientData?.map((clientInformation, index) => {
     console.log(clientInformation?.name, clientInformation.clientDetails?.id); // Logs name and clientDetails.id
 
-    return (
-      <option key={index} value={clientInformation.clientDetails?.id }>
-        {clientInformation?.name ?? "n/a"}
-      </option>
-    );
-  })}
-</select>
-          </div>
+                            return (
+                              <option key={index} value={clientInformation.clientDetails?.id}>
+                                {clientInformation?.name ?? "n/a"}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
 
-          <div className="font-medium flex gap-3 items-center">
+          <div className="font-medium flex gap-4 items-center">
             <input type="checkbox" name = "progress" required/>
-            <label for = "text-[13px] font-medium progress-through ">Calculate progress through tasks</label>  
+            <label for = "progress">Calculate progress through tasks</label>  
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-sm font-medium text-gray-700">Progress 0%</h1>
+            <h1>Progress 0%</h1>
             <div className="h-7 bg-[#FBFBFB] border border-[#D9D9D9] rounded-md"></div>
           </div>
 
           <div className="flex w-[100%] gap-10">
             <div className="w-[50%] space-y-2">
-              <label className="text-sm font-medium text-gray-700">* Billing Type</label>
+              <label>* Billing Type</label>
               <select onChange={(e) => { setBillingType(e.target.value) }} className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5" name = "billingType" required>
                 <option value="Fixed Rate">Fixed rate</option>
                 <option value="Project Hours">Project Hours</option>
@@ -269,7 +263,7 @@ const Add_Project = () => {
             </div>
 
             <div className="w-[50%] space-y-2">
-              <label className="text-sm font-medium text-gray-700">Status</label>
+              <label>Status</label>
               <select className="h-[40px] w-[100%] bg-white border border-[#DBDCDE] rounded-md pl-5" name = "status" required>
                 <option value="">In Progress</option>
                 {
@@ -284,7 +278,7 @@ const Add_Project = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Total Rate</label>
+            <label className="font-medium">Total Rate</label>
             <input
             name = "totalRate"
               className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
@@ -292,13 +286,13 @@ const Add_Project = () => {
               onChange={(e) => { setRate(parseInt(e.target.value) || 0) }}
                 required
 
-            />
-          </div>
+                        />
+                      </div>
 
           <div className="grid grid-rows-2 space-y-2">
             <div className="flex w-[100%] gap-10">
               <div className="w-[50%] space-y-2">
-                <label className="text-sm font-medium text-gray-700">Estimated Hours</label>
+                <label>Estimated Hours</label>
                 <input
                   className="h-[40px] w-[100%] border border-[#DBDCDE] rounded-md pl-2"
                   type="number"
@@ -309,47 +303,47 @@ const Add_Project = () => {
               </div>
 
               <div className="w-[50%] space-y-2">
-                <label className="text-sm font-medium text-gray-700">Members</label>
+                <label>Members</label>
 
-                <Select
-                  isMulti
-                  options={options}
-                  onChange={(op) => { setMembers(op.map(o => o.value)) }}
-                  placeholder="Select Members..."
-                  className=""
-                  name = "membersF"
-                  styles={{
-                    control: (provided) => ({
-                      ...provided,
-                      maxHeight: '40px',
-                      border: '1px solid #DBDCDE',
-                    }),
-                    multiValue: (provided) => ({
-                      ...provided,
-                      backgroundColor: '#e5e7eb',
-                      borderRadius: '4px',
-                    }),
-                    multiValueLabel: (provided) => ({
-                      ...provided,
-                      fontSize: '0.875rem',
-                    }),
-                    multiValueRemove: (provided) => ({
-                      ...provided,
-                      color: '#4b5563',
-                      cursor: 'pointer',
-                    }),
-                  }}
-                  required
-                />
+                            <Select
+                              isMulti
+                              options={options}
+                              onChange={(op) => { setMembers(op.map(o => o.value)) }}
+                              placeholder="Select Members..."
+                              className=""
+                              name="membersF"
+                              styles={{
+                                control: (provided) => ({
+                                  ...provided,
+                                  maxHeight: '40px',
+                                  border: '1px solid #DBDCDE',
+                                }),
+                                multiValue: (provided) => ({
+                                  ...provided,
+                                  backgroundColor: '#e5e7eb',
+                                  borderRadius: '4px',
+                                }),
+                                multiValueLabel: (provided) => ({
+                                  ...provided,
+                                  fontSize: '0.875rem',
+                                }),
+                                multiValueRemove: (provided) => ({
+                                  ...provided,
+                                  color: '#4b5563',
+                                  cursor: 'pointer',
+                                }),
+                              }}
+                              required
+                            />
 
 
 
-              </div>
-            </div>
+                          </div>
+                        </div>
 
             <div className="flex w-[100%] gap-10">
               <div className="w-[50%] space-y-2">
-                <label className="text-sm font-medium text-gray-700">* Start Date</label>
+                <label>* Start Date</label>
                 <input
                   className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
@@ -360,7 +354,7 @@ const Add_Project = () => {
               </div>
 
               <div className="w-[50%] space-y-2">
-                <label className="text-sm font-medium text-gray-700">Deadline</label>
+                <label>Deadline</label>
                 <input
                   className="h-[35px] w-[100%] border border-[#DBDCDE] rounded-md px-2"
                   type="date"
@@ -372,42 +366,42 @@ const Add_Project = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-[10px]">
-            <SellIcon />
-            {/* <span className="font-medium pl-2">Tags</span> */}
-            <CreatableSelect
-              isMulti
-              options={tags}
-              onChange={handleChange}
-              placeholder="Select or add tags..."
-              className="tag-selector w-full"
-              styles={{
-                control: (provided) => ({
-                  ...provided,
-                  minHeight: '35px',
-                  border: '1px solid #d1d5db',
-                }),
-                multiValue: (provided) => ({
-                  ...provided,
-                  backgroundColor: '#e5e7eb',
-                  borderRadius: '4px',
-                }),
-                multiValueLabel: (provided) => ({
-                  ...provided,
-                  fontSize: '0.875rem',
-                }),
-                multiValueRemove: (provided) => ({
-                  ...provided,
-                  color: '#4b5563',
-                  cursor: 'pointer',
-                }),
-              }}
-              required
-            />
-          </div>
+                      <div className="flex items-center gap-[10px]">
+                        <SellIcon />
+                        {/* <span className="font-medium pl-2">Tags</span> */}
+                        <CreatableSelect
+                          isMulti
+                          options={tags}
+                          onChange={handleChange}
+                          placeholder="Select or add tags..."
+                          className="tag-selector w-full"
+                          styles={{
+                            control: (provided) => ({
+                              ...provided,
+                              minHeight: '35px',
+                              border: '1px solid #d1d5db',
+                            }),
+                            multiValue: (provided) => ({
+                              ...provided,
+                              backgroundColor: '#e5e7eb',
+                              borderRadius: '4px',
+                            }),
+                            multiValueLabel: (provided) => ({
+                              ...provided,
+                              fontSize: '0.875rem',
+                            }),
+                            multiValueRemove: (provided) => ({
+                              ...provided,
+                              color: '#4b5563',
+                              cursor: 'pointer',
+                            }),
+                          }}
+                          required
+                        />
+                      </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">Description</label>
+            <label className="text-[18px] font-semibold">Description</label>
             <ReactQuill
               value={editorData}
               onChange={setEditorData}
@@ -418,23 +412,23 @@ const Add_Project = () => {
 
           <div className="space-x-3 border-b border-t border-[#B1B1B1] py-4">
             <input type="checkbox" onChange={(e) => setSendEmail(e.target.checked)} />
-            <span className="text-sm font-medium text-gray-700">Send project created email</span>
+            <span className="font-medium">Send project created email</span>
           </div>
 
           <div className="flex justify-end gap-5 pb-10">
             <button onClick={handleCloseForm} className="bg-white text-[#27004a] border border-[#27004a] h-10 w-20 rounded-md">Cancel</button>
-            <button type= "submit" className="allcrm-btn" >Save</button>
+            <button type= "submit" className="bg-[#27004a] text-white h-10 w-20 rounded-md" >Save</button>
           </div>
         </div>
         </form>
       </TabPanel>
 
-      <TabPanel className="m-5">
-        <Project_Setting closeform={handleCloseForm} />
-      </TabPanel>
-    </Tabs>
-    </div>
-  );
+                <TabPanel className="m-5">
+                  <Project_Setting closeform={handleCloseForm} />
+                </TabPanel>
+              </Tabs>
+            </div>
+            );
 };
 
-export default Add_Project;
+            export default Add_Project;
