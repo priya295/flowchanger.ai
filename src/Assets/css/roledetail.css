@@ -185,8 +185,6 @@ table{
 
 .custom-body-class .admin-sidebar-set{
     width: 100% !important;
-    /* transition: all 0.3s linear; */
-    /* transition-delay: 5s; */
 }
 .custom-body-class .navbar{
     padding-left: 10px;

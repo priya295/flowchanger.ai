@@ -93,6 +93,7 @@ import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDe
 import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 import Documents from "./pages/Admin_Panel/editstaff/Documents";
 import TaskForm from "./pages/Admin_Panel/Tasks/Task_deatail/TaskForm";
+import ClientTaskview from "./pages/Client_Panel/Task/Taskview";
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
 const App = () => {
@@ -277,6 +278,7 @@ useEffect(()=>{
             <Route path="chats/admin" element={<AdminChatInterface />} />
             <Route path="chats/client" element={<ClientChatInterface />} />
             <Route path="chats/staff" element={<StaffChatInterface />} />
+            <Route path="/clienttaskview" element={<ClientTaskview />} />
             <Route path="/status-main-page" element={<StatusMainPage />} />
             <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
             <Route path="/edit-project" element={<Edit_Project />} />

@@ -50,15 +50,6 @@ const SideBar = ({ toggleSideBar }) => {
   const [isMenuOpen9, setIsMenuOpen9] = useState(false);
   const toggleMenu9 = () => setIsMenuOpen9(!isMenuOpen9);
 
-  const {activeSubmenu, setActiveSubmenu,selectedSidebarTab,setSelectedSidebarTab} = useGlobalContext(); 
-  const handleActiveSubmenu = () =>{
-    setActiveSubmenu(prev => (!prev))
-  }
-  useEffect(()=>{
-    console.log("active",activeSubmenu)
-    console.log("selectedSideBar",selectedSidebarTab);
-  },[activeSubmenu,selectedSidebarTab])
-
   //setup sidebar
 
   // State to manage sidebar visibility
