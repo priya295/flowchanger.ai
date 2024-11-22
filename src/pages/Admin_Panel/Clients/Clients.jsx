@@ -26,10 +26,16 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import ReactDOM from 'react-dom';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
+import { IoMdArrowDropright } from "react-icons/io";
+
 
 
 const Clients = () => {
+  const [isOn3, setIsOn3] = useState(false);
 
+  const toggleSwitch3 = () => {
+      setIsOn3(!isOn3);
+  }
 
   const [allStaff, setAllStaff] = useState();
 
@@ -429,11 +435,11 @@ const Clients = () => {
   const onCloseModal = () => setOpen(false);
   return (
     <div className=" w-full  top-[95px] right-[5px] ">
-      <div className="bg-[#fff] p-[10px] ml-[10px]">
+      <div className="bg-[#fff] px-4 py-6">
         <div className="mb-[14px] flex gap-[10px] items-center import-customers">
           <Link
             to="/addnewclient"
-            className="text-[#fff] flex items-center gap-[4px] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none  font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className=" client-add allcrm-btn flex items-center gap-[3px]   newcustomers  focus:outline-none  font-medium   text-center"
           >
             <AddIcon className="newadd" /> New Clients
           </Link>
@@ -456,7 +462,7 @@ const Clients = () => {
           </h2>
 
           <div className="flex justify-between items-center mb-[14px] betwe-cent">
-            <div className="flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
+            <div className="flex mb-4 pl-[0] justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
               <div className="left-side ">
                 <select
                   onChange={handleSelectChange}
@@ -560,50 +566,64 @@ const Clients = () => {
 
 
             </div>
-            <div className='right-side relative  w-[200px]'>
-            <input type='text' placeholder='Search' className='border border-1  pl-3 h-[38px]  pr-7
-] rounded-3xl focus:outline-none w-[100%] text-[15px] text-[#000]' />
-            <SearchIcon className='absolute right-[10px] search-icon top-[12px]    text-[#000]  font-thin text-[#dddddd;
-]'/>
-          </div>
+            <div className="relative client-add">
+              <input
+                className="p-[8px] client-add  rounded-3xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] "
+                type="text"
+                placeholder=" Search......."
+                value={companyName}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setCompanyName(value);
+                  if (value === "") {
+                    setSearchClients(null);
+                    fetchDetail(); // Fetch all clients when the input is cleared
+                  }
+                }}
+
+              />
+              <SearchIcon className="absolute newadd2 right-[8px] top-[11px]" />
+            </div>
           </div>
 
-          <div className="bg-white  w-full overflow-x-auto">
-            <table className="w-full table-auto border border-[#dbdbdb] border-collapse">
+          <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
+            <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
               {/* Header with Toggle */}
               <thead
-                className="cursor-pointer bg-[white] shadow-lg border border-gray-300"
+                className="cursor-pointer  border border-gray-300 shadow-md"
                 onClick={toggleAccordion}
               >
                 <tr>
-                  <th className="border-r p-2 whitespace-nowrap text-xs font-medium text-center">
-                    <input type="checkbox" className="text-xs h-4" />
+                  <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                    <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen ? "rotate-90 text-[black]" : "rotate-0"}`}
+                    />
+
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     #
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Name
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Company
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Primary Contact
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Primary Email
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Phone
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Active
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Groups
                   </th>
-                  <th className="border-r whitespace-nowrap p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Date Created
                   </th>
                   <th className="p-2 text-xs whitespace-nowrap font-medium text-center">
@@ -614,7 +634,7 @@ const Clients = () => {
 
               {/* Conditionally Rendered Table Body */}
               {isOpen && (
-                <tbody>
+                <tbody className={`transition-body ${isOpen ? "open" : ""}`}  >
                   {isLoading && clientData.length === 0 ? (
                     <tr className="h-[100px]">
                       <td colSpan="10" className="text-center text-gray-600 text-sm font-semibold py-4">
@@ -622,24 +642,24 @@ const Clients = () => {
                       </td>
                     </tr>
                   ) : searchedClients === null && clientData && clientData.length > 0 ? (
-                    clientData.map((item, index) => (
-                      <tr key={item.id} className="border-b border-gray-300">
-                        <td className="p-2 text-center whitespace-nowrap">
+                    clientData?.map((item, index) => (
+                      <tr key={item?.id} className="border-b border-gray-300">
+                        <td className="p-2 text-center">
                           <input type="checkbox" className="text-xs h-4" />
                         </td>
                         <td className="p-2 whitespace-nowrap text-xs text-center">{index + 1}</td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">{item.name}</td>
+                        <td className="p-2 whitespace-nowrap text-xs text-center">{item?.name}</td>
                         <td className="p-2 whitespace-nowrap text-xs text-center">
-                          {item.clientDetails?.company}
+                          {item?.clientDetails?.company}
                         </td>
                         <td className="p-2 whitespace-nowrap text-xs text-center">
-                          {item.mobile}
+                          {item?.mobile}
                         </td>
                         <td className="p-2 whitespace-nowrap text-xs text-center">
-                          {item.email}
+                          {item?.email}
                         </td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">
-                          {item.mobile}
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {item?.mobile}
                         </td>
                         <td className="text-[11px] font-medium p-[10px] whitespace-nowrap">
                           <div className="flex items-center justify-center gap-[6px]">
@@ -654,13 +674,13 @@ const Clients = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">
-                          {item.groups}
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {item?.groups}
                         </td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">
-                          {new Date(item.clientDetails?.created_at).toDateString()}
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {new Date(item?.clientDetails?.created_at).toDateString()}
                         </td>
-                        <td className="p-2 whitespace-nowrap flex justify-center gap-2">
+                        <td className="p-2 flex justify-center gap-2">
                           <BorderColorIcon
                             className="text-purple-600 cursor-pointer"
                             onClick={() => setSelectedClient(item)}
@@ -673,44 +693,44 @@ const Clients = () => {
                       </tr>
                     ))
                   ) : searchedClients && searchedClients.length > 0 ? (
-                    searchedClients.map((client, index) => (
+                    searchedClients?.map((client, index) => (
                       <tr key={client.id} className="border-b border-gray-300">
                         {/* Same structure as above, just using client instead of item */}
                         <td className="p-2 text-center">
                           <input type="checkbox" className="text-xs h-4" />
                         </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap">{index + 1}</td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap">{client.name}</td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap">
-                          {client.company}
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">{index + 1}</td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">{client?.name}</td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.company}
+                        </td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.mobile}
                         </td>
                         <td className="p-2 text-xs text-center whitespace-nowrap">
-                          {client.mobile}
+                          {client?.email}
                         </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap">
-                          {client.email}
-                        </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap">
-                          {client.mobile}
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.mobile}
                         </td>
                         <td className="text-[11px] font-medium p-[10px] whitespace-nowrap">
                           <div className="flex items-center justify-center gap-[6px]">
-                            <div
-                              className={`${client.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+                            {/* <div
+                              className={`${client?.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
                               onClick={toggleSwitch1}
                             >
                               <span
-                                className={`${client.status == "active" ? "translate-x-6" : "translate-x-0"
+                                className={`${client?.status == "active" ? "translate-x-6" : "translate-x-0"
                                   } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
                               />
-                            </div>
+                            </div> */}
                           </div>
                         </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap">
-                          {client.groups}
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.groups}
                         </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap">
-                          {new Date(client.clientDetails?.created_at).toDateString()}
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {new Date(client?.clientDetails?.created_at).toDateString()}
                         </td>
                         <td className="p-2 flex justify-center gap-2">
                           <BorderColorIcon
@@ -737,14 +757,17 @@ const Clients = () => {
                 </tbody>
               )}
             </table>
-            <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
-              <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
-              <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
-                <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
-                <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
 
-              </div>
+          </div>
+
+
+          <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+            <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
+            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+              <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+              <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
+              <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
             </div>
           </div>
         </div>
@@ -753,6 +776,7 @@ const Clients = () => {
       </div>
 
       <Modal
+        
         isOpen={selectedClient ? true : false}
         onAfterOpen={afterOpenModal2}
         onRequestClose={closeModal2}

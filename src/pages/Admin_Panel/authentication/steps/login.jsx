@@ -9,11 +9,12 @@ import flowChangerLogo from "../../../../Assets/Images/flowchangerAINew.jpeg";
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useGlobalContext } from '../../../../Context/GlobalContext';
+import { data } from 'framer-motion/client';
 
 
 const LoginPage = () => {
   const { loginWithRedirect} = useAuth0();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } , setValue} = useForm();
   const {isAuthenticated , setIsAuthenticated} = useAuthContext();
   const [isLoading , setIsLoading] = useState(false);
   const {openToast , baseUrl} = useGlobalContext();
@@ -66,7 +67,8 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     try {
       console.log(data);  
-      const success = await handleLoggedIn(data);
+       const LoginInfo ={email:data.email.toLowerCase() ,password : data.password } 
+      const success = await handleLoggedIn(LoginInfo);
       if (success) {
         setIsAuthenticated(true);
         navigate("/");
@@ -103,7 +105,6 @@ const LoginPage = () => {
                 aria-label="Email"
                 className="w-full px-3 py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100"
               {...register('email', { required: "email is required"})}
-    
               />
               {errors.email && <p className="text-red-500">{errors.email.message}</p>}
             </div>
@@ -143,4 +144,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-

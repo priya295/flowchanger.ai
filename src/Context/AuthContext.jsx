@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
 }
 
 const updateAdminInfo = (data) => {
+  console.log(data);
     setAdminInfo(prev=>  ({...prev , ...data}) );
   };
 

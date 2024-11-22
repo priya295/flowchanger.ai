@@ -221,7 +221,6 @@ const Reviewfine = () => {
                                 <div className='flex items-center gap-[10px]'>
                                     <input type="checkbox" />
                                     <p className='text-[14px] font-medium'>Late Entry</p>
-
                                 </div>
                                 <div className='flex gap-[26px]'>
                                     <div>

@@ -8,6 +8,7 @@ import { useGlobalContext } from '../../../Context/GlobalContext';
 const CustomDetail = () => {
     let subtitle;
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+    console.log(selectedStaff);
     
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
     const [editingId, setEditingId] = useState("");

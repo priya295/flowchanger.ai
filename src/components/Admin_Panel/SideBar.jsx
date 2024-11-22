@@ -164,7 +164,7 @@ const SideBar = ({ toggleSideBar }) => {
         </div>
 
         <div className="">
-          <Link to="/clients" className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${selectedTab === "clients" ? "bg-white text-[#8a25b0]" : "text-white"}`} onClick={() => { setSelectedTab("client")  }}>
+          <Link to="/clients" className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${selectedTab === "client" ? "bg-white text-[#8a25b0]" : "text-white"}`} onClick={() => { setSelectedTab("client")  }}>
             {/* <img src={client} alt="" /> */}
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
             <button
@@ -230,7 +230,7 @@ const SideBar = ({ toggleSideBar }) => {
   <Link
     to="/staff-menu"
     onClick={() => { setSelectedTab("staff"); handleArrowClick(); }}
-    className={`flex items-center gap-[10px] p-[10px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
+    className={`flex items-center gap-[10px] p-[10px] mb-[5px] hover:bg-[#fff] rounded-md hover:text-[#8a25b0] transition-all ${
       selectedTab === "staff" ? "bg-white text-[#8a25b0]" : "text-white"
     }`}
   >
@@ -270,7 +270,7 @@ const SideBar = ({ toggleSideBar }) => {
         <Link
           to="/payroll-menu"
           onClick={() => setSelectedTab("payroll")}
-          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] whitespace-nowrap transition-all rounded-md overflow-hidden ${
+          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] mt-[5px] hover:bg-[#fff]  hover:text-[#8a25b0]  whitespace-nowrap transition-all rounded-md overflow-hidden ${
             selectedTab === "payroll" ? "bg-white text-[#8a25b0]" : "text-white"
           }`}
         >
@@ -282,7 +282,7 @@ const SideBar = ({ toggleSideBar }) => {
         <Link
           to="/attendence_summary"
           onClick={() => setSelectedTab("attendance")}
-          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] whitespace-nowrap transition-all rounded-md overflow-hidden ${
+          className={`w-full text-left py-[10px] flex items-center gap-[10px] pl-[40px] mb-[5px] mt-[5px]  hover:bg-[#fff] hover:text-[#8a25b0]  whitespace-nowrap transition-all rounded-md overflow-hidden ${
             selectedTab === "attendance" ? "bg-white text-[#8a25b0]" : "text-white"
           }`}
         >
