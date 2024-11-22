@@ -170,9 +170,9 @@ const StaffTab = () => {
             setSelectedDepartmentName(e.target.value);
             handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
           }}>
-            {departments.map(department => (
-              <option key={department.name} value={department.name}>
-                {department.department_name}
+            {departments?.map(department => (
+              <option key={department?.name} value={department?.name}>
+                {department?.department_name}
               </option>
             ))}
           </select>
@@ -290,23 +290,23 @@ const StaffTab = () => {
                   </td>
                 </tr>
                 ) : staffDetail && staffDetail.length > 0 ? (
-                  staffDetail.map((staff, index) => (
+                  staffDetail?.map((staff, index) => (
                     <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
                       <td><input type="checkbox" className="border border-1 rounded-md" /></td>
                       <td>
                         <Link to={`/personal-detail/${staff.id}`} className="text-[#8A25B0] font-medium">
-                          {staff.name}
+                          {staff?.name}
                         </Link>
                       </td>
-                      <td>{staff.staffDetails.job_title || "N/A"}</td>
+                      <td>{staff?.staffDetails?.job_title || "N/A"}</td>
                       <td>N/A</td>
-                      <td>{staff.staffDetails.date_of_joining ? new Date(staff.date_of_joining).toLocaleDateString() : "N/A"}</td>
-                      <td>{staff.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() : "N/A"}</td>
-                      <td>{staff.mobile}</td>
-                      <td>{staff.staffDetails.official_email}</td>
-                      <td>{staff.staffDetails.gender || "N/A"}</td>
-                      <td>{staff.staffDetails.current_address || "N/A"}</td>
-                      <td>{staff.staffDetails.emergency_contact_name || "N/A"}</td>
+                      <td>{staff?.staffDetails?.date_of_joining ? new Date(staff.date_of_joining).toLocaleDateString() : "N/A"}</td>
+                      <td>{staff?.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() : "N/A"}</td>
+                      <td>{staff?.mobile}</td>
+                      <td>{staff?.staffDetails?.official_email}</td>
+                      <td>{staff?.staffDetails?.gender || "N/A"}</td>
+                      <td>{staff?.staffDetails?.current_address || "N/A"}</td>
+                      <td>{staff?.staffDetails?.emergency_contact_name || "N/A"}</td>
                     </tr>
                   ))
                 )

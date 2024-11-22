@@ -52,7 +52,6 @@ const Late_Coming_Policy = () => {
   };
 
 
-
   return (
     <div className="Early-Leaving-Policy mt-[20px]">
       <div className="flex justify-between flex-col xl:flex-row lg:flex-col  md:flex-col gap-[15px] lg:gap-[0px]">

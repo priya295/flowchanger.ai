@@ -98,9 +98,9 @@ const AddNewClient = () => {
       <Link to = "/clients"><FaArrowLeft /></Link>
         <div className="mb-6">
           {/* <!-- Tabs for form sections --> */}
-          <nav className="flex space-x-4 border-b">
-            <a href="#" className=" py-2 hover:border-b-2 hover:border-blue-600 text-sm font-medium">Customer Details</a>
-            <a href="#" className="text-gray-600 py-2 text-sm font-medium hover:border-b-2 hover:border-blue-600">Billing & Shipping</a>
+          <nav className="flex space-x-4 border-b mt-[20px]">
+            <a href="#" className=" py-2 hover:border-b-1 hover:border-[#27004a] text-sm font-medium">Customer Details</a>
+            <a href="#" className="text-gray-600 py-2 text-sm font-medium hover:border-b-1 hover:border-[#27004a]">Billing & Shipping</a>
           </nav>
         </div>
 
@@ -111,36 +111,36 @@ const AddNewClient = () => {
              {/* <!-- Company --> */}
              <div>
               <label for="name" className="block text-sm font-medium text-gray-700">Name *</label>
-              <input type="text" onChange={(e) => { setClientName(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"  name = "name" required />
+              <input type="text" onChange={(e) => { setClientName(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 focus-visible:outline-none rounded-md p-2 shadow-smsm:text-sm"  name = "name" required />
             </div>
             {/* <!-- Company --> */}
             <div>
               <label for="company" className="block text-sm font-medium text-gray-700">Company *</label>
-              <input type="text" onChange={(e) => { setCompany(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "company" required />
+              <input type="text" onChange={(e) => { setCompany(e.target.value) }} id="company" className="mt-1 block w-full border border-gray-300 focus-visible:outline-none rounded-md p-2 shadow-sm  sm:text-sm" name = "company" required />
             </div>
 
             {/* <!-- VAT Number --> */}
             <div>
               <label for="vat" className="block text-sm font-medium text-gray-700">VAT Number</label>
-              <input type="text" onChange={(e) => { setVatNumber(e.target.value) }} id="vat" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "vat" required/>
+              <input type="text" onChange={(e) => { setVatNumber(e.target.value) }} id="vat" className="mt-1 block w-full border border-gray-300 focus-visible:outline-none rounded-md p-2 shadow-sm  sm:text-sm" name = "vat" required/>
             </div>
 
             {/* <!-- email --> */}
             <div>
               <label for="email" className="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" onChange={(e) => { setEmail(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "email" required/>
+              <input type="email" onChange={(e) => { setEmail(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300  rounded-md focus-visible:outline-none p-2 shadow-sm  sm:text-sm" name = "email" required/>
             </div>
 
             {/* <!-- Phone --> */}
             <div>
               <label for="phone" className="block text-sm font-medium text-gray-700">Phone</label>
-              <input type="tel" onChange={(e) => { setPhone(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "phone" required/>
+              <input type="tel" onChange={(e) => { setPhone(e.target.value) }} id="phone" className="mt-1 block w-full border border-gray-300 focus-visible:outline-none rounded-md p-2 shadow-smsm:text-sm" name = "phone" required/>
             </div>
 
             {/* <!-- Website --> */}
             <div>
               <label for="website" className="block text-sm font-medium text-gray-700">Website</label>
-              <input type="url" onChange={(e) => { setWebsite(e.target.value) }} id="website" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "website" required/>
+              <input type="url" onChange={(e) => { setWebsite(e.target.value) }} id="website" className="mt-1 block w-full border border-gray-300  rounded-md p-2 shadow-sm sm:text-sm focus-visible:outline-none" name = "website" required/>
             </div>
 
             {/* <!-- Groups --> */}
@@ -202,31 +202,31 @@ const AddNewClient = () => {
             {/* <!-- Address --> */}
             <div>
               <label for="address" className="block text-sm font-medium text-gray-700">Address</label>
-              <input type="text" onChange={(e) => { setAddress(e.target.value) }} id="address" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "address" required/>
+              <input type="text" onChange={(e) => { setAddress(e.target.value) }} id="address" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm sm:text-sm focus-visible:outline-none" name = "address" required/>
             </div>
 
             {/* <!-- City --> */}
             <div>
               <label for="city" className="block text-sm font-medium text-gray-700">City</label>
-              <input type="text" onChange={(e) => { setCity(e.target.value) }} id="city" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "city" required/>
+              <input type="text" onChange={(e) => { setCity(e.target.value) }} id="city" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm sm:text-sm focus-visible:outline-none" name = "city" required/>
             </div>
 
             {/* <!-- State --> */}
             <div>
               <label for="state" className="block text-sm font-medium text-gray-700">State</label>
-              <input type="text" onChange={(e) => { setState(e.target.value) }} id="state" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "state" required/>
+              <input type="text" onChange={(e) => { setState(e.target.value) }} id="state" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm sm:text-sm focus-visible:outline-none" name = "state" required/>
             </div>
 
             {/* <!-- Zip Code --> */}
             <div>
               <label for="zip" className="block text-sm font-medium text-gray-700">Zip Code</label>
-              <input type="text" onChange={(e) => { setZipCode(e.target.value) }} id="zip" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "zip" required/>
+              <input type="text" onChange={(e) => { setZipCode(e.target.value) }} id="zip" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm  sm:text-sm" name = "zip" required/>
             </div>
 
             {/* <!-- Country --> */}
             <div>
               <label for="country" className="block text-sm font-medium text-gray-700">Country</label>
-              <input type="text" onChange={(e) => { setCountry(e.target.value) }} id="country" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" name = "country" required/>
+              <input type="text" onChange={(e) => { setCountry(e.target.value) }} id="country" className="mt-1 block w-full border border-gray-300 rounded-md p-2 shadow-sm sm:text-sm focus-visible:outline-none " name = "country" required/>
             </div>
           </div>
 
