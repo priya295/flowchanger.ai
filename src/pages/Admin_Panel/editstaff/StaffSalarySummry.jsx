@@ -16,11 +16,35 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const StaffSalarySummry = () => {
     const { id } = useParams();
-    console.log(id)
+    // console.log(id)
 
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
+
+    const [punchId, setPunchId] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
+    const [fine, setFine] = useState({
+        staffId: selectedStaff?.staffDetails?.id,
+        lateEntryHour: "",
+        excessBreakHour: "",
+        earlyOutHour: "",
+        lateEntryFineAmount: 0,
+        lateEntryAmount: 1,
+        excessBreakFineAmount: 0,
+        excessBreakAmount: 1,
+        earlyOutFineAmount: 0,
+        earlyOutAmount: 1,
+    });
+
+    function formatDate(date) {
+        return date.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+        }).replace(/,/, ','); // Add a comma after the month
+    }
+
+    console.log(punchId);
     // Function to open the modal
     const openModal = () => {
         setIsOpen(true);
@@ -147,13 +171,7 @@ const StaffSalarySummry = () => {
     console.log(selectedMonth);
     const [shiftDetails, setShiftDetails] = useState([]);
 
-    const [commmenStatus, setCommonStatus] = useState();
-    // const [halfDay, setHalfDay] = useState({
-    //     id: "",
-    //     shift: "",
-    //     startTime: "",
-    //     endTime: ""
-    // });
+    const [date, setDate] = useState();
 
     const [attendanceRecord, setAttendanceRecord] = useState([]);
     async function fetchAttendanceSummary() {
@@ -207,7 +225,7 @@ const StaffSalarySummry = () => {
     // console.log(shiftDetails);
     const [loading, setLoading] = useState(false);
 
-    async function updateAttendanceStatus(id, commmenStatus) {
+    async function updateAttendanceStatus(commmenStatus) {
         setLoading(true)
         try {
             if (commmenStatus === "") {
@@ -217,7 +235,7 @@ const StaffSalarySummry = () => {
 
             // console.log(commmenStatus);
 
-            const result = await fetch(baseUrl + `attendance/status/${id}`, {
+            const result = await fetch(baseUrl + `attendance/status/${punchId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-type": "application/json"
@@ -226,7 +244,6 @@ const StaffSalarySummry = () => {
             })
             if (result.status == 200) {
                 openToast("Updated Status Successfully", "success")
-                setCommonStatus("");
                 setAttendanceRecord([]);
                 fetchAttendanceSummary();
             }
@@ -241,16 +258,123 @@ const StaffSalarySummry = () => {
                 closeModal6();
             }
             if (commmenStatus === "ABSENT") {
-                closeModal6();
+                closeModal();
             }
             if (commmenStatus === "HALFDAY") {
-                closeModal6();
+                closeModal2();
             }
             if (commmenStatus === "PAIDLEAVE") {
-                closeModal6();
+                closeModal14();
             }
         }
     }
+    async function createFine() {
+        try {
+
+
+            // console.log(commmenStatus);
+
+            const result = await fetch(baseUrl + `fine/create`, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    punchRecordId: punchId,
+                    staffId: selectedStaff?.staffDetails?.id,
+                    lateEntryFineAmount: Number(fine.lateEntryFineAmount),
+                    lateEntryAmount: Number(fine.lateEntryAmount),
+                    excessBreakFineAmount: Number(fine.excessBreakFineAmount),
+                    excessBreakAmount: Number(fine.excessBreakAmount),
+                    earlyOutFineAmount: Number(fine.earlyOutFineAmount),
+                    earlyOutAmount: Number(fine.earlyOutAmount),
+                    totalAmount: (Number(fine.lateEntryFineAmount) + Number(fine.excessBreakFineAmount) + Number(fine.earlyOutFineAmount)),
+                })
+            })
+            if (result.status == 201) {
+                openToast("Create Fine Successfully", "success")
+                setFine({
+                    staffId: selectedStaff?.staffDetails?.id,
+                    lateEntryHour: "",
+                    excessBreakHour: "",
+                    earlyOutHour: "",
+                    lateEntryFineAmount: 0,
+                    lateEntryAmount: 1,
+                    excessBreakFineAmount: 0,
+                    excessBreakAmount: 1,
+                    earlyOutFineAmount: 0,
+                    earlyOutAmount: 1,
+                });
+                setPunchId("");
+                fetchAttendanceSummary();
+                closeModal0();
+            }
+            else {
+                openToast("Something went wrong", "error")
+            }
+        } catch (error) {
+            openToast("Something went wrong", "error")
+        }
+    }
+    const [overTime, setOverTime] = useState({
+        staffId: selectedStaff?.staffDetails?.id,
+        lateEntryHour: "",
+        earlyOutHour: "",
+        lateEntryFineAmount: 0,
+        lateEntryAmount: 1,
+        earlyOutFineAmount: 0,
+        earlyOutAmount: 1,
+    });
+    async function createOvertime() {
+        try {
+
+            // console.log(commmenStatus);
+
+            const result = await fetch(baseUrl + `overtime/create`, {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    punchRecordId: punchId,
+                    staffId: selectedStaff?.staffDetails?.id,
+                    lateEntryFineAmount: Number(fine.lateEntryFineAmount),
+                    lateEntryAmount: Number(fine.lateEntryAmount),
+                    earlyOutFineAmount: Number(fine.earlyOutFineAmount),
+                    earlyOutAmount: Number(fine.earlyOutAmount),
+                    totalAmount: (Number(fine.lateEntryFineAmount) + Number(fine.earlyOutFineAmount)),
+                })
+            })
+            if (result.status == 201) {
+                openToast("Create Overtime Fine Successfully", "success")
+                setOverTime({
+                    staffId: selectedStaff?.staffDetails?.id,
+                    lateEntryHour: "",
+                    earlyOutHour: "",
+                    lateEntryFineAmount: 0,
+                    lateEntryAmount: 1,
+                    earlyOutFineAmount: 0,
+                    earlyOutAmount: 1,
+                });
+                setPunchId("");
+                fetchAttendanceSummary();
+                closeModal12();
+            }
+            else {
+                openToast("Something went wrong", "error")
+            }
+        } catch (error) {
+            openToast("Something went wrong", "error")
+        }
+    }
+    function calculateFinePerMinute(monthlySalary, workingDays, workingHoursPerDay) {
+        if (monthlySalary <= 0 || workingDays <= 0 || workingHoursPerDay <= 0) {
+            throw new Error("All inputs must be greater than zero.");
+        }
+        const finePerMinute = monthlySalary / (workingDays * workingHoursPerDay * 60);
+        return finePerMinute.toFixed(2);
+    }
+
 
     useEffect(() => {
         fetchShiftDetails();
@@ -307,7 +431,7 @@ const StaffSalarySummry = () => {
                     <div className="flex xl:gap-[20px] lg:gap-[20px] md:gap-[20px] justify-between xl:flex-row lg:flex-row md:flex-row flex-col gap-[10px]">
                         <div className=' total-staff-salary text-end xl:text-center lg:text-center md:text-center'>
                             <h2 className='text-[14px] font-normal text-[#000000bf]'>Half Day</h2>
-                            <p className='text-[14px] font-medium'>0</p>
+                            <p className='text-[14px] font-medium'>{attendanceRecord?.filter((record) => record?.status === "HALFDAY")?.length}</p>
                         </div>
                         <div className=' total-staff-salary text-end xl:text-center lg:text-center md:text-center'>
                             <h2 className='text-[14px] font-normal text-[#000000bf]'>Overtime Hours</h2>
@@ -325,522 +449,511 @@ const StaffSalarySummry = () => {
                 attendanceRecord?.length > 0 && loading === false ? attendanceRecord?.map((record, index) => {
                     // console.log(record.id);
                     return (
-                    <div key={record?.id} className='shadow p-[20px] mt-[18px] rounded-md'>
-                        <div className='flex items-start justify-between  flex-col xl:flex-row lg:flex-row md:flex-row xl:items-center lg:items-center md:items-center gap-4 xl:gap-0 lg:gap-0 md:gap-0'>
-                            <div>
-                                <h2 className='text-[16px]'>{formatDate(record.punchDate)}</h2>
-                                <p className='text-[#9c9797] text-[14px]'>0:00 hours</p>
-                                <p className="text-[#9c9797] text-[13px] whitespace-nowrap">Daily Shift (10:12 AM - NA)</p>
-                                <p className='text-[#8a25b0] font-medium text-[14px] mt-[10px]'>Add Note - Login</p>
+                        <div key={record?.id} className='shadow p-[20px] mt-[18px] rounded-md'>
+                            <div className='flex items-start justify-between  flex-col xl:flex-row lg:flex-row md:flex-row xl:items-center lg:items-center md:items-center gap-4 xl:gap-0 lg:gap-0 md:gap-0'>
+                                <div>
+                                    <h2 className='text-[16px]'>{formatDate(record.punchDate)}</h2>
+                                    <p className='text-[#9c9797] text-[14px]'>0:00 hours</p>
+                                    <p className="text-[#9c9797] text-[13px] whitespace-nowrap">Daily Shift (10:12 AM - NA)</p>
+                                    <p className='text-[#8a25b0] font-medium text-[14px] mt-[10px]'>Add Note - Login</p>
+                                </div>
+                                <div className='flex gap-[18px] xl:flex-col flex-row md:flex-col lg:flex-col w-full justify-between xl:justify-start md:justify-start lg:justify-start '>
+                                    <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
 
-                            </div>
-                            <div className='flex gap-[18px] xl:flex-col flex-row md:flex-col lg:flex-col w-full justify-between xl:justify-start md:justify-start lg:justify-start '>
-                                <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
+                                        <div className="flex xl:justify-center justify-start items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    openModal6();
+                                                    setPunchId(record?.id);
+                                                }}
+                                                className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px]  lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-lg " + (record?.status === "PRESENT" ? "bg-[#008000] text-white" : "bg-white text-black")}
+                                            >
+                                                P I Present
+                                            </button>
 
-                                    <div className="flex xl:justify-center justify-start items-center">
-                                        {/* Button to open modal */}
-                                        <button
-                                            onClick={openModal6}
-                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px]  lg:w-[200px] md:w-[140px] whitespace-nowrap shadow-lg " + (record?.status === "PRESENT" ? "bg-[#008000] text-white" : "bg-white text-black")}
-                                        >
-                                            P I Present
-                                        </button>
+                                            {/* Modal overlay and content */}
+                                            {isOpen6 && (<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                    <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                    <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
 
-                                        {/* Modal overlay and content */}
-                                        {isOpen6 && (<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                            <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
-                                                <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
-                                                <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
+                                                    <div className="flex justify-around ">
+                                                        <button
+                                                            onClick={() => {
+                                                                updateAttendanceStatus("PRESENT");
+                                                            }}
 
-                                                <div className="flex justify-around ">
-                                                    <button
-                                                        onClick={() => {
-                                                            // setCommonStatus("PRESENT");
-                                                            updateAttendanceStatus(record?.id, "PRESENT");
-                                                        }}
-
-                                                        className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                    >
-                                                        Yes , Confirm
-                                                    </button>
-                                                    <button
-                                                        onClick={closeModal6}
-                                                        className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                    >
-                                                        No , Cancel
-                                                    </button>
+                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                        >
+                                                            Yes , Confirm
+                                                        </button>
+                                                        <button
+                                                            onClick={closeModal6}
+                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                        >
+                                                            No , Cancel
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            )}
                                         </div>
 
-                                            // <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                            //     <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[430px] p-6">
-                                            //         <div className='flex items-center justify-between'>
-                                            //             <div className='mb-[20px]'>
-                                            //                 <h2 className="text-xl text-[18px] text-[black] font-semibold  ">Present Day </h2>
-                                            //                 <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                            //             </div>
-                                            //             {/* <button className="px-4 py-2 bg-[#8a25b0] text-white rounded-md">Add Shift</button> */}
-                                            //         </div>
+                                        <div className="flex justify-center items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    openModal2();
+                                                    setPunchId(record?.id);
+                                                }}
+                                                className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow " + (record?.status === "HALFDAY" ? "bg-[#008000] text-white" : "bg-white text-black")}
+                                            >
+                                                HD I HalfDay
+                                            </button>
 
-                                            //         <div className='bg-[#ececec] p-[10px] rounded-md mb-[20px] '>
-                                            //             <div className='text-right'>
-                                            //                 <DeleteIcon className='del-icon text-[#89868d]' />
-                                            //             </div>
-                                            //             <div className='gap-[5px] flex flex-col'>
-                                            //                 <label className='text-[#89868d] text-[14px]'>Shift Time</label>
+                                            {/* Modal overlay and content */}
+                                            {isOpen2 && (
+                                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                        <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                        <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
 
-                                            //                 <div className="relative inline-block text-left w-[100%]">
-                                            //                     {/* Button to open/close the dropdown */}
-                                            //                     <button
-                                            //                         className=" w-[100%] bg-[white] text-[#89868d] flex justify-between items-center p-[6px] text-left text-[12px] text-sm font-normal  select-pe  rounded-md  focus:outline-none"
-                                            //                         onClick={toggleDropdown3}
-                                            //                     >
-                                            //                         {presentDay.shift === "" ? "DAILY SHIFT" : shiftDetails?.find((item) => item?.id === presentDay?.shift)?.shiftName} <KeyboardArrowDownIcon className='new-arrow2' />
-                                            //                     </button>
+                                                        <div className="flex justify-around ">
+                                                            <button
+                                                                onClick={() => {
+                                                                    // console.log(record.id);
+                                                                    updateAttendanceStatus("HALFDAY");
+                                                                }}
 
-                                            //                     {/* Dropdown menu */}
-                                            //                     {isOpen3 && (
-                                            //                         <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                            //                             <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                            //                                 {shiftDetails.map((item, index) => (
-                                            //                                     <div key={item.id}
-                                            //                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            //                                         role="menuitem"
-                                            //                                         onClick={() => {
-                                            //                                             setPresentDay(() => ({ ...presentDay, shift: item.id }));
-                                            //                                             setIsOpen3(false);
-                                            //                                         }}
-
-                                            //                                     >
-                                            //                                         {item.shiftName}
-                                            //                                     </div>
-                                            //                                 ))}
-                                            //                                 {/* <a
-                                            //                     href="#"
-                                            //                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            //                     role="menuitem"
-                                            //                 >
-                                            //                     Option 1
-                                            //                 </a>
-                                            //                 <a
-                                            //                     href="#"
-                                            //                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            //                     role="menuitem"
-                                            //                 >
-                                            //                     Option 2
-                                            //                 </a>
-                                            //                 <a
-                                            //                     href="#"
-                                            //                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                            //                     role="menuitem"
-                                            //                 >
-                                            //                     Option 3
-                                            //                 </a> */}
-                                            //                             </div>
-                                            //                         </div>
-                                            //                     )}
-                                            //                 </div>
-
-                                            //             </div>
-                                            //             <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                            //                 <div className='w-[50%] relative flex gap-1 items-center'>
-                                            //                     <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                            //                     <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='Start Time' />
-                                            //                     {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
-                                            //                 </div>
-                                            //                 <div className='w-[50%] relative flex gap-1 items-center'>
-                                            //                     <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                            //                     <input className='select-pe p-[6px] text-[14px] rounded-md' type="time" placeholder='End Time' />
-                                            //                     {/* <AvTimerIcon className='absolute avitimer text-[#89868d]' /> */}
-                                            //                 </div>
-                                            //             </div>
-                                            //         </div>
-
-
-                                            //         <div className="flex flex-col gap-[10px] ">
-                                            //             <button
-
-                                            //                 className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                            //             >
-                                            //                 Save
-                                            //             </button>
-                                            //             <button
-                                            //                 onClick={closeModal6}
-                                            //                 className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                            //             >
-                                            //                 Cancel
-                                            //             </button>
-                                            //         </div>
-                                            //     </div>
-                                            // </div>
-                                        )}
-                                    </div>
-
-                                    <div className="flex justify-center items-center">
-                                        {/* Button to open modal */}
-                                        <button
-                                            onClick={openModal2}
-                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow " + (record?.status === "HALFDAY" ? "bg-[#008000] text-white" : "bg-white text-black")}
-                                        >
-                                            HD I HalfDay
-                                        </button>
-
-                                        {/* Modal overlay and content */}
-                                        {isOpen2 && (
-                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
-                                                    <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
-                                                    <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
-
-                                                    <div className="flex justify-around ">
-                                                        <button
-                                                            onClick={() => {
-                                                                // setCommonStatus("HALFDAY");
-                                                                updateAttendanceStatus(record?.id, "HALFDAY");
-                                                            }}
-
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Yes , Confirm
-                                                        </button>
-                                                        <button
-                                                            onClick={closeModal2}
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            No , Cancel
-                                                        </button>
+                                                                className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                            >
+                                                                Yes , Confirm
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal2}
+                                                                className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                            >
+                                                                No , Cancel
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
-                                    </div>
+                                            )}
+                                        </div>
 
-                                    <div className="flex xl:justify-center justify-start items-center">
-                                        {/* Button to open modal */}
-                                        <button
-                                            onClick={openModal0}
-                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow " + (record?.Fine?.length > 0 ? "bg-[#008000] text-white" : "bg-white text-black")}
-                                        >
-                                            F I Fine
-                                        </button>
+                                        <div className="flex xl:justify-center justify-start items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    setDate(record?.punchDate);
+                                                    setPunchId(record?.id);
+                                                    openModal0();
+                                                }}
+                                                className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow bg-white text-black "}                                            >
+                                                F I Fine
+                                            </button>
 
-                                        {/* Modal overlay and content */}
-                                        {isOpen0 && (
-                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[470px] p-6">
-                                                    <div className=''>
-                                                        <div className='mb-[20px]'>
-                                                            <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Fine </h2>
-                                                            <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                        </div>
-
-                                                        <div className='flex justify-between items-center mb-[10px]'>
-                                                            <p className='text-[14px]'>DAILY SHIFT</p>
-                                                            <DeleteIcon className='del-icon2 text-[#89868d]' />
-                                                        </div>
-
-
-                                                    </div>
-
-                                                    <div className='bg-[#ececec] p-[16px] rounded-md mb-[20px] '>
-                                                        <div className='flex items-center justify-between mb-[5px]'>
-                                                            <p className='text-[14px]'>Late Entry</p>
-                                                            <CloseIcon className='close-icon text-[#89868d]' />
-                                                        </div>
-
-                                                        <div className='flex items-center gap-[10px]'>
-
-                                                            <div>
-                                                                <p className='text-[12px]'>Hours</p>
-                                                                <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md'>00:41      hrs</p>
-                                                                <p className='text-[12px]' >Amount $ 61.63</p>
+                                            {/* Modal overlay and content */}
+                                            {isOpen0 && (
+                                                <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full overflow-scroll h-[100%] p-6">
+                                                        <div className=''>
+                                                            <div className='mb-[20px]'>
+                                                                <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Fine </h2>
+                                                                <p className=' text-[14px]'>{selectedStaff?.name} {formatDate(date)} I </p>
                                                             </div>
-                                                            <div className='flex '>
+
+                                                            <div className='flex justify-between items-center mb-[10px]'>
+                                                                <p className='text-[16px]  font-medium'>DAILY SHIFT</p>
+                                                                <DeleteIcon className='del-icon2 text-[#89868d]' />
+                                                            </div>
 
 
-                                                                <div className="relative inline-block text-left">
-                                                                    {/* Button to open/close the dropdown */}
-                                                                    <button
-                                                                        className="  bg-[white] w-[150px] text-[#89868d] items-center p-[4px] text-left text-[12px] text-sm font-normal  select-pe  focus:outline-none"
-                                                                        onClick={toggleDropdown9}
-                                                                    >
-                                                                        1X Salary <KeyboardArrowDownIcon className='new-arrow2' />
-                                                                    </button>
+                                                        </div>
 
-                                                                    {/* Dropdown menu */}
-                                                                    {isOpen9 && (
-                                                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                                <a
-                                                                                    href="#"
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                >
-                                                                                    Option 1
-                                                                                </a>
-                                                                                <a
-                                                                                    href="#"
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                >
-                                                                                    Option 2
-                                                                                </a>
-                                                                                <a
-                                                                                    href="#"
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                >
-                                                                                    Option 3
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
+                                                        <div className=' p-[10px]   '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Late Entry</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
+
+                                                            <div className='flex items-center gap-[20px]'>
+
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    {/* <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p> */}
+                                                                    <input type="time" name="" id="" className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md' value={fine.lateEntryHour} onChange={(e) => {
+                                                                        const value = e.target.value;
+                                                                        const [hours, minutes] = value.split(':').map(Number);
+                                                                        const totalMinutes = hours * 60 + minutes;
+                                                                        setFine({ ...fine, lateEntryHour: e.target.value, lateEntryFineAmount: (calculateFinePerMinute(30000, 22, 8) * totalMinutes).toFixed(2) });
+                                                                    }} />
+                                                                    <p className='text-[12px]' >Amount ₹ {fine.lateEntryFineAmount}</p>
                                                                 </div>
-                                                                <div className=''>
-                                                                    <p className='text-[14px] w-[148px] select-pe p-[5px]'>00:00 Per Hours</p>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select value={fine.lateEntryAmount} onChange={(e) => setFine({ ...fine, lateEntryAmount: e.target.value })} className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option value={1}>1x Salary</option>
+                                                                            <option value={2}>2x Salary</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>₹ {calculateFinePerMinute(30000, 22, 8)} Per Min</p>
+
+                                                                    </div>
 
                                                                 </div>
-
                                                             </div>
+
+
                                                         </div>
-                                                        <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                            <div className='w-[50%] relative'>
-                                                                <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
-                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                        <div className='p-[10px] '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Excess Breaks</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
                                                             </div>
-                                                            <div className='w-[50%] relative'>
-                                                                <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
-                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
-                                                            </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div className="flex flex-col gap-[10px] ">
-                                                        <button
+                                                            <div className='flex items-center gap-[20px]'>
 
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Save
-                                                        </button>
-                                                        <button
-                                                            onClick={closeModal0}
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                                <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
-
-                                    <div className="flex justify-center items-center">
-                                        {/* Button to open modal */}
-                                        <button
-                                            onClick={openModal12}
-                                            className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow " + (record?.Overtime?.length > 0 ? "bg-[#008000] text-white" : "bg-white text-black")}
-                                        >
-                                            OT I Overtime
-                                        </button>
-
-                                        {/* Modal overlay and content */}
-                                        {isOpen12 && (
-                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[470px] p-6">
-                                                    <div className=''>
-                                                        <div className='mb-[20px]'>
-                                                            <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Overtime Day </h2>
-                                                            <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
-                                                        </div>
-
-                                                        <div className='flex justify-between items-center mb-[10px]'>
-                                                            <p className='text-[14px]'>DAILY SHIFT</p>
-                                                            <DeleteIcon className='del-icon2 text-[#89868d]' />
-                                                        </div>
-
-
-                                                    </div>
-
-                                                    <div className='bg-[#ececec] p-[16px] rounded-md mb-[20px] '>
-                                                        <div className='flex items-center justify-between mb-[5px]'>
-                                                            <p className='text-[14px]'>Late Entry</p>
-                                                            <CloseIcon className='close-icon text-[#89868d]' />
-                                                        </div>
-
-                                                        <div className='flex items-center gap-[10px]'>
-
-                                                            <div>
-                                                                <p className='text-[12px]'>Hours</p>
-                                                                <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md'>00:41      hrs</p>
-                                                                <p className='text-[12px]' >Amount $ 61.63</p>
-                                                            </div>
-                                                            <div className='flex '>
-
-
-                                                                <div className="relative inline-block text-left">
-                                                                    {/* Button to open/close the dropdown */}
-                                                                    <button
-                                                                        className="  bg-[white] w-[150px] text-[#89868d] items-center p-[4px] text-left text-[12px] text-sm font-normal  select-pe  focus:outline-none"
-                                                                        onClick={toggleDropdown9}
-                                                                    >
-                                                                        1X Salary <KeyboardArrowDownIcon className='new-arrow2' />
-                                                                    </button>
-
-                                                                    {/* Dropdown menu */}
-                                                                    {isOpen9 && (
-                                                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                                                            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                                                <a
-                                                                                    href="#"
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                >
-                                                                                    Option 1
-                                                                                </a>
-                                                                                <a
-                                                                                    href="#"
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                >
-                                                                                    Option 2
-                                                                                </a>
-                                                                                <a
-                                                                                    href="#"
-                                                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                                                    role="menuitem"
-                                                                                >
-                                                                                    Option 3
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    )}
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <input type="time" name="" id="" className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md' value={fine.excessBreakHour} onChange={(e) => {
+                                                                        const value = e.target.value;
+                                                                        const [hours, minutes] = value.split(':').map(Number);
+                                                                        const totalMinutes = hours * 60 + minutes;
+                                                                        setFine({ ...fine, excessBreakHour: e.target.value, excessBreakFineAmount: (calculateFinePerMinute(30000, 22, 8) * totalMinutes).toFixed(2) });
+                                                                    }} />
+                                                                    {/* <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p> */}
+                                                                    <p className='text-[12px]' >Amount ₹ {fine.excessBreakFineAmount}</p>
                                                                 </div>
-                                                                <div className=''>
-                                                                    <p className='text-[14px] w-[148px] select-pe p-[5px]'>00:00 Per Hours</p>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select value={fine.excessBreakAmount} onChange={(e) => setFine({ ...fine, excessBreakAmount: e.target.value })} className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option value={1}>1x Salary</option>
+                                                                            <option value={2}>2x Salary</option>
+
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>₹ {calculateFinePerMinute(30000, 22, 8)} Per Min</p>
+
+                                                                    </div>
 
                                                                 </div>
-
                                                             </div>
+
+
                                                         </div>
-                                                        <div className='w-[100%] mt-[14px] gap-[64px] flex '>
-                                                            <div className='w-[50%] relative'>
-                                                                <label className='text-[#89868d] text-[14px]'>Start Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='Start Time' />
-                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+                                                        <div className='p-[10px] '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Early Out</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
                                                             </div>
-                                                            <div className='w-[50%] relative'>
-                                                                <label className='text-[#89868d] text-[14px]'>End Time</label>
-                                                                <input className='select-pe p-[6px] text-[14px] rounded-md' type="text" placeholder='End Time' />
-                                                                <AvTimerIcon className='absolute avitimer text-[#89868d]' />
+
+                                                            <div className='flex items-center gap-[20px]'>
+
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <input type="time" name="" id="" className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md' value={fine.earlyOutHour} onChange={(e) => {
+                                                                        const value = e.target.value;
+                                                                        const [hours, minutes] = value.split(':').map(Number);
+                                                                        const totalMinutes = hours * 60 + minutes;
+                                                                        setFine({ ...fine, earlyOutHour: e.target.value, earlyOutFineAmount: (calculateFinePerMinute(30000, 22, 8) * totalMinutes).toFixed(2) });
+                                                                    }} />
+                                                                    {/* <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p> */}
+                                                                    <p className='text-[12px]' >Amount ₹ {fine.earlyOutFineAmount}</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select value={fine.earlyOutAmount} onChange={(e) => setFine({ ...fine, earlyOutAmount: e.target.value })} className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option value={1}>1x Salary</option>
+                                                                            <option value={2}>2x Salary</option>
+
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'> ₹ {calculateFinePerMinute(30000, 22, 8)} Per Min</p>
+
+                                                                    </div>
+
+                                                                </div>
                                                             </div>
+
+
+                                                        </div>
+                                                        <div className='mt-[10px] mb-[10px]'>
+                                                            <span className='text-[12px]'>Total Amount</span>
+                                                            <p className='text-[14px]'>₹ {(parseFloat(fine.earlyOutFineAmount) + parseFloat(fine.lateEntryFineAmount) + parseFloat(fine.excessBreakFineAmount))}</p>
+                                                        </div>
+                                                        <div className='flex items-center mb-[20px] gap-[4px] '>
+                                                            <input type="checkbox" />
+                                                            <p className='text-[14px]'>Send SMS to Staff</p>
+                                                        </div>
+
+                                                        <div className="flex flex-col gap-[10px] ">
+                                                            <button
+                                                                onClick={() => {
+                                                                    console.log(punchId);
+                                                                    createFine();
+                                                                }} className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Apply Fine
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal0}
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Cancel
+                                                            </button>
                                                         </div>
                                                     </div>
-
-                                                    <div className="flex flex-col gap-[10px] ">
-                                                        <button
-
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Save
-                                                        </button>
-                                                        <button
-                                                            onClick={closeModal12}
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="flex justify-center items-center">
-                                        {/* Button to open modal */}
-                                        <button
-                                            onClick={openModal14}
-                                            className={"btns px-6 py-3 text-[14px] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow " + (record?.status === "PAIDLEAVE" ? "bg-[#008000] text-white" : "bg-white text-black")}
-                                        >
-                                            L I Paid Leave
-                                        </button>
+                                    <div className="flex gap-[20px] flex-col xl:flex-row lg:flex-row md:flex-row xl:justify-end lg:justify-end md:justify-end">
 
-                                        {/* Modal overlay and content */}
-                                        {isOpen14 && (
-                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
-                                                    <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
-                                                    <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
+                                        <div className="flex justify-center items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    setDate(record?.punchDate);
+                                                    setPunchId(record?.id);
+                                                    openModal12();
+                                                }}
+                                                className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow bg-white text-black "}
+                                            >
+                                                OT I Overtime
+                                            </button>
 
-                                                    <div className="flex justify-around ">
-                                                        <button
-                                                            onClick={() => {
-                                                                updateAttendanceStatus(record?.id, "PAIDLEAVE");
-                                                                // setCommonStatus("PAIDLEAVE")
-                                                            }}
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Yes , Confirm
-                                                        </button>
-                                                        <button
-                                                            onClick={closeModal14}
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            No , Cancel
-                                                        </button>
+                                            {/* Modal overlay and content */}
+                                            {isOpen12 && (
+                                                <div className="fixed inset-0 z-50 p-[10px] flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg overflow-scroll w-full h-[100%] p-6">
+                                                        <div className=''>
+                                                            <div className='mb-[20px]'>
+                                                                <h2 className="text-xl text-[18px] text-[#27004a] font-semibold  "> Overtime Day </h2>
+                                                                <p className=' text-[14px]'>{selectedStaff?.name} {formatDate(date)}</p>
+                                                            </div>
+
+                                                            <div className='flex justify-between items-center mb-[10px]'>
+                                                                <p className='text-[14px] font-medium'>DAILY SHIFT</p>
+                                                                <DeleteIcon className='del-icon2 text-[#89868d]' />
+                                                            </div>
+
+
+                                                        </div>
+
+                                                        <div className='p-[10px] '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Late Entry</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
+
+                                                            <div className='flex items-center gap-[20px]'>
+
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <input type="time" name="" id="" className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md' value={overTime.lateEntryHour} onChange={(e) => {
+                                                                        const value = e.target.value;
+                                                                        const [hours, minutes] = value.split(':').map(Number);
+                                                                        const totalMinutes = hours * 60 + minutes;
+                                                                        setOverTime({ ...overTime, lateEntryHour: e.target.value, lateEntryFineAmount: (calculateFinePerMinute(30000, 22, 8) * totalMinutes).toFixed(2) });
+                                                                    }} />
+                                                                    {/* <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p> */}
+                                                                    <p className='text-[12px]' >Amount ₹ {overTime.lateEntryFineAmount}</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select value={overTime.lateEntryAmount} onChange={(e) => setOverTime({ ...overTime, lateEntryAmount: e.target.value })} className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option value={1}>1x Salary</option>
+                                                                            <option value={2}>2x Salary</option>
+
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'>₹ {calculateFinePerMinute(30000, 22, 8)} Per Min</p>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className='p-[10px] '>
+                                                            <div className='flex items-center justify-between mb-[5px]'>
+                                                                <p className='text-[14px] font-medium'>Early Out</p>
+                                                                <CloseIcon className='close-icon text-[#89868d]' />
+                                                            </div>
+
+                                                            <div className='flex items-center gap-[20px]'>
+
+                                                                <div>
+                                                                    <p className='text-[12px]'>Hours</p>
+                                                                    <input type="time" name="" id="" className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md' value={overTime.earlyOutHour} onChange={(e) => {
+                                                                        const value = e.target.value;
+                                                                        const [hours, minutes] = value.split(':').map(Number);
+                                                                        const totalMinutes = hours * 60 + minutes;
+                                                                        setOverTime({ ...overTime, earlyOutHour: e.target.value, earlyOutFineAmount: (calculateFinePerMinute(30000, 22, 8) * totalMinutes).toFixed(2) });
+                                                                    }} />
+                                                                    {/* <p className='text-[14px] select-pe  pl-[30px] pr-[30px] pt-[6px] pb-[6px]  rounded-md'>00:41      hrs</p> */}
+                                                                    <p className='text-[12px]' >Amount ₹ {overTime.earlyOutFineAmount}</p>
+                                                                </div>
+                                                                <div className='flex gap-[28px] '>
+
+                                                                    <div className="w-[100%]" >
+
+                                                                        <select value={overTime.earlyOutAmount} onChange={(e) => setOverTime({ ...overTime, earlyOutAmount: e.target.value })} className='border border-[#c9c9c9] rounded-md pl-[20px] pr-[20px] pt-[6px] pb-[6px]  w-[100%] bg-[#ececec]   focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'>
+                                                                            <option value={1}>1x Salary</option>
+                                                                            <option value={2}>2x Salary</option>
+
+                                                                        </select>
+
+                                                                    </div>
+                                                                    <div className=''>
+                                                                        <p className='text-[14px]  rounded-md select-pe p-[6px] w-[124px]'> ₹ {calculateFinePerMinute(30000, 22, 8)} Per Min</p>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className='mt-[10px] mb-[10px]'>
+                                                            <span className='text-[12px]'>Total Amount</span>
+                                                            <p className='text-[14px]'>₹ {(parseFloat(overTime.earlyOutFineAmount) + parseFloat(overTime.lateEntryFineAmount))}</p>
+                                                        </div>
+                                                        <div className='flex items-center mb-[20px] gap-[4px] '>
+                                                            <input type="checkbox" />
+                                                            <p className='text-[14px]'>Send SMS to Staff</p>
+                                                        </div>
+
+
+                                                        <div className="flex flex-col gap-[10px] ">
+                                                            <button
+                                                                onClick={() => {
+                                                                    createOvertime();
+                                                                }}
+
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Apply Overtime
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal12}
+                                                                className="px-4 py-2 bg-[#27004a] text-white rounded-md"
+                                                            >
+                                                                Cancel
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div className="flex xl:justify-center lg:justify-center md:justify-center items-center justify-end">
-                                        {/* Button to open modal */}
-                                        <button
-                                            onClick={() => {
-                                                updateAttendanceStatus(record?.id, "ABSENT");
-                                                setCommonStatus("ABSENT");
-                                            }}
-                                            className={" btns px-6 py-3 text-[14px] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow " + (record?.status === "ABSENT" ? "bg-[#DC3545] text-white" : "bg-white text-black")}
-                                        >
-                                            A I Absent
-                                        </button>
+                                            )}
+                                        </div>
+                                        <div className="flex justify-center items-center">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    openModal14();
+                                                    setPunchId(record?.id);
+                                                }}
+                                                className={"btns px-6 py-3 text-[14px] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow " + (record?.status === "PAIDLEAVE" ? "bg-[#008000] text-white" : "bg-white text-black")}
+                                            >
+                                                L I Paid Leave
+                                            </button>
 
-                                        {/* Modal overlay and content */}
-                                        {isOpen && (
-                                            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                                                <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
-                                                    <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
-                                                    <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
+                                            {/* Modal overlay and content */}
+                                            {isOpen14 && (
+                                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                        <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                        <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
 
-                                                    <div className="flex justify-around ">
-                                                        <button
-
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            Yes , Confirm
-                                                        </button>
-                                                        <button
-                                                            onClick={closeModal}
-                                                            className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
-                                                        >
-                                                            No , Cancel
-                                                        </button>
+                                                        <div className="flex justify-around ">
+                                                            <button
+                                                                onClick={() => {
+                                                                    // console.log(record.id);
+                                                                    updateAttendanceStatus("PAIDLEAVE");
+                                                                }}
+                                                                className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                            >
+                                                                Yes , Confirm
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal14}
+                                                                className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                            >
+                                                                No , Cancel
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
+                                        <div className="flex xl:justify-center lg:justify-center md:justify-center items-center justify-end">
+                                            {/* Button to open modal */}
+                                            <button
+                                                onClick={() => {
+                                                    openModal();
+                                                    setPunchId(record?.id);
+                                                }}
+                                                className={" btns px-6 py-3 text-[14px] rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[138px] whitespace-nowrap shadow " + (record?.status === "ABSENT" ? "bg-[#DC3545] text-white" : "bg-white text-black")}
+                                            >
+                                                A I Absent
+                                            </button>
+
+                                            {/* Modal overlay and content */}
+                                            {isOpen && (
+                                                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                    <div className="bg-white rounded-lg shadow-lg max-w-lg w-full h-[200px] p-6">
+                                                        <h2 className="text-xl text-center text-[18px] text-[black] font-semibold mt-[28px] mb-[6px] ">Sure You Want To Accept ? </h2>
+                                                        <p className='text-center mb-[16px] text-[14px]'>Are you sure you want to accept this ??</p>
+
+                                                        <div className="flex justify-around ">
+                                                            <button
+                                                                onClick={() => {
+                                                                    // console.log(record.id);
+                                                                    updateAttendanceStatus("ABSENT");
+                                                                }}
+                                                                className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                            >
+                                                                Yes , Confirm
+                                                            </button>
+                                                            <button
+                                                                onClick={closeModal}
+                                                                className="px-4 py-2 bg-[#8a25b0] text-white rounded-md"
+                                                            >
+                                                                No , Cancel
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )})
-                    : (<div>No Record Present</div>)
+                    )
+                })
+                    : (<div class="m-auto mt-10 border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-[#8a25b0]" />)
             }
-        </div>
+        </div >
     )
 }
 

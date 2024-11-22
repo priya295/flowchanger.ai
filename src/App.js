@@ -310,7 +310,8 @@ const App = () => {
           <Route path="/uan" element={<VerifyUan />} />
           <Route path="/face" element={<VerifyFace />} />
           <Route path="/address" element={<VerifyAddress />} />
-
+          <Route path="/past-employment-details" element={<PastEmploymentDetail />} />
+          <Route path="/voter-id" element={<VerifyVoterID />} />
         </Route>
         <Route element={<Client_Panel />}>
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}

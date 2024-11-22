@@ -23,6 +23,7 @@ const VerifyAadhaar = () => {
             return;
         }
 
+        console.log(aadhaar);
         // Create a new FormData instance
         const newFormData = new FormData();
 
