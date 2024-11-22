@@ -135,13 +135,6 @@ const App = () => {
     );
   }
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * Renders the Editstaff component layout.
- * This includes the UpperHeader, SidebarEditStaff, and an Outlet for nested routes.
- * The layout adjusts based on the toggleEditSideBar state to show or hide the sidebar.
- */
-/******  8824870c-47a0-441b-aeab-d5099ac85750  *******/
   function Editstaff() {
 
     return (
@@ -151,7 +144,7 @@ const App = () => {
           <div className="flex">
             <SidebarEditStaff toggleEditSideBar={toggleEditSideBar} />
             <div className={`w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    
-        ${!toggleEditSideBar ? "xl:pl-[320px]" : "xl:pl-[0px]"} flex flex-col set-z`}>
+        ${!toggleEditSideBar ? "xl:pl-[320px]" : "xl:pl-[0px]"} flex flex-col set-z `}>
               <Outlet />
             </div>
           </div>

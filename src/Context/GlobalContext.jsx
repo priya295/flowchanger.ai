@@ -25,7 +25,7 @@ export const GlobalContext = ({ children }) => {
     chat_module_permissions: { grant_access: false },
     ai_permissions: { grant_access: false }
   });
-
+ 
   const [roleName, setRoleName] = useState("");
   const [roleId, setRoleId] = useState("");
   const [selectedStaff, setSelectedStaff] = useState(null);

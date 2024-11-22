@@ -55,77 +55,16 @@ const Reviewfine = () => {
             date: selectedDate.getDate(),
         });
     };
-    const [fineDetail, setFineDetail] = useState([
-        {
-            id: "a09dfd94-381d-4973-91a8-f5c6523fbb04",
-            lateEntryFineAmount: 1,
-            lateEntryAmount: 158.33,
-            excessBreakFineAmount: 1,
-            excessBreakAmount: 0,
-            earlyOutFineAmount: 1,
-            earlyOutAmount: 0,
-            totalAmount: 0,
-            shiftIds: null,
-            punchRecordId: "54c00a7c-7589-419b-9d93-5752af83cb1e",
-            staffId: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
-            createdAt: "2024-11-18T08:18:02.564Z",
-            staff: {
-                id: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
-                userId: "cf297307-c323-4c66-a745-c9fbe6d0db1e",
-                job_title: "Software Engineer",
-                branch: "New York",
-                departmentId: "72f48d54-a2a0-47b3-81c9-268ccebbf95c",
-                roleId: "77d7ef8b-7e5a-414c-9aea-0886dad00033",
-                login_otp: "12346",
-                gender: "Male",
-                official_email: "karan@example.com",
-                date_of_joining: "2023-01-15T00:00:00.000Z",
-                date_of_birth: "1990-05-20T00:00:00.000Z",
-                current_address: "123 5th Ave, New York, NY",
-                permanent_address: "456 Elm St, Brooklyn, NY",
-                emergency_contact_name: "Jane Doe",
-                emergency_contact_mobile: "9876543211",
-                emergency_contact_relation: "Wife",
-                emergency_contact_address: "456 Elm St, Brooklyn, NY",
-                guardian_name: null,
-                status: null,
-                employment: null,
-                marital_status: null,
-                blood_group: null
-            },
-            shiftDetails: null,
-            punchRecord: {
-                id: "54c00a7c-7589-419b-9d93-5752af83cb1e",
-                punchDate: "2024-11-18T08:18:01.945Z",
-                isApproved: false,
-                punchInId: "ef6380c3-155e-44b3-be46-8cc1e85c0a25",
-                punchOutId: null,
-                staffId: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
-                status: "PRESENT",
-                punchIn: {
-                    id: "ef6380c3-155e-44b3-be46-8cc1e85c0a25",
-                    punchInMethod: "PHOTOCLICK",
-                    punchInTime: "2024-11-18T08:18:01.761Z",
-                    punchInDate: "2024-11-18T08:18:01.761Z",
-                    biometricData: null,
-                    qrCodeValue: null,
-                    photoUrl: "null",
-                    location: "HELLO",
-                    approve: "Pending"
-                },
-                punchOut: null
-            }
-        }
-    ]
-    )
+    const [fineDetail, setFineDetail] = useState([])
     console.log(fineDetail)
+
     async function fetchFineDetails() {
         try {
             const result = await fetch(baseUrl + `fine?date=${workTimeDate.year}-${workTimeDate.month}-${workTimeDate.date}`)
             if (result.status == 200) {
                 const res = await result.json();
                 console.log("res", res)
-                // setFineDetail(res)
+                setFineDetail(res.fines)
             }
         }
         catch (error) {
@@ -139,6 +78,8 @@ const Reviewfine = () => {
         }
         fetchFineDetails()
     }, [workTimeDate])
+
+    // workTimeDate
 
     return (
         <div className='w-full p-[20px]'>
@@ -194,6 +135,14 @@ const Reviewfine = () => {
                 <input type="checkbox" />
                 <p className='text-[14px]'>DAILY SHIFT I 10:00 AM - 6:30 PM</p>
             </div>
+
+            {
+                workTimeDate.year ==""  &&
+                <div className="text-center">
+                    <h2 className='text-[#ff0000] font-medium py-9 text-[20px]'>Please Select Date</h2>
+                </div>
+
+            }
 
             {
                 fineDetail?.map((item, index) => {
@@ -260,16 +209,13 @@ const Reviewfine = () => {
 
                         </div>
                     </div>
-
                 })
             }
 
-
-
-
+                
 
             <div>
-            </div>
+                    </div>
         </div>
 
     );
