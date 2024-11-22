@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 const EditDepartment = () => {
 
-    const { baseUrl ,name,setName,depId} = useGlobalContext();
+    const { baseUrl ,name,setName,depId , openToast} = useGlobalContext();
     const navigate = useNavigate()
 
 
@@ -21,12 +21,12 @@ const EditDepartment = () => {
         });
 
         console.log(response);
-
+       const result = await response.json();
         if (response.status === 200) {
             navigate("/department-details")
-            alert("Department Name Updated successfully ");
+            openToast(result.message);
         } else {
-            alert("An error occurred");
+            openToast(result.message);
         }
     }
 

@@ -43,8 +43,11 @@ const AddNewTask = ({ onClose, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(formData); // Notify parent component with the form data
-    handleClosebtn(); // Close the form after saving
+    // Check form validity first
+    if (e.target.checkValidity()) {
+      onSave(formData);
+      handleClosebtn();
+    }
   };
 
   return (
@@ -57,7 +60,7 @@ const AddNewTask = ({ onClose, onSave }) => {
           transition={{ duration: 0.3 }}
           className="2xl:fixed xl:fixed lg:fixed md:fixed sm:fixed inset-0 z-50 flex justify-center items-center"
         >
-          
+
           <div className="bg-white p-8 rounded-lg shadow-lg w-[65%] h-[70%] overflow-auto">
             <h1 className="text-[20px] font-semibold border-b border-[#B1B1B1] pb-8">
               Add New Task
@@ -66,8 +69,9 @@ const AddNewTask = ({ onClose, onSave }) => {
             <form onSubmit={handleSubmit}>
               <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
-                  <label htmlFor="text">Task Name</label>
+                  <label htmlFor="taskName">Task Name</label>
                   <input
+                    id="taskName"
                     name="taskName"
                     value={formData.taskName}
                     onChange={handleChange}
@@ -78,12 +82,13 @@ const AddNewTask = ({ onClose, onSave }) => {
                 </div>
 
                 <div className="flex flex-col ">
-                  <label htmlFor="text">Task Status</label>
+                  <label htmlFor="taskStatus">Task Status</label>
                   <select
                     name="taskStatus"
                     value={formData.taskStatus}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] rounded-md h-[46px] p-2 border-[1px] border-[#DBDCDE]"
+                    required
                   >
                     <option value="Pending">Pending</option>
                     <option value="Completed">Completed</option>
@@ -97,6 +102,7 @@ const AddNewTask = ({ onClose, onSave }) => {
                     value={formData.taskType}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] rounded-md h-[46px] p-2 border-[1px] border-[#DBDCDE]"
+                    required
                   >
                     <option value="Graphic">Graphic</option>
                     <option value="Video">Video</option>
@@ -106,29 +112,31 @@ const AddNewTask = ({ onClose, onSave }) => {
 
               <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
-                  <label htmlFor="text">Start Date</label>
+                  <label htmlFor="startDate">Start Date</label>
                   <input
                     name="startDate"
                     value={formData.startDate}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] p-2 rounded-md h-[46px] border-[1px] border-[#DBDCDE]"
                     type="date"
+                    required
                   />
                 </div>
 
                 <div className="flex flex-col ">
-                  <label htmlFor="text">Due Date</label>
+                  <label htmlFor="dueDate">Due Date</label>
                   <input
                     name="dueDate"
                     value={formData.dueDate}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] p-2 rounded-md h-[46px] border-[1px] border-[#DBDCDE]"
                     type="date"
+
                   />
                 </div>
 
                 <div className="flex flex-col">
-                  <label htmlFor="text">End Date</label>
+                  <label htmlFor="endDate">End Date</label>
                   <input
                     name="endDate"
                     value={formData.endDate}
@@ -141,12 +149,13 @@ const AddNewTask = ({ onClose, onSave }) => {
 
               <div className="font-normal grid w-auto grid-cols-2 gap-4  mt-5 text-[#2B2A2D]">
                 <div className="flex flex-col">
-                  <label htmlFor="text">Select Project</label>
+                  <label htmlFor="selectProject">Select Project</label>
                   <select
                     name="selectProject"
                     value={formData.project}
                     onChange={handleChange}
                     className="bg-[#F4F5F9]  rounded-md h-[46px] p-2 border-[1px] border-[#DBDCDE]"
+                    required
                   >
                     <option value="1">Graphic</option>
                     <option value="1">Video</option>
@@ -154,36 +163,42 @@ const AddNewTask = ({ onClose, onSave }) => {
                 </div>
 
                 <div className="flex flex-col ">
-                  <label htmlFor="text">Assigned</label>
+                  <label htmlFor="assigned">Assigned</label>
                   <input
+                    id="assigned"
                     name="assigned"
                     value={formData.assigned}
                     onChange={handleChange}
                     className="bg-[#F4F5F9]   rounded-md h-[46px] border-[1px] border-[#DBDCDE]"
                     type="text"
+                    required
                   />
                 </div>
               </div>
 
               <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
-                  <label htmlFor="text">Task Timer</label>
+                  <label htmlFor="taskTimer">Task Timer</label>
                   <input
+                    id="taskTimer"
                     name="taskTimer"
                     value={formData.taskTimer}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] p-2 rounded-md h-[46px] border-[1px] border-[#DBDCDE]"
                     type="date"
+                    required
                   />
                 </div>
 
                 <div className="flex flex-col ">
-                  <label htmlFor="text">Task Activity</label>
+                  <label htmlFor="taskActivity">Task Activity</label>
                   <select
+                    id="taskActivity"
                     name="taskActivity"
                     value={formData.taskActivity}
                     onChange={handleChange}
                     className="bg-[#F4F5F9]  rounded-md h-[46px] p-2 border-[1px] border-[#DBDCDE]"
+                    required
                   >
                     <option value="1">in Proceed</option>
                     <option value="1">Finished</option>
@@ -191,36 +206,41 @@ const AddNewTask = ({ onClose, onSave }) => {
                 </div>
 
                 <div className="flex flex-col">
-                  <label htmlFor="text">Attach File</label>
+                  <label htmlFor="file">Attach File</label>
                   <input
+                    id="file"
                     name="file"
-                    value={formData.attachFile}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] p-2 rounded-md h-[46px] border-[1px] border-[#DBDCDE]"
                     type="file"
+
                   />
                 </div>
               </div>
 
               <div className="font-normal grid grid-cols-3 gap-4 mt-5 text-[#2B2A2D] max-[900px]:block max-[900px]:space-y-3">
                 <div className="flex flex-col">
-                  <label htmlFor="text">Task Tag</label>
+                  <label htmlFor="taskTag">Task Tag</label>
                   <input
+                    id="taskTag"
                     name="taskTag"
                     value={formData.taskTag}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] p-2 rounded-md h-[46px] border-[1px] border-[#DBDCDE]"
                     type="text"
+
                   />
                 </div>
 
                 <div className="flex flex-col ">
-                  <label htmlFor="text">Task Priority</label>
+                  <label htmlFor="taskPriority">Task Priority</label>
                   <select
-                    name="priority"
+                    name="taskPriority"
+                    id="taskPriority"
                     value={formData.taskPriority}
                     onChange={handleChange}
                     className="bg-[#F4F5F9]  rounded-md h-[46px] p-2 border-[1px] border-[#DBDCDE]"
+                    required
                   >
                     <option value="1">High</option>
                     <option value="1">Normal</option>
@@ -228,26 +248,30 @@ const AddNewTask = ({ onClose, onSave }) => {
                 </div>
 
                 <div className="flex flex-col">
-                  <label htmlFor="text">Task Reminder</label>
+                  <label htmlFor="reminder">Task Reminder</label>
                   <input
+                    id="reminder"
                     name="reminder"
                     value={formData.taskReminder}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] p-2 rounded-md h-[46px] border-[1px] border-[#DBDCDE]"
                     type="date"
+                    required
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex flex-col mt-5">
-                  <label htmlFor="text">Task Description</label>
+                  <label htmlFor="description">Task Description</label>
                   <textarea
+                    id="description"
                     name="description"
                     value={formData.taskDescription}
                     onChange={handleChange}
                     className="bg-[#F4F5F9] rounded-md h-[8rem] border-[1px] border-[#DBDCDE]"
                     type="text"
+                    required
                   />
                 </div>
               </div>

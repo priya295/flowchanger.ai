@@ -21,7 +21,6 @@ const BackgroundVerification = () => {
                 <Link className='flex justify-between items-center p-4  hover:bg-[#f0f8fd] ' to="/verify-aadhar ">
                     <h4 className='font-normal'>Aadhaar</h4>
                     <ArrowForwardIosIcon />
-
                 </Link>
 
                 <Link className='flex justify-between items-center p-4  hover:bg-[#f0f8fd]' to="/verify-pan">

@@ -39,7 +39,7 @@ const Documents = () => {
     const onOpenModal = () => setOpen(true);
     const onCloseModal = () => setOpen(false);
     return (
-        <div className='pl-[320px] mt-[80px] w-[100%] '>
+        <div className=' mt-[80px] w-[100%] '>
             <div className='flex items-center border-b border-[#dbdbdb] pb-[20px]   justify-between'>
                 <h1>Documents</h1>
                 <div>

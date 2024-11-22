@@ -124,41 +124,72 @@ const Task = () => {
 
   const [allTaskStatus, setAllTaskStatus] = useState();
   const fetchAllTaskStatus = async () => {
-    const response = await fetch(baseUrl + 'task/status');
-    const data = await response.json();
-    setAllTaskStatus(data)
-
+    
+    try{
+      const response = await fetch(baseUrl + 'task/status');
+      if(response.status === 200){
+      const data = await response.json();
+      console.log("taskData:" , data);
+      setAllTaskStatus(data.taskStatus);
+      }
+     else{
+     const error = await response.json();
+      console.error(error.message || `HTTP Error: ${response.status}`);
+      setAllTaskStatus([]);
+  }
+  }
+      catch (error) {
+        console.error("Error fetching task status:", error);
+        setAllTaskStatus([]);
+    }
   }
 
   const [departments, setDepartments] = useState([])
   const fetchDepartments = async () => {
-    const result = await fetch(baseUrl + "department")
-
-    if (result.status == 200) {
+    try{
+      const result = await fetch(baseUrl + "department")
+      if (result.status == 200) {
       const res = await result.json();
       setDepartments(res.data)
-
+  
     }
     else {
-      alert("An Error Occured")
+      console.error("Error fetching departments:", result.status);
+      setDepartments([]);
     }
-
+    }
+    catch (error) {
+    console.error("Error fetching departments:", error);
+    setDepartments([]);
   }
+}
+    
+   
+
+  
 
   const [taskPriority, setTaskPriority] = useState([]);
   const fetchTaskPriority = async () => {
-    const result = await fetch(baseUrl + "task/priority")
-
-    if (result.status == 200) {
-      const res = await result.json();
-      setTaskPriority(res)
-
+    try{
+      const result = await fetch(baseUrl + "task/priority")
+      if (result.status == 200) {
+        const res = await result.json();
+        console.log(res);
+        setTaskPriority(res.data)
+        
+      }
+      else {
+        const error = await result.json();
+        console.log(error.message, "error")
+        setTaskPriority([]);
+      }
+     
     }
-    else {
-      alert("An Error Occured")
-    }
-
-  }
+   catch(error){
+    console.log("error",error);
+    setTaskPriority([]);
+   } 
+}
 
   const [selectedTag, setSelectedTag] = useState([])
   const [staffDetail, setStaffDetail] = useState();
@@ -171,31 +202,47 @@ const Task = () => {
   }));
 
   const fetchStaffDetail = async () => {
-    const result = await fetch(baseUrl + "staff")
-    console.log("reuslt---", result)
-    if (result.status == 200) {
-      const res = await result.json();
-      setStaffDetail(res)
+    try{
+      const result = await fetch(baseUrl + "staff")
+      console.log("reuslt---", result)
+      if (result.status == 200) {
+        const res = await result.json();
+        setStaffDetail(res)
+      }
+      else {
+        const res = await result.json();
+       console.log("error while fetching satff" , res.message);
+        setStaffDetail([]);
+      }
+    
     }
-    else {
-      alert("An Error Occured")
+    catch(error){
+      console.error("error" , error.message);
+      setStaffDetail([]);
     }
-
+    
   }
 
   const [projectDetails, setProjectDetails] = useState([]);
   async function fetchProjectDetails() {
-    const result = await fetch(baseUrl + "project");
-    console.log("---", result)
-    if (result.status == 200) {
-      const res = await result.json();
-      console.log(res)
-      setProjectDetails(res.data)
+    try{
+      const result = await fetch(baseUrl + "project");
+      console.log("---", result)
+      if (result.status == 200) {
+        const res = await result.json();
+        console.log(res)
+        setProjectDetails(res.data)
+      }
+      else {
+        console.error("Error fetching projects:", result.status);
+        setProjectDetails([]);
+      }
     }
-    else {
-      alert("An Error Occured")
-    }
-  }
+catch(error){
+  console.error("Error fetching Projects" , error);
+  setProjectDetails([]);
+}
+ }
 
 
   let subtitle;
@@ -224,30 +271,35 @@ const Task = () => {
     })
     if (result.status == 201) {
       const data = await result.json();
-      openToast("Add Task Successfully", "success")
+      openToast(data.message, "success")
     }
     else {
-      openToast("Internal Server Error", "error")
+      const error = await result.json();
+      openToast(error.message, "error")
     }
   }
 
 
   const [fetchTaskData, setFetchTaskData] = useState([]);
   async function fetchTaskDetails() {
-    const result = await fetch(baseUrl + "/task/detail")
-    try {
+    setIsLoading(true);
+  try {
+        const result = await fetch(baseUrl + "/task/detail")
       if (result.status === 200) {
         const data = await result.json();
-        console.log(data)
-        setFetchTaskData(data)
+        console.log(data.taskDetail)
+        setFetchTaskData(data.taskDetail);
         setIsTableOpen(true);
       }
       else {
-        openToast("Internal Server Error", "error")
+        const error = await result.json();
+        console.log(error.message, "error")
+        setFetchTaskData([]);
       }
     }
     catch (error) {
       console.log("error", error)
+      setFetchTaskData([]);
     }
     finally {
       setIsLoading(false);
@@ -369,13 +421,13 @@ const Task = () => {
       },
       body: JSON.stringify({ taskName: updateTaskName, startDate: updateStartDate, endDate: updateEndDate, dueDate: updateDueDate, selectProjectId: updateSelectProject, taskDescription: updateTaskDescription, taskTag: updateTaskTag, attachFile: updateTaskAttachFile, selectDepartmentId: updateDepartment, taskStatusId: updateTaskStatus, taskPriorityId: updateTaskPriority, taskAssign: updateTaskAssigne })
     })
+    const data = await result.json();
     if (result.status = 200) {
-      const data = await result.json();
       console.log(data)
-      openToast("Add Task Successfully", "success")
+      openToast(data.message, "success")
     }
     else {
-      openToast("Internal Server Error", "error")
+      openToast(data.message, "error")
     }
   }
 
@@ -403,12 +455,13 @@ const Task = () => {
           <div className="fixed inset-0 flex items-center justify-center p-[14px] z-50 bg-gray-800 bg-opacity-75">
             <div className="bg-white p-6 rounded shadow-cs w-[550px] relative h-[100%] overflow-scroll">
               <h2 className="text-lg font-semibold mb-[16px]">Add new Task</h2>
+              <form action="" onSubmit={submitTask}>
               <div className="w-[100%]">
 
                 <div className="w-[100%]">
 
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Name</label><br />
-                  <input type='text' onChange={(e) => setTaskName(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                  <input type='text' onChange={(e) => setTaskName(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
                 </div>
                 <div className="flex gap-[8px]">
 
@@ -417,12 +470,13 @@ const Task = () => {
                     <select
                       onChange={(e) => setSelectedTaskStatusId(e.target.value)} // Store only the selected ID as a string
                       className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
+                      required
                     >
                       <option value="">Please Select Task Status</option>
                       {allTaskStatus?.map((status) => (
 
-                        <option key={status.id} value={status.id}>
-                          {status.taskStatusName}
+                        <option key={status?.id} value={status?.id}>
+                          {status?.taskStatusName}
                         </option>
                       ))}
                     </select>
@@ -434,7 +488,7 @@ const Task = () => {
                 <div className="flex gap-[8px]">
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Start Date</label>    <br />
-                    <input type='date' onChange={(e) => setStartDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                    <input type='date' onChange={(e) => setStartDate(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%]  mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
                   </div>
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>End Date</label>    <br />
@@ -452,9 +506,9 @@ const Task = () => {
                     <select
                       onChange={(e) => setSelectedProjectId(e.target.value)}
                       className="border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]"
-                    >
+                    required>
                       <option value="">- Select Project -</option> {/* Placeholder option */}
-                      {projectDetails.map((project) => (
+                      {projectDetails?.map((project) => (
                         <option key={project.id} value={project.id}>
                           {project.project_name}
                         </option>
@@ -466,9 +520,9 @@ const Task = () => {
                 <div className="w-[100%] flex gap-[10px]">
                   <div className="w-[50%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Select Department</label>    <br />
-                    <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]'>
+                    <select onChange={(e) => setSelectedDepartmentId(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full  focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px]   hover:bg-[#fff]' required>
                       <option>Select Department</option>
-                      {departments.map(department => (
+                      {departments?.map(department => (
                         <option key={department.id} value={department.id}>
                           {department.department_name}
                         </option>
@@ -480,7 +534,7 @@ const Task = () => {
                     <select
                       onChange={(e) => setSelectedTaskPriorityId(e.target.value)} // Set only the selected ID
                       className="border border-1 rounded-md p-[5px] mt-1 mb-[10px] w-full focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] hover:bg-[#fff]"
-                    >
+                   required >
                       <option value="">Select Task Priority</option> {/* Placeholder option */}
                       {taskPriority?.map((priority) => (
                         <option key={priority.id} value={priority.id}>
@@ -529,14 +583,14 @@ const Task = () => {
                           cursor: 'pointer',
                         }),
                       }}
-                    />
+                    required/>
 
                   </div>
                   <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium'>Task Description</label><br />
-                  <textarea type='text' onChange={(e) => setTaskDescription(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' />    <br />
+                  <textarea type='text' onChange={(e) => setTaskDescription(e.target.value)} className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' required/>    <br />
                   <div className="w-[100%]">
                     <label className='text-[13px] xl:text-[14px] text-[#000000ba] font-medium mb-3'><SellIcon className='sell-icon' />Task Tag</label><br />
-                    <input type='text' onChange={(e) => setTag(e.target.value)} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' />    <br />
+                    <input type='text' onChange={(e) => setTag(e.target.value)} className=' mb-[10px]  pr-2 focus:outline-none tag-input mt-2' placeholder='Tag' required/>    <br />
                   </div>
 
 
@@ -564,7 +618,7 @@ const Task = () => {
                         <input
                           type='file'
                           className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px] focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]'
-                        />
+                        required/>
 
                         {/* Remove Button for every div */}
                         <button onClick={() => removeDiv(index)} className='  rounded plus-icon'>
@@ -586,10 +640,10 @@ const Task = () => {
                   >
                     Close
                   </button>
-                  <button className='second-btn' onClick={submitTask}>Save </button>
+                  <button className='second-btn' >Save </button>
                 </div>
               </div>
-
+              </form>
 
             </div>
           </div>
@@ -871,8 +925,8 @@ const Task = () => {
                     >
                       <option value="">Select Task Priority</option>
                       {taskPriority?.map((priority) => (
-                        <option key={priority.id} value={priority.id}>
-                          {priority.taskPriorityName}
+                        <option key={priority?.id} value={priority?.id}>
+                          {priority?.taskPriorityName}
                         </option>
                       ))}
                     </select>

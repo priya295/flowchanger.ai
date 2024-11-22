@@ -17,7 +17,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const AttendanceTab = () => {
     const { baseUrl, openToast, fetchStaff, staffDetail } = useGlobalContext();
-    console.log(staffDetail)
+    // console.log(staffDetail)
 
     useEffect(() => {
         fetchStaff();
@@ -313,7 +313,7 @@ const AttendanceTab = () => {
             },
             body: JSON.stringify({ shiftName: shiftName, shiftStartTime: shiftStartTime, shiftEndTime: shiftEndTime, punchInType: punchInType, punchOutType: punchOutType, allowPunchInHours: allowPunchInHour, allowPunchInMinutes: allowPunchInMinutes, allowPunchOutHours: allowPunchOutHour, allowPunchOutMinutes: allowPunchOutMinutes })
         })
-        if (result.status == 201) {
+        if (result.status === 201) {
             const data = await result.json();
             openToast("Add Shift Successfully", "success")
 
@@ -325,11 +325,11 @@ const AttendanceTab = () => {
 
 
     const [shiftDetails, setShiftDetails] = useState();
-    console.log("shiftDetails", shiftDetails);
+    // console.log("shiftDetails", shiftDetails);
 
     async function fetchShiftDetails() {
         const result = await fetch(baseUrl + "shift");
-        if (result.status == 200) {
+        if (result.status === 200) {
             const data = await result.json();
             setShiftDetails(data)
         }
@@ -374,7 +374,7 @@ const AttendanceTab = () => {
 
 
     const handleUpdate = () => {
-        console.log(selectedId)
+        // console.log(selectedId)
         // setSelectedId([]); // Call the first function
         openModal5(); // Call the second function
     };
@@ -413,7 +413,7 @@ const AttendanceTab = () => {
 
 
     const handleUpdateAutoMation = () => {
-        console.log(selectedId)
+        // console.log(selectedId)
         // setSelectedId([]); // Call the first function
         openModal7(); // Call the second function
     };
@@ -584,40 +584,36 @@ const AttendanceTab = () => {
         shiftSeven: []
     });
 
-    // console.log(selectedId)
-    // 
+    // function getMatchingShiftIds(selectedShift, selectMonShift) {
+    //     // Map to extract labels from selectMonShift
+    //     const selectMonShiftlabel = selectMonShift?.map((shift) => shift?.label);
+    //     const matchingShiftIds = selectedShift
+    //         ?.filter((shift) => {
+    //             const label = `${shift?.shiftName} | ${shift?.shiftStartTime} - ${shift?.shiftEndTime}`;
+    //             return selectMonShiftlabel?.includes(label); // Check if label exists in selectMonShiftlabel
+    //         })
+    //         ?.map((shift) => shift?.id); // Extract only the id
 
-    // async function submitShifts() {
-    //     console.log("HELLO",selectedOptions.map((s)=>s.value) )
-    //     const result = await fetch(baseUrl + "shift/fixed-shift/update", {
-    //         method: "PUT",
-    //         headers: {
-    //             "Content-type": "application/json"
-    //         },
-    //         body: JSON.stringify({ weekOff: isCheckboxChecked, shifts:selectedOptions.map((s)=>s.value), weekOne: weeks.firstWeek, weekTwo: weeks.secondWeek, weekThree: weeks.thirdWeek, weekFour: weeks.fourthWeek, weekFive: weeks.fifthWeek, staffId:selectedId, day: day } )
-    //     })
-    //     const response = result.json()
-    //     console.log(response)
-    //     if (result.status == 200) {
-    //         openToast("Update Details Successfully", "success")
-    //     }
-    //     else {
-    //         openToast("No Data Updated", "error")
-
-    //     }
+    //     return matchingShiftIds;
     // }
+
     function getMatchingShiftIds(selectedShift, selectMonShift) {
+        // Ensure selectMonShift is an array, or default to an empty array
+        const selectMonShiftArray = Array.isArray(selectMonShift) ? selectMonShift : [];
+        
         // Map to extract labels from selectMonShift
-        const selectMonShiftlabel = selectMonShift?.map((shift) => shift?.label);
+        const selectMonShiftlabel = selectMonShiftArray?.map((shift) => shift?.label);
+        
         const matchingShiftIds = selectedShift
             ?.filter((shift) => {
                 const label = `${shift?.shiftName} | ${shift?.shiftStartTime} - ${shift?.shiftEndTime}`;
                 return selectMonShiftlabel?.includes(label); // Check if label exists in selectMonShiftlabel
             })
             ?.map((shift) => shift?.id); // Extract only the id
-
+    
         return matchingShiftIds;
     }
+    const [weekName, setWeekName] = useState('');
 
     const [dayWiseWeekOff, setDayWiseWeekOff] = useState([
         {
@@ -692,7 +688,78 @@ const AttendanceTab = () => {
             }
         }
     ]);
-    async function submitShifts(e) {
+
+    const [selectedMonth, setSelectedMonth] = useState(new Date());
+    // console.log("selectedMonth", selectedMonth)
+    const getDayName = (date) => {
+        return date.toLocaleDateString("en-US", { weekday: "short" });
+    };
+
+    const [dateTime, setDateTime] = useState([]);
+    const [flexibleDay, setFlexibleDay] = useState([]);
+
+    useEffect(() => {
+        const year = selectedMonth?.getFullYear();
+        const month = selectedMonth?.getMonth();
+
+        // Calculate days in the selected month
+        const days = Array.from(
+            { length: new Date(year, month + 1, 0).getDate() },
+            (_, i) => i + 1
+        );
+        setDateTime(days);
+    }, [selectedMonth]);
+
+    async function createFlexibleShift(e) {
+        const data = {
+            // staffId: selectedId,
+            // shifts: flexibleDay?.map((dateTime, shifts, weekOff) => ({
+            //     dateTime: dateTime,
+            //     weekOff: weekOff,
+            //     shifts: getMatchingShiftIds(selectedShift, shifts),
+            // }))
+            staffId: selectedId,
+        shifts: flexibleDay?.map((flexibleShift) => ({
+            dateTime: flexibleShift.day, // Access the `day` property for `dateTime`
+            weekOff: flexibleShift.weekOff, // Access the `weekOff` property directly
+            shifts: getMatchingShiftIds(selectedShift, flexibleShift.shifts), // Use `flexibleShift.shifts` for matching
+        })),
+        }
+        // console.log(data);
+        try {
+            const response = await fetch(`${baseUrl}shift/flexible-shift/update`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+            console.log(result)
+            if (response.status === 200) {
+                // console.log(Response data for ${shiftData.day}:, result);
+                openToast(
+                    "Flexible Shift Updated or Added Successfully",
+                    "success"
+                );
+
+                setFlexibleDay([]);
+                closeModal()
+            } else {
+                openToast(
+                    "An error occurred while adding or updating Flexible Shift Work Timing",
+                    "error"
+                );
+            }
+            closeModal();
+        } catch (error) {
+            console.error("Error submitting Flexible Shift Work Timing:", error);
+            openToast("An error occurred while adding or updating Flexible Shift Work Timing", "error");
+        }
+    }
+
+    async function submitFixedShifts() {
         const data = {
             staffId: selectedId,
             shifts: [
@@ -783,7 +850,7 @@ const AttendanceTab = () => {
             ],
         };
 
-        console.log(data);
+        // console.log("Data :", data);
 
         try {
             const response = await fetch(`${baseUrl}shift/fixed-shift/update`, {
@@ -795,7 +862,7 @@ const AttendanceTab = () => {
             });
 
             const result = await response.json();
-            console.log(result)
+            // console.log("Fixed shift result :", result)
             if (response.status === 200) {
                 // console.log(Response data for ${shiftData.day}:, result);
                 openToast(
@@ -1156,10 +1223,15 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Mon</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={() => setWeekOff(() => ({ ...weekoff, Mon: !weekoff.Mon }))} checked={weekoff.Mon} />
+                                            <input type="checkbox" onChange={() => {
+                                                setWeekName("Monday")
+                                                setWeekOff({ ...weekoff, Mon: !weekoff.Mon })
+                                                setIsOpen22(!modalIsOpen22)
+                                            }}
+                                                checked={weekoff.Mon} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
-                                            {isCheckboxChecked ? (
+                                            {weekoff.Mon ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
                                                         <option>Please Select Week</option>
@@ -1212,10 +1284,15 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Tue</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={() => setWeekOff(() => ({ ...weekoff, Tue: !weekoff.Tue }))} checked={weekoff.Tue} />
+                                            <input type="checkbox" onChange={() => {
+                                                // setWeekOff(() => ({ ...weekoff, Tue: !weekoff.Tue }));
+                                                setWeekName("Tuesday")
+                                                setWeekOff({ ...weekoff, Tue: !weekoff.Tue })
+                                                setIsOpen22(!modalIsOpen22)
+                                            }} checked={weekoff.Tue} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
-                                            {isCheckboxChecked ? (
+                                            {weekoff.Tue ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
                                                         <option>Please Select Week</option>
@@ -1268,10 +1345,15 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Wed</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={() => setWeekOff(() => ({ ...weekoff, Wed: !weekoff.Wed }))} checked={weekoff.Wed} />
+                                            <input type="checkbox" onChange={() => {
+                                                setWeekName("Wednesday")
+                                                setWeekOff({ ...weekoff, Wed: !weekoff.Wed })
+                                                setIsOpen22(!modalIsOpen22)
+                                            }}
+                                                checked={weekoff.Wed} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
-                                            {isCheckboxChecked ? (
+                                            {weekoff.Wed ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
                                                         <option>Please Select Week</option>
@@ -1324,10 +1406,15 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Thu</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={() => setWeekOff(() => ({ ...weekoff, Thu: !weekoff.Thu }))} checked={weekoff.Thu} />
+                                            <input type="checkbox" onChange={() => {
+                                                setWeekName("Thursday")
+                                                setWeekOff({ ...weekoff, Thu: !weekoff.Thu })
+                                                setIsOpen22(!modalIsOpen22)
+                                            }}
+                                                checked={weekoff.Thu} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
-                                            {isCheckboxChecked ? (
+                                            {weekoff.Thu ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
                                                         <option>Please Select Week</option>
@@ -1380,10 +1467,15 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Fri</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={() => setWeekOff(() => ({ ...weekoff, Fri: !weekoff.Fri }))} checked={weekoff.Fri} />
+                                            <input type="checkbox" onChange={() => {
+                                                setWeekName("Friday")
+                                                setWeekOff({ ...weekoff, Fri: !weekoff.Fri })
+                                                setIsOpen22(!modalIsOpen22)
+                                            }}
+                                                checked={weekoff.Fri} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
-                                            {isCheckboxChecked ? (
+                                            {weekoff.Fri ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
                                                         <option>Please Select Week</option>
@@ -1436,10 +1528,15 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Sat</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={() => setWeekOff(() => ({ ...weekoff, Sat: !weekoff.Sat }))} checked={weekoff.Sat} />
+                                            <input type="checkbox" onChange={() => {
+                                                setWeekName("Saturday")
+                                                setWeekOff({ ...weekoff, Sat: !weekoff.Sat })
+                                                setIsOpen22(!modalIsOpen22)
+                                            }}
+                                                checked={weekoff.Sat} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
-                                            {isCheckboxChecked ? (
+                                            {weekoff.Sat ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
                                                         <option>Please Select Week</option>
@@ -1492,10 +1589,15 @@ const AttendanceTab = () => {
                                     <tr className=''>
                                         <td className='text-center text-[12px] font-normal'>Sun</td>
                                         <td className='p-3 text-center'>
-                                            <input type="checkbox" onChange={handleCheckboxChange2} checked={isCheckboxChecked} />
+                                            <input type="checkbox" onChange={() => {
+                                                setWeekName("Sunday")
+                                                setWeekOff({ ...weekoff, Sun: !weekoff.Sun })
+                                                setIsOpen22(!modalIsOpen22)
+                                            }}
+                                                checked={weekoff.Sun} />
                                         </td>
                                         <div className="flex flex-col p-[5px]">
-                                            {isCheckboxChecked ? (
+                                            {weekoff.Sun ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
                                                         <option>Please Select Week</option>
@@ -1553,7 +1655,7 @@ const AttendanceTab = () => {
 
                             <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button className="first-btn" onClick={closeModal}>Cancel</button>
-                                <button className="second-btn" onClick={submitShifts}>Confirm</button>
+                                <button className="second-btn" onClick={submitFixedShifts}>Confirm</button>
                             </div>
                         </div>
                     </TabPanel>
@@ -1563,92 +1665,98 @@ const AttendanceTab = () => {
                         <div className='first-panel'>
                             <div className='flex justify-center gap-4 items-center'>
                                 <h2>Select Month</h2>
-                                <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' />
+                                <input type="date" value={selectedMonth.toISOString().split("T")[0]} onChange={(e) => setSelectedMonth(new Date(e.target.value))} className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' />
                             </div>
-                            <table className='w-full'>
-                                <thead className='border-b border-[#000] '>
-                                    <th className='p-3 text-[13px]  font-medium'>Day </th>
-                                    <th className='p-3 text-[13px] font-medium w-[45px]'>Weekoff </th>
-                                    <th className='p-3 text-[13px] font-medium text-left pl-[8px]'>Shifts</th>
+                            <div className="overflow-y-scroll h-[50vh]">
+                                <table className='w-full'>
+                                    <thead className='border-b border-[#000] '>
+                                        <th className='p-3 text-[13px]  font-medium'>Day </th>
+                                        <th className='p-3 text-[13px] font-medium w-[45px]'>Weekoff </th>
+                                        <th className='p-3 text-[13px] font-medium text-left pl-[8px]'>Shifts</th>
 
-                                </thead>
-                                <tbody>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Mon</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Tue</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Wed</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Thu</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Fri</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Sat</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr className=''>
-                                        <td className='text-center text-[12px] font-normal	'>Sep 01 | Sun</td>
-                                        <td className='p-3 text-center'>
-                                            <input type="checkbox" />
-                                        </td>
-                                        <td className='pr-5'>
-                                            <select onClick={openModal1} className='border border-1 rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] placeholder:font-font-normal xl:text-[14px] text-[12px] mr-[0px] ml-[7px] hover:bg-[#fff]'>                                                <option>Select Shift</option>
-                                            </select>
-                                        </td>
-                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {dateTime?.map((day) => {
+                                            const date = new Date(selectedMonth.getFullYear(), selectedMonth.getMonth(), day + 1);
+                                            const updateWeekOff = flexibleDay.filter((item) => item.day === date.toISOString());
+                                            return (
+                                                <tr key={date}>
+                                                    <td className="text-center text-[12px] font-normal">
+                                                        {`${date.toLocaleDateString('en-US', { month: 'short' })} ${String(day).padStart(1, '0')} | ${getDayName(date)}`}
+                                                    </td>
+                                                    <td className="p-3 text-center">
+                                                        <input onChange={(e) => {
+                                                            // console.log(updateWeekOff);
+                                                            if (updateWeekOff.length > 0) {
+                                                                setFlexibleDay([...flexibleDay.filter((item) => item.day !== date.toISOString()), { day: date.toISOString(), weekOff: !updateWeekOff[0].weekOff, shifts: [] }]);
+                                                            }
+                                                            else {
+                                                                setFlexibleDay([...flexibleDay, { day: date.toISOString(), weekOff: true, shifts: [] }])
+                                                            }
+                                                        }} type="checkbox" />
+                                                    </td>
+                                                    <td className="pr-5">
+                                                        {updateWeekOff.length > 0 && updateWeekOff[0].weekOff ? <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        >Week Off</div> : <Select
+                                                            isDisabled={updateWeekOff.weekOff}
+                                                            options={options}
+                                                            isMulti
+                                                            placeholder="Select Shift"
+                                                            value={updateWeekOff.length > 0 ? updateWeekOff[0].shifts : []}
+                                                            onChange={(selected) => {
+                                                                if (updateWeekOff.length > 0) {
+                                                                    setFlexibleDay([...flexibleDay.filter((item) => item.day !== date.toISOString()), { day: date.toISOString(), weekOff: false, shifts: selected }]);
+                                                                }
+                                                                else {
+                                                                    setFlexibleDay([...flexibleDay, { day: date.toISOString(), weekOff: false, shifts: selected }])
+                                                                }
+                                                            }}
+                                                            onMenuOpen={() => selectedShift.length === 0 && openModal1()}
+                                                            className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                            styles={{
+                                                                control: (base) => ({
+                                                                    ...base,
+                                                                    minHeight: '40px',
+                                                                    // maxHeight: '30px',
+                                                                    // overflow: "scroll",
+                                                                    // scrollBehavior: "smooth",
+                                                                    // scrollbarWidth: "none",
+                                                                    // overflowX: "hidden",
+                                                                }),
+                                                                multiValue: (base) => ({
+                                                                    ...base,
+                                                                    backgroundColor: '#e5e7eb',
+                                                                }),
+                                                                multiValueLabel: (base) => ({
+                                                                    ...base,
+                                                                    color: '#000',
+                                                                    // height: '30px',
+                                                                    // display:"flex",
+                                                                    // flexDirection:"column",
+                                                                    // justifyContent:"center",
+                                                                    // alignItems: 'center',
+                                                                }),
+                                                                multiValueRemove: (base) => ({
+                                                                    ...base,
+                                                                    color: '#ff0000',
+                                                                    cursor: 'pointer',
+                                                                }),
+                                                            }}
+                                                        />}
 
-                                </tbody>
-                            </table>
+                                                        {/* <select className="border rounded-md p-[5px] mt-1 w-[94%] bg-[#F4F5F9] focus:outline-none text-[#000] xl:text-[14px] text-[12px] ml-[7px] hover:bg-[#fff]">
+                                                            <option>Select Shift</option>
+                                                        </select> */}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
                             <div className="pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3">
                                 <button className="first-btn" onClick={closeModal}>Cancel</button>
-                                <button className="second-btn">Update Work Timings for All Staff</button></div>
+                                <button onClick={createFlexibleShift} className="second-btn">Update Work Timings for All Staff</button></div>
                         </div>
                     </TabPanel>
 

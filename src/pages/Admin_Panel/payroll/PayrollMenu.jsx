@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import group from "../../../Assets/Images/Group.svg";
 import attendance from "../../../Assets/Images/attendance.svg";
@@ -17,7 +17,13 @@ import PaymentHistory from "./PaymentHistory";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
 const PayrollMenu = () => {
-  const {selectedTab,setSelectedTab} = useGlobalContext()
+  const {selectedTab,setSelectedTab,activeSubmenu , setActiveSubmenu} = useGlobalContext();
+  useEffect(() => {
+    if (!activeSubmenu) {
+      setActiveSubmenu(true);
+    }
+  }, []);
+
   return (
     <div className="staff-menu payroll-menus">
       <h3 className="text-[20px]  font-[Nunito]">Pay Roll</h3>
