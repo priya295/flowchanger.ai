@@ -55,8 +55,8 @@ const Reviewfine = () => {
             date: selectedDate.getDate(),
         });
     };
-    const [fineDetail, setFineDetail] = useState( [
-          {
+    const [fineDetail, setFineDetail] = useState([
+        {
             id: "a09dfd94-381d-4973-91a8-f5c6523fbb04",
             lateEntryFineAmount: 1,
             lateEntryAmount: 158.33,
@@ -70,53 +70,53 @@ const Reviewfine = () => {
             staffId: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
             createdAt: "2024-11-18T08:18:02.564Z",
             staff: {
-              id: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
-              userId: "cf297307-c323-4c66-a745-c9fbe6d0db1e",
-              job_title: "Software Engineer",
-              branch: "New York",
-              departmentId: "72f48d54-a2a0-47b3-81c9-268ccebbf95c",
-              roleId: "77d7ef8b-7e5a-414c-9aea-0886dad00033",
-              login_otp: "12346",
-              gender: "Male",
-              official_email: "karan@example.com",
-              date_of_joining: "2023-01-15T00:00:00.000Z",
-              date_of_birth: "1990-05-20T00:00:00.000Z",
-              current_address: "123 5th Ave, New York, NY",
-              permanent_address: "456 Elm St, Brooklyn, NY",
-              emergency_contact_name: "Jane Doe",
-              emergency_contact_mobile: "9876543211",
-              emergency_contact_relation: "Wife",
-              emergency_contact_address: "456 Elm St, Brooklyn, NY",
-              guardian_name: null,
-              status: null,
-              employment: null,
-              marital_status: null,
-              blood_group: null
+                id: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
+                userId: "cf297307-c323-4c66-a745-c9fbe6d0db1e",
+                job_title: "Software Engineer",
+                branch: "New York",
+                departmentId: "72f48d54-a2a0-47b3-81c9-268ccebbf95c",
+                roleId: "77d7ef8b-7e5a-414c-9aea-0886dad00033",
+                login_otp: "12346",
+                gender: "Male",
+                official_email: "karan@example.com",
+                date_of_joining: "2023-01-15T00:00:00.000Z",
+                date_of_birth: "1990-05-20T00:00:00.000Z",
+                current_address: "123 5th Ave, New York, NY",
+                permanent_address: "456 Elm St, Brooklyn, NY",
+                emergency_contact_name: "Jane Doe",
+                emergency_contact_mobile: "9876543211",
+                emergency_contact_relation: "Wife",
+                emergency_contact_address: "456 Elm St, Brooklyn, NY",
+                guardian_name: null,
+                status: null,
+                employment: null,
+                marital_status: null,
+                blood_group: null
             },
             shiftDetails: null,
             punchRecord: {
-              id: "54c00a7c-7589-419b-9d93-5752af83cb1e",
-              punchDate: "2024-11-18T08:18:01.945Z",
-              isApproved: false,
-              punchInId: "ef6380c3-155e-44b3-be46-8cc1e85c0a25",
-              punchOutId: null,
-              staffId: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
-              status: "PRESENT",
-              punchIn: {
-                id: "ef6380c3-155e-44b3-be46-8cc1e85c0a25",
-                punchInMethod: "PHOTOCLICK",
-                punchInTime: "2024-11-18T08:18:01.761Z",
-                punchInDate: "2024-11-18T08:18:01.761Z",
-                biometricData: null,
-                qrCodeValue: null,
-                photoUrl: "null",
-                location: "HELLO",
-                approve: "Pending"
-              },
-              punchOut: null
+                id: "54c00a7c-7589-419b-9d93-5752af83cb1e",
+                punchDate: "2024-11-18T08:18:01.945Z",
+                isApproved: false,
+                punchInId: "ef6380c3-155e-44b3-be46-8cc1e85c0a25",
+                punchOutId: null,
+                staffId: "8d6da4a2-f88f-4140-b87b-9ee4ab0745de",
+                status: "PRESENT",
+                punchIn: {
+                    id: "ef6380c3-155e-44b3-be46-8cc1e85c0a25",
+                    punchInMethod: "PHOTOCLICK",
+                    punchInTime: "2024-11-18T08:18:01.761Z",
+                    punchInDate: "2024-11-18T08:18:01.761Z",
+                    biometricData: null,
+                    qrCodeValue: null,
+                    photoUrl: "null",
+                    location: "HELLO",
+                    approve: "Pending"
+                },
+                punchOut: null
             }
-          }
-        ]
+        }
+    ]
     )
     console.log(fineDetail)
     async function fetchFineDetails() {
@@ -124,7 +124,7 @@ const Reviewfine = () => {
             const result = await fetch(baseUrl + `fine?date=${workTimeDate.year}-${workTimeDate.month}-${workTimeDate.date}`)
             if (result.status == 200) {
                 const res = await result.json();
-                console.log("res",res)
+                console.log("res", res)
                 // setFineDetail(res)
             }
         }
@@ -143,7 +143,7 @@ const Reviewfine = () => {
     return (
         <div className='w-full p-[20px]'>
             <div className=''>
-                <Link className='text-[14px]' to="/attendence_summary"> <ArrowBackIcon className='back-arrow text-[blue]' /> Back</Link>
+                <Link className='text-[14px]' to="/attendence_summary"> <ArrowBackIcon className='arrow-back-icon' /> Back</Link>
             </div>
             <div className='flex justify-between items-center mt-[20px] mb-[20px]'>
                 <h2 className='font-medium'>Daily Work Time</h2>
@@ -151,7 +151,7 @@ const Reviewfine = () => {
                     {/* Toggle Switch */}
                     <p>Send SMS to Staff</p>
                     <div
-                        className={`${isOn ? 'bg-green-500' : 'bg-gray-300'
+                        className={`${isOn ? 'bg-[#27004a]' : 'bg-gray-300'
                             } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
                         onClick={toggleSwitch}
                     >
@@ -168,54 +168,23 @@ const Reviewfine = () => {
                 <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className='text-[blue] ml-[10px]' to="/">View</Link> </p>
             </div>
             <div className='flex items-center gap-[10px] mb-[20px] '>
-                <div className='flex items-center gap-[10px] w-[105px] rounded-md p-[6px] font-medium select-pe'>
+                <div className='flex items-center gap-[10px]  rounded-md p-[6px] font-medium select-pe'>
                     <input type="checkbox" />
-                    <p className='text-[14px]'>Select All</p>
+                    <p className='text-[14px] whitespace-nowrap'>Select All</p>
 
 
                 </div>
 
                 <div className="relative inline-block text-left">
-                    {/* Button to open/close the dropdown */}
-                    <button
-                        className="flex items-center gap-[5px] p-[6px] text-[14px]  w-full  text-sm font-medium text-[black] select-pe  rounded-md  focus:outline-none"
-                        onClick={toggleDropdown}
-                    >
-                        Fixed Amount <KeyboardArrowDownIcon />
-                    </button>
-
-                    {/* Dropdown menu */}
-                    {isOpen && (
-                        <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
-                            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 1
-                                </a>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 2
-                                </a>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 3
-                                </a>
-                            </div>
-                        </div>
-                    )}
+                    <select className='select-pe rounded-md pl-[2px] text-[14px] p-[8px]'>
+                        <option>Option1</option>
+                        <option>Option2</option>
+                        <option>Option3</option>
+                    </select>
                 </div>
 
                 <div>
-                    <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Apply</button>
+                    <button className='p-2 pl-[20px] pr-[20px] border transition duration-200 bg-[#27004a] rounded-md text-[white] hover:bg-[#fff] hover:text-[#27004a] hover:border-[#27004a] hover:border' type='submit'>Apply</button>
                 </div>
 
 
@@ -246,86 +215,60 @@ const Reviewfine = () => {
                                 </div>
                             </div>
                         </div>
-        
-                        <div className='p-[30px] flex justify-between  mb-20px '>
+
+                        <div className='pt-[30px] flex justify-between  mb-20px '>
                             <div className='flex gap-[50px]'>
                                 <div className='flex items-center gap-[10px]'>
                                     <input type="checkbox" />
                                     <p className='text-[14px] font-medium'>Late Entry</p>
-        
+
                                 </div>
                                 <div className='flex gap-[26px]'>
                                     <div>
                                         <p className='text-[12px]'>Hours</p>
                                         <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md'>00:37      hrs</p>
-                                        <p className='text-[12px]' >Amount $ 48.37</p>
+                                        <p className='text-[12px] mt-[8px]' >Amount $ 48.37</p>
                                     </div>
                                     <div>
                                         <p className='text-[12px]'>Fine Amount</p>
                                         <div className="relative inline-block text-left">
                                             {/* Button to open/close the dropdown */}
-                                            <button
-                                                className=" w-[164px] items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                                onClick={toggleDropdown1}
-                                            >
-                                                1x Salary <KeyboardArrowDownIcon className='new-arrow1' />
-                                            </button>
-        
+                                            <select className='select-pe rounded-md pl-[2px] text-[12px] p-[8px]'>
+                                                <option>Option1</option>
+                                                <option>Option2</option>
+                                                <option>Option3</option>
+                                            </select>
+
                                             {/* Dropdown menu */}
-                                            {isOpen1 && (
-                                                <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
-                                                    <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                        <a
-                                                            href="#"
-                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem"
-                                                        >
-                                                            Option 1
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem"
-                                                        >
-                                                            Option 2
-                                                        </a>
-                                                        <a
-                                                            href="#"
-                                                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                            role="menuitem"
-                                                        >
-                                                            Option 3
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            )}
+
                                         </div>
-        
-        
-        
+
+
+
                                     </div>
-                                    <div className='flex items-center'>
-                                        <p className='text-[14px] select-pe p-[5px] w-[124px] bg-[#eeeeee] rounded-md'>$ 78.44  Per Hour</p>
+                                    <div className=''>
+                                        <p className='text-[12px] invisible'>Fine Amount</p>
+                                        <p className='text-[14px] whitespace-nowrap select-pe p-[5px]  bg-[#eeeeee] rounded-md'>$ 78.44  Per Hour</p>
                                     </div>
-        
-        
-        
+
+
+
                                 </div>
                             </div>
                             <div className='flex items-center'>
-                                <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Save</button>
+                                <button className='p-2 pl-[20px] pr-[20px] border transition duration-200 bg-[#27004a] rounded-md text-[white] hover:bg-[#fff] hover:text-[#27004a] hover:border-[#27004a] hover:border' type='submit'>Save</button>
                             </div>
-        
+
                         </div>
                     </div>
-                    
+
                 })
             }
 
-           
 
 
-          
+
+
             <div>
             </div>
         </div>

@@ -170,9 +170,9 @@ const StaffTab = () => {
             setSelectedDepartmentName(e.target.value);
             handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
           }}>
-            {departments.map(department => (
-              <option key={department.name} value={department.name}>
-                {department.department_name}
+            {departments?.map(department => (
+              <option key={department?.name} value={department?.name}>
+                {department?.department_name}
               </option>
             ))}
           </select>
@@ -294,7 +294,7 @@ const StaffTab = () => {
                     <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
                       <td><input type="checkbox" className="border border-1 rounded-md" /></td>
                       <td>
-                        <Link to={`/personal-detail/${staff?.id}`} className="text-[#8A25B0] font-medium">
+                        <Link to={`/personal-detail/${staff.id}`} className="text-[#8A25B0] font-medium">
                           {staff?.name}
                         </Link>
                       </td>

@@ -40,7 +40,7 @@ import Overtime from "./pages/Admin_Panel/StaffSection/Attendance/Overtime";
 import Project_Summary from "./pages/Admin_Panel/Projects/Project_Summary";
 import ProjectsOverview from "./pages/Admin_Panel/Projects/Project_overview";
 import Projects from './pages/Admin_Panel/Projects/Projects';
-import Taskview from "../src/pages/Admin_Panel/Tasks/Taskview";
+import Taskview from "./pages/Client_Panel/Tasks/Taskview";
 import Clients from "../src/pages/Admin_Panel/Clients/Clients";
 import NewTicket from "./pages/Admin_Panel/Projects/NewTicketForm";
 import Add_Project from "./pages/Admin_Panel/Projects/Add_Project";
@@ -94,6 +94,8 @@ import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 import Documents from "./pages/Admin_Panel/editstaff/Documents";
 import TaskForm from "./pages/Admin_Panel/Tasks/Task_deatail/TaskForm";
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
+import Client_Project from "./pages/Client_Panel/Client_Project";
+import Project_Invoice from "./pages/Client_Panel/Projects/Project_Invoice";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
@@ -253,7 +255,7 @@ const App = () => {
             <Route path="/project_summary" element={<Project_Summary />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/overtime" element={<Overtime />} />
-            <Route path="/taskview" element={<Taskview />} />
+           
             <Route path="/clients" element={<Clients />} />
             <Route path="/projectprogress" element={<Project_Progress />} />
             {/* <Route path="/addnewtask" element={<AddNewTask />} /> */}
@@ -272,7 +274,7 @@ const App = () => {
             {/* <Route path="/task" element={<Task />} /> */}
             <Route path="/editprofile" element={<Editprofile />} />
             <Route path="/taskstatus" element={<Task_Status />} />
-            {/* <Route path="/clientproject" element={<Client_Project />} /> */}
+          
             {/* <Route path="/projectprogress" element={<Project_Progress />} /> */}
             <Route path="/note" element={<Note />} />
             <Route path="/expenseedit" element={<ExpenseEdit />} />
@@ -315,7 +317,13 @@ const App = () => {
         </Route>
         <Route element={<Client_Panel />}>
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
-          <Route path="/task" element={<Task />} />
+         
+            <Route path="/clientproject" element={<Client_Project />} />
+            <Route path="/taskview" element={<Taskview />} />
+            <Route path="/project-invoice" element={<Project_Invoice />} />
+          
+
+
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
 
           <Route

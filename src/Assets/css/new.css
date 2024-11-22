@@ -277,7 +277,7 @@
     transition: all 0.3s linear;
     border: 1px solid #27004a;
     padding: 7px;
-    border-radius: 7px;
+    border-radius: 10px;
     font-size: 14px;
 }
 .allcrm-btn:hover{  

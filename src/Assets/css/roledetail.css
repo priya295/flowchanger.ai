@@ -9,10 +9,7 @@
     font-size: 42px !important;
 } 
 
-.table-section{
-    /* width: 1030px;
-    overflow: scroll; */
-}
+
 .table-section tbody td{
     text-align: center;
     font-size: 12px;
@@ -23,13 +20,24 @@
     font-size: 12px;
     font-weight: 500;
     padding: 10px 24px;
-    /* border-right: 1px solid #DBDBDB; */
+    border-right: 1px solid #fff;
     background: #fff !important;
 }
-.table-section 
-table{
-    border-collapse: unset;
+.table-section1 thead th{
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-right: 1px solid #dbdbdb;
+    background: #fff !important;
+
 }
+.table-section1 tbody td{
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0px;
+}
+
 
 .table-body-set label{
     position: relative;
@@ -249,10 +257,7 @@ input[type=radio]{
     overflow: scroll;
    }
 
-   /* .fixed-tab-section .react-tabs__tab--selected input{
-        accent-color: red;
-   } */
-   
+  
 .tabs-attendance .react-tabs .react-tabs__tab--selected{
     border-radius: 10px;
      padding: 0px 20px;
@@ -277,9 +282,7 @@ input[type=radio]{
     white-space: nowrap;
     display: flex;
 }
-.add-icon{
-    /* font-size: 16px !important; */
-}
+
 
 .arrow-icon{
     font-weight: 500;
@@ -346,9 +349,7 @@ input[type=radio]{
     box-shadow: 0px 0px 5px #6b6868;
     
 }
-.day-table{
-    /* border: 1px solid red; */
-}
+
 .day-table thead th{
     font-weight: 400; 
      padding: 10px 0px;
@@ -604,6 +605,18 @@ input[type=radio]{
     }
    }
 
+.arrow-back-icon{
+    background: #27004a;
+    color: white;
+    padding: 3px;
+    border-radius: 25px;
+    font-size: 25px;
+}
+
+.role-row th{
+    background:  none !important;
+}
+
 
    @media(max-width:992px){
     .sidebar{
@@ -615,3 +628,4 @@ input[type=radio]{
         position: absolute;
     }
    }
+  
