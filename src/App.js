@@ -144,7 +144,7 @@ const App = () => {
           <div className="flex">
             <SidebarEditStaff toggleEditSideBar={toggleEditSideBar} />
             <div className={`w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    
-        ${!toggleEditSideBar ? "xl:pl-[320px]" : "xl:pl-[0px]"} flex flex-col set-z `}>
+        ${!toggleEditSideBar ? "xl:pl-[320px]" : "xl:pl-[0px]"} flex flex-col set-z`}>
               <Outlet />
             </div>
           </div>
@@ -177,7 +177,7 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]   `}>
+            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]  `}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>

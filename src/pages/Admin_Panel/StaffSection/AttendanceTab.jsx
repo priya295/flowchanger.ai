@@ -1242,7 +1242,7 @@ const AttendanceTab = () => {
                                             {weekoff.Mon ? (
                                                 <td>
                                                     <select onClick={openModal22} className='w-[86%] bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]'>
-                                                        <option>Please Select Week</option>
+                                                        {/* <option>Please Select Week</option> */}
                                                         {selectedWeeks ? (
                                                             <option>{selectedWeeks}</option> // Display the single string directly
                                                         ) : (
