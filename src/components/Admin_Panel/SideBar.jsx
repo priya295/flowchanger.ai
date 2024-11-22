@@ -14,6 +14,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CloseIcon from '@material-ui/icons/Close';
 import SettingsIcon from '@material-ui/icons/Settings';
 import { FaChevronDown, FaChevronRight } from "react-icons/fa";
+import { useGlobalContext } from "../../Context/GlobalContext";
 
 const SideBar = ({ toggleSideBar }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,6 +49,15 @@ const SideBar = ({ toggleSideBar }) => {
 
   const [isMenuOpen9, setIsMenuOpen9] = useState(false);
   const toggleMenu9 = () => setIsMenuOpen9(!isMenuOpen9);
+
+  const {activeSubmenu, setActiveSubmenu,selectedSidebarTab,setSelectedSidebarTab} = useGlobalContext(); 
+  const handleActiveSubmenu = () =>{
+    setActiveSubmenu(prev => (!prev))
+  }
+  useEffect(()=>{
+    console.log("active",activeSubmenu)
+    console.log("selectedSideBar",selectedSidebarTab);
+  },[activeSubmenu,selectedSidebarTab])
 
   //setup sidebar
 
@@ -88,7 +98,7 @@ const SideBar = ({ toggleSideBar }) => {
     // <div className="sidebar w-[250px] xl:w-[244px] lg:w-[300px] md:w-[300px] bg-[#27004a] h-full p-[10px] ">
 
 
-    <div className="sidebar w-[100%] xl:w-[20%] lg:w-[20%] md:w-[300px] bg-[#27004a] h-full p-[10px]">
+    <div className="sidebar w-[100%] xl:w-[20%] lg:w-[20%] md:w-[300px] bg-[#27004a] h-full p-[10px] flex-shrink-0">
 
 
       <div className="flex xl:justify-center lg:justify-center  p-[20px]">

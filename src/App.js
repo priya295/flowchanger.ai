@@ -99,12 +99,15 @@ const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
   const [toggleEditSideBar, setToggleEditSideBar] = useState(false);
   const [toggleRunTab , setToggleRunTab ] = useState(false);
+  const [selectedPayrollTab , setSelectedPayrollTab] = useState(null);
 
   const handleToggleEditSideBar = () => {
     setToggleEditSideBar(toggleEditSideBar => !toggleEditSideBar)
   }
 
-
+useEffect(()=>{
+  console.log(selectedPayrollTab)
+},[selectedPayrollTab]);
 
   const handleToggleSideBar = () => {
     setToggleSideBar(!toggleSideBar);
@@ -216,9 +219,9 @@ const App = () => {
         <div className="flex max-w-screen box-border">
           <SideBar />
           <div className={`${!toggleSideBar?"w-[calc(100%-20%)]":"w-full"}`}>
-            <NavBar className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab}/>
+            <NavBar className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab} selectedPayrollTab = {selectedPayrollTab}/>
             <div className=" pb-10 w-full h-lvh payroll-menu overflow-y-auto">
-              <PayrollMenu className = "w-full" toggleRunTab = {toggleRunTab} />
+              <PayrollMenu className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab} setSelectedPayrollTab={setSelectedPayrollTab}/>
               {/* <Outlet /> */}
             </div>
 

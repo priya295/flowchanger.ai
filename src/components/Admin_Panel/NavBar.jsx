@@ -50,10 +50,10 @@ const NavBar = ({toggleRunTab,setToggleRunTab}) => {
       <button onClick={handleAddClass}>
 
         <MenuIcon className="menu-icon-navbar hidden" 
-        onClick = {() =>{ setToggleRunTab(true)}}
+        // onClick = {() =>{ setToggleRunTab(true)}}
         />
         <CloseIcon className="cancel-icon"
-         onClick = {() =>{ setToggleRunTab(false)}}
+        //  onClick = {() =>{ setToggleRunTab(false)}}
          />
       </button>
 
