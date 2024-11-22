@@ -280,7 +280,7 @@ const LeaveBalance = () => {
 
                                 <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' />
 
-                              
+
 
                             </div>
                             <div className='flex gap-[15px] justify-between lg:justify-start'>

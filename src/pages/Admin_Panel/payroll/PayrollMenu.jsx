@@ -36,9 +36,9 @@ const PayrollMenu = ({toggleRunTab,setToggleRunTab,setSelectedPayrollTab}) => {
 
       <div className="tab-section mt-[30px]">
       <Tabs selectedIndex={selectedTab} onSelect={(index) => setSelectedTab(index)}>
-          <TabList className={`flex ${toggleRunTab?"w-[90%]":"w-[100%]"}   overflow-x-scroll bg-[#FFFFFF]  rounded-[12px]  p-[8px] set-shadow`}>
-            <Tab onClick={()=>setSelectedPayrollTab("payrollSummary")}>
-              <div className="flex items-center  whitespace-nowrap mr-[20px]" >
+          <TabList className="flex   w-[100%] overflow-x-scroll bg-[#FFFFFF]  rounded-[12px] pt-[4px] p-[10px] pb-[4px]  set-shadow ">
+            <Tab>
+              <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">Payroll Summary</h2>
               </div>
             </Tab>

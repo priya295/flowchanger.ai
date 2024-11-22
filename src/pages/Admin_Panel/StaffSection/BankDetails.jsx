@@ -58,8 +58,7 @@ const BankDetails = () => {
                 setStaffDetail(res)
             }
             else {
-                console.log("An Error Occured")
-                setStaffDetail([]);
+                alert("An Error Occured")
             }
         }
         catch (error) {
@@ -116,7 +115,6 @@ const BankDetails = () => {
                         <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' />
 
                     </div>
-
                     <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'>
                         <option>All Departments</option>
                     </select>

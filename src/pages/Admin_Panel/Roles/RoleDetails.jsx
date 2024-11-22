@@ -13,12 +13,12 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const Main = () => {
 
-  const { baseUrl, setRoleName, setRoleId, setEditPermissions ,openToast} = useGlobalContext();
+  const { baseUrl, setRoleName, setRoleId, setEditPermissions, openToast } = useGlobalContext();
   const [roles, setRoles] = useState([])
   const [exportFormat, setExportFormat] = useState('');
   const [rowsToShow, setRowsToShow] = useState(25);
-  const [searchRoleName , setSearchRoleName] = useState('');
-  const [isLoading , setIsLoading] = useState(false);
+  const [searchRoleName, setSearchRoleName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectChange = (event) => {
     setRowsToShow(Number(event.target.value));
@@ -61,23 +61,23 @@ const Main = () => {
   const fetchRoles = async () => {
     const result = await fetch(baseUrl + "role")
     setIsLoading(true);
-   
-    try{
+
+    try {
       const result = await fetch(baseUrl + "role")
       if (result.status == 200) {
         const res = await result.json();
         setRoles(res.data)
       }
       else {
-        alert("An Error Occured")
+        console.log("An Error Occured")
       }
     }
-  catch(error){
-    console.log("error:" , error);
-  } 
-   finally{
-    setIsLoading(false);
-   }
+    catch (error) {
+      console.log("error:", error);
+    }
+    finally {
+      setIsLoading(false);
+    }
 
   }
 
@@ -90,12 +90,12 @@ const Main = () => {
           'Content-Type': "application/json", // Corrected the header spelling for consistency
         }
       });
-      const res = await result.json(); 
+      const res = await result.json();
       if (result.ok) { // Use result.ok instead of checking the status directly
         openToast(res.messsage);
         fetchRoles()
       } else {
-       openToast(res.message);
+        openToast(res.message);
       }
     } catch (error) {
       console.error("Error deleting department:", error);
@@ -108,8 +108,8 @@ const Main = () => {
 
   const handleSearchRole = async () => {
     const queryParams = new URLSearchParams({
-    role_name : searchRoleName
-     
+      role_name: searchRoleName
+
     }).toString();
     setIsLoading(true);
     try {
@@ -120,16 +120,16 @@ const Main = () => {
         console.log(result);
         setRoles(result);
       } else {
-         console.log("error while fetching Roles")
+        console.log("error while fetching Roles")
       }
     } catch (error) {
       console.error('Error searching Roles:', error);
     }
-    finally{
+    finally {
       setIsLoading(false);
     }
   };
-  
+
   // Debounced search effect
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -138,18 +138,18 @@ const Main = () => {
       } else {
         fetchRoles(); // Fetch all projects if search input is cleared
       }
-    }, 3000); 
-  
+    }, 3000);
+
     return () => clearTimeout(delayDebounceFn); // Cleanup function to clear the timeout
   }, [searchRoleName]);
-  
+
   return (
     <div className=' pl-[10px] w-[100%] pr-2 mb-3 pb-4 pt-[10px]'>
       <Link to="/addrole" className='bg-[#27004a]  p-2 pr-3 rounded-lg text-white '> <AddIcon /> New Role</Link>
 
-      <div className='table-section mt-5 bg-white shadow p-4 pl-0 rounded-sm pr-0'>
+      <div className='table-section mt-5 bg-white shadow-cs p-[14px]  rounded-sm '>
 
-        <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
+        <div className='flex mb-4 justify-between  flex-col gap-2  sm:flex-row sm:gap-0'>
           <div className='left-side '>
             <select onChange={handleSelectChange} className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
               <option value="25">25</option>
@@ -184,55 +184,58 @@ const Main = () => {
           </div>
         </div>
 
-        <table class="table-auto w-[100%] border-collapse">
-          <thead className='bg-gray-300 '>
-            <tr>
-              <th className=' p-4 text-center font-medium text-[12px]'>Roll Name</th>
-              <th className='text-center p-4 text-sm font-medium text-[12px]'>Options</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div className='bg-white rounded-lg w-full shadow-cs  overflow-x-auto'>
+          <table class="table-auto w-[100%] ">
+            <thead className='bg-gray-300 shadow-cs'>
+              <tr className="role-row"> 
+                <th className=' p-4 text-center font-medium text-[12px]'>Roll Name</th>
+                <th className='text-center p-4 text-sm font-medium text-[12px] shadow-cs'>Options</th>
+              </tr>
+            </thead>
+            <tbody>
 
 
-          {
-    isLoading && roles.length === 0 ? (
-      <tr className="h-[100px]">
-          <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
-          <ClipLoader color="#4A90E2" size={50} />
-          </td>
-        </tr>
-    ) : roles.length > 0 ? (
-      roles.slice(0, rowsToShow).map((role, index) => {
-        return (
-          <tr key={role.id} className="border-b pb-2 border-[#f1f5f9]">
-            <td className="pt-4 pb-3 pl-3">
-              <Link to="/" className="text-[#27004a] text-[14px]">{role.role_name}</Link>
-              {/* <h6 className="text-[13px] pt-2 text-[#a5a1a1]">Total Users: <span>1</span></h6> */}
-            </td>
-            <td className="flex pt-4 gap-2 justify-center">
-              <Link to="/editrole" onClick={() => {
-                setRoleId(role.id)
-                setRoleName(role.role_name)
-                setEditPermissions(role.permissions)
-              }}>
-                <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
-              </Link>
-              <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]]" onClick={() => { deleteRole(role.id) }} />
-            </td>
-          </tr>
-        )
-      })
-    ) : (
-      <tr className="h-[100px]">
-        <td colSpan="2" className="text-center text-red-500 text-xl font-semibold py-4">
-          No roles found.
-        </td>
-      </tr>
-    )
-  }
+              {
+                isLoading && roles.length === 0 ? (
+                  <tr className="h-[100px]">
+                    <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                      <ClipLoader color="#4A90E2" size={50} />
+                    </td>
+                  </tr>
+                ) : roles.length > 0 ? (
+                  roles.slice(0, rowsToShow).map((role, index) => {
+                    return (
+                      <tr key={role.id} className="border-b pb-2 border-[#f1f5f9]">
+                        <td className="pt-4 pb-3 pl-3">
+                          <Link to="/" className="text-[#27004a] text-[14px]">{role.role_name}</Link>
+                          {/* <h6 className="text-[13px] pt-2 text-[#a5a1a1]">Total Users: <span>1</span></h6> */}
+                        </td>
+                        <td className="flex pt-4 gap-2 justify-center">
+                          <Link to="/editrole" onClick={() => {
+                            setRoleId(role.id)
+                            setRoleName(role.role_name)
+                            setEditPermissions(role.permissions)
+                          }}>
+                            <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
+                          </Link>
+                          <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]]" onClick={() => { deleteRole(role.id) }} />
+                        </td>
+                      </tr>
+                    )
+                  })
+                ) : (
+                  <tr className="h-[100px]">
+                    <td colSpan="2" className="text-center text-red-500 text-xl font-semibold py-4">
+                      No roles found.
+                    </td>
+                  </tr>
+                )
+              }
 
-</tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
+
         <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
           <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {roles.length} entries </p>
           <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>

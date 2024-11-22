@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 const EditRole = () => {
 
-    const { baseUrl, roleName, setRoleName, roleId,setEditPermissions,editPermissions : permissions} = useGlobalContext();
+    const { baseUrl, openToast,roleName, setRoleName, roleId,setEditPermissions,editPermissions : permissions} = useGlobalContext();
     const navigate = useNavigate()
     
 
@@ -37,9 +37,9 @@ const EditRole = () => {
     
         if (response.status === 200) {
             navigate("/role-detail");
-            alert(data.message);
+            openToast("Update Role Successfully", "success");
         } else {
-            alert("An error occurred");
+            openToast("An error occurred", "error");
         }
     }
     
@@ -361,7 +361,7 @@ const EditRole = () => {
 
 
                     <div className='text-end mt-3'>
-                        <button className='bg-[#511992] pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]' onClick={updateRole}>Save</button>
+                        <button className='second-btn' onClick={updateRole}>Save</button>
                     </div>
                 </div>
             </div>

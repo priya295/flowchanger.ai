@@ -16,6 +16,7 @@ export const GlobalContext = ({ children }) => {
     },[activeSubmenu])
 
   const baseUrl = "https://fc-prod-testing.onrender.com/api/"
+  // const baseUrl= "https://fc-production-testing.onrender.com/api/"
   console.log(baseUrl)
   const [staffTab, setStaffTab] = useState(0);
   const [name, setName] = useState("");
@@ -36,7 +37,7 @@ export const GlobalContext = ({ children }) => {
   const [roleName, setRoleName] = useState("");
   const [roleId, setRoleId] = useState("");
   const [selectedStaff, setSelectedStaff] = useState(null);
-  console.log(selectedStaff)
+  // console.log(selectedStaff)
 
   const fetchDetails = async () => {
     const response = await fetch(baseUrl + "/staff");

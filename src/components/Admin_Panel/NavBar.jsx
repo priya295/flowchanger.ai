@@ -28,10 +28,6 @@ const NavBar = ({toggleRunTab,setToggleRunTab}) => {
   }
   const [profileDropdown, setProfileDropDown] = useState(false);
   const { setIsAuthenticated } = useAuthContext();
-  
-
-
-
   const handleLogout = () => {
     if (Cookies.get('flowChangerAuthToken')) {
       Cookies.remove('flowChangerAuthToken')
@@ -46,15 +42,11 @@ const NavBar = ({toggleRunTab,setToggleRunTab}) => {
   const hideDropdown = () => setProfileDropDown(false);
 
   return (
-    <div className={`${toggleRunTab?"w-[90%]":"w-[100%]"}  pt-[10px]  pb-[10px] xl:pl-[31px] lg:pl-[31px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px] navbar`}>
+    <div className="w-[100%]  pt-[10px] pb-[10px] pr-[2px] flex items-center justify-between border-b shadow-sm pl-[14px] navbar">
       <button onClick={handleAddClass}>
 
-        <MenuIcon className="menu-icon-navbar hidden" 
-        // onClick = {() =>{ setToggleRunTab(true)}}
-        />
-        <CloseIcon className="cancel-icon"
-        //  onClick = {() =>{ setToggleRunTab(false)}}
-         />
+        <MenuIcon className="menu-icon-navbar hidden " />
+        <CloseIcon className="cancel-icon" />
       </button>
 
       <div className="flex justify-between items-center ">

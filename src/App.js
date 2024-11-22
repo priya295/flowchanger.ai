@@ -138,6 +138,13 @@ useEffect(()=>{
     );
   }
 
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Renders the Editstaff component layout.
+ * This includes the UpperHeader, SidebarEditStaff, and an Outlet for nested routes.
+ * The layout adjusts based on the toggleEditSideBar state to show or hide the sidebar.
+ */
+/******  8824870c-47a0-441b-aeab-d5099ac85750  *******/
   function Editstaff() {
 
     return (

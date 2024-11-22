@@ -24,9 +24,10 @@ const EditDepartment = () => {
        const result = await response.json();
         if (response.status === 200) {
             navigate("/department-details")
-            openToast(result.message);
+            openToast("Update Department Successfully", "success");
         } else {
-            openToast(result.message);
+            openToast("An error occurred", "error");
+
         }
     }
 
@@ -172,7 +173,7 @@ const EditDepartment = () => {
 
 
                     <div className='text-end mt-3'>
-                        <button className='bg-[#511992] pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]' onClick={updateDepartment}>Save</button>
+                        <button className='second-btn ' onClick={updateDepartment}>Save</button>
                     </div>
                 </div>
             </div>
