@@ -16,13 +16,17 @@ import PayrollReimbrusments from "./PayrollReimbrusments";
 import PaymentHistory from "./PaymentHistory";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
-const PayrollMenu = ({toggleRunTab}) => {
+const PayrollMenu = ({toggleRunTab,setToggleRunTab,setSelectedPayrollTab}) => {
   const {selectedTab,setSelectedTab,activeSubmenu , setActiveSubmenu} = useGlobalContext();
-  useEffect(() => {
+   
+ 
+   useEffect(() => {
     if (!activeSubmenu) {
       setActiveSubmenu(true);
+     
     }
   }, []);
+
 
 
 
@@ -38,28 +42,28 @@ const PayrollMenu = ({toggleRunTab}) => {
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">Payroll Summary</h2>
               </div>
             </Tab>
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab("RunPayroll")}>
               <div className="flex items-center  whitespace-nowrap mr-[20px]" >
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Run Payroll
                 </h2>
               </div>
             </Tab>
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab("Advance")}>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Advance
                 </h2>
               </div>
             </Tab>
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab("Incentives")}>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Incentives
                 </h2>
               </div>
             </Tab>
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab("Reimbrusments")}>
               <div className="flex items-center whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Reimbrusments
@@ -67,7 +71,7 @@ const PayrollMenu = ({toggleRunTab}) => {
               </div>
             </Tab>
  
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab(" PaymentHistory")}>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Payment History

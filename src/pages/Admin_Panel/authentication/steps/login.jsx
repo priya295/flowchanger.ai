@@ -66,7 +66,8 @@ const LoginPage = () => {
   const onSubmit = async (data) => {
     try {
       console.log(data);  
-      const success = await handleLoggedIn(data);
+       const LoginInfo ={email:data.email.toLowerCase() ,password : data.password } 
+      const success = await handleLoggedIn(LoginInfo);
       if (success) {
         setIsAuthenticated(true);
         navigate("/");
