@@ -112,7 +112,7 @@ const LeaveBalance = () => {
 
         const csvData = [headers, ...rows].map(row => row.join(',')).join('\n');
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'StaffDetails.csv');
+        saveAs(blob, 'LeaveBalancePolicy.csv');
     };
     const [selectedId, setSelectedId] = useState([]);
     console.log("selec", selectedId)
@@ -134,6 +134,7 @@ const LeaveBalance = () => {
 
         if (result.status == 201) {
             openToast(response.message || "Leave Policy Created Successfully", "success")
+            closeModal12()
         }
         else {
             openToast(response.message || "Internal Server Error", "error")
@@ -448,8 +449,8 @@ const LeaveBalance = () => {
                         <table className='table-section mt-4'>
                             <thead className='border border-1 '>
                                 <th>Leave Name</th>
-                                <th>Allowed Leaves (Per Month)</th>
-                                <th>Carry-forward Leaves (On Month End)</th>
+                                <th>Allowed Leaves (Per {policyType=== "MONTHLY" ? "Month" : "Year"})</th>
+                                <th>Carry-forward Leaves (On {policyType=== "MONTHLY" ? "Month" : "Year"} End)</th>
 
                             </thead>
                             <tbody>

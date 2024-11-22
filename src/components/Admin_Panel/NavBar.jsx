@@ -63,6 +63,7 @@ const NavBar = ({toggleRunTab,setToggleRunTab}) => {
             <input  className="py-2.5 client-add  rounded-2xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] "
  type="text" placeholder="Search...." />
             <SearchIcon className="absolute newadd2 right-[8px] text-[10px] top-[14px] text-gray-500 h-8" />
+
           </div>
          
         </div>

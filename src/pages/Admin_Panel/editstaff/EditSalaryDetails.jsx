@@ -299,8 +299,13 @@ const EditSalaryDetails = () => {
     "Miscellaneous Deduction"
   ]);
 
-  const [selectedAllowance, setSelectedAllowance] = useState([...selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads)]);
-  const [selectedDeduction, setSelectedDeduction] = useState([...selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads)]);
+  const [selectedAllowance, setSelectedAllowance] = useState(() =>
+    selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads) || []
+  );
+
+  const [selectedDeduction, setSelectedDeduction] = useState(() =>
+    selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads) || []
+  );
 
 
   const [calEarning, setCalEarning] = useState([]);
@@ -831,7 +836,7 @@ const EditSalaryDetails = () => {
         </h1>
 
         <div className="flex xl:mt-12 mt-[20px] xl:ml-16 ml-0 gap-[30px] flex-col xl:flex-row lg:flex-row md:flex-row ">
-          <div className="xl:w-[50%] w-[100%] space-y-5 w-full">
+          <div className="xl:w-[50%] w-[100%] space-y-5">
             <div className="flex items-center  justify-between   ">
               <span className="text-[13px] xl:text-[13px] font-semibold">
                 Employer Contributions
@@ -934,7 +939,7 @@ const EditSalaryDetails = () => {
               </select>
             </div>
           </div>
-          <div className="xl:w-[50%] w-[100%] space-y-5 w-full">
+          <div className="xl:w-[50%] w-[100%] space-y-5 ">
             <div className="flex items-center  justify-between   ">
               <span className="text-[13px] xl:text-[13px] font-semibold">
                 Included in CTC
