@@ -112,7 +112,7 @@ const LeaveBalance = () => {
 
         const csvData = [headers, ...rows].map(row => row.join(',')).join('\n');
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'StaffDetails.csv');
+        saveAs(blob, 'LeaveBalancePolicy.csv');
     };
     const [selectedId, setSelectedId] = useState([]);
     console.log("selec", selectedId)
@@ -129,11 +129,15 @@ const LeaveBalance = () => {
             },
             body: JSON.stringify({ name: leaveName, allowed_leaves: Number(allowLeave), carry_forward_leaves: Number(carryLeave), policy_type: policyType, staffIds: selectedId })
         })
+
+        const response = await result.json();
+
         if (result.status == 201) {
-            openToast("Leave Policy Created Successfully", "success")
+            openToast(response.message || "Leave Policy Created Successfully", "success")
+            closeModal12()
         }
         else {
-            openToast("Internal Server Error", "error")
+            openToast(response.message || "Internal Server Error", "error")
         }
     }
 
@@ -276,7 +280,7 @@ const LeaveBalance = () => {
 
                                 <input type="date" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' />
 
-                              
+
 
                             </div>
                             <div className='flex gap-[15px] justify-between lg:justify-start'>
@@ -445,8 +449,8 @@ const LeaveBalance = () => {
                         <table className='table-section mt-4'>
                             <thead className='border border-1 '>
                                 <th>Leave Name</th>
-                                <th>Allowed Leaves (Per Month)</th>
-                                <th>Carry-forward Leaves (On Month End)</th>
+                                <th>Allowed Leaves (Per {policyType=== "MONTHLY" ? "Month" : "Year"})</th>
+                                <th>Carry-forward Leaves (On {policyType=== "MONTHLY" ? "Month" : "Year"} End)</th>
 
                             </thead>
                             <tbody>

@@ -8,6 +8,7 @@ export const GlobalContext = ({ children }) => {
   const [selectedSidebarTab, setSelectedSidebarTab] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
   const baseUrl = "https://fc-prod-testing.onrender.com/api/"
+  // const baseUrl= "https://fc-production-testing.onrender.com/api/"
   console.log(baseUrl)
   const [staffTab, setStaffTab] = useState(0);
   const [name, setName] = useState("");
@@ -67,13 +68,13 @@ export const GlobalContext = ({ children }) => {
   useEffect(() => {
     fetchStaff();
   }, [])
-  useEffect(()=>{
+  useEffect(() => {
     console.log(staffTab);
     console.log(selectedTab);
-  },[ selectedTab,staffTab]);
+  }, [selectedTab, staffTab]);
 
   return (
-    <MainContext.Provider value={{ selectedTab, setSelectedTab, selectedSidebarTab,setSelectedSidebarTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails,fetchStaff,staffDetail,activeSubmenu,setActiveSubmenu}}>
+    <MainContext.Provider value={{ selectedTab, setSelectedTab, selectedSidebarTab, setSelectedSidebarTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails, fetchStaff, staffDetail, activeSubmenu, setActiveSubmenu }}>
       {children}
       <ToastContainer />
     </MainContext.Provider>

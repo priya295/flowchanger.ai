@@ -46,10 +46,10 @@ const Overtime = () => {
     return (
         <div className='w-full p-[20px]'>
             <div className=''>
-                <Link className='text-[14px]' to="/attendence_summary"> <ArrowBackIcon className='back-arrow text-[blue]' /> Back</Link>
+                <Link className='text-[14px]' to="/attendence_summary"> <ArrowBackIcon className='arrow-back-icon' /> Back</Link>
             </div>
             <div className='flex justify-between items-center mt-[20px] mb-[20px]'>
-                <h2 className='font-medium daily-heading'>Daily Work Time</h2>
+                <h2 className='font-medium daily-heading'>Daily OverTime</h2>
                 <div className="flex items-center justify-center gap-[6px]">
                     {/* Toggle Switch */}
                     <p className='daily-staff'>Send SMS to Staff</p>
@@ -70,55 +70,24 @@ const Overtime = () => {
                 <input className='text-[14px]' type="date" />
                 <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className='text-[blue] ml-[10px]' to="/">View</Link> </p>
             </div>
-            <div className='flex main-fixed items-center gap-[10px] mb-[20px] '>
-                <div className='flex items-center gap-[10px] w-[105px] rounded-md p-[6px] all-select2 select-pe'>
+            <div className='flex items-center gap-[10px] mb-[20px] '>
+                <div className='flex items-center gap-[10px]  rounded-md p-[6px] font-medium select-pe'>
                     <input type="checkbox" />
-                    <p className='text-[14px] all-select'>Select All</p>
+                    <p className='text-[14px] whitespace-nowrap'>Select All</p>
 
 
                 </div>
 
-                <div className="relative inline-block text-left amount-res">
-                    {/* Button to open/close the dropdown */}
-                    <button
-                        className="flex items-center gap-[5px] p-[6px] text-[14px]  w-full  text-sm font-medium text-[black] select-pe  rounded-md fixed-amount1 focus:outline-none"
-                        onClick={toggleDropdown}
-                    >
-                        Fixed Amount <KeyboardArrowDownIcon />
-                    </button>
-
-                    {/* Dropdown menu */}
-                    {isOpen && (
-                        <div className="absolute right-0 w-[100%] z-10 mt-2 origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
-                            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 1
-                                </a>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 2
-                                </a>
-                                <a
-                                    href="#"
-                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                    role="menuitem"
-                                >
-                                    Option 3
-                                </a>
-                            </div>
-                        </div>
-                    )}
+                <div className="relative inline-block text-left">
+                    <select className='select-pe rounded-md pl-[2px] text-[14px] p-[8px]'>
+                        <option>Option1</option>
+                        <option>Option2</option>
+                        <option>Option3</option>
+                    </select>
                 </div>
 
-                <div className='btn-apply'>
-                    <button className='apply-btn bg-[#27004a] rounded-md text-[white]' type='submit'>Apply</button>
+                <div>
+                    <button className='p-2 pl-[20px] pr-[20px] border transition duration-200 bg-[#27004a] rounded-md text-[white] hover:bg-[#fff] hover:text-[#27004a] hover:border-[#27004a] hover:border' type='submit'>Apply</button>
                 </div>
 
 
@@ -148,73 +117,50 @@ const Overtime = () => {
                     </div>
                 </div>
 
-                <div className='p-[30px] flex md:block md:justify-center mt-[20px] sm:p-[2px] sm:flex-col  justify-between  mb-20px late-main '>
-                    <div className='flex gap-[50px] sm:gap-[8px] sm:flex-col hours-main xl:flex-row  xl:gap-[50px]'>
-                        <div className='flex items-center gap-[10px]'>
-                            <input type="checkbox" />
-                            <p className='text-[14px] sm:whitespace-nowrap font-medium'>Late Entry</p>
+                <div className='pt-[30px] flex justify-between  mb-20px '>
+                            <div className='flex gap-[50px]'>
+                                <div className='flex items-center gap-[10px]'>
+                                    <input type="checkbox" />
+                                    <p className='text-[14px] font-medium'>Late Entry</p>
 
-                        </div>
-                        <div className='flex gap-[26px] main-flex'>
-                            <div>
-                                <p className='text-[12px]'>Hours</p>
-                                <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md hrs-wid'>01:05      hrs</p>
-                                <p className='text-[12px]' >Amount $ 97.71</p>
-                            </div>
-                            <div>
-                                <p className='text-[12px]'>Overtime Amount</p>
-                                <div className="relative inline-block text-left hrs-wid">
-                                    {/* Button to open/close the dropdown */}
-                                    <button
-                                        className=" w-[164px] hrs-wid items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                                        onClick={toggleDropdown1}
-                                    >
-                                        1x Salary <KeyboardArrowDownIcon className='new-arrow1' />
-                                    </button>
+                                </div>
+                                <div className='flex gap-[26px]'>
+                                    <div>
+                                        <p className='text-[12px]'>Hours</p>
+                                        <p className='text-[14px] select-pe p-[5px] w-[124px] rounded-md'>00:37      hrs</p>
+                                        <p className='text-[12px] mt-[8px]' >Amount $ 48.37</p>
+                                    </div>
+                                    <div>
+                                        <p className='text-[12px]'>Fine Amount</p>
+                                        <div className="relative inline-block text-left">
+                                            {/* Button to open/close the dropdown */}
+                                            <select className='select-pe rounded-md pl-[2px] text-[12px] p-[8px]'>
+                                                <option>Option1</option>
+                                                <option>Option2</option>
+                                                <option>Option3</option>
+                                            </select>
 
-                                    {/* Dropdown menu */}
-                                    {isOpen1 && (
-                                        <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-cs">
-                                            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                                <a
-                                                    href="#"
-                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem"
-                                                >
-                                                    Option 1
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem"
-                                                >
-                                                    Option 2
-                                                </a>
-                                                <a
-                                                    href="#"
-                                                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                    role="menuitem"
-                                                >
-                                                    Option 3
-                                                </a>
-                                            </div>
+                                            {/* Dropdown menu */}
+
                                         </div>
-                                    )}
+
+
+
+                                    </div>
+                                    <div className=''>
+                                        <p className='text-[12px] invisible'>Fine Amount</p>
+                                        <p className='text-[14px] whitespace-nowrap select-pe p-[5px]  bg-[#eeeeee] rounded-md'>$ 78.44  Per Hour</p>
+                                    </div>
+
+
+
                                 </div>
                             </div>
                             <div className='flex items-center'>
-                                <p className='text-[14px] hrs-wid1 select-pe p-[5px] w-[124px] bg-[#eeeeee] rounded-md'>$ 90.02  Per Hour</p>
+                                <button className='p-2 pl-[20px] pr-[20px] border transition duration-200 bg-[#27004a] rounded-md text-[white] hover:bg-[#fff] hover:text-[#27004a] hover:border-[#27004a] hover:border' type='submit'>Save</button>
                             </div>
 
-                            <div className='flex items-center md:justify-end md:m-[0px] md:w-[100%] sm:m-[0px] mt-[20px] lg:w-[100%] lg:justify-end lg:m-[0] sm:justify-center save-btn'>
-                        <button className='apply-btn bg-[#27004a]  rounded-md text-[white]' type='submit'>Save</button>
-                    </div>
                         </div>
-                  
-                    </div>
-                 
-
-                </div>
             </div>
             <div>
             </div>

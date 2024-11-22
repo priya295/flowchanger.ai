@@ -28,15 +28,23 @@ const AddOneStaff = () => {
 
 
     const fetchDepartments = async () => {
-         const result = await fetch(baseUrl + "department")
-         const res = await result.json();
-         if (result.status == 200) {
-          setDepartments(res.data)
+        try{
+            const result = await fetch(baseUrl + "department")
+            const res = await result.json();
+            if (result.status == 200) {
+             setDepartments(res.data)
+           }
+           else {
+            console.log("error while fetching department",res.status);
+            setDepartments([]);
+           }
+         }
+         catch(error){
+           console.log("error" , error.message);
+           setDepartments([]);
+         }
         }
-        else {
-         openToast(result.message);
-        }
-      }
+      
 
 
       const fetchRoles = async () => {
@@ -71,37 +79,52 @@ const AddOneStaff = () => {
             departmentId:selectDepartment,
             roleId:selectRole
         };
-
-        const response = await fetch(baseUrl + "staff", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data) // send the formatted data
-        });
+        try{
+            const response = await fetch(baseUrl + "staff", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data) // send the formatted data
+            });
+        
+            console.log(response);
+           const result = await response.json();
+            if (response.status === 201) {
+                openToast("Add Staff Succesfully");
+                navigate("/staff-menu")
+                setName("");
+                setJobTitle("");
+                setBranch(""); 
+                setMobile("");
+                setOtp("");
+                setGender("");
+                setEmail("");
+                setDate("");
+                setAddress("");
+                setSelectDepartment(""); 
+                setSelectRole("");
+        
+            } else {
+                openToast(result.message||"An Internal Error", "error")
     
-        console.log(response);
-       const result = await response.json();
-        if (response.status === 201) {
-            openToast("Add Staff Succesfully");
-            navigate("/staff-menu")
-            setName("");
-            setJobTitle("");
-            setBranch(""); 
-            setMobile("");
-            setOtp("");
-            setGender("");
-            setEmail("");
-            setDate("");
-            setAddress("");
-            setSelectDepartment(""); 
-            setSelectRole("");
-    
-        } else {
-            openToast(result.message||"An Internal Error", "error")
-
+            }
         }
-      }
+            catch(error){
+                if (error.message === "Failed to fetch") {
+                    console.error("Network or CORS issue:", error);
+                    openToast(
+                        "Unable to connect to the server. Please check your internet connection or try again later.",
+                        "error"
+                    );
+              }  
+              else{
+                openToast("An unexpected error occurred. Please try again.", "error");
+              }
+             
+              }
+        }
+     
 
       
 

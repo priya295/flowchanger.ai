@@ -1,21 +1,86 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 
 const SalaryOverview = () => {
-    const { selectedStaff } = useGlobalContext();
+
+    const { baseUrl } = useGlobalContext();
+    const [selectedStaff, setSelectedStaff] = React.useState();
     const formatMonthYear = (value) => {
         const [year, month] = value.split("-");
         const date = new Date(year, month - 1); // JS months are 0-indexed
         return date.toLocaleString("default", { month: "long", year: "numeric" });
     };
+    // const [selectedMonth, setSelectedMonth] = React.useState();
+    const getData = async (e) => {
+        try {
+            const response = await fetch(baseUrl + "staff/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.status === 200) {
+                const result = await response.json();
+                const filteredData = selectedStaff?.id
+                    ? result.filter(item => item.id === selectedStaff.id) : result[0];
+                setSelectedStaff(filteredData);
+                // console.log("Filtered data by ID:", filteredData);
+
+                // console.log("Data retrieved successfully:", result);
+                // navigate("/admin/staff");
+            } else {
+                console.error("Failed to retrieve data:", response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error("An error occurred while fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     console.log(selectedStaff);
+    // console.log(selectedMonth);
+    // async function fetchAttendanceSummary() {
+    //     // e.preventDefault();
+
+    //     try {
+    //         const response = await fetch(baseUrl + `attendance/single/${selectedStaff?.staffDetails?.id}?type=month&date=11/2024`, {
+    //             method: "GET",
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         });
+    //         const result = await response.json();
+
+    //         if (response.status === 200) {
+    //             console.log(result);
+    //             // openModal6();
+    //             // openToast("Attendance Mode created and updated Successfully", "success");
+    //         }
+    //         else {
+    //             // openToast("An error occurred while creating and updating attendance mode", "error");
+    //             console.log(result);
+    //         }
+    //     } catch (error) {
+    //         console.error("Error creating and updating attendance mode:", error);
+    //         // openToast("An error occurred while creating and updating attendance mode", "error");
+    //     }
+    // }
+
+    // useEffect(() => {
+    //     setSelectedMonth(new Date().toISOString().slice(0, 7)); 
+    //     fetchAttendanceSummary();
+    // }, [])
+    // console.log(selectedStaff);
     return (
         <>
-        {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
+            {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
             <div className='flex justify-between items-center  w-[100%] p-[20px] mt-[30px]  pr-0 xl:pr-[0px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Salary Overview</h3>
                 <button className='second-btn'>Update Details</button>
@@ -90,7 +155,7 @@ const SalaryOverview = () => {
                 <button className='second-btn'>Load More</button>
             </div>
 
-        {/* </div> */}
+            {/* </div> */}
         </>
     )
 }

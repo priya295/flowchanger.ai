@@ -1,6 +1,6 @@
 .search-icon{
     font-size: 17px !important;
-    top: 16px;
+    top: 12px;
     position: absolute
     ;
 }
@@ -23,12 +23,12 @@
     font-size: 12px;
     font-weight: 500;
     padding: 10px 24px;
-    /* border-right: 1px solid #DBDBDB; */
-    background: #ededed !important;
+    border-right: 1px solid #fff;
+    background: #fff !important;
 }
 .table-section 
 table{
-    border-collapse: unset;
+    /* border-collapse: unset; */
 }
 
 .table-body-set label{
@@ -106,6 +106,10 @@ table{
     padding: 7px 6px 7px 6px !important;
 
 }
+
+.payroll-menu::-webkit-scrollbar{
+ display: none;
+}
  
 .tab-section .react-tabs ::-webkit-scrollbar {
     width: 2px;
@@ -166,19 +170,20 @@ table{
     .custom-body-class .sidebar{
         left: 0 !important;
         z-index: 999 !important;
-
-    }
+    }   
 }
 
 .sidebar{
-    transition: all 0.3s linear;
     height: auto;
     min-height: 100vh;
-    left: -100%;
+    left: 0;
+    position: relative;
 }
 
 .custom-body-class .admin-sidebar-set{
     width: 100% !important;
+    /* transition: all 0.3s linear; */
+    /* transition-delay: 5s; */
 }
 .custom-body-class .navbar{
     padding-left: 10px;
@@ -193,8 +198,9 @@ table{
 
 .custom-body-class .sidebar{
     left: -300px;
-    z-index: -1111;
+    z-index: 999;
     position: absolute;
+    
     
 }
 
@@ -598,5 +604,29 @@ input[type=radio]{
         font-size: 12px;
         display: flex;
         align-items: center;
+    }
+   }
+
+.arrow-back-icon{
+    background: #27004a;
+    color: white;
+    padding: 3px;
+    border-radius: 25px;
+    font-size: 25px;
+}
+
+.role-row th{
+    background:  none !important;
+}
+
+
+   @media(max-width:992px){
+    .sidebar{
+        left: -100%;
+        z-index: 99;
+    }
+    .admin-sidebar-set{
+        width: 100%;
+        position: absolute;
     }
    }

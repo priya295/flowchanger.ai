@@ -395,19 +395,31 @@ const AttendanceTab = () => {
             }
         };
 
-        const result = await fetch(baseUrl + "attendance/mode", {
-            method: "PUT",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(data)
-        })
-        if (result.status == 200) {
-            openToast("Update Details Successfully", "success");
-            openModal6()
+        try {
+            const result = await fetch(baseUrl + "attendance/mode", {
+                method: "PUT",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            const res = await result.json();
+            if (result.status == 200) {
+                openToast(res.message || "Update Details Successfully", "success");
+                openModal6()
+            }
+            else {
+                openToast(res.message || "Internal Server Error", "error")
+            }
         }
-        else {
-            openToast("Internal Server Error", "error")
+        catch (error) {
+            if (error.message === "Failed to fetch") {
+                console.error("Network error or server unavailable:", error);
+                openToast("Unable to connect to the server. Please check your network or try again later.", "error");
+            } else {
+                console.error("Unexpected error:", error);
+                openToast("An unexpected error occurred. Please try again.", "error");
+            }
         }
     }
 
@@ -479,8 +491,8 @@ const AttendanceTab = () => {
                 "auto_absent": autoPresent,
                 "present_on_punch": presentPunch,
                 "auto_half_day": `${confirmedTime?.hours} hours, ${confirmedTime?.minutes} minutes`,
-                "mandatory_half_day": `${savedDuration?.hours} hours, ${savedDuration?.minutes} minutes`,
-                "mandatory_full_day": `${confirmedSelection?.hours} hours, ${confirmedSelection?.minutes} minutes`
+                "mandatory_half_day": `${savedDuration?.hrs} hours, ${savedDuration?.mins} minutes`,
+                "mandatory_full_day": `${confirmedSelection?.hourValue} hours, ${confirmedSelection?.minuteValue} minutes`
             }
         };
 
@@ -493,7 +505,7 @@ const AttendanceTab = () => {
         })
         if (result.status === 200) {
             openToast("Update Details Successfully", "success");
-            openModal6()
+            closeModal7()
         }
         else {
             openToast("Internal Server Error", "error")
@@ -600,17 +612,17 @@ const AttendanceTab = () => {
     function getMatchingShiftIds(selectedShift, selectMonShift) {
         // Ensure selectMonShift is an array, or default to an empty array
         const selectMonShiftArray = Array.isArray(selectMonShift) ? selectMonShift : [];
-        
+
         // Map to extract labels from selectMonShift
         const selectMonShiftlabel = selectMonShiftArray?.map((shift) => shift?.label);
-        
+
         const matchingShiftIds = selectedShift
             ?.filter((shift) => {
                 const label = `${shift?.shiftName} | ${shift?.shiftStartTime} - ${shift?.shiftEndTime}`;
                 return selectMonShiftlabel?.includes(label); // Check if label exists in selectMonShiftlabel
             })
             ?.map((shift) => shift?.id); // Extract only the id
-    
+
         return matchingShiftIds;
     }
     const [weekName, setWeekName] = useState('');
@@ -719,11 +731,11 @@ const AttendanceTab = () => {
             //     shifts: getMatchingShiftIds(selectedShift, shifts),
             // }))
             staffId: selectedId,
-        shifts: flexibleDay?.map((flexibleShift) => ({
-            dateTime: flexibleShift.day, // Access the `day` property for `dateTime`
-            weekOff: flexibleShift.weekOff, // Access the `weekOff` property directly
-            shifts: getMatchingShiftIds(selectedShift, flexibleShift.shifts), // Use `flexibleShift.shifts` for matching
-        })),
+            shifts: flexibleDay?.map((flexibleShift) => ({
+                dateTime: flexibleShift.day, // Access the `day` property for `dateTime`
+                weekOff: flexibleShift.weekOff, // Access the `weekOff` property directly
+                shifts: getMatchingShiftIds(selectedShift, flexibleShift.shifts), // Use `flexibleShift.shifts` for matching
+            })),
         }
         // console.log(data);
         try {
@@ -1132,8 +1144,6 @@ const AttendanceTab = () => {
                                                 </td>
                                             </tr>
                                             ) : staffDetail && staffDetail.length > 0 ? (
-
-
                                                 staffDetail?.map((item, index) => {
                                                     return <> <tr className='border'>
                                                         <td><input onChange={(e) => setSelectedId([...selectedId, item.staffDetails.id])}
@@ -1142,9 +1152,9 @@ const AttendanceTab = () => {
                                                         <td>{item?.staffDetails?.job_title}</td>
                                                         <td>{item?.staffDetails?.attendanceAutomationRule?.auto_absent ? "Active" : "InActive"}</td>
                                                         <td>{item?.staffDetails?.attendanceAutomationRule?.present_on_punch ? "Active" : "InActive"}</td>
-                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.auto_half_day}</td>
-                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_half_day ? "" : "N/A"}</td>
-                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_full_day ? "" : "N/A"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.auto_half_day ?? "N/A"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_half_day ?? "N/A"}</td>
+                                                        <td>{item?.staffDetails?.attendanceAutomationRule?.manadatory_full_day ?? "N/A"}</td>
 
 
                                                     </tr>
@@ -1152,8 +1162,6 @@ const AttendanceTab = () => {
 
 
                                                 })
-
-
                                             )
                                                 : (
                                                     // No Data State
@@ -2188,7 +2196,7 @@ const AttendanceTab = () => {
                 <div className='flex items-center justify-center flex-col gap-[10px] pt-[20px] pb-[20px]'>
                     <img src={rightimg} className='w-[65px]' />
                     <h3 className='text-center'>You have Successfully updated attendance modes</h3>
-                    <button className='second-btn '>Okay</button>
+                    <button className='second-btn' onClick={closeModal6}>Okay</button>
                 </div>
             </Modal>
 
