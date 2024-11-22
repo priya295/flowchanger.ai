@@ -141,12 +141,10 @@ const Attendence_summary = () => {
             console.log("------",res)
             setAttendance(res.records);
         }
-
     }
     useEffect(() => {
         if(summaryDate){
             fetchAttendanceDetail();
-            
         }
     }, [summaryDate])
     const [selectedStatus, setSelectedStatus] = useState("");
