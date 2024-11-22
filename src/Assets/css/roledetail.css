@@ -178,6 +178,7 @@ table{
     min-height: 100vh;
     left: 0;
     position: relative;
+    transition: all 0.3s linear;
 }
 
 .custom-body-class .admin-sidebar-set{
