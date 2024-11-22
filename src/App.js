@@ -92,12 +92,13 @@ import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
 import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
 import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 import Documents from "./pages/Admin_Panel/editstaff/Documents";
-
+import TaskForm from "./pages/Admin_Panel/Tasks/Task_deatail/TaskForm";
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
   const [toggleEditSideBar, setToggleEditSideBar] = useState(false);
+  const [toggleRunTab , setToggleRunTab ] = useState(false);
 
   const handleToggleEditSideBar = () => {
     setToggleEditSideBar(toggleEditSideBar => !toggleEditSideBar)
@@ -123,7 +124,7 @@ const App = () => {
       <>
         <div className="flex ">
           <SideBar />
-          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
+          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set">
             <NavBar />
             <div className="p-[10px]  w-full ">
               <Outlet />
@@ -176,7 +177,7 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]   `}>
+            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]  `}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
@@ -212,12 +213,12 @@ const App = () => {
   function Payroll_Summary() {
     return (
       <>
-        <div className="flex w-full">
+        <div className="flex max-w-screen box-border">
           <SideBar />
-          <div className="w-full">
-            <NavBar />
-            <div className="p-[20px] pb-10 w-full h-lvh overflow-scroll">
-              <PayrollMenu />
+          <div className={`${!toggleSideBar?"w-[calc(100%-20%)]":"w-full"}`}>
+            <NavBar className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab}/>
+            <div className=" pb-10 w-full h-lvh payroll-menu overflow-y-auto">
+              <PayrollMenu className = "w-full" toggleRunTab = {toggleRunTab} />
               {/* <Outlet /> */}
             </div>
 
@@ -280,6 +281,7 @@ const App = () => {
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
             <Route path="/contact-information" element={<ContactInformation />} />
+            <Route path="/taskform" element={<TaskForm />} />
           </Route>
 
 

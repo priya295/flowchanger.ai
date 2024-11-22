@@ -49,7 +49,7 @@ const Early_Leaving_Policy = () => {
 
     // Create a Blob and download the file
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'StaffDetails.csv');
+    saveAs(blob, 'EarlyLeavePolicy.csv');
   };
 
 

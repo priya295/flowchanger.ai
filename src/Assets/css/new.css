@@ -9,6 +9,7 @@
     padding: 6px 10px !important;
 
 }
+
 .newsetup{
     box-shadow: 0px 0px 5px #cfcfcf;
 }
@@ -97,6 +98,9 @@
     font-size: 18px !important;
 
 }
+.addicon-all{
+    font-size: 18px !important;
+}
 .container{
     padding: 0;
 }
@@ -107,8 +111,13 @@
     border-bottom: 1px solid #ebf1f5;
     padding-bottom:30px;
 }
+.newsetup-tab :hover{
+    transition: all 0.5s linear ;
+
+}
+
 .newadd{
-    font-size: 14px !important;
+    font-size: 18px !important;
 }
 .newadd2{
     font-size: 16px !important;
@@ -262,6 +271,28 @@
  } */
 .active-set2{
     color: white;
+}
+.allcrm-btn{
+    background: #27004a;
+    color: #fff;
+    transition: all 0.3s linear;
+    border: 1px solid #27004a;
+    padding: 7px;
+    border-radius: 7px;
+    font-size: 14px;
+}
+.allcrm-btn:hover{  
+    transition: all 0.3s linear;
+    background: none;
+    color: #27004a;
+    
+}
+.newsearch-icon{
+    font-size: 20px !important;
+}
+.progress-through{
+    color: #374151 !important;
+    font-size: 13px !important;
 }
 .tab-span{
     font-size: 14px;
@@ -495,6 +526,7 @@
     .import-customers{
         flex-direction: column;
     }
+  
     .client-add{
         width: 100%;
     }
@@ -603,3 +635,16 @@
     }
 }
 
+
+.transition-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.5s ease-in-out;
+  }
+  
+  .transition-body.open {
+    max-height: 1000px; /* Adjust to a sufficiently large value */
+  }
+.all-btns-crm{
+    transition: all 0.5s linear !important;
+}  

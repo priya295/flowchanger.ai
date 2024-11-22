@@ -9,6 +9,11 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const StaffTab = () => {
   const { baseUrl, setSelectedStaff } = useGlobalContext();
+  const [isOpen , setIsOpen] = useState(false);
+
+  const toggleAccordion = () =>{
+    setIsOpen((isOpen) => (!isOpen));
+  }
 
 
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +28,7 @@ const StaffTab = () => {
   const [searchStaffMessage, setSearchStaffMessage] = useState(false);
 
 
-
+// function to filter the staff
   const FilterStaff = async () => {
     const queryParams = new URLSearchParams({
       status: staffStatus,
@@ -38,12 +43,12 @@ const StaffTab = () => {
         setStaffDetail(result);
       } else {
         console.log("error while fetching data");
+        setStaffDetail([]);
 
       }
     } catch (error) {
       console.log(error);
-
-
+      setStaffDetail([]);
     }
     finally {
       setIsLoading(false);
@@ -88,17 +93,22 @@ const StaffTab = () => {
 
 
   const fetchDepartments = async () => {
-    const result = await fetch(baseUrl + "department")
-
-    if (result.status == 200) {
-      const res = await result.json();
-      setDepartments(res.data)
-
+    try{
+      const result = await fetch(baseUrl + "department")
+      if (result.status == 200) {
+        const res = await result.json();
+        setDepartments(res.data)
+  
+      }
+      else {
+        console.log("failed to fetch department" , result.status)
+        setDepartments([]);
+      }
     }
-    else {
-      setDepartments([]);
-    }
-
+   catch(error){
+    console.log("error while fetching department" , error)
+    setDepartments([]);
+   }
   }
   // handle search the staff
   const handleSearchStaff = async () => {
@@ -141,6 +151,7 @@ const StaffTab = () => {
 
     return () => clearTimeout(debounceTimer);
   }, [searchStaffName, selectedDepartmentName])
+  // function to reset all filters
   const resetFilters = () => {
     console.log("Reset filters");
     setIsLoading(true);
@@ -156,7 +167,7 @@ const StaffTab = () => {
   };
   return (
     <div className='staff-tab mt-[20px]'>
-      <div className='flex justify-between flex-col xl:flex-row lg:flex-col md:flex-col gap-[15px] lg:gap-[0px]'>
+          <div className='flex justify-between flex-col xl:flex-row lg:flex-col md:flex-col gap-[15px] lg:gap-[0px]'>
         <div className='flex lg:gap-[20px]  flex-col gap-[10px] lg:flex lg:flex-row '>
           <div className='searching-input relative'>
             <img src={Search} className='absolute left-2 top-3' />
@@ -167,11 +178,12 @@ const StaffTab = () => {
           </div>
 
           <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm' onChange={(e) => {
-            setSelectedDepartmentName(e.target.value); // calling the searchStaff function here to prevent unnecessery API calls
+            setSelectedDepartmentName(e.target.value);
+            handleSearchStaff(); // calling the searchStaff function here to prevent unnecessery API calls
           }}>
-            {departments.map(department => (
-              <option key={department.name} value={department.name}>
-                {department.department_name}
+            {departments?.map(department => (
+              <option key={department?.name} value={department?.name}>
+                {department?.department_name}
               </option>
             ))}
           </select>
@@ -182,7 +194,6 @@ const StaffTab = () => {
               <img src={Filter} className='w-[40px] h-[40px] bg-[#F4F5F9] rounded-full p-[10px]' />
               <h2 className='text-[14px] font-normal	'>More Filters</h2>
             </button>
-
             {isDropdownOpen && (
               <div className="absolute w-[325px]  mt-2 md:w-[400px] xl:w-[400px] lg:w-[400px] lg:left-[0px] p-[20px] bg-white border border-gray-200 rounded-md shadow-lg z-10">
                 <h2 className='border-b '>More Filters</h2>
@@ -220,21 +231,15 @@ const StaffTab = () => {
                 </div>
 
                 <div className='flex w-[50%] mx-auto justify-between text-center mt-2'>
-                  <button className='second-btn' onClick={() => { setDropdownOpen(false) }}>Close</button>
+                  <button className='second-btn'>Close</button>
                   <button className='second-btn' onClick={handleFilterButtonClick}>filter</button>
                 </div>
               </div>
             )}
           </div>
-          <button
-            onClick={resetFilters}
-            className="bg-[#27004a] text-white p-1 rounded-md mx-1"
-          >
-            Reset Filters
-          </button>
         </div>
         <div className='flex gap-[15px] justify-between lg:justify-start'>
-          <button className='border border-1 pl-3 pr-3 h-[43px] rounded-md pt-2 pb-2 text-sm'>Update Staff</button>
+          {/* <button className='border border-1 pl-3 pr-3 rounded-md pt-2 pb-2 text-sm'>Update Staff</button> */}
           <div>
             <div className="relative inline-block text-left">
               <div>
@@ -263,10 +268,12 @@ const StaffTab = () => {
         </div>
       </div>
 
-      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4 '>
-        <div className='   '>
-          <table className='table-section '>
-            <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4'>
+        <div className='bg-white'>
+          <table className='table-section w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse'>
+            <thead  onClick={toggleAccordion} className='sticky bg-white set-shadow top-[-1px]  className="cursor-pointer  border border-gray-300 shadow-md"
+               
+'>
               <th>#</th>
               <th>Name</th>
               <th>Job Title</th>
@@ -296,33 +303,19 @@ const StaffTab = () => {
                   </td>
                 </tr>
                 ) : staffDetail && staffDetail.length > 0 ? (
-                  staffDetail.map((staff, index) => (
+                  staffDetail?.map((staff, index) => (
                     <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
                       <td>
-                        <input type="checkbox" className="border border-1 rounded-md" />
-                      </td>
-                      <td>
-                        <Link
-                          to={`/personal-detail/${staff?.id || ""}`}
-                          className="text-[#8A25B0] font-medium"
-                        >
-                          {staff?.name || "N/A"}
+                        <Link to={`/personal-detail/${staff.id}`} className="text-[#8A25B0] font-medium">
+                          {staff?.name}
                         </Link>
                       </td>
                       <td>{staff?.staffDetails?.job_title || "N/A"}</td>
                       <td>N/A</td>
-                      <td>
-                        {staff?.staffDetails?.date_of_joining
-                          ? new Date(staff?.staffDetails?.date_of_joining).toLocaleDateString()
-                          : "N/A"}
-                      </td>
-                      <td>
-                        {staff?.date_of_birth
-                          ? new Date(staff?.date_of_birth).toLocaleDateString()
-                          : "N/A"}
-                      </td>
-                      <td>{staff?.mobile || "N/A"}</td>
-                      <td>{staff?.staffDetails?.official_email || "N/A"}</td>
+                      <td>{staff?.staffDetails?.date_of_joining ? new Date(staff?.staffDetails?.date_of_joining).toLocaleDateString() : "N/A"}</td>
+                      <td>{staff?.date_of_birth ? new Date(staff?.date_of_birth).toLocaleDateString() : "N/A"}</td>
+                      <td>{staff?.mobile}</td>
+                      <td>{staff?.staffDetails?.official_email}</td>
                       <td>{staff?.staffDetails?.gender || "N/A"}</td>
                       <td>{staff?.staffDetails?.current_address || "N/A"}</td>
                       <td>{staff?.staffDetails?.emergency_contact_name || "N/A"}</td>

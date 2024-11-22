@@ -48,9 +48,10 @@ const BankDetails = () => {
 
     const [staffDetail, setStaffDetail] = useState([]);
     const fetchStaff = async () => {
-        const result = await fetch(baseUrl + "staff")
-        console.log("reuslt---", result)
+      
         try {
+            const result = await fetch(baseUrl + "staff")
+            console.log("reuslt---", result)
             if (result.status == 200) {
                 const res = await result.json();
                 console.log(res);
@@ -62,6 +63,7 @@ const BankDetails = () => {
         }
         catch (error) {
             console.log(error);
+            setStaffDetail([]);
         }
     }
 
@@ -101,7 +103,7 @@ const BankDetails = () => {
 
         // Create a Blob and download the file
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'StaffDetails.csv');
+        saveAs(blob, 'BankDetails.csv');
     };
 
     return (
@@ -113,7 +115,6 @@ const BankDetails = () => {
                         <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' />
 
                     </div>
-
                     <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'>
                         <option>All Departments</option>
                     </select>
