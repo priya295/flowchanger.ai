@@ -139,13 +139,6 @@ useEffect(()=>{
     );
   }
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * Renders the Editstaff component layout.
- * This includes the UpperHeader, SidebarEditStaff, and an Outlet for nested routes.
- * The layout adjusts based on the toggleEditSideBar state to show or hide the sidebar.
- */
-/******  8824870c-47a0-441b-aeab-d5099ac85750  *******/
   function Editstaff() {
 
     return (
@@ -188,7 +181,7 @@ useEffect(()=>{
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]   `}>
+            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]  `}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
@@ -324,7 +317,8 @@ useEffect(()=>{
           <Route path="/uan" element={<VerifyUan />} />
           <Route path="/face" element={<VerifyFace />} />
           <Route path="/address" element={<VerifyAddress />} />
-
+          <Route path="/past-employment-details" element={<PastEmploymentDetail />} />
+          <Route path="/voter-id" element={<VerifyVoterID />} />
         </Route>
         <Route element={<Client_Panel />}>
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}

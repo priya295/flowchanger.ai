@@ -16,8 +16,7 @@ const VerifyVoterID = () => {
         veriicationFile: selectedStaff?.staffDetails?.staff_bg_verification?.voter_id_file,
     });
 
-    const [bgVerification, setBgVerification] = useState("");
-
+    console.log(voter);
 
     async function submitVoterID() {
         const newFormData = new FormData();
@@ -79,7 +78,7 @@ const VerifyVoterID = () => {
     };
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]     flex flex-col '>
+        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px]  pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Voter ID Verification</h3>
                 <button className='second-btn' onClick={submitVoterID}>
@@ -110,8 +109,7 @@ const VerifyVoterID = () => {
                     type="file"
                     ref={fileInputRef}
                     onChange={handleFileChange}
-                    style={{ display: "none" }} 
-                    required// Hide the input element
+                    style={{ display: "none" }} // Hide the input element
                 />
                 {voter?.veriicationFile && <img src={voter?.veriicationFile} alt="Voter ID" className="w-[100px] h-[50px] rounded-md " />}
                 <button className='second-btn' onClick={handleUploadClick}>
@@ -132,21 +130,19 @@ const VerifyVoterID = () => {
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add Voter ID</h2>
                 <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
-                <form onSubmit={submitVoterID}>
-                <div className='' >
+                <div className=''>
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Voter ID
                         </label><br />
-                        <input type='text' placeholder="0000-0000-0000" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={bgVerification} onChange={(e) => setBgVerification(e.target.value)} required/><br />
+                        <input type='text' placeholder="0000-0000-0000" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={voter?.number} onChange={(e) => setVoter({ ...voter, number: e.target.value })} /><br />
 
 
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>
-                        <button className='second-btn'  >Save </button>
+                        <button className='second-btn' onClick={closeModal2} >Save </button>
                     </div>
                 </div>
-                </form>
             </Modal>
 
         </div>

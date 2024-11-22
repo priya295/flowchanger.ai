@@ -145,9 +145,9 @@ const ContactInformation = () => {
     return (
         <div className='table-section mt-5 bg-white shadow-cs p-[20px] rounded-lg '>
            
+                <h2 className='font-medium text-[18px]'>Contact Information</h2>
 
-
-                <div className='flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0'>
+                <div className='flex mb-4 justify-between p-3 pl-0 flex-col gap-2  sm:flex-row sm:gap-0'>
                     <div className='left-side '>
                         <select
                             onChange={handleSelectChange}

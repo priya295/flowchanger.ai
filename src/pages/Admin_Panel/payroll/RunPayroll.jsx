@@ -139,10 +139,7 @@ const RunPayroll = ({toggleRunTab}) => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
-  // useEffect(() =>{
-  //   console.log(toggleSideBar)
-  // },[toggleSideBar])
-
+ 
   return (
     <div className="mt-[20px] overflow-scroll w-[100%] ">
       <div className="flex justify-between items-start  flex-col xl:flex-row lg:flex-row  xl:items-center lg:items-center md:flex-col gap-[15px] lg:gap-[0px]">
@@ -1511,58 +1508,7 @@ const RunPayroll = ({toggleRunTab}) => {
                   </td>
                   
                 </tr>
-                <tr className="border">
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    <input
-                      type="checkbox"
-                      className="border border-1 rounded-md"
-                    />
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
-                </tr>
+       
               </tbody>
               
             </table>

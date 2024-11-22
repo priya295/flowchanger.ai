@@ -305,7 +305,6 @@ const StaffTab = () => {
                 ) : staffDetail && staffDetail.length > 0 ? (
                   staffDetail?.map((staff, index) => (
                     <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
-                      <td><input type="checkbox" className="border border-1 rounded-md" /></td>
                       <td>
                         <Link to={`/personal-detail/${staff.id}`} className="text-[#8A25B0] font-medium">
                           {staff?.name}

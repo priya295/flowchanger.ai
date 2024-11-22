@@ -1,15 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Component for rendering custom details of a staff member
+ *
+ * @component
+ * @returns {ReactElement}
+ */
+/******  86860ca5-c6ef-478e-9e32-7266d9206a6f  *******/import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 
 const CustomDetail = () => {
     let subtitle;
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
-    console.log(selectedStaff);
-    
+    const [staffDetail, setStaffDetail] = React.useState(null);
+    const getData = async (e) => {
+        try {
+            const response = await fetch(baseUrl + "staff/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.status === 200) {
+                const result = await response.json();
+                // console.log(result);
+                const filteredData = result.filter(item => item.id === selectedStaff.id)[0];
+                setStaffDetail(filteredData);
+
+                console.log("Filtered data by ID:", filteredData);
+                setAllCustomDetail(filteredData?.staffDetails?.CustomDetails);
+
+            } else {
+                console.error("Failed to retrieve data:", response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error("An error occurred while fetching data:", error);
+        }
+    };
     const [modalIsOpen2, setIsOpen2] = React.useState(false);
     const [editingId, setEditingId] = useState("");
     function openModal2() {
@@ -26,15 +60,15 @@ const CustomDetail = () => {
         setIsOpen2(false);
     }
 
-    const [allCustomDetail, setAllCustomDetail] = useState(selectedStaff?.staffDetails?.CustomDetails);
+    const [allCustomDetail, setAllCustomDetail] = useState([]);
 
+    console.log(allCustomDetail);
     const [fieldName, setFieldName] = useState("");
     const [description, setDescription] = useState("");
 
     async function submitField() {
-        const data = { field_name: fieldName, field_value: description, staffId: selectedStaff.staffDetails.id };
+        const data = { field_name: fieldName, field_value: description, staffId: staffDetail?.staffDetails?.id };
         console.log(data);
-
         try {
             const response = await fetch(baseUrl + "custom-details", {
                 method: "POST",
@@ -46,7 +80,7 @@ const CustomDetail = () => {
 
             console.log(response);
 
-            if (response.status === 201) {
+            if (response.ok) {
                 const result = await response.json();
                 console.log(result.data);
                 setAllCustomDetail([...allCustomDetail, result?.data]);
@@ -120,9 +154,13 @@ const CustomDetail = () => {
         }
     }
 
+    useEffect(() => {
+        getData();
+    }, []);
+
     return (
         <>
-         {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z'> */}
+            {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z'> */}
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Custom Details
@@ -130,9 +168,9 @@ const CustomDetail = () => {
                 <button className='second-btn'>Update Details</button>
             </div>
 
-            <div className="w-full bg-white shadow-md rounded-lg overflow-hidden mb-5">
-                <div className="rounded-md border border-gray-200">
-                    {allCustomDetail?.map(({ field_name, field_value, id }) => (<div key={id} className="flex items-center justify-between p-4 hover:bg-gray-50">
+            <div className={"w-full bg-white rounded-lg overflow-hidden mb-5 " + (staffDetail !== null && "shadow-md")}>
+                <div className={"rounded-md " + (staffDetail !== null && "border border-gray-200")}>
+                    {allCustomDetail.length > 0 ? allCustomDetail?.map(({ field_name, field_value, id }) => (<div key={id} className="flex items-center justify-between p-4 border-b hover:bg-gray-50">
                         <span className="text-sm text-gray-700">{field_name}</span>
                         <span className="text-sm text-gray-700">{field_value}</span>
                         <div className="flex items-center gap-2">
@@ -140,16 +178,18 @@ const CustomDetail = () => {
                                 openModal2();
                                 setEditingId(id);
                             }} className="px-3 py-1 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded">
-                                Edit
+                            <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
                             </button>
                             <button onClick={() => {
                                 console.log(id);
                                 deleteCustomDetail(id)
                             }} className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded">
-                                Delete
+                                <DeleteOutlineIcon
+                        className="text-red-500 font-light cursor-pointer text-[10px]"
+                      />
                             </button>
                         </div>
-                    </div>))}
+                    </div>)) : staffDetail !== null ? <div className='flex items-center justify-center h-[80px] text-sm font-medium text-gray-700'>No Custom Details</div> : (<div class="m-auto border-gray-300 h-10 w-10 animate-spin rounded-full border-8 border-t-[#27004a]" />)}
 
                 </div>
             </div>
@@ -198,7 +238,7 @@ const CustomDetail = () => {
                 </div>
             </Modal>
             {/* </div> */}
-            </>
+        </>
     )
 }
 
