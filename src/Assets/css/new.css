@@ -280,6 +280,9 @@
     border-radius: 10px;
     font-size: 14px;
 }
+.roll-name{
+    border-right: 1px solid #dbdbbd !important;
+}
 .allcrm-btn:hover{  
     transition: all 0.3s linear;
     background: none;
@@ -329,6 +332,7 @@
     border-bottom: 1px solid #ebf1f5 !important;
     padding: 10px !important;
 }
+
 
 
 .tablehead{

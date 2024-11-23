@@ -187,12 +187,12 @@ const Attendence_summary = () => {
             <div className='flex  justify-between satisfy-summary  '>
                 <div className='flex gap-[10px] summary-bold'>
                     <h1 className='font-semibold'>Attendence Summary</h1>
-                    <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className='#27004a ml-[10px]' to="/">View</Link> </p>
+                    <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className=' text-[#27004a] font-medium ml-[10px]' to="/">View</Link> </p>
                 </div>
                 <div className='flex gap-[10px] summary-bold2'>
-                    <Link className='#27004a text-[14px] font-semibold' to="/">Unprocessed Logs <FilterListIcon className='icon-filter' /></Link>
-                    <Link className='#27004a text-[14px] font-semibold' to="/">Daily Report <DownloadIcon className='icon-filter' /></Link>
-                    <Link className='#27004a text-[14px] font-semibold ' to="/">Setting <SettingsIcon className='icon-filter' /></Link>
+                    <Link className=' text-[#27004a] text-[14px] font-semibold' to="/">Unprocessed Logs <FilterListIcon className='icon-filter' /></Link>
+                    <Link className=' text-[#27004a] text-[14px] font-semibold' to="/">Daily Report <DownloadIcon className='icon-filter' /></Link>
+                    <Link className=' text-[#27004a] text-[14px] font-semibold ' to="/">Setting <SettingsIcon className='icon-filter' /></Link>
                 </div>
             </div>
 
@@ -239,9 +239,9 @@ const Attendence_summary = () => {
 
             </div>
             <div className='bg-[#ffff] shadow-cs p-[20px] rounded-md mt-[24px] flex gap-[10px] over-new'>
-                <Link to="/worktime" className='total-staff #27004a  text-[14px] font-medium hover:text-[#7a23c8] transition'>Daily Work Entry</Link>
-                <Link to="/reviewfine" className='total-staff #27004a  text-[14px] font-medium hover:text-[#7a23c8] transition'>Fine</Link>
-                <Link to="/overtime" className=' total-staff #27004a text-[14px] font-medium hover:text-[#7a23c8] transition'>Overtime</Link>
+                <Link to="/worktime" className='total-staff text-[#27004a]  text-[14px] font-medium  transition'>Daily Work Entry</Link>
+                <Link to="/reviewfine" className='total-staff  text-[#27004a]  text-[14px] font-medium transition'>Fine</Link>
+                <Link to="/overtime" className=' total-staff  text-[#27004a] text-[14px] font-medium  transition'>Overtime</Link>
             </div>
             <div className="relative">
                 <SearchIcon className='absolute top-[34px] right-[7px]' />

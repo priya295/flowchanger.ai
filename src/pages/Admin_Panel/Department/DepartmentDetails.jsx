@@ -190,18 +190,18 @@ const DepartmentDetail = () => {
     <div className="p-[10px] top-[95px] pl-[10px] w-[100%] pr-2 mb-3 pb-4">
       <Link
         to="/adddepartment"
-        className="bg-[#27004a]  p-2 pr-3 rounded-lg text-white "
+        className="allcrm-btn "
       >
         {" "}
-        <AddIcon /> New Department
+        <AddIcon className="addicon-all" /> New Department
       </Link>
 
-      <div className="table-section mt-5 bg-white shadow-cs p-[14px]  rounded-sm ">
+      <div className="table-section mt-5 bg-white shadow-cs p-[20px]  rounded-lg ">
         <div className="flex mb-4 justify-between flex-col gap-2  sm:flex-row sm:gap-0">
           <div className="left-side ">
             <select
               onChange={handleSelectChange}
-              className=" border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none"
+              className=" border border-[#e5e7eb] p-[7px]  shadow-sm mr-2 rounded-md text-[14px]  pr-3 focus:outline-none"
             >
               <option value="25">25</option>
               <option value="50">50</option>
@@ -210,7 +210,7 @@ const DepartmentDetail = () => {
             </select>
             <select
               onChange={(e) => setExportFormat(e.target.value)}
-              className="border border-[#e5e7eb] p-[8px] shadow-sm rounded-md pl-0 pr-3 focus:outline-none"
+              className="border border-[#e5e7eb] p-[7px] shadow-sm rounded-md text-[14px] pr-3 focus:outline-none"
             >
               <option value="CSV">CSV</option>
               <option value="PDF">PDF</option>
@@ -219,7 +219,7 @@ const DepartmentDetail = () => {
 
             <button
               onClick={handleExport}
-              className="ml-2 bg-[#27004a] text-white p-2 rounded-md cursor-pointer"
+              className="ml-2 bg-[#27004a] text-[14px] text-white p-2 rounded-md cursor-pointer"
             >
               Export File
             </button>
@@ -269,7 +269,7 @@ const DepartmentDetail = () => {
             <input
               type="text"
               placeholder="Search"
-              className="border rounded-2xl border-1 pl-3 h-[40px] pr-7
+              className="border rounded-3xl border-1 pl-3 h-[38px] pr-7
     ] focus:outline-none w-[100%] text-[15px] text-[#aeabab]"
               name="searchDepartment"
               value={searchDepartment}
@@ -287,10 +287,10 @@ const DepartmentDetail = () => {
           <table class="table-auto w-[100%] p-[10px]">
             <thead className="bg-[#ffff] ">
               <tr>
-                <th className="text-center p-4  shadow-cs text-sm font-medium ">
+                <th className="text-center p-4 border-b border-[#dbdbdb] roll-name text-sm font-medium ">
                   Department Name
                 </th>
-                <th className="text-center shadow-cs p-4 text-sm font-medium ">Options</th>
+                <th className="text-center border-b border-[#dbdbdb]  p-4 text-sm font-medium ">Options</th>
               </tr>
             </thead>
             <tbody>
@@ -305,8 +305,8 @@ const DepartmentDetail = () => {
                 </tr>
               ) : departments && departments.length > 0 ? (
                 departments.slice(0, rowsToShow).map((dep) => (
-                  <tr key={dep.id} className="border-b pb-2 border-[#f1f5f9]">
-                    <td className="pt-4 pb-3 pl-3">
+                  <tr key={dep.id} className="border-b  border-[#dbdbdb] pb-2">
+                    <td className="pt-4 pb-3 pl-3 border-r border-[#dbdbdb]">
                       <Link to="/" className="text-[#27004a] text-[14px]">
                         {dep.department_name}
                       </Link>
@@ -343,7 +343,7 @@ const DepartmentDetail = () => {
           </table>
         </div>
 
-        <div className="flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0">
+        <div className="flex justify-between p-[16px] pb-[0] w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0">
           <p className=" text-[#a5a1a1] text-[14px]">
             Showing 1 to {rowsToShow} of {departments.length} entries
           </p>
