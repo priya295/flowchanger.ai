@@ -25,6 +25,15 @@ const DepartmentDetail = () => {
     setRowsToShow(Number(event.target.value));
   };
 
+/*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Handles export of departments to CSV, PDF, or prints.
+   * The export format is determined by the value of `exportFormat` state.
+   * If `exportFormat` is "CSV", it calls `exportCSV` function.
+   * If `exportFormat` is "PDF", it calls `exportPDF` function.
+   * If `exportFormat` is "Print", it calls `printDepartments` function.
+   */
+/******  9a1f1a9d-de41-45b2-8122-961faca24166  *******/
   const handleExport = () => {
     if (exportFormat === "CSV") exportCSV();
     else if (exportFormat === "PDF") exportPDF();
