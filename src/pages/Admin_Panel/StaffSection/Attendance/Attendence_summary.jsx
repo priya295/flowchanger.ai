@@ -218,6 +218,8 @@ const Attendence_summary = () => {
         }
       };
 
+
+      
     useEffect(()=>{
         fetchDepartments()
     },[])
