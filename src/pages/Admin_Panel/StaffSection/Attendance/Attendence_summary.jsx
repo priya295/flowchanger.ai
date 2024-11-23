@@ -110,11 +110,30 @@ const Attendence_summary = () => {
 
     const [attendance, setAttendance] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [summaryDate, setSummaryDate] = useState(null)
 
+
+
+    const today = new Date();
+
+    // Format for the input field's value (YYYY-MM-DD)
+    const formattedForInput = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  
+    // Format for display/state (DD/MM/YYYY)
+    const formattedForDisplay = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()}`;
+  
+    const [summaryDate, setSummaryDate] = useState(formattedForInput);
+  
+    const handleChange = (e) => {
+      const newDate = e.target.value; // Format is YYYY-MM-DD
+      const [year, month, day] = newDate.split("-");
+      const formattedDisplay = `${day}/${month}/${year}`;
+      console.log(`Selected date in DD/MM/YYYY: ${formattedDisplay}`);
+      setSummaryDate(newDate);
+    };
+  
     const inputDate = summaryDate;
 
-     const date = new Date(inputDate);
+    const date = new Date(inputDate);
 
     const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
@@ -123,30 +142,28 @@ const Attendence_summary = () => {
     const formattedDate = `${day}/${month}/${year}`;
 
     console.log(formattedDate)
-   
+
     async function fetchAttendanceDetail() {
         const inputDate = summaryDate;
 
         const date = new Date(inputDate);
-   
-       const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
-       const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
-       const year = date.getFullYear();
-   
-       const formattedDate = `${day}/${month}/${year}`;
-               const result = await fetch(baseUrl + `attendance/summary?type=day&date=${formattedDate}`);
+
+        const day = String(date.getDate()).padStart(2, '0'); // Ensure 2-digit day
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed
+        const year = date.getFullYear();
+
+        const formattedDate = `${day}/${month}/${year}`;
+        const result = await fetch(baseUrl + `attendance/summary?type=day&date=${formattedDate}`);
         console.log(result)
         if (result.status == 200) {
             const res = await result.json();
-            console.log("------",res)
+            console.log("------", res)
             setAttendance(res.records);
         }
-
     }
     useEffect(() => {
-        if(summaryDate){
+        if (summaryDate) {
             fetchAttendanceDetail();
-            
         }
     }, [summaryDate])
     const [selectedStatus, setSelectedStatus] = useState("");
@@ -158,7 +175,7 @@ const Attendence_summary = () => {
                 return
             }
 
-            
+
             const result = await fetch(baseUrl + `attendance/status/${item.punchRecord.id}`, {
                 method: "PATCH",
                 headers: {
@@ -182,6 +199,29 @@ const Attendence_summary = () => {
         }
     }
 
+    const [departments, setDepartments] = useState([]);
+    const fetchDepartments = async () => {
+        try {
+          const result = await fetch(baseUrl + "department");
+          const res = await result.json();
+          console.log(res);
+          if (result.status === 200) {
+            setDepartments(res.data);
+          } else {
+            console.log(res.message || "An unexpected error occured", "error");
+          }
+        }
+        catch (error) {
+          console.log("Fetch error:", error.message || error);
+          console.log(error.message || "An unexpected error occurred.");
+        } finally {
+        }
+      };
+
+    useEffect(()=>{
+        fetchDepartments()
+    },[])
+
     return (
         <div className='p-[20px] w-full work-fine'>
             <div className='flex  justify-between satisfy-summary  '>
@@ -199,8 +239,12 @@ const Attendence_summary = () => {
             <div className='bg-[#fff] shadow-cs p-[20px] rounded-md mt-[24px] '>
                 <div className='flex gap-[14px] justify-between items-center review-summary  '>
                     <div className='flex '>
-                        <input className='bg-transparent font-medium text-[14px]'type="date"  onChange={(e) => setSummaryDate(e.target.value)} />
-                    </div>
+                        <input
+                            className="bg-transparent font-medium text-[14px]"
+                            type="date"
+                            value={summaryDate} // Set value in YYYY-MM-DD
+                            onChange={handleChange} // Update state on change
+                        />                    </div>
                     <div className='flex items-center justify-between gap-[14px] approval-new '>
                         <h2 className='text-[14px] font-medium'>Total Pending for Approval : 10</h2>
                         <Link className='bg-[#27004a] text-[white] review-btn rounded-md' to="/">Review</Link>
@@ -808,12 +852,3 @@ const Attendence_summary = () => {
 
 
 export default Attendence_summary
-
-
-
-
-
-
-
-
-

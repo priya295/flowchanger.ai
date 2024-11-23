@@ -9,8 +9,8 @@ const EditLeavePolicies = () => {
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState('leave-requests')
     const [activeSubTab, setActiveSubTab] = useState('pending')
-    const { baseUrl, openToast, selectedStaff } = useGlobalContext();
-    // const [selectedStaff, setSelectedStaff] = useState({});
+    const { baseUrl, selectedStaff, openToast, } = useGlobalContext();
+    const [staff, setStaff] = useState(null);
     const [selectDuration, setSelectDuration] = useState("");
     const [editingRow, setEditingRow] = useState(null);
     const [leavePolicyType, setLeavePolicyType] = useState();
@@ -25,16 +25,48 @@ const EditLeavePolicies = () => {
     const [saveLeaveRequestEdit, setSaveLeaveRequestEdit] = useState('');
 
     const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
-
-
-
-
-    console.log(selectedStaff);
-
     const [updateLeaveBalance, setUpdateLeaveBalance] = useState(selectedStaff?.staffDetails?.LeaveBalance?.map(item => ({ balance: item?.balance, leaveName: selectedStaff?.staffDetails?.LeavePolicy?.find(policy => policy?.id === item?.leavePolicyId)?.name, used: item?.used, id: item?.id })));
 
-    console.log(updateLeaveBalance);
+    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy || []);
 
+    const [updatePolicy, setUpdatePolicy] = useState({
+        allowed_leaves: 0,
+        carry_forward_leaves: 0
+    })
+
+    const getData = async (e) => {
+        try {
+            const response = await fetch(baseUrl + "staff/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.status === 200) {
+                const result = await response.json();
+                // console.log(result);
+                const filteredData = result.filter(item => item.id === selectedStaff.id)[0];
+                setStaff(filteredData);
+                setUpdateLeaveBalance(filteredData?.staffDetails?.LeaveBalance?.map(item => ({ balance: item?.balance, leaveName: filteredData?.staffDetails?.LeavePolicy?.find(policy => policy?.id === item?.leavePolicyId)?.name, used: item?.used, id: item?.id })))
+                setFetchLeavePolicy(filteredData?.staffDetails?.LeavePolicy);
+                // console.log("Filtered data by ID:", filteredData);
+
+            } else {
+                console.error("Failed to retrieve data:", response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error("An error occurred while fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, [])
+    console.log(fetchLeavePolicy);
+
+
+    // console.log(updateLeaveBalance);
     const updatedLeaveBalance = async () => {
         try {
             const allData = [];
@@ -44,7 +76,7 @@ const EditLeavePolicies = () => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({...data, balance: Number(data?.balance), used: Number(data?.used)})
+                    body: JSON.stringify({ ...data, balance: Number(data?.balance), used: Number(data?.used), policy_type: selectDuration })
                 });
                 const result = await response.json();
                 if (response.status === 200) {
@@ -64,19 +96,15 @@ const EditLeavePolicies = () => {
         }
     }
 
-    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy || []);
 
-    const [updatePolicy, setUpdatePolicy] = useState({
-        allowed_leaves: 0,
-        carry_forward_leaves: 0
-    })
-
+    // console.log(fetchLeavePolicy);
     // console.log(updatePolicy);
 
     // console.log(selectDuration, leavePolicyType, allowedLeavesPerYear, carryForwardLeaves);
     async function createLeavePolicy(e) {
         e.preventDefault();
         const data = {
+            policy_type: selectDuration,
             name: leavePolicyType,
             allowed_leaves: Number(allowedLeavesPerYear),
             carry_forward_leaves: Number(carryForwardLeaves)
@@ -115,7 +143,7 @@ const EditLeavePolicies = () => {
         e.preventDefault();
         const data = {
             policy_type: selectDuration,
-            name: selectedStaff?.staffDetails?.LeavePolicy?.filter(({ id }) => id === editingRow)[0]?.name,
+            name: leavePolicyType,
             allowed_leaves: Number(updatePolicy?.allowed_leaves),
             carry_forward_leaves: Number(updatePolicy?.carry_forward_leaves)
         };
@@ -148,35 +176,6 @@ const EditLeavePolicies = () => {
         }
         setEditingRow(null);
     }
-    async function updateLeaveLeaveBalance(e, leaveBalanceData) {
-        e.preventDefault();
-        console.log(leaveBalanceData);
-        // try {
-        //     const response = await fetch(baseUrl + "leave-policy/" + editingRow, {
-        //         method: "PUT",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(data)
-        //     });
-        //     console.log(response);
-
-        //     const result = await response.json();
-        //     if (response.status === 200) {
-        //         console.log(result);
-
-        //         setFetchLeavePolicy([...fetchLeavePolicy, result]);
-        //         openToast("Leave Policy updated Successfully", "success");
-        //     }
-        //     else {
-        //         openToast("An error occurred while updating leave policy", "error");
-        //     }
-        // } catch (error) {
-        //     console.error("Error updating leave policy:", error);
-        //     openToast("An error occurred while updating leave policy", "error");
-        // }
-        // setEditingRow(null);
-    }
 
     async function getAllLeaveRequest() {
         try {
@@ -201,10 +200,10 @@ const EditLeavePolicies = () => {
         }
     }
 
-    async function deleteLeaveRequest(e) {
+    async function deleteLeaveRequest(e, id) {
         e.preventDefault();
         try {
-            const response = await fetch(baseUrl + "leave-request/" + deleteLeaveID, {
+            const response = await fetch(baseUrl + "leave-request/" + id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -228,7 +227,7 @@ const EditLeavePolicies = () => {
 
     }
 
-    async function editLeaveRequest(e) {
+    async function editLeaveRequest(e, id) {
         e.preventDefault();
         const data = {
             staffId: selectedStaff?.staffDetails?.id,
@@ -240,7 +239,7 @@ const EditLeavePolicies = () => {
         };
 
         try {
-            const response = await fetch(baseUrl + "leave-request/" + saveLeaveRequestEdit, {
+            const response = await fetch(baseUrl + "leave-request/" + id, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -278,6 +277,7 @@ const EditLeavePolicies = () => {
         }
     }
 
+    console.log(deleteLeaveID);
 
     let subtitle;
     // when onclick update staff
@@ -307,7 +307,6 @@ const EditLeavePolicies = () => {
     function afterOpenModal12() {
         // references are now sync'd and can be accessed.
         subtitle.style.color = '#000';
-
     }
 
     function closeModal12() {
@@ -509,6 +508,7 @@ const EditLeavePolicies = () => {
                                                     console.log(id);
                                                     setEditingRow(id);
                                                     setUpdatePolicy({ carry_forward_leaves, allowed_leaves })
+                                                    setLeavePolicyType(name);
                                                 }}>{name}</td>
                                                 <td>
                                                     {editingRow === id ? (
@@ -564,9 +564,11 @@ const EditLeavePolicies = () => {
                                         {
                                             fetchLeavePolicy?.filter(({ policy_type }) => policy_type === "YEARLY")?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
                                                 <td onClick={() => {
-                                                    console.log(id);
+                                                    // console.log(id);
+                                                    // console.log(name);
                                                     setEditingRow(id);
-                                                    setUpdatePolicy({ carry_forward_leaves, allowed_leaves })
+                                                    setUpdatePolicy({ carry_forward_leaves, allowed_leaves });
+                                                    setLeavePolicyType(name);
                                                 }}>{name}</td>
                                                 <td>
                                                     {editingRow === id ? (
@@ -766,8 +768,7 @@ const EditLeavePolicies = () => {
                                                 <td className='text-center flex items-center justify-evenly'>
                                                     {saveLeaveRequestEdit === id ? (
                                                         <p className='text-green-500 font-bold cursor-pointer' onClick={(e) => {
-                                                            editLeaveRequest(e);
-
+                                                            editLeaveRequest(e, id);
                                                         }}>Save</p>
                                                     ) : (
                                                         <>
@@ -785,7 +786,7 @@ const EditLeavePolicies = () => {
                                                                 e.preventDefault();
                                                                 console.log(id);
                                                                 setDeleteLeaveID(id);
-                                                                deleteLeaveRequest(e);
+                                                                deleteLeaveRequest(e, id);
                                                             }}>Del</p>
                                                         </>
                                                     )}

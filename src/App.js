@@ -93,6 +93,7 @@ import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDe
 import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 import Documents from "./pages/Admin_Panel/editstaff/Documents";
 import TaskForm from "./pages/Admin_Panel/Tasks/Task_deatail/TaskForm";
+import ClientTaskview from "./pages/Client_Panel/Task/Taskview";
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
 import Client_Project from "./pages/Client_Panel/Client_Project";
 import Project_Invoice from "./pages/Client_Panel/Projects/Project_Invoice";
@@ -100,12 +101,16 @@ import Project_Invoice from "./pages/Client_Panel/Projects/Project_Invoice";
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
   const [toggleEditSideBar, setToggleEditSideBar] = useState(false);
+  const [toggleRunTab , setToggleRunTab ] = useState(false);
+  const [selectedPayrollTab , setSelectedPayrollTab] = useState(null);
 
   const handleToggleEditSideBar = () => {
     setToggleEditSideBar(toggleEditSideBar => !toggleEditSideBar)
   }
 
-
+useEffect(()=>{
+  console.log(selectedPayrollTab)
+},[selectedPayrollTab]);
 
   const handleToggleSideBar = () => {
     setToggleSideBar(!toggleSideBar);
@@ -125,7 +130,7 @@ const App = () => {
       <>
         <div className="flex ">
           <SideBar />
-          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
+          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set">
             <NavBar />
             <div className="p-[10px]  w-full ">
               <Outlet />
@@ -178,7 +183,7 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]   `}>
+            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]  `}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
@@ -214,12 +219,12 @@ const App = () => {
   function Payroll_Summary() {
     return (
       <>
-        <div className="flex w-full">
+        <div className="flex max-w-screen box-border">
           <SideBar />
-          <div className="w-full">
-            <NavBar />
-            <div className="p-[20px] pb-10 w-full h-lvh overflow-scroll">
-              <PayrollMenu />
+          <div className={`${!toggleSideBar?"w-[calc(100%-20%)]":"w-full"}`}>
+            <NavBar className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab} selectedPayrollTab = {selectedPayrollTab}/>
+            <div className=" pb-10 w-full h-lvh payroll-menu overflow-y-auto">
+              <PayrollMenu className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab} setSelectedPayrollTab={setSelectedPayrollTab}/>
               {/* <Outlet /> */}
             </div>
 
@@ -268,6 +273,7 @@ const App = () => {
             <Route path="chats/admin" element={<AdminChatInterface />} />
             <Route path="chats/client" element={<ClientChatInterface />} />
             <Route path="chats/staff" element={<StaffChatInterface />} />
+            <Route path="/clienttaskview" element={<ClientTaskview />} />
             <Route path="/status-main-page" element={<StatusMainPage />} />
             <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
             <Route path="/edit-project" element={<Edit_Project />} />
@@ -313,7 +319,8 @@ const App = () => {
           <Route path="/uan" element={<VerifyUan />} />
           <Route path="/face" element={<VerifyFace />} />
           <Route path="/address" element={<VerifyAddress />} />
-
+          <Route path="/past-employment-details" element={<PastEmploymentDetail />} />
+          <Route path="/voter-id" element={<VerifyVoterID />} />
         </Route>
         <Route element={<Client_Panel />}>
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}

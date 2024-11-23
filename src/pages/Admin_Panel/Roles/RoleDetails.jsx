@@ -77,7 +77,7 @@ const Main = () => {
         setRoles(res.data)
       }
       else {
-        alert("An Error Occured")
+        console.log("An Error Occured")
       }
     }
     catch (error) {
@@ -258,11 +258,9 @@ const Main = () => {
 
           </div>
 
-          <div className='right-side relative  w-[200px]'>
-            <input type='text' placeholder='Search' className='border border-1 pl-3 h-[38px] pr-7
-] rounded-3xl focus:outline-none w-[100%] text-[15px] text-[#aeabab]' onChange={(e) => { setSearchRoleName(e.target.value) }} />
-            <SearchIcon className='absolute right-[10px] search-icon    text-[#aeabab]  font-thin text-[#dddddd;
-]'/>
+          <div className='relative client-add'>
+            <input type='text' placeholder='Search...' className='p-[6px] client-add  rounded-2xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px]' onChange={(e)=>{setSearchRoleName(e.target.value)}}/>
+            <SearchIcon className="absolute newadd2 right-[8px] top-[8px] text-gray-500"/>
           </div>
         </div>
 

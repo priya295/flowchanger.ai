@@ -4,14 +4,14 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useParams } from 'react-router';
 
 const BackgroundVerification = () => {
-    const {id}= useParams();
-    useEffect(()=>{
-        console.log("back",id)
+    const { id } = useParams();
+    useEffect(() => {
+        console.log("back", id)
 
-    },[])
+    }, [])
     return (
         <>
-        {/* // <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
+            {/* // <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col '> */}
             <div className='flex justify-between items-center  w-[100%] p-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>Background Verification</h3>
             </div>
@@ -51,7 +51,7 @@ const BackgroundVerification = () => {
                     <ArrowForwardIosIcon />
                 </Link>
             </div>
-        {/* </div> */}
+            {/* </div> */}
         </>
     )
 }

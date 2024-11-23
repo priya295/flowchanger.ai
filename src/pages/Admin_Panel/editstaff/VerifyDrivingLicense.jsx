@@ -48,6 +48,8 @@ const VerifyDrivingLicense = () => {
         if (!drivingLicense?.number || !drivingLicense?.verificationFile) {
             openToast("Driving License number and file are required", "error");
         }
+
+        console.log(drivingLicense);
         const newFormData = new FormData();
         newFormData.append("driving_license_number", drivingLicense?.number);
         newFormData.append("verificationFile", drivingLicense?.verificationFile);
@@ -136,10 +138,6 @@ const VerifyDrivingLicense = () => {
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Driving License
                         </label><br />
-                        {
-                            drivingLicense?.verificationFile && <img src={drivingLicense?.verificationFile} alt="" className="w-[100px] h-[50px] rounded-md" />
-
-                        }
                         <input type='text' placeholder="Enter Driving License Number" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={drivingLicense?.number} onChange={(e) => setDrivingLicense({ ...drivingLicense, number: e.target.value })} /><br />
 
 

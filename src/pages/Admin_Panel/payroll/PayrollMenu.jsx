@@ -16,48 +16,54 @@ import PayrollReimbrusments from "./PayrollReimbrusments";
 import PaymentHistory from "./PaymentHistory";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 
-const PayrollMenu = () => {
+const PayrollMenu = ({toggleRunTab,setToggleRunTab,setSelectedPayrollTab}) => {
   const {selectedTab,setSelectedTab,activeSubmenu , setActiveSubmenu} = useGlobalContext();
-  useEffect(() => {
+   
+ 
+   useEffect(() => {
     if (!activeSubmenu) {
       setActiveSubmenu(true);
+     
     }
   }, []);
 
+
+
+
   return (
-    <div className="staff-menu payroll-menus">
+    <div className="staff-menu payroll-menus py-[10px] px-[20px] ">
       <h3 className="text-[20px]  font-[Nunito]">Pay Roll</h3>
 
       <div className="tab-section mt-[30px]">
       <Tabs selectedIndex={selectedTab} onSelect={(index) => setSelectedTab(index)}>
-          <TabList className="flex   w-[100%] overflow-x-scroll bg-[#FFFFFF]  rounded-[12px]  p-[10px] pb-[4px]  set-shadow ">
+          <TabList className="flex   w-[100%] overflow-x-scroll bg-[#FFFFFF]  rounded-[12px] pt-[4px] p-[10px] pb-[4px]  set-shadow ">
             <Tab>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">Payroll Summary</h2>
               </div>
             </Tab>
-            <Tab>
-              <div className="flex items-center  whitespace-nowrap mr-[20px]">
+            <Tab onClick={()=>setSelectedPayrollTab("RunPayroll")}>
+              <div className="flex items-center  whitespace-nowrap mr-[20px]" >
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Run Payroll
                 </h2>
               </div>
             </Tab>
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab("Advance")}>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Advance
                 </h2>
               </div>
             </Tab>
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab("Incentives")}>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Incentives
                 </h2>
               </div>
             </Tab>
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab("Reimbrusments")}>
               <div className="flex items-center whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Reimbrusments
@@ -65,7 +71,7 @@ const PayrollMenu = () => {
               </div>
             </Tab>
  
-            <Tab>
+            <Tab onClick={()=>setSelectedPayrollTab(" PaymentHistory")}>
               <div className="flex items-center  whitespace-nowrap mr-[20px]">
                 <h2 className="text-sm text-[#B1B1B1]  ml-[15px]">
                   Payment History
@@ -79,7 +85,7 @@ const PayrollMenu = () => {
           </TabPanel>
 
           <TabPanel>
-            <RunPayroll />
+            <RunPayroll  toggleRunTab = {toggleRunTab}/>
           </TabPanel>
 
           <TabPanel>

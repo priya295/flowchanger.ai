@@ -9,6 +9,11 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 const StaffTab = () => {
   const { baseUrl, setSelectedStaff } = useGlobalContext();
+  const [isOpen , setIsOpen] = useState(false);
+
+  const toggleAccordion = () =>{
+    setIsOpen((isOpen) => (!isOpen));
+  }
 
 
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +28,7 @@ const StaffTab = () => {
   const [searchStaffMessage, setSearchStaffMessage] = useState(false);
 
 
-
+// function to filter the staff
   const FilterStaff = async () => {
     const queryParams = new URLSearchParams({
       status: staffStatus,
@@ -38,12 +43,12 @@ const StaffTab = () => {
         setStaffDetail(result);
       } else {
         console.log("error while fetching data");
+        setStaffDetail([]);
 
       }
     } catch (error) {
       console.log(error);
-
-
+      setStaffDetail([]);
     }
     finally {
       setIsLoading(false);
@@ -88,17 +93,22 @@ const StaffTab = () => {
 
 
   const fetchDepartments = async () => {
-    const result = await fetch(baseUrl + "department")
-
-    if (result.status == 200) {
-      const res = await result.json();
-      setDepartments(res.data)
-
+    try{
+      const result = await fetch(baseUrl + "department")
+      if (result.status == 200) {
+        const res = await result.json();
+        setDepartments(res.data)
+  
+      }
+      else {
+        console.log("failed to fetch department" , result.status)
+        setDepartments([]);
+      }
     }
-    else {
-      setDepartments([]);
-    }
-
+   catch(error){
+    console.log("error while fetching department" , error)
+    setDepartments([]);
+   }
   }
   // handle search the staff
   const handleSearchStaff = async () => {
@@ -141,6 +151,7 @@ const StaffTab = () => {
 
     return () => clearTimeout(debounceTimer);
   }, [searchStaffName, selectedDepartmentName])
+  // function to reset all filters
   const resetFilters = () => {
     console.log("Reset filters");
     setIsLoading(true);
@@ -257,10 +268,12 @@ const StaffTab = () => {
         </div>
       </div>
 
-      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4 '>
-        <div className='   '>
-          <table className='table-section '>
-            <thead className='border border-1 sticky bg-[#fff] set-shadow top-[-1px]'>
+      <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-x-auto border border-1 mt-4'>
+        <div className='bg-white'>
+          <table className='table-section w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse'>
+            <thead  onClick={toggleAccordion} className='sticky bg-white set-shadow top-[-1px]  className="cursor-pointer  border border-gray-300 shadow-md"
+               
+'>
               <th>#</th>
               <th>Name</th>
               <th>Job Title</th>
@@ -292,7 +305,6 @@ const StaffTab = () => {
                 ) : staffDetail && staffDetail.length > 0 ? (
                   staffDetail?.map((staff, index) => (
                     <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
-                      <td><input type="checkbox" className="border border-1 rounded-md" /></td>
                       <td>
                         <Link to={`/personal-detail/${staff.id}`} className="text-[#8A25B0] font-medium">
                           {staff?.name}
@@ -300,8 +312,8 @@ const StaffTab = () => {
                       </td>
                       <td>{staff?.staffDetails?.job_title || "N/A"}</td>
                       <td>N/A</td>
-                      <td>{staff?.staffDetails?.date_of_joining ? new Date(staff.date_of_joining).toLocaleDateString() : "N/A"}</td>
-                      <td>{staff?.date_of_birth ? new Date(staff.date_of_birth).toLocaleDateString() : "N/A"}</td>
+                      <td>{staff?.staffDetails?.date_of_joining ? new Date(staff?.staffDetails?.date_of_joining).toLocaleDateString() : "N/A"}</td>
+                      <td>{staff?.date_of_birth ? new Date(staff?.date_of_birth).toLocaleDateString() : "N/A"}</td>
                       <td>{staff?.mobile}</td>
                       <td>{staff?.staffDetails?.official_email}</td>
                       <td>{staff?.staffDetails?.gender || "N/A"}</td>

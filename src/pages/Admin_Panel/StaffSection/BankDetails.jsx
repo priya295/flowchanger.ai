@@ -48,20 +48,22 @@ const BankDetails = () => {
 
     const [staffDetail, setStaffDetail] = useState([]);
     const fetchStaff = async () => {
-        const result = await fetch(baseUrl + "staff")
-        console.log("reuslt---", result)
+      
         try {
+            const result = await fetch(baseUrl + "staff")
+            console.log("reuslt---", result)
             if (result.status == 200) {
                 const res = await result.json();
                 console.log(res);
                 setStaffDetail(res)
             }
             else {
-                console.log("An Error Occured")
+                alert("An Error Occured")
             }
         }
         catch (error) {
             console.log(error);
+            setStaffDetail([]);
         }
     }
 
