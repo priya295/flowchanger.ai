@@ -274,51 +274,51 @@ const StaffTab = () => {
             <thead  onClick={toggleAccordion} className='sticky bg-white set-shadow top-[-1px]  className="cursor-pointer  border border-gray-300 shadow-md"
                
 '>
-              <th>#</th>
-              <th>Name</th>
-              <th>Job Title</th>
-              <th>Employee Id</th>
-              <th>Employee Type</th>
-              <th>Date of Joining</th>
-              <th>Date of Birth</th>
-              <th>Mobile Number</th>
-              <th>Personal Email ID</th>
-              <th>Marital Status</th>
-              <th>Gender</th>
-              <th>Current Address</th>
-              <th>Aadhaar</th>
-              <th>Pan</th>
-              <th>Guardian Name</th>
-              <th>Emergency Contact Name</th>
+              <th className='border-r border-[#dbdbdb]'>#</th>
+              <th className='border-r border-[#dbdbdb]'>Name</th>
+              <th className='border-r border-[#dbdbdb]'>Job Title</th>
+              <th className='border-r border-[#dbdbdb]'>Employee Id</th>
+              <th className='border-r border-[#dbdbdb]'>Employee Type</th>
+              <th className='border-r border-[#dbdbdb]'>Date of Joining</th>
+              <th className='border-r border-[#dbdbdb]'>Date of Birth</th>
+              <th className='border-r border-[#dbdbdb]'>Mobile Number</th>
+              <th className='border-r border-[#dbdbdb]'>Personal Email ID</th>
+              <th className='border-r border-[#dbdbdb]'>Marital Status</th>
+              <th className='border-r border-[#dbdbdb]'>Gender</th>
+              <th className='border-r border-[#dbdbdb]'>Current Address</th>
+              <th className='border-r border-[#dbdbdb]'>Aadhaar</th>
+              <th className='border-r border-[#dbdbdb]'>Pan</th>
+              <th className='border-r border-[#dbdbdb]'>Guardian Name</th>
+              <th className='border-r border-[#dbdbdb]'>Emergency Contact Name</th>
 
 
             </thead>
-            <tbody >
+            <tbody  className='newtab-staff'>
 
 
               {
                 isLoading && staffDetail?.length === 0 ? (<tr className="h-[100px]">
-                  <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                  <td colSpan="9" className="text-center border-r border-[#dbdbdb] whitespace-nowrap text-gray-600 text-xl font-semibold py-4">
                     <ClipLoader color="#4A90E2" size={50} />
                   </td>
                 </tr>
                 ) : staffDetail && staffDetail.length > 0 ? (
                   staffDetail?.map((staff, index) => (
                     <tr key={index} onClick={() => setSelectedStaff(staff)} className="border">
-                      <td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>
                         <Link to={`/personal-detail/${staff.id}`} className="text-[#8A25B0] font-medium">
                           {staff?.name}
                         </Link>
                       </td>
-                      <td>{staff?.staffDetails?.job_title || "N/A"}</td>
-                      <td>N/A</td>
-                      <td>{staff?.staffDetails?.date_of_joining ? new Date(staff?.staffDetails?.date_of_joining).toLocaleDateString() : "N/A"}</td>
-                      <td>{staff?.date_of_birth ? new Date(staff?.date_of_birth).toLocaleDateString() : "N/A"}</td>
-                      <td>{staff?.mobile}</td>
-                      <td>{staff?.staffDetails?.official_email}</td>
-                      <td>{staff?.staffDetails?.gender || "N/A"}</td>
-                      <td>{staff?.staffDetails?.current_address || "N/A"}</td>
-                      <td>{staff?.staffDetails?.emergency_contact_name || "N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.job_title || "N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>N/A</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.date_of_joining ? new Date(staff?.staffDetails?.date_of_joining).toLocaleDateString() : "N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.date_of_birth ? new Date(staff?.date_of_birth).toLocaleDateString() : "N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.mobile}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.official_email}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.gender || "N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.current_address || "N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.emergency_contact_name || "N/A"}</td>
                     </tr>
                   ))
                 )

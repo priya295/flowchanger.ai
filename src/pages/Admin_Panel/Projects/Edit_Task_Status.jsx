@@ -12,6 +12,8 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import Select from "react-select";
 import { useGlobalContext } from "../../../Context/GlobalContext";
+import { saveAs } from 'file-saver';
+import jsPDF from 'jspdf';
 
 const Edit_Task_Status = () => {
   let subtitle;
@@ -85,6 +87,59 @@ const Edit_Task_Status = () => {
     setIsOn(!isOn);
   };
 
+  const handleSelectChange = (event) => {
+    setRowsToShow(Number(event.target.value));
+};
+const exportCSV = () => {
+  const csvData = projectPriorityDetail.map(dep => `${dep.Priority_name}, ${dep.Priority_color}, ${dep.Priority_order}`).join('\n');
+  const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+  saveAs(blob, 'ProjectStatus.csv');
+};
+
+const exportPDF = () => {
+  const doc = new jsPDF();
+  doc.text("AllTaskStatus", 20, 10);
+  projectPriorityDetail.forEach((dep, index) => {
+      doc.text(`${index + 1}. ${dep.Priority_name},${dep.project_color},${dep.Priority_order}`, 10, 20 + index * 10);
+  });
+  doc.save('ProjectStatus.pdf');
+};
+async function fetchProjectPriority() {
+  try{
+      const result = await fetch(baseUrl + "project-Priority")
+      if(result.status === 200){
+          const data = await result.json();
+          console.log("+++++---priority", data.data)
+          setProjectPriorityDetail(data?.data)
+      }
+      else{
+          const data = await result.json();
+          console.error(data.message||"An unexpected error occured")
+          setProjectPriorityDetail([]);
+      }
+  }
+ catch(error){
+   console.log("some error occured" , error)
+ }
+}
+const [projectPriorityDetail, setProjectPriorityDetail] = useState();
+console.log("ProjectPriority Detail",projectPriorityDetail)
+
+const printDepartments = () => {
+  const printContent = projectPriorityDetail.map(dep => `${dep.Priority_name},${dep.Priority_color}, ${dep.Priority_order} (Total Users: 1)`).join('\n');
+  const newWindow = window.open();
+  newWindow.document.write(`<pre>${printContent}</pre>`);
+  newWindow.document.close();
+  newWindow.print();
+};
+const [rowsToShow, setRowsToShow] = useState(25);
+const handleExport = () => {
+  if (exportFormat === 'CSV') exportCSV();
+  else if (exportFormat === 'PDF') exportPDF();
+  else if (exportFormat === 'Print') printDepartments();
+};
+const [exportFormat, setExportFormat] = useState('');
+
   //Toggle swich off on btn
 
   //Modal
@@ -129,7 +184,7 @@ const Edit_Task_Status = () => {
   return (
     <div className=" w-full  ">
       <div className="bg-[#fff] p-[10px]">
-        <div className="p-[20px] rounded set-shadow w-full">
+        <div className="p-[20px] rounded-lg shadow-cs  w-full">
           <div className="flex items-center gap-[14px] mb-[10px]">
             <div className="flex items-center justify-center text-[14px] h-[50px]">
               {/* Button to open the modal */}
@@ -236,66 +291,68 @@ const Edit_Task_Status = () => {
             </div>
           </div>
           <div className="flex justify-between items-start gap-[10px] mb-[14px] flex-col xl:flex-row lg:flex-row md:flex-row ">
-            <div className="flex gap-[10px]">
-              <div className="relative inline-block text-left">
-                {/* Button to open/close the dropdown */}
-                <button
-                  className=" items-center p-[6px] text-left text-[12px] text-sm font-normal text-[black] select-pe  rounded-md  focus:outline-none"
-                  onClick={toggleDropdown1}
-                >
-                  25 <KeyboardArrowDownIcon className="newadd" />
-                </button>
+                        <div className="flex gap-[10px]">
+                            <div className="relative inline-block text-left">
+                                {/* Button to open/close the dropdown */}
+                                <select
+                                    onChange={handleSelectChange}
+                                    className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  pr-3 focus:outline-none'>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                    <option value="120">120</option>
+                                </select>
 
-                {/* Dropdown menu */}
-                {isOpen1 && (
-                  <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                    <div
-                      className=""
-                      role="menu"
-                      aria-orientation="vertical"
-                      aria-labelledby="options-menu"
-                    >
-                      <a
-                        href="#"
-                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        30
-                      </a>
-                      <a
-                        href="#"
-                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        40
-                      </a>
-                      <a
-                        href="#"
-                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                        role="menuitem"
-                      >
-                        50
-                      </a>
+                                {/* Dropdown menu */}
+                                {isOpen1 && (
+                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                                        <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                            <a
+                                                href="#"
+                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem"
+                                            >
+                                                30
+                                            </a>
+                                            <a
+                                                href="#"
+                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem"
+                                            >
+                                                40
+                                            </a>
+                                            <a
+                                                href="#"
+                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                                                role="menuitem"
+                                            >
+                                                50
+                                            </a>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+
+                            <select onChange={(e) => setExportFormat(e.target.value)}
+                                className='border border-[#e5e7eb] p-[7px] text-[14px] shadow-sm text-sm rounded-md  focus:outline-none'>
+                                <option value="CSV">CSV</option>
+                                <option value="PDF">PDF</option>
+                                <option value="Print">Print</option>
+                            </select>
+                            <button
+                                onClick={handleExport}
+                                className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
+
+>
+                                Export
+                            </button>
+                        </div>
+                        <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
+                            <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
+                            <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
+                        </div>
                     </div>
-                  </div>
-                )}
-              </div>
-
-              <p className=" relative p-[7px] text-[12px] w-[100px] font-medium summary-border rounded-md  ">
-                {" "}
-                Export{" "}
-                <CachedIcon className="absolute cursor-pointer right-[5px] top-[9px] newadd2" />{" "}
-              </p>
-            </div>
-            <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
-              <input
-                className="p-[6px] w-full rounded-2xl  summary-border text-[13px] "
-                type="text"
-                placeholder=" Search......."
-              />
-              <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
-            </div>
-          </div>
 
           <div className="main-table-status">
             <table className="table-auto w-full border border-gray-300 rounded-md table-status">
@@ -304,13 +361,13 @@ const Edit_Task_Status = () => {
                 className="set-shadow  cursor-pointer"
               >
                 <tr>
-                  <th className="p-3 text-left">ID</th>
-                  <th className="p-3 text-left">Status Name</th>
-                  <th className="p-3 text-left">Status Color</th>
-                  <th className="p-3 text-left">Status Order</th>
-                  <th className="p-3 text-left">Status Defaulter Filter</th>
-                  <th className="p-3 text-left">Status can be changed to</th>
-                  <th className="p-3 text-left">Status in hidder for</th>
+                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">ID</th>
+                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Name</th>
+                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Color</th>
+                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Order</th>
+                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Defaulter Filter</th>
+                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status can be changed to</th>
+                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status in hidder for</th>
                 </tr>
               </thead>
               {/* Add transition for tbody */}
@@ -321,14 +378,14 @@ const Edit_Task_Status = () => {
                 style={{ display: isOpen5 ? "table-row-group" : "none" }}
               >
                 <tr className="border">
-                  <td className=" ">1</td>
-                  <td className=" ">Not Started</td>
-                  <td className=" ">#fff</td>
-                  <td className=" ">20</td>
-                  <td className=" ">Yes</td>
-                  <td className=" ">In Progress</td>
-                  <td className=" ">
-                    <div className="flex gap-2">
+                  <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">1</td>
+                  <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">Not Started</td>
+                  <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">#fff</td>
+                  <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">20</td>
+                  <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">Yes</td>
+                  <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">In Progress</td>
+                  <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">
+                    <div className="flex justify-center items-center gap-2">
                       <button className=" " onClick={openModal6}>
                         <BorderColorIcon className="text-[#27004a]" />
                       </button>

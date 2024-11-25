@@ -221,9 +221,9 @@ const LeaveBalance = () => {
 
                                                 staffDetail?.map((items, index) => {
                                                     return <tr className="border">
-                                                        <td><input type='checkbox' className='border border-1 rounded-md ' /></td>
-                                                        <td>{items?.name}</td>
-                                                        <td>{items?.staffDetails?.job_title}</td>
+                                                        <td className='border-r border-[#dbdbdb] whitespace-nowrap' ><input type='checkbox' className='border border-1 rounded-md ' /></td>
+                                                        <td className='border-r border-[#dbdbdb] whitespace-nowrap' >{items?.name}</td>
+                                                        <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.job_title}</td>
                                                         {
                                                             staffDetail?.map((items, index) => {
                                                                 { console.log(items?.staffDetails?.LeavePolicy) }

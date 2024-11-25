@@ -87,7 +87,7 @@ const VerifyPan = () => {
                 </button>
             </div>
 
-            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
+            <div className='flex justify-between items-center mb-3 p-4 border border-1 shadow-cs bg-[#fff] rounded-lg ' >
                 <h4 className='font-light'>PAN</h4>
                 <p className='font-light'>{pan?.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
@@ -97,7 +97,7 @@ const VerifyPan = () => {
             </div>
 
 
-            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
+            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#fff] shadow-cs rounded-lg ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
                 <p className='font-light'>{pan?.status}
@@ -106,7 +106,7 @@ const VerifyPan = () => {
             </div>
 
 
-            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
+            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#fff] shadow-cs rounded-lg ' >
                 <h4 className='font-light'>Proofs</h4>
                 <input
                     type="file"
@@ -137,7 +137,7 @@ const VerifyPan = () => {
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add PAN</h2>
-                <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className=''>
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium' >PAN

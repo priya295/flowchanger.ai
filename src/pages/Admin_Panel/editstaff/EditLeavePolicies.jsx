@@ -4,6 +4,8 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 
 const EditLeavePolicies = () => {
     const { id } = useParams();
@@ -373,14 +375,14 @@ const EditLeavePolicies = () => {
 
                 <h3 className='font-medium'>Leave & Balance Details
                 </h3>
-                <button className='second-btn'>Update Details</button>
+                <button className='second-btn mt-[10px] ml-[10px]'>Update Details</button>
             </div>
 
 
             <div className='mt-5'>
-                <button className='shadow bg-white w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal12}> Leave Policy</button>
-                <button className='shadow bg-white w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal10}> Leave Balances</button>
-                <button className='shadow bg-white w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openLeaveRequestModal} > Leave Request</button>
+                <button className='shadow-cs bg-white w-full mb-4 flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-lg ' onClick={openModal12}> Leave Policy <ArrowForwardIosIcon className='allarrow-verify'/></button>
+                <button className='shadow-cs bg-white w-full mb-4  flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-lg ' onClick={openModal10}> Leave Balances <ArrowForwardIosIcon className='allarrow-verify'/></button>
+                <button className='shadow-cs bg-white w-full mb-4  flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-lg ' onClick={openLeaveRequestModal} > Leave Request <ArrowForwardIosIcon className='allarrow-verify'/></button>
 
 
 
@@ -477,7 +479,7 @@ const EditLeavePolicies = () => {
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px]   rounded-t-lg rounded-r-lg rounded-b-none'>Update Leave Policy for all staff</h2>
-                <button onClick={closeModal12} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <button onClick={closeModal12} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white bg-[#27004a] rounded-2xl' /></button>
                 <div className='pb-2'>
 
                     <Tabs className="p-[s0px] fixed-tab-section">
@@ -626,13 +628,13 @@ const EditLeavePolicies = () => {
                 className="w-[96%] xl:w-[55%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none'>Pending Requests</h2>
-                <button onClick={closeOpenLeaveRequestModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <button onClick={closeOpenLeaveRequestModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
                     <div className="w-full max-w-6xl mx-auto p-4">
                         <div className="flex border-b mb-4">
                             <button
                                 className={`py-2 px-4 font-medium ${activeTab === 'leave-requests'
-                                    ? 'text-[#511992] border-b-2 border-[#511992]'
+                                    ? 'text-[#27004a] border-b-2 border-[#27004a]'
                                     : 'text-gray-500'
                                     }`}
                                 onClick={() => setActiveTab('leave-requests')}
@@ -641,7 +643,7 @@ const EditLeavePolicies = () => {
                             </button>
                             <button
                                 className={`py-2 px-4 font-medium ${activeTab === 'device-verification'
-                                    ? 'text-[#511992] border-b-2 border-[#511992]'
+                                    ? 'text-[#27004a] border-b-2 border-[#27004a]'
                                     : 'text-gray-500'
                                     }`}
                                 onClick={() => setActiveTab('device-verification')}
@@ -655,7 +657,7 @@ const EditLeavePolicies = () => {
                                 <div className="flex space-x-2 mb-4">
                                     <button
                                         className={`py-1 px-4 rounded-full ${activeSubTab === 'pending'
-                                            ? 'bg-[#511992] text-white'
+                                            ? 'bg-[#27004a] text-white'
                                             : 'bg-gray-200 text-gray-700'
                                             }`}
                                         onClick={() => setActiveSubTab('pending')}
@@ -664,7 +666,7 @@ const EditLeavePolicies = () => {
                                     </button>
                                     <button
                                         className={`py-1 px-4 rounded-full ${activeSubTab === 'history'
-                                            ? 'bg-[#511992] text-white'
+                                            ? 'bg-[#27004a] text-white'
                                             : 'bg-gray-200 text-gray-700'
                                             }`}
                                         onClick={() => setActiveSubTab('history')}

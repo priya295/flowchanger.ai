@@ -160,14 +160,14 @@ const BankDetails = () => {
 
                                     staffDetail?.map((items, index) => (
                                         <tr className='border' key={index}>
-                                            <td><input type='checkbox' className='border border-1 rounded-md' /></td>
-                                            <td>{items?.name}</td>
-                                            <td>{items?.staffDetails?.job_title}</td>
-                                            <td>{items?.staffDetails?.BankDetails?.bank_name}</td>
-                                            <td>N/A</td>
-                                            <td>{items?.staffDetails?.BankDetails?.account_number}</td>
-                                            <td>{items?.staffDetails?.BankDetails?.ifsc_code}</td>
-                                            <td>N/A</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'><input type='checkbox' className='border border-1 rounded-md' /></td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.name}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.job_title}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.BankDetails?.bank_name}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>N/A</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.BankDetails?.account_number}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.BankDetails?.ifsc_code}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>N/A</td>
                                         </tr>
                                     ))
 

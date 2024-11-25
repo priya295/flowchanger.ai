@@ -34,8 +34,12 @@ const Clients = () => {
   const [isOn3, setIsOn3] = useState(false);
 
   const toggleSwitch3 = () => {
-      setIsOn3(!isOn3);
+    setIsOn3(!isOn3);
   }
+  const [open8, setOpen8] = useState(false);
+
+  const onOpenModal8 = () => setOpen8(true);
+  const onCloseModal8 = () => setOpen8(false);
 
   const [allStaff, setAllStaff] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -593,9 +597,10 @@ const Clients = () => {
                 onClick={toggleAccordion}
               >
                 <tr>
-                  <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                  <th className="border-r p-2 flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
                     <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen ? "rotate-90 text-[black]" : "rotate-0"}`}
                     />
+                    <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
 
                   </th>
                   <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
@@ -684,10 +689,28 @@ const Clients = () => {
                             className="text-purple-600 cursor-pointer"
                             onClick={() => setSelectedClient(item)}
                           />
-                          <DeleteIcon
-                            className="text-red-500 cursor-pointer"
-                            onClick={() => { console.log("Client data for delete:", item.id); deleteData(item.id) }}
-                          />
+
+                          <div>
+                            <button onClick={() => {
+                              setDeleteClient(item.id)
+                              onOpenModal8()
+                            }}>
+                              <DeleteIcon
+                                className="text-red-500 cursor-pointer"
+                              />
+                            </button>
+                            <Modal open={open8} onClose={onCloseModal8} center>
+                              <div className="flex items-center justify-center h-[120px]">
+                                <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                              </div>
+                              <div className="flex items-center justify-around ">
+                                <button className="allcrm-btn" onClick={() => { deleteData(deleteClient) }}>Yes , Confirm</button>
+                                <button className="allcrm-btn">No , Cancel</button>
+                              </div>
+                            </Modal>
+                          </div>
+
                         </td>
                       </tr>
                     ))
@@ -775,7 +798,7 @@ const Clients = () => {
       </div>
 
       <Modal
-        
+
         isOpen={selectedClient ? true : false}
         onAfterOpen={afterOpenModal2}
         onRequestClose={closeModal2}

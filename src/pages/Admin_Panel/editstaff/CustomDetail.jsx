@@ -189,7 +189,7 @@ const CustomDetail = () => {
                       />
                             </button>
                         </div>
-                    </div>)) : staffDetail !== null ? <div className='flex items-center justify-center h-[80px] text-sm font-medium text-gray-700'>No Custom Details</div> : (<div class="m-auto border-gray-300 h-10 w-10 animate-spin rounded-full border-8 border-t-[#27004a]" />)}
+                    </div>)) : staffDetail !== null ? <div className='flex items-center justify-center h-[80px] text-sm font-medium text-gray-700'>No Custom Details</div> : (<div class="m-auto border-gray-300 h-6 w-6 animate-spin rounded-full border-8 border-t-[#27004a]" />)}
 
                 </div>
             </div>
@@ -210,7 +210,7 @@ const CustomDetail = () => {
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add Custom Field</h2>
-                <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white bg-[#27004a] rounded-2xl' /></button>
                 <div className=''>
                     <div className='modal-field field-modal p-[10px] border border-t'>
                         <label className='text-[13px] xl:text-[14px] font-medium'>Custom Field Name

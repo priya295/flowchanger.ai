@@ -552,9 +552,10 @@ const Task = () => {
             <thead className=" cursor-pointer border border-gray-300 shadow-md " onClick={toggleAccordion}
             >
               <tr>
-                <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                <th className="border-r p-2   flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
                   <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen ? "rotate-90 text-[black]" : "rotate-0"}`}
                   />
+                  <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
 
                 </th>
                 <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">

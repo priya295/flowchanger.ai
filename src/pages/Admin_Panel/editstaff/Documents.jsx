@@ -145,7 +145,7 @@ const Documents = () => {
                   <td className="p-4 align-middle">{doc.addedOn || "-"}</td>
                   <td className="p-4 align-middle">
                     {!doc.isFolder && (
-                      <button className="inline-flex items-center text-sm font-medium text-blue-500 hover:text-blue-700">
+                      <button className="inline-flex items-center text-sm font-medium text-[#27004a]">
                         Download
                         <svg
                           className="ml-1 h-4 w-4"

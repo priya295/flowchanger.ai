@@ -295,7 +295,7 @@ const TaskPriority = () => {
                                 {/* Button to open/close the dropdown */}
                                 <select
                                     onChange={handleSelectChange}
-                                    className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                                    className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  pr-3 focus:outline-none'>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -334,7 +334,7 @@ const TaskPriority = () => {
 
 
                             <select onChange={(e) => setExportFormat(e.target.value)}
-                                className='border border-[#e5e7eb] p-2 pl-0 shadow-sm text-sm rounded-md  focus:outline-none'>
+                                className='border border-[#e5e7eb] p-[7px] text-[14px] shadow-sm text-sm rounded-md  focus:outline-none'>
                                 <option value="CSV">CSV</option>
                                 <option value="PDF">PDF</option>
                                 <option value="Print">Print</option>
@@ -356,9 +356,9 @@ const TaskPriority = () => {
                         <table className="table-auto w-full border border-gray-300 rounded-md table-status">
                             <thead onClick={toggleTable} className="set-shadow cursor-pointer">
                                 <tr>
-                                    <th className="p-3 text-center ">#</th>
-                                    <th className="p-3 text-center ">Priority Name</th>
-                                    <th className="p-3 text-center ">Action</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">#</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">Priority Name</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">Action</th>
                                 </tr>
                             </thead>
                             <tbody
@@ -367,9 +367,9 @@ const TaskPriority = () => {
                             >
                                 {priorityHeading?.map((priorityName, index) => (
                                     <tr key={index} className="border">
-                                        <td className="p-3 text-center ">{index + 1}</td>
-                                        <td className="p-3 text-center ">{priorityName.taskPriorityName}</td>
-                                        <td className="p-3 text-center ">
+                                        <td className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">{index + 1}</td>
+                                        <td className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">{priorityName.taskPriorityName}</td>
+                                        <td className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">
                                             <div className="flex gap-2 justify-center">
                                                 <button className="rounded-md text-white"
                                                     onClick={() => handlePrioritySelect(priorityName)}

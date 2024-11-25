@@ -348,7 +348,7 @@ const ProjectPriority = () => {
                                 {/* Button to open/close the dropdown */}
                                 <select
                                     onChange={handleSelectChange}
-                                    className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                                    className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  pr-3 focus:outline-none'>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -387,7 +387,7 @@ const ProjectPriority = () => {
 
 
                             <select onChange={(e) => setExportFormat(e.target.value)}
-                                className='border border-[#e5e7eb] p-2 pl-0 shadow-sm text-sm rounded-md  focus:outline-none'>
+                                className='border border-[#e5e7eb] p-[7px] text-[14px] shadow-sm text-sm rounded-md  focus:outline-none'>
                                 <option value="CSV">CSV</option>
                                 <option value="PDF">PDF</option>
                                 <option value="Print">Print</option>
@@ -412,13 +412,13 @@ const ProjectPriority = () => {
                                 className="set-shadow  cursor-pointer"
                             >
                                 <tr>
-                                    <th className="p-3 text-center">ID</th>
-                                    <th className="p-3 text-center">Status Name</th>
-                                    <th className="p-3 text-center">Status Color</th>
-                                    <th className="p-3 text-center">Status Order</th>
-                                    <th className="p-3 text-center">Status Defaulter Filter</th>
-                                    <th className="p-3 text-center">Status can be changed to</th>
-                                    <th className="p-3 text-center">action</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">ID</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Name</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Color</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Order</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Defaulter Filter</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status can be changed to</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">action</th>
 
                                 </tr>
                             </thead>
@@ -435,13 +435,13 @@ const ProjectPriority = () => {
                                     projectPriorityDetail?.map((s,index)=>{
                                         console.log(s);
                                         return   <tr className="border">
-                                        <td className=" ">{index+1}</td>
-                                        <td className=" ">{s.Priority_name}</td>
-                                        <td className=" ">{s.Priority_color}</td>
-                                        <td className=" ">{s.Priority_order}</td>
-                                        <td className=" ">Yes</td>
-                                        <td className=" ">In Progress</td>
-                                        <td className=" ">
+                                        <td className="border-r border-[#dbdbdb] whitespace-nowrap ">{index+1}</td>
+                                        <td className="border-r border-[#dbdbdb] whitespace-nowrap ">{s.Priority_name}</td>
+                                        <td className="border-r border-[#dbdbdb] whitespace-nowrap ">{s.Priority_color}</td>
+                                        <td className=" border-r border-[#dbdbdb] whitespace-nowrap">{s.Priority_order}</td>
+                                        <td className=" border-r border-[#dbdbdb] whitespace-nowrap">Yes</td>
+                                        <td className=" border-r border-[#dbdbdb] whitespace-nowrap">In Progress</td>
+                                        <td className=" border-r border-[#dbdbdb] whitespace-nowrap">
                                             <div className="flex  justify-center">
                                                 <button className=" p-3  rounded-md text-white " onClick={openModal6} ><AiOutlineEdit className="text-[#27004a] text-xl" /></button>
                                                 <button className=" p-3  rounded-md text-white "><RiDeleteBinLine className="text-red-600 text-xl"/></button>

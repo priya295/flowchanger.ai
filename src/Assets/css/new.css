@@ -284,6 +284,9 @@
 .roll-name{
     border-right: 1px solid #dbdbbd !important;
 }
+.allarrow-verify{
+    font-size: 18px !important;
+}
 .allcrm-btn:hover{  
     transition: all 0.3s linear;
     background: none;
@@ -327,6 +330,10 @@
     color: white;
     border-radius: 50px;
     padding: 4px 8px;
+    height: 24px;
+}
+.newtab-staff{
+    border-bottom: 2px solid #dbdbdb !important;
 }
 
 .preferences{

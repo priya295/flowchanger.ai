@@ -85,7 +85,7 @@ const SalaryOverview = () => {
                 <h3 className='font-medium'>Salary Overview</h3>
                 <button className='second-btn'>Update Details</button>
             </div>
-            {selectedStaff === null && <div class="m-auto mt-10 border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-[#27004a]" />}
+            {selectedStaff === null && <div class="m-auto mt-10 border-gray-300 h-8 w-8 animate-spin rounded-full border-8 border-t-[#27004a]" />}
             {
                 selectedStaff?.staffDetails?.SalaryDetails?.map((salary) =>
                     <div className='flex justify-between xl:items-center lg:items-center md:items-center gap-[10px] items-start  shadow bg-white flex-col xl:flex-row lg:flex-row md:flex-row w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md '>
