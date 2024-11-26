@@ -38,7 +38,6 @@ const Clients = () => {
   }
 
   const [allStaff, setAllStaff] = useState();
-
   const [isLoading, setIsLoading] = useState(true);
   const [departments, setDepartments] = useState([])
   const [companyName, setCompanyName] = useState("");
@@ -761,7 +760,7 @@ const Clients = () => {
           </div>
 
 
-          <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+          <div className='flex justify-between p-[14px] pb-[0] w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
             <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
             <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
               <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>

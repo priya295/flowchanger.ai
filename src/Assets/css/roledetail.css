@@ -28,10 +28,22 @@
     border-right: 1px solid #fff;
     background: #fff !important;
 }
+.table-section1 thead th{
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-right: 1px solid #dbdbdb;
+    background: #fff !important;
 
-.table-section table {
-    /* border-collapse: unset; */
+
 }
+.table-section1 tbody td{
+    text-align: center;
+    font-size: 12px;
+    padding: 10px 0px;
+}
+
 
 .table-body-set label {
     position: relative;
@@ -63,7 +75,7 @@
     background: #27004a;
     padding: 0px 20px;
     color: white;
-    height: 44px;
+    height: 40px;
     transition: all 0.3s linear;
     border: 1px solid #27004a;
     white-space: nowrap;
@@ -199,8 +211,6 @@
 
 .custom-body-class .admin-sidebar-set {
     width: 100% !important;
-    /* transition: all 0.3s linear; */
-    /* transition-delay: 5s; */
 }
 
 .custom-body-class .navbar {
@@ -303,9 +313,6 @@ input[type=radio] {
     display: flex;
 }
 
-.add-icon {
-    /* font-size: 16px !important; */
-}
 
 .arrow-icon {
     font-weight: 500;
@@ -670,7 +677,7 @@ input[type=radio] {
     }
 }
 
-.arrow-back-icon {
+.arrow-back-icon{
     background: #27004a;
     color: white;
     padding: 3px;
@@ -700,4 +707,29 @@ input[type=radio] {
         width: 100%;
         position: absolute;
     }
-}
+   }
+  
+
+
+
+   .scroll-bar-design::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  /* Track */
+  .scroll-bar-design::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(202, 200, 200); 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  .scroll-bar-design::-webkit-scrollbar-thumb {
+    background: #27004a; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  .scroll-bar-design::-webkit-scrollbar-thumb:hover {
+    background: #27004a; ;
+  }
+  

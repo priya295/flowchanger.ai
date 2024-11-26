@@ -674,48 +674,7 @@ const RunPayroll = ({toggleRunTab}) => {
                   </div>
                 </th>
 
-                <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
-                  <div className="flex">
-                    Bank/UPI Verified
-                    <div className="relative dropdown-container">
-                      <button onClick={() => handleDrop("bank")}>
-                        <FilterListIcon className="filter-icon" />
-                      </button>
-
-                      {activeDropdown === "bank" && (
-                        <div
-                          className="absolute left-[0px] z-10 text-left mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                          role="menu"
-                          aria-orientation="vertical"
-                          aria-labelledby="menu-button"
-                          tabIndex="-1"
-                        >
-                          <div className="py-1" role="none">
-                            <Link
-                              to="/add-one-staff"
-                              className="block px-4 py-2 text-sm text-gray-700"
-                              role="menuitem"
-                              tabIndex="-1"
-                              id="menu-item-0"
-                            >
-                              Sort A to Z
-                            </Link>
-                            <Link
-                              to="#"
-                              className="block px-4 py-2 text-sm text-gray-700"
-                              role="menuitem"
-                              tabIndex="-1"
-                              id="menu-item-1"
-                            >
-                              Sort Z to A
-                            </Link>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </th>
-
+               
                 {toggleDrop11 && (
                   <>
                     <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
@@ -1502,10 +1461,7 @@ const RunPayroll = ({toggleRunTab}) => {
                     {" "}
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
-                    {" "}
-                    N/A
-                  </td>
+                 
                   
                 </tr>
        

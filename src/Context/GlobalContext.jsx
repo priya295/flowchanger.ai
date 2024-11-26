@@ -4,11 +4,14 @@ import { toast, ToastContainer } from 'react-toastify';
 
 export const MainContext = createContext();
 export const GlobalContext = ({ children }) => {
+
+  
+
   const [activeSubmenu, setActiveSubmenu] = useState(false);
   const [selectedSidebarTab, setSelectedSidebarTab] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
-  const baseUrl = "https://fc-prod-testing.onrender.com/api/"
-  // const baseUrl= "https://fc-production-testing.onrender.com/api/"
+  // const baseUrl = "https://fc-prod-testing.onrender.com/api/"
+  const baseUrl= "https://fc-production-testing.onrender.com/api/"
   console.log(baseUrl)
   const [staffTab, setStaffTab] = useState(0);
   const [name, setName] = useState("");
@@ -55,7 +58,7 @@ export const GlobalContext = ({ children }) => {
         setStaffDetail(res)
       }
       else {
-        alert("An Error Occured")
+        console.log("An Error Occured")
       }
     }
     catch (error) {

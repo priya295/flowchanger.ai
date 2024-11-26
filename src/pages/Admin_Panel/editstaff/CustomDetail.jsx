@@ -4,6 +4,16 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+/*************  ✨ Codeium Command ⭐  *************/
+/**
+ * Component for rendering custom details of a staff member
+ *
+ * @component
+ * @returns {ReactElement}
+ */
+/******  86860ca5-c6ef-478e-9e32-7266d9206a6f  *******/import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+
 
 const CustomDetail = () => {
     let subtitle;
@@ -160,7 +170,7 @@ const CustomDetail = () => {
 
             <div className={"w-full bg-white rounded-lg overflow-hidden mb-5 " + (staffDetail !== null && "shadow-md")}>
                 <div className={"rounded-md " + (staffDetail !== null && "border border-gray-200")}>
-                    {allCustomDetail.length > 0 ? allCustomDetail?.map(({ field_name, field_value, id }) => (<div key={id} className="flex items-center justify-between p-4 hover:bg-gray-50">
+                    {allCustomDetail.length > 0 ? allCustomDetail?.map(({ field_name, field_value, id }) => (<div key={id} className="flex items-center justify-between p-4 border-b hover:bg-gray-50">
                         <span className="text-sm text-gray-700">{field_name}</span>
                         <span className="text-sm text-gray-700">{field_value}</span>
                         <div className="flex items-center gap-2">
@@ -168,16 +178,18 @@ const CustomDetail = () => {
                                 openModal2();
                                 setEditingId(id);
                             }} className="px-3 py-1 text-sm text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded">
-                                Edit
+                            <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
                             </button>
                             <button onClick={() => {
                                 console.log(id);
                                 deleteCustomDetail(id)
                             }} className="px-3 py-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 rounded">
-                                Delete
+                                <DeleteOutlineIcon
+                        className="text-red-500 font-light cursor-pointer text-[10px]"
+                      />
                             </button>
                         </div>
-                    </div>)) : staffDetail !== null ? <div className='flex items-center justify-center h-[80px] text-sm font-medium text-gray-700'>No Custom Details</div> : (<div class="m-auto border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-[#27004a]" />)}
+                    </div>)) : staffDetail !== null ? <div className='flex items-center justify-center h-[80px] text-sm font-medium text-gray-700'>No Custom Details</div> : (<div class="m-auto border-gray-300 h-10 w-10 animate-spin rounded-full border-8 border-t-[#27004a]" />)}
 
                 </div>
             </div>
