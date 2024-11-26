@@ -251,7 +251,6 @@ const Attendence_summary = () => {
 
         }
     }
-
     const [departments, setDepartments] = useState([]);
     const fetchDepartments = async () => {
         try {
