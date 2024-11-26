@@ -280,12 +280,9 @@ input[type=radio] {
 
 .modal-field {
     height: 400px;
-    overflow: scroll;
+   
 }
 
-/* .fixed-tab-section .react-tabs__tab--selected input{
-        accent-color: red;
-   } */
 
 .tabs-attendance .react-tabs .react-tabs__tab--selected {
     border-radius: 10px;

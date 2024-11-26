@@ -309,7 +309,7 @@ const DepartmentDetail = () => {
                     colSpan="9"
                     className="text-center text-gray-600 text-xl font-semibold py-4"
                   >
-                    <ClipLoader color="#4A90E2" size={50} />
+                    <ClipLoader color="#4A90E2" size={40} />
                   </td>
                 </tr>
               ) : departments && departments.length > 0 ? (

@@ -9,11 +9,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import Modal from "react-modal";
 import CloseIcon from "@mui/icons-material/Close";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteIcon from "@mui/icons-material/Delete";
 import Select from "react-select";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import { IoMdArrowDropright } from "react-icons/io";
 
 const Edit_Task_Status = () => {
   let subtitle;
@@ -61,7 +62,11 @@ const Edit_Task_Status = () => {
       }
     }
   };
+  const [open11, setOpen11] = useState(false);
 
+  const onOpenModal11 = () => setOpen11(true);
+  const onCloseModal11 = () => setOpen11(false);
+  
   console.log(allStaff);
   // Function to handle accordion toggling
   const handleToggle = (index) => {
@@ -132,6 +137,7 @@ const printDepartments = () => {
   newWindow.document.close();
   newWindow.print();
 };
+
 const [rowsToShow, setRowsToShow] = useState(25);
 const handleExport = () => {
   if (exportFormat === 'CSV') exportCSV();
@@ -197,7 +203,7 @@ const [exportFormat, setExportFormat] = useState('');
 
               {/* Modal (visible only when isOpen is true) */}
               {isOpen && (
-                <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+                <div className="fixed inset-0 flex items-center z-[1] justify-center bg-gray-800 bg-opacity-50">
                   <div className="bg-white rounded-lg shadow-lg w-96">
                     {/* Modal Header */}
                     <div className="px-4 py-2 border-b">
@@ -361,6 +367,12 @@ const [exportFormat, setExportFormat] = useState('');
                 className="set-shadow  cursor-pointer"
               >
                 <tr>
+                <th className="border-r p-2 flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
+                    <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen5 ? "rotate-90 text-[black]" : "rotate-0"}`}
+                    />
+                    <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
+
+                  </th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">ID</th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Name</th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Color</th>
@@ -378,6 +390,7 @@ const [exportFormat, setExportFormat] = useState('');
                 style={{ display: isOpen5 ? "table-row-group" : "none" }}
               >
                 <tr className="border">
+                  <td className="border-r border-[#dbdbdb] whitespace-nowrap">#</td>
                   <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">1</td>
                   <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">Not Started</td>
                   <td className=" border-r border-[#dbdbdb] whitespace-nowrap ">#fff</td>
@@ -389,9 +402,26 @@ const [exportFormat, setExportFormat] = useState('');
                       <button className=" " onClick={openModal6}>
                         <BorderColorIcon className="text-[#27004a]" />
                       </button>
-                      <button className=" ">
-                        <DeleteOutlineIcon className="text-[#ff0000]" />
-                      </button>
+                      <div>
+                            <button onClick={() => {
+                           
+                              onOpenModal11()
+                            }}>
+                              <DeleteIcon
+                                className="text-red-500 cursor-pointer"
+                              />
+                            </button>
+                            <Modal open={open11} onClose={onCloseModal11} center>
+                              <div className="flex items-center justify-center h-[120px]">
+                                <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                              </div>
+                              <div className="flex items-center justify-around ">
+                                <button className="allcrm-btn" >Yes , Confirm</button>
+                                <button className="allcrm-btn">No , Cancel</button>
+                              </div>
+                            </Modal>
+                          </div>
                     </div>
                   </td>
                 </tr>
@@ -423,7 +453,7 @@ const [exportFormat, setExportFormat] = useState('');
         </button>
 
         <div className="first-panel">
-          <div className="p-4">
+          <div className="p-4 overflow-y-scroll h-[100vh]">
             <div className="w-[100%] xl:[48%] mb-[10px] ">
               <label className="text-[14px]">*Status Name</label>
               <br />

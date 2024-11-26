@@ -200,7 +200,7 @@ const RunPayroll = ({toggleRunTab}) => {
                     tabindex="-1"
                     id="menu-item-1"
                   >
-                    <DownloadIcon className="text-[#5173ff] font-normal text-[18px]" />{" "}
+                    <DownloadIcon className="text-[#27004a] font-normal text-[18px]" />{" "}
                     Download Pay Slip
                   </NavLink>
                   <NavLink
@@ -210,7 +210,7 @@ const RunPayroll = ({toggleRunTab}) => {
                     tabindex="-1"
                     id="menu-item-0"
                   >
-                    <ShareIcon className="text-[#5173ff] font-normal text-[18px]" />{" "}
+                    <ShareIcon className="text-[#27004a] font-normal text-[18px]" />{" "}
                     Share Pay Slip
                   </NavLink>
                 </div>
@@ -242,7 +242,7 @@ const RunPayroll = ({toggleRunTab}) => {
                     tabindex="-1"
                     id="menu-item-1"
                   >
-                    <UploadFileIcon className="text-[#5173ff] font-normal text-[18px]" />{" "}
+                    <UploadFileIcon className="text-[#27004a] font-normal text-[18px]" />{" "}
                     Import Earnings
                   </NavLink>
                   <NavLink
@@ -252,7 +252,7 @@ const RunPayroll = ({toggleRunTab}) => {
                     tabindex="-1"
                     id="menu-item-0"
                   >
-                    <UploadFileIcon className="text-[#5173ff] font-normal text-[18px]" />{" "}
+                    <UploadFileIcon className="text-[#27004a] font-normal text-[18px]" />{" "}
                     Import Deductions
                   </NavLink>
                 </div>
@@ -1423,41 +1423,41 @@ const RunPayroll = ({toggleRunTab}) => {
               </thead>
               <tbody>
                 <tr className="border">
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     <input
                       type="checkbox"
                       className="border border-1 rounded-md"
                     />
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     {" "}
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     {" "}
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     {" "}
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     {" "}
                     N/A
                   </td>
-                  <td className="p-2 whitespace-nowrap text-xs text-center">
+                  <td className="p-2 whitespace-nowrap text-xs text-center border-r border-[#dbdbdb]">
                     {" "}
                     N/A
                   </td>
@@ -1493,7 +1493,7 @@ const RunPayroll = ({toggleRunTab}) => {
         </h2>
         <button
           onClick={closeModal9}
-          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
+          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full"
         >
           <CloseIcon className="text-white" />
         </button>
@@ -1596,7 +1596,7 @@ const RunPayroll = ({toggleRunTab}) => {
         </h2>
         <button
           onClick={closeModal10}
-          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
+          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full"
         >
           <CloseIcon className="text-white" />
         </button>
@@ -1630,7 +1630,7 @@ const RunPayroll = ({toggleRunTab}) => {
         </h2>
         <button
           onClick={closeModal12}
-          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
+          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full"
         >
           <CloseIcon className="text-white" />
         </button>
@@ -1662,7 +1662,7 @@ const RunPayroll = ({toggleRunTab}) => {
         </h2>
         <button
           onClick={closeModal13}
-          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
+          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full"
         >
           <CloseIcon className="text-white" />
         </button>
@@ -1694,7 +1694,7 @@ const RunPayroll = ({toggleRunTab}) => {
         </h2>
         <button
           onClick={closeModal14}
-          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
+          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full"
         >
           <CloseIcon className="text-white" />
         </button>

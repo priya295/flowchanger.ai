@@ -10,6 +10,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import PersonIcon from "@mui/icons-material/Person";
 import Modal from "react-modal";
 import CloseIcon from "@mui/icons-material/Close";
+import { IoMdArrowDropright } from "react-icons/io";
 
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
@@ -351,6 +352,12 @@ const [exportFormat, setExportFormat] = useState('');
                 className="set-shadow  cursor-pointer"
               >
                 <tr>
+                <th className="border-r p-2 flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
+                    <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen5 ? "rotate-90 text-[black]" : "rotate-0"}`}
+                    />
+                    <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
+
+                  </th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">ID</th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Name</th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Color</th>
@@ -369,6 +376,7 @@ const [exportFormat, setExportFormat] = useState('');
                 {fetchProjectStatus?.map((fetchProjectDetail, index) => {
                   return (
                     <tr className="border">
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">#</td>
                       <td className="border-r border-[#dbdbdb] whitespace-nowrap ">{index + 1}</td>
                       <td className=" border-r border-[#dbdbdb] whitespace-nowrap">{fetchProjectDetail.project_name}</td>
                       <td className=" border-r border-[#dbdbdb] whitespace-nowrap">{fetchProjectDetail.project_color}</td>

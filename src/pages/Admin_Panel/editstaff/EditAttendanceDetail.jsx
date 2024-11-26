@@ -787,7 +787,7 @@ const EditAttendanceDetail = () => {
     return (
         <>
             {/* <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '> */}
-            <h2 className='bg-[#f6f9fa] pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow'>Attendance Details</h2>
+            <h2 className='bg-[#fff] pt-[10px] mt-[60px] pb-[10px] pl-[14px] rounded-lg font-normal shadow-cs'>Attendance Details</h2>
 
             <div className='mt-5'>
                 <button type="button" onClick={openModal} className=" shadow bg-white w-full flex items-center justify-between mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md " id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -822,6 +822,9 @@ const EditAttendanceDetail = () => {
                     </div>
                 </div>
             </div>
+            
+            
+
             {/* update work timing */}
             <Modal
                 isOpen={modalIsOpen}

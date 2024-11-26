@@ -13,6 +13,8 @@ import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import { IoMdArrowDropright } from "react-icons/io";
+
 
 
 
@@ -356,6 +358,12 @@ const TaskPriority = () => {
                         <table className="table-auto w-full border border-gray-300 rounded-md table-status">
                             <thead onClick={toggleTable} className="set-shadow cursor-pointer">
                                 <tr>
+                                <th className="border-r p-2 flex justify-left items-center text-xs font-medium whitespace-nowrap text-center">
+                    <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen5 ? "rotate-90 text-[black]" : "rotate-0"}`}
+                    />
+                    <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
+
+                  </th> 
                                     <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">#</th>
                                     <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">Priority Name</th>
                                     <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">Action</th>
@@ -367,6 +375,7 @@ const TaskPriority = () => {
                             >
                                 {priorityHeading?.map((priorityName, index) => (
                                     <tr key={index} className="border">
+                                        <td className="border-r border-[#dbdbdb] text-left whitespace-nowrap">#</td>
                                         <td className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">{index + 1}</td>
                                         <td className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">{priorityName.taskPriorityName}</td>
                                         <td className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap ">

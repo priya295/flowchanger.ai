@@ -648,24 +648,24 @@ const Clients = () => {
                   ) : searchedClients === null && clientData && clientData.length > 0 ? (
                     clientData?.map((item, index) => (
                       <tr key={item?.id} className="border-b border-gray-300">
-                        <td className="p-2 text-center">
+                        <td className="p-2 text-center border-r border-[#dbdbdb]">
                           <input type="checkbox" className="text-xs h-4" />
                         </td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">{index + 1}</td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">{item?.name}</td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">{index + 1}</td>
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">{item?.name}</td>
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">
                           {item?.clientDetails?.company}
                         </td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">
                           {item?.mobile}
                         </td>
-                        <td className="p-2 whitespace-nowrap text-xs text-center">
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">
                           {item?.email}
                         </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                        <td className="p-2 text-xs text-center border-r border-[#dbdbdb] whitespace-nowrap ">
                           {item?.mobile}
                         </td>
-                        <td className="text-[11px] font-medium p-[10px] whitespace-nowrap">
+                        <td className="text-[11px] font-medium border-r border-[#dbdbdb] p-[10px] whitespace-nowrap">
                           <div className="flex items-center justify-center gap-[6px]">
                             <div
                               className={`${item?.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
@@ -678,13 +678,13 @@ const Clients = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                        <td className="p-2 text-xs text-center border-r border-[#dbdbdb] whitespace-nowrap ">
                           {item?.groups}
                         </td>
-                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                        <td className="p-2 text-xs border-r border-[#dbdbdb] text-center whitespace-nowrap ">
                           {new Date(item?.clientDetails?.created_at).toDateString()}
                         </td>
-                        <td className="p-2 flex justify-center gap-2">
+                        <td className="p-2  flex justify-center gap-2">
                           <BorderColorIcon
                             className="text-purple-600 cursor-pointer"
                             onClick={() => setSelectedClient(item)}
@@ -718,7 +718,7 @@ const Clients = () => {
                     searchedClients?.map((client, index) => (
                       <tr key={client.id} className="border-b border-gray-300">
                         {/* Same structure as above, just using client instead of item */}
-                        <td className="p-2 text-center">
+                        <td className="p-2 text-center border-r">
                           <input type="checkbox" className="text-xs h-4" />
                         </td>
                         <td className="p-2 text-xs text-center whitespace-nowrap ">{index + 1}</td>

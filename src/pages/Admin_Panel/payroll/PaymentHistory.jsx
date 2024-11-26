@@ -359,22 +359,10 @@ const PaymentHistory = () => {
                   </div>
                 </div>
               </th>
-              <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+          
 
-                <div className="flex">Transaction ID</div>
-              </th>
-
-              <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
-                <div className="flex">UTR Number</div>
-              </th>
-              <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
-              
-                <div className="flex">Paid By</div>
-              </th>
-
-              <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
-                <div className="flex">Notes</div>
-              </th>
+         
+         
             </tr>
           </thead>
 
@@ -387,9 +375,8 @@ const PaymentHistory = () => {
                       <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
                       <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
                       <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                    
+                   
                     </tr>
           <tr className="border">
                       <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
@@ -399,9 +386,8 @@ const PaymentHistory = () => {
                       <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
                       <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
                       <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
-                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                   
+                     
                     </tr>
           </tbody>
 {/* 

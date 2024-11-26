@@ -370,7 +370,7 @@ const EditLeavePolicies = () => {
     ])
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]   flex flex-col '>
+        <div className='w-full xl:pt-[40px] xl:pl-[0] xl:pr-[0] relative   pl-[0] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Leave & Balance Details
@@ -420,7 +420,7 @@ const EditLeavePolicies = () => {
                     </div>
 
 
-                    <div className="border border-[#18181826] rounded-md bg-[#f0f8fd] p-[8px] mb-6">
+                    <div className="border border-[#dbdbdb] shadow-cs rounded-md bg-[#fff] p-[8px] mb-6">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="text-gray-700 text-[14px] font-medium">Leave Type</div>
                             <div className="text-gray-700 font-medium text-[14px]">Remaining Balance</div>
@@ -544,16 +544,16 @@ const EditLeavePolicies = () => {
                                                 </td>
                                             </tr>)}
                                         <tr>
-                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='New Policy Type' value={leavePolicyType} onChange={(e) => setLeavePolicyType(e.target.value)} type='text' /></td>
-                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='Set Allowed Leaves' value={allowedLeavesPerYear} onChange={(e) => setAllowedLeavePerYear(e.target.value)} type='text' /></td>
-                                            <td><input className=' py-2 w-2/3 text-center placeholder:text-center  outline-none focus:outline-none border mx-2 border-slate-400' placeholder='Set Carry Forward Leaves' value={carryForwardLeaves} onChange={(e) => setCarryForwardLeaves(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 text-center placeholder:text-center bg-[#fff]  rounded-md border border-[#dbdbdb] outline-none focus:outline-none' placeholder='New Policy Type' value={leavePolicyType} onChange={(e) => setLeavePolicyType(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none bg-[#fff]  rounded-md border border-[#dbdbdb]' placeholder='Set Allowed Leaves' value={allowedLeavesPerYear} onChange={(e) => setAllowedLeavePerYear(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 w-2/3 text-center placeholder:text-center  outline-none focus:outline-none bg-[#fff]  rounded-md border border-[#dbdbdb]' placeholder='Set Carry Forward Leaves' value={carryForwardLeaves} onChange={(e) => setCarryForwardLeaves(e.target.value)} type='text' /></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+                            <div className='w-[100%] flex rounded-md shadow overflow-x-scroll border border-1 mt-4 pl-3 pr-3'>
                                 <table className='table-section mt-4'>
                                     <thead className='border border-1 '>
                                         <th>Leave Type</th>
@@ -614,7 +614,7 @@ const EditLeavePolicies = () => {
                         </TabPanel>
 
                     </Tabs>
-                    <button onClick={(e) => editingRow === null ? createLeavePolicy(e) : updateLeavePolicy(e)} className='second-btn'>Update Details</button>
+                    <button onClick={(e) => editingRow === null ? createLeavePolicy(e) : updateLeavePolicy(e)} className='second-btn mt-[14px] ml-[14px]'>Update Details</button>
                 </div>
             </Modal>
             {/* when onclick leave policies
@@ -627,7 +627,7 @@ const EditLeavePolicies = () => {
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[55%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none'>Pending Requests</h2>
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-left bg-[#fff] rounded-t-lg  rounded-r-lg rounded-b-none'>Pending Requests</h2>
                 <button onClick={closeOpenLeaveRequestModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
                     <div className="w-full max-w-6xl mx-auto p-4">

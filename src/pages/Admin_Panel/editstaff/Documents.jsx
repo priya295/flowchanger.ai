@@ -87,7 +87,7 @@ const Documents = () => {
 
 
             </div >
-            <div className="w-full p-4 md:p-6">
+            <div className="w-full   pt-[20px]">
       <div className="rounded-lg border bg-white shadow-sm">
         <div className="w-full overflow-auto">
           <table className="w-full caption-bottom text-sm">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveIcon from '@mui/icons-material/Remove';
 import SellIcon from '@mui/icons-material/Sell';
 import { useGlobalContext } from "../../../Context/GlobalContext";
@@ -129,6 +129,11 @@ const Task = () => {
   const removeDiv = (indexToRemove) => {
     setDivs(divs.filter((_, index) => index !== indexToRemove)); // Filter out the div with the given index
   };
+  const [open10, setOpen10] = useState(false);
+
+  const onOpenModal10 = () => setOpen10(true);
+  const onCloseModal10 = () => setOpen10(false);
+
 
   function closeModal15() {
     setIsOpen15(false);
@@ -343,62 +348,6 @@ const Task = () => {
     }
   }, [selectedTaskData])
 
-  const accordionItems = [
-    {
-      title:
-        <div>
-          <table className="w-full">
-            <thead className="tablehead">
-              <tr className="rounded-lg">
-
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap"><button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span></th>
-                <th className="text-[12px] border-r w-[60px]  font-medium p-[8px] ">#</th>
-                <th className="text-[12px] w-[220px] p-[8px] border-r font-medium whitespace-nowrap">Task Name</th>
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Start Date</th>
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">Due Date</th>
-                <th className="text-[12px] font-medium p-[8px] w-[120px] border-r whitespace-nowrap	">End Date</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Assigned to</th>
-                <th className="text-[12px] font-medium p-[8px] w-[80px] border-r whitespace-nowrap	">Tags</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Priority</th>
-                <th className="text-[12px] font-medium p-[8px] w-[100px] border-r whitespace-nowrap	">Actions</th>
-              </tr>
-            </thead>
-          </table>
-        </div>,
-      content: (
-        <table className="w-full " >
-          <tbody>
-            {
-              fetchTaskData?.map((s, index) => {
-                return <tr className="rounded-lg border-b border-[#e5e7eb]">
-
-                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap"><Link className="textcomplete">N/A</Link></td>
-                  <td className="text-[12px]  w-[60px]  font-medium p-[8px] text-left ">{index + 1}</td>
-                  <td className="text-[12px] w-[220px] p-[8px]  text-left font-medium whitespace-nowrap"><Link to="/taskview" className="textcomplete">{s?.taskName}</Link></td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s?.startDate}</td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">{s?.endDate}</td>
-                  <td className="text-[12px] font-medium p-[8px] text-left w-[120px]  whitespace-nowrap	">13-08-2024</td>
-                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left  whitespace-nowrap	">N/A</td>
-                  <td className="text-[12px] font-medium p-[8px] w-[80px] text-left whitespace-nowrap	">N/A</td>
-                  <td className="text-[12px] font-medium p-[8px] w-[100px] text-left whitespace-nowrap	"><Link className="highred">N/A</Link></td>
-                  <td className="flex gap-[10px]">
-                    <button onClick={() => {
-                      setSelectedTaskData(s);
-                      openModal2(); // Call the function here
-                    }}><BorderColorIcon /></button>
-                    <button className="text-red-600"><DeleteOutlineIcon /></button>
-
-                  </td>
-
-                </tr>
-              })
-            }
-
-          </tbody>
-        </table>
-      )
-    },
-  ];
 
 
   const [updateTaskName, setUpdateTaskName] = useState();
@@ -595,44 +544,61 @@ const Task = () => {
 
             {isOpen && (
               <tbody className={`transition-body ${isOpen ? "open" : ""}`}  >
-                {/* {fetchTaskData?.map((s, index) => (
+                {fetchTaskData?.map((s, index) => (
                   <tr key={index} className="rounded-lg border-b border-[#e5e7eb]">
-                    <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <td className="text-[12px] border-r border-[#dbdbdb] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
                       <Link className="textcomplete">N/A</Link>
                     </td>
-                    <td className="text-[12px] font-medium p-2 min-w-[60px] text-left">{index + 1}</td>
-                    <td className="text-[12px] font-medium p-2 min-w-[150px] text-left whitespace-nowrap">
+                    <td className="text-[12px]  border-r border-[#dbdbdb] font-medium p-2 min-w-[60px] text-left">{index + 1}</td>
+                    <td className="text-[12px]  border-r border-[#dbdbdb] font-medium p-2 min-w-[150px] text-left whitespace-nowrap">
                       <Link to="/taskview" className="textcomplete">{s.taskName}</Link>
                     </td>
-                    <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                    <td className="text-[12px]  border-r border-[#dbdbdb] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
                       {s.startDate}
                     </td>
-                    <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                    <td className="text-[12px]  border-r border-[#dbdbdb] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
                       {s.endDate}
                     </td>
-                    <td className="text-[12px] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
+                    <td className="text-[12px]  border-r border-[#dbdbdb] font-medium p-2 min-w-[120px] text-left whitespace-nowrap">
                       13-08-2024
                     </td>
-                    <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
-                      <button className="bg-[#c4bfbf] text-white rounded-lg p-[6px]">N/A</button>
+                    <td className="text-[12px]  border-r border-[#dbdbdb] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                      <button className="bg-[#c4bfbf]  border-r border-[#dbdbdb] text-white rounded-lg p-[6px]">N/A</button>
                     </td>
-                    <td className="text-[12px] font-medium p-2 min-w-[80px] text-left">N/A</td>
-                    <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <td className="text-[12px] font-medium  border-r border-[#dbdbdb] p-2 min-w-[80px] text-left">N/A</td>
+                    <td className="text-[12px] font-medium  border-r border-[#dbdbdb] p-2 min-w-[100px] text-left whitespace-nowrap">
                       <Link className="highred">
                         N/A
                       </Link>
                     </td>
-                    <td className="text-[12px] font-medium p-2 min-w-[100px] text-left whitespace-nowrap">
+                    <td className="text-[12px] font-medium  border-r border-[#dbdbdb] p-2 min-w-[100px] text-left whitespace-nowrap">
                       <div className="flexjustify-center">
                         <button onClick={() => {
                           setSelectedTaskData(s);
                           openModal2(); // Call the function here
                         }}><BorderColorIcon /></button>
-                        <button className="text-red-600"><DeleteOutlineIcon /></button>
+                         <button onClick={() => {
+                            
+                              onOpenModal10()
+                            }}>
+                              <DeleteIcon
+                                className="text-red-500 cursor-pointer"
+                              />
+                            </button>
+                            <Modal open={open10} onClose={onCloseModal10} center>
+                              <div className="flex items-center justify-center h-[120px]">
+                                <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                              </div>
+                              <div className="flex items-center justify-around ">
+                                <button className="allcrm-btn">Yes , Confirm</button>
+                                <button className="allcrm-btn">No , Cancel</button>
+                              </div>
+                            </Modal>
                       </div>
                     </td>
                   </tr>
-                ))} */}
+                ))} 
                 {/* <tr>
                   <td>Hello</td>
                   <td>Hello</td>

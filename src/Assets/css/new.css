@@ -644,7 +644,13 @@
     .set-workd{
         justify-content: center;
     }
+    .staff-page-res{
+        right: -99px !important;
+
+    }
+
 }
+
 
 
 .transition-body {
@@ -659,3 +665,7 @@
 .all-btns-crm{
     transition: all 0.5s linear !important;
 }  
+
+.custom-border{
+    border: #000 1px solid !important;
+}

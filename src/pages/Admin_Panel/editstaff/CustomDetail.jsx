@@ -5,6 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import ClipLoader from "react-spinners/ClipLoader";
 /*************  ✨ Codeium Command ⭐  *************/
 /**
  * Component for rendering custom details of a staff member
@@ -16,6 +17,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 
 const CustomDetail = () => {
+    const [isLoading, setIsLoading] = useState(true);
     let subtitle;
     const { baseUrl, selectedStaff, openToast } = useGlobalContext();
     const [staffDetail, setStaffDetail] = React.useState(null);
@@ -169,7 +171,7 @@ const CustomDetail = () => {
             </div>
 
             <div className={"w-full bg-white rounded-lg overflow-hidden mb-5 " + (staffDetail !== null && "shadow-md")}>
-                <div className={"rounded-md " + (staffDetail !== null && "border border-gray-200")}>
+                <div className={"rounded-md flex justify-center " + (staffDetail !== null && "border border-gray-200")}>
                     {allCustomDetail.length > 0 ? allCustomDetail?.map(({ field_name, field_value, id }) => (<div key={id} className="flex items-center justify-between p-4 border-b hover:bg-gray-50">
                         <span className="text-sm text-gray-700">{field_name}</span>
                         <span className="text-sm text-gray-700">{field_value}</span>
@@ -189,7 +191,7 @@ const CustomDetail = () => {
                       />
                             </button>
                         </div>
-                    </div>)) : staffDetail !== null ? <div className='flex items-center justify-center h-[80px] text-sm font-medium text-gray-700'>No Custom Details</div> : (<div class="m-auto border-gray-300 h-6 w-6 animate-spin rounded-full border-8 border-t-[#27004a]" />)}
+                    </div>)) : staffDetail !== null ? <div className='flex items-center justify-center h-[80px] text-sm font-medium text-gray-700'>No Custom Details</div> : ( <ClipLoader color="#4A90E2" size={40} />)}
 
                 </div>
             </div>

@@ -638,7 +638,7 @@ const EditSalaryDetails = () => {
   console.log(calEarning, calCompliances, calDeductions);
 
   return (
-    <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]      flex flex-col">
+    <div className="salary-details layout   w-full  pt-[80px]      flex flex-col">
       <div className="flex items-center justify-between  xl:pb-6  ">
         <h1 className="  font-medium ">
           Salary Details Import Settings

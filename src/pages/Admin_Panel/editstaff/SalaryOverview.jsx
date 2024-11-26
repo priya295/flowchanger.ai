@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import ClipLoader from "react-spinners/ClipLoader";
+import { div } from 'framer-motion/client';
 
 const SalaryOverview = () => {
+    const [isLoading, setIsLoading] = useState(true);
 
     const { baseUrl } = useGlobalContext();
     const [selectedStaff, setSelectedStaff] = React.useState(null);
@@ -85,8 +88,11 @@ const SalaryOverview = () => {
                 <h3 className='font-medium'>Salary Overview</h3>
                 <button className='second-btn'>Update Details</button>
             </div>
-            {selectedStaff === null && <div class="m-auto mt-10 border-gray-300 h-8 w-8 animate-spin rounded-full border-8 border-t-[#27004a]" />}
+            <div className='flex justify-center'>
+            {selectedStaff === null &&  <ClipLoader color="#4A90E2" size={40} /> }
+            </div>
             {
+                
                 selectedStaff?.staffDetails?.SalaryDetails?.map((salary) =>
                     <div className='flex justify-between xl:items-center lg:items-center md:items-center gap-[10px] items-start  shadow bg-white flex-col xl:flex-row lg:flex-row md:flex-row w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md '>
                         <div className='flex gap-[10px]'>
