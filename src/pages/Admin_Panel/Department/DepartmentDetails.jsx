@@ -352,7 +352,7 @@ const DepartmentDetail = () => {
           </table>
         </div>
 
-        <div className="flex justify-between p-[16px] pb-[0] w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0">
+        <div className="flex justify-between p-[16px] pb-[0] pl-0 pr-0 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0">
           <p className=" text-[#a5a1a1] text-[14px]">
             Showing 1 to {rowsToShow} of {departments.length} entries
           </p>

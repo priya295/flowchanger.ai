@@ -316,7 +316,7 @@ const Main = () => {
           </table>
         </div>
 
-        <div className='flex justify-between p-[10px] pb-[0] w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+        <div className='flex justify-between p-[10px] pl-0 pr-0 pb-[0] w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
           <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {roles.length} entries </p>
           <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
             <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>

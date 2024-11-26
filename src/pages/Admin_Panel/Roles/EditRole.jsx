@@ -56,7 +56,7 @@ const EditRole = () => {
             <div className='addnewrole  pl-[10px] sm:w-[100%] lg:w-[50%] md:w-[100%] w-[100%] pr-2 mb-3 pb-4'>
                 <h2>Edit Role Content Writer</h2>
 
-                <div className='bg-[#f1f5f9] p-3  md:w-[100%] sm:w-[100%] w-[100%] mt-2 rounded-md'>
+                <div className='bg-[#fff] shadow-cs p-3  md:w-[100%] sm:w-[100%] w-[100%] mt-2 rounded-md'>
                     <label>Role Name</label><br />
                     <input type='text' className='mt-2 border border-1 pl-3 h-[43px] pr-7
 ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'
@@ -360,7 +360,8 @@ const EditRole = () => {
                     </table>
 
 
-                    <div className='text-end mt-3'>
+                    <div className='flex justify-end mt-3 gap-2'>
+                    <Link to="/role-detail" className='first-btn flex items-center' >Cancel</Link>
                         <button className='second-btn' onClick={updateRole}>Save</button>
                     </div>
                 </div>
@@ -369,10 +370,10 @@ const EditRole = () => {
             <div className='staff-member w-[100%] sm:w-[100%] lg:w-[50%] md:w-[100%]'>
                 <h2>Staff members using this role</h2>
 
-                <div className='bg-[#f1f5f9]   p-2 rounded-md mt-2'>
+                <div className='bg-[#fff] shadow-cs   p-2 rounded-md mt-2'>
                     <div className='flex mb-4 justify-between p-2 pl-0 pr-0 flex-col gap-2  sm:flex-row sm:gap-0'>
                         <div className='left-side '>
-                            <select className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                            <select className=' border border-[#e5e7eb] p-[7px]  shadow-sm mr-2 rounded-md text-[14px] pr-3 focus:outline-none'>
                                 <option>25</option>
                                 <option>50</option>
                                 <option>100</option>
@@ -380,7 +381,7 @@ const EditRole = () => {
 
                             </select>
 
-                            <select className=' border border-[#e5e7eb]  p-[8px] shadow-sm rounded-md pl-0 pr-3 focus:outline-none'>
+                            <select className=' border border-[#e5e7eb]  p-[7px] text-[14px] shadow-sm rounded-md  pr-3 focus:outline-none'>
                                 <option>Export</option>
                                 <option>CSV</option>
                                 <option>PDF</option>
@@ -404,7 +405,7 @@ const EditRole = () => {
                     </div>
 
                     <div className=''>
-                        <h2 className='p-2 bg-[#f1f5f9] border border-l-0 mb-2 border-r-0 border-t-1 border-b-1 '>Full Name</h2>
+                        <h2 className='p-2 bg-[#fff] shadow-cs rounded-lg border border-l-0 mb-2 border-r-0 border-t-1 border-b-1 '>Full Name</h2>
 
                         <div className='title flex gap-2 items-center'>
                             <img src={titleimg} className='rounded-3xl h-[32px] w-[32px]' />

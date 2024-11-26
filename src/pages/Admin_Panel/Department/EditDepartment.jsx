@@ -6,22 +6,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 const EditDepartment = () => {
 
-    const { baseUrl ,name,setName,depId , openToast} = useGlobalContext();
+    const { baseUrl, name, setName, depId, openToast } = useGlobalContext();
     const navigate = useNavigate()
 
 
 
     async function updateDepartment() {
-        const response = await fetch(baseUrl + "department/"+depId, {
+        const response = await fetch(baseUrl + "department/" + depId, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({departmentName:name} ) // send the formatted data
+            body: JSON.stringify({ departmentName: name }) // send the formatted data
         });
 
         console.log(response);
-       const result = await response.json();
+        const result = await response.json();
         if (response.status === 200) {
             navigate("/department-details")
             openToast("Update Department Successfully", "success");
@@ -31,12 +31,12 @@ const EditDepartment = () => {
         }
     }
 
-    useEffect(()=>{
-        
-        if(name==="" || depId == ""){
+    useEffect(() => {
+
+        if (name === "" || depId == "") {
             navigate("/department-details")
         }
-    },[])
+    }, [])
 
 
     return (
@@ -46,8 +46,8 @@ const EditDepartment = () => {
 
                 <div className='bg-[#fff] p-3  md:w-[100%] sm:w-[100%] w-[100%] mt-[20px] rounded-lg shadow-cs'>
                     <label>Department Name</label><br />
-                    <input type='text' className='mt-2 border border-1 pl-3 h-[43px] pr-[7px] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]' 
-                    value={name}  onChange={(e) => setName(e.target.value)} />
+                    <input type='text' className='mt-2 border border-1 pl-3 h-[43px] pr-[7px] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'
+                        value={name} onChange={(e) => setName(e.target.value)} />
                     <table className='border mt-5 w-[100%] border-1'>
                         <thead className='border border-1 '>
                             <th className='p-2 text-left font-medium border-r-[1px]'>Features</th>
@@ -172,8 +172,8 @@ const EditDepartment = () => {
                     </table>
 
 
-                    <div className='text-end mt-3'>
-                    <Link  to="/department-details" className='first-btn  flex items-center pt-2 py-2 pl-5 pr-5 rounded-md text-white hover:bg-[#7526d1]'>
+                    <div className='flex justify-end gap-2 mt-3'>
+                        <Link to="/department-details " className='first-btn flex items-center '>
                             Cancel
                         </Link>
                         <button className='second-btn ' onClick={updateDepartment}>Save</button>
