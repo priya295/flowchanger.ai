@@ -731,8 +731,7 @@ const StaffSalarySummry = () => {
                                                     setPunchId(record?.id);
                                                     openModal12();
                                                 }}
-                                                className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow bg-white text-black "}
-                                            >
+                                                className={" btns px-6 py-3 text-[14px] font-medium rounded-md focus:outline-none xl:w-[200px] lg:w-[200px] md:w-[140px] whitespace-nowrap shadow bg-white text-black "}         >
                                                 OT I Overtime
                                             </button>
 
