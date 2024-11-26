@@ -58,7 +58,7 @@ export const GlobalContext = ({ children }) => {
         setStaffDetail(res)
       }
       else {
-        alert("An Error Occured")
+        console.log("An Error Occured")
       }
     }
     catch (error) {
