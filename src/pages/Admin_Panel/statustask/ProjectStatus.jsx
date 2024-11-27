@@ -11,16 +11,21 @@ import PersonIcon from "@mui/icons-material/Person";
 import Modal from "react-modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { IoMdArrowDropright } from "react-icons/io";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+
 
 
 
 const ProjectStatus = () => {
+
+  const [open11, setOpen11] = useState(false);
+
+  const onOpenModal11 = () => setOpen11(true);
+  const onCloseModal11 = () => setOpen11(false);
   const { baseUrl, openToast } = useGlobalContext();
   const [openIndex, setOpenIndex] = useState(null);
   const [projectPriorityDetail, setProjectPriorityDetail] = useState();
@@ -346,7 +351,7 @@ const [exportFormat, setExportFormat] = useState('');
                     </div>
 
           <div className="main-table-status">
-            <table className="table-auto w-full border border-gray-300 rounded-md table-status">
+            <table className="table-auto w-full  rounded-md table-status">
               <thead
                 onClick={toggleTable}
                 className="set-shadow  cursor-pointer"
@@ -389,9 +394,24 @@ const [exportFormat, setExportFormat] = useState('');
                             className="  rounded-md text-white "
                             onClick={openModal6}
                           ><BorderColorIcon className="text-[#27004a] text-xl" /></button>
-                          <button className="  rounded-md text-white ">
-                            <DeleteOutlineIcon className="text-red-600 text-xl" />
-                          </button>
+                            <button onClick={() => {
+                           
+                           onOpenModal11()
+                         }}>
+                           <DeleteIcon
+                             className="text-red-500 cursor-pointer"
+                           />
+                         </button>
+                         <Modal open={open11} onClose={onCloseModal11} center>
+                           <div className="flex items-center justify-center h-[120px]">
+                             <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                           </div>
+                           <div className="flex items-center justify-around ">
+                             <button className="allcrm-btn" >Yes , Confirm</button>
+                             <button className="allcrm-btn">No , Cancel</button>
+                           </div>
+                         </Modal>
                         </div>
                       </td>
                     </tr>

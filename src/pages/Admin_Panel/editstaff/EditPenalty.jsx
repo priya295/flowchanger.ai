@@ -207,9 +207,9 @@ const EditPenalty = () => {
 
 
             <div className='mt-5'>
-                <button className='shadow bg-white w-full mb-4 flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal12}>Early Leave Policy <ArrowForwardIosIcon className='allarrow-verify' /></button>
-                <button className='shadow bg-white w-full mb-4 flex items-center justify-between  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal13}>Late Coming Policy <ArrowForwardIosIcon className='allarrow-verify' /></button>
-                <button className='shadow bg-white w-full mb-4  flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal14}> Overtime Policy <ArrowForwardIosIcon className='allarrow-verify' /></button>
+                <button className='shadow-cs bg-white w-full mb-4 flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal12}>Early Leave Policy <ArrowForwardIosIcon className='allarrow-verify' /></button>
+                <button className='shadow-cs bg-white w-full mb-4 flex items-center justify-between  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal13}>Late Coming Policy <ArrowForwardIosIcon className='allarrow-verify' /></button>
+                <button className='shadow-cs bg-white w-full mb-4  flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal14}> Overtime Policy <ArrowForwardIosIcon className='allarrow-verify' /></button>
             </div>
             {/* when onclick leave policies
              */}

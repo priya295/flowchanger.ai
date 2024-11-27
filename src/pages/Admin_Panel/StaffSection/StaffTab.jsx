@@ -319,6 +319,13 @@ const StaffTab = () => {
                       <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.gender || "N/A"}</td>
                       <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.current_address || "N/A"}</td>
                       <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{staff?.staffDetails?.emergency_contact_name || "N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{"N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{"N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{"N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{"N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{"N/A"}</td>
+                      <td className='border-r border-[#dbdbdb] p-[10px] whitespace-nowrap'>{"N/A"}</td>
+
                     </tr>
                   ))
                 )

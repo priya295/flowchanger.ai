@@ -361,7 +361,7 @@ const [exportFormat, setExportFormat] = useState('');
                     </div>
 
           <div className="main-table-status">
-            <table className="table-auto w-full border border-gray-300 rounded-md table-status">
+            <table className="table-auto w-full  rounded-md table-status">
               <thead
                 onClick={toggleTable}
                 className="set-shadow  cursor-pointer"
@@ -379,7 +379,7 @@ const [exportFormat, setExportFormat] = useState('');
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Order</th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Defaulter Filter</th>
                   <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status can be changed to</th>
-                  <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status in hidder for</th>
+                  <th className="p-3 text-center ">Status in hidder for</th>
                 </tr>
               </thead>
               {/* Add transition for tbody */}
@@ -447,13 +447,13 @@ const [exportFormat, setExportFormat] = useState('');
         </h2>
         <button
           onClick={closeModal6}
-          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full"
+          className="absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full"
         >
           <CloseIcon className="text-white" />
         </button>
 
         <div className="first-panel">
-          <div className="p-4 overflow-y-scroll h-[100vh]">
+          <div className="p-4 overflow-y-scroll ">
             <div className="w-[100%] xl:[48%] mb-[10px] ">
               <label className="text-[14px]">*Status Name</label>
               <br />

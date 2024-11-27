@@ -20,6 +20,7 @@ import { IoMdArrowDropright } from "react-icons/io";
 
 
 
+
 const ProjectPriority = () => {
     const { baseUrl ,openToast } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
@@ -241,6 +242,10 @@ const ProjectPriority = () => {
     const handleSelectChange = (event) => {
         setRowsToShow(Number(event.target.value));
     };
+    const [open8, setOpen8] = useState(false);
+
+    const onOpenModal8 = () => setOpen8(true);
+    const onCloseModal8 = () => setOpen8(false);
 
 
     return (
@@ -407,7 +412,7 @@ const ProjectPriority = () => {
                         </div>
                     </div>
                     <div className="main-table-status">
-                        <table className="table-auto w-full border border-gray-300 rounded-md table-status">
+                        <table className="table-auto w-full  rounded-md table-status">
                             <thead
                                 onClick={toggleTable}
                                 className="set-shadow  cursor-pointer"
