@@ -370,8 +370,8 @@ const EditLeavePolicies = () => {
     ])
 
     return (
-        <div className='w-full  xl:pl-[0] xl:pr-[0] relative   pl-[0] flex flex-col '>
-            <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
+        <div className='w-full xl:pt-[20px] xl:pl-[0] xl:pr-[0] relative   pl-[0] flex flex-col '>
+            <div className='flex justify-between items-center  w-[100%] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Leave & Balance Details
                 </h3>
