@@ -62,18 +62,18 @@ const AddNewRole = () => {
            
             console.log(result);
             openToast(result.message || "Role successfully added");
-            navigate("/role-details")
+            navigate("/role-detail")
         } else {
-            openToast("An error occurred");
+            openToast(result.message|| "An Error Occured");
         }
     }
 
     return (
         <div className='addnewrole pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
-            <h2 className='xl:w-[50%] text-[#27004a] font-medium xl:m-auto'>Add New Role</h2>
+            <h2 className=' text-[#27004a] font-medium text-[18px]'>Add New Role</h2>
 
             <div className='w-[100%]'>
-                <div className='bg-[#fff] w-[80%] set-shadow p-3 lg:w-[100%] xl:w-[80%]  mt-2 rounded-md'>
+                <div className='bg-[#fff] w-[100%] set-shadow p-3 lg:w-[50%] xl:w-[50%] md:w-[50%] mt-2 rounded-md'>
                     <label>Role Name</label><br />
                     <input
                         type='text'

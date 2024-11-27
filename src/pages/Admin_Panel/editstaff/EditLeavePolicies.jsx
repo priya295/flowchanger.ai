@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import { useGlobalContext } from '../../../Context/GlobalContext';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
 
 const EditLeavePolicies = () => {
+    const { id } = useParams();
     const [activeTab, setActiveTab] = useState('leave-requests')
     const [activeSubTab, setActiveSubTab] = useState('pending')
-    const { baseUrl, selectedStaff, openToast } = useGlobalContext();
-    const [selectDuration, setSelectDuration] = useState();
+    const { baseUrl, selectedStaff, openToast, } = useGlobalContext();
+    const [staff, setStaff] = useState(null);
+    const [selectDuration, setSelectDuration] = useState("");
     const [editingRow, setEditingRow] = useState(null);
     const [leavePolicyType, setLeavePolicyType] = useState();
     const [allowedLeavesPerYear, setAllowedLeavePerYear] = useState();
@@ -23,20 +27,86 @@ const EditLeavePolicies = () => {
     const [saveLeaveRequestEdit, setSaveLeaveRequestEdit] = useState('');
 
     const [fetchAllLeaveRequest, setFetchAllLeaveRequest] = useState([]);
+    const [updateLeaveBalance, setUpdateLeaveBalance] = useState(selectedStaff?.staffDetails?.LeaveBalance?.map(item => ({ balance: item?.balance, leaveName: selectedStaff?.staffDetails?.LeavePolicy?.find(policy => policy?.id === item?.leavePolicyId)?.name, used: item?.used, id: item?.id })));
 
-    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy);
+    const [fetchLeavePolicy, setFetchLeavePolicy] = useState(selectedStaff?.staffDetails?.LeavePolicy || []);
 
     const [updatePolicy, setUpdatePolicy] = useState({
         allowed_leaves: 0,
         carry_forward_leaves: 0
     })
 
+    const getData = async (e) => {
+        try {
+            const response = await fetch(baseUrl + "staff/", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.status === 200) {
+                const result = await response.json();
+                // console.log(result);
+                const filteredData = result.filter(item => item.id === selectedStaff.id)[0];
+                setStaff(filteredData);
+                setUpdateLeaveBalance(filteredData?.staffDetails?.LeaveBalance?.map(item => ({ balance: item?.balance, leaveName: filteredData?.staffDetails?.LeavePolicy?.find(policy => policy?.id === item?.leavePolicyId)?.name, used: item?.used, id: item?.id })))
+                setFetchLeavePolicy(filteredData?.staffDetails?.LeavePolicy);
+                // console.log("Filtered data by ID:", filteredData);
+
+            } else {
+                console.error("Failed to retrieve data:", response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error("An error occurred while fetching data:", error);
+        }
+    };
+
+    useEffect(() => {
+        getData();
+    }, [])
+    console.log(fetchLeavePolicy);
+
+
+    // console.log(updateLeaveBalance);
+    const updatedLeaveBalance = async () => {
+        try {
+            const allData = [];
+            for (const data of updateLeaveBalance) {
+                const response = await fetch(baseUrl + "leave-balance/" + data?.id, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ ...data, balance: Number(data?.balance), used: Number(data?.used), policy_type: selectDuration })
+                });
+                const result = await response.json();
+                if (response.status === 200) {
+                    allData.push(result);
+                }
+            }
+            if (allData.length > 0) {
+                console.log(allData);
+                openToast("Leave Balance updated Successfully", "success");
+            }
+            else {
+                openToast("An error occurred while updating leave balance", "error");
+            }
+        } catch (error) {
+            console.error("Error updating leave balance:", error);
+            openToast("An error occurred while updating leave balance", "error");
+        }
+    }
+
+
+    // console.log(fetchLeavePolicy);
     // console.log(updatePolicy);
 
     // console.log(selectDuration, leavePolicyType, allowedLeavesPerYear, carryForwardLeaves);
     async function createLeavePolicy(e) {
         e.preventDefault();
         const data = {
+            policy_type: selectDuration,
             name: leavePolicyType,
             allowed_leaves: Number(allowedLeavesPerYear),
             carry_forward_leaves: Number(carryForwardLeaves)
@@ -53,7 +123,8 @@ const EditLeavePolicies = () => {
             console.log(response);
 
             const result = await response.json();
-            if (response.status === 201) {
+            console.log(result);
+            if (response.ok) {
                 console.log(result);
                 setFetchLeavePolicy([...fetchLeavePolicy, result]);
                 setLeavePolicyType("");
@@ -73,7 +144,8 @@ const EditLeavePolicies = () => {
     async function updateLeavePolicy(e) {
         e.preventDefault();
         const data = {
-            name: selectedStaff?.staffDetails?.LeavePolicy?.filter(({ id }) => id === editingRow)[0]?.name,
+            policy_type: selectDuration,
+            name: leavePolicyType,
             allowed_leaves: Number(updatePolicy?.allowed_leaves),
             carry_forward_leaves: Number(updatePolicy?.carry_forward_leaves)
         };
@@ -93,6 +165,8 @@ const EditLeavePolicies = () => {
             const result = await response.json();
             if (response.status === 200) {
                 console.log(result);
+
+                setFetchLeavePolicy([...fetchLeavePolicy, result]);
                 openToast("Leave Policy updated Successfully", "success");
             }
             else {
@@ -128,10 +202,10 @@ const EditLeavePolicies = () => {
         }
     }
 
-    async function deleteLeaveRequest(e) {
+    async function deleteLeaveRequest(e, id) {
         e.preventDefault();
         try {
-            const response = await fetch(baseUrl + "leave-request/" + deleteLeaveID, {
+            const response = await fetch(baseUrl + "leave-request/" + id, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -155,7 +229,7 @@ const EditLeavePolicies = () => {
 
     }
 
-    async function editLeaveRequest(e) {
+    async function editLeaveRequest(e, id) {
         e.preventDefault();
         const data = {
             staffId: selectedStaff?.staffDetails?.id,
@@ -167,7 +241,7 @@ const EditLeavePolicies = () => {
         };
 
         try {
-            const response = await fetch(baseUrl + "leave-request/" + saveLeaveRequestEdit, {
+            const response = await fetch(baseUrl + "leave-request/" + id, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -205,6 +279,7 @@ const EditLeavePolicies = () => {
         }
     }
 
+    console.log(deleteLeaveID);
 
     let subtitle;
     // when onclick update staff
@@ -231,11 +306,10 @@ const EditLeavePolicies = () => {
     function openModal12() {
         setIsOpen12(true);
     }
-    function afterOpenModal12() {
-        // references are now sync'd and can be accessed.
-        subtitle.style.color = '#000';
-
-    }
+    // function afterOpenModal12() {
+    //     // references are now sync'd and can be accessed.
+    //     subtitle.style.color = '#000';
+    // }
 
     function closeModal12() {
         setIsOpen12(false);
@@ -296,19 +370,19 @@ const EditLeavePolicies = () => {
     ])
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]   flex flex-col '>
-            <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
+        <div className='w-full xl:pt-[20px] xl:pl-[0] xl:pr-[0] relative   pl-[0] flex flex-col '>
+            <div className='flex justify-between items-center  w-[100%] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Leave & Balance Details
                 </h3>
-                <button className='second-btn'>Update Details</button>
+                <button className='second-btn mt-[10px] ml-[10px]'>Update Details</button>
             </div>
 
 
             <div className='mt-5'>
-                <button className='shadow bg-white w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal12}> Leave Policy</button>
-                <button className='shadow bg-white w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openModal10}> Leave Balances</button>
-                <button className='shadow bg-white w-full mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md ' onClick={openLeaveRequestModal} > Leave Request</button>
+                <button className='shadow-cs bg-white w-full mb-4 flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-lg ' onClick={openModal12}> Leave Policy <ArrowForwardIosIcon className='allarrow-verify'/></button>
+                <button className='shadow-cs bg-white w-full mb-4  flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-lg ' onClick={openModal10}> Leave Balances <ArrowForwardIosIcon className='allarrow-verify'/></button>
+                <button className='shadow-cs bg-white w-full mb-4  flex items-center justify-between text-start text-[14px]  text-[#000] p-4 rounded-lg ' onClick={openLeaveRequestModal} > Leave Request <ArrowForwardIosIcon className='allarrow-verify'/></button>
 
 
 
@@ -323,7 +397,7 @@ const EditLeavePolicies = () => {
 
             <Modal
                 isOpen={modalIsOpen10}
-                onAfterOpen={afterOpenModal12}
+                // onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal10}
                 // style={customStyles}
                 contentLabel="Example Modal"
@@ -341,24 +415,31 @@ const EditLeavePolicies = () => {
 
                         </div>
                         <div className="flex items-center  ">
-                            <button className='whitespace-nowrap bg-[#27004a] p-[8px] text-[white] rounded-md text-[13px] outline-1 outline-offset-1'>Update Details</button>
+                            <button onClick={updatedLeaveBalance} className='whitespace-nowrap bg-[#27004a] p-[8px] text-[white] rounded-md text-[13px] outline-1 outline-offset-1'>Update Details</button>
                         </div>
                     </div>
 
 
-                    <div className="border border-[#18181826] rounded-md bg-[#f0f8fd] p-[8px] mb-6">
+                    <div className="border border-[#dbdbdb] shadow-cs rounded-md bg-[#fff] p-[8px] mb-6">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="text-gray-700 text-[14px] font-medium">Leave Type</div>
                             <div className="text-gray-700 font-medium text-[14px]">Remaining Balance</div>
                         </div>
                     </div>
                     {
-                        selectedStaff?.staffDetails?.LeavePolicy?.map((item, index) => (
-                            <div className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
-                                <div className="text-gray-700 font-medium text-[15px] capitalize">{item.name} Leaves</div>
+                        updateLeaveBalance?.map((item, index) => (
+                            <div key={item?.id} className=" mb-[14px] grid grid-cols-2 gap-4 border border-[#cbcbcb] rounded-md p-[8px] bg-[#fafafa] items-center">
+                                <div className="text-gray-700 font-medium text-[15px] capitalize"> {item?.leaveName} Leaves</div>
                                 <div className="flex items-center gap-2">
                                     <input
-                                        value={((item?.allowed_leaves) / 12).toFixed(2)}
+                                        value={item?.balance}
+                                        onChange={(e) => setUpdateLeaveBalance((prev) =>
+                                            prev.map((obj, idx) =>
+                                                idx === index
+                                                    ? { ...obj, balance: e.target.value }
+                                                    : obj
+                                            )
+                                        )}
                                         type="number"
                                         placeholder='1'
                                         className="w-32 focus-visible:outline-none px-3 py-1 border rounded-md bg-white"
@@ -392,24 +473,24 @@ const EditLeavePolicies = () => {
              */}
             <Modal
                 isOpen={modalIsOpen12}
-                onAfterOpen={afterOpenModal12}
+                // onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal12}
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px]   rounded-t-lg rounded-r-lg rounded-b-none'>Update Leave Policy for all staff</h2>
-                <button onClick={closeModal12} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <button onClick={closeModal12} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white bg-[#27004a] rounded-2xl' /></button>
                 <div className='pb-2'>
 
                     <Tabs className="p-[s0px] fixed-tab-section">
                         <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
                             <label className='text-[14px]'>Select Type</label>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
+                                <input checked={selectDuration === "MONTHLY"} onChange={(e) => setSelectDuration("MONTHLY")} value={"Month"} type="radio" id="fixed" name='fixed' className='rounded-full ' />
                                 <label for="fixed" className='text-[14px]'> Monthly</label><br />
                             </Tab>
                             <Tab className="cursor-pointer flex items-center gap-[10px]">
-                                <input onChange={(e) => setSelectDuration(e.target.value)} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
+                                <input checked={selectDuration === "YEARLY"} onChange={(e) => setSelectDuration("YEARLY")} value={"Year"} type="radio" id="flexible" name='fixed' className='rounded-full ' />
                                 <label for="flexible" className='text-[14px]'> Yearly</label><br />
                             </Tab>
                         </TabList>
@@ -423,16 +504,56 @@ const EditLeavePolicies = () => {
 
                                     </thead>
                                     <tbody>
-                                        <td>Casual Leave</td>
-                                        <td><input type='text' /></td>
-                                        <td><input type='text' /></td>
+                                        {
+                                            fetchLeavePolicy?.filter(({ policy_type }) => policy_type === "MONTHLY")?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
+                                                <td onClick={() => {
+                                                    console.log(id);
+                                                    setEditingRow(id);
+                                                    setUpdatePolicy({ carry_forward_leaves, allowed_leaves })
+                                                    setLeavePolicyType(name);
+                                                }}>{name}</td>
+                                                <td>
+                                                    {editingRow === id ? (
+                                                        <input
+                                                            className='text-center'
+                                                            type="number"
+                                                            value={updatePolicy.allowed_leaves}
+                                                            onChange={(e) => setUpdatePolicy((prev) => {
+                                                                return { ...prev, allowed_leaves: e.target.value }
+                                                            })} autoFocus
+                                                        />
+                                                    ) : (
+                                                        allowed_leaves
+                                                    )}
+                                                </td>
 
+                                                {/* Editable Carry Forward Leaves Field */}
+                                                <td>
+                                                    {editingRow === id ? (
+                                                        <input
+                                                            className='text-center'
+                                                            type="number"
+                                                            value={updatePolicy.carry_forward_leaves}
+                                                            onChange={(e) => setUpdatePolicy((prev) => {
+                                                                return { ...prev, carry_forward_leaves: e.target.value }
+                                                            })}
+                                                        />
+                                                    ) : (
+                                                        carry_forward_leaves
+                                                    )}
+                                                </td>
+                                            </tr>)}
+                                        <tr>
+                                            <td><input className=' py-2 text-center placeholder:text-center bg-[#fff]  rounded-md border border-[#dbdbdb] outline-none focus:outline-none' placeholder='New Policy Type' value={leavePolicyType} onChange={(e) => setLeavePolicyType(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 text-center placeholder:text-center  outline-none focus:outline-none bg-[#fff]  rounded-md border border-[#dbdbdb]' placeholder='Set Allowed Leaves' value={allowedLeavesPerYear} onChange={(e) => setAllowedLeavePerYear(e.target.value)} type='text' /></td>
+                                            <td><input className=' py-2 w-2/3 text-center placeholder:text-center  outline-none focus:outline-none bg-[#fff]  rounded-md border border-[#dbdbdb]' placeholder='Set Carry Forward Leaves' value={carryForwardLeaves} onChange={(e) => setCarryForwardLeaves(e.target.value)} type='text' /></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </TabPanel>
                         <TabPanel>
-                            <div className='w-[100%] flex rounded-md shadow overflow-scroll border border-1 mt-4 pl-3 pr-3'>
+                            <div className='w-[100%] flex rounded-md shadow overflow-x-scroll border border-1 mt-4 pl-3 pr-3'>
                                 <table className='table-section mt-4'>
                                     <thead className='border border-1 '>
                                         <th>Leave Type</th>
@@ -443,11 +564,13 @@ const EditLeavePolicies = () => {
                                     <tbody>
 
                                         {
-                                            fetchLeavePolicy?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
+                                            fetchLeavePolicy?.filter(({ policy_type }) => policy_type === "YEARLY")?.map(({ id, carry_forward_leaves, allowed_leaves, name }) => <tr key={id}>
                                                 <td onClick={() => {
-                                                    console.log(id);
+                                                    // console.log(id);
+                                                    // console.log(name);
                                                     setEditingRow(id);
-                                                    setUpdatePolicy({ carry_forward_leaves, allowed_leaves })
+                                                    setUpdatePolicy({ carry_forward_leaves, allowed_leaves });
+                                                    setLeavePolicyType(name);
                                                 }}>{name}</td>
                                                 <td>
                                                     {editingRow === id ? (
@@ -491,7 +614,7 @@ const EditLeavePolicies = () => {
                         </TabPanel>
 
                     </Tabs>
-                    <button onClick={(e) => editingRow === null ? createLeavePolicy(e) : updateLeavePolicy(e)} className='second-btn'>Update Details</button>
+                    <button onClick={(e) => editingRow === null ? createLeavePolicy(e) : updateLeavePolicy(e)} className='second-btn mt-[14px] ml-[14px]'>Update Details</button>
                 </div>
             </Modal>
             {/* when onclick leave policies
@@ -504,14 +627,14 @@ const EditLeavePolicies = () => {
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[55%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
-                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-center bg-[#F0F6FE] rounded-t-lg rounded-r-lg rounded-b-none'>Pending Requests</h2>
-                <button onClick={closeOpenLeaveRequestModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3     text-[14px] text-left bg-[#fff] rounded-t-lg  rounded-r-lg rounded-b-none'>Pending Requests</h2>
+                <button onClick={closeOpenLeaveRequestModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className='pb-2'>
                     <div className="w-full max-w-6xl mx-auto p-4">
                         <div className="flex border-b mb-4">
                             <button
                                 className={`py-2 px-4 font-medium ${activeTab === 'leave-requests'
-                                    ? 'text-[#511992] border-b-2 border-[#511992]'
+                                    ? 'text-[#27004a] border-b-2 border-[#27004a]'
                                     : 'text-gray-500'
                                     }`}
                                 onClick={() => setActiveTab('leave-requests')}
@@ -520,7 +643,7 @@ const EditLeavePolicies = () => {
                             </button>
                             <button
                                 className={`py-2 px-4 font-medium ${activeTab === 'device-verification'
-                                    ? 'text-[#511992] border-b-2 border-[#511992]'
+                                    ? 'text-[#27004a] border-b-2 border-[#27004a]'
                                     : 'text-gray-500'
                                     }`}
                                 onClick={() => setActiveTab('device-verification')}
@@ -534,7 +657,7 @@ const EditLeavePolicies = () => {
                                 <div className="flex space-x-2 mb-4">
                                     <button
                                         className={`py-1 px-4 rounded-full ${activeSubTab === 'pending'
-                                            ? 'bg-[#511992] text-white'
+                                            ? 'bg-[#27004a] text-white'
                                             : 'bg-gray-200 text-gray-700'
                                             }`}
                                         onClick={() => setActiveSubTab('pending')}
@@ -543,7 +666,7 @@ const EditLeavePolicies = () => {
                                     </button>
                                     <button
                                         className={`py-1 px-4 rounded-full ${activeSubTab === 'history'
-                                            ? 'bg-[#511992] text-white'
+                                            ? 'bg-[#27004a] text-white'
                                             : 'bg-gray-200 text-gray-700'
                                             }`}
                                         onClick={() => setActiveSubTab('history')}
@@ -647,8 +770,7 @@ const EditLeavePolicies = () => {
                                                 <td className='text-center flex items-center justify-evenly'>
                                                     {saveLeaveRequestEdit === id ? (
                                                         <p className='text-green-500 font-bold cursor-pointer' onClick={(e) => {
-                                                            editLeaveRequest(e);
-
+                                                            editLeaveRequest(e, id);
                                                         }}>Save</p>
                                                     ) : (
                                                         <>
@@ -666,7 +788,7 @@ const EditLeavePolicies = () => {
                                                                 e.preventDefault();
                                                                 console.log(id);
                                                                 setDeleteLeaveID(id);
-                                                                deleteLeaveRequest(e);
+                                                                deleteLeaveRequest(e, id);
                                                             }}>Del</p>
                                                         </>
                                                     )}

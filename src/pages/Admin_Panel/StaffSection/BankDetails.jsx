@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useGlobalContext } from '../../../Context/GlobalContext';
 import { saveAs } from 'file-saver';
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 
@@ -22,7 +23,7 @@ const BankDetails = () => {
     };
     // toggle switch
 
-
+    const [isLoading, setIsLoading] = useState(true);
     const [toggleDrop, setToggleDrop] = useState(false);
 
     function handledrop() {
@@ -47,9 +48,10 @@ const BankDetails = () => {
 
     const [staffDetail, setStaffDetail] = useState([]);
     const fetchStaff = async () => {
-        const result = await fetch(baseUrl + "staff")
-        console.log("reuslt---", result)
+      
         try {
+            const result = await fetch(baseUrl + "staff")
+            console.log("reuslt---", result)
             if (result.status == 200) {
                 const res = await result.json();
                 console.log(res);
@@ -61,6 +63,7 @@ const BankDetails = () => {
         }
         catch (error) {
             console.log(error);
+            setStaffDetail([]);
         }
     }
 
@@ -82,7 +85,7 @@ const BankDetails = () => {
             'Bank IFSC Code',
             'Bank Account Status',
         ];
-        
+
         // Map over the data to create CSV rows
         const rows = staffDetail.map((item, index) => [
             index + 1,
@@ -100,7 +103,7 @@ const BankDetails = () => {
 
         // Create a Blob and download the file
         const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-        saveAs(blob, 'StaffDetails.csv');
+        saveAs(blob, 'BankDetails.csv');
     };
 
     return (
@@ -112,7 +115,6 @@ const BankDetails = () => {
                         <input type="text" className='border rounded-md bg-[#F4F5F9] p-[8px] pl-[30px] w-[100%] lg:w-[225px] focus-visible:outline-none' placeholder='Search' />
 
                     </div>
-
                     <select className='border rounded-md bg-[#F4F5F9] p-[8px] lg:w-[240px] w-[100%] focus-visible:outline-none text-sm'>
                         <option>All Departments</option>
                     </select>
@@ -146,18 +148,42 @@ const BankDetails = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {staffDetail?.map((items, index) => (
-                                <tr className='border' key={index}>
-                                    <td><input type='checkbox' className='border border-1 rounded-md' /></td>
-                                    <td>{items?.name}</td>
-                                    <td>{items?.staffDetails?.job_title}</td>
-                                    <td>{items?.staffDetails?.BankDetails?.bank_name}</td>
-                                    <td>N/A</td>
-                                    <td>{items?.staffDetails?.BankDetails?.account_number}</td>
-                                    <td>{items?.staffDetails?.BankDetails?.ifsc_code}</td>
-                                    <td>N/A</td>
+                            {
+
+                                isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                                    <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                                        <ClipLoader color="#4A90E2" size={40} />
+                                    </td>
                                 </tr>
-                            ))}
+                                ) : staffDetail && staffDetail.length > 0 ? (
+
+
+                                    staffDetail?.map((items, index) => (
+                                        <tr className='border' key={index}>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'><input type='checkbox' className='border border-1 rounded-md' /></td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.name}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.job_title}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.BankDetails?.bank_name}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>N/A</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.BankDetails?.account_number}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>{items?.staffDetails?.BankDetails?.ifsc_code}</td>
+                                            <td className='border-r border-[#dbdbdb] whitespace-nowrap'>N/A</td>
+                                        </tr>
+                                    ))
+
+                                )
+                                    : (
+                                        // No Data State
+                                        <tr className="h-[100px]">
+                                            <td
+                                                colSpan="9"
+                                                className="text-center text-red-500 text-xl font-semibold py-4"
+                                            >
+                                                No staff found.
+                                            </td>
+                                        </tr>
+                                    )
+                            }
                         </tbody>
                     </table>
                 </div>

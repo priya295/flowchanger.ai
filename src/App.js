@@ -40,7 +40,7 @@ import Overtime from "./pages/Admin_Panel/StaffSection/Attendance/Overtime";
 import Project_Summary from "./pages/Admin_Panel/Projects/Project_Summary";
 import ProjectsOverview from "./pages/Admin_Panel/Projects/Project_overview";
 import Projects from './pages/Admin_Panel/Projects/Projects';
-import Taskview from "../src/pages/Admin_Panel/Tasks/Taskview";
+import Taskview from "./pages/Client_Panel/Tasks/Taskview";
 import Clients from "../src/pages/Admin_Panel/Clients/Clients";
 import NewTicket from "./pages/Admin_Panel/Projects/NewTicketForm";
 import Add_Project from "./pages/Admin_Panel/Projects/Add_Project";
@@ -92,18 +92,25 @@ import VerifyVoterID from "./pages/Admin_Panel/editstaff/VerfiyVoterID";
 import PastEmploymentDetail from "./pages/Admin_Panel/editstaff/PastEmploymentDetail";
 import ContactInformation from './pages/Admin_Panel/Clients/ContactInformation'
 import Documents from "./pages/Admin_Panel/editstaff/Documents";
-
+import TaskForm from "./pages/Admin_Panel/Tasks/Task_deatail/TaskForm";
+import ClientTaskview from "./pages/Client_Panel/Task/Taskview";
 // import StatusMainPage from "../src/pages/Admin_Panel/statustask/StatusMainPage";
+import Client_Project from "./pages/Client_Panel/Client_Project";
+import Project_Invoice from "./pages/Client_Panel/Projects/Project_Invoice";
 
 const App = () => {
   const [toggleSideBar, setToggleSideBar] = useState(true);
-  const [toggleEditSideBar , setToggleEditSideBar] = useState(false); 
+  const [toggleEditSideBar, setToggleEditSideBar] = useState(false);
+  const [toggleRunTab , setToggleRunTab ] = useState(false);
+  const [selectedPayrollTab , setSelectedPayrollTab] = useState(null);
 
-  const handleToggleEditSideBar = () =>{
-    setToggleEditSideBar(toggleEditSideBar=>!toggleEditSideBar)
+  const handleToggleEditSideBar = () => {
+    setToggleEditSideBar(toggleEditSideBar => !toggleEditSideBar)
   }
 
-
+useEffect(()=>{
+  console.log(selectedPayrollTab)
+},[selectedPayrollTab]);
 
   const handleToggleSideBar = () => {
     setToggleSideBar(!toggleSideBar);
@@ -123,7 +130,7 @@ const App = () => {
       <>
         <div className="flex ">
           <SideBar />
-          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set  ">
+          <div className="w-[100%] xl:w-[80%] lg:w-[80%] admin-sidebar-set">
             <NavBar />
             <div className="p-[10px]  w-full ">
               <Outlet />
@@ -139,12 +146,12 @@ const App = () => {
     return (
       <>
         <div className="">
-          <UpperHeader toggleEditSideBar = {toggleEditSideBar} handleToggleEditSideBar = {handleToggleEditSideBar}/>
+          <UpperHeader toggleEditSideBar={toggleEditSideBar} handleToggleEditSideBar={handleToggleEditSideBar} />
           <div className="flex">
-            <SidebarEditStaff toggleEditSideBar={toggleEditSideBar}/>
+            <SidebarEditStaff toggleEditSideBar={toggleEditSideBar} />
             <div className={`w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    
-        ${!toggleEditSideBar?"xl:pl-[320px]":"xl:pl-[0px]"} flex flex-col set-z ml-[20px]`}>
-            <Outlet />
+        ${!toggleEditSideBar ? "xl:pl-[320px]" : "xl:pl-[0px]"} flex flex-col set-z`}>
+              <Outlet />
             </div>
           </div>
         </div>
@@ -176,12 +183,12 @@ const App = () => {
               handleToggleSideBar={handleToggleSideBar}
               toggleSideBar={toggleSideBar}
             />
-            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]   `}>
+            <main className={`flex-1 z-[1]  m-[15px] xl:m-[30px]  `}>
               <div className="mx-auto px-4 pl-3 pr-3 py-8 lg:px-4 view-not">
                 <Outlet />
               </div>
             </main>
-            
+
           </div>
         </div>
       </>
@@ -212,12 +219,12 @@ const App = () => {
   function Payroll_Summary() {
     return (
       <>
-        <div className="flex w-full">
+        <div className="flex max-w-screen box-border">
           <SideBar />
-          <div className="w-full">
-            <NavBar />
-            <div className="p-[20px] pb-10 w-full h-lvh overflow-scroll">
-              <PayrollMenu />
+          <div className={`${!toggleSideBar?"w-[calc(100%-20%)]":"w-full"}`}>
+            <NavBar className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab} selectedPayrollTab = {selectedPayrollTab}/>
+            <div className=" pb-10 w-full h-lvh payroll-menu overflow-y-auto">
+              <PayrollMenu className = "w-full" toggleRunTab = {toggleRunTab} setToggleRunTab = {setToggleRunTab} setSelectedPayrollTab={setSelectedPayrollTab}/>
               {/* <Outlet /> */}
             </div>
 
@@ -232,12 +239,12 @@ const App = () => {
       <Routes>
         <Route element={<ProtectedRoute />}>
           <Route element={<AdminLayout />}>
-          <Route path="/" element={<DashBoard />} />
+            <Route path="/" element={<DashBoard />} />
             <Route path="/project-overview" element={<ProjectsOverview />} />
             <Route path="/new-ticket" element={<NewTicket />} />
             <Route path="/addnewclient" element={<AddNewClient />} />
             <Route path="/editclient" element={<EditClient />} />
-            <Route path = "/staff-menu" element = {<StaffMenu/>}/>
+            <Route path="/staff-menu" element={<StaffMenu />} />
             <Route path="/addrole" element={<AddRole />} />
             {/* <Route path="/role" element={<Role_Details />} /> */}
             <Route path="/editrole" element={<EditRole />} />
@@ -252,27 +259,27 @@ const App = () => {
             <Route path="/attendence_summary" element={<Attendence_summary />} />
             <Route path="/project_summary" element={<Project_Summary />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/overtime" element={<Overtime />} />
-            <Route path="/taskview" element={<Taskview />} />
+            <Route path="/overtime" element={<Overtime />} /> 
             <Route path="/clients" element={<Clients />} />
             <Route path="/projectprogress" element={<Project_Progress />} />
             {/* <Route path="/addnewtask" element={<AddNewTask />} /> */}
             {/* <Route path="/taskdata" element={<Task_Data />} /> */}
             <Route path="/task" element={<Task />} />
             <Route path="/adddepartment" element={<AddDepartment />} />
-            <Route path="/create-new-project" element={<Add_Project />}/>
+            <Route path="/create-new-project" element={<Add_Project />} />
             <Route path="/department-details" element={<Department_Details />} />
             <Route path="/taskstatus" element={<Task_Status />} />
             <Route path="chats/admin" element={<AdminChatInterface />} />
             <Route path="chats/client" element={<ClientChatInterface />} />
             <Route path="chats/staff" element={<StaffChatInterface />} />
+            <Route path="/clienttaskview" element={<ClientTaskview />} />
             <Route path="/status-main-page" element={<StatusMainPage />} />
             <Route path="/edittaskstatus" element={<Edit_Task_Status />} />
             <Route path="/edit-project" element={<Edit_Project />} />
             {/* <Route path="/task" element={<Task />} /> */}
             <Route path="/editprofile" element={<Editprofile />} />
             <Route path="/taskstatus" element={<Task_Status />} />
-            {/* <Route path="/clientproject" element={<Client_Project />} /> */}
+          
             {/* <Route path="/projectprogress" element={<Project_Progress />} /> */}
             <Route path="/note" element={<Note />} />
             <Route path="/expenseedit" element={<ExpenseEdit />} />
@@ -280,8 +287,9 @@ const App = () => {
             <Route path="/subscription-plan" element={<Subscription />} />
             <Route path="/subscription-plan/buy-plan" element={<Buy_plan />} />
             <Route path="/contact-information" element={<ContactInformation />} />
+            <Route path="/taskform" element={<TaskForm />} />
           </Route>
-         
+
 
         </Route>
 
@@ -310,11 +318,18 @@ const App = () => {
           <Route path="/uan" element={<VerifyUan />} />
           <Route path="/face" element={<VerifyFace />} />
           <Route path="/address" element={<VerifyAddress />} />
-
+          <Route path="/past-employment-details" element={<PastEmploymentDetail />} />
+          <Route path="/voter-id" element={<VerifyVoterID />} />
         </Route>
         <Route element={<Client_Panel />}>
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
-          <Route path="/task" element={<Task />} />
+         
+            <Route path="/clientproject" element={<Client_Project />} />
+            <Route path="/taskview" element={<Taskview />} />
+            <Route path="/project-invoice" element={<Project_Invoice />} />
+          
+
+
           {/* <Route path="/sidebarclient" element={<SidebarClient />} /> */}
 
           <Route
@@ -338,7 +353,7 @@ const App = () => {
         </Route>
 
         <Route element={<AuthLayout />}>
-        <Route path="/authentication" element={<MultiStepForm />} />
+          <Route path="/authentication" element={<MultiStepForm />} />
           <Route path="/authentication/login" element={<LoginPage />} />
           <Route path="/authentication/reset" element={<ResetPassword />} />
           <Route path="/authentication/request-password" element={<RequestPassword />} />

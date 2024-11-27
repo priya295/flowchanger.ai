@@ -79,15 +79,15 @@ const VerifyPan = () => {
     };
 
     return (
-        <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]   flex flex-col '>
-            <div className='flex justify-between items-center  w-[100%] p-[20px] pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
+        <div className='w-full  pt-[10px]  relative    flex flex-col '>
+            <div className='flex justify-between items-center  w-[100%] pb-[14px] p-[20px] pr-0 xl:pr-[20px] pl-[0] top-0 bg-white'>
                 <h3 className='font-medium'>PAN Verification</h3>
                 <button className='second-btn' onClick={submitPan}>
                     Update Pan
                 </button>
             </div>
 
-            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
+            <div className='flex justify-between items-center mb-3 p-4 border border-1 shadow-cs bg-[#fff] rounded-lg ' >
                 <h4 className='font-light'>PAN</h4>
                 <p className='font-light'>{pan?.number}</p>
                 <button className='second-btn' onClick={openModal2}  >
@@ -97,7 +97,7 @@ const VerifyPan = () => {
             </div>
 
 
-            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
+            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#fff] shadow-cs rounded-lg ' >
                 <h4 className='font-light'>Verification Status
                 </h4>
                 <p className='font-light'>{pan?.status}
@@ -106,13 +106,14 @@ const VerifyPan = () => {
             </div>
 
 
-            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#f0f8fd] rounded-md ' >
+            <div className='flex justify-between items-center mb-3 p-4 border border-1 bg-[#fff] shadow-cs rounded-lg ' >
                 <h4 className='font-light'>Proofs</h4>
                 <input
                     type="file"
                     ref={fileInputRef}
                     onChange={handleFileChange}
                     style={{ display: "none" }}
+                    required
                 />
                 {
                     pan?.verificationFile && <img src={pan?.verificationFile} alt="Selected File" className="w-[100px] h-[50px] rounded-md" />
@@ -136,12 +137,12 @@ const VerifyPan = () => {
 
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b-1 p-3 text-[13px] xl:text-[15px] '>Add PAN</h2>
-                <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#511992] rounded-full'><CloseIcon className='text-white' /></button>
+                <button onClick={closeModal2} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white' /></button>
                 <div className=''>
                     <div className='modal-field field-modal p-[10px] border border-t'>
-                        <label className='text-[13px] xl:text-[14px] font-medium'>PAN
+                        <label className='text-[13px] xl:text-[14px] font-medium' >PAN
                         </label><br />
-                        <input type='text' placeholder="Enter PAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={pan?.number} onChange={(e) => setPan({ ...pan, number: e.target.value })} /><br />
+                        <input type='text' placeholder="Enter PAN" className='border border-1 rounded-md p-[5px] mt-1 w-[100%] mb-[10px]  focus:outline-none text-[#000] placeholder:font-font-normal text-[14px]' value={pan?.number} onChange={(e) => setPan({ ...pan, number: e.target.value })} required/><br />
                     </div>
                     <div className='pr-[10px] pb-3 flex gap-[10px] justify-end border-t pt-3'>
                         <button className='first-btn' onClick={closeModal2}>Cancel</button>

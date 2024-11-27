@@ -5,42 +5,42 @@ import CloseIcon from "@mui/icons-material/Close";
 import file from '../../../../Assets/Images/file.png'
 import { useGlobalContext } from "../../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
-
+import ClipLoader from "react-spinners/ClipLoader";
 
 
 const Late_Coming_Policy = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [fileUpldoad, setFileUpldoad] = useState(false);
   const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
-
-  useEffect(()=>{
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
     fetchStaff();
-  },[])
+  }, [])
 
   const exportToCSV = () => {
     // Define the CSV headers
     const headers = [
-        'Index',
-        'Name',
-        'Job Title',
-        'Allowed Early Days',
-        'Grace Period (mins)',
-        'Deduction Rate',
-        'Deduction Type',
+      'Index',
+      'Name',
+      'Job Title',
+      'Allowed Early Days',
+      'Grace Period (mins)',
+      'Deduction Rate',
+      'Deduction Type',
     ];
-    
+
     // Map over the data to create CSV rows
     const rows = staffDetail.map((item, index) => {
-        const earlyLeavePolicy = item?.staffDetails?.LateComingPolicy[0] ?? {}; // Adjusted for Early Leave Policy
-        return [
-            index + 1,
-            item?.name || 'N/A',
-            item?.staffDetails?.job_title || 'N/A',
-            earlyLeavePolicy?.waiveOffDays ?? 'N/A',
-            earlyLeavePolicy?.gracePeriodMins ?? 'N/A',
-            earlyLeavePolicy?.fineAmountMins ?? 'N/A',
-            earlyLeavePolicy?.fineType ?? 'N/A',
-        ];
+      const earlyLeavePolicy = item?.staffDetails?.LateComingPolicy[0] ?? {}; // Adjusted for Early Leave Policy
+      return [
+        index + 1,
+        item?.name || 'N/A',
+        item?.staffDetails?.job_title || 'N/A',
+        earlyLeavePolicy?.waiveOffDays ?? 'N/A',
+        earlyLeavePolicy?.gracePeriodMins ?? 'N/A',
+        earlyLeavePolicy?.fineAmountMins ?? 'N/A',
+        earlyLeavePolicy?.fineType ?? 'N/A',
+      ];
     });
 
     // Combine headers and rows for CSV format
@@ -50,7 +50,6 @@ const Late_Coming_Policy = () => {
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'Late Coming Policy.csv');
   };
-  
 
 
   return (
@@ -98,7 +97,7 @@ const Late_Coming_Policy = () => {
                     <div className="bg-white 2xl:w-[40%] xl:w-[55%] lg:w-[65%] md:w-[84%] sm:w-[100%] rounded-lg border border-[#B1B1B1]">
                       <div className="flex items-center justify-around h-[75px] shadow bg-[#F0F6FE]">
                         <h1 className="text-[25px] text-[#0E2040] font-medium">
-                        Import Late Coming Policy for all Staff
+                          Import Late Coming Policy for all Staff
                         </h1>
                         <button onClick={() => setIsOpen(false)}>
                           <CloseIcon />
@@ -108,7 +107,7 @@ const Late_Coming_Policy = () => {
                       <div className="space-y-7 mx-10 my-6">
                         <div className="flex items-center justify-between">
                           <h1 className="font-medium">
-                          Step 1. Download Late Coming Policy template
+                            Step 1. Download Late Coming Policy template
                           </h1>
                           <button onClick={exportToCSV} className="text-[12px] px-2 py-1 rounded-sm border-2 border-dashed border-[#B1B1B1] text-[#B1B1B1]">
                             Download Template
@@ -117,7 +116,7 @@ const Late_Coming_Policy = () => {
 
                         <div className="flex items-center justify-between ">
                           <h1 className="font-medium">
-                          Step 2. Edit downloaded file and add Late Coming Policy details
+                            Step 2. Edit downloaded file and add Late Coming Policy details
                           </h1>
                         </div>
 
@@ -138,7 +137,7 @@ const Late_Coming_Policy = () => {
                             <div className="bg-white 2xl:w-[40%] xl:w-[55%] lg:w-[65%] md:w-[84%] sm:w-[100%] rounded-lg border border-[#B1B1B1]">
                               <div className="flex items-center justify-around h-[75px] shadow bg-[#F0F6FE]">
                                 <h1 className="text-[25px] text-[#0E2040] font-medium">
-                                Import Late Coming Policy for all Staff
+                                  Import Late Coming Policy for all Staff
                                 </h1>
                                 <button onClick={() => setFileUpldoad(false)}>
                                   <CloseIcon />
@@ -175,37 +174,58 @@ const Late_Coming_Policy = () => {
         </div>
       </div>
       <div className='w-[100%] p-0 h-[300px] overflow-y-auto flex rounded-md shadow overflow-scroll border border-1 mt-4 '>
-      <div className='w-full   '>
-        <table className="table-section w-full">
-          <thead className="border border-1 ">
-            <th>#</th>
-            <th>Name</th>
-            <th>Job Title</th>
-            <th>Allowed Early Days</th>
-            <th>Grace Period (mins)</th>
-            <th>Deduction Rate</th>
-            <th>Deduction Type</th>
-          </thead>
-          <tbody>
-          {
-                staffDetail?.map((items)=>{
-                  const overTime=items?.staffDetails?.LateComingPolicy[0]
-                  return   <tr className="border">
-                  <td>
-                    <input type="checkbox" className="border border-1 rounded-md " />
+        <div className='w-full   '>
+          <table className="table-section w-full">
+            <thead className="border border-1 ">
+              <th>#</th>
+              <th>Name</th>
+              <th>Job Title</th>
+              <th>Allowed Early Days</th>
+              <th>Grace Period (mins)</th>
+              <th>Deduction Rate</th>
+              <th>Deduction Type</th>
+            </thead>
+            <tbody>
+              {
+                isLoading && staffDetail.length === 0 ? (<tr className="h-[100px]">
+                  <td colSpan="9" className="text-center text-gray-600 text-xl font-semibold py-4">
+                    <ClipLoader color="#4A90E2" size={50} />
                   </td>
-                  <td>{items.name}</td>
-                  <td>{items?.staffDetails?.job_title}</td>
-                  <td>{overTime?.waiveOffDays?? "N/A"}</td>
-                  <td>{overTime?.gracePeriodMins?? "N/A"}</td>
-                  <td>{overTime?.fineAmountMins?? "N/A"}</td>
-                  <td>{overTime?.fineType?? "N/A"}</td>
-                 
-                  </tr>
-                })
+                </tr>
+                ) : staffDetail && staffDetail.length > 0 ? (
+
+                  staffDetail?.map((items) => {
+                    const overTime = items?.staffDetails?.LateComingPolicy[0]
+                    return <tr className="border">
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">
+                        <input type="checkbox" className="border border-1 rounded-md " />
+                      </td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{items.name}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{items?.staffDetails?.job_title}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{overTime?.waiveOffDays ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{overTime?.gracePeriodMins ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{overTime?.fineAmountMins ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{overTime?.fineType ?? "N/A"}</td>
+
+                    </tr>
+                  })
+
+                )
+                : (
+                    // No Data State
+                    <tr className="h-[100px]">
+                      <td
+                        colSpan="9"
+                        className="text-center text-red-500 text-xl font-semibold py-4"
+                      >
+                        No staff found.
+                      </td>
+                    </tr>
+                  )
+
               }
-          </tbody>
-        </table>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

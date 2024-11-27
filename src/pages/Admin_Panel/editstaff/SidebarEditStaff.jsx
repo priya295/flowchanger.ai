@@ -17,11 +17,9 @@ const SidebarEditStaff = ({toggleEditSideBar}) => {
     }
   }, [])
   return (
-    <div className={`${toggleEditSideBar?"-ml-[300px]":"ml-[0px]"} edit-sidebar h-lvh shadow mt-[60px]  fixed top-[6px] bg-white p-[30px] pl-[5px] pr-[5px] overflow-scroll w-[300px] z-10 pb-10`}>
+    <div className={`${toggleEditSideBar?"-ml-[300px]":"ml-[0px]"} duration-300 ease-in-out edit-sidebar h-lvh shadow mt-[60px]  fixed top-[6px] bg-white p-[30px] pl-[5px] pr-[5px] overflow-scroll w-[300px] z-10 pb-10`}>
       <div className='flex flex-col sidelinks'>
-        <NavLink to={`/personal-detail/${id}`} className='p-5 pb-5 flex justify-between text-[12px] whitespace-nowra
-        
-        p font-medium items-center'>Personal Details <KeyboardArrowRightIcon className='arrow-icon' /></NavLink>
+        <NavLink to={`/personal-detail/${id}`} className='p-5 pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Personal Details <KeyboardArrowRightIcon className='arrow-icon' /></NavLink>
         <NavLink to={`/custom-detail/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Custom Details <KeyboardArrowRightIcon /></NavLink>
         <NavLink to={`/background-verification/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Background Verification <KeyboardArrowRightIcon /></NavLink>
         <NavLink to={`/employee-detail/${id}`} className='p-5  pb-5 flex justify-between text-[12px] whitespace-nowrap font-medium items-center'>Employment Details <KeyboardArrowRightIcon /></NavLink>

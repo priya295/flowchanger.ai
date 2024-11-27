@@ -299,8 +299,13 @@ const EditSalaryDetails = () => {
     "Miscellaneous Deduction"
   ]);
 
-  const [selectedAllowance, setSelectedAllowance] = useState([...selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads)]);
-  const [selectedDeduction, setSelectedDeduction] = useState([...selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads)]);
+  const [selectedAllowance, setSelectedAllowance] = useState(() =>
+    selectedStaff?.staffDetails?.Earning?.map(({ heads }) => heads) || []
+  );
+
+  const [selectedDeduction, setSelectedDeduction] = useState(() =>
+    selectedStaff?.staffDetails?.Deduction?.map(({ heads }) => heads) || []
+  );
 
 
   const [calEarning, setCalEarning] = useState([]);
@@ -423,8 +428,8 @@ const EditSalaryDetails = () => {
 
   // useEffect(() => {
   //   if (includeEmployerPF) {
-  //     setTotalCTC(totalCTC + calculateCheckedItemsTotal(calEarning, selectedOption1, 12)
-  //     )
+  //     setTotalCTC(Number(totalCTC) + Number(calculateCheckedItemsTotal(calEarning, selectedOption1, 12)))
+
   //   }
   //   else {
   //     setTotalCTC(totalCTC - calculateCheckedItemsTotal(calEarning, selectedOption1, 12))
@@ -440,6 +445,14 @@ const EditSalaryDetails = () => {
   //     setTotalCTC(totalCTC - calculateCheckedItemsTotal(calEarning, selectedOption2, 3.25))
   //   }
   // }, [includeEmployerESI])
+  // useEffect(() => {
+  //   if (includeEmployerLWF) {
+  //     setTotalCTC(Number(totalCTC) + Number(statesLWF.find(state => state.name === stateName)?.employeelwf) + Number(statesLWF.find(state => state.name === stateName)?.employerlwf))
+  //   }
+  //   else {
+  //     setTotalCTC(Number(totalCTC) + Number(statesLWF.find(state => state.name === stateName)?.employeelwf) + Number(statesLWF.find(state => state.name === stateName)?.employerlwf))
+  //   }
+  // }, [includeEmployerLWF])
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -625,7 +638,7 @@ const EditSalaryDetails = () => {
   console.log(calEarning, calCompliances, calDeductions);
 
   return (
-    <div className="salary-details layout   w-full xl:p-[20px] p-[10px] pt-[80px]      flex flex-col">
+    <div className="salary-details layout   w-full  pt-[20px]      flex flex-col">
       <div className="flex items-center justify-between  xl:pb-6  ">
         <h1 className="  font-medium ">
           Salary Details Import Settings
@@ -641,11 +654,11 @@ const EditSalaryDetails = () => {
       <div className="flex justify-between whitespace-normal flex-wrap gap-[10px]">
         <div className="xl:basis-1/5 lg:basis-5/12 md:basis-5/12 sm:basis-5/12 basis-full">
           <label className="text-[14px]">Effective Date of Change</label><br />
-          <input value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} type='month' className="mt-[5px]   border border-[#D9D9D9] bg-white  p-1 rounded-md focus:outline-none w-full" />
+          <input value={selectedMonth} onChange={(e) => setSelectedMonth(e.target.value)} type='month' className="mt-[5px]   border border-[#D9D9D9] text-[14px] bg-white  p-1 rounded-md focus:outline-none w-full" />
         </div>
         <div className="xl:basis-1/5 lg:basis-5/12 md:basis-5/12 sm:basis-5/12 basis-full	">
           <label className="text-[14px]">Salary Type</label><br />
-          <select value={selectSalaryType} onChange={(e) => setSelectSalaryType(e.target.value)} className="mt-[5px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
+          <select value={selectSalaryType} onChange={(e) => setSelectSalaryType(e.target.value)} className="mt-[5px]  text-[15px]  border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
             <option value={"Per Month"}>
               Per Month
             </option>
@@ -660,7 +673,7 @@ const EditSalaryDetails = () => {
         <div className="xl:basis-1/5 lg:basis-5/12 md:basis-5/12 sm:basis-5/12 basis-full">
           <label className="text-[14px]">Salary Structure
           </label><br />
-          <select value={selectSalaryStructure} onChange={(e) => { setSelectSalaryStructure(e.target.value) }} className="mt-[5px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
+          <select value={selectSalaryStructure} onChange={(e) => { setSelectSalaryStructure(e.target.value) }} className="mt-[5px] text-[15px]  border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full">
             <option value={"Salary Box Provided Breakdown"}>
               Salary Box Provided Breakdown
             </option>
@@ -674,7 +687,7 @@ const EditSalaryDetails = () => {
           <label className="text-[14px]">CTC Amount</label><br />
           <div className="relative">
             <span className="absolute top-[10px] left-[4px]">₹</span>
-            <input disabled={true} value={totalCTC} onChange={(e) => setTotalCTC(e.target.value)} type="number" placeholder="Enter Amount" className="mt-[5px] pl-[20px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full" />
+            <input disabled={true} value={totalCTC} onChange={(e) => setTotalCTC(e.target.value)} type="number" placeholder="Enter Amount" className="mt-[5px] text-[14px] pl-[20px]   border border-[#D9D9D9] bg-white p-1  rounded-md focus:outline-none w-full" />
           </div>
         </div>
 
@@ -683,7 +696,7 @@ const EditSalaryDetails = () => {
 
       {/*--Earnings Part--*/}
       <div className="">
-        <h1 className="bg-[#F0F6FE] shadow-sm text-[13px] xl:text-[14px] font-normal mt-[20px] p-[10px]">Earnings</h1>
+        <h1 className="bg-[#fff] shadow-cs text-[13px] xl:text-[14px] rounded-md font-normal mt-[20px] p-[10px]">Earnings</h1>
         <div className="flex xl:mt-12 mt-[20px] xl:ml-16 ml-0">
           <div className="w-[100%] xl:w-[50%] space-y-5">
             <div className="flex items-center justify-between">
@@ -697,7 +710,7 @@ const EditSalaryDetails = () => {
                 <select
                   value={calEarning.find(item => item.name === allowance)?.calculation || ""}
                   onChange={(e) => handleChange("earnings", allowance, e.target.value, "calculation")}
-                  className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                  className="px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
                 >
                   <option value="On Attendance">On Attendance</option>
                   <option value="Flat Rate">Flat Rate</option>
@@ -800,13 +813,13 @@ const EditSalaryDetails = () => {
             {selectedAllowance?.map((allowance) => (
               <div className="flex items-center justify-between" key={allowance}>
                 <div className="relative">
-                  <span className="absolute top-[2px] left-[4px]">₹</span>
+                  <span className="absolute top-[6px] left-[4px]">₹</span>
                   <input
                     value={calEarning.find(item => item.name === allowance)?.amount || ""}
                     onChange={(e) => handleChange("earnings", allowance, e.target.value, "amount")}
                     type="number"
                     placeholder="Enter Amount"
-                    className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
+                    className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px] rounded-md pr-[6px] focus:outline-none"
                   />
                 </div>
               </div>
@@ -818,12 +831,12 @@ const EditSalaryDetails = () => {
       {/*--Compliances Part--*/}
 
       <div className=" xl:mt-12 mt-[0px]" >
-        <h1 className="bg-[#F0F6FE] shadow-sm    text-[13px] xl:text-[14px] font-normal mt-[20px] p-[10px]">
+        <h1 className="bg-[#fff] shadow-cs  rounded-md   text-[13px] xl:text-[14px] font-normal mt-[20px] p-[10px]">
           Compliances
         </h1>
 
         <div className="flex xl:mt-12 mt-[20px] xl:ml-16 ml-0 gap-[30px] flex-col xl:flex-row lg:flex-row md:flex-row ">
-          <div className="xl:w-[50%] w-[100%] space-y-5 w-full">
+          <div className="xl:w-[50%] w-[100%] space-y-5">
             <div className="flex items-center  justify-between   ">
               <span className="text-[13px] xl:text-[13px] font-semibold">
                 Employer Contributions
@@ -836,7 +849,7 @@ const EditSalaryDetails = () => {
               <div className="relative w-40">
                 <button
                   onClick={toggleDropdown1}
-                  className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="flex items-center justify-between w-full px-4 py-2 pl-[8px] pr-[6px] text-sm font-medium text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   aria-expanded={isOpen1}
                 >
                   <span>{selectedOption1?.label || 'Select an option'}</span>
@@ -861,7 +874,7 @@ const EditSalaryDetails = () => {
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">PF EDLI & Admin Charges</span>
               <select
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className="px-4 py-2 text-sm w-[160px] border border-[#D9D9D9] bg-white font-medium  pl-[8px] pr-[6px] rounded-md focus:outline-none"
                 onChange={(e) => handleChange("compliances", "PF EDLI & Admin Charges", e.target.value, "calculation")}
               >
                 <option value={"None"}>None</option>
@@ -874,7 +887,7 @@ const EditSalaryDetails = () => {
               <div className="relative w-40">
                 <button
                   onClick={toggleDropdown2}
-                  className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="flex items-center justify-between w-full px-4 py-2 pl-[8px] pr-[6px] text-sm font-medium text-left bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   aria-expanded={isOpen2}
                 >
                   <span>{selectedOption2?.label || 'Select an option'}</span>
@@ -899,7 +912,7 @@ const EditSalaryDetails = () => {
               <span className="text-[13px] xl:text-[14px] font-normal">Employer LWF</span>
               {/* <StateSelect
                 value={stateid}
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className="px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
                 countryid={101}
                 onChange={(e) => {
                   setstateid(e.id)
@@ -918,7 +931,7 @@ const EditSalaryDetails = () => {
                 handleChange("compliances", "Employee LWF", e.target.value, "state")
                 handleChange("compliances", "Employee LWF", statesLWF?.filter((state) => state.state === e.target.value)[0]?.employeelwf, "calculation")
               }} placeHolder="Select State"
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className="px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
               >
                 {statesLWF?.map((state) => (
                   <option value={state.state}>{state.state}</option>
@@ -926,7 +939,7 @@ const EditSalaryDetails = () => {
               </select>
             </div>
           </div>
-          <div className="xl:w-[50%] w-[100%] space-y-5 w-full">
+          <div className="xl:w-[50%] w-[100%] space-y-5 ">
             <div className="flex items-center  justify-between   ">
               <span className="text-[13px] xl:text-[13px] font-semibold">
                 Included in CTC
@@ -938,11 +951,11 @@ const EditSalaryDetails = () => {
               <div key={index} className="flex items-center justify-between">
                 {index === 1 ? (
                   <>
-                    <h3>N/A</h3>
+                    <h3> {includeEmployerPF ? "Yes" : "No"}</h3>
                     <div className="relative">
-                      <span className="absolute top-[2px] left-[4px]">₹</span>
+                      <span className="absolute top-[6px] left-[4px]">₹</span>
                       <input value={calEmployerPFEDLIAndAdminCharges} disabled={true} onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
-                        type="number" placeholder="Enter Amount" className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
+                        type="number" placeholder="Enter Amount" className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px] rounded-md pr-[6px] focus:outline-none" />
                     </div>
                   </>
                 ) : (
@@ -956,7 +969,7 @@ const EditSalaryDetails = () => {
 
                       } />
                     <div className="relative">
-                      <span className="absolute top-[2px] left-[4px]">₹</span>
+                      <span className="absolute top-[6px] left-[4px]">₹</span>
                       <input
                         value={
                           index === 0 ? calEmployerPF :
@@ -966,7 +979,7 @@ const EditSalaryDetails = () => {
                         disabled={true}
                         type="number"
                         placeholder="Enter Amount"
-                        className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
+                        className="px-4 py-2 w-[160px] text-sm border border-[#D9D9D9] bg-white  pl-[16x] rounded-md pr-[6px] focus:outline-none"
                         onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
                       />
                     </div>
@@ -1043,7 +1056,7 @@ const EditSalaryDetails = () => {
             <div className="flex items-center justify-between">
               <span className="text-[13px] xl:text-[14px] font-normal">Professional Tax</span>
               <StateSelect
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className="px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
                 countryid={101}
                 onChange={(e) => {
                   setstateid(e.id);
@@ -1058,7 +1071,7 @@ const EditSalaryDetails = () => {
               <span className="text-[13px] xl:text-[14px] font-normal">Employee LWF</span>
               {/* <StateSelect
                 value={stateid}
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className="px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
                 countryid={101}
                 onChange={(e) => {
                   setstateid(e.id);
@@ -1077,7 +1090,7 @@ const EditSalaryDetails = () => {
                 handleChange("compliances", "Employee LWF", e.target.value, "state")
                 handleChange("compliances", "Employee LWF", statesLWF?.filter((state) => state.state === e.target.value)[0]?.employeelwf, "calculation")
               }} placeHolder="Select State"
-                className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className="px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
               >
                 {statesLWF?.map((state) => (
                   <option value={state.state}>{state.state}</option>
@@ -1096,7 +1109,7 @@ const EditSalaryDetails = () => {
             {[...Array(4)].map((_, index) => (
               <div className={"flex items-center justify-end " + (index === 2 && "invisible")} key={index}>
                 <div className="relative">
-                  <span className="absolute top-[2px] left-[4px]">₹</span>
+                  <span className="absolute top-[6px] left-[4px]">₹</span>
                   <input
                     value={
                       index === 0 ? calEmployeePF :
@@ -1107,7 +1120,7 @@ const EditSalaryDetails = () => {
                     disabled={true}
                     type="number"
                     placeholder="Enter Amount"
-                    className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none"
+                    className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px]  rounded-md pr-[6px] focus:outline-none"
                     onChange={(e) => handleChange("deductions", `Amount ${index + 1}`, e.target.value, "amount")}
                   />
                 </div>
@@ -1121,7 +1134,7 @@ const EditSalaryDetails = () => {
 
       {/*--Deductions Part--*/}
       <div className="">
-        <h1 className="bg-[#F0F6FE] shadow-sm    text-[13px] xl:text-[14px] font-normal mt-[20px] p-[10px]">Deductions</h1>
+        <h1 className="bg-[#fff] shadow-cs rounded-md  text-[13px] xl:text-[14px] font-normal mt-[20px] p-[10px]">Deductions</h1>
         <div className="flex xl:mt-12 mt-[20px] xl:ml-16 ml-0 ">
           <div className="w-[100%] xl:w-[50%] space-y-5 ">
             <div className="flex items-center justify-between ">
@@ -1139,7 +1152,7 @@ const EditSalaryDetails = () => {
                 onChange={(e) => handleChange("deduction", deduction, e.target.value, "calculation")}
                 name=""
                 id=""
-                className=" h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className=" px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
               >
                 <option value="On Attendance">On Attendance</option>
                 <option value="Flat Rate">Flat Rate</option>
@@ -1151,7 +1164,7 @@ const EditSalaryDetails = () => {
               <select
                 name=""
                 id=""
-                className=" h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className=" px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
               >
                 <option value="On Attendance">On Attendance</option>
               </select>
@@ -1177,7 +1190,7 @@ const EditSalaryDetails = () => {
               <select
                 name=""
                 id=""
-                className=" h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md focus:outline-none"
+                className=" px-4 py-2 border border-[#D9D9D9] bg-white text-sm pl-[8px] pr-[6px] rounded-md focus:outline-none w-[160px]"
               >
                 <option value="On Attendance">On Attendance</option>
               </select>
@@ -1278,23 +1291,23 @@ const EditSalaryDetails = () => {
 
             {selectedDeduction?.map((deduction) => <div key={deduction} className="flex items-center justify-between">
               <div className="relative">
-                <span className="absolute top-[2px] left-[4px]">₹</span>
+                <span className="absolute top-[6px] left-[4px]">₹</span>
                 <input value={calDeductions.find(item => item.name === deduction)?.amount || ""}
                   onChange={(e) => handleChange("deductions", deduction, e.target.value, "amount")}
-                  type="number" placeholder="Enter Amount" className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
+                  type="number" placeholder="Enter Amount" className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px] rounded-md pr-[6px] focus:outline-none" />
               </div>
             </div>)}
             {/* <div className="flex items-center justify-between">
               <div className="relative">
-                <span className="absolute top-[2px] left-[4px]">₹</span>
-                <input type="number" placeholder="Enter Amount" className="h-[25px] w-[117px] border border-[#D9D9D9] bg-white text-[10px] pl-4 rounded-md pr-2 focus:outline-none" />
+                <span className="absolute top-[6px] left-[4px]">₹</span>
+                <input type="number" placeholder="Enter Amount" className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[8px] rounded-md pr-[6px] focus:outline-none" />
               </div>
             </div> */}
           </div>
         </div>
       </div>
 
-      <div className="flex justify-between rounded-md bg-[#F0F6FE] shadow-sm    text-[13px] xl:text-[14px] font-normal mt-[20px] p-[10px]">
+      <div className="flex justify-between  bg-[#fff] shadow-cs rounded-md   text-[13px] xl:text-[14px] font-normal mt-[20px] p-[10px]">
         <h3 className="font-medium">Total CTC: -</h3>
         <h3 className="font-medium">₹ {totalCTC} /{selectSalaryType}</h3>
       </div>

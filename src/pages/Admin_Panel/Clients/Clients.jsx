@@ -26,13 +26,22 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import ReactDOM from 'react-dom';
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
+import { IoMdArrowDropright } from "react-icons/io";
+
 
 
 const Clients = () => {
+  const [isOn3, setIsOn3] = useState(false);
 
+  const toggleSwitch3 = () => {
+    setIsOn3(!isOn3);
+  }
+  const [open8, setOpen8] = useState(false);
+
+  const onOpenModal8 = () => setOpen8(true);
+  const onCloseModal8 = () => setOpen8(false);
 
   const [allStaff, setAllStaff] = useState();
-
   const [isLoading, setIsLoading] = useState(true);
   const [departments, setDepartments] = useState([])
   const [companyName, setCompanyName] = useState("");
@@ -186,20 +195,35 @@ const Clients = () => {
   //Toggle swich off on btn
 
   const [clientData, setClientData] = useState([]);
+  useEffect(() => {
+    console.log(clientData);
+    if (clientData) {
+      clientData.map(client => {
+        console.log(client.id);
+      })
+    }
+  }, [clientData]);
 
   const fetchDetail = async () => {
     const result = await fetch(baseUrl + "client");
-    if (result.status == 200) {
-      const res = await result.json();
-      console.log(res);
-      setClientData(res);
-      if (res && res.length > 0) {
-        setIsOpen(true);
+
+    const res = await result.json();
+    try {
+      if (result.status == 200) {
+        console.log(res);
+        setClientData(res);
+        if (res && res.length > 0) {
+          setIsOpen(true);
+        }
+      } else {
+        openToast(res.message);
       }
-    } else {
-      alert("An Error Occured");
     }
-  };
+    catch (error) {
+      console.log(error, "error");
+    }
+  }
+
   //   handle search company
   const handleSearchCompany = async () => {
     const queryParams = new URLSearchParams({
@@ -207,15 +231,16 @@ const Clients = () => {
     }).toString();
     setIsLoading(true);
     try {
-      const response = await fetch(`${baseUrl}staff/search?${queryParams}`);
+      const response = await fetch(`${baseUrl}client/search?${queryParams}`);
+      const result = await response.json();
       console.log(response);
       if (response.status === 200) {
-        const result = await response.json();
         console.log(result);
         setSearchClients(result);
 
       } else {
         console.log("data is not filtered");
+        openToast(result.message);
       }
     } catch (error) {
       console.error("Error searching staff:", error);
@@ -230,7 +255,7 @@ const Clients = () => {
         handleSearchCompany();
       }
     }, 3000);
-  
+
     return () => clearTimeout(debounceTimer);
   }, [companyName]);
 
@@ -307,6 +332,7 @@ const Clients = () => {
 
   useEffect(() => {
     if (selectedClient) {
+      console.log(selectedClient);
       setCompany(selectedClient.company || "");
       setVatNumber(selectedClient.vat_number || "");
       setPhone(selectedClient.phone || "");
@@ -366,31 +392,40 @@ const Clients = () => {
   const [deleteClient, setDeleteClient] = useState();
   const updateData = async (e) => {
     e.preventDefault();
-    const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
-      method: "PUT",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, groups: selectedGroups, currency: currency, default_language: language, address: address, country: country, state: state, city: city, zip_code: zipCode })
-    })
-    if (result.status == 200) {
-      fetchDetail()
-      openToast("Details Update Successfully")
+    try {
+      const result = await fetch(baseUrl + "/client/" + selectedClient.id, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({ company: company, vat_number: vatNumber, phone: phone, website: website, groups: selectedGroups, currency: currency, default_language: language, address: address, country: country, state: state, city: city, zip_code: zipCode })
+      })
+      const res = await result.json();
+      if (result.status == 200) {
+        fetchDetail()
+        openToast(res.message)
+      }
+      else (
+        openToast(res.message)
+      )
     }
-    else (
-      openToast("An Error Occured")
-    )
+    catch (error) {
+      console.log("error", error);
+    }
   }
 
   async function deleteData(id) {
-    const result = await fetch(baseUrl + "/client/" + id, {
+    console.log(id);
+    const result = await fetch(baseUrl + "client/" + id, {
       method: "DELETE",
     });
+
+    const res = await result.json();
     if (result.status === 200) {
-      openToast("Delete Record Successfully");
+      openToast(res.message);
       fetchDetail();
     } else {
-      openToast("An Error Occurred");
+      openToast(res.message);
     }
   }
   useEffect(() => {
@@ -403,18 +438,18 @@ const Clients = () => {
   const onCloseModal = () => setOpen(false);
   return (
     <div className=" w-full  top-[95px] right-[5px] ">
-      <div className="bg-[#fff] p-[10px] ml-[10px]">
+      <div className="bg-[#fff] px-4 py-6">
         <div className="mb-[14px] flex gap-[10px] items-center import-customers">
           <Link
             to="/addnewclient"
-            className="text-[#fff] client-add text-[14px] bg-[#27004a] newcustomers  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className=" client-add allcrm-btn flex items-center gap-[3px]   newcustomers  focus:outline-none  font-medium   text-center"
           >
             <AddIcon className="newadd" /> New Clients
           </Link>
 
           <Link
             to="/contact-information"
-            className="text-[#000] text-[14px] client-add bg-[#f4f2f2]  focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-[#000] text-[14px] client-add bg-[#f4f2f2]  focus:outline-none  font-medium rounded-lg  p-[8px] text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <PersonIcon className="newadd mr-[5px]" />
             Contacts
@@ -430,7 +465,7 @@ const Clients = () => {
           </h2>
 
           <div className="flex justify-between items-center mb-[14px] betwe-cent">
-            <div className="flex mb-4 justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
+            <div className="flex mb-4 pl-[0] justify-between p-3 flex-col gap-2  sm:flex-row sm:gap-0">
               <div className="left-side ">
                 <select
                   onChange={handleSelectChange}
@@ -494,7 +529,7 @@ const Clients = () => {
 
                   <div className='pr-[10px] pb-3 flex gap-[10px] justify-end mt-[24px]'>
                     {/* Button to close the modal */}
-                 
+
                     <button className='second-btn'>Confirm </button>
                   </div>
 
@@ -536,7 +571,7 @@ const Clients = () => {
             </div>
             <div className="relative client-add">
               <input
-                className="p-[6px] client-add rounded-2xl  summary-border text-[13px] "
+                className="p-[8px] client-add  rounded-3xl pl-[10px] pr-[24px] focus-visible:outline-none  summary-border text-[13px] "
                 type="text"
                 placeholder=" Search......."
                 value={companyName}
@@ -550,46 +585,49 @@ const Clients = () => {
                 }}
 
               />
-              <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
+              <SearchIcon className="absolute newadd2 right-[8px] top-[11px]" />
             </div>
           </div>
 
-          <div className="bg-white  w-full overflow-x-auto">
-            <table className="w-full table-auto border border-[#dbdbdb] border-collapse">
+          <div className="bg-white rounded-lg w-full shadow-cs border border-[#dcdbdb] overflow-x-auto">
+            <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
               {/* Header with Toggle */}
               <thead
-                className="cursor-pointer bg-[white] shadow-lg border border-gray-300"
+                className="cursor-pointer  border border-gray-300 shadow-md"
                 onClick={toggleAccordion}
               >
                 <tr>
-                  <th className="border-r p-2 text-xs font-medium text-center">
-                    <input type="checkbox" className="text-xs h-4" />
+                  <th className="border-r p-2 flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
+                    <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen ? "rotate-90 text-[black]" : "rotate-0"}`}
+                    />
+                    <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
+
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     #
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Name
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Company
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Primary Contact
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Primary Email
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Phone
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Active
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Groups
                   </th>
-                  <th className="border-r p-2 text-xs font-medium text-center">
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
                     Date Created
                   </th>
                   <th className="p-2 text-xs font-medium text-center">
@@ -600,92 +638,158 @@ const Clients = () => {
 
               {/* Conditionally Rendered Table Body */}
               {isOpen && (
-                <tbody>
-                  {
-                    isLoading && clientData.length === 0 ? (<tr className="h-[100px]">
-                      <td colSpan="9" className="text-center text-gray-600 text-sm font-semibold py-4">
-                        <ClipLoader isLoading={isLoading} size={50} color="#000" />
+                <tbody className={`transition-body ${isOpen ? "open" : ""}`}  >
+                  {isLoading && clientData.length === 0 ? (
+                    <tr className="h-[100px]">
+                      <td colSpan="10" className="text-center text-gray-600 text-sm font-semibold py-4">
+                        <ClipLoader color="#4A90E2" size={50} />
                       </td>
                     </tr>
-                    ) :
-                      clientData && clientData.length > 0 ? (
-                        clientData.map((item, index) => (
-                          <tr key={item.id} className="border-b border-gray-300">
-                            <td className="p-2 text-center">
-                              <input type="checkbox" className="text-xs h-4" />
-                            </td>
-                            <td className="p-2 text-xs text-center">{index + 1}</td>
-                            <td className="p-2 text-xs text-center">{item.name}</td>
-                            <td className="p-2 text-xs text-center">
-                              {item.clientDetails?.company}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.mobile}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.email}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.mobile}
-                            </td>
-                            <td className="text-[11px] font-medium p-[10px]    whitespace-nowrap	">
-                              <div className="flex items-center justify-center gap-[6px]">
-                                {/* Toggle Switch */}
-                                <div
-                                  className={`${item.status ? "bg-[#8a25b0]" : "bg-gray-300"
-                                    } relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
-                                  onClick={toggleSwitch1}
-                                >
-                                  <span
-                                    className={`${item.status == "active"
-                                      ? "translate-x-6"
-                                      : "translate-x-0"
-                                      } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
-                                  />
-                                </div>
-                              </div>
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {item.groups}
-                            </td>
-                            <td className="p-2 text-xs text-center">
-                              {new Date(
-                                item.clientDetails?.created_at
-                              ).toDateString()}
-                            </td>
-                            <td className="p-2 flex justify-center gap-2">
-                              <BorderColorIcon
-                                className="text-purple-600 cursor-pointer"
-                                onClick={() => setSelectedClient(item)}
+                  ) : searchedClients === null && clientData && clientData.length > 0 ? (
+                    clientData?.map((item, index) => (
+                      <tr key={item?.id} className="border-b border-gray-300">
+                        <td className="p-2 text-center border-r border-[#dbdbdb]">
+                          <input type="checkbox" className="text-xs h-4" />
+                        </td>
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">{index + 1}</td>
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">{item?.name}</td>
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">
+                          {item?.clientDetails?.company}
+                        </td>
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">
+                          {item?.mobile}
+                        </td>
+                        <td className="p-2 whitespace-nowrap border-r border-[#dbdbdb] text-xs text-center">
+                          {item?.email}
+                        </td>
+                        <td className="p-2 text-xs text-center border-r border-[#dbdbdb] whitespace-nowrap ">
+                          {item?.mobile}
+                        </td>
+                        <td className="text-[11px] font-medium border-r border-[#dbdbdb] p-[10px] whitespace-nowrap">
+                          <div className="flex items-center justify-center gap-[6px]">
+                            <div
+                              className={`${item?.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+                              onClick={toggleSwitch1}
+                            >
+                              <span
+                                className={`${item?.status == "active" ? "translate-x-6" : "translate-x-0"
+                                  } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
                               />
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-2 text-xs text-center border-r border-[#dbdbdb] whitespace-nowrap ">
+                          {item?.groups}
+                        </td>
+                        <td className="p-2 text-xs border-r border-[#dbdbdb] text-center whitespace-nowrap ">
+                          {new Date(item?.clientDetails?.created_at).toDateString()}
+                        </td>
+                        <td className="p-2  flex justify-center gap-2">
+                          <BorderColorIcon
+                            className="text-purple-600 cursor-pointer"
+                            onClick={() => setSelectedClient(item)}
+                          />
+
+                          <div>
+                            <button onClick={() => {
+                              setDeleteClient(item.id)
+                              onOpenModal8()
+                            }}>
                               <DeleteIcon
                                 className="text-red-500 cursor-pointer"
-                                onClick={() => deleteData(item.id)}
                               />
-                            </td>
-                          </tr>
-                        ))
-                      )
-                        :  // No Data State
-                        (<tr className="h-[100px]">
-                          <td
-                            colSpan="9"
-                            className="text-center text-gray-900 text-sm font-semibold py-4"
-                          >
-                            No client found.
-                          </td>
-                        </tr>)}
+                            </button>
+                            <Modal open={open8} onClose={onCloseModal8} center>
+                              <div className="flex items-center justify-center h-[120px]">
+                                <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                              </div>
+                              <div className="flex items-center justify-around ">
+                                <button className="allcrm-btn" onClick={() => { deleteData(deleteClient) }}>Yes , Confirm</button>
+                                <button className="allcrm-btn">No , Cancel</button>
+                              </div>
+                            </Modal>
+                          </div>
+
+                        </td>
+                      </tr>
+                    ))
+                  ) : searchedClients && searchedClients.length > 0 ? (
+                    searchedClients?.map((client, index) => (
+                      <tr key={client.id} className="border-b border-gray-300">
+                        {/* Same structure as above, just using client instead of item */}
+                        <td className="p-2 text-center border-r">
+                          <input type="checkbox" className="text-xs h-4" />
+                        </td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">{index + 1}</td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">{client?.name}</td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.company}
+                        </td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.mobile}
+                        </td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap">
+                          {client?.email}
+                        </td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.mobile}
+                        </td>
+                        <td className="text-[11px] font-medium p-[10px] whitespace-nowrap">
+                          <div className="flex items-center justify-center gap-[6px]">
+                            {/* <div
+                              className={`${client?.status ? "bg-[#8a25b0]" : "bg-gray-300"} relative inline-block w-12 h-6 rounded-full transition-colors duration-300 ease-in-out cursor-pointer`}
+                              onClick={toggleSwitch1}
+                            >
+                              <span
+                                className={`${client?.status == "active" ? "translate-x-6" : "translate-x-0"
+                                  } inline-block w-6 h-6 bg-[#f3ecec] rounded-full transform transition-transform duration-300 ease-in-out`}
+                              />
+                            </div> */}
+                          </div>
+                        </td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {client?.groups}
+                        </td>
+                        <td className="p-2 text-xs text-center whitespace-nowrap ">
+                          {new Date(client?.clientDetails?.created_at).toDateString()}
+                        </td>
+                        <td className="p-2 flex justify-center gap-2">
+                          <BorderColorIcon
+                            className="text-purple-600 cursor-pointer"
+                            onClick={() => setSelectedClient(client)}
+                          />
+                          <DeleteIcon
+                            className="text-red-500 cursor-pointer"
+                            onClick={() => deleteData(client.id)}
+                          />
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr className="h-[100px]">
+                      <td
+                        colSpan="10"
+                        className="text-center text-gray-900 text-sm font-semibold py-4"
+                      >
+                        No client found.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               )}
             </table>
-            <div className='flex justify-between p-3 pt-5 w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
-              <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
-              <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
-                <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
-                <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
 
-              </div>
+          </div>
+
+
+          <div className='flex justify-between p-[14px] pb-[0] w-[100%] items-center  flex-col gap-2  sm:flex-row sm:gap-0'>
+            <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {departments.length} entries</p>
+            <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
+              <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
+              <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
+              <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
+
             </div>
           </div>
         </div>
@@ -694,6 +798,7 @@ const Clients = () => {
       </div>
 
       <Modal
+
         isOpen={selectedClient ? true : false}
         onAfterOpen={afterOpenModal2}
         onRequestClose={closeModal2}

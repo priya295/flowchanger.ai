@@ -5,8 +5,15 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Modal from 'react-modal';
 import CloseIcon from '@mui/icons-material/Close';
+import { IoMdArrowDropright } from 'react-icons/io';
  
 const PayrollReimbrusments = () => {
+
+  const [isOpen , setIsOpen] = useState(false);
+  
+  const toggleAccordion = () =>{
+    setIsOpen((isOpen) => !isOpen)
+  }
       
     let subtitle;
 
@@ -84,7 +91,7 @@ const PayrollReimbrusments = () => {
         {
             toggleDrop11 &&
             <div className=''>
-                <Link to="#" className='text-[#1890ff] font-normal'>Reset</Link>
+                <Link to="#" className='text-[#27004a] font-normal'>Reset</Link>
             </div>
         }
 
@@ -93,30 +100,41 @@ const PayrollReimbrusments = () => {
     <div className='mt-5'>
         <div className='flex justify-between items-start  xl:items-center lg:items-center gap-[10px] flex-col xl:flex-row lg:flex-row '>
             <div className='relative  xl:w-[240px] lg:w-[240px] w-full mt-2'>
-                <input type="text" placeholder='Search' className='border rounded-md pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none' />
-                <SearchIcon className='absolute right-[10px] top-[10px] ' />
+                <input type="text" placeholder='Search' className='border rounded-full pr-[40px]  p-[8px] w-[100%]  focus-visible:outline-none' />
+                <SearchIcon className='absolute right-[10px] top-[10px] text-gray-500' />
             </div>
 
-            <div>
+            <div className='mr-2 flex items-center gap-[5px]'>
                 <input type="checkbox" onClick={handledrop11} id="breakdown" name="breakdown" value="breakdown" />
-                <label for="breakdown" > Show Incentive Staff</label>
+                <label for="breakdown " > Show Incentive Staff</label>
             </div>
 
 
         </div>
     </div>
 
-    <div className='text-end'>
+    <div className='text-end mb-2'>
         <button className='p-[10px] second-btn mt-[10px]' onClick={openModal9}>
             <UploadFileIcon/>
             Import Reimbursements
         </button>
         </div>
-    <div className='w-[100%] overflow-scroll flex rounded-md shadow  border border-1 mt-4 pl-3 pr-3'>
-        <table className='table-section mt-4 w-full'>
-        <thead className='border border-1 '>
-                        <th>
-                            <div className='flex'>
+        <div className="bg-white rounded-lg w-full min-h-[300px] shadow-cs border border-[#dcdbdb] overflow-x-auto">
+            <table className="w-full table-auto border border-[#dcdbdb] rounded-lg overflow-hidden border-collapse">
+              {/* Header with Toggle */}
+              <thead
+                className="cursor-pointer  border border-gray-300 shadow-md"
+                onClick={toggleAccordion}
+              >
+                  <tr>
+
+                  <th className="border-r p-2 flex justify-center text-xs font-medium whitespace-nowrap text-center">
+                   #
+</th>
+
+                  <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
+                            <div className='flex justify-center items-center'>
                                 Name
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('name')}>
@@ -134,8 +152,9 @@ const PayrollReimbrusments = () => {
                                 </div>
                             </div>
                         </th>
-                        <th>
-                            <div className='flex'>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
+                            <div className='flex justify-center items-center'>
                                 Job Title
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('job')}>
@@ -153,8 +172,9 @@ const PayrollReimbrusments = () => {
                                 </div>
                             </div>
                         </th>
-                        <th>
-                            <div className='flex'>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
+                            <div className='flex justify-center items-center'>
                                 CTC
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('ctc')}>
@@ -173,16 +193,18 @@ const PayrollReimbrusments = () => {
                             </div>
                         </th>
                         
-                        <th className=''>
-                            <div className='flex'>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
+                            <div className='flex justify-center items-center'>
                                 Payroll Finalized
                                
                             </div>
 
                         </th>
 
-                        <th className=''>
-                            <div className='flex'>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
+                            <div className='flex justify-center items-center'>
                                 Total Reimbrusments
                                 <div className='relative dropdown-container'>
                                     <button onClick={() => handleDrop('total')}>
@@ -202,30 +224,52 @@ const PayrollReimbrusments = () => {
 
                         </th>
 
-                        <th className=''>
-                            <div className='flex'>
+                        <th className="border-r p-2 text-xs font-medium whitespace-nowrap text-center">
+
+                            <div className='flex justify-center items-center'>
                                 Action
                               
                             </div>
 
                         </th>
+                        </tr>
                     </thead>
 
             <tbody className='w-full'>
 
-                <tr className='h-[300px]'>
-                    Hello
-                </tr>
+            <tr className="border">
+                      <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                    </tr>
+            <tr className="border">
+                      <td className="p-2 whitespace-nowrap text-xs text-center"><input type="checkbox" className="border border-1 rounded-md" /></td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center">N/A</td>
+                      <td className="p-2 whitespace-nowrap text-xs text-center"> N/A</td>
+                    </tr>
 
 
             </tbody>
 
-            <div className='w-full'>
+            {/* <div className='w-full'>
                 <h2 className='whitespace-nowrap p-[10px]  pl-0'>Grand Total</h2>
-            </div>
+            </div> */}
+      
 
         </table>
+      
     </div>
+    <div className='w-full'>
+  <h2 className='whitespace-nowrap p-[10px]  pl-2'>Grand Total</h2>
+</div>
 
 
 

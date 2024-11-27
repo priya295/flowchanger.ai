@@ -14,13 +14,21 @@ import { useGlobalContext } from "../../../Context/GlobalContext";
 import Select from 'react-select';
 import { saveAs } from 'file-saver';
 import jsPDF from 'jspdf';
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IoMdArrowDropright } from "react-icons/io";
+
 
 
 
 
 
 const ProjectPriority = () => {
-    const { baseUrl ,openToast } = useGlobalContext();
+
+    const [open11, setOpen11] = useState(false);
+
+    const onOpenModal11 = () => setOpen11(true);
+    const onCloseModal11 = () => setOpen11(false);
+    const { baseUrl, openToast } = useGlobalContext();
     const [openIndex, setOpenIndex] = useState(null);
     // Function to handle accordion toggling
     const handleToggle = (index) => {
@@ -150,30 +158,56 @@ const ProjectPriority = () => {
     const [selectStaffId, setSelectStaffId] = useState();
 
     async function submitProjectPriority() {
-        const result = await fetch(baseUrl + "project-Priority/", {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify({ Priority_name: prorityName, Priority_color: priorityColor, Priority_order: priorityOrder, default_filter: filter, is_hidden: selectStaffId, can_changed: canChanged })
-        })
-        if (result.status == 201) {
-            alert("Added Project Priority Sucessfully")
+        try {
+            const result = await fetch(baseUrl + "project-Priority", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({ Priority_name: prorityName, Priority_color: priorityColor, Priority_order: priorityOrder, default_filter: filter, is_hidden: selectStaffId, can_changed: canChanged })
+            })
+            console.log(result);
+            const response = await result.json()
+            if (result.status == 201) {
+                openToast(response.message || "Add project priority successfully", "success")
+            }
+            else {
+                openToast(response.message || "An unexpected error occcured", "error")
+            }
         }
-        else {
-            openToast("An Error Occured")
+        catch (error) {
+            if (error.message === "Failed to fetch") {
+                console.error("Network error or server unavailable:", error);
+                openToast("Unable to connect to the server. Please check your network or try again later.", "error");
+            } else {
+                console.error("Unexpected error:", error);
+                openToast("An unexpected error occurred. Please try again.", "error");
+            }
+
         }
     }
 
 
 
     const [projectPriorityDetail, setProjectPriorityDetail] = useState();
-    console.log("ProjectPriority Detail",projectPriorityDetail)
+    console.log("ProjectPriority Detail", projectPriorityDetail)
     async function fetchProjectPriority() {
-        const result = await fetch(baseUrl + "project-Priority/")
-        const data = await result.json();
-        console.log("+++++---", data)
-        setProjectPriorityDetail(data?.data)
+        try {
+            const result = await fetch(baseUrl + "project-Priority")
+            if (result.status === 200) {
+                const data = await result.json();
+                console.log("+++++---priority", data.data)
+                setProjectPriorityDetail(data?.data)
+            }
+            else {
+                const data = await result.json();
+                console.error(data.message || "An unexpected error occured")
+                setProjectPriorityDetail([]);
+            }
+        }
+        catch (error) {
+            console.log("some error occured", error)
+        }
     }
 
     useEffect(() => {
@@ -214,6 +248,10 @@ const ProjectPriority = () => {
     const handleSelectChange = (event) => {
         setRowsToShow(Number(event.target.value));
     };
+    const [open8, setOpen8] = useState(false);
+
+    const onOpenModal8 = () => setOpen8(true);
+    const onCloseModal8 = () => setOpen8(false);
 
 
     return (
@@ -322,7 +360,7 @@ const ProjectPriority = () => {
                                 {/* Button to open/close the dropdown */}
                                 <select
                                     onChange={handleSelectChange}
-                                    className=' border border-[#e5e7eb] p-[8px]  shadow-sm mr-2 rounded-md pl-0 pr-3 focus:outline-none'>
+                                    className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  pr-3 focus:outline-none'>
                                     <option value="25">25</option>
                                     <option value="50">50</option>
                                     <option value="100">100</option>
@@ -361,7 +399,7 @@ const ProjectPriority = () => {
 
 
                             <select onChange={(e) => setExportFormat(e.target.value)}
-                                className='border border-[#e5e7eb] p-2 pl-0 shadow-sm text-sm rounded-md  focus:outline-none'>
+                                className='border border-[#e5e7eb] p-[7px] text-[14px] shadow-sm text-sm rounded-md  focus:outline-none'>
                                 <option value="CSV">CSV</option>
                                 <option value="PDF">PDF</option>
                                 <option value="Print">Print</option>
@@ -370,7 +408,7 @@ const ProjectPriority = () => {
                                 onClick={handleExport}
                                 className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
 
->
+                            >
                                 Export
                             </button>
                         </div>
@@ -380,19 +418,25 @@ const ProjectPriority = () => {
                         </div>
                     </div>
                     <div className="main-table-status">
-                        <table className="table-auto w-full border border-gray-300 rounded-md table-status">
+                        <table className="table-auto w-full  rounded-md table-status">
                             <thead
                                 onClick={toggleTable}
                                 className="set-shadow  cursor-pointer"
                             >
                                 <tr>
-                                    <th className="p-3 text-center">ID</th>
-                                    <th className="p-3 text-center">Status Name</th>
-                                    <th className="p-3 text-center">Status Color</th>
-                                    <th className="p-3 text-center">Status Order</th>
-                                    <th className="p-3 text-center">Status Defaulter Filter</th>
-                                    <th className="p-3 text-center">Status can be changed to</th>
-                                    <th className="p-3 text-center">action</th>
+                                    <th className="border-r p-2 flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
+                                        <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen5 ? "rotate-90 text-[black]" : "rotate-0"}`}
+                                        />
+                                        <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
+
+                                    </th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">ID</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Name</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Color</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Order</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status Defaulter Filter</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">Status can be changed to</th>
+                                    <th className="p-3 text-center border-r border-[#dbdbdb] whitespace-nowrap">action</th>
 
                                 </tr>
                             </thead>
@@ -406,23 +450,53 @@ const ProjectPriority = () => {
                             >
 
                                 {
-                                    projectPriorityDetail?.map((s,index)=>{
-                                        return   <tr className="border">
-                                        <td className=" ">{index+1}</td>
-                                        <td className=" ">{s.Priority_name}</td>
-                                        <td className=" ">{s.Priority_color}</td>
-                                        <td className=" ">{s.Priority_order}</td>
-                                        <td className=" ">Yes</td>
-                                        <td className=" ">In Progress</td>
-                                        <td className=" ">
-                                            <div className="flex  justify-center">
-                                                <button className=" p-3  rounded-md text-white " onClick={openModal6} ><AiOutlineEdit className="text-[#27004a] text-xl" /></button>
-                                                <button className=" p-3  rounded-md text-white "><RiDeleteBinLine className="text-red-600 text-xl"/></button>
-    
-                                            </div>
-                                        </td>
-    
-                                    </tr>
+                                    projectPriorityDetail?.map((s, index) => {
+                                        console.log(s);
+                                        return <tr className="border">
+                                            <td className="border-r border-[#dbdbdb] whitespace-nowrap">#</td>
+                                            <td className="border-r border-[#dbdbdb] whitespace-nowrap ">{index + 1}</td>
+                                            <td className="border-r border-[#dbdbdb] whitespace-nowrap ">{s.Priority_name}</td>
+                                            <td className="border-r border-[#dbdbdb] whitespace-nowrap ">{s.Priority_color}</td>
+                                            <td className=" border-r border-[#dbdbdb] whitespace-nowrap">{s.Priority_order}</td>
+                                            <td className=" border-r border-[#dbdbdb] whitespace-nowrap">Yes</td>
+                                            <td className=" border-r border-[#dbdbdb] whitespace-nowrap">In Progress</td>
+                                            <td className=" border-r border-[#dbdbdb] whitespace-nowrap">
+                                                <div className="flex  justify-center">
+                                                    <button className=" p-3  rounded-md text-white " onClick={openModal6} ><AiOutlineEdit className="text-[#27004a] text-xl" /></button>
+                                                    <div>
+                                                        <button onClick={() => {
+                                                            setOpen11(true);
+                                                        }}>
+                                                            <DeleteIcon
+                                                                className="text-red-500 cursor-pointer"
+                                                            />
+                                                        </button>
+
+
+                                                    </div>
+                                                    <Modal
+                                                        isOpen={open11}
+                                                        // onAfterOpen={}
+                                                        onRequestClose={() => {
+                                                            setOpen11(false);
+                                                        }}
+                                                        // style={customStyles}
+                                                        contentLabel="Example Modal"
+                                                        className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                                                    >
+                                                        <div className="flex items-center justify-center h-[120px]">
+                                                            <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                                                        </div>
+                                                        <div className="flex items-center justify-around mb-[40px]">
+                                                            <button className="allcrm-btn" >Yes , Confirm</button>
+                                                            <button className="allcrm-btn" onClick={() => setOpen11(false)}>No , Cancel</button>
+                                                        </div>
+                                                    </Modal>
+                                                </div>
+                                            </td>
+
+                                        </tr>
                                     })
                                 }
 
@@ -435,7 +509,7 @@ const ProjectPriority = () => {
                             <p className=' text-[#a5a1a1] text-[14px]'>Showing 1 to {rowsToShow} of {projectPriorityDetail?.length} entries</p>
                             <div className='pagination flex gap-2 border pt-0 pl-4 pb-0 pr-4 rounded-md'>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px]'>Previous</Link>
-                                <span className='text-[12px] bg-[#511992] flex items-center  text-white pl-3 pr-3 '>1</span>
+                                <span className='text-[12px] bg-[#27004a] flex items-center  text-white pl-3 pr-3 '>1</span>
                                 <Link to="#" className='text-[12px]  pt-2 pb-[8px] '>Next</Link>
 
                             </div>

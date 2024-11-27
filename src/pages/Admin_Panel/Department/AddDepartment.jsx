@@ -34,20 +34,20 @@ const AddDepartment = () => {
             openToast(result.message||"Department successfully added","success");
             navigate("/department-details");
         } else {
-            openToast("An error occurred","error");
+            openToast(result.message || "An error occurred","error");
         }
     }
 
 
     return (
         <div className='addnewrole  pl-[10px] w-[100%] pr-2 mb-3 pb-4'>
-            <h2 className='xl:w-[50%] xl:m-auto'>Add New Department</h2>
+            <h2 className='text-[#27004a] font-medium text-[18px]'>Add New Department</h2>
 
             <div className='w-[100%]'>
-                <div className='bg-[#fff] w-[80%] set-shadow p-3 lg:w-[100%] xl:w-[80%]  mt-2 rounded-md'>
+                <div className='bg-[#fff] w-[80%] set-shadow p-3 lg:w-[50%] xl:w-[50%] md:w-[50%] mt-2 rounded-md'>
                     <label>Department Name</label><br />
                     <input type='text' value={department} onChange={(e) => setDepartment(e.target.value)} className='mt-2 border border-1 pl-3 h-[43px] pr-7
-] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'/>
+                    ] rounded-md focus:outline-none w-[100%] text-[15px] text-[#aeabab]'/>
                     <table className='border mt-5 w-[100%] border-1'>
                         <thead className='border border-1 '>
                             <th className='p-2 text-left font-medium border-r-[1px]'>Features</th>

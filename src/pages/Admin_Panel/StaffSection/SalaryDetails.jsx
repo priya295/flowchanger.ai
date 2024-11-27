@@ -6,6 +6,7 @@ import Modal from "react-modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { useGlobalContext } from "../../../Context/GlobalContext";
 import { saveAs } from 'file-saver';
+import ClipLoader from "react-spinners/ClipLoader";
 
 const SalaryDetails = () => {
   const { baseUrl, fetchStaff, staffDetail } = useGlobalContext();
@@ -30,7 +31,7 @@ const SalaryDetails = () => {
   function handledrop() {
     setToggleDrop(!toggleDrop);
   }
-
+  const [isLoading, setIsLoading] = useState(true);
   // when onclick update staff
   const [modalIsOpen9, setIsOpen9] = React.useState(false);
   function openModal9() {
@@ -90,7 +91,7 @@ const SalaryDetails = () => {
 
     // Create a Blob and initiate download
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    saveAs(blob, 'StaffDetails.csv');
+    saveAs(blob, 'SalaryDetails.csv');
   };
 
 
@@ -150,29 +151,54 @@ const SalaryDetails = () => {
             <tbody>
 
               {
-                staffDetail?.map((item, index) => {
-                  const salaryDetail = item?.staffDetails.SalaryDetails[item.staffDetails?.SalaryDetails?.length - 1]
-                  console.log(salaryDetail)
-                  return <tr className='border'>
-                    <td>
-                      <input type="checkbox" className="border border-1 rounded-md " />
-                    </td>
-                    <td>{item?.name}</td>
-                    <td>{item?.staffDetails?.job_title}</td>
-                    <td>₹ {salaryDetail?.ctc_amount ?? "N/A"}</td>
-                    <td>Basic</td>
-                    <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employer_esi ?? "N/A"}</td>
-                    <td>N/A</td>
-                    <td>₹ {salaryDetail?.employer_lwf ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employee_esi ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.tds ?? "N/A"}</td>
-                    <td>₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+
+                isLoading && staffDetail.length === 0 ? (
+                  <tr className="h-[100px]">
+                  <td colSpan="8" className="text-center text-gray-600 text-sm font-semibold py-4 mx-auto">
+                  <ClipLoader color="#4A90E2" size={50} />
+                  </td>
+                </tr>
+                ) : staffDetail && staffDetail.length > 0 ? (
 
 
-                  </tr>
-                })
+                  staffDetail?.map((item, index) => {
+                    const salaryDetail = item?.staffDetails.SalaryDetails[item.staffDetails?.SalaryDetails?.length - 1]
+                    console.log(salaryDetail)
+                    return <tr className='border'>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">
+                        <input type="checkbox" className="border border-1 rounded-md " />
+                      </td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{item?.name}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">{item?.staffDetails?.job_title}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.ctc_amount ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">Basic</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.employer_esi ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">N/A</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.employer_lwf ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.employee_esi ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.tds ?? "N/A"}</td>
+                      <td className="border-r border-[#dbdbdb] whitespace-nowrap">₹ {salaryDetail?.employee_pf ?? "N/A"}</td>
+
+
+                    </tr>
+                  })
+
+                )
+                  : (
+                    // No Data State
+                    <tr className="h-[100px]">
+                      <td
+                        colSpan="9"
+                        className="text-center text-red-500 text-xl font-semibold py-4"
+                      >
+                        No staff found.
+                      </td>
+                    </tr>
+                  )
+
+
               }
 
 

@@ -5,8 +5,13 @@ import { toast, ToastContainer } from 'react-toastify';
 export const MainContext = createContext();
 export const GlobalContext = ({ children }) => {
 
+  
+
+  const [activeSubmenu, setActiveSubmenu] = useState(false);
+  const [selectedSidebarTab, setSelectedSidebarTab] = useState(null);
   const [selectedTab, setSelectedTab] = useState(0);
-  const baseUrl = "https://fc-prod-testing.onrender.com/api/"
+  // const baseUrl = "https://fc-prod-testing.onrender.com/api/"
+  const baseUrl= "https://fc-production-testing.onrender.com/api/"
   console.log(baseUrl)
   const [staffTab, setStaffTab] = useState(0);
   const [name, setName] = useState("");
@@ -27,7 +32,7 @@ export const GlobalContext = ({ children }) => {
   const [roleName, setRoleName] = useState("");
   const [roleId, setRoleId] = useState("");
   const [selectedStaff, setSelectedStaff] = useState(null);
-  console.log(selectedStaff)
+  // console.log(selectedStaff)
 
   const fetchDetails = async () => {
     const response = await fetch(baseUrl + "/staff");
@@ -53,7 +58,7 @@ export const GlobalContext = ({ children }) => {
         setStaffDetail(res)
       }
       else {
-        alert("An Error Occured")
+        console.log("An Error Occured")
       }
     }
     catch (error) {
@@ -66,9 +71,13 @@ export const GlobalContext = ({ children }) => {
   useEffect(() => {
     fetchStaff();
   }, [])
+  useEffect(() => {
+    console.log(staffTab);
+    console.log(selectedTab);
+  }, [selectedTab, staffTab]);
 
   return (
-    <MainContext.Provider value={{ selectedTab, setSelectedTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails, fetchStaff }}>
+    <MainContext.Provider value={{ selectedTab, setSelectedTab, selectedSidebarTab, setSelectedSidebarTab, staffTab, openToast, setStaffTab, baseUrl, name, setName, depId, setDepId, roleName, setRoleName, roleId, setRoleId, editPermissions, setEditPermissions, selectedStaff, setSelectedStaff, fetchDetails, fetchStaff, staffDetail, activeSubmenu, setActiveSubmenu }}>
       {children}
       <ToastContainer />
     </MainContext.Provider>
