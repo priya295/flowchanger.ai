@@ -971,7 +971,6 @@ const [others,setOthers] = useState([])
 
             }
 
-
             {
                 others.length > 0 && <div>
                  <div className="mt-0">Other Departments ({others.length})</div>
