@@ -35,7 +35,7 @@ const Attendence_summary = () => {
     const [selectedStaffSalary, setSelectedStaffSalary] = useState(0)
     const [time, setTime] = useState(null);
     const [overTotalAmount, setOverTotalAmount] = useState(0);
-
+    const [staffName, setStaffName] = useState()
 
     const [overTimelateHour, setOverTimelateHour] = useState();
     const [overTimeSalaryTime, setOverTimeSalaryTime] = useState();
@@ -270,7 +270,7 @@ const Attendence_summary = () => {
         }
     };
 
-
+    console.log(departments)
 
     useEffect(() => {
         fetchDepartments();
@@ -281,9 +281,10 @@ const Attendence_summary = () => {
 
     async function fineId(id) {
         const staffSalary = staffDetail?.filter((item) => item.staffDetails.id === id)[0];
-        console.log(staffSalary?.staffDetails?.SalaryDetails[0]?.ctc_amount);
         openModal0();
         setSendStaffId(id);
+        const staffname = staffDetail?.filter((item) => item.staffDetails.id === id)[0]?.name;
+        setStaffName(staffname)
         setSelectedStaffSalary(staffSalary?.staffDetails?.SalaryDetails[0]?.ctc_amount)
     }
 
@@ -294,7 +295,10 @@ const Attendence_summary = () => {
         setSendOverTimeStaffId(id);
         setSelectedStaffSalary(staffSalary?.staffDetails?.SalaryDetails[0]?.ctc_amount)
     }
-
+    function formatSummaryDate(summaryDate) {
+        const [year, month, day] = summaryDate.split('-'); // Split the date into components
+        return `${day}-${month}-${year}`; // Rearrange to dd-mm-yyyy
+    }
     // calculating in minutes 
     const handleChangeTime = (value, amount) => {
         const formattedTime = value?.format("HH:mm");
@@ -340,7 +344,7 @@ const Attendence_summary = () => {
         setFineTotalAmount(totalSalary)
     }, [lateEntryAmount, excessBreakAmount, earlyOutAmount])
 
-   
+
     const handleChangeTimeEarlyIn = (value, amount) => {
         const formattedTime = value?.format("HH:mm");
         const totalMinutes = calculateTotalMinutes(formattedTime);
@@ -398,7 +402,7 @@ const Attendence_summary = () => {
                 earlyCommingEntryAmount: Number(overTimeEarlyOutAmount),
                 earlyEntryAmount: Number(overTimeEarlySalaryTime),
                 lateOutOvertimeAmount: Number(overTimeLateOutAmount),
-                lateOutAmount:Number(overTimeSalaryTime),
+                lateOutAmount: Number(overTimeSalaryTime),
                 totalAmount: Number((overTimeLateOutAmount * overTimeSalaryTime) + (overTimeEarlyOutAmount * overTimeEarlySalaryTime)),
                 staffId: sendOverTimeStaffId
             })
@@ -411,7 +415,33 @@ const Attendence_summary = () => {
         }
     }
 
+    const [filteredStaff, setFilteredStaff] = useState([]);
 
+    useEffect(() => {
+        // Group data by departmentId
+        const groupedByDepartment = attendance.reduce((acc, record) => {
+            const departmentId = record.punchRecord.staff.departmentId;
+
+            if (!departmentId) return acc; // Skip if departmentId is null or undefined
+
+            if (!acc[departmentId]) {
+                acc[departmentId] = [];
+            }
+
+            acc[departmentId].push(record);
+            return acc;
+        }, {});
+
+        // Convert grouped data into an array of objects
+        const groupedDataArray = Object.entries(groupedByDepartment).map(
+            ([departmentId, staffArray]) => ({
+                departmentId,
+                staff: staffArray,
+            })
+        );
+
+        setFilteredStaff(groupedDataArray);
+    }, [attendance]);
 
 
 
@@ -423,9 +453,9 @@ const Attendence_summary = () => {
                     <p className='bg-[#edd0ca] p-[5px] text-[12px] border border-b border-[#e07964] text-[black] rounded-md'> <WarningIcon className='warning-icon text-[14px] text-[red] ' /> Approval pending for other  <Link className=' text-[#27004a] font-medium ml-[10px]' to="/">View</Link> </p>
                 </div>
                 <div className='flex gap-[10px] summary-bold2'>
-                    <Link className=' text-[#27004a] text-[14px] font-semibold' to="/">Unprocessed Logs <FilterListIcon className='icon-filter' /></Link>
-                    <Link className=' text-[#27004a] text-[14px] font-semibold' to="/">Daily Report <DownloadIcon className='icon-filter' /></Link>
-                    <Link className=' text-[#27004a] text-[14px] font-semibold ' to="/">Setting <SettingsIcon className='icon-filter' /></Link>
+                    <Link className=' text-[#8e54c2] text-[14px] font-semibold' to="/">Unprocessed Logs <FilterListIcon className='icon-filter' /></Link>
+                    <Link className=' text-[#8e54c2] text-[14px] font-semibold' to="/">Daily Report <DownloadIcon className='icon-filter' /></Link>
+                    <Link className=' text-[#8e54c2] text-[14px] font-semibold ' to="/">Setting <SettingsIcon className='icon-filter' /></Link>
                 </div>
             </div>
 
@@ -476,9 +506,9 @@ const Attendence_summary = () => {
 
             </div>
             <div className='bg-[#ffff] shadow-cs p-[20px] rounded-md mt-[24px] flex gap-[10px] over-new'>
-                <Link to="/worktime" className='total-staff text-[#27004a]  text-[14px] font-medium  transition'>Daily Work Entry</Link>
-                <Link to="/reviewfine" className='total-staff  text-[#27004a]  text-[14px] font-medium transition'>Fine</Link>
-                <Link to="/overtime" className=' total-staff  text-[#27004a] text-[14px] font-medium  transition'>Overtime</Link>
+                <Link to="/worktime" className='total-staff text-[#27004a]  text-[14px] font-medium  transition hover:text-[#8e54c2]'>Daily Work Entry</Link>
+                <Link to="/reviewfine" className='total-staff  text-[#27004a]  text-[14px] font-medium transition hover:text-[#8e54c2]'>Fine</Link>
+                <Link to="/overtime" className=' total-staff  text-[#27004a] text-[14px] font-medium  transition hover:text-[#8e54c2]'>Overtime</Link>
             </div>
             <div className="relative">
                 <SearchIcon className='absolute top-[34px] right-[7px]' />
@@ -568,7 +598,7 @@ const Attendence_summary = () => {
                                                         <div className=''>
                                                             <div className='mb-[20px]'>
                                                                 <h2 className="text-xl text-[18px] text-[black] font-semibold  "> Fine </h2>
-                                                                <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
+                                                                <p className=' text-[14px]'>{staffName} I {formatSummaryDate(summaryDate)}</p>
                                                             </div>
 
                                                             <div className='flex justify-between items-center mb-[10px]'>
@@ -752,7 +782,7 @@ const Attendence_summary = () => {
                                                         <div className=''>
                                                             <div className='mb-[20px]'>
                                                                 <h2 className="text-xl text-[18px] text-[black] font-semibold  "> OverTime Day </h2>
-                                                                <p className=' text-[14px]'>Name I 28 Sep, 2024</p>
+                                                                <p className=' text-[14px]'>{staffName} I {formatSummaryDate(summaryDate)}</p>
                                                             </div>
 
                                                             <div className='flex justify-between items-center mb-[10px]'>
@@ -961,6 +991,22 @@ const Attendence_summary = () => {
                     </>
                 })
             }
+
+            <div>
+                <h2>Filtered Staff by Department</h2>
+                {filteredStaff.map((group) => (
+                    <div key={group.departmentId}>
+                        <h3>Department ID: {group.departmentId}</h3>
+                        <ul>
+                            {group.staff.map((staff) => (
+                                <li key={staff.id}>
+                                    {staff.User.name} - {staff.job_title}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
 
 
 
