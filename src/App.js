@@ -259,8 +259,7 @@ useEffect(()=>{
             <Route path="/attendence_summary" element={<Attendence_summary />} />
             <Route path="/project_summary" element={<Project_Summary />} />
             <Route path="/projects" element={<Projects />} />
-            <Route path="/overtime" element={<Overtime />} />
-           
+            <Route path="/overtime" element={<Overtime />} /> 
             <Route path="/clients" element={<Clients />} />
             <Route path="/projectprogress" element={<Project_Progress />} />
             {/* <Route path="/addnewtask" element={<AddNewTask />} /> */}

@@ -63,10 +63,11 @@ const Edit_Task_Status = () => {
     }
   };
   const [open11, setOpen11] = useState(false);
-
+  // const [open101, setOpen101] = useState(false);
+  console.log(open11);
   const onOpenModal11 = () => setOpen11(true);
   const onCloseModal11 = () => setOpen11(false);
-  
+
   console.log(allStaff);
   // Function to handle accordion toggling
   const handleToggle = (index) => {
@@ -94,57 +95,57 @@ const Edit_Task_Status = () => {
 
   const handleSelectChange = (event) => {
     setRowsToShow(Number(event.target.value));
-};
-const exportCSV = () => {
-  const csvData = projectPriorityDetail.map(dep => `${dep.Priority_name}, ${dep.Priority_color}, ${dep.Priority_order}`).join('\n');
-  const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-  saveAs(blob, 'ProjectStatus.csv');
-};
+  };
+  const exportCSV = () => {
+    const csvData = projectPriorityDetail.map(dep => `${dep.Priority_name}, ${dep.Priority_color}, ${dep.Priority_order}`).join('\n');
+    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'ProjectStatus.csv');
+  };
 
-const exportPDF = () => {
-  const doc = new jsPDF();
-  doc.text("AllTaskStatus", 20, 10);
-  projectPriorityDetail.forEach((dep, index) => {
+  const exportPDF = () => {
+    const doc = new jsPDF();
+    doc.text("AllTaskStatus", 20, 10);
+    projectPriorityDetail.forEach((dep, index) => {
       doc.text(`${index + 1}. ${dep.Priority_name},${dep.project_color},${dep.Priority_order}`, 10, 20 + index * 10);
-  });
-  doc.save('ProjectStatus.pdf');
-};
-async function fetchProjectPriority() {
-  try{
+    });
+    doc.save('ProjectStatus.pdf');
+  };
+  async function fetchProjectPriority() {
+    try {
       const result = await fetch(baseUrl + "project-Priority")
-      if(result.status === 200){
-          const data = await result.json();
-          console.log("+++++---priority", data.data)
-          setProjectPriorityDetail(data?.data)
+      if (result.status === 200) {
+        const data = await result.json();
+        console.log("+++++---priority", data.data)
+        setProjectPriorityDetail(data?.data)
       }
-      else{
-          const data = await result.json();
-          console.error(data.message||"An unexpected error occured")
-          setProjectPriorityDetail([]);
+      else {
+        const data = await result.json();
+        console.error(data.message || "An unexpected error occured")
+        setProjectPriorityDetail([]);
       }
+    }
+    catch (error) {
+      console.log("some error occured", error)
+    }
   }
- catch(error){
-   console.log("some error occured" , error)
- }
-}
-const [projectPriorityDetail, setProjectPriorityDetail] = useState();
-console.log("ProjectPriority Detail",projectPriorityDetail)
+  const [projectPriorityDetail, setProjectPriorityDetail] = useState();
+  console.log("ProjectPriority Detail", projectPriorityDetail)
 
-const printDepartments = () => {
-  const printContent = projectPriorityDetail.map(dep => `${dep.Priority_name},${dep.Priority_color}, ${dep.Priority_order} (Total Users: 1)`).join('\n');
-  const newWindow = window.open();
-  newWindow.document.write(`<pre>${printContent}</pre>`);
-  newWindow.document.close();
-  newWindow.print();
-};
+  const printDepartments = () => {
+    const printContent = projectPriorityDetail.map(dep => `${dep.Priority_name},${dep.Priority_color}, ${dep.Priority_order} (Total Users: 1)`).join('\n');
+    const newWindow = window.open();
+    newWindow.document.write(`<pre>${printContent}</pre>`);
+    newWindow.document.close();
+    newWindow.print();
+  };
 
-const [rowsToShow, setRowsToShow] = useState(25);
-const handleExport = () => {
-  if (exportFormat === 'CSV') exportCSV();
-  else if (exportFormat === 'PDF') exportPDF();
-  else if (exportFormat === 'Print') printDepartments();
-};
-const [exportFormat, setExportFormat] = useState('');
+  const [rowsToShow, setRowsToShow] = useState(25);
+  const handleExport = () => {
+    if (exportFormat === 'CSV') exportCSV();
+    else if (exportFormat === 'PDF') exportPDF();
+    else if (exportFormat === 'Print') printDepartments();
+  };
+  const [exportFormat, setExportFormat] = useState('');
 
   //Toggle swich off on btn
 
@@ -297,68 +298,68 @@ const [exportFormat, setExportFormat] = useState('');
             </div>
           </div>
           <div className="flex justify-between items-start gap-[10px] mb-[14px] flex-col xl:flex-row lg:flex-row md:flex-row ">
-                        <div className="flex gap-[10px]">
-                            <div className="relative inline-block text-left">
-                                {/* Button to open/close the dropdown */}
-                                <select
-                                    onChange={handleSelectChange}
-                                    className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  pr-3 focus:outline-none'>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                    <option value="120">120</option>
-                                </select>
+            <div className="flex gap-[10px]">
+              <div className="relative inline-block text-left">
+                {/* Button to open/close the dropdown */}
+                <select
+                  onChange={handleSelectChange}
+                  className=' border border-[#e5e7eb] p-[7px] text-[14px]  shadow-sm mr-2 rounded-md  pr-3 focus:outline-none'>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="120">120</option>
+                </select>
 
-                                {/* Dropdown menu */}
-                                {isOpen1 && (
-                                    <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
-                                        <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                                            <a
-                                                href="#"
-                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem"
-                                            >
-                                                30
-                                            </a>
-                                            <a
-                                                href="#"
-                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem"
-                                            >
-                                                40
-                                            </a>
-                                            <a
-                                                href="#"
-                                                className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
-                                                role="menuitem"
-                                            >
-                                                50
-                                            </a>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-
-
-                            <select onChange={(e) => setExportFormat(e.target.value)}
-                                className='border border-[#e5e7eb] p-[7px] text-[14px] shadow-sm text-sm rounded-md  focus:outline-none'>
-                                <option value="CSV">CSV</option>
-                                <option value="PDF">PDF</option>
-                                <option value="Print">Print</option>
-                            </select>
-                            <button
-                                onClick={handleExport}
-                                className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
-
->
-                                Export
-                            </button>
-                        </div>
-                        <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
-                            <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
-                            <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
-                        </div>
+                {/* Dropdown menu */}
+                {isOpen1 && (
+                  <div className="absolute right-0 w-[100%] z-10 mt-2  origin-top-right left-[0px] bg-white border border-gray-200 rounded-md shadow-lg">
+                    <div className="" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                      <a
+                        href="#"
+                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        30
+                      </a>
+                      <a
+                        href="#"
+                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        40
+                      </a>
+                      <a
+                        href="#"
+                        className="block p-[5px] text-center text-sm text-gray-700 hover:bg-gray-100"
+                        role="menuitem"
+                      >
+                        50
+                      </a>
                     </div>
+                  </div>
+                )}
+              </div>
+
+
+              <select onChange={(e) => setExportFormat(e.target.value)}
+                className='border border-[#e5e7eb] p-[7px] text-[14px] shadow-sm text-sm rounded-md  focus:outline-none'>
+                <option value="CSV">CSV</option>
+                <option value="PDF">PDF</option>
+                <option value="Print">Print</option>
+              </select>
+              <button
+                onClick={handleExport}
+                className='ml-2 bg-[#27004a] text-sm pl-[25px] pr-[25px] text-white p-2 rounded-md cursor-pointer'
+
+              >
+                Export
+              </button>
+            </div>
+            <div className="relative w-full xl:w-[300px] lg:w-[200px] md:w-[200px]">
+              <input className="p-[6px] w-full rounded-2xl  summary-border text-[13px] " type="text" placeholder=" Search......." />
+              <SearchIcon className="absolute newadd2 right-[8px] top-[8px]" />
+            </div>
+          </div>
 
           <div className="main-table-status">
             <table className="table-auto w-full  rounded-md table-status">
@@ -367,7 +368,7 @@ const [exportFormat, setExportFormat] = useState('');
                 className="set-shadow  cursor-pointer"
               >
                 <tr>
-                <th className="border-r p-2 flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
+                  <th className="border-r p-2 flex justify-center items-center text-xs font-medium whitespace-nowrap text-center">
                     <IoMdArrowDropright className={`text-[20px] transition-transform duration-200 ${isOpen5 ? "rotate-90 text-[black]" : "rotate-0"}`}
                     />
                     <button className="p-[6px] rounded-lg bg-[orange]  mr-[7px] text-[white] ">To Do</button><span className="six-north">6</span>
@@ -384,9 +385,8 @@ const [exportFormat, setExportFormat] = useState('');
               </thead>
               {/* Add transition for tbody */}
               <tbody
-                className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                  isOpen5 ? "max-h-screen" : "max-h-0"
-                }`}
+                className={`transition-all duration-500 ease-in-out overflow-hidden ${isOpen5 ? "max-h-screen" : "max-h-0"
+                  }`}
                 style={{ display: isOpen5 ? "table-row-group" : "none" }}
               >
                 <tr className="border">
@@ -403,25 +403,16 @@ const [exportFormat, setExportFormat] = useState('');
                         <BorderColorIcon className="text-[#27004a]" />
                       </button>
                       <div>
-                            <button onClick={() => {
-                           
-                              onOpenModal11()
-                            }}>
-                              <DeleteIcon
-                                className="text-red-500 cursor-pointer"
-                              />
-                            </button>
-                            <Modal open={open11} onClose={onCloseModal11} center>
-                              <div className="flex items-center justify-center h-[120px]">
-                                <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+                        <button onClick={() => {
+                          setOpen11(true);
+                        }}>
+                          <DeleteIcon
+                            className="text-red-500 cursor-pointer"
+                          />
+                        </button>
+                  
 
-                              </div>
-                              <div className="flex items-center justify-around ">
-                                <button className="allcrm-btn" >Yes , Confirm</button>
-                                <button className="allcrm-btn">No , Cancel</button>
-                              </div>
-                            </Modal>
-                          </div>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -430,7 +421,38 @@ const [exportFormat, setExportFormat] = useState('');
           </div>
         </div>
       </div>
+      {/* <Modal open={open11} onClose={() => {
+        // onCloseModal11();
+        setOpen11(false);
+      }} center>
+        <div className="flex items-center justify-center h-[120px]">
+          <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
 
+        </div>
+        <div className="flex items-center justify-around ">
+          <button className="allcrm-btn" >Yes , Confirm</button>
+          <button className="allcrm-btn">No , Cancel</button>
+        </div>
+      </Modal> */}
+      <Modal
+        isOpen={open11}
+        // onAfterOpen={}
+        onRequestClose={() => {
+          setOpen11(false);
+        }}
+        // style={customStyles}
+        contentLabel="Example Modal"
+        className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+      >
+        <div className="flex items-center justify-center h-[120px]">
+          <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+        </div>
+        <div className="flex items-center justify-around mb-[40px]">
+          <button className="allcrm-btn" >Yes , Confirm</button>
+          <button className="allcrm-btn" onClick={() => setOpen11(false)}>No , Cancel</button>
+        </div>
+      </Modal>
       <Modal
         isOpen={modalIsOpen6}
         onAfterOpen={afterOpenModal}
@@ -509,6 +531,7 @@ const [exportFormat, setExportFormat] = useState('');
           </div>
         </div>
       </Modal>
+
     </div>
   );
 };

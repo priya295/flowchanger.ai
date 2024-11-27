@@ -19,6 +19,11 @@ import { IoMdArrowDropright } from "react-icons/io";
 
 
 const TaskPriority = () => {
+    
+  const [open11, setOpen11] = useState(false);
+
+  const onOpenModal11 = () => setOpen11(true);
+  const onCloseModal11 = () => setOpen11(false);
     const [openIndex, setOpenIndex] = useState(null);
     const { baseUrl, openToast } = useGlobalContext();
 
@@ -390,24 +395,36 @@ const TaskPriority = () => {
                                                 >
                                                     <BorderColorIcon className="text-[#27004a]" />
                                                 </button>
-                                                <button onClick={() => {
+                                                <div>
+                            <button onClick={() => {
+                              setOpen11(true);
+                            }}>
+                              <DeleteIcon
+                                className="text-red-500 cursor-pointer"
+                              />
+                            </button>
 
-                                                    onOpenModal8()
-                                                }}>
-                                                    <DeleteIcon
-                                                        className="text-red-500 cursor-pointer"
-                                                    />
-                                                </button>
-                                                <Modal open={open8} onClose={onCloseModal8} center>
-                                                    <div className="flex items-center justify-center h-[120px]">
-                                                        <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
 
-                                                    </div>
-                                                    <div className="flex items-center justify-around ">
-                                                        <button className="allcrm-btn" >Yes , Confirm</button>
-                                                        <button className="allcrm-btn">No , Cancel</button>
-                                                    </div>
-                                                </Modal>
+                          </div>
+                          <Modal
+                            isOpen={open11}
+                            // onAfterOpen={}
+                            onRequestClose={() => {
+                              setOpen11(false);
+                            }}
+                            // style={customStyles}
+                            contentLabel="Example Modal"
+                            className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                          >
+                            <div className="flex items-center justify-center h-[120px]">
+                              <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                            </div>
+                            <div className="flex items-center justify-around mb-[40px]">
+                              <button className="allcrm-btn" >Yes , Confirm</button>
+                              <button className="allcrm-btn" onClick={() => setOpen11(false)}>No , Cancel</button>
+                            </div>
+                          </Modal>
                                             </div>
                                         </td>
                                     </tr>

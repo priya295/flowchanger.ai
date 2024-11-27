@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import CachedIcon from "@mui/icons-material/Cached";
 import SearchIcon from "@mui/icons-material/Search";
 import { useGlobalContext } from "../../../Context/GlobalContext";
@@ -11,8 +10,13 @@ import jsPDF from "jspdf";
 import ClipLoader from "react-spinners/ClipLoader";
 import { Modal } from 'react-responsive-modal';
 import Select from "react-select";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const DepartmentDetail = () => {
+  const [open10, setOpen10] = useState(false);
+
+  const onOpenModal10 = () => setOpen10(true);
+  const onCloseModal10 = () => setOpen10(false);
   const { baseUrl, setDepId, setName, openToast } = useGlobalContext();
   const [departments, setDepartments] = useState([]);
   const [searchDepartment, setSearchDepartMent] = useState("");
@@ -25,7 +29,7 @@ const DepartmentDetail = () => {
     setRowsToShow(Number(event.target.value));
   };
 
-/*************  ✨ Codeium Command ⭐  *************/
+  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * Handles export of departments to CSV, PDF, or prints.
    * The export format is determined by the value of `exportFormat` state.
@@ -33,7 +37,7 @@ const DepartmentDetail = () => {
    * If `exportFormat` is "PDF", it calls `exportPDF` function.
    * If `exportFormat` is "Print", it calls `printDepartments` function.
    */
-/******  9a1f1a9d-de41-45b2-8122-961faca24166  *******/
+  /******  9a1f1a9d-de41-45b2-8122-961faca24166  *******/
   const handleExport = () => {
     if (exportFormat === "CSV") exportCSV();
     else if (exportFormat === "PDF") exportPDF();
@@ -331,10 +335,25 @@ const DepartmentDetail = () => {
                       >
                         <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
                       </Link>
-                      <DeleteOutlineIcon
-                        className="text-red-500 font-light cursor-pointer text-[10px]"
-                        onClick={() => deleteDepartments(dep.id)}
-                      />
+                      <button onClick={() =>  {
+                         deleteDepartments(dep.id)
+
+                        onOpenModal10()
+                      }}>
+                        <DeleteIcon
+                          className="text-red-500 cursor-pointer"
+                        />
+                      </button>
+                      <Modal open={open10} onClose={onCloseModal10} center>
+                        <div className="flex items-center justify-center h-[120px]">
+                          <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                        </div>
+                        <div className="flex items-center justify-around ">
+                          <button className="allcrm-btn">Yes , Confirm</button>
+                          <button className="allcrm-btn" onClick={() => setOpen10(false)}>No , Cancel</button>
+                        </div>
+                      </Modal>
                     </td>
                   </tr>
                 ))

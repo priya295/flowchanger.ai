@@ -306,10 +306,10 @@ const EditLeavePolicies = () => {
     function openModal12() {
         setIsOpen12(true);
     }
-    function afterOpenModal12() {
-        // references are now sync'd and can be accessed.
-        subtitle.style.color = '#000';
-    }
+    // function afterOpenModal12() {
+    //     // references are now sync'd and can be accessed.
+    //     subtitle.style.color = '#000';
+    // }
 
     function closeModal12() {
         setIsOpen12(false);
@@ -370,7 +370,7 @@ const EditLeavePolicies = () => {
     ])
 
     return (
-        <div className='w-full xl:pt-[40px] xl:pl-[0] xl:pr-[0] relative   pl-[0] flex flex-col '>
+        <div className='w-full  xl:pl-[0] xl:pr-[0] relative   pl-[0] flex flex-col '>
             <div className='flex justify-between items-center  w-[100%] p-[20px] xl:pr-0 pr-0  pl-[0] top-0 bg-white'>
 
                 <h3 className='font-medium'>Leave & Balance Details
@@ -397,7 +397,7 @@ const EditLeavePolicies = () => {
 
             <Modal
                 isOpen={modalIsOpen10}
-                onAfterOpen={afterOpenModal12}
+                // onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal10}
                 // style={customStyles}
                 contentLabel="Example Modal"
@@ -473,7 +473,7 @@ const EditLeavePolicies = () => {
              */}
             <Modal
                 isOpen={modalIsOpen12}
-                onAfterOpen={afterOpenModal12}
+                // onAfterOpen={afterOpenModal12}
                 onRequestClose={closeModal12}
                 contentLabel="Example Modal"
                 className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"

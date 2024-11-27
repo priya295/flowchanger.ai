@@ -225,11 +225,11 @@ const PersonalDetail = () => {
     return (
         <>
          {/* <div className='w-full p-[20px] pt-[80px] xl:p-[40px] relative xl:pt-[60px]    xl:pl-[320px] flex flex-col set-z  '> */}
-            <div className='flex justify-between items-center  w-[100%] p-[20px] pr-0 xl:pr-[0px] pl-[0] top-0 bg-white'>
-                <h3 className='font-medium ml-5'>Personal Details</h3>
+            <div className='flex justify-between items-center  w-[100%] p-[30px] pr-0 xl:pr-[0px] pl-[0] top-0 bg-white'>
+                <h3 className='font-medium '>Personal Details</h3>
             </div>
 
-            <h2 className='bg-[#f6f9fa] pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow'>Basic Details</h2>
+            <h2 className='bg-[#fff]  pt-[10px] pb-[10px] pl-[14px] rounded-md font-normal shadow-cs'>Basic Details</h2>
             <form className=' w-[100%] xl:w-[100%] m-auto mt-[30px] shadow-md  xl:p-[24px] p-[12px] border rounded-md  border-1' >
                 <div className='flex w-[100%] gap-[10px] justify-between  xl:mb-4 mb-[6px] xl:flex-row flex-col'>
                     <div className='w-[100%] xl:w-[48%] 2xl:w-[48%]  '>

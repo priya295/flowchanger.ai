@@ -577,24 +577,7 @@ const Task = () => {
                           setSelectedTaskData(s);
                           openModal2(); // Call the function here
                         }}><BorderColorIcon /></button>
-                         <button onClick={() => {
-                            
-                              onOpenModal10()
-                            }}>
-                              <DeleteIcon
-                                className="text-red-500 cursor-pointer"
-                              />
-                            </button>
-                            <Modal open={open10} onClose={onCloseModal10} center>
-                              <div className="flex items-center justify-center h-[120px]">
-                                <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
-
-                              </div>
-                              <div className="flex items-center justify-around ">
-                                <button className="allcrm-btn">Yes , Confirm</button>
-                                <button className="allcrm-btn">No , Cancel</button>
-                              </div>
-                            </Modal>
+                     
                       </div>
                     </td>
                   </tr>

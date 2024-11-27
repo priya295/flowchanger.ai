@@ -787,7 +787,7 @@ const EditAttendanceDetail = () => {
     return (
         <>
             {/* <div className='w-full p-[20px] pt-[100px] xl:p-[40px] relative xl:pt-[100px]    xl:pl-[320px] flex flex-col '> */}
-            <h2 className='bg-[#fff] pt-[10px] mt-[40px] pb-[10px] pl-[14px] rounded-lg font-normal'>Attendance Details</h2>
+            <h2 className='bg-[#fff] pt-[10px] mt-[20px] pb-[10px] pl-[14px] rounded-lg font-normal'>Attendance Details</h2>
 
             <div className='mt-5'>
                 <button type="button" onClick={openModal} className=" shadow-cs bg-white w-full flex items-center justify-between mb-4  text-start text-[14px]  text-[#000] p-4 rounded-md " id="menu-button" aria-expanded="true" aria-haspopup="true">
@@ -832,12 +832,12 @@ const EditAttendanceDetail = () => {
                 onRequestClose={closeModal}
                 // style={customStyles}
                 contentLabel="Example Modal"
-                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff] shadow shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
+                className="w-[96%] xl:w-[40%] absolute top-[50%] left-[50%] bottom-auto p-0 bg-[#fff]  shadow-md rounded-[10px] translate-x-[-50%] translate-y-[-50%]"
             >
                 <h2 ref={(_subtitle) => (subtitle = _subtitle)} className='border-b p-3   border-[#000] text-[14px]'> Update Work Timings</h2>
                 <button onClick={closeModal} className='absolute right-[5px] top-[3px] font-semibold	  bg-[#27004a] rounded-full'><CloseIcon className='text-white' /></button>
                 <Tabs className="p-[s0px] fixed-tab-section">
-                    <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#F4F5F9] pt-[10px] pb-[10px] rounded-md">
+                    <TabList className="flex justify-around items-center mt-3 m-2 xl:m-2 mb-2 bg-[#fff] pt-[10px] pb-[10px] rounded-md">
                         <label className='text-[14px]'>Select Type</label>
                         <Tab className="cursor-pointer flex items-center gap-[10px]">
                             <input checked={shiftType === 'fixed'} type="radio" id="fixed" name='fixed' onChange={() => setShiftType('fixed')} className='rounded-full ' />
@@ -884,7 +884,7 @@ const EditAttendanceDetail = () => {
                                                         value={selectMonShift}
                                                         onChange={(selected) => setSelectMonShift(selected)}
                                                         onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                        className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        className="w-full  rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
                                                         styles={{
                                                             control: (base) => ({
                                                                 ...base,
@@ -1249,6 +1249,8 @@ const EditAttendanceDetail = () => {
 
                     <TabPanel>
                         <div className='first-panel'>
+                        
+                            <div className="overflow-y-scroll h-[50vh]">
                             <div className="relative w-full h-fit flex justify-center items-center gap-2">
                                 <p>Select Month</p>
                                 <button
@@ -1302,7 +1304,6 @@ const EditAttendanceDetail = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="overflow-y-scroll h-[50vh]">
                                 <table className="w-full">
                                     <thead className="border-b border-[#000]">
                                         <tr>
@@ -1332,7 +1333,7 @@ const EditAttendanceDetail = () => {
                                                         }} type="checkbox" />
                                                     </td>
                                                     <td className="pr-5">
-                                                        {updateWeekOff.length > 0 && updateWeekOff[0].weekOff ? <div className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                        {updateWeekOff.length > 0 && updateWeekOff[0].weekOff ? <div className="w-full  rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
                                                         >Week Off</div> : <Select
                                                             isDisabled={updateWeekOff.weekOff}
                                                             options={options}
@@ -1348,7 +1349,7 @@ const EditAttendanceDetail = () => {
                                                                 }
                                                             }}
                                                             onMenuOpen={() => selectedShift.length === 0 && openModal1()}
-                                                            className="w-full bg-[#F4F5F9] border border-1 rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
+                                                            className="w-full  rounded-md p-[5px] mt-1 focus:outline-none text-[#000] xl:text-[14px] text-[12px] mr-[0px] ml-[7px]"
                                                             styles={{
                                                                 control: (base) => ({
                                                                     ...base,

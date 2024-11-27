@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import AddIcon from '@mui/icons-material/Add';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteIcon from "@mui/icons-material/Delete";
 import CachedIcon from '@mui/icons-material/Cached';
 import SearchIcon from '@mui/icons-material/Search';
 import { useGlobalContext } from '../../../Context/GlobalContext';
@@ -14,6 +14,10 @@ import { Modal } from 'react-responsive-modal';
 
 
 const Main = () => {
+  const [open10, setOpen10] = useState(false);
+
+  const onOpenModal10 = () => setOpen10(true);
+  const onCloseModal10 = () => setOpen10(false);
 
   const { baseUrl, setRoleName, setRoleId, setEditPermissions, openToast } = useGlobalContext();
   const [roles, setRoles] = useState([])
@@ -298,7 +302,25 @@ const Main = () => {
                           }}>
                             <BorderColorIcon className="text-[#27004a] font-light cursor-pointer text-[10px]]" />
                           </Link>
-                          <DeleteOutlineIcon className="text-red-500 font-light cursor-pointer text-[10px]]" onClick={() => { deleteRole(role.id) }} />
+                          <button onClick={() =>  {
+                        deleteRole(role.id)
+
+                        onOpenModal10()
+                      }}>
+                        <DeleteIcon
+                          className="text-red-500 cursor-pointer"
+                        />
+                      </button>
+                      <Modal open={open10} onClose={onCloseModal10} center>
+                        <div className="flex items-center justify-center h-[120px]">
+                          <h2 className="text-[18px] font-medium text-center text-[#27004a]">Are you sure want to delete this</h2>
+
+                        </div>
+                        <div className="flex items-center justify-around ">
+                          <button className="allcrm-btn">Yes , Confirm</button>
+                          <button className="allcrm-btn" onClick={() => setOpen10(false)}>No , Cancel</button>
+                        </div>
+                      </Modal>
                         </td>
                       </tr>
                     )

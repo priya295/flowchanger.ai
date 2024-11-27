@@ -638,7 +638,7 @@ const EditSalaryDetails = () => {
   console.log(calEarning, calCompliances, calDeductions);
 
   return (
-    <div className="salary-details layout   w-full  pt-[80px]      flex flex-col">
+    <div className="salary-details layout   w-full  pt-[20px]      flex flex-col">
       <div className="flex items-center justify-between  xl:pb-6  ">
         <h1 className="  font-medium ">
           Salary Details Import Settings
@@ -819,7 +819,7 @@ const EditSalaryDetails = () => {
                     onChange={(e) => handleChange("earnings", allowance, e.target.value, "amount")}
                     type="number"
                     placeholder="Enter Amount"
-                    className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[8px] rounded-md pr-[6px] focus:outline-none"
+                    className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px] rounded-md pr-[6px] focus:outline-none"
                   />
                 </div>
               </div>
@@ -955,7 +955,7 @@ const EditSalaryDetails = () => {
                     <div className="relative">
                       <span className="absolute top-[6px] left-[4px]">₹</span>
                       <input value={calEmployerPFEDLIAndAdminCharges} disabled={true} onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
-                        type="number" placeholder="Enter Amount" className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[8px] rounded-md pr-[6px] focus:outline-none" />
+                        type="number" placeholder="Enter Amount" className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px] rounded-md pr-[6px] focus:outline-none" />
                     </div>
                   </>
                 ) : (
@@ -979,7 +979,7 @@ const EditSalaryDetails = () => {
                         disabled={true}
                         type="number"
                         placeholder="Enter Amount"
-                        className="px-4 py-2 w-[160px] text-sm border border-[#D9D9D9] bg-white  pl-[8x] rounded-md pr-[6px] focus:outline-none"
+                        className="px-4 py-2 w-[160px] text-sm border border-[#D9D9D9] bg-white  pl-[16x] rounded-md pr-[6px] focus:outline-none"
                         onChange={(e) => handleChange("compliances", label, e.target.value, "amount")}
                       />
                     </div>
@@ -1120,7 +1120,7 @@ const EditSalaryDetails = () => {
                     disabled={true}
                     type="number"
                     placeholder="Enter Amount"
-                    className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[8px]  rounded-md pr-[6px] focus:outline-none"
+                    className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px]  rounded-md pr-[6px] focus:outline-none"
                     onChange={(e) => handleChange("deductions", `Amount ${index + 1}`, e.target.value, "amount")}
                   />
                 </div>
@@ -1294,7 +1294,7 @@ const EditSalaryDetails = () => {
                 <span className="absolute top-[6px] left-[4px]">₹</span>
                 <input value={calDeductions.find(item => item.name === deduction)?.amount || ""}
                   onChange={(e) => handleChange("deductions", deduction, e.target.value, "amount")}
-                  type="number" placeholder="Enter Amount" className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[8px] rounded-md pr-[6px] focus:outline-none" />
+                  type="number" placeholder="Enter Amount" className="px-4 py-2 w-[160px] border border-[#D9D9D9] bg-white text-sm pl-[16px] rounded-md pr-[6px] focus:outline-none" />
               </div>
             </div>)}
             {/* <div className="flex items-center justify-between">
